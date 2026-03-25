@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>デザイン案 追加20種類（④⑦⑩路線）</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Hiragino Kaku Gothic ProN","Hiragino Sans",sans-serif;background:#0A0A0A;padding:32px 16px}
+h1{color:#fff;text-align:center;font-size:1rem;margin-bottom:24px;letter-spacing:.1em;opacity:.6}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:20px;max-width:1400px;margin:0 auto}
+.dc{border-radius:10px;overflow:hidden;cursor:pointer;transition:transform .2s,box-shadow .2s}
+.dc:hover{transform:translateY(-4px);box-shadow:0 20px 40px rgba(0,0,0,.5)}
+.lbl{text-align:center;color:#555;font-size:.7rem;padding:7px 0 3px;letter-spacing:.06em}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:10px 16px}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.card{padding:12px 16px}
+.hero{padding:22px 16px 26px}
+.hero small{display:block;margin-bottom:6px;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase}
+.hero h2{font-size:1.55rem;font-weight:900;line-height:1.2;letter-spacing:-.02em}
+.hero p{font-size:.72rem;margin-top:6px}
+</style>
+
+<style>
+/* 11 Onyx & Gold */
+.d11{background:#1A1A1A}
+.d11 .nav{background:#111;border-bottom:1px solid #333}
+.d11 .nav-logo{color:#D4AF37;font-weight:800;font-size:.85rem;letter-spacing:.04em}
+.d11 .nav a{color:#666;font-size:.7rem;margin-left:10px}
+.d11 .hero{background:linear-gradient(160deg,#1A1A1A 0%,#2D2D2D 100%);border-bottom:2px solid #D4AF37}
+.d11 .hero small{color:#D4AF37}
+.d11 .hero h2{color:#F5F5F5}
+.d11 .hero p{color:#777}
+.d11 .hero .btn{margin-top:14px;display:inline-block;background:#D4AF37;color:#111;font-weight:700;font-size:.7rem;padding:7px 16px;border-radius:4px}
+.d11 .cards{border-top:1px solid #D4AF37}
+.d11 .card{border-right:1px solid #2D2D2D;border-bottom:1px solid #2D2D2D;background:#1A1A1A}
+.d11 .card:nth-child(even){border-right:none}
+.d11 .card h3{color:#D4AF37;font-size:.73rem;font-weight:700;margin-bottom:3px}
+.d11 .card p{color:#666;font-size:.67rem}
+
+/* 12 Crimson Medical */
+.d12{background:#fff}
+.d12 .nav{background:#CC0000;padding:10px 16px}
+.d12 .nav-logo{color:#fff;font-weight:800;font-size:.85rem}
+.d12 .nav a{color:rgba(255,255,255,.7);font-size:.7rem;margin-left:10px}
+.d12 .hero{padding:0}
+.d12 .hero-inner{background:#CC0000;padding:22px 16px 20px;clip-path:polygon(0 0,100% 0,100% 88%,0 100%)}
+.d12 .hero-inner h2{color:#fff;font-size:1.6rem;font-weight:900;line-height:1.15;letter-spacing:-.02em}
+.d12 .hero-inner p{color:rgba(255,255,255,.8);font-size:.72rem;margin-top:6px}
+.d12 .cards{margin-top:4px;gap:8px;padding:0 12px 12px;background:#fff}
+.d12 .card{background:#fff;border:1px solid #E5E7EB;border-top:3px solid #CC0000;border-radius:6px;padding:11px 13px}
+.d12 .card h3{font-size:.73rem;font-weight:700;color:#111;margin-bottom:3px}
+.d12 .card p{font-size:.67rem;color:#777}
+
+/* 13 Forest Green */
+.d13{background:#F9FAF5}
+.d13 .nav{background:#1A3A2A;padding:10px 16px}
+.d13 .nav-logo{color:#7EC8A0;font-weight:800;font-size:.85rem}
+.d13 .nav a{color:rgba(126,200,160,.6);font-size:.7rem;margin-left:10px}
+.d13 .hero{background:#1A3A2A;clip-path:polygon(0 0,100% 0,100% 90%,0 100%);padding:22px 16px 30px}
+.d13 .hero small{color:#7EC8A0}
+.d13 .hero h2{color:#fff}
+.d13 .hero p{color:rgba(255,255,255,.65)}
+.d13 .cards{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:4px 12px 12px;background:#F9FAF5}
+.d13 .card{background:#fff;border-radius:6px;border-left:4px solid #2D6A4F;padding:11px 13px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.d13 .card h3{font-size:.73rem;font-weight:700;color:#1A3A2A;margin-bottom:3px}
+.d13 .card p{font-size:.67rem;color:#5A7A6A}
+
+/* 14 Charcoal & Amber */
+.d14{background:#2C2C2C}
+.d14 .nav{background:#222;border-bottom:1px solid #444}
+.d14 .nav-logo{color:#FFA500;font-weight:800;font-size:.85rem}
+.d14 .nav a{color:#777;font-size:.7rem;margin-left:10px}
+.d14 .hero{padding:22px 16px 20px;background:linear-gradient(135deg,#2C2C2C,#3D3D3D)}
+.d14 .hero small{color:#FFA500}
+.d14 .hero h2{color:#F5F5F5}
+.d14 .hero p{color:#888}
+.d14 .sep{height:3px;background:linear-gradient(90deg,#FFA500,transparent);margin:0 16px}
+.d14 .cards{gap:1px;background:#444;margin-top:1px}
+.d14 .card{background:#2C2C2C}
+.d14 .card .num{font-size:1.5rem;font-weight:900;color:#FFA500;line-height:1}
+.d14 .card .unit{font-size:.7rem;color:#888;margin-left:2px}
+.d14 .card p{font-size:.68rem;color:#777;margin-top:3px}
+
+/* 15 Midnight Navy & Gold */
+.d15{background:#0D1B2A}
+.d15 .nav{background:#091523;border-bottom:2px solid #C9A84C;padding:10px 16px}
+.d15 .nav-logo{color:#C9A84C;font-weight:800;font-size:.85rem;letter-spacing:.06em}
+.d15 .nav a{color:#4A6E8A;font-size:.7rem;margin-left:10px}
+.d15 .hero{padding:22px 16px 24px;border-bottom:1px solid #1D3A55}
+.d15 .hero small{color:#C9A84C;border-left:2px solid #C9A84C;padding-left:8px}
+.d15 .hero h2{color:#E8F0F8;margin-top:8px}
+.d15 .hero p{color:#4A6E8A}
+.d15 .cards{background:#0D1B2A}
+.d15 .card{border-bottom:1px solid #1D3A55;border-right:1px solid #1D3A55}
+.d15 .card:nth-child(even){border-right:none}
+.d15 .card h3{color:#C9A84C;font-size:.73rem;font-weight:700;margin-bottom:3px}
+.d15 .card p{color:#4A6E8A;font-size:.67rem}
+
+/* 16 Jet & Teal */
+.d16{background:#F0F4F4}
+.d16 .nav{background:#0D0D0D;padding:10px 16px}
+.d16 .nav-logo{color:#00B4B4;font-weight:800;font-size:.85rem}
+.d16 .nav a{color:#555;font-size:.7rem;margin-left:10px}
+.d16 .hero{background:#0D0D0D;padding:22px 16px 24px}
+.d16 .hero small{color:#00B4B4}
+.d16 .hero h2{color:#fff}
+.d16 .hero p{color:#666}
+.d16 .bar{height:4px;background:linear-gradient(90deg,#00B4B4,#007A7A)}
+.d16 .cards{gap:8px;padding:10px 12px 12px;background:#F0F4F4}
+.d16 .card{background:#fff;border-radius:6px;overflow:hidden;border-top:3px solid #00B4B4}
+.d16 .card h3{font-size:.73rem;font-weight:700;color:#0D0D0D;margin-bottom:3px}
+.d16 .card p{font-size:.67rem;color:#667}
+
+/* 17 Rust & Cream */
+.d17{background:#FBF5EE}
+.d17 .nav{background:#2C1810;padding:10px 16px}
+.d17 .nav-logo{color:#E8734A;font-weight:800;font-size:.85rem}
+.d17 .nav a{color:rgba(232,115,74,.6);font-size:.7rem;margin-left:10px}
+.d17 .hero{background:linear-gradient(135deg,#2C1810,#4A2C1A);clip-path:polygon(0 0,100% 0,100% 87%,0 100%);padding:22px 16px 30px}
+.d17 .hero small{color:#E8734A}
+.d17 .hero h2{color:#FBF5EE}
+.d17 .hero p{color:rgba(251,245,238,.65)}
+.d17 .cards{gap:8px;padding:4px 12px 12px;background:#FBF5EE}
+.d17 .card{background:#fff;border-radius:6px;border-left:4px solid #E8734A;padding:11px 13px;box-shadow:0 1px 4px rgba(44,24,16,.08)}
+.d17 .card h3{font-size:.73rem;font-weight:700;color:#2C1810;margin-bottom:3px}
+.d17 .card p{font-size:.67rem;color:#8A5A3A}
+
+/* 18 Slate & Orange */
+.d18{background:#F8F8F8}
+.d18 .nav{background:#2F3640;padding:10px 16px}
+.d18 .nav-logo{color:#FF6B35;font-weight:800;font-size:.85rem}
+.d18 .nav a{color:#8A9BB0;font-size:.7rem;margin-left:10px}
+.d18 .hero{padding:0}
+.d18 .hero-top{background:#FF6B35;padding:20px 16px}
+.d18 .hero-top h2{color:#fff;font-size:1.6rem;font-weight:900;letter-spacing:-.03em;line-height:1.1}
+.d18 .hero-top p{color:rgba(255,255,255,.85);font-size:.72rem;margin-top:5px}
+.d18 .hero-bot{background:#2F3640;padding:7px 16px;display:flex;gap:10px}
+.d18 .hero-bot span{color:#8A9BB0;font-size:.65rem;font-weight:600}
+.d18 .hero-bot span b{color:#FF6B35}
+.d18 .cards{gap:8px;padding:10px 12px;background:#F8F8F8}
+.d18 .card{background:#fff;border-radius:6px;padding:11px 13px;border-bottom:3px solid #2F3640}
+.d18 .card h3{font-size:.73rem;font-weight:700;color:#2F3640;margin-bottom:3px}
+.d18 .card p{font-size:.67rem;color:#8A9BB0}
+
+/* 19 Burgundy & Ivory */
+.d19{background:#FAF8F5}
+.d19 .nav{background:#5C1A2A;padding:10px 16px}
+.d19 .nav-logo{color:#F2C27A;font-weight:800;font-size:.85rem;letter-spacing:.04em}
+.d19 .nav a{color:rgba(242,194,122,.5);font-size:.7rem;margin-left:10px}
+.d19 .hero{background:linear-gradient(160deg,#5C1A2A,#7A2A3A);padding:24px 16px;border-bottom:3px solid #F2C27A}
+.d19 .hero small{color:#F2C27A;border-bottom:1px solid rgba(242,194,122,.3);padding-bottom:6px;display:block;margin-bottom:8px;font-weight:600}
+.d19 .hero h2{color:#FAF8F5}
+.d19 .hero p{color:rgba(250,248,245,.65)}
+.d19 .cards{background:#FAF8F5}
+.d19 .card{border-right:1px solid #E8E0D8;border-bottom:1px solid #E8E0D8}
+.d19 .card:nth-child(even){border-right:none}
+.d19 .card h3{color:#5C1A2A;font-size:.73rem;font-weight:700;margin-bottom:3px}
+.d19 .card p{color:#9A7A7A;font-size:.67rem}
+.d19 .card .dot{width:6px;height:6px;background:#F2C27A;border-radius:50%;display:inline-block;margin-right:5px}
+
+/* 20 Carbon & Ivory — Newspaper Bold */
+.d20{background:#fff}
+.d20 .nav{background:#fff;border-bottom:4px solid #0A0A0A;padding:10px 16px}
+.d20 .nav-logo{color:#0A0A0A;font-weight:900;font-size:.9rem;letter-spacing:-.02em;text-transform:uppercase}
+.d20 .nav a{color:#0A0A0A;font-size:.7rem;margin-left:12px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.d20 .hero{padding:0}
+.d20 .hero-top{background:#0A0A0A;padding:22px 16px 18px}
+.d20 .hero-top h2{color:#fff;font-size:1.8rem;font-weight:900;line-height:1.1;letter-spacing:-.04em;text-transform:uppercase}
+.d20 .hero-top p{color:#777;font-size:.7rem;margin-top:5px}
+.d20 .hero-bot{border-bottom:2px solid #0A0A0A;padding:5px 16px;background:#F5F5F5;display:flex;gap:0}
+.d20 .hero-bot span{font-size:.65rem;font-weight:700;text-transform:uppercase;padding-right:10px;margin-right:10px;border-right:1px solid #CCC;color:#0A0A0A}
+.d20 .hero-bot span:last-child{border-right:none}
+.d20 .cards{border-top:2px solid #0A0A0A;background:#fff}
+.d20 .card{border-right:2px solid #0A0A0A;border-bottom:2px solid #0A0A0A;padding:11px 14px}
+.d20 .card:nth-child(even){border-right:none}
+.d20 .card h3{font-size:.78rem;font-weight:900;text-transform:uppercase;letter-spacing:.04em;color:#0A0A0A;border-bottom:1px solid #E0E0E0;padding-bottom:4px;margin-bottom:5px}
+.d20 .card p{font-size:.67rem;color:#555}
+
+/* 21 Cobalt & Cream */
+.d21{background:#F9F7F4}
+.d21 .nav{background:#1B3A7A;padding:10px 16px}
+.d21 .nav-logo{color:#F9F7F4;font-weight:800;font-size:.85rem}
+.d21 .nav a{color:rgba(249,247,244,.5);font-size:.7rem;margin-left:10px}
+.d21 .hero{background:linear-gradient(135deg,#1B3A7A,#2B5AC4);clip-path:polygon(0 0,100% 0,100% 88%,0 100%);padding:22px 16px 30px}
+.d21 .hero small{color:#A8C4FF}
+.d21 .hero h2{color:#fff}
+.d21 .hero p{color:rgba(255,255,255,.7)}
+.d21 .cards{gap:8px;padding:4px 12px 12px;background:#F9F7F4}
+.d21 .card{background:#fff;border-radius:6px;padding:11px 13px;border-top:4px solid #1B3A7A;box-shadow:0 2px 8px rgba(27,58,122,.08)}
+.d21 .card h3{font-size:.73rem;font-weight:700;color:#1B3A7A;margin-bottom:3px}
+.d21 .card p{font-size:.67rem;color:#7A8A9A}
+
+/* 22 Gunmetal & Rose */
+.d22{background:#F5F0F0}
+.d22 .nav{background:#2A2A2A;padding:10px 16px}
+.d22 .nav-logo{color:#E8909A;font-weight:800;font-size:.85rem}
+.d22 .nav a{color:#666;font-size:.7rem;margin-left:10px}
+.d22 .hero{background:#2A2A2A;padding:22px 16px 24px}
+.d22 .hero small{color:#E8909A}
+.d22 .hero h2{color:#F5F5F5}
+.d22 .hero p{color:#777}
+.d22 .sep{height:2px;background:linear-gradient(90deg,#E8909A,#C0606A,transparent)}
+.d22 .cards{gap:8px;padding:10px 12px;background:#F5F0F0}
+.d22 .card{background:#fff;border-radius:6px;padding:11px 13px;border-left:4px solid #E8909A;box-shadow:0 1px 4px rgba(42,42,42,.07)}
+.d22 .card h3{font-size:.73rem;font-weight:700;color:#2A2A2A;margin-bottom:3px}
+.d22 .card p{font-size:.67rem;color:#8A7A7A}
+
+/* 23 Olive & Khaki */
+.d23{background:#F5F3E8}
+.d23 .nav{background:#3A3A1A;padding:10px 16px}
+.d23 .nav-logo{color:#C8B46A;font-weight:800;font-size:.85rem;letter-spacing:.04em}
+.d23 .nav a{color:rgba(200,180,106,.5);font-size:.7rem;margin-left:10px}
+.d23 .hero{padding:22px 16px 20px;background:linear-gradient(135deg,#3A3A1A,#5A5A2A);border-bottom:3px solid #C8B46A}
+.d23 .hero small{color:#C8B46A}
+.d23 .hero h2{color:#F5F3E8}
+.d23 .hero p{color:rgba(245,243,232,.6)}
+.d23 .cards{background:#F5F3E8}
+.d23 .card{border-right:1px solid #DDD8B0;border-bottom:1px solid #DDD8B0}
+.d23 .card:nth-child(even){border-right:none}
+.d23 .card h3{color:#3A3A1A;font-size:.73rem;font-weight:700;margin-bottom:3px}
+.d23 .card p{color:#7A7A4A;font-size:.67rem}
+.d23 .card .tag{background:#C8B46A;color:#3A3A1A;font-size:.58rem;padding:1px 5px;border-radius:3px;margin-left:4px}
+
+/* 24 Deep Plum */
+.d24{background:#F8F4FA}
+.d24 .nav{background:#2D1B40;padding:10px 16px}
+.d24 .nav-logo{color:#C09AE0;font-weight:800;font-size:.85rem}
+.d24 .nav a{color:rgba(192,154,224,.5);font-size:.7rem;margin-left:10px}
+.d24 .hero{background:linear-gradient(135deg,#2D1B40,#4A2D6B);padding:22px 16px 24px;border-bottom:2px solid #C09AE0}
+.d24 .hero small{color:#C09AE0}
+.d24 .hero h2{color:#fff}
+.d24 .hero p{color:rgba(255,255,255,.6)}
+.d24 .cards{gap:8px;padding:10px 12px;background:#F8F4FA}
+.d24 .card{background:#fff;border-radius:6px;padding:11px 13px;border-left:4px solid #6B2DA8;box-shadow:0 2px 8px rgba(45,27,64,.08)}
+.d24 .card h3{font-size:.73rem;font-weight:700;color:#2D1B40;margin-bottom:3px}
+.d24 .card p{font-size:.67rem;color:#8A6A9A}
+
+/* 25 White & Bold Ink */
+.d25{background:#fff;border:1px solid #E0E0E0}
+.d25 .nav{background:#fff;padding:10px 16px;border-bottom:1px solid #E0E0E0}
+.d25 .nav-logo{color:#0A0A0A;font-weight:900;font-size:.9rem;text-transform:uppercase;letter-spacing:.06em}
+.d25 .nav a{color:#999;font-size:.7rem;margin-left:12px}
+.d25 .hero{padding:24px 16px 20px;border-bottom:1px solid #E0E0E0;position:relative}
+.d25 .hero::before{content:'ICU';position:absolute;right:16px;top:10px;font-size:4rem;font-weight:900;color:#F0F0F0;line-height:1;pointer-events:none}
+.d25 .hero small{color:#999;font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;display:block;margin-bottom:6px}
+.d25 .hero h2{font-size:1.6rem;font-weight:900;color:#0A0A0A;line-height:1.2}
+.d25 .hero p{font-size:.72rem;color:#666;margin-top:6px}
+.d25 .cards{background:#fff}
+.d25 .card{border-right:1px solid #E0E0E0;border-bottom:1px solid #E0E0E0;padding:12px 16px}
+.d25 .card:nth-child(even){border-right:none}
+.d25 .card h3{font-size:.73rem;font-weight:700;color:#0A0A0A;margin-bottom:3px;display:flex;align-items:center;gap:6px}
+.d25 .card h3::before{content:'';display:block;width:8px;height:8px;background:#0A0A0A;border-radius:50%;flex-shrink:0}
+.d25 .card p{font-size:.67rem;color:#888;padding-left:14px}
+
+/* 26 Steel Blue & White */
+.d26{background:#EEF2F7}
+.d26 .nav{background:#2C4A6E;padding:10px 16px}
+.d26 .nav-logo{color:#fff;font-weight:800;font-size:.85rem}
+.d26 .nav a{color:rgba(255,255,255,.5);font-size:.7rem;margin-left:10px}
+.d26 .hero{background:linear-gradient(160deg,#1A2E44,#2C4A6E);padding:22px 16px 24px}
+.d26 .hero small{color:#88AACC;font-size:.63rem;letter-spacing:.1em;text-transform:uppercase;display:block;margin-bottom:6px}
+.d26 .hero h2{color:#fff}
+.d26 .hero p{color:#88AACC}
+.d26 .stat-row{display:flex;gap:0;background:#1A2E44;border-top:1px solid #3A6090}
+.d26 .stat{flex:1;padding:8px 12px;border-right:1px solid #3A6090;text-align:center}
+.d26 .stat:last-child{border-right:none}
+.d26 .stat .n{font-size:1.1rem;font-weight:900;color:#88AACC;line-height:1}
+.d26 .stat p{font-size:.6rem;color:#557799;margin-top:2px}
+.d26 .cards{gap:8px;padding:10px 12px;background:#EEF2F7}
+.d26 .card{background:#fff;border-radius:6px;padding:11px 13px;border-left:4px solid #2C4A6E}
+.d26 .card h3{font-size:.73rem;font-weight:700;color:#1A2E44;margin-bottom:3px}
+.d26 .card p{font-size:.67rem;color:#7A9AB0}
+
+/* 27 Ivory & Sepia */
+.d27{background:#F8F4EC}
+.d27 .nav{background:#3A2A14;padding:10px 16px}
+.d27 .nav-logo{color:#D4A865;font-weight:700;font-size:.85rem;font-style:italic;letter-spacing:.02em}
+.d27 .nav a{color:rgba(212,168,101,.5);font-size:.7rem;margin-left:10px}
+.d27 .hero{background:#F8F4EC;padding:22px 16px 18px;border-bottom:3px double #3A2A14}
+.d27 .hero small{color:#3A2A14;font-size:.63rem;letter-spacing:.12em;text-transform:uppercase;border-left:3px solid #D4A865;padding-left:8px;display:block;margin-bottom:8px}
+.d27 .hero h2{color:#1A0A00;font-size:1.6rem;font-weight:900}
+.d27 .hero p{color:#7A5A3A;font-size:.72rem;margin-top:6px;font-style:italic}
+.d27 .cards{background:#F8F4EC}
+.d27 .card{border-right:1px solid #D4B88A;border-bottom:1px solid #D4B88A}
+.d27 .card:nth-child(even){border-right:none}
+.d27 .card h3{font-size:.73rem;font-weight:700;color:#3A2A14;margin-bottom:3px}
+.d27 .card p{font-size:.67rem;color:#9A7A5A}
+
+/* 28 Ice Blue & Navy */
+.d28{background:#F0F6FF}
+.d28 .nav{background:#0A1628;padding:10px 16px}
+.d28 .nav-logo{color:#5B9CF6;font-weight:800;font-size:.85rem}
+.d28 .nav a{color:#3A5A8A;font-size:.7rem;margin-left:10px}
+.d28 .hero{background:#0A1628;padding:22px 16px 24px}
+.d28 .hero small{color:#5B9CF6}
+.d28 .hero h2{color:#E8F0FC}
+.d28 .hero p{color:#3A5A8A}
+.d28 .divider{height:1px;background:linear-gradient(90deg,#5B9CF6,transparent);margin:0 16px}
+.d28 .cards{gap:8px;padding:10px 12px;background:#F0F6FF}
+.d28 .card{background:#fff;border-radius:6px;padding:11px 13px;border-top:3px solid #0A1628;box-shadow:0 2px 8px rgba(10,22,40,.07)}
+.d28 .card .num{font-size:1.4rem;font-weight:900;color:#0A1628;line-height:1}
+.d28 .card .unit{font-size:.68rem;color:#5B9CF6;margin-left:2px}
+.d28 .card p{font-size:.67rem;color:#8AAAC0;margin-top:2px}
+
+/* 29 Concrete & Coral */
+.d29{background:#F4F4F4}
+.d29 .nav{background:#222;padding:10px 16px}
+.d29 .nav-logo{color:#FF6B6B;font-weight:800;font-size:.85rem}
+.d29 .nav a{color:#666;font-size:.7rem;margin-left:10px}
+.d29 .hero{background:linear-gradient(135deg,#222,#333);padding:22px 16px 24px;border-bottom:3px solid #FF6B6B}
+.d29 .hero small{color:#FF6B6B}
+.d29 .hero h2{color:#fff}
+.d29 .hero p{color:#888}
+.d29 .cards{gap:8px;padding:10px 12px;background:#F4F4F4}
+.d29 .card{background:#fff;border-radius:6px;padding:11px 13px;box-shadow:0 2px 6px rgba(0,0,0,.06);border-bottom:3px solid #FF6B6B}
+.d29 .card h3{font-size:.73rem;font-weight:700;color:#222;margin-bottom:3px}
+.d29 .card p{font-size:.67rem;color:#999}
+
+/* 30 Obsidian & Emerald */
+.d30{background:#0A0F0A}
+.d30 .nav{background:#050805;border-bottom:1px solid #1A2A1A;padding:10px 16px}
+.d30 .nav-logo{color:#2ECC71;font-weight:800;font-size:.85rem}
+.d30 .nav a{color:#2A4A2A;font-size:.7rem;margin-left:10px}
+.d30 .hero{padding:22px 16px 20px;border-bottom:1px solid #1A2A1A}
+.d30 .hero small{color:#2ECC71}
+.d30 .hero h2{color:#E8F5E8}
+.d30 .hero p{color:#3A5A3A}
+.d30 .cards{background:#0A0F0A}
+.d30 .card{border-right:1px solid #1A2A1A;border-bottom:1px solid #1A2A1A;background:#0D120D}
+.d30 .card:nth-child(even){border-right:none}
+.d30 .card h3{color:#2ECC71;font-size:.73rem;font-weight:700;margin-bottom:3px;text-shadow:0 0 8px rgba(46,204,113,.3)}
+.d30 .card p{color:#3A5A3A;font-size:.67rem}
+</style>
+
+</head>
+<body>
+<h1>▷ 追加デザイン案 20種類（④⑦⑩路線）— 番号を伝えてください</h1>
+<div class="grid">
+
+<!-- 11 -->
+<div>
+<div class="dc d11">
+  <div class="nav"><span class="nav-logo">SL-ICU Guide</span><div><a>概要</a><a>手技</a><a>FAQ</a></div></div>
+  <div class="hero"><small>ST. LUKE'S INTERNATIONAL HOSPITAL</small><h2>ICU<br>ローテーターガイド</h2><p>集中治療科へようこそ</p><a class="btn">ガイドを見る</a></div>
+  <div class="cards">
+    <div class="card"><h3>気道管理</h3><p>RSI・困難気道</p></div>
+    <div class="card"><h3>循環管理</h3><p>動脈ライン・ショック</p></div>
+    <div class="card"><h3>呼吸管理</h3><p>人工呼吸器・ARDS</p></div>
+    <div class="card"><h3>学習リソース</h3><p>教科書・ガイドライン</p></div>
+  </div>
+</div>
+<p class="lbl">⑪ オニキス＆ゴールド</p>
+</div>
+
+<!-- 12 -->
+<div>
+<div class="dc d12">
+  <div class="nav"><span class="nav-logo">SL-ICU Guide</span><div><a>概要</a><a>手技</a><a>FAQ</a></div></div>
+  <div class="hero">
+    <div class="hero-inner"><h2>ICU<br>ローテーターガイド</h2><p>集中治療科へようこそ</p></div>
+  </div>
+  <div class="cards">
+    <div class="card"><h3>気道管理</h3><p>RSI・困難気道</p></div>
+    <div class="card"><h3>循環管理</h3><p>動脈ライン・ショック</p></div>
+    <div class="card"><h3>呼吸管理</h3><p>人工呼吸器・ARDS</p></div>
+    <div class="card"><h3>学習リソース</h3><p>教科書・ガイドライン</p></div>
+  </div>
+</div>
+<p class="lbl">⑫ クリムゾン・メディカル</p>
+</div>
+
+<!-- 13 -->
+<div>
+<div class="dc d13">
+  <div class="nav"><span class="nav-logo">SL-ICU Guide</span><div><a>概要</a><a>手技</a><a>FAQ</a></div></div>
+  <div class="hero"><small>St. Luke's International Hospital</small><h2>ICU<br>ローテーターガイド</h2><p>集中治療科へようこそ</p></div>
+  <div class="cards">
+    <div class="card"><h3>気道管理</h3><p>RSI・困難気道・気管切開</p></div>
+    <div class="card"><h3>循環管理</h3><p>動脈ライン・ショック対応</p></div>
+    <div class="card"><h3>呼吸管理</h3><p>人工呼吸器・ARDSnet</p></div>
+    <div class="card"><h3>学習リソース</h3><p>教科書・ガイドライン</p></div>
+  </div>
+</div>
+<p class="lbl">⑬ フォレストグリーン</p>
+</div>
+
+<!-- 14 -->
+<div>
+<div class="dc d14">
+  <div class="nav"><span class="nav-logo">SL-ICU Guide</span><div><a>概要</a><a>手技</a><a>FAQ</a></div></div>
+  <div class="hero"><small>ST. LUKE'S INTERNATIONAL HOSPITAL</small><h2>ICU<br>ローテーターガイド</h2><p>集中治療科へようこそ</p></div>
+  <div class="sep"></div>
+  <div class="cards">
+    <div class="card"><div class="num">1<span class="unit">ヶ月</span></div><p>ローテーション期間</p></div>
+    <div class="card"><div class="num">2〜3<span class="unit">名</span></div><p>担当患者数/日</p></div>
+    <div class="card"><div class="num">4〜5<span class="unit">回</span></div><p>当直回数/月</p></div>
+    <div class="card"><div class="num">6<span class="unit">科目</span></div><p>手技プロトコル</p></div>
+  </div>
+</div>
+<p class="lbl">⑭ チャコール＆アンバー</p>
+</div>
+
+<!-- 15 -->
+<div>
+<div class="dc d15">
+  <div class="nav"><span class="nav-logo">SL-ICU Guide</span><div><a>概要</a><a>手技</a><a>FAQ</a></div></div>
+  <div class="hero"><small>ST. LUKE'S INTERNATIONAL HOSPITAL</small><h2>ICU<br>ローテーターガイド</h2><p>集中治療科へようこそ</p></div>
+  <div class="cards">
+    <div class="card"><h3>気道管理</h3><p>RSI・困難気道・気管切開</p></div>
+    <div class="card"><h3>循環管理</h3><p>動脈ライン・ショック対応</p></div>
+    <div class="card"><h3>呼吸管理</h3><p>人工呼吸器・ARDSnet</p></div>
+    <div class="card"><h3>学習リソース</h3><p>教科書・ガイドライン</p></div>
+  </div>
+</div>
+<p class="lbl">⑮ ミッドナイトネイビー＆ゴールド</p>
+</div>
+
+<!-- 16 -->
+<div>
+<div class="dc d16">
+  <div class="nav"><span class="nav-logo">SL-ICU Guide</span><div><a>概要</a><a>手技</a><a>FAQ</a></div></div>
+  <div class="hero"><small>ST. LUKE'S INTERNATIONAL HOSPITAL</small><h2>ICU<br>ローテーターガイド</h2><p>集中治療科へようこそ</p></div>
+  <div class="bar"></div>
+  <div class="cards">
+    <div class="card"><h3>気道管理</h3><p>RSI・困難気道</p></div>
+    <div class="card"><h3>循環管理</h3><p>動脈ライン・ショック</p></div>
+    <div class="card"><h3>呼吸管理</h3><p>人工呼吸器・ARDS</p></div>
+    <div class="card"><h3>学習リソース</h3><p>教科書・ガイドライン</p></div>
+  </div>
+</div>
+<p class="lbl">⑯ ジェット＆ティール</p>
+</div>
+
+<!-- 17 -->
+<div>
+<div class="dc d17">
+  <div class="nav"><span class="nav-logo">SL-ICU Guide</span><div><a>概要</a><a>手技</a><a>FAQ</a></div></div>
+  <div class="hero"><small>ST. LUKE'S INTERNATIONAL HOSPITAL</small><h2>ICU<br>ローテーターガイド</h2><p>集中治療科へようこそ</p></div>
+  <div class="cards">
+    <div class="card"><h3>気道管理</h3><p>RSI・困難気道・気管切開</p></div>
+    <div class="card"><h3>循環管理</h3><p>動脈ライン・ショック対応</p></div>
+    <div class="card"><h3>呼吸管理</h3><p>人工呼吸器・ARDSnet</p></div>
+    <div class="card"><h3>学習リソース</h3><p>教科書・ガイドライン</p></div>
+  </div>
+</div>
+<p class="lbl">⑰ ラスト＆クリーム</p>
+</div>
+
+<!-- 18 -->
+<div>
+<div class="dc d18">
+  <div class="nav"><span class="nav-logo">SL-ICU Guide</span><div><a>概要</a><a>手技</a><a>FAQ</a></div></div>
+  <div class="hero">
+    <div class="hero-top"><h2>ICU ROTATOR GUIDE</h2><p>集中治療科ローテーター情報ポータル</p></div>
+    <div class="hero-bot"><span><b>概要</b></span><span><b>手技</b></span><span><b>リソース</b></span><span><b>FAQ</b></span></div>
+  </div>
+  <div class="cards">
+    <div class="card"><h3>気道管理</h3><p>RSI・困難気道</p></div>
+    <div class="card"><h3>循環管理</h3><p>動脈ライン・ショック</p></div>
+    <div class="card"><h3>呼吸管理</h3><p>人工呼吸器・ARDS</p></div>
+    <div class="card"><h3>学習リソース</h3><p>教科書・ガイドライン</p></div>
+  </div>
+</div>
+<p class="lbl">⑱ スレート＆オレンジ</p>
+</div>
+
+<!-- 19 -->
+<div>
+<div class="dc d19">
+  <div class="nav"><span class="nav-logo">SL-ICU Guide</span><div><a>概要</a><a>手技</a><a>FAQ</a></div></div>
+  <div class="hero"><small>集中治療科ローテーターガイド</small><h2>ICU<br>ローテーターガイド</h2><p>集中治療科へようこそ</p></div>
+  <div class="cards">
+    <div class="card"><span class="dot"></span><h3>気道管理</h3><p>RSI・困難気道・気管切開</p></div>
+    <div class="card"><span class="dot"></span><h3>循環管理</h3><p>動脈ライン・ショック対応</p></div>
+    <div class="card"><span class="dot"></span><h3>呼吸管理</h3><p>人工呼吸器・ARDSnet</p></div>
+    <div class="card"><span class="dot"></span><h3>学習リソース</h3><p>教科書・ガイドライン</p></div>
+  </div>
+</div>
+<p class="lbl">⑲ バーガンディ＆アイボリー</p>
+</div>
+
+<!-- 20 -->
+<div>
+<div class="dc d20">
+  <div class="nav"><span class="nav-logo">SL-ICU GUIDE</span><div><a>概要</a><a>手技</a><a>FAQ</a></div></div>
+  <div class="hero">
+    <div class="hero-top"><h2>ICU<br>ROTATOR<br>GUIDE</h2><p>集中治療科ローテーター向けポータル</p></div>
+    <div class="hero-bot"><span>概要</span><span>手技</span><span>リソース</span><span>FAQ</span></div>
+  </div>
+  <div class="cards">
+    <div class="card"><h3>気道管理</h3><p>RSI・困難気道・気管切開</p></div>
+    <div class="card"><h3>循環管理</h3><p>動脈ライン・ショック対応</p></div>
+    <div class="card"><h3>呼吸管理</h3><p>人工呼吸器・ARDSnet</p></div>
+    <div class="card"><h3>学習リソース</h3><p>教科書・ガイドライン</p></div>
+  </div>
+</div>
+<p class="lbl">⑳ カーボン＆インク（新聞大見出し）</p>
+</div>
+
+<!-- 21 -->
+<div>
+<div class="dc d21">
+  <div class="nav"><span class="nav-logo">SL-ICU Guide</span><div><a>概要</a><a>手技</a><a>FAQ</a></div></div>
+  <div class="hero"><small>ST. LUKE'S INTERNATIONAL HOSPITAL</small><h2>ICU<br>ローテーターガイド</h2><p>集中治療科へようこそ</p></div>
+  <div class="cards">
+    <div class="card"><h3>気道管理</h3><p>RSI・困難気道</p></div>
+    <div class="card"><h3>循環管理</h3><p>動脈ライン・ショック</p></div>
+    <div class="card"><h3>呼吸管理</h3><p>人工呼吸器・ARDS</p></div>
+    <div class="card"><h3>学習リソース</h3><p>教科書・ガイドライン</p></div>
+  </div>
+</div>
+<p class="lbl">㉑ コバルト＆クリーム</p>
+</div>
+
+<!-- 22 -->
+<div>
+<div class="dc d22">
+  <div class="nav"><span class="nav-logo">SL-ICU Guide</span><div><a>概要</a><a>手技</a><a>FAQ</a></div></div>
+  <div class="hero"><small>ST. LUKE'S INTERNATIONAL HOSPITAL</small><h2>ICU<br>ローテーターガイド</h2><p>集中治療科へようこそ</p></div>
+  <div class="sep"></div>
+  <div class="cards">
+    <div class="card"><h3>気道管理</h3><p>RSI・困難気道</p></div>
+    <div class="card"><h3>循環管理</h3><p>動脈ライン・ショック</p></div>
+    <div class="card"><h3>呼吸管理</h3><p>人工呼吸器・ARDS</p></div>
+    <div class="card"><h3>学習リソース</h3><p>教科書・ガイドライン</p></div>
+  </div>
+</div>
+<p class="lbl">㉒ ガンメタル＆ローズ</p>
+</div>
+
+<!-- 23 -->
+<div>
+<div class="dc d23">
+  <div class="nav"><span class="nav-logo">SL-ICU Guide</span><div><a>概要</a><a>手技</a><a>FAQ</a></div></div>
+  <div class="hero"><small>ST. LUKE'S INTERNATIONAL HOSPITAL</small><h2>ICU<br>ローテーターガイド</h2><p>集中治療科へようこそ</p></div>
+  <div class="cards">
+    <div class="card"><h3>気道管理<span class="tag">Airway</span></h3><p>RSI・困難気道</p></div>
+    <div class="card"><h3>循環管理<span class="tag">Cardiac</span></h3><p>動脈ライン・ショック</p></div>
+    <div class="card"><h3>呼吸管理<span class="tag">Resp</span></h3><p>人工呼吸器・ARDS</p></div>
+    <div class="card"><h3>学習リソース<span class="tag">Ref</span></h3><p>教科書・ガイドライン</p></div>
+  </div>
+</div>
+<p class="lbl">㉓ オリーブ＆カーキ</p>
+</div>
+
+<!-- 24 -->
+<div>
+<div class="dc d24">
+  <div class="nav"><span class="nav-logo">SL-ICU Guide</span><div><a>概要</a><a>手技</a><a>FAQ</a></div></div>
+  <div class="hero"><small>ST. LUKE'S INTERNATIONAL HOSPITAL</small><h2>ICU<br>ローテーターガイド</h2><p>集中治療科へようこそ</p></div>
+  <div class="cards">
+    <div class="card"><h3>気道管理</h3><p>RSI・困難気道</p></div>
+    <div class="card"><h3>循環管理</h3><p>動脈ライン・ショック</p></div>
+    <div class="card"><h3>呼吸管理</h3><p>人工呼吸器・ARDS</p></div>
+    <div class="card"><h3>学習リソース</h3><p>教科書・ガイドライン</p></div>
+  </div>
+</div>
+<p class="lbl">㉔ ディープ・プラム</p>
+</div>
+
+<!-- 25 -->
+<div>
+<div class="dc d25">
+  <div class="nav"><span class="nav-logo">SL-ICU GUIDE</span><div><a>概要</a><a>手技</a><a>FAQ</a></div></div>
+  <div class="hero"><small>St. Luke's International Hospital</small><h2>ICU<br>ローテーターガイド</h2><p>集中治療科へようこそ</p></div>
+  <div class="cards">
+    <div class="card"><h3>気道管理</h3><p>RSI・困難気道</p></div>
+    <div class="card"><h3>循環管理</h3><p>動脈ライン・ショック</p></div>
+    <div class="card"><h3>呼吸管理</h3><p>人工呼吸器・ARDS</p></div>
+    <div class="card"><h3>学習リソース</h3><p>教科書・ガイドライン</p></div>
+  </div>
+</div>
+<p class="lbl">㉕ ホワイト＆ボールドインク</p>
+</div>
+
+<!-- 26 -->
+<div>
+<div class="dc d26">
+  <div class="nav"><span class="nav-logo">SL-ICU Guide</span><div><a>概要</a><a>手技</a><a>FAQ</a></div></div>
+  <div class="hero"><small>ST. LUKE'S INTERNATIONAL HOSPITAL</small><h2>ICU<br>ローテーターガイド</h2><p>集中治療科へようこそ</p></div>
+  <div class="stat-row">
+    <div class="stat"><div class="n">1mo</div><p>期間</p></div>
+    <div class="stat"><div class="n">2-3</div><p>患者/日</p></div>
+    <div class="stat"><div class="n">4-5</div><p>当直/月</p></div>
+  </div>
+  <div class="cards">
+    <div class="card"><h3>気道管理</h3><p>RSI・困難気道</p></div>
+    <div class="card"><h3>循環管理</h3><p>動脈ライン・ショック</p></div>
+  </div>
+</div>
+<p class="lbl">㉖ スチールブルー＆ホワイト</p>
+</div>
+
+<!-- 27 -->
+<div>
+<div class="dc d27">
+  <div class="nav"><span class="nav-logo">SL-ICU Guide</span><div><a>概要</a><a>手技</a><a>FAQ</a></div></div>
+  <div class="hero"><small>集中治療科ローテーターガイド</small><h2>ICU<br>ローテーターガイド</h2><p>集中治療科へようこそ</p></div>
+  <div class="cards">
+    <div class="card"><h3>気道管理</h3><p>RSI・困難気道</p></div>
+    <div class="card"><h3>循環管理</h3><p>動脈ライン・ショック</p></div>
+    <div class="card"><h3>呼吸管理</h3><p>人工呼吸器・ARDS</p></div>
+    <div class="card"><h3>学習リソース</h3><p>教科書・ガイドライン</p></div>
+  </div>
+</div>
+<p class="lbl">㉗ アイボリー＆セピア</p>
+</div>
+
+<!-- 28 -->
+<div>
+<div class="dc d28">
+  <div class="nav"><span class="nav-logo">SL-ICU Guide</span><div><a>概要</a><a>手技</a><a>FAQ</a></div></div>
+  <div class="hero"><small>ST. LUKE'S INTERNATIONAL HOSPITAL</small><h2>ICU<br>ローテーターガイド</h2><p>集中治療科へようこそ</p></div>
+  <div class="divider"></div>
+  <div class="cards">
+    <div class="card"><div class="num">1<span class="unit">ヶ月</span></div><p>ローテーション期間</p></div>
+    <div class="card"><div class="num">2〜3<span class="unit">名</span></div><p>担当患者数/日</p></div>
+    <div class="card"><div class="num">4〜5<span class="unit">回</span></div><p>当直回数/月</p></div>
+    <div class="card"><div class="num">6<span class="unit">科目</span></div><p>手技プロトコル</p></div>
+  </div>
+</div>
+<p class="lbl">㉘ アイスブルー＆ネイビー</p>
+</div>
+
+<!-- 29 -->
+<div>
+<div class="dc d29">
+  <div class="nav"><span class="nav-logo">SL-ICU Guide</span><div><a>概要</a><a>手技</a><a>FAQ</a></div></div>
+  <div class="hero"><small>ST. LUKE'S INTERNATIONAL HOSPITAL</small><h2>ICU<br>ローテーターガイド</h2><p>集中治療科へようこそ</p></div>
+  <div class="cards">
+    <div class="card"><h3>気道管理</h3><p>RSI・困難気道</p></div>
+    <div class="card"><h3>循環管理</h3><p>動脈ライン・ショック</p></div>
+    <div class="card"><h3>呼吸管理</h3><p>人工呼吸器・ARDS</p></div>
+    <div class="card"><h3>学習リソース</h3><p>教科書・ガイドライン</p></div>
+  </div>
+</div>
+<p class="lbl">㉙ コンクリート＆コーラル</p>
+</div>
+
+<!-- 30 -->
+<div>
+<div class="dc d30">
+  <div class="nav"><span class="nav-logo">SL-ICU Guide</span><div><a>概要</a><a>手技</a><a>FAQ</a></div></div>
+  <div class="hero"><small>ST. LUKE'S INTERNATIONAL HOSPITAL</small><h2>ICU<br>ローテーターガイド</h2><p>集中治療科へようこそ</p></div>
+  <div class="cards">
+    <div class="card"><h3>気道管理</h3><p>RSI・困難気道</p></div>
+    <div class="card"><h3>循環管理</h3><p>動脈ライン・ショック</p></div>
+    <div class="card"><h3>呼吸管理</h3><p>人工呼吸器・ARDS</p></div>
+    <div class="card"><h3>学習リソース</h3><p>教科書・ガイドライン</p></div>
+  </div>
+</div>
+<p class="lbl">㉚ オブシディアン＆エメラルド</p>
+</div>
+
+</div>
+</body>
+</html>

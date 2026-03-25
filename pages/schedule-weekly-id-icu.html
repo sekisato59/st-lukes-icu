@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ID×ICUカンファレンス | 聖路加ICU</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style-v2.css">
+  <script src="../site-config.js"></script>
+  <style>
+    /* ===== ID×ICU Purple Theme ===== */
+    .id-hero {
+      background: linear-gradient(150deg, #2E1065 0%, #6D28D9 55%, #7C3AED 100%);
+      color: #fff;
+      padding: calc(64px + 56px) 0 56px;
+      position: relative;
+      overflow: hidden;
+    }
+    .id-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(255,255,255,0.08) 1.5px, transparent 1.5px);
+      background-size: 24px 24px;
+      pointer-events: none;
+    }
+    .id-hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 100%;
+      height: 56px;
+      background: var(--bg);
+      clip-path: ellipse(60% 100% at 50% 100%);
+    }
+    .id-hero .container { position: relative; z-index: 1; }
+
+    .id-hero .back-link {
+      display: inline-block;
+      color: rgba(255,255,255,0.55);
+      font-size: 0.78rem;
+      font-weight: 500;
+      margin-bottom: 14px;
+      transition: color 0.2s;
+    }
+    .id-hero .back-link:hover { color: #fff; }
+
+    .id-hero .subpage-title {
+      font-size: clamp(1.5rem, 5vw, 2rem);
+      font-weight: 900;
+      line-height: 1.3;
+      margin-bottom: 6px;
+    }
+    .id-hero .subpage-subtitle {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.6);
+      font-weight: 500;
+    }
+
+    /* Overview card */
+    .id-overview {
+      background: #fff;
+      border: 1px solid #E9E5F5;
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-bottom: 32px;
+    }
+    .id-overview-title {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: #4C1D95;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .id-overview-title::before {
+      content: '';
+      width: 4px;
+      height: 18px;
+      background: linear-gradient(180deg, #6D28D9, #A78BFA);
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+    .id-overview p {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    /* ── Category Banner (Purple ver.) ── */
+    .id-cat-section { margin-bottom: 28px; }
+    .id-cat-banner {
+      background: linear-gradient(150deg, #2E1065 0%, #6D28D9 100%);
+      border-radius: var(--radius) var(--radius) 0 0;
+      padding: 12px 20px 10px;
+      position: relative;
+      overflow: hidden;
+    }
+    .id-cat-banner::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px);
+      background-size: 20px 20px;
+      pointer-events: none;
+    }
+    .id-cat-banner-label { font-size:0.65rem; letter-spacing:0.14em; text-transform:uppercase; color:rgba(255,255,255,0.45); font-weight:700; }
+    .id-cat-banner-title { font-size:1rem; font-weight:900; color:#fff; margin:2px 0 0; line-height:1.3; position:relative; }
+    .id-cat-banner-sub { font-size:0.72rem; color:rgba(255,255,255,0.55); margin:3px 0 0; font-style:italic; position:relative; }
+    .id-cat-banner-count {
+      position:absolute; top:12px; right:16px;
+      font-size:0.7rem; color:rgba(255,255,255,0.5); font-weight:600;
+      background:rgba(255,255,255,0.1); padding:3px 10px; border-radius:12px;
+    }
+    .id-cat-body {
+      border: 1px solid var(--border);
+      border-top: none;
+      border-radius: 0 0 var(--radius) var(--radius);
+      overflow: hidden;
+    }
+
+    /* ── Lecture Row ── */
+    .id-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 20px 12px 36px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+      font-size: 0.83rem;
+      transition: all 0.2s;
+      position: relative;
+    }
+    .id-row:last-child { border-bottom: none; }
+    .id-row::before {
+      content: '';
+      width: 0;
+      height: 100%;
+      position: absolute;
+      left: 0; top: 0;
+      background: #7C3AED;
+      transition: width 0.2s;
+    }
+    .id-row:hover {
+      background: #F5F3FF;
+      padding-left: 26px;
+      color: #6D28D9;
+    }
+    .id-row:hover::before { width: 3px; }
+    .id-row-sub {
+      font-size: 0.72rem;
+      color: #8B5CF6;
+      font-weight: 500;
+      margin-top: 2px;
+    }
+    .vid-row-arrow {
+      margin-left: auto;
+      font-size: 0.75rem;
+      color: transparent;
+      transition: color 0.2s;
+      flex-shrink: 0;
+    }
+    .id-row:hover .vid-row-arrow { color: #7C3AED; }
+    /* Bacteria icon */
+    .id-microbe {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      position: relative;
+    }
+    .id-microbe::before {
+      content: '';
+      position: absolute;
+      top: 3px; left: 3px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 40% 35%, #A78BFA, #7C3AED);
+    }
+    .id-microbe::after {
+      content: '';
+      position: absolute;
+      top: 1px; right: 2px;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #C4B5FD;
+      box-shadow:
+        -12px 8px 0 0px #DDD6FE,
+        -4px 13px 0 -1px #C4B5FD;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="../index-v2.html" class="nav-logo">
+        <img src="../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+        <span class="nav-logo-text">聖路加国際病院ICU</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="../index-v2.html#intro" class="nav-link" data-section="intro">はじめに</a></li>
+        <li><a href="../index-v2.html#schedule" class="nav-link" data-section="schedule">スケジュール</a></li>
+        <li><a href="../index-v2.html#rules" class="nav-link" data-section="rules">ICUのルール</a></li>
+        <li><a href="../index-v2.html#learning" class="nav-link" data-section="learning">学習・評価</a></li>
+        <li><a href="../index-v2.html#resources" class="nav-link" data-section="resources">リソース</a></li>
+        <li><a href="../index-v2.html#faq" class="nav-link" data-section="faq">FAQ</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ===== HERO (Purple) ===== -->
+  <div class="id-hero">
+    <div class="container">
+      <a href="../index-v2.html" class="back-link">← メインページへ戻る</a>
+      <h1 class="subpage-title">ID×ICUカンファレンス</h1>
+      <p class="subpage-subtitle">毎週水曜 13:30 | 感染症科 森先生</p>
+    </div>
+  </div>
+
+  <!-- ===== CONTENT ===== -->
+  <div class="container" style="padding: 32px 20px 60px; max-width: 900px;">
+
+    <img src="../images/IDICUtop.png" alt="ID×ICUカンファレンス" style="width:100%;border-radius:var(--radius);margin-bottom:20px;">
+
+    <!-- 概要 -->
+    <div class="id-overview">
+      <div class="id-overview-title">概要</div>
+      <p>感染症科の森先生から直接レクチャーいただく貴重な機会です。毎週水曜13:30から、ICUで遭遇する感染症のトピックを体系的に学びます。過去のレクチャー録画は以下のテーマから視聴できます。</p>
+    </div>
+
+    <!-- ===== 1. 抗菌薬を学ぶ ===== -->
+    <div class="id-cat-section" id="id-antibiotics">
+      <div class="id-cat-banner">
+        <span class="id-cat-banner-label">Category</span>
+        <div class="id-cat-banner-title">抗菌薬を学ぶ</div>
+        <div class="id-cat-banner-sub">まずはここから、抗菌薬の「なぜ」を理解する。</div>
+        <span class="id-cat-banner-count">4本</span>
+      </div>
+      <div class="id-cat-body">
+        <a href="https://lukemcmi-my.sharepoint.com/:v:/g/personal/sekisato_luke_ac_jp/IQDEao5Pm1P0SJrvHBVUZ7QuAZU_ns_PGy1M5rEIhbwIEVM?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=ru0uhG" target="_blank" rel="noopener" class="id-row">
+          <span class="id-microbe"></span>
+          <div>
+            <div>抗菌薬のPK・PD</div>
+            <div class="id-row-sub">Corynebacterium総論 / Prolonged infusion / 殺菌性・静菌性</div>
+          </div>
+          <span class="vid-row-arrow">→</span>
+        </a>
+        <a href="https://lukemcmi-my.sharepoint.com/:v:/g/personal/sekisato_luke_ac_jp/IQD6bgNaETYGSot77QuuF8XIATG1G2N7mUvklhMiem0g6eg?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=VT96aa" target="_blank" rel="noopener" class="id-row"><span class="id-microbe"></span>抗菌薬とアレルギー<span class="vid-row-arrow">→</span></a>
+        <a href="https://lukemcmi-my.sharepoint.com/:v:/g/personal/sekisato_luke_ac_jp/IQB0IpyGASMITLbwNBCa7ILGAVMGcK2V5_2a0gZ2ohsRBp8?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=BpCNQp" target="_blank" rel="noopener" class="id-row"><span class="id-microbe"></span>耐性GNRと新規抗菌薬【前半】<span class="vid-row-arrow">→</span></a>
+        <a href="https://lukemcmi-my.sharepoint.com/:v:/g/personal/sekisato_luke_ac_jp/IQCOZ-gmcZApTJrDay_aVXCiASBYP_FTHPL2wIsfmirObRc?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=XvFl3B" target="_blank" rel="noopener" class="id-row"><span class="id-microbe"></span>耐性GNRと新規抗菌薬【後半】<span class="vid-row-arrow">→</span></a>
+      </div>
+    </div>
+
+    <!-- ===== 2. 真菌感染症 ===== -->
+    <div class="id-cat-section" id="id-fungal">
+      <div class="id-cat-banner">
+        <span class="id-cat-banner-label">Category</span>
+        <div class="id-cat-banner-title">真菌感染症</div>
+        <div class="id-cat-banner-sub">細菌だけが敵じゃない。</div>
+        <span class="id-cat-banner-count">2本</span>
+      </div>
+      <div class="id-cat-body">
+        <a href="https://lukemcmi-my.sharepoint.com/:v:/g/personal/sekisato_luke_ac_jp/IQBdx5kHM1G5S4OQ8XWwGgeuAV8eB9Xd2u7Er0W29PY34F0?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=IXt91z" target="_blank" rel="noopener" class="id-row"><span class="id-microbe"></span>Candida菌血症<span class="vid-row-arrow">→</span></a>
+        <a href="https://lukemcmi-my.sharepoint.com/:v:/g/personal/sekisato_luke_ac_jp/IQAMhAImmyp7Q4OEKMMw6JK-AUFSC4FXq3akRiIwbZE3hik?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=O9rocs" target="_blank" rel="noopener" class="id-row"><span class="id-microbe"></span>Aspergillus感染症・ムーコル症<span class="vid-row-arrow">→</span></a>
+      </div>
+    </div>
+
+    <!-- ===== 3. 免疫不全・予防 ===== -->
+    <div class="id-cat-section" id="id-immunodeficiency">
+      <div class="id-cat-banner">
+        <span class="id-cat-banner-label">Category</span>
+        <div class="id-cat-banner-title">免疫不全・予防</div>
+        <div class="id-cat-banner-sub">守りの感染症、攻めるだけが治療じゃない。</div>
+        <span class="id-cat-banner-count">4本</span>
+      </div>
+      <div class="id-cat-body">
+        <a href="https://lukemcmi-my.sharepoint.com/:v:/g/personal/sekisato_luke_ac_jp/IQAH3kqnPi8ZRq0ddqFReZcwAQhJnkc8O56RR2LCgBHf_eY?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=LewwY2" target="_blank" rel="noopener" class="id-row">
+          <span class="id-microbe"></span>
+          <div>
+            <div>非定型肺炎</div>
+            <div class="id-row-sub">4つの免疫不全</div>
+          </div>
+          <span class="vid-row-arrow">→</span>
+        </a>
+        <a href="https://lukemcmi-my.sharepoint.com/:v:/g/personal/sekisato_luke_ac_jp/IQBoiMm7Nc4XRa4galda-KYAAQ3-IGGVZavDTdM2eCYGcIk?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=2cYCip" target="_blank" rel="noopener" class="id-row"><span class="id-microbe"></span>CMV感染症<span class="vid-row-arrow">→</span></a>
+        <a href="https://lukemcmi-my.sharepoint.com/:v:/g/personal/sekisato_luke_ac_jp/IQAB_KumSCDTRJp8QNlAsJxQAcc7hHG7FOFjQkPkhdOR6F4?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=QasMJP" target="_blank" rel="noopener" class="id-row"><span class="id-microbe"></span>Prophylaxis for Immunocompromised Host<span class="vid-row-arrow">→</span></a>
+        <a href="https://lukemcmi-my.sharepoint.com/:v:/g/personal/sekisato_luke_ac_jp/IQB119T3DkapS4kfCpl8mkSzAXb4A0rmf_pL2Z0HQ0TWbEg?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=ynnIzn" target="_blank" rel="noopener" class="id-row"><span class="id-microbe"></span>血液内科の予防抗菌薬<span class="vid-row-arrow">→</span></a>
+      </div>
+    </div>
+
+    <!-- ===== 4. 臓器別感染症 ===== -->
+    <div class="id-cat-section" id="id-organ">
+      <div class="id-cat-banner">
+        <span class="id-cat-banner-label">Category</span>
+        <div class="id-cat-banner-title">臓器別感染症</div>
+        <div class="id-cat-banner-sub">感染巣によって戦い方は変わる。</div>
+        <span class="id-cat-banner-count">4本</span>
+      </div>
+      <div class="id-cat-body">
+        <a href="https://lukemcmi-my.sharepoint.com/:v:/g/personal/sekisato_luke_ac_jp/IQBNMq3TTDtNRof6oYX_ApebAdVcbvLy3OD0utmHGuus4vI?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=PFu49z" target="_blank" rel="noopener" class="id-row"><span class="id-microbe"></span>VAP（人工呼吸器関連肺炎）<span class="vid-row-arrow">→</span></a>
+        <a href="https://lukemcmi-my.sharepoint.com/:v:/g/personal/sekisato_luke_ac_jp/IQBtUH8s8tkdTrVIJAvNgyzbAf4t4lGvBTvqXoT4Eomw5JY?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=JerTrm" target="_blank" rel="noopener" class="id-row">
+          <span class="id-microbe"></span>
+          <div>
+            <div>CRBSIとCLABSI</div>
+            <div class="id-row-sub">β-ラクタム耐性機序</div>
+          </div>
+          <span class="vid-row-arrow">→</span>
+        </a>
+        <a href="https://lukemcmi-my.sharepoint.com/:v:/g/personal/sekisato_luke_ac_jp/IQCr3b2m0pmpTJZ9TQIF6P4rAeDGvuLzcOsIR2ngZuF-fvA?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=dbnk3O" target="_blank" rel="noopener" class="id-row"><span class="id-microbe"></span>髄膜炎・脳膿瘍<span class="vid-row-arrow">→</span></a>
+        <a href="https://lukemcmi-my.sharepoint.com/:v:/g/personal/sekisato_luke_ac_jp/IQChx6ebvXbiRotpUL5pMaV5AYold22zl-or9Dh5I1dHawA?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=LJKV8M" target="_blank" rel="noopener" class="id-row"><span class="id-microbe"></span>腹腔内感染症<span class="vid-row-arrow">→</span></a>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="../script.js"></script>
+</body>
+</html>

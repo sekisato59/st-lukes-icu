@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>タイムライン デザイン比較 10パターン</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Helvetica Neue', Arial, 'Hiragino Sans', sans-serif; background: #F0F2F5; color: #1a1a2e; }
+
+    .page-header {
+      background: linear-gradient(135deg, #123293, #1A3AB5);
+      color: #fff;
+      padding: 28px 40px;
+      margin-bottom: 40px;
+    }
+    .page-header h1 { font-size: 1.5rem; margin-bottom: 6px; }
+    .page-header p  { font-size: .875rem; opacity: .8; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 32px;
+      padding: 0 40px 60px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .pattern-box {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,.08);
+      overflow: hidden;
+    }
+    .pattern-label {
+      background: #123293;
+      color: #fff;
+      font-size: .8rem;
+      font-weight: 700;
+      padding: 8px 18px;
+      letter-spacing: .04em;
+    }
+    .pattern-inner { padding: 20px; }
+    .shift-title {
+      font-size: .9rem;
+      font-weight: 700;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* ============================================
+       Pattern 1: シンプル縦線＋丸（現行ベース改良）
+       ============================================ */
+    .tl1 { position: relative; padding-left: 0; }
+    .tl1-row {
+      display: grid;
+      grid-template-columns: 52px 20px 1fr;
+      gap: 0 12px;
+      align-items: start;
+      margin-bottom: 0;
+      position: relative;
+    }
+    .tl1-row:not(:last-child) .tl1-dot::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 20px;
+      bottom: -100%;
+      width: 2px;
+      background: #D1D5DB;
+      transform: translateX(-50%);
+    }
+    .tl1-time {
+      text-align: right;
+      font-size: .75rem;
+      font-weight: 700;
+      color: #123293;
+      padding-top: 4px;
+      line-height: 1.4;
+    }
+    .tl1-dot {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      padding-top: 4px;
+    }
+    .tl1-dot span {
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      background: #D1D5DB;
+      border: 2px solid #fff;
+      box-shadow: 0 0 0 2px #D1D5DB;
+      flex-shrink: 0;
+    }
+    .tl1-dot.primary span {
+      background: #123293;
+      box-shadow: 0 0 0 2px #123293;
+    }
+    .tl1-text {
+      font-size: .82rem;
+      line-height: 1.55;
+      padding: 0 0 18px;
+      color: #374151;
+    }
+    .tl1-text strong { color: #111827; display: block; margin-bottom: 2px; }
+
+    /* ============================================
+       Pattern 2: チケット（左：時間ブロック、右：内容）
+       ============================================ */
+    .tl2 { display: flex; flex-direction: column; gap: 8px; }
+    .tl2-row {
+      display: flex;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid #E5E7EB;
+    }
+    .tl2-time {
+      min-width: 58px;
+      background: #123293;
+      color: #fff;
+      font-size: .75rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 10px 6px;
+      line-height: 1.3;
+      flex-shrink: 0;
+    }
+    .tl2-row.sub .tl2-time { background: #6B7280; }
+    .tl2-text {
+      padding: 10px 14px;
+      font-size: .82rem;
+      line-height: 1.5;
+      color: #374151;
+    }
+    .tl2-text strong { color: #111827; }
+
+    /* ============================================
+       Pattern 3: 左太帯＋時間が大きい
+       ============================================ */
+    .tl3 { display: flex; flex-direction: column; gap: 0; }
+    .tl3-row {
+      display: flex;
+      align-items: stretch;
+      border-bottom: 1px solid #F3F4F6;
+      padding: 12px 0;
+    }
+    .tl3-row:last-child { border-bottom: none; }
+    .tl3-left {
+      width: 58px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .tl3-time {
+      font-size: 1rem;
+      font-weight: 800;
+      color: #123293;
+      line-height: 1.2;
+      text-align: center;
+    }
+    .tl3-row.sub .tl3-time { color: #9CA3AF; }
+    .tl3-bar {
+      width: 4px;
+      background: #123293;
+      border-radius: 2px;
+      margin: 0 14px;
+      flex-shrink: 0;
+      min-height: 100%;
+    }
+    .tl3-row.sub .tl3-bar { background: #E5E7EB; }
+    .tl3-text {
+      font-size: .82rem;
+      line-height: 1.55;
+      color: #374151;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .tl3-text strong { color: #111827; margin-bottom: 2px; display: block; }
+
+    /* ============================================
+       Pattern 4: ステップバッジ（番号＋時間＋内容）
+       ============================================ */
+    .tl4 { display: flex; flex-direction: column; gap: 10px; }
+    .tl4-row { display: flex; align-items: flex-start; gap: 12px; }
+    .tl4-badge {
+      background: #123293;
+      color: #fff;
+      border-radius: 20px;
+      font-size: .7rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .tl4-row.sub .tl4-badge { background: #D1D5DB; color: #6B7280; }
+    .tl4-text { font-size: .82rem; line-height: 1.55; color: #374151; }
+    .tl4-text strong { color: #111827; }
+
+    /* ============================================
+       Pattern 5: カード式（時間が上部バー）
+       ============================================ */
+    .tl5 { display: flex; flex-direction: column; gap: 8px; }
+    .tl5-row { border-radius: 8px; overflow: hidden; border: 1px solid #E5E7EB; }
+    .tl5-head {
+      background: linear-gradient(90deg, #123293, #1A3AB5);
+      color: #fff;
+      font-size: .75rem;
+      font-weight: 700;
+      padding: 6px 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .tl5-head::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: #EAD25E;
+      flex-shrink: 0;
+    }
+    .tl5-row.sub .tl5-head { background: #6B7280; }
+    .tl5-row.sub .tl5-head::before { background: #D1D5DB; }
+    .tl5-body {
+      padding: 10px 14px;
+      font-size: .82rem;
+      line-height: 1.55;
+      color: #374151;
+    }
+    .tl5-body strong { color: #111827; }
+
+    /* ============================================
+       Pattern 6: 横線＋時間上部（Ganttライト）
+       ============================================ */
+    .tl6 { position: relative; }
+    .tl6-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 0;
+      margin-bottom: 10px;
+    }
+    .tl6-left {
+      width: 52px;
+      flex-shrink: 0;
+      text-align: right;
+      padding-right: 14px;
+      position: relative;
+    }
+    .tl6-time {
+      font-size: .72rem;
+      font-weight: 700;
+      color: #123293;
+      line-height: 1.3;
+      display: block;
+    }
+    .tl6-left::after {
+      content: '';
+      position: absolute;
+      right: 0; top: 8px;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: #123293;
+      border: 2px solid #fff;
+      outline: 2px solid #123293;
+    }
+    .tl6-row.sub .tl6-left::after { background: #D1D5DB; outline-color: #D1D5DB; }
+    .tl6-row.sub .tl6-time { color: #9CA3AF; }
+    .tl6-line {
+      width: 2px;
+      background: #E5E7EB;
+      margin: 0 14px;
+      align-self: stretch;
+      min-height: 100%;
+    }
+    .tl6-content {
+      flex: 1;
+      background: #F9FAFB;
+      border: 1px solid #E5E7EB;
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: .82rem;
+      line-height: 1.5;
+      color: #374151;
+    }
+    .tl6-content strong { color: #111827; display: block; margin-bottom: 2px; }
+
+    /* ============================================
+       Pattern 7: ピル時間＋インライン
+       ============================================ */
+    .tl7 { display: flex; flex-direction: column; gap: 0; }
+    .tl7-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px dashed #E5E7EB;
+    }
+    .tl7-row:last-child { border-bottom: none; }
+    .tl7-time {
+      font-size: .72rem;
+      font-weight: 700;
+      background: #EEF2FF;
+      color: #123293;
+      border-radius: 20px;
+      padding: 3px 10px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .tl7-row.sub .tl7-time { background: #F3F4F6; color: #9CA3AF; }
+    .tl7-text { font-size: .82rem; line-height: 1.55; color: #374151; }
+    .tl7-text strong { color: #111827; }
+
+    /* ============================================
+       Pattern 8: 大きな時間（左）＋区切り線
+       ============================================ */
+    .tl8 { display: flex; flex-direction: column; gap: 0; }
+    .tl8-row {
+      display: grid;
+      grid-template-columns: 64px 1px 1fr;
+      gap: 0 16px;
+      padding: 10px 0;
+      align-items: start;
+    }
+    .tl8-row:not(:last-child) { border-bottom: 1px solid #F3F4F6; }
+    .tl8-time {
+      text-align: right;
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: #123293;
+      line-height: 1.2;
+      letter-spacing: -.02em;
+    }
+    .tl8-row.sub .tl8-time { font-size: .9rem; color: #D1D5DB; font-weight: 700; }
+    .tl8-divider { background: #123293; width: 1px; min-height: 100%; }
+    .tl8-row.sub .tl8-divider { background: #E5E7EB; }
+    .tl8-text { font-size: .82rem; line-height: 1.55; color: #374151; padding-top: 2px; }
+    .tl8-text strong { color: #111827; display: block; margin-bottom: 2px; }
+
+    /* ============================================
+       Pattern 9: ホリゾンタル（横スクロール風、縦並び）
+       ============================================ */
+    .tl9 { display: flex; flex-direction: column; gap: 6px; }
+    .tl9-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #F9FAFB;
+      border-left: 4px solid #123293;
+      border-radius: 0 8px 8px 0;
+      padding: 10px 14px;
+    }
+    .tl9-row.sub { border-left-color: #D1D5DB; }
+    .tl9-time {
+      font-size: .8rem;
+      font-weight: 700;
+      color: #123293;
+      min-width: 44px;
+      text-align: center;
+      background: #EEF2FF;
+      border-radius: 6px;
+      padding: 4px 6px;
+      line-height: 1.3;
+    }
+    .tl9-row.sub .tl9-time { background: #F3F4F6; color: #9CA3AF; }
+    .tl9-arrow { color: #D1D5DB; font-size: .9rem; }
+    .tl9-text { font-size: .82rem; line-height: 1.5; color: #374151; }
+    .tl9-text strong { color: #111827; }
+
+    /* ============================================
+       Pattern 10: テーブル形式（シフト表風）
+       ============================================ */
+    .tl10 { width: 100%; }
+    .tl10 table { width: 100%; border-collapse: collapse; font-size: .82rem; }
+    .tl10 th {
+      background: #123293;
+      color: #fff;
+      padding: 8px 12px;
+      text-align: left;
+      font-size: .75rem;
+      font-weight: 700;
+    }
+    .tl10 td { padding: 9px 12px; border-bottom: 1px solid #F3F4F6; vertical-align: top; }
+    .tl10 tr:last-child td { border-bottom: none; }
+    .tl10 tr:hover td { background: #F9FAFB; }
+    .tl10 .td-time {
+      font-weight: 700;
+      color: #123293;
+      white-space: nowrap;
+      width: 52px;
+    }
+    .tl10 tr.sub .td-time { color: #9CA3AF; }
+    .tl10 .td-event strong { color: #111827; display: block; margin-bottom: 2px; }
+    .tl10 .td-event { color: #374151; line-height: 1.5; }
+    .tl10 .star { color: #EAD25E; font-size: .8rem; }
+
+  </style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>② スケジュール — タイムライン デザイン比較 10パターン</h1>
+  <p>好きなパターンの番号をお伝えください</p>
+</div>
+
+<div class="grid">
+
+  <!-- ===== Pattern 1 ===== -->
+  <div class="pattern-box">
+    <div class="pattern-label">Pattern 1 — 縦線＋丸ドット（現行ベース改良）</div>
+    <div class="pattern-inner">
+      <div class="shift-title">☀️ 日勤の1日の流れ</div>
+      <div class="tl1">
+        <div class="tl1-row">
+          <span class="tl1-time">〜7:00</span>
+          <span class="tl1-dot primary"><span></span></span>
+          <span class="tl1-text"><strong>朝カンファレンス前の準備</strong>担当患者のエコー・バイタル確認、夜勤Nsへ夜間経過を聴取</span>
+        </div>
+        <div class="tl1-row">
+          <span class="tl1-time">8:15</span>
+          <span class="tl1-dot"><span></span></span>
+          <span class="tl1-text"><strong>腎臓内科カンファレンス</strong>腎内主科・コンサルト患者のプレゼン（土日祝休み）</span>
+        </div>
+        <div class="tl1-row">
+          <span class="tl1-time">8:30</span>
+          <span class="tl1-dot primary"><span></span></span>
+          <span class="tl1-text"><strong>ICUカンファレンス</strong>多職種によるBy-systemプレゼン。1患者あたり5〜7分</span>
+        </div>
+        <div class="tl1-row">
+          <span class="tl1-time">9:00</span>
+          <span class="tl1-dot"><span></span></span>
+          <span class="tl1-text"><strong>病棟業務</strong>オーダー入力・Daily Chart記載・手技</span>
+        </div>
+        <div class="tl1-row">
+          <span class="tl1-time">12:00</span>
+          <span class="tl1-dot"><span></span></span>
+          <span class="tl1-text"><strong>半日出勤の日は退勤</strong>病棟長・日勤スタッフに申し送りして帰宅</span>
+        </div>
+        <div class="tl1-row">
+          <span class="tl1-time">16:00</span>
+          <span class="tl1-dot primary"><span></span></span>
+          <span class="tl1-text"><strong>夜勤への申し送り</strong>日勤帯でやったこと・夜間の依頼事項をプレゼン</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Pattern 2 ===== -->
+  <div class="pattern-box">
+    <div class="pattern-label">Pattern 2 — チケット型（左：時間ブロック）</div>
+    <div class="pattern-inner">
+      <div class="shift-title">☀️ 日勤の1日の流れ</div>
+      <div class="tl2">
+        <div class="tl2-row">
+          <div class="tl2-time">〜<br>7:00</div>
+          <div class="tl2-text"><strong>朝カンファレンス前の準備</strong><br>担当患者のエコー・バイタル確認、夜勤Nsへ夜間経過を聴取</div>
+        </div>
+        <div class="tl2-row sub">
+          <div class="tl2-time">8:15</div>
+          <div class="tl2-text"><strong>腎臓内科カンファレンス</strong><br>腎内主科・コンサルト患者のプレゼン（土日祝休み）</div>
+        </div>
+        <div class="tl2-row">
+          <div class="tl2-time">8:30</div>
+          <div class="tl2-text"><strong>ICUカンファレンス</strong><br>多職種によるBy-systemプレゼン。1患者あたり5〜7分</div>
+        </div>
+        <div class="tl2-row sub">
+          <div class="tl2-time">9:00</div>
+          <div class="tl2-text"><strong>病棟業務</strong><br>オーダー入力・Daily Chart記載・手技</div>
+        </div>
+        <div class="tl2-row sub">
+          <div class="tl2-time">12:00</div>
+          <div class="tl2-text"><strong>半日出勤の日は退勤</strong><br>病棟長・日勤スタッフに申し送りして帰宅</div>
+        </div>
+        <div class="tl2-row">
+          <div class="tl2-time">16:00</div>
+          <div class="tl2-text"><strong>夜勤への申し送り</strong><br>日勤帯でやったこと・夜間の依頼事項をプレゼン</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Pattern 3 ===== -->
+  <div class="pattern-box">
+    <div class="pattern-label">Pattern 3 — 太帯アクセント＋大きな時間数字</div>
+    <div class="pattern-inner">
+      <div class="shift-title">☀️ 日勤の1日の流れ</div>
+      <div class="tl3">
+        <div class="tl3-row">
+          <div class="tl3-left"><div class="tl3-time">〜<br>7:00</div></div>
+          <div class="tl3-bar"></div>
+          <div class="tl3-text"><strong>朝カンファレンス前の準備</strong>担当患者のエコー・バイタル確認、夜勤Nsへ夜間経過を聴取</div>
+        </div>
+        <div class="tl3-row sub">
+          <div class="tl3-left"><div class="tl3-time">8:15</div></div>
+          <div class="tl3-bar"></div>
+          <div class="tl3-text"><strong>腎臓内科カンファレンス</strong>腎内主科・コンサルト患者のプレゼン（土日祝休み）</div>
+        </div>
+        <div class="tl3-row">
+          <div class="tl3-left"><div class="tl3-time">8:30</div></div>
+          <div class="tl3-bar"></div>
+          <div class="tl3-text"><strong>ICUカンファレンス</strong>多職種によるBy-systemプレゼン。1患者あたり5〜7分</div>
+        </div>
+        <div class="tl3-row sub">
+          <div class="tl3-left"><div class="tl3-time">9:00</div></div>
+          <div class="tl3-bar"></div>
+          <div class="tl3-text"><strong>病棟業務</strong>オーダー入力・Daily Chart記載・手技</div>
+        </div>
+        <div class="tl3-row sub">
+          <div class="tl3-left"><div class="tl3-time">12:00</div></div>
+          <div class="tl3-bar"></div>
+          <div class="tl3-text"><strong>半日出勤の日は退勤</strong>病棟長・日勤スタッフに申し送りして帰宅</div>
+        </div>
+        <div class="tl3-row">
+          <div class="tl3-left"><div class="tl3-time">16:00</div></div>
+          <div class="tl3-bar"></div>
+          <div class="tl3-text"><strong>夜勤への申し送り</strong>日勤帯でやったこと・夜間の依頼事項をプレゼン</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Pattern 4 ===== -->
+  <div class="pattern-box">
+    <div class="pattern-label">Pattern 4 — ピルバッジ（時間が角丸タグ）</div>
+    <div class="pattern-inner">
+      <div class="shift-title">☀️ 日勤の1日の流れ</div>
+      <div class="tl4">
+        <div class="tl4-row">
+          <div class="tl4-badge">〜7:00</div>
+          <div class="tl4-text"><strong>朝カンファレンス前の準備</strong><br>担当患者のエコー・バイタル確認、夜勤Nsへ夜間経過を聴取</div>
+        </div>
+        <div class="tl4-row sub">
+          <div class="tl4-badge">8:15</div>
+          <div class="tl4-text"><strong>腎臓内科カンファレンス</strong><br>腎内主科・コンサルト患者のプレゼン（土日祝休み）</div>
+        </div>
+        <div class="tl4-row">
+          <div class="tl4-badge">8:30</div>
+          <div class="tl4-text"><strong>ICUカンファレンス</strong><br>多職種によるBy-systemプレゼン。1患者あたり5〜7分</div>
+        </div>
+        <div class="tl4-row sub">
+          <div class="tl4-badge">9:00</div>
+          <div class="tl4-text"><strong>病棟業務</strong><br>オーダー入力・Daily Chart記載・手技</div>
+        </div>
+        <div class="tl4-row sub">
+          <div class="tl4-badge">12:00</div>
+          <div class="tl4-text"><strong>半日出勤の日は退勤</strong><br>病棟長・日勤スタッフに申し送りして帰宅</div>
+        </div>
+        <div class="tl4-row">
+          <div class="tl4-badge">16:00</div>
+          <div class="tl4-text"><strong>夜勤への申し送り</strong><br>日勤帯でやったこと・夜間の依頼事項をプレゼン</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Pattern 5 ===== -->
+  <div class="pattern-box">
+    <div class="pattern-label">Pattern 5 — カード式（時間が上部グラデバー）</div>
+    <div class="pattern-inner">
+      <div class="shift-title">☀️ 日勤の1日の流れ</div>
+      <div class="tl5">
+        <div class="tl5-row">
+          <div class="tl5-head">〜7:00 　朝カンファレンス前の準備</div>
+          <div class="tl5-body">担当患者のエコー・バイタル確認、夜勤Nsへ夜間経過を聴取</div>
+        </div>
+        <div class="tl5-row sub">
+          <div class="tl5-head">8:15 　腎臓内科カンファレンス</div>
+          <div class="tl5-body">腎内主科・コンサルト患者のプレゼン（土日祝休み）</div>
+        </div>
+        <div class="tl5-row">
+          <div class="tl5-head">8:30 　ICUカンファレンス</div>
+          <div class="tl5-body">多職種によるBy-systemプレゼン。1患者あたり5〜7分（土日祝休み）</div>
+        </div>
+        <div class="tl5-row sub">
+          <div class="tl5-head">9:00 　病棟業務</div>
+          <div class="tl5-body">オーダー入力・Daily Chart記載・手技</div>
+        </div>
+        <div class="tl5-row sub">
+          <div class="tl5-head">12:00 　半日出勤の日は退勤</div>
+          <div class="tl5-body">病棟長・日勤スタッフに申し送りして帰宅</div>
+        </div>
+        <div class="tl5-row">
+          <div class="tl5-head">16:00 　夜勤への申し送り</div>
+          <div class="tl5-body">日勤帯でやったこと・夜間の依頼事項をプレゼン。申し送り終了で業務終了</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Pattern 6 ===== -->
+  <div class="pattern-box">
+    <div class="pattern-label">Pattern 6 — 右側カード＋左に時間ドット</div>
+    <div class="pattern-inner">
+      <div class="shift-title">☀️ 日勤の1日の流れ</div>
+      <div class="tl6">
+        <div class="tl6-row">
+          <div class="tl6-left"><span class="tl6-time">〜<br>7:00</span></div>
+          <div class="tl6-line"></div>
+          <div class="tl6-content"><strong>朝カンファレンス前の準備</strong>担当患者のエコー・バイタル確認、夜勤Nsへ夜間経過を聴取</div>
+        </div>
+        <div class="tl6-row sub">
+          <div class="tl6-left"><span class="tl6-time">8:15</span></div>
+          <div class="tl6-line"></div>
+          <div class="tl6-content"><strong>腎臓内科カンファレンス</strong>腎内主科・コンサルト患者のプレゼン（土日祝休み）</div>
+        </div>
+        <div class="tl6-row">
+          <div class="tl6-left"><span class="tl6-time">8:30</span></div>
+          <div class="tl6-line"></div>
+          <div class="tl6-content"><strong>ICUカンファレンス</strong>多職種によるBy-systemプレゼン。1患者あたり5〜7分</div>
+        </div>
+        <div class="tl6-row sub">
+          <div class="tl6-left"><span class="tl6-time">9:00</span></div>
+          <div class="tl6-line"></div>
+          <div class="tl6-content"><strong>病棟業務</strong>オーダー入力・Daily Chart記載・手技</div>
+        </div>
+        <div class="tl6-row sub">
+          <div class="tl6-left"><span class="tl6-time">12:00</span></div>
+          <div class="tl6-line"></div>
+          <div class="tl6-content"><strong>半日出勤の日は退勤</strong>病棟長・日勤スタッフに申し送りして帰宅</div>
+        </div>
+        <div class="tl6-row">
+          <div class="tl6-left"><span class="tl6-time">16:00</span></div>
+          <div class="tl6-line"></div>
+          <div class="tl6-content"><strong>夜勤への申し送り</strong>日勤帯でやったこと・夜間の依頼事項をプレゼン</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Pattern 7 ===== -->
+  <div class="pattern-box">
+    <div class="pattern-label">Pattern 7 — ピル時間＋点線区切り（シンプル）</div>
+    <div class="pattern-inner">
+      <div class="shift-title">☀️ 日勤の1日の流れ</div>
+      <div class="tl7">
+        <div class="tl7-row">
+          <div class="tl7-time">〜7:00</div>
+          <div class="tl7-text"><strong>朝カンファレンス前の準備</strong><br>担当患者のエコー・バイタル確認、夜勤Nsへ夜間経過を聴取</div>
+        </div>
+        <div class="tl7-row sub">
+          <div class="tl7-time">8:15</div>
+          <div class="tl7-text"><strong>腎臓内科カンファレンス</strong><br>腎内主科・コンサルト患者のプレゼン（土日祝休み）</div>
+        </div>
+        <div class="tl7-row">
+          <div class="tl7-time">8:30</div>
+          <div class="tl7-text"><strong>ICUカンファレンス</strong><br>多職種によるBy-systemプレゼン。1患者あたり5〜7分</div>
+        </div>
+        <div class="tl7-row sub">
+          <div class="tl7-time">9:00</div>
+          <div class="tl7-text"><strong>病棟業務</strong><br>オーダー入力・Daily Chart記載・手技</div>
+        </div>
+        <div class="tl7-row sub">
+          <div class="tl7-time">12:00</div>
+          <div class="tl7-text"><strong>半日出勤の日は退勤</strong><br>病棟長・日勤スタッフに申し送りして帰宅</div>
+        </div>
+        <div class="tl7-row">
+          <div class="tl7-time">16:00</div>
+          <div class="tl7-text"><strong>夜勤への申し送り</strong><br>日勤帯でやったこと・夜間の依頼事項をプレゼン</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Pattern 8 ===== -->
+  <div class="pattern-box">
+    <div class="pattern-label">Pattern 8 — 極太時間数字＋縦線</div>
+    <div class="pattern-inner">
+      <div class="shift-title">☀️ 日勤の1日の流れ</div>
+      <div class="tl8">
+        <div class="tl8-row">
+          <div class="tl8-time">〜<br>7:00</div>
+          <div class="tl8-divider"></div>
+          <div class="tl8-text"><strong>朝カンファレンス前の準備</strong>担当患者のエコー・バイタル確認、夜勤Nsへ夜間経過を聴取</div>
+        </div>
+        <div class="tl8-row sub">
+          <div class="tl8-time">8:15</div>
+          <div class="tl8-divider"></div>
+          <div class="tl8-text"><strong>腎臓内科カンファレンス</strong>腎内主科・コンサルト患者のプレゼン（土日祝休み）</div>
+        </div>
+        <div class="tl8-row">
+          <div class="tl8-time">8:30</div>
+          <div class="tl8-divider"></div>
+          <div class="tl8-text"><strong>ICUカンファレンス</strong>多職種によるBy-systemプレゼン。1患者あたり5〜7分</div>
+        </div>
+        <div class="tl8-row sub">
+          <div class="tl8-time">9:00</div>
+          <div class="tl8-divider"></div>
+          <div class="tl8-text"><strong>病棟業務</strong>オーダー入力・Daily Chart記載・手技</div>
+        </div>
+        <div class="tl8-row sub">
+          <div class="tl8-time">12:00</div>
+          <div class="tl8-divider"></div>
+          <div class="tl8-text"><strong>半日出勤の日は退勤</strong>病棟長・日勤スタッフに申し送りして帰宅</div>
+        </div>
+        <div class="tl8-row">
+          <div class="tl8-time">16:00</div>
+          <div class="tl8-divider"></div>
+          <div class="tl8-text"><strong>夜勤への申し送り</strong>日勤帯でやったこと・夜間の依頼事項をプレゼン</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Pattern 9 ===== -->
+  <div class="pattern-box">
+    <div class="pattern-label">Pattern 9 — 左ボーダー帯＋時間バッジ（横並び）</div>
+    <div class="pattern-inner">
+      <div class="shift-title">☀️ 日勤の1日の流れ</div>
+      <div class="tl9">
+        <div class="tl9-row">
+          <div class="tl9-time">〜<br>7:00</div>
+          <div class="tl9-arrow">›</div>
+          <div class="tl9-text"><strong>朝カンファレンス前の準備</strong><br>担当患者のエコー・バイタル確認、夜勤Nsへ夜間経過を聴取</div>
+        </div>
+        <div class="tl9-row sub">
+          <div class="tl9-time">8:15</div>
+          <div class="tl9-arrow">›</div>
+          <div class="tl9-text"><strong>腎臓内科カンファレンス</strong><br>腎内主科・コンサルト患者のプレゼン（土日祝休み）</div>
+        </div>
+        <div class="tl9-row">
+          <div class="tl9-time">8:30</div>
+          <div class="tl9-arrow">›</div>
+          <div class="tl9-text"><strong>ICUカンファレンス</strong><br>多職種によるBy-systemプレゼン。1患者あたり5〜7分</div>
+        </div>
+        <div class="tl9-row sub">
+          <div class="tl9-time">9:00</div>
+          <div class="tl9-arrow">›</div>
+          <div class="tl9-text"><strong>病棟業務</strong><br>オーダー入力・Daily Chart記載・手技</div>
+        </div>
+        <div class="tl9-row sub">
+          <div class="tl9-time">12:00</div>
+          <div class="tl9-arrow">›</div>
+          <div class="tl9-text"><strong>半日出勤の日は退勤</strong><br>病棟長・日勤スタッフに申し送りして帰宅</div>
+        </div>
+        <div class="tl9-row">
+          <div class="tl9-time">16:00</div>
+          <div class="tl9-arrow">›</div>
+          <div class="tl9-text"><strong>夜勤への申し送り</strong><br>日勤帯でやったこと・夜間の依頼事項をプレゼン</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Pattern 10 ===== -->
+  <div class="pattern-box">
+    <div class="pattern-label">Pattern 10 — シフト表（テーブル形式）</div>
+    <div class="pattern-inner">
+      <div class="shift-title">☀️ 日勤の1日の流れ</div>
+      <div class="tl10">
+        <table>
+          <thead>
+            <tr>
+              <th>時刻</th>
+              <th>内容</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="td-time">〜7:00</td>
+              <td class="td-event"><strong>朝カンファレンス前の準備</strong> <span class="star">★</span><br>担当患者のエコー・バイタル確認、夜勤Nsへ夜間経過を聴取</td>
+            </tr>
+            <tr class="sub">
+              <td class="td-time">8:15</td>
+              <td class="td-event"><strong>腎臓内科カンファレンス</strong><br>腎内主科・コンサルト患者のプレゼン（土日祝休み）</td>
+            </tr>
+            <tr>
+              <td class="td-time">8:30</td>
+              <td class="td-event"><strong>ICUカンファレンス</strong> <span class="star">★</span><br>多職種によるBy-systemプレゼン。1患者あたり5〜7分（土日祝休み）</td>
+            </tr>
+            <tr class="sub">
+              <td class="td-time">9:00</td>
+              <td class="td-event"><strong>病棟業務</strong><br>オーダー入力・Daily Chart記載・手技</td>
+            </tr>
+            <tr class="sub">
+              <td class="td-time">12:00</td>
+              <td class="td-event"><strong>半日出勤の日は退勤</strong><br>病棟長・日勤スタッフに申し送りして帰宅</td>
+            </tr>
+            <tr>
+              <td class="td-time">16:00</td>
+              <td class="td-event"><strong>夜勤への申し送り</strong> <span class="star">★</span><br>日勤帯でやったこと・夜間の依頼事項をプレゼン</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /.grid -->
+</body>
+</html>
