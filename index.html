@@ -7,8 +7,12 @@
   <!-- 検索エンジン非公開 (URLを知っている人のみアクセス可) -->
   <meta name="robots" content="noindex, nofollow">
   <link rel="icon" type="image/png" href="images/logo.png">
-  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style-v2.css">
   <script src="site-config.js"></script>
+  <script src="search-index.js"></script>
 </head>
 <body>
 
@@ -17,7 +21,7 @@
     <div class="nav-container">
       <a href="#hero" class="nav-logo">
         <img src="images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
-        <span class="nav-logo-text">聖路加ICU</span>
+        <span class="nav-logo-text">聖路加国際病院ICU</span>
       </a>
       <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
         <span></span><span></span><span></span>
@@ -29,12 +33,25 @@
         <li><a href="#learning"  class="nav-link" data-section="learning">学習・評価</a></li>
         <li><a href="#resources" class="nav-link" data-section="resources">リソース</a></li>
         <li><a href="#faq"       class="nav-link" data-section="faq">FAQ</a></li>
+        <li>
+          <button class="nav-search-trigger" id="heroSearchTrigger" aria-label="検索を開く">
+            検索<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left:4px;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </button>
+        </li>
       </ul>
     </div>
   </nav>
 
   <!-- ===== HERO ===== -->
   <section class="hero" id="hero">
+    <!-- Search Overlay -->
+    <div class="search-overlay" id="searchOverlay">
+      <div class="search-overlay-inner">
+        <button class="search-overlay-close" id="searchOverlayClose" aria-label="閉じる">&times;</button>
+        <input type="text" id="heroSearch" class="search-overlay-input" placeholder="キーワードで検索（例：抗菌薬、透析、ルール）" autocomplete="off">
+        <div class="search-overlay-results" id="heroSearchResults"></div>
+      </div>
+    </div>
     <div class="container">
       <div class="hero-inner">
         <div class="hero-content">
@@ -70,12 +87,13 @@
       <!-- ① はじめに                   -->
       <!-- ──────────────────────────── -->
       <section id="intro">
-        <div class="section-header-bar">
-          <span class="shb-icon">&#x25C6;</span> ① はじめに
+        <div class="sec-head">
+          <span class="sec-en">SECTION 01 · INTRODUCTION</span>
+          <h2 class="sec-title">はじめに</h2>
         </div>
 
         <!-- 理念 -->
-        <div class="card reveal">
+        <div class="card reveal" id="ql-vision">
           <div class="card-inner">
             <h3 class="card-section-title">聖路加ICUが目指すもの</h3>
             <blockquote class="philosophy-quote">
@@ -86,7 +104,7 @@
         </div>
 
         <!-- 学習目標 -->
-        <div class="card reveal">
+        <div class="card reveal" id="ql-goals">
           <div class="card-inner">
             <h3 class="card-section-title">ローテーションの目的・学習目標</h3>
             <ul>
@@ -100,7 +118,7 @@
         </div>
 
         <!-- ローテ前To Do -->
-        <div class="card reveal">
+        <div class="card reveal" id="ql-todo">
           <div class="card-inner">
             <h3 class="card-section-title">【必読】ローテ開始前のTo Do</h3>
 
@@ -108,7 +126,7 @@
               <div class="todo-num">1</div>
               <div class="todo-body">
                 <strong>自己紹介を送ってください！</strong>
-                <p style="white-space:normal">以下のテンプレートに記入し、自分の写真1枚（マスク可・学生時代可）を添えて<strong>岡本先生・関谷先生宛にTeamsで</strong>送ってください。看護師・PT・栄養士・薬剤師など多職種に共有されます。</p>
+                <p style="white-space:normal">以下のテンプレートに記入し、自分の写真1枚（マスク可・学生時代可）を添えて<span style="color:#1a56db;font-weight:400;white-space:nowrap">岡本先生・関谷先生宛にTeamsで</span>送ってください。看護師・PT・栄養士・薬剤師など多職種に共有されます。</p>
                 <div class="intro-template">
                   <pre class="template-pre" id="introTemplatePre">名前（ふりがな）：
 ニックネーム：
@@ -124,7 +142,7 @@
 自分の性格を一言で表すと：
 最近の目標や挑戦していること：
 ICUチームへ一言：</pre>
-                  <button class="copy-btn" id="copyTemplateBtn">📋 テンプレートをコピー</button>
+                  <button class="copy-btn" id="copyTemplateBtn">テンプレートをコピー</button>
                 </div>
               </div>
             </div>
@@ -134,6 +152,7 @@ ICUチームへ一言：</pre>
               <div class="todo-body">
                 <strong>感染予防クイズにチャレンジ！&#x1F9A0;</strong>
                 <p>ICUの感染対策チームに所属する看護師さんが作成した問題を解いて提出しましょう（所要時間 約5分）。</p>
+                <a href="https://glass-brazil-abf.notion.site/J1-J2-S1-2760aee47d1c80828959dbc6221f2871?source=copy_link" target="_blank" rel="noopener" class="quiz-btn">クイズにチャレンジ</a>
               </div>
             </div>
 
@@ -143,11 +162,40 @@ ICUチームへ一言：</pre>
                 <strong>動画の事前学習（必須4本）</strong>
                 <p>研修開始「前」に以下の4つの動画を視聴してください。視聴後はスタッフ医師にサインをもらいましょう。</p>
                 <ul class="video-list">
-                  <li>&#x1F3AC; 人工呼吸器基礎</li>
-                  <li>&#x1F3AC; Neuro ICU</li>
-                  <li>&#x1F3AC; ヒューマンケア</li>
-                  <li>&#x1F3AC; 緊急ACP</li>
+                  <li>
+                    <label class="video-check-label">
+                      <input type="checkbox" class="video-check">
+                      <a href="https://file.notion.so/f/f/5c974ed8-5e14-4b70-81a9-9b92bf3be535/7d09b60e-7cd0-4264-8286-866105483249/ZK.%E4%BA%BA%E5%B7%A5%E5%91%BC%E5%90%B8%E5%99%A8%E5%85%A5%E9%96%80%E7%B7%A8%EF%BC%88Dr%E7%9F%B3%E4%BA%95%EF%BC%89.mp4?table=block&id=26a0aee4-7d1c-80c3-b9dc-c03809ad5840&spaceId=5c974ed8-5e14-4b70-81a9-9b92bf3be535&expirationTimestamp=1774260000000&signature=iqaV_SuHta6ogsOsUmwiFrnzEwPq_5URbNi2qnV2H78&downloadName=ZK.%E4%BA%BA%E5%B7%A5%E5%91%BC%E5%90%B8%E5%99%A8%E5%85%A5%E9%96%80%E7%B7%A8%EF%BC%88Dr%E7%9F%B3%E4%BA%95%EF%BC%89.mp4" target="_blank" rel="noopener" class="video-link">人工呼吸器基礎</a>
+                    </label>
+                  </li>
+                  <li>
+                    <label class="video-check-label">
+                      <input type="checkbox" class="video-check">
+                      <a href="https://file.notion.so/f/f/5c974ed8-5e14-4b70-81a9-9b92bf3be535/1a303e2f-b0a5-403d-9ba3-8a6d13e0339d/ZH.%E7%A5%9E%E7%B5%8C%E9%9B%86%E4%B8%AD%E6%B2%BB%E7%99%82%EF%BC%88%E8%97%A4%E6%9C%AC%E5%85%88%E7%94%9F%EF%BC%89.mp4?table=block&id=26a0aee4-7d1c-80b0-8277-d1479738e5d0&spaceId=5c974ed8-5e14-4b70-81a9-9b92bf3be535&expirationTimestamp=1774260000000&signature=lOqrJYcuzeM5CUgcxO4Zs_1rr5nJNjyi0G-WQ5zuDIU&downloadName=ZH.%E7%A5%9E%E7%B5%8C%E9%9B%86%E4%B8%AD%E6%B2%BB%E7%99%82%EF%BC%88%E8%97%A4%E6%9C%AC%E5%85%88%E7%94%9F%EF%BC%89.mp4" target="_blank" rel="noopener" class="video-link">Neuro ICU</a>
+                    </label>
+                  </li>
+                  <li>
+                    <label class="video-check-label">
+                      <input type="checkbox" class="video-check">
+                      <a href="https://file.notion.so/f/f/5c974ed8-5e14-4b70-81a9-9b92bf3be535/9ccfc8bf-a81b-4a54-9293-aee77a8300ef/A.%E3%83%92%E3%83%A5%EF%BC%8D%E3%83%9E%E3%83%B3%E3%82%B1%E3%82%A2%E5%8B%89%E5%BC%B7%E4%BC%9A-20220816.mp4?table=block&id=26a0aee4-7d1c-804e-bf70-fc41d20c8b3f&spaceId=5c974ed8-5e14-4b70-81a9-9b92bf3be535&expirationTimestamp=1774260000000&signature=hMtkY-c3Al3-SKwlUcNrXRPaH2AprquaN9Scm5M29Mk&downloadName=A.%E3%83%92%E3%83%A5%EF%BC%8D%E3%83%9E%E3%83%B3%E3%82%B1%E3%82%A2%E5%8B%89%E5%BC%B7%E4%BC%9A-20220816.mp4" target="_blank" rel="noopener" class="video-link">ヒューマンケア</a>
+                    </label>
+                  </li>
+                  <li>
+                    <label class="video-check-label">
+                      <input type="checkbox" class="video-check">
+                      <a href="https://file.notion.so/f/f/5c974ed8-5e14-4b70-81a9-9b92bf3be535/49e0eb22-f58c-4f6f-a069-5fc3c6663af8/ZN.%E7%B7%8A%E6%80%A5ACP(JSICM2024).mp4?table=block&id=26a0aee4-7d1c-8081-b463-f37ed18b5835&spaceId=5c974ed8-5e14-4b70-81a9-9b92bf3be535&expirationTimestamp=1774260000000&signature=KKG3A26q53lFUrdP2j2E3u6jo9rOznIkE1VQLJ62S7o&downloadName=ZN.%E7%B7%8A%E6%80%A5ACP%28JSICM2024%29.mp4" target="_blank" rel="noopener" class="video-link">緊急ACP</a>
+                    </label>
+                  </li>
                 </ul>
+              </div>
+            </div>
+
+            <div class="todo-item">
+              <div class="todo-num">4</div>
+              <div class="todo-body">
+                <strong>ICUルールを熟読</strong>
+                <p>Section 03の内容をローテ開始前に熟読してください。</p>
+                <a href="#rules" class="quiz-btn">Section 03 へ</a>
               </div>
             </div>
 
@@ -155,12 +203,13 @@ ICUチームへ一言：</pre>
         </div>
 
         <!-- スタッフ紹介 (site-config.js の staff で管理) -->
-        <div class="card reveal">
+        <div class="card reveal" id="ql-staff">
           <div class="card-inner">
             <h3 class="card-section-title">スタッフ紹介</h3>
             <div class="staff-grid" id="staffGrid">
               <!-- site-config.js から JS で生成 -->
             </div>
+            <a href="pages/icu-team.html" style="display:inline-block;margin-top:14px;font-size:0.875rem;font-weight:700;color:var(--blue);text-decoration:none;border-bottom:1px dashed var(--blue);">ICUのチーム編成はこちら →</a>
           </div>
         </div>
 
@@ -171,102 +220,84 @@ ICUチームへ一言：</pre>
       <!-- ② スケジュール               -->
       <!-- ──────────────────────────── -->
       <section id="schedule">
-        <div class="section-header-bar">
-          <span class="shb-icon">&#x25C6;</span> ② スケジュール
+        <div class="sec-head">
+          <span class="sec-en">SECTION 02 · SCHEDULE</span>
+          <h2 class="sec-title">スケジュール</h2>
         </div>
 
         <!-- 日勤タイムライン -->
-        <div class="card card-timeline reveal">
-          <h3 class="card-title-plain">日勤の1日の流れ</h3>
+        <div class="card card-timeline reveal" id="ql-weekday">
+          <h3 class="card-title-plain">平日の1日の流れ</h3>
           <div class="timeline">
-            <div class="tl-row">
-              <div class="tl-left"><div class="tl-time">〜<br>7:00</div></div>
+            <div class="tl-row tl-linked">
+              <div class="tl-left"><div class="tl-time">7:00</div></div>
               <div class="tl-bar"></div>
-              <div class="tl-text"><a href="pages/schedule-morning-prep.html"><strong>朝カンファレンス前の準備</strong></a>担当患者のエコー・バイタル確認、夜勤Nsへ夜間経過を聴取</div>
+              <a href="pages/schedule-morning-prep.html" class="tl-text"><strong>朝カンファレンス前の準備</strong>担当患者のエコー・バイタル確認、夜勤Nsへ夜間経過を聴取</a>
             </div>
-            <div class="tl-row tl-sub">
+            <div class="tl-row tl-linked">
               <div class="tl-left"><div class="tl-time">8:15</div></div>
               <div class="tl-bar"></div>
-              <div class="tl-text"><a href="pages/schedule-renal-conf.html"><strong>腎臓内科カンファレンス</strong></a>腎内主科・コンサルト患者のプレゼン（土日祝休み）</div>
+              <a href="pages/schedule-renal-conf.html" class="tl-text"><strong>腎臓内科カンファレンス</strong>腎内主科・コンサルト患者のプレゼン（土日祝休み）</a>
             </div>
-            <div class="tl-row">
+            <div class="tl-row tl-linked">
               <div class="tl-left"><div class="tl-time">8:30</div></div>
               <div class="tl-bar"></div>
-              <div class="tl-text"><a href="pages/schedule-icu-conf.html"><strong>ICUカンファレンス</strong></a>多職種（Ns・薬剤師・栄養士・PT・スタッフ医師）によるBy-systemプレゼン。1患者あたり5〜7分（土日祝休み）</div>
+              <a href="pages/schedule-icu-conf.html" class="tl-text"><strong>ICUカンファレンス</strong>多職種（Ns・薬剤師・栄養士・PT・スタッフ医師）によるBy-systemプレゼン。1患者あたり5〜7分（土日祝休み）</a>
             </div>
-            <div class="tl-row tl-sub">
+            <div class="tl-row tl-linked">
               <div class="tl-left"><div class="tl-time">9:00</div></div>
               <div class="tl-bar"></div>
-              <div class="tl-text"><a href="pages/schedule-ward-work.html"><strong>病棟業務</strong></a>カンファで決まったオーダー入力・Daily Chart記載・手技（インチャージNsと事前に時間調整）</div>
+              <a href="pages/schedule-ward-work.html" class="tl-text"><strong>病棟業務</strong>カンファで決まったオーダー入力・Daily Chart記載・手技（インチャージNsと事前に時間調整）</a>
             </div>
-            <div class="tl-row tl-sub">
+            <div class="tl-row">
               <div class="tl-left"><div class="tl-time">12:00</div></div>
               <div class="tl-bar"></div>
-              <div class="tl-text"><a href="pages/schedule-half-day.html"><strong>半日出勤の日は退勤</strong></a>病棟長・日勤スタッフに申し送りして帰宅</div>
+              <div class="tl-text"><strong>半日出勤の日は退勤</strong>病棟長・日勤スタッフに申し送りして帰宅</div>
             </div>
             <div class="tl-row">
               <div class="tl-left"><div class="tl-time">16:00</div></div>
               <div class="tl-bar"></div>
-              <div class="tl-text"><a href="pages/schedule-day-handover.html"><strong>夜勤への申し送り</strong></a>日勤帯でやったこと・夜間の依頼事項を中心にプレゼン。申し送り終了で業務終了</div>
+              <div class="tl-text"><strong>夜勤への申し送り</strong>日勤帯でやったこと・夜間の依頼事項を中心にプレゼン。申し送り終了で業務終了</div>
             </div>
           </div>
         </div>
 
-        <!-- 夜勤タイムライン -->
-        <div class="card card-timeline reveal">
-          <h3 class="card-title-plain">夜勤の1日の流れ</h3>
+        <!-- 土日祝日タイムライン -->
+        <div class="card card-timeline reveal" id="ql-holiday">
+          <h3 class="card-title-plain">土日祝日の1日の流れ</h3>
           <div class="timeline">
             <div class="tl-row">
-              <div class="tl-left"><div class="tl-time">16:00</div></div>
+              <div class="tl-left"><div class="tl-time">8:00</div></div>
               <div class="tl-bar"></div>
-              <div class="tl-text"><a href="pages/schedule-night-start.html"><strong>日勤からの申し送り</strong></a>日勤帯でやったこと・夜間の依頼事項を確認。その後インチャージNsと患者毎のToDoを確認</div>
-            </div>
-            <div class="tl-row tl-sub">
-              <div class="tl-left"><div class="tl-time">夜間</div></div>
-              <div class="tl-bar"></div>
-              <div class="tl-text"><a href="pages/schedule-oncall.html"><strong>随時対応</strong></a>緊急入室・急変・依頼対応。夜間入室の手技参加を希望する場合は事前に当直医に相談</div>
+              <div class="tl-text"><strong>夜勤からの申し送り</strong>その後、勤務開始</div>
             </div>
             <div class="tl-row">
-              <div class="tl-left"><div class="tl-time">〜<br>7:00</div></div>
+              <div class="tl-left"><div class="tl-time">12:00</div></div>
               <div class="tl-bar"></div>
-              <div class="tl-text"><a href="pages/schedule-morning-handover.html"><strong>日勤への申し送り</strong></a>患者リストの「夜勤帯の変化」を記載後、日勤スタッフへ申し送り</div>
+              <div class="tl-text"><strong>スタッフへ申し送り</strong>勤務が終わり次第、打刻をして帰宅しましょう</div>
             </div>
           </div>
         </div>
 
         <!-- 週間スケジュール -->
-        <div class="card reveal">
-          <div class="card-inner">
-            <h3 class="card-section-title">週間スケジュール</h3>
-            <table class="schedule-table">
-              <thead>
-                <tr><th>曜日</th><th>定期イベント</th><th>備考</th></tr>
-              </thead>
-              <tbody>
-                <tr><td>月〜金</td><td>腎臓内科カンファレンス（8:15〜）</td><td>腎内主科・コンサルト患者が対象</td></tr>
-                <tr><td>月〜金</td><td>ICUカンファレンス（8:30〜）</td><td>多職種参加、土日祝は休み</td></tr>
-                <tr><td>木曜</td><td>定期処方オーダー開始日</td><td>常用薬が対象</td></tr>
-                <tr><td>土日祝</td><td>朝8時から申し送りスタート</td><td>カンファレンスなし</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <!-- 当直のルール -->
-        <div class="card reveal">
-          <div class="card-inner">
-            <h3 class="card-section-title">当直のルール・引き継ぎ方法</h3>
-            <ul>
-              <li>申し送りは「日勤帯でやったこと」「夜間の依頼事項」を中心に簡潔に</li>
-              <li>夜間入室の手技に参加したい場合は、事前に当直医へ相談（「0時までならコールして」等も対応可）</li>
-              <li>カルテ記載は当直医へ引き継ぎ可。手技が終わったら速やかに帰宅</li>
-              <li>Burn outしない程度に楽しみながら勉強してください</li>
-            </ul>
+        <div class="card card-timeline reveal" id="ql-weekly">
+          <h3 class="card-title-plain">週間スケジュール</h3>
+          <div class="timeline">
+            <div class="tl-row tl-linked">
+              <div class="tl-left"><div class="tl-time">月</div></div>
+              <div class="tl-bar"></div>
+              <a href="pages/schedule-weekly-textbook.html" class="tl-text"><strong>（隔週）海外教科書勉強会</strong></a>
+            </div>
+            <div class="tl-row tl-linked">
+              <div class="tl-left"><div class="tl-time">水</div></div>
+              <div class="tl-bar"></div>
+              <a href="pages/schedule-weekly-id-icu.html" class="tl-text"><strong>(13:30) ID×ICUカンファレンス</strong>感染症科 森先生から直接レクチャーいただく貴重な機会！</a>
+            </div>
           </div>
         </div>
 
         <!-- 半日出勤制度 -->
-        <div class="card reveal">
+        <div class="card reveal" id="ql-halfday">
           <div class="card-inner">
             <h3 class="card-section-title">半日出勤制度・時間外管理</h3>
             <ul>
@@ -285,161 +316,15 @@ ICUチームへ一言：</pre>
       <!-- ③ ICUのルール                -->
       <!-- ──────────────────────────── -->
       <section id="rules">
-        <div class="section-header-bar">
-          <span class="shb-icon">&#x25C6;</span> ③ ICUのルール
+        <div class="sec-head">
+          <span class="sec-en">SECTION 03 · RULES</span>
+          <h2 class="sec-title">ICUのルール</h2>
         </div>
 
-        <!-- 前菜4点 -->
-        <h4 class="subsection-title reveal">前菜4点</h4>
-        <div class="card-grid card-grid--2 reveal">
-
-          <div class="card">
-            <div class="card-inner">
-              <div class="rule-badge">前菜①</div>
-              <h3 class="rule-title">時間外申請のルール</h3>
-              <p class="rule-body">月80時間以内の残業時間厳守。業務が時間内に終わる日は申し送り終了時に打刻。自己研鑽目的で残ることは歓迎だが、その分の時間外申請は不可。</p>
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="card-inner">
-              <div class="rule-badge">前菜②</div>
-              <h3 class="rule-title">手技は30分ルール</h3>
-              <p class="rule-body">タイムアウトから30分以内に完遂できない場合は必ず術者を交代。緊急性が高い場合は30分前でも交代指示あり。患者負担・看護師の残業・安全のため厳守。</p>
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="card-inner">
-              <div class="rule-badge">前菜③</div>
-              <h3 class="rule-title">定期処方とバンコマイシン</h3>
-              <p class="rule-body">定期処方開始日は<strong>木曜日</strong>（2024年12月〜）。常用薬が対象。バンコマイシン血中濃度測定日は当日オーダーを入れない（急激な腎機能低下に備えるため）。</p>
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="card-inner">
-              <div class="rule-badge">前菜④</div>
-              <h3 class="rule-title">ICUセットから展開してオーダー</h3>
-              <p class="rule-body">注射・内服薬剤は可能な限りICUセットから展開してオーダー。オーダーエラー防止のため。「こんなセットがあれば」という提案もスタッフへどうぞ。</p>
-            </div>
-          </div>
-
-        </div><!-- /.card-grid -->
-
-        <!-- 主食10点 -->
-        <h4 class="subsection-title reveal">主食10点</h4>
-        <div class="rules-list reveal">
-
-          <div class="rule-item">
-            <div class="rule-num">其の1</div>
-            <div class="rule-content">
-              <strong>看護師の声は"神の声"</strong>
-              <p>患者の一番近くにいてくれるのが看護師さん。「おかしい」と感じる時はたいてい本当におかしい。それを肝に銘じましょう。</p>
-            </div>
-          </div>
-
-          <div class="rule-item">
-            <div class="rule-num">其の2</div>
-            <div class="rule-content">
-              <strong>感染防御は"超"徹底！</strong>
-              <p>COVID-19だけでなく、多剤耐性菌・院内感染のリスクが高い。患者・自分・職場のみんなを守るために感染防御を徹底しましょう。</p>
-            </div>
-          </div>
-
-          <div class="rule-item">
-            <div class="rule-num">其の3</div>
-            <div class="rule-content">
-              <strong>異変があったら上級医にすぐ報告</strong>
-              <p>集中治療は初めてで分からなくて当然。何か変・疑問に思ったらすぐ上に報告。3分後には急変しているのはよくある話。伝書鳩で怒る先生はいません。</p>
-            </div>
-          </div>
-
-          <div class="rule-item">
-            <div class="rule-num">其の4</div>
-            <div class="rule-content">
-              <strong>主科・担当医には逐一全て報告</strong>
-              <p>画像検査・抗菌薬変更など、主科の担当医には全て報告・相談。信頼関係の構築につながります。例：脳外科患者で血便 → まず脳外科担当医へ連絡 → CT・消化器内科へ。</p>
-            </div>
-          </div>
-
-          <div class="rule-item">
-            <div class="rule-num">其の5</div>
-            <div class="rule-content">
-              <strong>手技は成功よりも"提案"できる方が大事</strong>
-              <p>「患者の呼吸状態から気管挿管が必要」「今の管理にCVラインが必要」など、適応を提案できることがより重要。手技の成功だけを目標にしない。</p>
-            </div>
-          </div>
-
-          <div class="rule-item">
-            <div class="rule-num">其の6</div>
-            <div class="rule-content">
-              <strong>オーダー類は午前中に終わらせよう</strong>
-              <p>ルーチン業務5点：①血液検査チェック ②胸部写真チェック ③点滴オーダー ④内服オーダー ⑤コメントオーダー確認。午後は術後入室・緊急入院もあるので昼食前に完了。</p>
-            </div>
-          </div>
-
-          <div class="rule-item">
-            <div class="rule-num">其の7</div>
-            <div class="rule-content">
-              <strong>カルテは朝回診後の内容でOK</strong>
-              <p>ICUカルテはBy-systemで量が多いが、「朝回診終了時」の内容記載でOK。夕方の変化はスタッフが記載。ただし、その日の変化の把握・知識整理は必ず行うこと。</p>
-            </div>
-          </div>
-
-          <div class="rule-item">
-            <div class="rule-num">其の8</div>
-            <div class="rule-content">
-              <strong>移動を伴う検査・手技はまず看護師と相談</strong>
-              <p>急に移動・手技はできません。流れ：① インチャージNsにタイミング相談 → ② 検査室に連絡・時間調整 → ③ インチャージNsに再報告。</p>
-            </div>
-          </div>
-
-          <div class="rule-item">
-            <div class="rule-num">其の9</div>
-            <div class="rule-content">
-              <strong>自分の担当患者でなくても対応しよう</strong>
-              <p>急変・イベントが起きたら担当外でもベッドへ駆けつけ一緒に対応。院内急変でスタッフが病棟へ行く時も同行して、ICUローテ後も使える武器を増やしましょう。</p>
-            </div>
-          </div>
-
-          <div class="rule-item">
-            <div class="rule-num">其の10</div>
-            <div class="rule-content">
-              <strong>先生たちは医師だが"社会人2年目"</strong>
-              <p>看護師・コメディカルの方々は丁寧に話してくれるが、ほぼ全員が先輩・上司。そのことを肝に銘じると、自然と自分自身が働きやすい環境ができてくるはず。</p>
-            </div>
-          </div>
-
-        </div><!-- /.rules-list -->
-
-        <!-- +α -->
         <div class="card reveal">
           <div class="card-inner">
-            <h3 class="card-section-title">＋α　愛されローテーターになるために</h3>
-            <div class="alpha-list">
-              <div class="alpha-item">
-                <span class="alpha-num">①</span>
-                <div>
-                  <strong>名前を覚えよう、名前で呼ぼう</strong>
-                  <p>「看護師さん」ではなく「〇〇さん」と呼ぶようにしましょう</p>
-                </div>
-              </div>
-              <div class="alpha-item">
-                <span class="alpha-num">②</span>
-                <div>
-                  <strong>何もできなくていいから、まず駆けつけよう</strong>
-                  <p>"何かあった時にすぐ来てくれる"は本当に大切です</p>
-                </div>
-              </div>
-              <div class="alpha-item">
-                <span class="alpha-num">③</span>
-                <div>
-                  <strong>電話より、病棟に行って直接伝えよう</strong>
-                  <p>直接なら相手も相談しやすいし、顔も覚えてもらえる。良いことづくし</p>
-                </div>
-              </div>
-            </div>
+            <p style="font-size:0.875rem;color:var(--muted);line-height:1.8;">ICUでは他の内科・外科病棟とは異なる様々なルールがあります。ルールを間違えると重大なインシデント・アクシデントにつながる可能性がありますので、ローテーション開始前に必ず確認してください。</p>
+            <a href="pages/rules.html" style="display:inline-block;margin-top:14px;font-size:0.875rem;font-weight:700;color:var(--blue);text-decoration:none;border-bottom:1px dashed var(--blue);">ICUのルール詳細を見る →</a>
           </div>
         </div>
 
@@ -450,81 +335,66 @@ ICUチームへ一言：</pre>
       <!-- ④ 学習・評価                 -->
       <!-- ──────────────────────────── -->
       <section id="learning">
-        <div class="section-header-bar">
-          <span class="shb-icon">&#x25C6;</span> ④ 学習・評価
+        <div class="sec-head">
+          <span class="sec-en">SECTION 04 · LEARNING</span>
+          <h2 class="sec-title">学習・評価</h2>
         </div>
 
         <!-- ICU PASSPORT -->
-        <div class="card reveal">
+        <a href="pages/icu-passport.html" id="ql-passport" class="card reveal" style="display:block;text-decoration:none;color:inherit;cursor:pointer;">
           <div class="card-inner">
             <h3 class="card-section-title">ICU PASSPORT（レクチャーシート）</h3>
-            <p style="font-size:.875rem;color:var(--color-text-muted);margin-bottom:14px">ローテーション開始初週に名前入りのレクチャーシートを配布します。各レクチャーの担当スタッフに積極的に声をかけてください。<strong>開始から1〜2週間以内に全レクチャー修了</strong>を目指しましょう！</p>
-            <ul>
-              <li>表面に名前を記入し、裏面のレクチャー一覧に沿って受講</li>
-              <li>各レクチャー受講後はスタッフ医師にサインをもらう</li>
-              <li>全レクチャー修了後は<strong>関谷先生に声をかける → 豪華賞品あり &#x1F525;</strong></li>
-              <li>レクチャー以外の臨床の疑問も積極的に質問してOK</li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- 強化パック -->
-        <h4 class="subsection-title reveal">強化パック4種</h4>
-        <div class="card-grid card-grid--2 reveal">
-
-          <div class="card">
-            <div class="card-strip" style="background:var(--color-respiratory-bg);color:var(--color-respiratory)">
-              ラインパック
-            </div>
-            <div class="card-inner">
-              <p style="font-size:.875rem;color:var(--color-text-muted)">CV・PICC・バスキャスのいずれかをローテ中に<strong>10本以上挿入</strong>。挿入後に監督医師にサイン。10本達成で豪華賞品 &#x1F525;</p>
+            <p style="font-size:.875rem;color:var(--muted);margin-bottom:14px">ICUローテーション中は学習のモチベーションを高める4種類のミッションを用意。詳細はこちらから</p>
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;">
+              <img src="images/1.png" alt="ICU PASSPORT 1" style="width:100%;border-radius:6px;border:1px solid var(--border);">
+              <img src="images/3.png" alt="ICU PASSPORT 3" style="width:100%;border-radius:6px;border:1px solid var(--border);">
+              <img src="images/5.png" alt="ICU PASSPORT 5" style="width:100%;border-radius:6px;border:1px solid var(--border);">
+              <img src="images/7.png" alt="ICU PASSPORT 7" style="width:100%;border-radius:6px;border:1px solid var(--border);">
             </div>
           </div>
+        </a>
 
-          <div class="card">
-            <div class="card-strip" style="background:var(--color-cardiac-bg);color:var(--color-cardiac)">
-              疾患パック
-            </div>
-            <div class="card-inner">
-              <p style="font-size:.875rem;color:var(--color-text-muted)">経験が推奨される10疾患/手技の担当を目指す。退室前にスタッフにサイン。<strong>8/10症例</strong>達成で豪華賞品 &#x1F525;</p>
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="card-strip" style="background:var(--color-neuro-bg);color:var(--color-neuro)">
-              相談PHSパック
-            </div>
-            <div class="card-inner">
-              <p style="font-size:.875rem;color:var(--color-text-muted)">ICU相談PHSへの対応（病棟同行）・緊急入室への立ち会いを目指す。<strong>5症例</strong>経験で豪華賞品 &#x1F525;</p>
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="card-strip" style="background:#FFF8E0;color:#8B6800">
-              コンプリート賞
-            </div>
-            <div class="card-inner">
-              <p style="font-size:.875rem;color:var(--color-text-muted)">上記3つ＋ICU PASSPORTをすべてコンプリートした先生には<strong>さらなる豪華賞品</strong>！モチベーション高く頑張りましょう &#x1F525;</p>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- 評価基準 -->
-        <div class="card reveal">
+        <!-- 聖路加ICU動画講座集 -->
+        <a href="pages/video-lectures.html" id="ql-videos" class="card reveal" style="display:block;text-decoration:none;color:inherit;cursor:pointer;">
           <div class="card-inner">
-            <h3 class="card-section-title">中間評価・最終評価</h3>
-            <ul>
-              <li><strong>中間評価</strong>：ローテーション中間地点でスタッフ医師と面談（時間外勤務確認含む）</li>
-              <li><strong>最終評価</strong>：スタッフ医師による総合評価</li>
-              <li>評価項目：医学知識・手技の適応判断・チームワーク・プロフェッショナリズム・プレゼン能力</li>
-              <li>自己振り返りシートの提出</li>
-            </ul>
+            <h3 class="card-section-title">聖路加ICU動画講座集</h3>
+            <p style="font-size:.875rem;color:var(--muted);">学びたい内容を、学びたい時に、学びたいだけ。特設サイトはこちらから</p>
+          </div>
+        </a>
+
+        <!-- ID×ICU Conference 動画集 -->
+        <a href="pages/schedule-weekly-id-icu.html" id="ql-idicu" class="card reveal" style="display:block;text-decoration:none;color:inherit;cursor:pointer;">
+          <div class="card-inner">
+            <h3 class="card-section-title">ID×ICU Conference 動画集</h3>
+            <p style="font-size:.875rem;color:var(--muted);">感染症科 森先生による週1レクチャーの録画アーカイブです。</p>
+          </div>
+        </a>
+
+        <!-- ICUデジタル資料 -->
+        <div class="card reveal" id="ql-digital">
+          <div class="card-inner">
+            <h3 class="card-section-title">ICUデジタル資料</h3>
+            <p style="font-size:.875rem;color:var(--muted);">Teams内の「ICUの歩き方デジタル」内資料</p>
           </div>
         </div>
+
+        <!-- ICUコアカン -->
+        <a href="pages/icu-core-conf.html" id="ql-coreconf" class="card reveal" style="display:block;text-decoration:none;color:inherit;cursor:pointer;">
+          <div class="card-inner">
+            <h3 class="card-section-title">ICUコアカン</h3>
+            <p style="font-size:.875rem;color:var(--muted);margin-bottom:14px;">ICUカンファレンスで使用するBy Systemプレゼンテーションの型を学びましょう。</p>
+            <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;">
+              <img src="images/9.png" alt="ICUコアカン 1" style="width:100%;border-radius:6px;border:1px solid var(--border);">
+              <img src="images/10.png" alt="ICUコアカン 2" style="width:100%;border-radius:6px;border:1px solid var(--border);">
+              <img src="images/11.png" alt="ICUコアカン 3" style="width:100%;border-radius:6px;border:1px solid var(--border);">
+              <img src="images/12.png" alt="ICUコアカン 4" style="width:100%;border-radius:6px;border:1px solid var(--border);">
+              <img src="images/13.png" alt="ICUコアカン 5" style="width:100%;border-radius:6px;border:1px solid var(--border);">
+            </div>
+          </div>
+        </a>
 
         <!-- 自己学習プラン -->
-        <div class="card reveal">
+        <div class="card reveal" id="ql-studyplan">
           <div class="card-inner">
             <h3 class="card-section-title">自己学習プラン</h3>
             <div class="learning-flow">
@@ -558,8 +428,9 @@ ICUチームへ一言：</pre>
       <!-- ⑤ リソース                   -->
       <!-- ──────────────────────────── -->
       <section id="resources">
-        <div class="section-header-bar">
-          <span class="shb-icon">&#x25C6;</span> ⑤ リソース
+        <div class="sec-head">
+          <span class="sec-en">SECTION 05 · RESOURCES</span>
+          <h2 class="sec-title">リソース</h2>
         </div>
 
         <div class="card-grid reveal">
@@ -568,16 +439,22 @@ ICUチームへ一言：</pre>
             <h3 class="card-title-resource">推奨教科書</h3>
             <ul class="resource-list">
               <li>
-                <div class="resource-name">ICU Book（Marino）<span class="badge badge-must">必読</span></div>
-                <div class="resource-desc">集中治療の基本を網羅した定番教科書</div>
+                <a href="#" class="resource-item">
+                  <div class="resource-name">ICU Book（Marino）<span class="badge badge-must">必読</span></div>
+                  <div class="resource-desc">集中治療の基本を網羅した定番教科書</div>
+                </a>
               </li>
               <li>
-                <div class="resource-name">集中治療医学テキスト</div>
-                <div class="resource-desc">日本集中治療医学会の標準テキスト</div>
+                <a href="#" class="resource-item">
+                  <div class="resource-name">集中治療医学テキスト</div>
+                  <div class="resource-desc">日本集中治療医学会の標準テキスト</div>
+                </a>
               </li>
               <li>
-                <div class="resource-name">Up To Date<span class="badge badge-online">オンライン</span></div>
-                <div class="resource-desc">エビデンスに基づく臨床情報</div>
+                <a href="https://www.uptodate.com/" target="_blank" rel="noopener" class="resource-item">
+                  <div class="resource-name">Up To Date<span class="badge badge-online">オンライン</span></div>
+                  <div class="resource-desc">エビデンスに基づく臨床情報</div>
+                </a>
               </li>
             </ul>
           </div>
@@ -586,16 +463,22 @@ ICUチームへ一言：</pre>
             <h3 class="card-title-resource">主要ガイドライン</h3>
             <ul class="resource-list">
               <li>
-                <div class="resource-name">日本版敗血症診療ガイドライン（J-SSCG）<span class="badge badge-important">重要</span></div>
-                <div class="resource-desc">敗血症の診断・治療の標準</div>
+                <a href="#" class="resource-item">
+                  <div class="resource-name">日本版敗血症診療ガイドライン（J-SSCG）<span class="badge badge-important">重要</span></div>
+                  <div class="resource-desc">敗血症の診断・治療の標準</div>
+                </a>
               </li>
               <li>
-                <div class="resource-name">ARDS診療ガイドライン</div>
-                <div class="resource-desc">急性呼吸窮迫症候群の管理</div>
+                <a href="#" class="resource-item">
+                  <div class="resource-name">ARDS診療ガイドライン</div>
+                  <div class="resource-desc">急性呼吸窮迫症候群の管理</div>
+                </a>
               </li>
               <li>
-                <div class="resource-name">PADISガイドライン</div>
-                <div class="resource-desc">鎮痛・鎮静・せん妄管理</div>
+                <a href="#" class="resource-item">
+                  <div class="resource-name">PADISガイドライン</div>
+                  <div class="resource-desc">鎮痛・鎮静・せん妄管理</div>
+                </a>
               </li>
             </ul>
           </div>
@@ -604,16 +487,22 @@ ICUチームへ一言：</pre>
             <h3 class="card-title-resource">オンラインリソース</h3>
             <ul class="resource-list">
               <li>
-                <div class="resource-name">IBCC（Internet Book of Critical Care）<span class="badge badge-recommend">推奨</span></div>
-                <div class="resource-desc">無料で読める包括的リソース</div>
+                <a href="https://emcrit.org/ibcc/toc/" target="_blank" rel="noopener" class="resource-item">
+                  <div class="resource-name">IBCC（Internet Book of Critical Care）<span class="badge badge-recommend">推奨</span></div>
+                  <div class="resource-desc">無料で読める包括的リソース</div>
+                </a>
               </li>
               <li>
-                <div class="resource-name">Life in the Fast Lane</div>
-                <div class="resource-desc">救急・集中治療の学習サイト</div>
+                <a href="https://litfl.com/" target="_blank" rel="noopener" class="resource-item">
+                  <div class="resource-name">Life in the Fast Lane</div>
+                  <div class="resource-desc">救急・集中治療の学習サイト</div>
+                </a>
               </li>
               <li>
-                <div class="resource-name">Radiopaedia</div>
-                <div class="resource-desc">画像診断の学習に最適</div>
+                <a href="https://radiopaedia.org/" target="_blank" rel="noopener" class="resource-item">
+                  <div class="resource-name">Radiopaedia</div>
+                  <div class="resource-desc">画像診断の学習に最適</div>
+                </a>
               </li>
             </ul>
           </div>
@@ -622,12 +511,16 @@ ICUチームへ一言：</pre>
             <h3 class="card-title-resource">病院内リソース</h3>
             <ul class="resource-list">
               <li>
-                <div class="resource-name">ICU資料集（Teams）<span class="badge badge-must">必須</span></div>
-                <div class="resource-desc">疑問はここを見れば書いてある最強データベース。ローテ終了前に欲しい資料をGETしておくこと！</div>
+                <a href="#" class="resource-item">
+                  <div class="resource-name">ICU資料集（Teams）<span class="badge badge-must">必須</span></div>
+                  <div class="resource-desc">疑問はここを見れば書いてある最強データベース。ローテ終了前に欲しい資料をGETしておくこと！</div>
+                </a>
               </li>
               <li>
-                <div class="resource-name">ICU動画講座集（50本以上）</div>
-                <div class="resource-desc">Teams内で閲覧可能。ローテ後はアクセス不可になるため、ローテ中に活用しよう</div>
+                <a href="#" class="resource-item">
+                  <div class="resource-name">ICU動画講座集（50本以上）</div>
+                  <div class="resource-desc">Teams内で閲覧可能。ローテ後はアクセス不可になるため、ローテ中に活用しよう</div>
+                </a>
               </li>
             </ul>
           </div>
@@ -636,12 +529,16 @@ ICUチームへ一言：</pre>
             <h3 class="card-title-resource">ポッドキャスト・動画</h3>
             <ul class="resource-list">
               <li>
-                <div class="resource-name">The Crit Care Podcast</div>
-                <div class="resource-desc">集中治療のトピックを毎週配信</div>
+                <a href="https://critcarepodcast.com/" target="_blank" rel="noopener" class="resource-item">
+                  <div class="resource-name">The Crit Care Podcast</div>
+                  <div class="resource-desc">集中治療のトピックを毎週配信</div>
+                </a>
               </li>
               <li>
-                <div class="resource-name">5 Minute ICU</div>
-                <div class="resource-desc">短時間で学べるICUトピック</div>
+                <a href="https://5minuteicu.com/" target="_blank" rel="noopener" class="resource-item">
+                  <div class="resource-name">5 Minute ICU</div>
+                  <div class="resource-desc">短時間で学べるICUトピック</div>
+                </a>
               </li>
             </ul>
           </div>
@@ -650,12 +547,16 @@ ICUチームへ一言：</pre>
             <h3 class="card-title-resource">SNS</h3>
             <ul class="resource-list">
               <li>
-                <div class="resource-name">Instagram（@st.lukes.icu）</div>
-                <div class="resource-desc">聖路加ICUの日常を投稿中。ぜひフォローを！</div>
+                <a href="https://www.instagram.com/st.lukes.icu/" target="_blank" rel="noopener" class="resource-item">
+                  <div class="resource-name">Instagram（@st.lukes.icu）</div>
+                  <div class="resource-desc">聖路加ICUの日常を投稿中。ぜひフォローを！</div>
+                </a>
               </li>
               <li>
-                <div class="resource-name">Facebook（St. Luke's ICU）</div>
-                <div class="resource-desc">最新情報はFacebookでも発信中</div>
+                <a href="https://www.facebook.com/stlukesicu/" target="_blank" rel="noopener" class="resource-item">
+                  <div class="resource-name">Facebook（St. Luke's ICU）</div>
+                  <div class="resource-desc">最新情報はFacebookでも発信中</div>
+                </a>
               </li>
             </ul>
           </div>
@@ -668,8 +569,9 @@ ICUチームへ一言：</pre>
       <!-- ⑥ FAQ                        -->
       <!-- ──────────────────────────── -->
       <section id="faq">
-        <div class="section-header-bar">
-          <span class="shb-icon">&#x25C6;</span> ⑥ FAQ
+        <div class="sec-head">
+          <span class="sec-en">SECTION 06 · FAQ</span>
+          <h2 class="sec-title">FAQ</h2>
         </div>
 
         <div class="faq-list">
@@ -789,38 +691,37 @@ ICUチームへ一言：</pre>
     <!-- === SIDEBAR === -->
     <aside class="sidebar-column">
 
-      <!-- Widget 1: クイックリンク -->
+      <!-- クイックリンク -->
       <div class="sidebar-widget">
         <div class="sidebar-header">
-          <span>&#x1F9ED; クイックリンク</span>
+          <span>クイックリンク</span>
         </div>
         <div class="quick-links">
-          <a href="#intro"     class="quick-link"><span class="ql-dot" style="background:var(--color-primary)"></span>① はじめに</a>
-          <a href="#schedule"  class="quick-link"><span class="ql-dot" style="background:#0284C7"></span>② スケジュール</a>
-          <a href="#rules"     class="quick-link"><span class="ql-dot" style="background:#DC2626"></span>③ ICUのルール</a>
-          <a href="#learning"  class="quick-link"><span class="ql-dot" style="background:#7C3AED"></span>④ 学習・評価</a>
-          <a href="#resources" class="quick-link"><span class="ql-dot" style="background:#16A34A"></span>⑤ リソース</a>
-          <a href="#faq"       class="quick-link"><span class="ql-dot" style="background:#D97706"></span>⑥ FAQ</a>
-        </div>
-      </div>
+          <a href="#intro" class="quick-link ql-section">はじめに</a>
+          <a href="#ql-vision" class="quick-link ql-sub">聖路加ICUが目指すもの</a>
+          <a href="#ql-goals" class="quick-link ql-sub">ローテーションの目的・学習目標</a>
+          <a href="#ql-todo" class="quick-link ql-sub">【必読】ローテ開始前のTo Do</a>
+          <a href="#ql-staff" class="quick-link ql-sub">スタッフ紹介</a>
 
-      <!-- Widget 2: 緊急連絡先 -->
-      <div class="sidebar-widget">
-        <div class="sidebar-header sidebar-header--secondary">
-          <span>&#x1F4DE; 緊急連絡先</span>
-        </div>
-        <div id="sidebarContacts">
-          <!-- site-config.js の contacts から JS で生成 -->
-        </div>
-      </div>
+          <a href="#schedule" class="quick-link ql-section">スケジュール</a>
+          <a href="#ql-weekday" class="quick-link ql-sub">平日の1日の流れ</a>
+          <a href="#ql-holiday" class="quick-link ql-sub">土日祝日の1日の流れ</a>
+          <a href="#ql-weekly" class="quick-link ql-sub">週間スケジュール</a>
+          <a href="#ql-halfday" class="quick-link ql-sub">半日出勤制度・時間外管理</a>
 
-      <!-- Widget 3: 便利リンク集 -->
-      <div class="sidebar-widget">
-        <div class="sidebar-header sidebar-header--muted">
-          <span>&#x1F517; 便利リンク集</span>
-        </div>
-        <div id="usefulLinks">
-          <!-- site-config.js の usefulLinks から JS で生成 -->
+          <a href="#rules" class="quick-link ql-section">ICUのルール</a>
+
+          <a href="#learning" class="quick-link ql-section">学習・評価</a>
+          <a href="#ql-passport" class="quick-link ql-sub">ICU PASSPORT</a>
+          <a href="#ql-videos" class="quick-link ql-sub">聖路加ICU動画講座集</a>
+          <a href="#ql-idicu" class="quick-link ql-sub">ID×ICU Conference 動画集</a>
+          <a href="#ql-digital" class="quick-link ql-sub">ICUデジタル資料</a>
+          <a href="#ql-coreconf" class="quick-link ql-sub">ICUコアカン</a>
+          <a href="#ql-studyplan" class="quick-link ql-sub">自己学習プラン</a>
+
+          <a href="#resources" class="quick-link ql-section">リソース</a>
+
+          <a href="#faq" class="quick-link ql-section">FAQ</a>
         </div>
       </div>
 
@@ -841,12 +742,12 @@ ICUチームへ一言：</pre>
         <div class="footer-links">
           <h3>クイックリンク</h3>
           <ul>
-            <li><a href="#intro">① はじめに</a></li>
-            <li><a href="#schedule">② スケジュール</a></li>
-            <li><a href="#rules">③ ICUのルール</a></li>
-            <li><a href="#learning">④ 学習・評価</a></li>
-            <li><a href="#resources">⑤ リソース</a></li>
-            <li><a href="#faq">⑥ FAQ</a></li>
+            <li><a href="#intro">はじめに</a></li>
+            <li><a href="#schedule">スケジュール</a></li>
+            <li><a href="#rules">ICUのルール</a></li>
+            <li><a href="#learning">学習・評価</a></li>
+            <li><a href="#resources">リソース</a></li>
+            <li><a href="#faq">FAQ</a></li>
           </ul>
         </div>
       </div>
@@ -857,5 +758,40 @@ ICUチームへ一言：</pre>
   </footer>
 
   <script src="script.js"></script>
+  <script>
+  (function(){
+    var trigger = document.getElementById('heroSearchTrigger');
+    var overlay = document.getElementById('searchOverlay');
+    var close   = document.getElementById('searchOverlayClose');
+    var input   = document.getElementById('heroSearch');
+    var results = document.getElementById('heroSearchResults');
+    if(!trigger||!overlay||!input||!results||typeof SEARCH_INDEX==='undefined') return;
+
+    function openSearch(){ overlay.classList.add('active'); setTimeout(function(){ input.focus(); },100); }
+    function closeSearch(){ overlay.classList.remove('active'); input.value=''; results.innerHTML=''; }
+
+    trigger.addEventListener('click', openSearch);
+    close.addEventListener('click', closeSearch);
+    overlay.addEventListener('click', function(e){ if(e.target===overlay) closeSearch(); });
+    document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeSearch(); });
+
+    input.addEventListener('input', function(){
+      var q = this.value.trim().toLowerCase();
+      if(q.length < 1){ results.innerHTML=''; return; }
+      var tokens = q.split(/\s+/);
+      var matches = SEARCH_INDEX.filter(function(item){
+        var h = (item.title+' '+item.desc+' '+item.keywords).toLowerCase();
+        return tokens.every(function(t){ return h.indexOf(t)!==-1; });
+      });
+      if(matches.length===0){
+        results.innerHTML='<div class="search-overlay-noresult">該当するページが見つかりません</div>';
+      } else {
+        results.innerHTML=matches.map(function(m){
+          return '<a href="'+m.url+'" class="search-overlay-result"><div class="search-overlay-result-title">'+m.title+'</div><div class="search-overlay-result-desc">'+m.desc+'</div></a>';
+        }).join('');
+      }
+    });
+  })();
+  </script>
 </body>
 </html>
