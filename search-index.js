@@ -77,6 +77,10 @@ const SEARCH_INDEX = [
 
   // ── ICU PASSPORT ──
   {"title":"ICU PASSPORT","url":"pages/icu-passport.html","desc":"ローテーション中のレクチャーシート","keywords":"パスポート レクチャーシート 学習 評価 修了 サイン 賞品"},
+  {"title":"ICU PASSPORT レクチャーシート","url":"pages/icu-passport.html#passport-main","desc":"ICU PASSPORT › シート1","keywords":"レクチャー サイン 修了 賞品"},
+  {"title":"10CVCs Challenge Pack","url":"pages/icu-passport.html#passport-cvcs","desc":"ICU PASSPORT › シート2","keywords":"CV PICC バスキャス ライン 10本 手技"},
+  {"title":"TOP-10 ICU Essential Cases Pack","url":"pages/icu-passport.html#passport-cases","desc":"ICU PASSPORT › シート3","keywords":"疾患 10疾患 手技 経験 8症例"},
+  {"title":"5 RRS or ICU Admission Pack","url":"pages/icu-passport.html#passport-rrs","desc":"ICU PASSPORT › シート4","keywords":"RRS 相談PHS 緊急入室 5症例"},
 
   // ── 強化パック ──
   {"title":"ラインパック","url":"pages/learning-packs.html","desc":"強化パック4種","keywords":"CV PICC バスキャス ライン 10本 手技"},
@@ -88,6 +92,9 @@ const SEARCH_INDEX = [
   {"title":"朝カンファレンス前の準備","url":"pages/schedule-morning-prep.html","desc":"7:00 日勤スケジュール","keywords":"朝カンファレンス 準備 7:00 日勤 朝"},
   {"title":"日勤への申し送り","url":"pages/schedule-morning-handover.html","desc":"7:00 夜勤→日勤","keywords":"日勤 申し送り 7:00 夜勤 ハンドオーバー 引き継ぎ"},
   {"title":"病棟業務","url":"pages/schedule-ward-work.html","desc":"9:00 日勤スケジュール","keywords":"病棟業務 9:00 日勤"},
+  {"title":"ICU入室時のTo Do List","url":"pages/schedule-ward-work.html#ward-admission","desc":"病棟業務 › SECTION 1","keywords":"入室 セット展開 同意書 スコア 採血 レントゲン Admission Daily Chart"},
+  {"title":"ICU退室時のTo Do List","url":"pages/schedule-ward-work.html#ward-discharge","desc":"病棟業務 › SECTION 2","keywords":"退室 内科 外科 デバイス抜去 A-line CVC Foley PRN 酸素コメント 申し送り"},
+  {"title":"ICUカルテに関するSOS","url":"pages/schedule-ward-work.html#ward-karte","desc":"病棟業務 › SECTION 3","keywords":"カルテ ICUセット 同意書 入室時セット 退室時セット オーダー 輸血 血栓予防"},
   {"title":"半日出勤の日は退勤","url":"pages/schedule-half-day.html","desc":"12:00 半日出勤制度","keywords":"半日出勤 退勤 12:00 半日勤務"},
   {"title":"夜勤への申し送り","url":"pages/schedule-day-handover.html","desc":"16:00 日勤→夜勤","keywords":"夜勤 申し送り 16:00 日勤 ハンドオーバー 引き継ぎ"},
   {"title":"日勤からの申し送り","url":"pages/schedule-night-start.html","desc":"16:00 夜勤開始","keywords":"日勤 申し送り 16:00 夜勤 夜勤開始"},
