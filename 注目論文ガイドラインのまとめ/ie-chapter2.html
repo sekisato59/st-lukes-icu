@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IE 診断 | JCS2026 感染性心内膜炎診療ガイドライン</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blue: #2563EB; --blue-light: #EFF6FF;
+      --orange: #EA580C; --green: #16A34A;
+      --red: #DC2626; --yellow: #D97706;
+      --purple: #7C3AED; --purple-light: #F5F3FF; --purple-border: #C4B5FD;
+      --text: #111827; --muted: #6B7280;
+      --border: #E5E7EB; --bg: #F9FAFB; --white: #FFFFFF;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Noto Sans JP', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; font-size: 0.9rem; }
+
+    /* HEADER */
+    .page-hero { background: linear-gradient(135deg, #1E3A5F 0%, #2563EB 100%); color: white; padding: 48px 20px 40px; }
+    .page-hero .label { font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; opacity: 0.7; margin-bottom: 8px; }
+    .page-hero h1 { font-size: 1.6rem; font-weight: 900; line-height: 1.3; margin-bottom: 10px; }
+    .page-hero .subtitle { font-size: 0.82rem; opacity: 0.75; }
+    .badge-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+    .badge { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: 20px; padding: 4px 12px; font-size: 0.72rem; font-weight: 500; }
+
+    /* LAYOUT */
+    .container { max-width: 860px; margin: 0 auto; padding: 32px 20px 80px; }
+
+    /* LEGEND */
+    .legend { display: flex; gap: 16px; flex-wrap: wrap; background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 12px 18px; margin-bottom: 28px; font-size: 0.78rem; color: var(--muted); }
+    .legend-item { display: flex; align-items: center; gap: 6px; }
+    .legend-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+
+    /* STEP HEADERS */
+    .step-header { font-size: 1.05rem; font-weight: 900; color: var(--text); margin: 40px 0 14px; padding-left: 14px; border-left: 4px solid var(--blue); line-height: 1.4; }
+    .step-header .step-label { color: var(--blue); font-size: 0.68rem; letter-spacing: 0.12em; font-weight: 700; display: block; margin-bottom: 2px; }
+    .step-header.orange { border-left-color: var(--orange); } .step-header.orange .step-label { color: var(--orange); }
+    .step-header.green  { border-left-color: var(--green);  } .step-header.green  .step-label { color: var(--green);  }
+    .step-header.red    { border-left-color: var(--red);    } .step-header.red    .step-label { color: var(--red);    }
+
+    /* CARDS — CORE */
+    .card { background: var(--white); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 16px; overflow: hidden; }
+    .card-inner { padding: 20px 24px; }
+    .card.blue   { border-left: 4px solid var(--blue);   }
+    .card.orange { border-left: 4px solid var(--orange); }
+    .card.green  { border-left: 4px solid var(--green);  }
+    .card.red    { border-left: 4px solid var(--red);    }
+    .card-title { font-size: 0.9rem; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+
+    /* CARDS — ＋α */
+    .card-alpha { background: var(--purple-light); border: 1px solid var(--purple-border); border-left: 4px solid var(--purple); border-radius: 10px; margin-bottom: 16px; }
+    .card-alpha .card-inner { padding: 18px 24px; }
+    .alpha-header { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+    .alpha-badge { display: inline-flex; align-items: center; background: var(--purple); color: white; font-size: 0.7rem; font-weight: 700; padding: 2px 10px; border-radius: 4px; flex-shrink: 0; }
+    .alpha-title { font-size: 0.88rem; font-weight: 700; color: var(--purple); }
+
+    /* BADGE */
+    .rule-badge { display: inline-block; background: var(--blue); color: white; font-size: 0.68rem; font-weight: 700; padding: 2px 10px; border-radius: 4px; margin-bottom: 8px; }
+    .rule-badge.red { background: var(--red); } .rule-badge.orange { background: var(--orange); }
+    .rule-badge.green { background: var(--green); }
+
+    /* HIGHLIGHT */
+    .mark-red    { background: #FEE2E2; color: #991B1B; padding: 1px 4px; border-radius: 3px; }
+    .mark-yellow { background: #FEF3C7; color: #92400E; padding: 1px 4px; border-radius: 3px; }
+    .mark-green  { background: #D1FAE5; color: #065F46; padding: 1px 4px; border-radius: 3px; }
+    .mark-blue   { background: #DBEAFE; color: #1E40AF; padding: 1px 4px; border-radius: 3px; }
+
+    /* ALERT */
+    .alert { border-radius: 8px; padding: 14px 18px; margin-top: 12px; font-size: 0.85rem; line-height: 1.8; }
+    .alert-red    { background: #FEF2F2; color: #991B1B; border-left: 3px solid var(--red);    }
+    .alert-blue   { background: #EFF6FF; color: #1E40AF; border-left: 3px solid var(--blue);   }
+    .alert-yellow { background: #FFFBEB; color: #92400E; border-left: 3px solid var(--yellow); }
+    .alert-green  { background: #F0FDF4; color: #14532D; border-left: 3px solid var(--green);  }
+
+    /* PROSE */
+    .prose { color: var(--muted); font-size: 0.85rem; line-height: 1.95; margin-bottom: 12px; }
+
+    /* TABLE */
+    .data-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; margin-top: 10px; }
+    .data-table th { background: #F3F4F6; color: var(--text); font-weight: 700; padding: 10px 12px; text-align: left; border-bottom: 2px solid var(--border); }
+    .data-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); color: var(--muted); vertical-align: top; }
+    .data-table tr:last-child td { border-bottom: none; }
+
+    /* FLOW */
+    .flow { display: flex; flex-direction: column; gap: 6px; }
+    .flow-item { display: flex; align-items: flex-start; gap: 12px; background: #F8FAFC; border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; font-size: 0.83rem; }
+    .flow-item .num { background: var(--blue); color: white; border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+    .flow-item .flow-text { color: var(--muted); line-height: 1.7; }
+    .flow-item .flow-text strong { color: var(--text); }
+    .flow-arrow { text-align: center; color: var(--blue); font-size: 1.1rem; padding: 2px 0; }
+
+    /* STAT */
+    .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 8px; }
+    @media (max-width: 520px) { .stat-grid { grid-template-columns: 1fr 1fr; } }
+    .stat-box { background: var(--blue-light); border: 1px solid #BFDBFE; border-radius: 8px; padding: 16px 12px; text-align: center; }
+    .stat-box .stat-val { font-size: 1.5rem; font-weight: 900; color: var(--blue); line-height: 1.2; }
+    .stat-box .stat-label { font-size: 0.7rem; color: var(--muted); margin-top: 6px; line-height: 1.5; }
+
+    /* SUMMARY */
+    .summary-item { border-left: 3px solid var(--blue); padding: 16px 20px; margin-bottom: 12px; background: var(--white); border-radius: 0 8px 8px 0; border-top: 1px solid var(--border); border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .summary-item .si-title { font-size: 0.88rem; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+    .summary-item .si-body  { font-size: 0.83rem; color: var(--muted); line-height: 1.9; }
+    .summary-item.orange { border-left-color: var(--orange); }
+    .summary-item.green  { border-left-color: var(--green);  }
+    .summary-item.red    { border-left-color: var(--red);    }
+    .summary-item.yellow { border-left-color: var(--yellow); }
+
+    .source-note { font-size: 0.72rem; color: #9CA3AF; margin-top: 16px; line-height: 1.7; }
+    p { color: var(--muted); font-size: 0.85rem; line-height: 1.85; }
+    strong { color: var(--text); }
+
+    /* ECHO GRID */
+    .echo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 10px; }
+    @media (max-width: 520px) { .echo-grid { grid-template-columns: 1fr; } }
+    .echo-box { border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; background: #F8FAFC; }
+    .echo-box .echo-name { font-size: 0.8rem; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+    .echo-box .echo-body { font-size: 0.78rem; color: var(--muted); line-height: 1.8; }
+  </style>
+</head>
+<body>
+
+  <div class="page-hero">
+    <div style="max-width:860px;margin:0 auto;">
+      <p class="label">JCS 2026 · 感染性心内膜炎診療ガイドライン</p>
+      <h1>第2章 診断<br><span style="font-size:1rem;font-weight:400;opacity:0.85;">Infective Endocarditis — Diagnosis</span></h1>
+      <p class="subtitle">初期・後期研修医 / 内科系集中治療医 向けサマリー</p>
+      <div class="badge-row">
+        <span class="badge">JCS 2026</span>
+        <span class="badge">2026年3月発行</span>
+        <span class="badge">班長：泉 知里（国循）</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <!-- LEGEND -->
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:var(--blue);"></div>コアコンテンツ（白カード）</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--purple);"></div>＋α 発展的内容（紫カード）</div>
+    </div>
+
+
+    <!-- ═══ SECTION 1: DUKE基準 ═══ -->
+    <h2 class="step-header">
+      <span class="step-label">SECTION 1</span>
+      Duke-ISCVID 2023 診断基準
+    </h2>
+
+    <div class="card blue">
+      <div class="card-inner">
+        <div class="card-title">診断基準の変遷</div>
+        <p class="prose">
+          IEの臨床診断に用いられる Duke 診断基準は、時代とともに改訂されてきた。
+          最初の基準が 1994 年に発表されて以降、2000 年の修正 Duke 基準、2015 年 ESC 改訂と更新が重ねられ、
+          2023 年に国際心臓血管感染病学会（ISCVID）から <strong>2023 Duke-ISCVID 診断基準</strong>が発表された。
+          本ガイドラインはこの 2023 Duke-ISCVID 基準を採用している。
+        </p>
+        <div class="flow">
+          <div class="flow-item">
+            <div class="num">1</div>
+            <div class="flow-text"><strong>1994年：</strong>初代 Duke 診断基準（大基準2つ＋小基準による臨床分類）</div>
+          </div>
+          <div class="flow-arrow">↓</div>
+          <div class="flow-item">
+            <div class="num">2</div>
+            <div class="flow-text"><strong>2000年：</strong>修正 Duke 基準（CoNS の扱い、エコー基準を修正）</div>
+          </div>
+          <div class="flow-arrow">↓</div>
+          <div class="flow-item">
+            <div class="num">3</div>
+            <div class="flow-text"><strong>2015年：</strong>ESC 修正 Duke 基準（CT・FDG-PET/CT を補助的に導入）</div>
+          </div>
+          <div class="flow-arrow">↓</div>
+          <div class="flow-item">
+            <div class="num" style="background:var(--red);">4</div>
+            <div class="flow-text"><strong>2023年：2023 Duke-ISCVID 基準</strong>（典型的病原体リスト拡大・CT/PET を大基準へ・外科的大基準を新設）<br>感度 <span class="mark-red">84%</span>（修正 Duke 基準 70% → 向上）</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card blue">
+      <div class="card-inner">
+        <div class="card-title">2023 Duke-ISCVID 基準の骨格</div>
+        <p class="prose">
+          診断基準は<strong>病理学的基準</strong>と<strong>臨床的基準</strong>に大別される。
+          病理学的基準（疣腫・手術検体・デバイスから病原体を検出）を満たせば確定診断。
+          臨床現場では病理学的基準の確認を待てないことが多く、<strong>臨床的基準を活用して早期に治療を開始する</strong>。
+        </p>
+        <table class="data-table">
+          <thead>
+            <tr><th>分類</th><th>臨床的基準の組み合わせ</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="mark-red"><strong>確診</strong></span></td>
+              <td>大基準 ×2 ／ または 大基準1＋小基準3 ／ または 小基準 ×5</td>
+            </tr>
+            <tr>
+              <td><span class="mark-yellow"><strong>可能性</strong></span></td>
+              <td>大基準1＋小基準1 ／ または 小基準 ×3</td>
+            </tr>
+            <tr>
+              <td><strong>否定的</strong></td>
+              <td>IEを説明できる代替診断が確定、または抗菌薬4日未満で改善、など</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="alert alert-yellow">
+          <strong>注意：</strong>「可能性」群でも臨床的にIEが疑わしければ <strong>IEとして治療を開始する</strong>。
+          Duke 基準の感度は 84% であり、初回評価で確定できないことは珍しくない。
+          特に人工弁・CIED 例では心エコーの感度が低下するため、臨床的疑いが強ければ<strong>再検査を繰り返す</strong>。
+        </div>
+      </div>
+    </div>
+
+    <div class="card blue">
+      <div class="card-inner">
+        <div class="card-title">3つの大基準と7つの小基準</div>
+        <table class="data-table">
+          <thead><tr><th style="width:40%">大基準（3種）</th><th>主な内容</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><span class="mark-blue"><strong>A. 微生物学的</strong></span></td>
+              <td>典型的IE病原体が2セット以上の血液培養から検出（S. aureus, S. lugdunensis, E. faecalis, HACEK, VGS 等）<br>
+                  または Coxiella / Bartonella / T. whipplei が PCR で検出、抗体価高値</td>
+            </tr>
+            <tr>
+              <td><span class="mark-blue"><strong>B. 画像診断的</strong></span></td>
+              <td>心エコーまたは心臓 CT で疣腫・弁穿孔・弁瘤・膿瘍・仮性瘤・心内瘻孔・新規弁逆流のいずれか<br>
+                  または 18F-FDG PET/CT で代謝異常陽性（術後3か月以降）</td>
+            </tr>
+            <tr>
+              <td><span class="mark-green"><strong>C. 外科的</strong></span>（2023 新設）</td>
+              <td>術中に肉眼で明らかな IE 所見（疣腫・穿孔・膿瘍など）を認める</td>
+            </tr>
+          </tbody>
+        </table>
+        <table class="data-table" style="margin-top:12px;">
+          <thead><tr><th>小基準（7種）</th><th>内容</th></tr></thead>
+          <tbody>
+            <tr><td>A. 素因</td><td>IEの既往、人工弁/弁形成術後、先天性心疾患、中等度以上の弁逆流・狭窄、CIED、注射薬物使用</td></tr>
+            <tr><td>B. 発熱</td><td>38.0℃以上</td></tr>
+            <tr><td>C. 血管現象</td><td>主要動脈塞栓、敗血症性肺梗塞、脳/脾膿瘍、感染性動脈瘤、頭蓋内出血、結膜出血、Janeway病変</td></tr>
+            <tr><td>D. 免疫学的現象</td><td>糸球体腎炎、Osler 結節、Roth 斑、リウマチ因子</td></tr>
+            <tr><td>E. 微生物学的所見</td><td>大基準を満たさない血液培養陽性、または無菌部位からの菌検出</td></tr>
+            <tr><td>F. 画像診断（新設）</td><td>デバイス植込み後3か月以内の FDG-PET/CT 代謝異常</td></tr>
+            <tr><td>G. 身体所見（新設）</td><td>心エコーが使えない場合の新規の弁逆流の心雑音（既存の変化は除く）</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card green">
+      <div class="card-inner">
+        <div class="card-title">診断アルゴリズム（国内運用版）</div>
+        <p class="prose">
+          IE を疑ったら、まず「基本3点セット」を速やかに実施。その後、基準を満たさなくてもIEが否定できなければ追加評価を行う。
+        </p>
+        <div class="flow">
+          <div class="flow-item">
+            <div class="num">1</div>
+            <div class="flow-text"><strong>基本評価（全例）：</strong>臨床所見 ＋ 血液培養 ＋ 心エコー（TTE ± TEE）→ Duke 基準を適用</div>
+          </div>
+          <div class="flow-arrow">↓ 確診でなくても IE が否定できない場合</div>
+          <div class="flow-item">
+            <div class="num">2</div>
+            <div class="flow-text"><strong>基本評価を再検：</strong>血液培養の再提出・心エコーの再検（3〜7日後）</div>
+          </div>
+          <div class="flow-arrow">↓ それでも確定できない場合</div>
+          <div class="flow-item">
+            <div class="num">3</div>
+            <div class="flow-text"><strong>追加評価：</strong>PCR等の微生物学的検査、心臓 CT / 18F-FDG PET/CT、MRI（全身の血管現象・脊椎病変）</div>
+          </div>
+        </div>
+        <div class="alert alert-blue">
+          IEは急速に重症化するため、<strong>確診が得られなくてもIEが疑わしい場合はIEを念頭に治療方針を立てる</strong>ことが重要。
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ═══ SECTION 2: 症状・身体所見 ═══ -->
+    <h2 class="step-header orange">
+      <span class="step-label">SECTION 2</span>
+      症状・身体所見
+    </h2>
+
+    <div class="card orange">
+      <div class="card-inner">
+        <div class="card-title">臨床症状の特徴</div>
+        <p class="prose">
+          IEの臨床像は急性から亜急性・慢性まで幅広い。急性の発熱性疾患として現れることも多いが、
+          悪寒・倦怠感・体重減少などの非特異的症状で経過し診断に難渋する亜急性例も多い。
+          <strong>抗炎症薬の使用で発熱がマスクされることに注意</strong>。
+        </p>
+        <div class="stat-grid">
+          <div class="stat-box">
+            <div class="stat-val">77〜96%</div>
+            <div class="stat-label">発熱<br>（最も頻度の高い症状）</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-val">27%</div>
+            <div class="stat-label">うっ血性心不全<br>合併</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-val">48%</div>
+            <div class="stat-label">新規の心雑音<br>（既存悪化は約20%）</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-val">20〜35%</div>
+            <div class="stat-label">塞栓症<br>（脳・脾・腎など）</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-val">44%</div>
+            <div class="stat-label">筋骨格系症状<br>（関節痛・腰痛等）</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-val">12%</div>
+            <div class="stat-label">伝導異常<br>（I〜III度房室ブロック等）</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card orange">
+      <div class="card-inner">
+        <div class="card-title">皮膚・粘膜所見（Small but Useful）</div>
+        <p class="prose">
+          IEに特徴的な皮膚・粘膜所見は診断の小基準にも含まれる。頻度は低くても確認すべき所見として覚えておく。
+          <span class="mark-yellow"><strong>点状出血が最頻（20〜40%）</strong></span>で、結膜・頬粘膜・口蓋・四肢に現れやすい。
+        </p>
+        <table class="data-table">
+          <thead><tr><th>所見</th><th>頻度</th><th>特徴</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>点状出血・紫斑</strong></td>
+              <td>20〜40%</td>
+              <td>塞栓または免疫複合体機序。結膜・口腔・四肢に多い</td>
+            </tr>
+            <tr>
+              <td><strong>爪の線状出血斑</strong></td>
+              <td>8%</td>
+              <td>爪甲下の縦走する暗赤色線条</td>
+            </tr>
+            <tr>
+              <td><strong>Janeway 病変</strong></td>
+              <td>4〜5%</td>
+              <td>手掌・足底の<span class="mark-green">無痛性</span>紅斑（急性 IE に多い）</td>
+            </tr>
+            <tr>
+              <td><strong>Osler 結節</strong></td>
+              <td>2〜3%</td>
+              <td>指腹・母指球の<span class="mark-red">有痛性</span>皮疹（亜急性 IE に多い）</td>
+            </tr>
+            <tr>
+              <td><strong>Roth 斑</strong></td>
+              <td>2%</td>
+              <td>眼底の白色滲出斑（眼底鏡で確認）</td>
+            </tr>
+            <tr>
+              <td><strong>脾腫</strong></td>
+              <td>11%</td>
+              <td>亜急性 IE での持続的菌血症による</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="alert alert-yellow">
+          <strong>ポイント：</strong>脳卒中が IE の最初の臨床症状となることがある。
+          若年者の原因不明の脳梗塞では、心エコーと血液培養を必ず行う。
+          抗菌薬開始後2週間で塞栓症発症率は経時的に低下する。
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ═══ SECTION 3: 微生物学的検査 ═══ -->
+    <h2 class="step-header green">
+      <span class="step-label">SECTION 3</span>
+      微生物学的検査（血液培養）
+    </h2>
+
+    <div class="card green">
+      <div class="card-inner">
+        <div class="card-title">血液培養の実施方法</div>
+        <p class="prose">
+          血液培養はIEの診断において最重要の検査であり、原因菌の同定と感受性試験のために必須。
+          IEは<strong>持続的な菌血症</strong>を呈するため、発熱・悪寒戦慄のタイミングに関わらず採取してよい。
+          適切に3セット以上採取した場合の陽性率は <span class="mark-green"><strong>96〜98%</strong></span>と高い。
+        </p>
+        <div class="flow">
+          <div class="flow-item">
+            <div class="num">1</div>
+            <div class="flow-text">
+              <strong>3セット以上</strong>提出（好気ボトル＋嫌気ボトルで1セット）<br>
+              敗血症・急性心不全を呈する場合は速やかに最低2セット採取して抗菌薬開始
+            </div>
+          </div>
+          <div class="flow-item">
+            <div class="num">2</div>
+            <div class="flow-text">
+              <strong>複数の穿刺部位</strong>から採取（上肢静脈が原則、カテーテル採血は可能な限り回避）<br>
+              1か所のみの穿刺でも菌の検出率は劣らないが、常在菌汚染の鑑別が困難になる
+            </div>
+          </div>
+          <div class="flow-item">
+            <div class="num">3</div>
+            <div class="flow-text">
+              <strong>培養期間は7日間</strong>で十分（HACEK グループや真菌も検出可能）<br>
+              長期培養は基本的に不要
+            </div>
+          </div>
+        </div>
+        <div class="alert alert-red">
+          <strong>前治療抗菌薬の影響：</strong>すでに抗菌薬が投与されている場合、特に VGS など菌種によっては血液培養の陽性率が低下する。
+          亜急性経過で緊急性がなければ抗菌薬をいったん休薬して採取することを検討。
+        </div>
+      </div>
+    </div>
+
+    <div class="card green">
+      <div class="card-inner">
+        <div class="card-title">血液培養分離菌の汚染率——「陽性」を鵜呑みにしない</div>
+        <p class="prose">
+          血液培養が陽性であっても、菌種によっては高確率で汚染菌である。
+          一方、IEに典型的な菌種が1セットのみ陽性でも、臨床的IEが疑われる患者では診断的価値が高い。
+          <strong>安易に汚染と判断せず、追加培養を検討する</strong>。
+        </p>
+        <table class="data-table">
+          <thead><tr><th>微生物</th><th>汚染率</th><th>臨床的対応</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><em>Staphylococcus aureus</em></td>
+              <td><span class="mark-red"><strong>1%</strong></span></td>
+              <td>陽性なら即IEを疑う。心エコー実施を積極的に検討</td>
+            </tr>
+            <tr>
+              <td><em>Enterococcus</em> spp.</td>
+              <td><span class="mark-yellow"><strong>11%</strong></span></td>
+              <td>IEの可能性が高い。複数セット陽性なら大基準</td>
+            </tr>
+            <tr>
+              <td>Viridans group streptococci（VGS）</td>
+              <td><span class="mark-yellow"><strong>55%</strong></span></td>
+              <td>半数は汚染。複数セット・複数部位での確認が重要</td>
+            </tr>
+            <tr>
+              <td>Coagulase-negative staphylococci（CoNS）</td>
+              <td><span class="mark-red"><strong>82%</strong></span></td>
+              <td>多くは汚染。ただし人工弁感染では重要な病原体</td>
+            </tr>
+            <tr>
+              <td><em>Cutibacterium</em> / <em>Corynebacterium</em> spp.</td>
+              <td>88〜94%</td>
+              <td>ほぼ汚染。IEの原因菌としてはまれ</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ＋α: 培養陰性IE -->
+    <div class="card-alpha">
+      <div class="card-inner">
+        <div class="alpha-header">
+          <span class="alpha-badge">＋α</span>
+          <span class="alpha-title">培養陰性IEの原因菌（診断基準の大基準に含まれる特殊病原体）</span>
+        </div>
+        <p class="prose" style="color:#5B21B6;">
+          通常の血液培養で検出困難な微生物は、診断基準上も特別な扱いを受ける。
+          「血液培養陰性 ＋ 心エコーで疣腫」の場合は、以下の微生物を念頭に置く。
+        </p>
+        <table class="data-table">
+          <thead><tr><th>微生物</th><th>疫学的背景</th><th>診断法</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><em>Coxiella burnetii</em>（Q熱）</td>
+              <td>家畜（牛・羊・山羊）との接触歴</td>
+              <td>抗 phase I IgG 抗体価 &gt;1:800 が大基準<br>血液 PCR も可</td>
+            </tr>
+            <tr>
+              <td><em>Bartonella</em> spp.</td>
+              <td>猫との接触（henselae）、ホームレス（quintana）</td>
+              <td>IFA で IgG 抗体価 ≥1:800 が大基準<br>血液 PCR も可</td>
+            </tr>
+            <tr>
+              <td><em>Tropheryma whipplei</em></td>
+              <td>Whipple 病（慢性下痢・関節炎・体重減少）</td>
+              <td>血液 PCR または組織 PCR</td>
+            </tr>
+            <tr>
+              <td>真菌（<em>Candida</em> / <em>Aspergillus</em>）</td>
+              <td>免疫抑制患者・中心静脈カテーテル留置</td>
+              <td>Aspergillus: 血液培養陽性率 &lt;10%<br>β-D-グルカン・アスペルギルス抗原（感度不十分）→ 感染症科に相談</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="alert" style="background:#EDE9FE;color:#5B21B6;border-left:3px solid var(--purple);margin-top:8px;">
+          <strong>実践ポイント：</strong>疫学的背景（職業・動物接触・居住歴）のルーティン問診が培養陰性IEの診断を左右する。
+          Bartonella / Coxiella が疑われれば感染症専門医・専門機関への依頼を早期に検討する。
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ═══ SECTION 4: 画像診断 ═══ -->
+    <h2 class="step-header">
+      <span class="step-label">SECTION 4</span>
+      画像診断
+    </h2>
+
+    <div class="card blue">
+      <div class="card-inner">
+        <div class="card-title">心エコー図検査（推奨クラスI）</div>
+        <p class="prose">
+          心エコーはIEの診断・治療方針決定・効果判定・予後推定に最も重要な画像診断法。
+          <span class="mark-blue"><strong>IEが疑われる全例で、血液培養陰性例も含め、速やかに TTE を施行する</strong></span>。
+        </p>
+        <div class="echo-grid">
+          <div class="echo-box">
+            <div class="echo-name">TTE（経胸壁）</div>
+            <div class="echo-body">
+              <strong>全例に第一選択</strong><br>
+              疣腫検出感度：自己弁 70%、人工弁 50%<br>
+              特異度：90%程度<br>
+              非侵襲的で繰り返し可能。心機能・血行動態評価にも優れる
+            </div>
+          </div>
+          <div class="echo-box">
+            <div class="echo-name">TEE（経食道）</div>
+            <div class="echo-body">
+              <strong>以下で積極的に実施</strong><br>
+              · TTE 画像不良 / TTE 陰性でも疑い強い<br>
+              · 人工弁 / CIED 留置例<br>
+              · 膿瘍・心内シャント等の評価（TTE 陽性例でも推奨）<br>
+              疣腫検出感度：自己弁・人工弁とも &gt;90%
+            </div>
+          </div>
+        </div>
+        <div class="alert alert-blue" style="margin-top:12px;">
+          <strong>初回陰性でも繰り返す：</strong>TTE / TEE が陰性でも臨床的に疑わしい場合は<strong>3〜7日後に再検</strong>。
+          人工弁IEでは TEE を繰り返してはじめて診断できる例もある。
+          S. aureus・E. faecalis・VGS 菌血症例は心エコーをより積極的に検討する。
+        </div>
+      </div>
+    </div>
+
+    <div class="card blue">
+      <div class="card-inner">
+        <div class="card-title">CT（2023 Duke-ISCVID の大基準に追加）</div>
+        <p class="prose">
+          心臓 CT は心エコーが苦手とする<strong>弁周囲合併症（膿瘍・仮性瘤・瘻孔）の評価に優れる</strong>。
+          人工弁IEでは TEE でも診断困難な場合があり、CT の追加が推奨される。
+          また、全身 CT は塞栓症（Duke 小基準）の検索にも有用。
+        </p>
+        <table class="data-table">
+          <thead><tr><th>CT の目的</th><th>具体的な内容</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>心臓合併症の評価</strong></td>
+              <td>弁周囲膿瘍・仮性瘤・瘻孔の同定（TEEより優れる）。疣腫は10mm以上でないと検出困難</td>
+            </tr>
+            <tr>
+              <td><strong>全身塞栓症の検索</strong></td>
+              <td>脾梗塞・腎梗塞・敗血症性肺梗塞・感染性動脈瘤（推奨クラスI）</td>
+            </tr>
+            <tr>
+              <td><strong>頭蓋内病変</strong></td>
+              <td>くも膜下出血・脳出血の検出。感染性動脈瘤は CTA で評価可。梗塞の検出は MRI に劣る</td>
+            </tr>
+            <tr>
+              <td><strong>術前評価</strong></td>
+              <td>手術計画・冠動脈 CTA（大動脈弁疣腫がある場合、冠動脈造影は塞栓リスクがあり CTA を優先）</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ＋α: PET/CT -->
+    <div class="card-alpha">
+      <div class="card-inner">
+        <div class="alpha-header">
+          <span class="alpha-badge">＋α</span>
+          <span class="alpha-title">18F-FDG PET/CT ——日本では保険適用外だが知っておくべき検査</span>
+        </div>
+        <p class="prose" style="color:#5B21B6;">
+          2023 Duke-ISCVID 診断基準では、FDG-PET/CT の代謝異常が<strong>画像診断的大基準</strong>に含まれる。
+          欧米では特に人工弁 / CIED 感染で推奨クラス I の検査だが、
+          <span class="mark-red"><strong>わが国では IE に対して 2026 年 3 月時点で保険適用外</strong></span>である点に注意。
+        </p>
+        <table class="data-table">
+          <thead><tr><th>対象</th><th>感度</th><th>特異度</th></tr></thead>
+          <tbody>
+            <tr><td>人工弁 IE（PVE）</td><td><span class="mark-green">87%</span></td><td>84%</td></tr>
+            <tr><td>CIED 感染</td><td><span class="mark-green">87%</span></td><td>94%</td></tr>
+            <tr><td>自己弁 IE（NVE）</td><td><span class="mark-red">11〜31%（低い）</span></td><td>90%台</td></tr>
+          </tbody>
+        </table>
+        <table class="data-table" style="margin-top:8px;">
+          <thead><tr><th>実施上の注意点</th><th>内容</th></tr></thead>
+          <tbody>
+            <tr><td>前処置</td><td>心サルコイドーシスプロトコールに準じた<strong>長時間絶食＋24時間炭水化物制限</strong>が必須（心筋への生理的集積を抑制するため）</td></tr>
+            <tr><td>避けるべき期間</td><td>デバイス植込み後<strong>3か月以内</strong>は術後炎症で偽陽性が多く、大基準ではなく小基準扱い</td></tr>
+            <tr><td>脳病変は評価困難</td><td>FDG は脳に生理的集積があるため、脳病変の評価には不向き</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+
+    <!-- ═══ SECTION 5: リスク評価 ═══ -->
+    <h2 class="step-header red">
+      <span class="step-label">SECTION 5</span>
+      入院時リスク評価
+    </h2>
+
+    <div class="card red">
+      <div class="card-inner">
+        <div class="rule-badge red">IE の院内死亡率は 15〜30%——リスク評価は入院当日から</div>
+        <p class="prose" style="margin-top:8px;">
+          IEは加療中でも予後が不良であり、特に心不全・脳合併症・感染コントロール不良の3つが主要な死亡原因である。
+          入院後まず行うべきことは、<strong>起こりうる合併症リスクを評価し、早期手術など予防的介入を速やかに講じること</strong>。
+          リスク評価は IEチームで多角的に行う。
+        </p>
+        <table class="data-table">
+          <thead><tr><th>カテゴリ</th><th>主な予後不良因子</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><span class="mark-blue"><strong>① 患者背景</strong></span></td>
+              <td>高齢者、人工弁感染（PVE）、血液透析、糖尿病、frailty、チャールソン指数高値</td>
+            </tr>
+            <tr>
+              <td><span class="mark-red"><strong>② IEによる合併症</strong></span></td>
+              <td><strong>うっ血性心不全</strong>（30日死亡OR 2.37）、脳血管疾患（同OR 2.00）、敗血症性ショック、腎不全</td>
+            </tr>
+            <tr>
+              <td><span class="mark-yellow"><strong>③ 原因菌</strong></span></td>
+              <td><strong>S. aureus</strong>（30日死亡OR 1.48）、多剤耐性菌、真菌、非 HACEK グラム陰性桿菌、抗菌薬開始後48〜72時間でも持続菌血症</td>
+            </tr>
+            <tr>
+              <td><span class="mark-green"><strong>④ 心エコー所見</strong></span></td>
+              <td>弁周囲合併症（膿瘍等）、左心系の疣腫、<strong>疣腫10mm以上</strong>（30日死亡OR 2.00）、重症弁逆流、左室駆出率低下</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="alert alert-red">
+          <strong>早期手術が予後を改善：</strong>手術施行はOR 0.37（30日死亡）と最も強力な保護因子。
+          感染コントロール不良・心不全合併例では早期に心臓外科へコンサルト。
+          抗菌薬開始後48〜72時間でも血液培養陽性が続く場合は早期手術を検討する。
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ═══ SUMMARY ═══ -->
+    <h2 class="step-header">
+      <span class="step-label">SUMMARY</span>
+      第2章のキーメッセージ
+    </h2>
+
+    <div class="summary-item">
+      <div class="si-title">① 診断基準は「Duke-ISCVID 2023」——感度 84%、過信しない</div>
+      <div class="si-body">
+        2023 年改訂で感度が 70% → 84% に向上。CT・FDG-PET/CT が大基準に加わり人工弁/CIED 感染に強くなった。
+        それでも感度は 100% ではなく、<span class="mark-red"><strong>初回評価で確定できないことは珍しくない</strong></span>。
+        疑い続けて血液培養・心エコーを繰り返すことが診断を成立させる。
+      </div>
+    </div>
+
+    <div class="summary-item orange">
+      <div class="si-title">② 血液培養は 3 セット——陽性菌の「汚染率」を知って判断する</div>
+      <div class="si-body">
+        S. aureus の血液培養陽性は汚染率わずか 1%、Enterococcus でも 11%。
+        <span class="mark-yellow"><strong>これらの菌が陽性なら即 IE を疑い、心エコーの実施を積極的に検討する</strong></span>。
+        VGS・CoNS は汚染が多いが、複数セット陽性・人工弁例では慎重に判断する。
+      </div>
+    </div>
+
+    <div class="summary-item green">
+      <div class="si-title">③ 心エコーは全例に——TTE から始め、人工弁/CIED では TEE を</div>
+      <div class="si-body">
+        TTE は非侵襲的で全例に第一選択。ただし人工弁では感度 50% にとどまる。
+        <span class="mark-green"><strong>人工弁・CIED 留置例や TTE で画像不良・陰性の場合は TEE を追加</strong></span>。
+        初回陰性でも臨床的に疑わしければ 3〜7 日後に再検する。
+      </div>
+    </div>
+
+    <div class="summary-item red">
+      <div class="si-title">④ CT は塞栓症と弁周囲合併症のスクリーニングに使う</div>
+      <div class="si-body">
+        心臓 CT は心エコーが不得意な弁周囲膿瘍・瘻孔の評価に優れる。
+        全身 CT で脾梗塞・腎梗塞・感染性動脈瘤を検索することも推奨クラスI（症候性患者）。
+        <span class="mark-red"><strong>人工弁 IE 疑いでは積極的に CT を活用する</strong></span>。
+      </div>
+    </div>
+
+    <div class="summary-item yellow">
+      <div class="si-title">⑤ リスク評価は入院当日から——早期手術が最大の予後改善手段</div>
+      <div class="si-body">
+        院内死亡 15〜30% という高死亡率のIEで、手術施行は 30 日死亡を 63% 低下させる（OR 0.37）。
+        <span class="mark-yellow"><strong>心不全・脳合併症・持続菌血症・S. aureus 感染のいずれかがあれば、診断当日に心臓外科へコンサルト</strong></span>する。
+        リスク評価は IEチームで多角的に行う。
+      </div>
+    </div>
+
+    <p class="source-note">
+      出典：JCS 2026 Guideline on the Management of Infective Endocarditis（2026年3月20日発行）/ 班長：泉 知里（国立循環器病研究センター）<br>
+      本資料は教育目的で作成したサマリーです。診断・治療方針の決定には必ず原典ガイドラインを参照してください。
+    </p>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IE 総論 | JCS2026 感染性心内膜炎診療ガイドライン</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blue: #2563EB; --blue-light: #EFF6FF;
+      --orange: #EA580C; --green: #16A34A;
+      --red: #DC2626; --yellow: #D97706;
+      --purple: #7C3AED; --purple-light: #F5F3FF; --purple-border: #C4B5FD;
+      --text: #111827; --muted: #6B7280;
+      --border: #E5E7EB; --bg: #F9FAFB; --white: #FFFFFF;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Noto Sans JP', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; font-size: 0.9rem; }
+
+    /* HEADER */
+    .page-hero { background: linear-gradient(135deg, #1E3A5F 0%, #2563EB 100%); color: white; padding: 48px 20px 40px; }
+    .page-hero .label { font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; opacity: 0.7; margin-bottom: 8px; }
+    .page-hero h1 { font-size: 1.6rem; font-weight: 900; line-height: 1.3; margin-bottom: 10px; }
+    .page-hero .subtitle { font-size: 0.82rem; opacity: 0.75; }
+    .badge-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+    .badge { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: 20px; padding: 4px 12px; font-size: 0.72rem; font-weight: 500; }
+
+    /* LAYOUT */
+    .container { max-width: 860px; margin: 0 auto; padding: 32px 20px 80px; }
+
+    /* LEGEND */
+    .legend { display: flex; gap: 16px; flex-wrap: wrap; background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 12px 18px; margin-bottom: 28px; font-size: 0.78rem; color: var(--muted); }
+    .legend-item { display: flex; align-items: center; gap: 6px; }
+    .legend-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+
+    /* STEP HEADERS */
+    .step-header { font-size: 1.05rem; font-weight: 900; color: var(--text); margin: 40px 0 14px; padding-left: 14px; border-left: 4px solid var(--blue); line-height: 1.4; }
+    .step-header .step-label { color: var(--blue); font-size: 0.68rem; letter-spacing: 0.12em; font-weight: 700; display: block; margin-bottom: 2px; }
+    .step-header.orange { border-left-color: var(--orange); } .step-header.orange .step-label { color: var(--orange); }
+    .step-header.green  { border-left-color: var(--green);  } .step-header.green  .step-label { color: var(--green);  }
+    .step-header.red    { border-left-color: var(--red);    } .step-header.red    .step-label { color: var(--red);    }
+
+    /* CARDS — CORE */
+    .card { background: var(--white); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 16px; overflow: hidden; }
+    .card-inner { padding: 20px 24px; }
+    .card.blue   { border-left: 4px solid var(--blue);   }
+    .card.orange { border-left: 4px solid var(--orange); }
+    .card.green  { border-left: 4px solid var(--green);  }
+    .card.red    { border-left: 4px solid var(--red);    }
+    .card-title { font-size: 0.9rem; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+
+    /* CARDS — ＋α */
+    .card-alpha { background: var(--purple-light); border: 1px solid var(--purple-border); border-left: 4px solid var(--purple); border-radius: 10px; margin-bottom: 16px; }
+    .card-alpha .card-inner { padding: 18px 24px; }
+    .alpha-header { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+    .alpha-badge { display: inline-flex; align-items: center; background: var(--purple); color: white; font-size: 0.7rem; font-weight: 700; padding: 2px 10px; border-radius: 4px; flex-shrink: 0; }
+    .alpha-title { font-size: 0.88rem; font-weight: 700; color: var(--purple); }
+
+    /* BADGE */
+    .rule-badge { display: inline-block; background: var(--blue); color: white; font-size: 0.68rem; font-weight: 700; padding: 2px 10px; border-radius: 4px; margin-bottom: 8px; }
+    .rule-badge.red { background: var(--red); } .rule-badge.orange { background: var(--orange); }
+
+    /* HIGHLIGHT */
+    .mark-red    { background: #FEE2E2; color: #991B1B; padding: 1px 4px; border-radius: 3px; }
+    .mark-yellow { background: #FEF3C7; color: #92400E; padding: 1px 4px; border-radius: 3px; }
+    .mark-green  { background: #D1FAE5; color: #065F46; padding: 1px 4px; border-radius: 3px; }
+    .mark-blue   { background: #DBEAFE; color: #1E40AF; padding: 1px 4px; border-radius: 3px; }
+
+    /* ALERT */
+    .alert { border-radius: 8px; padding: 14px 18px; margin-top: 12px; font-size: 0.85rem; line-height: 1.8; }
+    .alert-red    { background: #FEF2F2; color: #991B1B; border-left: 3px solid var(--red);    }
+    .alert-blue   { background: #EFF6FF; color: #1E40AF; border-left: 3px solid var(--blue);   }
+    .alert-yellow { background: #FFFBEB; color: #92400E; border-left: 3px solid var(--yellow); }
+    .alert-green  { background: #F0FDF4; color: #14532D; border-left: 3px solid var(--green);  }
+
+    /* PROSE */
+    .prose { color: var(--muted); font-size: 0.85rem; line-height: 1.95; margin-bottom: 12px; }
+
+    /* TABLE */
+    .data-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; margin-top: 10px; }
+    .data-table th { background: #F3F4F6; color: var(--text); font-weight: 700; padding: 10px 12px; text-align: left; border-bottom: 2px solid var(--border); }
+    .data-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); color: var(--muted); vertical-align: top; }
+    .data-table tr:last-child td { border-bottom: none; }
+
+    /* FLOW */
+    .flow { display: flex; flex-direction: column; gap: 6px; }
+    .flow-item { display: flex; align-items: flex-start; gap: 12px; background: #F8FAFC; border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; font-size: 0.83rem; }
+    .flow-item .num { background: var(--blue); color: white; border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+    .flow-item .flow-text { color: var(--muted); line-height: 1.7; }
+    .flow-item .flow-text strong { color: var(--text); }
+    .flow-arrow { text-align: center; color: var(--blue); font-size: 1.1rem; padding: 2px 0; }
+
+    /* STAT */
+    .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 8px; }
+    @media (max-width: 520px) { .stat-grid { grid-template-columns: 1fr 1fr; } }
+    .stat-box { background: var(--blue-light); border: 1px solid #BFDBFE; border-radius: 8px; padding: 16px 12px; text-align: center; }
+    .stat-box .stat-val { font-size: 1.5rem; font-weight: 900; color: var(--blue); line-height: 1.2; }
+    .stat-box .stat-label { font-size: 0.7rem; color: var(--muted); margin-top: 6px; line-height: 1.5; }
+
+    /* SUMMARY */
+    .summary-item { border-left: 3px solid var(--blue); padding: 16px 20px; margin-bottom: 12px; background: var(--white); border-radius: 0 8px 8px 0; border-top: 1px solid var(--border); border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .summary-item .si-title { font-size: 0.88rem; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+    .summary-item .si-body  { font-size: 0.83rem; color: var(--muted); line-height: 1.9; }
+    .summary-item.orange { border-left-color: var(--orange); }
+    .summary-item.green  { border-left-color: var(--green);  }
+    .summary-item.red    { border-left-color: var(--red);    }
+    .summary-item.yellow { border-left-color: var(--yellow); }
+
+    .source-note { font-size: 0.72rem; color: #9CA3AF; margin-top: 16px; line-height: 1.7; }
+    p { color: var(--muted); font-size: 0.85rem; line-height: 1.85; }
+    strong { color: var(--text); }
+  </style>
+</head>
+<body>
+
+  <div class="page-hero">
+    <div style="max-width:860px;margin:0 auto;">
+      <p class="label">JCS 2026 · 感染性心内膜炎診療ガイドライン</p>
+      <h1>第1章 総論<br><span style="font-size:1rem;font-weight:400;opacity:0.85;">Infective Endocarditis — Overview</span></h1>
+      <p class="subtitle">初期・後期研修医 / 内科系集中治療医 向けサマリー</p>
+      <div class="badge-row">
+        <span class="badge">JCS 2026</span>
+        <span class="badge">2026年3月発行</span>
+        <span class="badge">班長：泉 知里（国循）</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#2563EB;"></div><span><strong style="color:var(--text);">白背景カード</strong> — 必ず押さえるコア知識</span></div>
+      <div class="legend-item"><div class="legend-dot" style="background:#7C3AED;"></div><span><strong style="color:var(--text);">紫背景カード（＋α）</strong> — 発展的・感染症寄りの内容</span></div>
+    </div>
+
+
+    <!-- ═══ SECTION 1 ═══ -->
+    <h2 class="step-header">
+      <span class="step-label">SECTION 1</span>
+      感染性心内膜炎（IE）とは
+    </h2>
+
+    <div class="card blue">
+      <div class="card-inner">
+        <div class="rule-badge">定義と本質</div>
+        <p class="prose" style="margin-top:8px;">
+          IEとは、弁膜・心内膜・大血管内膜に <span class="mark-red"><strong>疣腫（vegetation）</strong></span> を形成し、
+          菌血症・血管塞栓・心障害などの多彩な症状を呈する <span class="mark-red"><strong>全身性敗血症性疾患</strong></span> である。
+          発症率は低いが、いったん発症すれば多くの合併症を引き起こし、死に至る重篤な疾患であり、
+          <span class="mark-red"><strong>院内死亡率は約15.4%</strong></span> と非常に高い。
+        </p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-inner">
+        <h3 class="card-title">IE 発症の2ステップ（病態生理）</h3>
+        <p class="prose">
+          IEの発症には「<strong>素地（NBTE）</strong>」と「<strong>引き金（菌血症）</strong>」の2つが揃う必要がある。
+          誰がリスクを持ち、どのような状況で発症するかを考える出発点となる。
+        </p>
+        <div class="flow">
+          <div class="flow-item">
+            <div class="num">1</div>
+            <div class="flow-text">
+              <strong>素地の形成（NBTE）：</strong>
+              弁膜症・先天性心疾患・人工弁・ペースメーカなどによる<span class="mark-yellow">異常血流や異物</span>が
+              弁内皮に傷をつくり、血小板とフィブリンが付着する。
+              これが <span class="mark-yellow"><strong>非細菌性血栓性心内膜炎（NBTE）</strong></span> であり、菌が付着しやすい「足場」となる。
+            </div>
+          </div>
+          <div class="flow-arrow">↓</div>
+          <div class="flow-item">
+            <div class="num">2</div>
+            <div class="flow-text">
+              <strong>引き金（菌血症）：</strong>
+              歯科処置・耳鼻科処置・泌尿器科処置・皮膚感染（蜂窩織炎など）をきっかけに
+              <span class="mark-yellow"><strong>一過性の菌血症</strong></span>が生じ、NBTEの部位に菌が付着・増殖して
+              <span class="mark-red"><strong>疣腫（vegetation）</strong></span> が形成される。
+            </div>
+          </div>
+        </div>
+        <div class="alert alert-yellow" style="margin-top:14px;">
+          <strong>重要：基礎心疾患がなくてもIEは起こる</strong><br>
+          黄色ブドウ球菌のような強毒菌は <span class="mark-yellow">正常弁にもIEを引き起こす。</span>
+          誘因が明確でない例も多く、<strong>不明熱では常にIEを鑑別に</strong> 置くことが重要。
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ═══ SECTION 2 ═══ -->
+    <h2 class="step-header orange">
+      <span class="step-label">SECTION 2</span>
+      IE の最近の動向（疫学）
+    </h2>
+
+    <div class="card orange">
+      <div class="card-inner">
+        <div class="rule-badge orange">日本データ（JROAD）</div>
+        <div class="stat-grid">
+          <div class="stat-box">
+            <div class="stat-val">↑2.59</div>
+            <div class="stat-label">発症率（/10万人年）<br>2019年<br>（2016年：2.02）</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-val">15.4%</div>
+            <div class="stat-label">院内死亡率<br>（依然として高値）</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-val">男性<br>高齢者</div>
+            <div class="stat-label">患者の特徴<br>多臓器合併症が増加傾向</div>
+          </div>
+        </div>
+        <p class="prose" style="margin-top:14px;">
+          発症率は欧米よりやや低いものの過去数年で上昇。
+          <span class="mark-yellow"><strong>PVE・CDRIE・HAIE の増加</strong></span> が特徴的で、
+          かつての「若年者・弁膜症」像から、高齢者・医療関連・デバイス関連のIEへとプロファイルが変化している。
+        </p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-inner">
+        <h3 class="card-title">増加が目立つ3つのIE型</h3>
+        <table class="data-table">
+          <thead><tr><th>型</th><th>略語</th><th>臨床的注意点</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>人工弁感染性心内膜炎</strong></td>
+              <td><span class="mark-blue">PVE</span></td>
+              <td>弁置換術・経カテーテル治療の普及により増加。診断が遅れやすい。</td>
+            </tr>
+            <tr>
+              <td><strong>心臓デバイス関連IE</strong></td>
+              <td><span class="mark-blue">CDRIE</span></td>
+              <td>ペースメーカ・ICDリードへの感染。「発熱のみ」でIEと気づかれにくい。</td>
+            </tr>
+            <tr>
+              <td><strong>医療関連IE</strong></td>
+              <td><span class="mark-blue">HAIE</span></td>
+              <td>血液透析・中心静脈カテーテルが契機。黄色ブドウ球菌菌血症で見逃されるリスクあり。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-inner">
+        <h3 class="card-title">原因菌の傾向：上位3菌種で8〜9割</h3>
+        <p class="prose">
+          ブドウ球菌・VGS・腸球菌で全体の <span class="mark-red"><strong>80〜90%</strong></span> を占める。
+          VGSは低下傾向で、現在は <span class="mark-red"><strong>黄色ブドウ球菌（特にMRSA）が増加</strong></span>し、
+          より急性・重篤な経過をとるIEが増えている。
+        </p>
+        <table class="data-table">
+          <thead><tr><th>菌種</th><th>傾向</th><th>特徴</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>黄色ブドウ球菌（S. aureus）</strong></td>
+              <td><span class="mark-red">増加傾向</span></td>
+              <td>急性発症・正常弁にも感染・塞栓症リスクが高い。最も緊急性が高い。</td>
+            </tr>
+            <tr>
+              <td><strong>緑色レンサ球菌（VGS）</strong></td>
+              <td>低下傾向</td>
+              <td>口腔内常在菌。亜急性経過が多い。</td>
+            </tr>
+            <tr>
+              <td><strong>腸球菌（Enterococcus spp.）</strong></td>
+              <td>横ばい〜増加</td>
+              <td>高齢者・消化器・泌尿器処置後に多い。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card-alpha">
+      <div class="card-inner">
+        <div class="alpha-header">
+          <span class="alpha-badge">＋α</span>
+          <span class="alpha-title">MRSAとMSSAの違い——なぜMRSAが問題か</span>
+        </div>
+        <p class="prose" style="color:#4C1D95;">
+          黄色ブドウ球菌によるIEの中でも、MRSAはバンコマイシンが第一選択となるが、
+          バンコマイシンはMSSAに対するオキサシリンと比べて殺菌効果が劣る。
+          そのためMSSAであることが判明した場合は、バンコマイシンからオキサシリン（または同系薬）への
+          <span style="background:#EDE9FE;color:#5B21B6;padding:1px 4px;border-radius:3px;"><strong>de-escalationを積極的に検討</strong></span>することが重要。
+          感受性結果を必ず確認し、感染症科と相談する。
+        </p>
+      </div>
+    </div>
+
+
+    <!-- ═══ SECTION 3 ═══ -->
+    <h2 class="step-header green">
+      <span class="step-label">SECTION 3</span>
+      チーム医療（IE チーム）の必要性
+    </h2>
+
+    <div class="card green">
+      <div class="card-inner">
+        <p class="prose">
+          IEは多領域にまたがる全身疾患のため、<strong>どの科が主担当でも最初から複数科を巻き込む姿勢</strong>が重要である。
+          少なくとも関連する専門医と緊密に連携しながら診療にあたるべきとされている。
+        </p>
+        <h3 class="card-title">「誰に・いつ」連絡するか</h3>
+        <table class="data-table">
+          <thead><tr><th>連絡先</th><th>連絡すべきタイミング</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>感染症科</strong></td>
+              <td>診断時から。原因菌の同定・抗菌薬選択・期間の管理。</td>
+            </tr>
+            <tr>
+              <td><strong>循環器内科</strong></td>
+              <td>診断時から。心エコー評価・心不全管理・手術適応の検討。</td>
+            </tr>
+            <tr>
+              <td><strong>心臓血管外科</strong></td>
+              <td><span class="mark-red">弁破壊が著しい・疣腫が大きい・治療抵抗性</span>の時点で早期に連絡。診断時から念頭に。</td>
+            </tr>
+            <tr>
+              <td><strong>脳神経内科 / 脳外科</strong></td>
+              <td>頭痛・神経症状が出現したとき。中枢神経合併症の評価。</td>
+            </tr>
+            <tr>
+              <td><strong>歯科医</strong></td>
+              <td>歯性病巣の評価。IEの感染源・発症予防の観点から。</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="alert alert-green" style="margin-top:12px;">
+          施設にTEE・CT・MRI・核医学検査・緊急手術の体制が整っていない場合は、
+          <strong>専門施設への早期コンタクト</strong>を検討する。
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ═══ SECTION 4 ═══ -->
+    <h2 class="step-header red">
+      <span class="step-label">SECTION 4</span>
+      専門病院に紹介すべきタイミング
+    </h2>
+
+    <div class="card red">
+      <div class="card-inner">
+        <div class="rule-badge red">以下のいずれかに該当 → 専門施設へコンサルト / 転院</div>
+        <p class="prose" style="margin-top:8px;">
+          弁破壊が軽度で心不全もなく単一の抗菌薬で感染をコントロールできる症例は非専門病院での加療も可能。
+          一方、以下の複雑な病像を示す場合はIEチームを擁する専門施設に紹介すべきである。
+        </p>
+        <table class="data-table">
+          <thead><tr><th>状況</th><th>理由</th></tr></thead>
+          <tbody>
+            <tr><td><span class="mark-red"><strong>循環・呼吸不全</strong></span></td><td>急速に悪化する可能性。緊急手術適応の評価が必要。</td></tr>
+            <tr><td><span class="mark-red"><strong>重症の弁逆流・弁破壊</strong></span></td><td>可動性の高い大きな疣腫は塞栓リスクが高く、診断時から外科医との連携が必要。</td></tr>
+            <tr><td><span class="mark-red"><strong>人工弁 / CIED</strong></span></td><td>診断が難しく、高度な処置が必要になることが多い。</td></tr>
+            <tr><td><span class="mark-red"><strong>脳卒中・塞栓症の合併</strong></span></td><td>多科協議が不可欠な複雑な判断を要する。</td></tr>
+            <tr><td><span class="mark-red"><strong>7日以上の抗菌薬でも血液培養陽性</strong></span></td><td>治療抵抗性・膿瘍形成を示唆する。</td></tr>
+            <tr><td><strong>自施設で管理困難</strong></td><td>「様子を見てから」の判断が予後を悪化させる。</td></tr>
+          </tbody>
+        </table>
+        <div class="alert alert-red" style="margin-top:12px;">
+          <strong>非専門病院での最重要タスクは「IEを疑うこと」。</strong>
+          疑わしければ専門病院に紹介することが救命率向上に有効である。
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ═══ SUMMARY ═══ -->
+    <h2 class="step-header">
+      <span class="step-label">SUMMARY</span>
+      第1章のキーメッセージ
+    </h2>
+
+    <div class="summary-item">
+      <div class="si-title">① IEを「最初から疑う」習慣をつくる</div>
+      <div class="si-body">
+        診断が遅れる最大の原因は「最初からIEを考えていない」こと。
+        <span class="mark-red"><strong>基礎心疾患（弁膜症・先天性心疾患・人工弁・CIED・血液透析）を持つ患者の発熱では、常にIEを鑑別の上位に</strong></span>。
+        不明熱・黄色ブドウ球菌菌血症では特に意識すること。
+      </div>
+    </div>
+
+    <div class="summary-item orange">
+      <div class="si-title">② "現代のIE"はPVE・CDRIE・HAIEが主役</div>
+      <div class="si-body">
+        血液透析・TAVI後・ペースメーカ植込み後の発熱は、必ずIEを除外する。
+        <span class="mark-yellow"><strong>黄色ブドウ球菌（特にMRSA）が増加</strong></span>しており、急性・重篤な経過をとるIEが増えている。
+        黄色ブドウ球菌菌血症では感染源が不明なら心エコーを。
+      </div>
+    </div>
+
+    <div class="summary-item green">
+      <div class="si-title">③ 診断したら、すぐ複数科に連絡する</div>
+      <div class="si-body">
+        感染症科・循環器科は診断時から。
+        <span class="mark-green"><strong>弁破壊が著しい例・大きな疣腫がある例では診断時点から心臓外科医に連絡</strong></span>しておくことが鉄則。
+        「後で呼べばいい」という発想がアウトカムを悪化させる。
+      </div>
+    </div>
+
+    <div class="summary-item red">
+      <div class="si-title">④ 転院・コンサルトの判断は早く</div>
+      <div class="si-body">
+        人工弁・CIED・脳卒中合併・治療抵抗性のいずれかがあれば、
+        <span class="mark-red"><strong>その日のうちに専門施設へコンタクト</strong></span>する。
+        非専門病院で働く研修医こそ、転院適応の知識が直接救命に直結する。
+      </div>
+    </div>
+
+    <div class="summary-item yellow">
+      <div class="si-title">⑤ Duke基準を過信しない——疑い続けることが診療を成立させる</div>
+      <div class="si-body">
+        Duke基準の感度は約80%。初回評価で確定できないことは珍しくない。
+        特に<span class="mark-yellow"><strong>人工弁・ペースメーカ植込み後</strong></span>では心エコーの感度がさらに低下する。
+        臨床的にIEが疑わしければ、<strong>血液培養・心エコーを繰り返し、CT・MRIなど画像を積極的に組み合わせる</strong>。
+      </div>
+    </div>
+
+    <p class="source-note">
+      出典：JCS 2026 Guideline on the Management of Infective Endocarditis（2026年3月20日発行）/ 班長：泉 知里（国立循環器病研究センター）<br>
+      本資料は教育目的で作成したサマリーです。診断・治療方針の決定には必ず原典ガイドラインを参照してください。
+    </p>
+
+  </div>
+</body>
+</html>

@@ -9,7 +9,17 @@ const SEARCH_INDEX = [
 
   // ── ICUコアカン ──
   {"title":"ICUコアカン","url":"pages/icu-core-conf.html","desc":"ICUコアカンファレンス一覧","keywords":"コアカン カンファレンス 学習 プレゼンテーション By System 透析"},
-  {"title":"ICUデジタル資料","url":"#","desc":"Teams内「ICUの歩き方デジタル」内資料","keywords":"デジタル資料 Teams ICUの歩き方 資料"},
+  {"title":"注目論文・最新ガイドラインまとめ","url":"pages/articles-guidelines.html","desc":"ICU関連の注目論文や最新ガイドラインの要約","keywords":"論文 ガイドライン エビデンス 文献 レビュー 最新"},
+  {"title":"論文まとめ：神経系","url":"pages/articles-guidelines.html#art-neuro","desc":"神経系の注目論文・ガイドライン","keywords":"神経 脳 意識障害 TTM 心停止"},
+  {"title":"論文まとめ：循環器系","url":"pages/articles-guidelines.html#art-cardio","desc":"循環器系の注目論文・ガイドライン","keywords":"循環 ショック 昇圧薬 心不全"},
+  {"title":"論文まとめ：呼吸器系","url":"pages/articles-guidelines.html#art-resp","desc":"呼吸器系の注目論文・ガイドライン","keywords":"呼吸 ARDS 人工呼吸 PEEP"},
+  {"title":"論文まとめ：腎・電解質系","url":"pages/articles-guidelines.html#art-renal","desc":"腎・電解質系の注目論文・ガイドライン","keywords":"腎 AKI RRT 電解質 透析"},
+  {"title":"論文まとめ：消化器 / 肝胆道系","url":"pages/articles-guidelines.html#art-gi","desc":"消化器・肝胆道系の注目論文・ガイドライン","keywords":"消化器 肝臓 胆道 膵炎"},
+  {"title":"論文まとめ：血液系","url":"pages/articles-guidelines.html#art-heme","desc":"血液系の注目論文・ガイドライン","keywords":"血液 輸血 DIC 凝固"},
+  {"title":"論文まとめ：感染症","url":"pages/articles-guidelines.html#art-id","desc":"感染症の注目論文・ガイドライン","keywords":"感染症 抗菌薬 敗血症 セプシス"},
+  {"title":"論文まとめ：栄養 / 代謝系","url":"pages/articles-guidelines.html#art-nutrition","desc":"栄養・代謝系の注目論文・ガイドライン","keywords":"栄養 代謝 経腸栄養 血糖"},
+  {"title":"論文まとめ：筋骨格系","url":"pages/articles-guidelines.html#art-msk","desc":"筋骨格系の注目論文・ガイドライン","keywords":"筋骨格 リハビリ ICU-AW"},
+  {"title":"論文まとめ：予防","url":"pages/articles-guidelines.html#art-ppx","desc":"予防の注目論文・ガイドライン","keywords":"予防 DVT VAP 褥瘡 潰瘍"},
 
   // ── ICUカンファレンス By System ──
   {"title":"プレゼンテーションの総論","url":"pages/schedule-icu-conf.html#conf-section1","desc":"ICUカンファレンス","keywords":"SECTION 1 総論 OAP カンファレンス 目的 Plan チーム"},
