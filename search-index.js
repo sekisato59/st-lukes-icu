@@ -109,5 +109,57 @@ const SEARCH_INDEX = [
   {"title":"夜勤への申し送り","url":"pages/schedule-day-handover.html","desc":"16:00 日勤→夜勤","keywords":"夜勤 申し送り 16:00 日勤 ハンドオーバー 引き継ぎ"},
   {"title":"日勤からの申し送り","url":"pages/schedule-night-start.html","desc":"16:00 夜勤開始","keywords":"日勤 申し送り 16:00 夜勤 夜勤開始"},
   {"title":"随時対応（夜間）","url":"pages/schedule-oncall.html","desc":"夜間の随時対応","keywords":"随時対応 夜間 夜勤 オンコール 当直"},
-  {"title":"海外教科書勉強会","url":"pages/schedule-weekly-textbook.html","desc":"隔週月曜 週間スケジュール","keywords":"海外教科書 勉強会 隔週 月曜 textbook"}
+  {"title":"海外教科書勉強会","url":"pages/schedule-weekly-textbook.html","desc":"隔週月曜 週間スケジュール","keywords":"海外教科書 勉強会 隔週 月曜 textbook"},
+
+  // ── SSC 2026 ガイドライン ──
+  {"title":"SSC 2026 敗血症・敗血症性ショック管理 国際ガイドライン","url":"pages/articles-gl-ssc2026.html","desc":"Surviving Sepsis Campaign 2026 国際ガイドライン","keywords":"SSC 敗血症 セプシス ショック 輸液 昇圧薬 抗菌薬 乳酸 MAP 蘇生"},
+  {"title":"SSC 2026 第1章 スクリーニングと初期管理","url":"注目論文ガイドラインのまとめ/ssc-chapter1.html#ssc-ch1","desc":"SSC 2026 › 第1章","keywords":"SSC スクリーニング QI NEWS qSOFA EWS コードセプシス 血液培養 乳酸 輸液 昇圧薬 MAP 30mL 蘇生 ICU入室"},
+  {"title":"SSC 2026 パフォーマンス改善・コードセプシス","url":"注目論文ガイドラインのまとめ/ssc-chapter1.html#ssc-s1","desc":"SSC 2026 第1章 › SECTION 1","keywords":"QI プログラム コードセプシス セプシスハドル スクリーニング 質改善"},
+  {"title":"SSC 2026 スクリーニングツール：NEWS vs qSOFA","url":"注目論文ガイドラインのまとめ/ssc-chapter1.html#ssc-s2","desc":"SSC 2026 第1章 › SECTION 2","keywords":"NEWS NEWS2 MEWS SIRS qSOFA スクリーニング 感度 AUC 院外 院内"},
+  {"title":"SSC 2026 血液培養・乳酸値","url":"注目論文ガイドラインのまとめ/ssc-chapter1.html#ssc-s4","desc":"SSC 2026 第1章 › SECTION 4","keywords":"血液培養 乳酸 lactate 抗菌薬前 採取 S.aureus カンジダ 繰り返し培養"},
+  {"title":"SSC 2026 初期蘇生：輸液・末梢昇圧薬","url":"注目論文ガイドラインのまとめ/ssc-chapter1.html#ssc-s5","desc":"SSC 2026 第1章 › SECTION 5","keywords":"輸液 晶質液 30mL/kg 昇圧薬 ノルアドレナリン 末梢 中心静脈 蘇生"},
+  {"title":"SSC 2026 MAP目標 65mmHg・高齢者60〜65mmHg","url":"注目論文ガイドラインのまとめ/ssc-chapter1.html#ssc-s6","desc":"SSC 2026 第1章 › SECTION 6","keywords":"MAP 65mmHg 血圧目標 高齢者 昇圧薬 ICU入室"},
+
+  // SSC 2026 第2章
+  {"title":"SSC 2026 第2章 感染症管理","url":"注目論文ガイドラインのまとめ/ssc-chapter2.html#ssc-ch2","desc":"SSC 2026 › 第2章","keywords":"SSC 感染症 抗菌薬 タイミング ソースコントロール MDR ESBL βラクタム 延長投与 de-escalation SDD PCT BALANCE BLING"},
+  {"title":"SSC 2026 抗菌薬投与タイミング：1時間・3時間ルール","url":"注目論文ガイドラインのまとめ/ssc-chapter2.html#ssc-s2-1","desc":"SSC 2026 第2章 › SECTION 1","keywords":"抗菌薬 タイミング 1時間 3時間 敗血症性ショック 院外 PCT"},
+  {"title":"SSC 2026 ソースコントロール：6時間以内の介入","url":"注目論文ガイドラインのまとめ/ssc-chapter2.html#ssc-s2-2","desc":"SSC 2026 第2章 › SECTION 2","keywords":"ソースコントロール 感染源 ドレナージ デブリードマン 6時間"},
+  {"title":"SSC 2026 βラクタム延長投与（BLING III試験）","url":"注目論文ガイドラインのまとめ/ssc-chapter2.html#ssc-s2-5","desc":"SSC 2026 第2章 › SECTION 5","keywords":"βラクタム 延長投与 prolonged infusion BLING III PK/PD TDM 時間依存性"},
+  {"title":"SSC 2026 De-escalation・抗菌薬投与期間（BALANCE試験）","url":"注目論文ガイドラインのまとめ/ssc-chapter2.html#ssc-s2-6","desc":"SSC 2026 第2章 › SECTION 6","keywords":"de-escalation 投与期間 7日 14日 BALANCE PCT ADAPT-Sepsis 短期間"},
+
+  // SSC 2026 第3章
+  {"title":"SSC 2026 第3章 血行動態管理","url":"注目論文ガイドラインのまとめ/ssc-chapter3.html#ssc-ch3","desc":"SSC 2026 › 第3章","keywords":"SSC 輸液 晶質液 生食 バランス HES ゼラチン アルブミン 昇圧薬 ノルアドレナリン バソプレシン PLR SVV 乳酸 CRT ドブタミン"},
+  {"title":"SSC 2026 輸液の選択：バランス晶質液・HES禁忌","url":"注目論文ガイドラインのまとめ/ssc-chapter3.html#ssc-s3-2","desc":"SSC 2026 第3章 › SECTION 2","keywords":"晶質液 バランス 生理食塩水 生食 HES スターチ ゼラチン アルブミン SMART BaSICS PLUS 輸液"},
+  {"title":"SSC 2026 蘇生エンドポイント：乳酸値・毛細血管再充填時間（CRT）","url":"注目論文ガイドラインのまとめ/ssc-chapter3.html#ssc-s3-4","desc":"SSC 2026 第3章 › SECTION 4","keywords":"乳酸 lactate CRT 毛細血管再充填 ANDROMEDA-SHOCK 蘇生エンドポイント"},
+  {"title":"SSC 2026 昇圧薬：ノルエピネフリン→バソプレシン追加","url":"注目論文ガイドラインのまとめ/ssc-chapter3.html#ssc-s3-5","desc":"SSC 2026 第3章 › SECTION 5","keywords":"ノルエピネフリン ノルアドレナリン バソプレシン アンジオテンシン エピネフリン 昇圧薬 テルリプレシン"},
+
+  // SSC 2026 第4章
+  {"title":"SSC 2026 第4章 呼吸管理","url":"注目論文ガイドラインのまとめ/ssc-chapter4.html#ssc-ch4","desc":"SSC 2026 › 第4章","keywords":"SSC 呼吸 HFNC NIV NIPPV SpO2 酸素 ARDS 人工呼吸 一回換気量 PEEP 腹臥位 覚醒 ECMO"},
+  {"title":"SSC 2026 HFNC vs NIV vs 通常酸素療法","url":"注目論文ガイドラインのまとめ/ssc-chapter4.html#ssc-s4-3","desc":"SSC 2026 第4章 › SECTION 3","keywords":"HFNC NIV NIPPV 高流量鼻カニュラ 非侵襲的 酸素療法 急性低酸素性呼吸不全"},
+  {"title":"SSC 2026 ARDS管理：低TV・高PEEP・腹臥位","url":"注目論文ガイドラインのまとめ/ssc-chapter4.html#ssc-s4-5","desc":"SSC 2026 第4章 › SECTION 5","keywords":"ARDS 一回換気量 TV PEEP 腹臥位 prone NMBA プラトー圧 低肺傷害"},
+
+  // SSC 2026 第5章
+  {"title":"SSC 2026 第5章 補助療法・支持療法","url":"注目論文ガイドラインのまとめ/ssc-chapter5.html#ssc-ch5","desc":"SSC 2026 › 第5章","keywords":"SSC ステロイド 解熱薬 ビタミンC IVIG 血液浄化 PPI VTE 輸血 インスリン 血糖 RRT 輸液除去"},
+  {"title":"SSC 2026 ステロイド：敗血症性ショックへのhydrocortisone","url":"注目論文ガイドラインのまとめ/ssc-chapter5.html#ssc-s5-1","desc":"SSC 2026 第5章 › SECTION 1","keywords":"ステロイド hydrocortisone コルチゾール ショック 200mg 7日 ADRENAL"},
+  {"title":"SSC 2026 PPI：ストレス潰瘍予防（REVISE試験）","url":"注目論文ガイドラインのまとめ/ssc-chapter5.html#ssc-s5-3","desc":"SSC 2026 第5章 › SECTION 3","keywords":"PPI 潰瘍予防 ストレス潰瘍 GI出血 REVISE プロトンポンプ"},
+
+  // SSC 2026 第6章
+  {"title":"SSC 2026 第6章 Goals of Care・長期アウトカム","url":"注目論文ガイドラインのまとめ/ssc-chapter6.html#ssc-ch6","desc":"SSC 2026 › 第6章","keywords":"SSC GoC ゴールオブケア 緩和ケア 退院 PICS 長期後遺症 リハビリ メンタルヘルス 認知機能 フォローアップ"},
+  {"title":"SSC 2026 PICS（集中治療後症候群）の長期管理","url":"注目論文ガイドラインのまとめ/ssc-chapter6.html#ssc-s6-6","desc":"SSC 2026 第6章 › SECTION 6","keywords":"PICS post ICU syndrome 長期後遺症 リハビリ メンタルヘルス 認知機能 フォローアップ QOL"},
+
+  // 低ナトリウム血症ガイドライン 2014（ESICM/ESE/ERA-EDTA）
+  {"title":"低ナトリウム血症 診断・治療ガイドライン（ESICM/ESE/ERA-EDTA 2014）","url":"pages/articles-gl-hn2014.html","desc":"低ナトリウム血症ガイドライン概要","keywords":"低ナトリウム血症 低Na血症 SIAD SIADH バソプレシン AVP 高張食塩水 ODS 浸透圧性脱髄 電解質 ESICM ESE ERA-EDTA 3%食塩水 トルバプタン vaptan 輸液制限 尿浸透圧 尿ナトリウム"},
+  {"title":"低ナトリウム血症 第1章 病態生理・分類・診断","url":"注目論文ガイドラインのまとめ/hn-chapter1.html#hn-ch1","desc":"低ナトリウム血症ガイドライン › 第1章","keywords":"低ナトリウム血症 病態生理 分類 急性 慢性 48時間 軽度 中等度 重度 profound 症状 重篤 moderately severe 診断 アルゴリズム 尿浸透圧 尿ナトリウム 電解質"},
+  {"title":"低ナトリウム血症 疫学と病態生理（AVP・脳適応）","url":"注目論文ガイドラインのまとめ/hn-chapter1.html#hn-s1","desc":"低ナトリウム血症ガイドライン 第1章 › SECTION 1","keywords":"疫学 15-20% 救急 バソプレシン AVP ADH 脳浮腫 脳適応 ODS 浸透圧性脱髄 osmotic demyelination"},
+  {"title":"低ナトリウム血症の分類（重症度・期間・症状）","url":"注目論文ガイドラインのまとめ/hn-chapter1.html#hn-s2","desc":"低ナトリウム血症ガイドライン 第1章 › SECTION 2","keywords":"分類 軽度 130 中等度 125 重度 profound 急性 慢性 48時間 重篤 seizure 昏睡 moderately severe 嘔気 頭痛"},
+  {"title":"非低張性低ナトリウム血症の除外（高血糖補正・偽性低Na）","url":"注目論文ガイドラインのまとめ/hn-chapter1.html#hn-s3","desc":"低ナトリウム血症ガイドライン 第1章 › SECTION 3","keywords":"偽性低ナトリウム血症 高血糖 マンニトール グリシン 浸透圧 補正ナトリウム pseudohyponatremia isotonic hypertonic"},
+  {"title":"低ナトリウム血症の診断アルゴリズム（尿浸透圧・尿Na）","url":"注目論文ガイドラインのまとめ/hn-chapter1.html#hn-s4","desc":"低ナトリウム血症ガイドライン 第1章 › SECTION 4","keywords":"診断アルゴリズム 尿浸透圧 100 尿ナトリウム 30 多飲 低溶質 心不全 肝硬変 利尿薬 腎不全 SIAD 副腎不全 甲状腺 hypovolaemia euvolaemia hypervolaemia"},
+  {"title":"SIAD（抗利尿ホルモン不適切分泌症候群）の診断基準","url":"注目論文ガイドラインのまとめ/hn-chapter1.html#hn-s5","desc":"低ナトリウム血症ガイドライン 第1章 › SECTION 5","keywords":"SIAD SIADH 診断基準 Bartter Schwartz 浸透圧 275 尿浸透圧 100 euvolemia 尿ナトリウム 30 甲状腺 副腎 悪性腫瘍 薬剤 CNS 肺炎"},
+  {"title":"低ナトリウム血症 第2章 治療","url":"注目論文ガイドラインのまとめ/hn-chapter2.html#hn-ch2","desc":"低ナトリウム血症ガイドライン › 第2章","keywords":"低ナトリウム血症 治療 3%食塩水 高張食塩水 補正速度 ODS 浸透圧性脱髄 輸液制限 SIAD 心不全 肝硬変 デスモプレシン トルバプタン 尿素"},
+  {"title":"低ナトリウム血症 治療アルゴリズム・補正速度制限","url":"注目論文ガイドラインのまとめ/hn-chapter2.html#hn-tx-overview","desc":"低ナトリウム血症ガイドライン 第2章 › SECTION 1","keywords":"補正速度 10mmol 8mmol ODS 浸透圧性脱髄 24時間 治療アルゴリズム 症状主導 高張食塩水"},
+  {"title":"重篤な低ナトリウム血症の治療（痙攣・昏睡）：7.1","url":"注目論文ガイドラインのまとめ/hn-chapter2.html#hn-tx-severe","desc":"低ナトリウム血症ガイドライン 第2章 › SECTION 2","keywords":"重篤 severe 痙攣 昏睡 GCS 呼吸抑制 3%食塩水 150ml 20分 5mmol/L 高張食塩水 即時"},
+  {"title":"中等度症状の低ナトリウム血症：嘔気・混乱・頭痛（7.2）","url":"注目論文ガイドラインのまとめ/hn-chapter2.html#hn-tx-moderate","desc":"低ナトリウム血症ガイドライン 第2章 › SECTION 3","keywords":"中等度 moderately severe 嘔気 混乱 頭痛 3%食塩水 150ml 原因特異的治療 診断"},
+  {"title":"急性低ナトリウム血症（48h未満・無症状）の管理（7.3）","url":"注目論文ガイドラインのまとめ/hn-chapter2.html#hn-tx-acute","desc":"低ナトリウム血症ガイドライン 第2章 › SECTION 4","keywords":"急性 48時間 無症状 3%食塩水 原因除去 サイアザイド SSRI 運動後 術後"},
+  {"title":"慢性低ナトリウム血症の管理：SIAD・HF・低血圧型（7.4）","url":"注目論文ガイドラインのまとめ/hn-chapter2.html#hn-tx-chronic","desc":"低ナトリウム血症ガイドライン 第2章 › SECTION 5","keywords":"慢性 SIAD 輸液制限 尿素 フロセミド NaCl 心不全 肝硬変 ネフローゼ 生食 0.9% 原因特異的 vaptan トルバプタン デメクロサイクリン 禁忌"},
+  {"title":"低ナトリウム血症 補正過剰への対処・ODS予防（7.5）","url":"注目論文ガイドラインのまとめ/hn-chapter2.html#hn-tx-overcorr","desc":"低ナトリウム血症ガイドライン 第2章 › SECTION 6","keywords":"補正過剰 overcorrection ODS 浸透圧性脱髄 デスモプレシン 2mcg 自由水 5%ブドウ糖 アルコール 肝疾患 サイアザイド 低カリウム"}
 ];

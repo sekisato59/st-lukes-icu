@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IE 予防 | JCS2026 感染性心内膜炎診療ガイドライン</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blue: #2563EB; --blue-light: #EFF6FF;
+      --orange: #EA580C; --green: #16A34A;
+      --red: #DC2626; --yellow: #D97706;
+      --purple: #7C3AED; --purple-light: #F5F3FF; --purple-border: #C4B5FD;
+      --text: #111827; --muted: #6B7280;
+      --border: #E5E7EB; --bg: #F9FAFB; --white: #FFFFFF;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Noto Sans JP', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; font-size: 0.9rem; }
+
+    .page-hero { background: linear-gradient(135deg, #78350F 0%, #D97706 100%); color: white; padding: 48px 20px 40px; }
+    .page-hero .label { font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; opacity: 0.7; margin-bottom: 8px; }
+    .page-hero h1 { font-size: 1.6rem; font-weight: 900; line-height: 1.3; margin-bottom: 10px; }
+    .page-hero .subtitle { font-size: 0.82rem; opacity: 0.75; }
+    .badge-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+    .badge { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: 20px; padding: 4px 12px; font-size: 0.72rem; font-weight: 500; }
+
+    .container { max-width: 860px; margin: 0 auto; padding: 32px 20px 80px; }
+
+    .legend { display: flex; gap: 16px; flex-wrap: wrap; background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 12px 18px; margin-bottom: 28px; font-size: 0.78rem; color: var(--muted); }
+    .legend-item { display: flex; align-items: center; gap: 6px; }
+    .legend-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+
+    .step-header { font-size: 1.05rem; font-weight: 900; color: var(--text); margin: 40px 0 14px; padding-left: 14px; border-left: 4px solid var(--blue); line-height: 1.4; }
+    .step-header .step-label { color: var(--blue); font-size: 0.68rem; letter-spacing: 0.12em; font-weight: 700; display: block; margin-bottom: 2px; }
+    .step-header.orange { border-left-color: var(--orange); } .step-header.orange .step-label { color: var(--orange); }
+    .step-header.green  { border-left-color: var(--green);  } .step-header.green  .step-label { color: var(--green);  }
+    .step-header.red    { border-left-color: var(--red);    } .step-header.red    .step-label { color: var(--red);    }
+    .step-header.yellow { border-left-color: var(--yellow); } .step-header.yellow .step-label { color: var(--yellow); }
+
+    .card { background: var(--white); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 16px; overflow: hidden; }
+    .card-inner { padding: 20px 24px; }
+    .card.blue   { border-left: 4px solid var(--blue);   }
+    .card.orange { border-left: 4px solid var(--orange); }
+    .card.green  { border-left: 4px solid var(--green);  }
+    .card.red    { border-left: 4px solid var(--red);    }
+    .card.yellow { border-left: 4px solid var(--yellow); }
+    .card-title { font-size: 0.9rem; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+
+    .card-alpha { background: var(--purple-light); border: 1px solid var(--purple-border); border-left: 4px solid var(--purple); border-radius: 10px; margin-bottom: 16px; }
+    .card-alpha .card-inner { padding: 18px 24px; }
+    .alpha-header { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+    .alpha-badge { display: inline-flex; align-items: center; background: var(--purple); color: white; font-size: 0.7rem; font-weight: 700; padding: 2px 10px; border-radius: 4px; flex-shrink: 0; }
+    .alpha-title { font-size: 0.88rem; font-weight: 700; color: var(--purple); }
+
+    .mark-red    { background: #FEE2E2; color: #991B1B; padding: 1px 4px; border-radius: 3px; }
+    .mark-yellow { background: #FEF3C7; color: #92400E; padding: 1px 4px; border-radius: 3px; }
+    .mark-green  { background: #D1FAE5; color: #065F46; padding: 1px 4px; border-radius: 3px; }
+    .mark-blue   { background: #DBEAFE; color: #1E40AF; padding: 1px 4px; border-radius: 3px; }
+
+    .alert { border-radius: 8px; padding: 14px 18px; margin-top: 12px; font-size: 0.85rem; line-height: 1.8; }
+    .alert-red    { background: #FEF2F2; color: #991B1B; border-left: 3px solid var(--red);    }
+    .alert-blue   { background: #EFF6FF; color: #1E40AF; border-left: 3px solid var(--blue);   }
+    .alert-yellow { background: #FFFBEB; color: #92400E; border-left: 3px solid var(--yellow); }
+    .alert-green  { background: #F0FDF4; color: #14532D; border-left: 3px solid var(--green);  }
+
+    .prose { color: var(--muted); font-size: 0.85rem; line-height: 1.95; margin-bottom: 12px; }
+    .prose:last-child { margin-bottom: 0; }
+
+    .data-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; margin-top: 10px; }
+    .data-table th { background: #F3F4F6; color: var(--text); font-weight: 700; padding: 10px 12px; text-align: left; border-bottom: 2px solid var(--border); }
+    .data-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); color: var(--muted); vertical-align: top; }
+    .data-table tr:last-child td { border-bottom: none; }
+
+    .flow { display: flex; flex-direction: column; gap: 6px; }
+    .flow-item { display: flex; align-items: flex-start; gap: 12px; background: #F8FAFC; border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; font-size: 0.83rem; }
+    .flow-item .num { background: var(--yellow); color: white; border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+    .flow-item .flow-text { color: var(--muted); line-height: 1.7; }
+    .flow-item .flow-text strong { color: var(--text); }
+
+    .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 8px; }
+    @media (max-width: 520px) { .stat-grid { grid-template-columns: 1fr 1fr; } }
+    .stat-box { background: var(--blue-light); border: 1px solid #BFDBFE; border-radius: 8px; padding: 16px 12px; text-align: center; }
+    .stat-box .stat-val { font-size: 1.4rem; font-weight: 900; color: var(--blue); line-height: 1.2; }
+    .stat-box .stat-label { font-size: 0.7rem; color: var(--muted); margin-top: 6px; line-height: 1.5; }
+    .stat-box.red { background: #FEF2F2; border-color: #FECACA; } .stat-box.red .stat-val { color: var(--red); }
+    .stat-box.green { background: #F0FDF4; border-color: #BBF7D0; } .stat-box.green .stat-val { color: var(--green); }
+    .stat-box.orange { background: #FFF7ED; border-color: #FED7AA; } .stat-box.orange .stat-val { color: var(--orange); }
+    .stat-box.yellow { background: #FFFBEB; border-color: #FDE68A; } .stat-box.yellow .stat-val { color: var(--yellow); }
+
+    .risk-block { border-radius: 8px; padding: 14px 18px; margin-bottom: 10px; }
+    .risk-high   { background: #FEF2F2; border: 1px solid #FECACA; }
+    .risk-mid    { background: #FFFBEB; border: 1px solid #FDE68A; }
+    .risk-low    { background: #F0FDF4; border: 1px solid #BBF7D0; }
+    .risk-title  { font-size: 0.82rem; font-weight: 700; margin-bottom: 6px; }
+    .risk-high .risk-title  { color: #991B1B; }
+    .risk-mid  .risk-title  { color: #92400E; }
+    .risk-low  .risk-title  { color: #065F46; }
+
+    .abx-block { background: #F8FAFC; border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin-top: 10px; }
+    .abx-title { font-size: 0.8rem; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+    .abx-drug  { font-size: 0.82rem; color: #2563EB; font-weight: 500; }
+    .abx-note  { font-size: 0.78rem; color: var(--muted); margin-top: 4px; }
+
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 8px; }
+    @media (max-width: 560px) { .two-col { grid-template-columns: 1fr; } }
+
+    .summary-item { border-left: 3px solid var(--blue); padding: 16px 20px; margin-bottom: 12px; background: var(--white); border-radius: 0 8px 8px 0; border-top: 1px solid var(--border); border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .summary-item .si-title { font-size: 0.88rem; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+    .summary-item .si-body  { font-size: 0.83rem; color: var(--muted); line-height: 1.9; }
+    .summary-item.orange { border-left-color: var(--orange); }
+    .summary-item.green  { border-left-color: var(--green);  }
+    .summary-item.red    { border-left-color: var(--red);    }
+    .summary-item.yellow { border-left-color: var(--yellow); }
+
+    .source-note { font-size: 0.72rem; color: #9CA3AF; margin-top: 16px; line-height: 1.7; }
+    p { color: var(--muted); font-size: 0.85rem; line-height: 1.85; }
+    strong { color: var(--text); }
+  </style>
+</head>
+<body>
+
+  <div class="page-hero">
+    <div style="max-width:860px;margin:0 auto;">
+      <p class="label">JCS 2026 · 感染性心内膜炎診療ガイドライン</p>
+      <h1>第7章 予防<br><span style="font-size:1rem;font-weight:400;opacity:0.85;">Prevention of Infective Endocarditis</span></h1>
+      <p class="subtitle">初期・後期研修医 / 内科系集中治療医 向けサマリー</p>
+      <div class="badge-row">
+        <span class="badge">JCS 2026</span>
+        <span class="badge">2026年3月発行</span>
+        <span class="badge">班長：泉 知里（国循）</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:var(--blue);"></div>コアコンテンツ（白カード）</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--purple);"></div>＋α 発展的内容（紫カード）</div>
+    </div>
+
+
+    <!-- ═══ SECTION 1：リスク層別化（患者側） ═══ -->
+    <h2 class="step-header yellow">
+      <span class="step-label">SECTION 1</span>
+      患者リスクの層別化——高度・中等度・低リスクを把握する
+    </h2>
+
+    <div class="card yellow">
+      <div class="card-inner">
+        <div class="card-title">JCS2026の基本方針——欧米と異なり中等度リスクにも予防的抗菌薬を推奨</div>
+        <p class="prose">
+          欧米ガイドライン（2008年以降のAHA・ESC）では高度リスク群のみに予防的抗菌薬投与を推奨しているが、
+          <strong>わが国のJCSガイドラインは一貫して中等度リスク群にも予防的抗菌薬投与を推奨してきた</strong>。
+          その根拠は、日本の全国調査では歯科処置後に発症したIE患者の多くが中等度リスク群に含まれていたことによる。
+          本ガイドラインでは高度リスク群への予防投与をクラス I、中等度リスク群への予防投与をクラス IIa（または IIb）としている。
+        </p>
+        <div class="alert alert-yellow">
+          <strong>なお：</strong>わが国では予防的抗菌薬投与は保険診療上正式には認められていない。
+          本ガイドラインの推奨は臨床的観点からのものであることを付記しておく。
+        </div>
+      </div>
+    </div>
+
+    <div class="card blue">
+      <div class="card-inner">
+        <div class="card-title">高度リスク群（クラス I）——最優先で予防的抗菌薬を投与する</div>
+        <p class="prose">
+          高度リスク群とは、IEを発症する可能性が高く、かつ発症した場合に重篤化しやすい患者群である。
+          今回の改訂では、<span class="mark-red"><strong>経カテーテル的人工弁置換術（TAVI・TMVR含む）後や外科的弁形成術後も高度リスクとして新たに明記された</strong></span>。
+        </p>
+        <div class="risk-block risk-high">
+          <div class="risk-title">高度リスク群（推奨クラス I）——歯科口腔外科手技に際し予防的抗菌薬投与を行う</div>
+          <ul style="font-size:0.82rem; color:var(--muted); line-height:1.95; padding-left:1rem;">
+            <li>外科的 / 経カテーテル的人工弁置換患者（生体弁・同種弁含む）、弁輪リングを用いた外科的弁形成術後</li>
+            <li>IE の既往を有する患者</li>
+            <li>未修復の複雑性チアノーゼ性先天性心疾患（単心室・完全大血管転位・ファロー四徴症）</li>
+            <li>パッチ・人工材料を用いて修復した先天性心疾患で、修復部分に遺残病変を伴う場合</li>
+            <li>体循環系と肺循環系の短絡造設術を実施した患者</li>
+            <li>左室補助人工心臓（LVAD）を有する患者</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="card blue">
+      <div class="card-inner">
+        <div class="card-title">中等度リスク群（クラス IIa / IIb）——予防的抗菌薬投与を考慮する</div>
+        <p class="prose">
+          中等度リスク群は必ずしも重篤化しないが、IEを発症する可能性が高い患者群である。
+          特に<strong>先天性大動脈二尖弁や弁逆流を伴う僧帽弁逸脱症</strong>は、中等度リスクの中でも高いIE発症率を持つことが最近の研究で示されており、
+          IE発症時の心内合併症や手術率も高い。これらは特に注意が必要である。
+        </p>
+        <div class="risk-block risk-mid">
+          <div class="risk-title">中等度リスク群（クラス IIa）——予防的抗菌薬投与を考慮する</div>
+          <ul style="font-size:0.82rem; color:var(--muted); line-height:1.9; padding-left:1rem;">
+            <li>ほとんどの先天性心疾患・大動脈二尖弁を含む先天性弁膜症</li>
+            <li>後天性弁膜症（逆流を伴わない僧帽弁狭窄症はリスク低）</li>
+            <li>閉塞性肥大型心筋症</li>
+            <li>弁逆流を伴う僧帽弁逸脱症</li>
+          </ul>
+        </div>
+        <div class="risk-block risk-mid" style="margin-top:8px;">
+          <div class="risk-title">中等度リスク群（クラス IIb）——予防的抗菌薬投与を考慮してもよい</div>
+          <ul style="font-size:0.82rem; color:var(--muted); line-height:1.9; padding-left:1rem;">
+            <li>人工ペースメーカ・植込み型除細動器（ICD）などのデバイス植込み患者 ※リードレスPM・皮下ICD除く</li>
+            <li>弁変性を有する心移植後の患者</li>
+          </ul>
+        </div>
+        <div class="risk-block risk-low" style="margin-top:8px;">
+          <div class="risk-title">低リスク群（クラス III No benefit）——予防的抗菌薬投与は推奨されない</div>
+          <ul style="font-size:0.82rem; color:var(--muted); line-height:1.9; padding-left:1rem;">
+            <li>単独の心房中隔欠損（二次孔型）</li>
+            <li>心室中隔欠損・動脈管開存・心房中隔欠損の根治術後6ヵ月以上経過した残存短絡がないもの</li>
+            <li>冠動脈バイパス術後、逆流のない僧帽弁逸脱症、生理的・機能的心雑音</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ═══ SECTION 2：リスク層別化（手技側） ═══ -->
+    <h2 class="step-header blue">
+      <span class="step-label">SECTION 2</span>
+      手技リスクの層別化——どの処置で予防が必要か
+    </h2>
+
+    <div class="card blue">
+      <div class="card-inner">
+        <div class="card-title">「予防的抗菌薬投与を行う」手技——クラス I</div>
+        <p class="prose">
+          菌血症を誘発し、かつIEリスクに直結する手技については予防的抗菌薬投与が強く推奨される。
+          歯科処置が最も典型的だが、心血管領域の手技も含まれる点を意識しておく。
+        </p>
+        <div class="flow">
+          <div class="flow-item">
+            <div class="num">1</div>
+            <div class="flow-text"><strong>歯科口腔外科領域：</strong>出血を伴うすべての侵襲的歯科処置（抜歯・口腔外科手術・歯周外科・インプラント・スケーリング・感染根管処置など）</div>
+          </div>
+          <div class="flow-item">
+            <div class="num">2</div>
+            <div class="flow-text"><strong>耳鼻科領域：</strong>扁桃摘出術・アデノイド摘出術</div>
+          </div>
+          <div class="flow-item">
+            <div class="num">3</div>
+            <div class="flow-text"><strong>心血管領域：</strong>人工弁や心血管内に人工物を植込む手術、カテーテルによる人工弁植込み手技（黄色ブドウ球菌と腸球菌のカバーが望ましい）、ペースメーカ・ICD植込み術</div>
+          </div>
+        </div>
+        <div class="alert alert-blue" style="margin-top:12px;">
+          <strong>予防的抗菌薬を「必要としない」処置：</strong>
+          非感染部位からの歯肉への局所麻酔、歯科矯正処置、抜髄処置（神経のない歯）、気管内挿管、
+          経食道心エコー図（TEE）、尿道カテーテル挿入、中心静脈カテーテル挿入。
+        </div>
+      </div>
+    </div>
+
+    <div class="card blue">
+      <div class="card-inner">
+        <div class="card-title">JCS2026の改訂点——上部消化管内視鏡・気管支鏡も「考慮してもよい」手技に</div>
+        <p class="prose">
+          最近の研究で上部消化管内視鏡・気管支鏡実施後のIE発症頻度が有意に上昇することが示された。
+          JCS2026の改訂では、これらの手技が「予防的抗菌薬投与を考慮してもよい（クラス IIb）」に変更された。
+          特に<strong>高度リスク患者ではこれらの手技の前に予防的抗菌薬投与を行う（クラス IIb）</strong>ことが推奨される。
+        </p>
+        <table class="data-table">
+          <thead>
+            <tr><th>クラス</th><th>手技（歯科以外）</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>IIa（考慮する）</strong></td>
+              <td>局所感染巣への観血的手技（膿瘍ドレナージ・感染巣内視鏡）、経尿道的前立腺切除術（特に人工弁症例）</td>
+            </tr>
+            <tr>
+              <td><strong>IIb（考慮してもよい）</strong></td>
+              <td>上部消化管内視鏡（生検含む）、気管支鏡、骨髄穿刺・生検、下部消化管内視鏡での粘膜生検・ポリペクトミー、経膣分娩・産婦人科処置、手術に伴う皮膚切開（特にアトピー性皮膚炎症例）</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+
+    <!-- ═══ SECTION 3：予防的抗菌薬の具体的投与法 ═══ -->
+    <h2 class="step-header orange">
+      <span class="step-label">SECTION 3</span>
+      予防的抗菌薬の具体的投与法
+    </h2>
+
+    <div class="card orange">
+      <div class="card-inner">
+        <div class="card-title">歯科処置前の予防的抗菌薬——第一選択はアモキシシリン 2 g 処置1時間前</div>
+        <p class="prose">
+          予防的抗菌薬の目的は菌血症による菌の心内膜付着を防ぐことであり、
+          処置前の<strong>単回投与</strong>が基本である。処置後からの投与では効果がない。
+        </p>
+        <table class="data-table">
+          <thead>
+            <tr><th>条件</th><th>抗菌薬</th><th>成人用量</th><th>タイミング</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>β-ラクタムアレルギーなし・経口可</strong></td>
+              <td><span class="mark-green"><strong>アモキシシリン</strong></span></td>
+              <td>2 g（小児：50 mg/kg、最大2 g）</td>
+              <td>処置1時間前</td>
+            </tr>
+            <tr>
+              <td>β-ラクタムアレルギーあり・経口可</td>
+              <td>クリンダマイシン<br>またはアジスロマイシン<br>またはクラリスロマイシン</td>
+              <td>600 mg / 500 mg / 400 mg</td>
+              <td>処置30分〜1時間前</td>
+            </tr>
+            <tr>
+              <td><strong>経口不可（β-ラクタムアレルギーなし）</strong></td>
+              <td>アンピシリン / セファゾリン / セフトリアキソン</td>
+              <td>1〜2 g / 1 g / 1 g（点滴静注）</td>
+              <td>処置30分前</td>
+            </tr>
+            <tr>
+              <td>経口不可・β-ラクタムアレルギーあり</td>
+              <td><span class="mark-red"><strong>クリンダマイシン</strong></span>（点滴）</td>
+              <td>600 mg</td>
+              <td>処置30分前</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="alert alert-yellow" style="margin-top:12px;">
+          <strong>減量が必要な場合：</strong>アモキシシリンを 2 g から減量する場合は、
+          初回投与5〜6時間後にアモキシシリン 500 mg の追加投与を考慮する。
+          これは弁膜に付着した細菌の再増殖を抑制するための薬理学的根拠に基づく。
+        </div>
+      </div>
+    </div>
+
+    <div class="card orange">
+      <div class="card-inner">
+        <div class="card-title">心血管の侵襲的治療（TAVI・弁膜症手術・ペースメーカ植込み）における予防</div>
+        <p class="prose">
+          TAVI後のIEは原因菌として黄色ブドウ球菌・腸球菌が多く、特に腸球菌は鼠径部の常在菌が大腿動脈アクセス時に菌血症を起こすことが主な原因と考えられる。
+          そのため、<span class="mark-red"><strong>TAVIなど心臓血管カテーテル治療の際は腸球菌をカバーする抗菌薬が推奨される</strong></span>。
+        </p>
+        <table class="data-table">
+          <thead>
+            <tr><th>条件</th><th>抗菌薬</th><th>用量・タイミング</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>β-ラクタムアレルギーなし</strong></td>
+              <td><span class="mark-green"><strong>アンピシリン・スルバクタム</strong></span></td>
+              <td>3 g：手術開始前120分以内（可能なら60分以内）に点滴静注</td>
+            </tr>
+            <tr>
+              <td>β-ラクタムアレルギーなし（代替）</td>
+              <td>セファゾリン</td>
+              <td>0.5〜1 g：手術開始前に点滴静注</td>
+            </tr>
+            <tr>
+              <td><strong>β-ラクタムアレルギーあり</strong></td>
+              <td><span class="mark-red"><strong>バンコマイシン or テイコプラニン</strong></span></td>
+              <td>15 mg/kg or 9〜12 mg/kg：60分以上かけて点滴静注</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="alert alert-blue" style="margin-top:12px;">
+          <strong>術前のMRSAスクリーニングも重要：</strong>
+          待機的な心臓手術・経カテーテル人工弁留置術前には鼻腔内MRSAのスクリーニングを行う（クラス I、エビデンスA）。
+          MRSA保菌者にはムピロシン鼻腔内投与（わが国では保険適用あり）を考慮する。
+          緊急手術前2週間以内に歯科処置を済ませておくことも推奨される。
+        </div>
+      </div>
+    </div>
+
+    <div class="card-alpha">
+      <div class="card-inner">
+        <div class="alpha-header">
+          <span class="alpha-badge">＋α</span>
+          <span class="alpha-title">口腔内衛生と菌血症の関係——日常の歯磨きでも菌血症は起きている</span>
+        </div>
+        <p class="prose">
+          抜歯後の菌血症発症率は18〜100%に及ぶが、日常の咀嚼（38%）・ブラッシング（23%）でも菌血症が生じることが知られている。
+          口腔内衛生状態が悪いほど菌血症は起こりやすく、歯科処置だけを注意するのではなく、
+          <strong>日常の口腔ケア自体が最も重要なIE予防策</strong>であることを患者に伝える必要がある。
+        </p>
+        <p class="prose">
+          口腔レンサ球菌のアモキシシリンMICは年々上昇傾向にある（anginosus group MIC90：0.25 μg/mL、mitis group：0.5 μg/mL）。
+          クリンダマイシンやマクロライド系薬では耐性株が増加しており、β-ラクタムアレルギー例への予防投与では感受性に注意が必要である。
+        </p>
+      </div>
+    </div>
+
+
+    <!-- ═══ SECTION 4：患者教育・啓発 ═══ -->
+    <h2 class="step-header green">
+      <span class="step-label">SECTION 4</span>
+      患者教育・啓発——自己申告できる患者を育てる
+    </h2>
+
+    <div class="card green">
+      <div class="card-inner">
+        <div class="card-title">中等度・高度リスク患者に配布すべき情報——患者は「自分でリスクを申告」できることが大切</div>
+        <p class="prose">
+          IEの予防のためには患者への啓発が最も重要である。
+          歯科医がすべての患者の心疾患をスクリーニングするのは現実的に難しいため、
+          <strong>患者自身が医療機関を受診する際に心疾患・人工弁・デバイス植込みの有無を自己申告できるよう指導する</strong>ことが求められる。
+        </p>
+        <div class="two-col">
+          <div style="background:#F0FDF4; border:1px solid #BBF7D0; border-radius:8px; padding:14px;">
+            <div style="font-size:0.8rem; font-weight:700; color:#065F46; margin-bottom:8px;">主治医から患者への告知事項</div>
+            <ul style="font-size:0.82rem; color:var(--muted); line-height:1.9; padding-left:1rem;">
+              <li>基礎心疾患名</li>
+              <li>心臓内の人工物（パッチ・人工弁・弁輪リングなど）の有無</li>
+              <li>ペースメーカ・ICDの有無</li>
+              <li>IEリスクがあることと、その意味（症状・予防法）</li>
+            </ul>
+          </div>
+          <div style="background:#EFF6FF; border:1px solid #BFDBFE; border-radius:8px; padding:14px;">
+            <div style="font-size:0.8rem; font-weight:700; color:#1E40AF; margin-bottom:8px;">発熱時の対応指導</div>
+            <ul style="font-size:0.82rem; color:var(--muted); line-height:1.9; padding-left:1rem;">
+              <li>ウイルス感染による発熱は短期間で消失する</li>
+              <li>理由不明の発熱が数日以上続く場合はIEを鑑別するために医療機関を受診する</li>
+              <li>発熱時の安易な抗菌薬自己服用は避ける（IEの症状マスク・培養陽性率低下）</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ═══ CHAPTER SUMMARY ═══ -->
+    <h2 class="step-header yellow">
+      <span class="step-label">CHAPTER SUMMARY</span>
+      第7章 まとめ：IE予防の5大ポイント
+    </h2>
+
+    <div class="summary-item red">
+      <div class="si-title">① 高度リスク群への予防的抗菌薬は「クラス I」——TAVI・弁形成術後も今回から対象</div>
+      <div class="si-body">
+        人工弁置換後・IE既往・複雑性チアノーゼ性先天性心疾患・LVAD患者が高度リスク群。
+        JCS2026改訂で経カテーテル的人工弁置換（TAVI等）後・外科的弁形成術後も高度リスクに明記された。
+      </div>
+    </div>
+
+    <div class="summary-item yellow">
+      <div class="si-title">② 中等度リスクにも予防的抗菌薬——日本は欧米と異なる立場を維持</div>
+      <div class="si-body">
+        後天性弁膜症・先天性心疾患・閉塞性肥大型心筋症・弁逆流を伴う僧帽弁逸脱症・ペースメーカ植込み患者は中等度リスク。
+        欧米と異なり、わが国ではこれらにも予防的抗菌薬投与を推奨する。
+      </div>
+    </div>
+
+    <div class="summary-item orange">
+      <div class="si-title">③ 歯科処置前の第一選択はアモキシシリン 2 g 処置1時間前・単回経口投与</div>
+      <div class="si-body">
+        β-ラクタムアレルギーあり → クリンダマイシン600 mg or アジスロマイシン500 mg。
+        経口不可 → アンピシリン・セファゾリン・セフトリアキソン（点滴）。
+        処置後からの投与は無効。処置前に確実に投与する。
+      </div>
+    </div>
+
+    <div class="summary-item">
+      <div class="si-title">④ TAVIなど心血管処置前は腸球菌カバーを意識——アンピシリン・スルバクタムを選択</div>
+      <div class="si-body">
+        TAVIでは腸球菌が多く、鼠径部の腸球菌が大腿動脈アクセス時に菌血症を起こすことが主要因。
+        術前に鼻腔内MRSAスクリーニングを行い、保菌者にはムピロシン鼻腔内投与を考慮する。
+      </div>
+    </div>
+
+    <div class="summary-item green">
+      <div class="si-title">⑤ 患者教育が最も重要——「自己申告」と「口腔衛生管理」を徹底させる</div>
+      <div class="si-body">
+        医療機関受診時に心疾患・人工弁・デバイスの有無を自己申告できるよう指導する。
+        日常の口腔ケア（歯磨き・定期歯科受診）自体が最も重要なIE予防策であることを伝える。
+      </div>
+    </div>
+
+    <p class="source-note">
+      出典：JCS 2026 Guideline on the Management of Infective Endocarditis（2026年3月20日発行）/ 班長：泉 知里（国立循環器病研究センター）<br>
+      本資料は教育目的で作成したサマリーです。診断・治療方針の決定には必ず原典ガイドラインを参照してください。
+    </p>
+
+  </div>
+</body>
+</html>

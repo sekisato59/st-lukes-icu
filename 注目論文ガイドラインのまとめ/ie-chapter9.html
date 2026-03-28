@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IE CQ（臨床的疑問） | JCS2026 感染性心内膜炎診療ガイドライン</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blue: #2563EB; --blue-light: #EFF6FF;
+      --orange: #EA580C; --green: #16A34A;
+      --red: #DC2626; --yellow: #D97706;
+      --purple: #7C3AED; --purple-light: #F5F3FF; --purple-border: #C4B5FD;
+      --text: #111827; --muted: #6B7280;
+      --border: #E5E7EB; --bg: #F9FAFB; --white: #FFFFFF;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Noto Sans JP', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; font-size: 0.9rem; }
+
+    .page-hero { background: linear-gradient(135deg, #1E3A5F 0%, #2563EB 100%); color: white; padding: 48px 20px 40px; }
+    .page-hero .label { font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; opacity: 0.7; margin-bottom: 8px; }
+    .page-hero h1 { font-size: 1.6rem; font-weight: 900; line-height: 1.3; margin-bottom: 10px; }
+    .page-hero .subtitle { font-size: 0.82rem; opacity: 0.75; }
+    .badge-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+    .badge { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: 20px; padding: 4px 12px; font-size: 0.72rem; font-weight: 500; }
+
+    .container { max-width: 860px; margin: 0 auto; padding: 32px 20px 80px; }
+
+    .legend { display: flex; gap: 16px; flex-wrap: wrap; background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 12px 18px; margin-bottom: 28px; font-size: 0.78rem; color: var(--muted); }
+    .legend-item { display: flex; align-items: center; gap: 6px; }
+    .legend-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+
+    .step-header { font-size: 1.05rem; font-weight: 900; color: var(--text); margin: 40px 0 14px; padding-left: 14px; border-left: 4px solid var(--blue); line-height: 1.4; }
+    .step-header .step-label { color: var(--blue); font-size: 0.68rem; letter-spacing: 0.12em; font-weight: 700; display: block; margin-bottom: 2px; }
+    .step-header.orange { border-left-color: var(--orange); } .step-header.orange .step-label { color: var(--orange); }
+    .step-header.green  { border-left-color: var(--green);  } .step-header.green  .step-label { color: var(--green);  }
+    .step-header.red    { border-left-color: var(--red);    } .step-header.red    .step-label { color: var(--red);    }
+    .step-header.yellow { border-left-color: var(--yellow); } .step-header.yellow .step-label { color: var(--yellow); }
+
+    .card { background: var(--white); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 16px; overflow: hidden; }
+    .card-inner { padding: 20px 24px; }
+    .card.blue   { border-left: 4px solid var(--blue);   }
+    .card.orange { border-left: 4px solid var(--orange); }
+    .card.green  { border-left: 4px solid var(--green);  }
+    .card.red    { border-left: 4px solid var(--red);    }
+    .card.yellow { border-left: 4px solid var(--yellow); }
+    .card-title { font-size: 0.9rem; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+
+    .card-alpha { background: var(--purple-light); border: 1px solid var(--purple-border); border-left: 4px solid var(--purple); border-radius: 10px; margin-bottom: 16px; }
+    .card-alpha .card-inner { padding: 18px 24px; }
+    .alpha-header { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+    .alpha-badge { display: inline-flex; align-items: center; background: var(--purple); color: white; font-size: 0.7rem; font-weight: 700; padding: 2px 10px; border-radius: 4px; flex-shrink: 0; }
+    .alpha-title { font-size: 0.88rem; font-weight: 700; color: var(--purple); }
+
+    .cq-box { border-radius: 10px; margin-bottom: 24px; overflow: hidden; border: 2px solid var(--blue); }
+    .cq-header { background: var(--blue); color: white; padding: 14px 20px; }
+    .cq-header .cq-label { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; opacity: 0.8; margin-bottom: 4px; }
+    .cq-header .cq-q { font-size: 0.95rem; font-weight: 900; line-height: 1.5; }
+    .cq-answer { background: #EFF6FF; border-bottom: 2px solid var(--blue); padding: 16px 20px; }
+    .cq-answer .cq-rec { font-size: 0.85rem; font-weight: 700; color: #1E40AF; margin-bottom: 6px; }
+    .cq-answer .cq-strength { display: inline-block; background: var(--blue); color: white; font-size: 0.7rem; font-weight: 700; padding: 2px 10px; border-radius: 4px; margin-right: 8px; }
+    .cq-answer .cq-evidence { display: inline-block; background: #93C5FD; color: #1E3A8A; font-size: 0.7rem; font-weight: 700; padding: 2px 10px; border-radius: 4px; }
+    .cq-body { background: var(--white); padding: 20px; }
+
+    .cq-box.orange { border-color: var(--orange); }
+    .cq-box.orange .cq-header { background: var(--orange); }
+    .cq-box.orange .cq-answer { background: #FFF7ED; border-bottom-color: var(--orange); }
+    .cq-box.orange .cq-answer .cq-rec { color: #9A3412; }
+    .cq-box.orange .cq-answer .cq-strength { background: var(--orange); }
+    .cq-box.orange .cq-answer .cq-evidence { background: #FED7AA; color: #7C2D12; }
+
+    .mark-red    { background: #FEE2E2; color: #991B1B; padding: 1px 4px; border-radius: 3px; }
+    .mark-yellow { background: #FEF3C7; color: #92400E; padding: 1px 4px; border-radius: 3px; }
+    .mark-green  { background: #D1FAE5; color: #065F46; padding: 1px 4px; border-radius: 3px; }
+    .mark-blue   { background: #DBEAFE; color: #1E40AF; padding: 1px 4px; border-radius: 3px; }
+
+    .alert { border-radius: 8px; padding: 14px 18px; margin-top: 12px; font-size: 0.85rem; line-height: 1.8; }
+    .alert-red    { background: #FEF2F2; color: #991B1B; border-left: 3px solid var(--red);    }
+    .alert-blue   { background: #EFF6FF; color: #1E40AF; border-left: 3px solid var(--blue);   }
+    .alert-yellow { background: #FFFBEB; color: #92400E; border-left: 3px solid var(--yellow); }
+    .alert-green  { background: #F0FDF4; color: #14532D; border-left: 3px solid var(--green);  }
+
+    .prose { color: var(--muted); font-size: 0.85rem; line-height: 1.95; margin-bottom: 12px; }
+    .prose:last-child { margin-bottom: 0; }
+
+    .data-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; margin-top: 10px; }
+    .data-table th { background: #F3F4F6; color: var(--text); font-weight: 700; padding: 10px 12px; text-align: left; border-bottom: 2px solid var(--border); }
+    .data-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); color: var(--muted); vertical-align: top; }
+    .data-table tr:last-child td { border-bottom: none; }
+
+    .flow { display: flex; flex-direction: column; gap: 6px; }
+    .flow-item { display: flex; align-items: flex-start; gap: 12px; background: #F8FAFC; border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; font-size: 0.83rem; }
+    .flow-item .num { background: var(--blue); color: white; border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+    .flow-item .num.red { background: var(--red); }
+    .flow-item .num.green { background: var(--green); }
+    .flow-item .flow-text { color: var(--muted); line-height: 1.7; }
+    .flow-item .flow-text strong { color: var(--text); }
+    .flow-arrow { text-align: center; color: var(--blue); font-size: 1.1rem; padding: 2px 0; }
+
+    .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 8px; }
+    @media (max-width: 520px) { .stat-grid { grid-template-columns: 1fr 1fr; } }
+    .stat-box { background: var(--blue-light); border: 1px solid #BFDBFE; border-radius: 8px; padding: 16px 12px; text-align: center; }
+    .stat-box .stat-val { font-size: 1.4rem; font-weight: 900; color: var(--blue); line-height: 1.2; }
+    .stat-box .stat-label { font-size: 0.7rem; color: var(--muted); margin-top: 6px; line-height: 1.5; }
+    .stat-box.red { background: #FEF2F2; border-color: #FECACA; }
+    .stat-box.red .stat-val { color: var(--red); }
+    .stat-box.green { background: #F0FDF4; border-color: #BBF7D0; }
+    .stat-box.green .stat-val { color: var(--green); }
+
+    .risk-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 10px; }
+    @media (max-width: 600px) { .risk-grid { grid-template-columns: 1fr; } }
+    .risk-box { border-radius: 8px; padding: 14px 16px; }
+    .risk-box .risk-title { font-size: 0.78rem; font-weight: 700; margin-bottom: 8px; }
+    .risk-box ul { padding-left: 1.1em; font-size: 0.78rem; color: var(--muted); line-height: 1.9; }
+    .risk-box.high { background: #FEF2F2; border: 1px solid #FECACA; }
+    .risk-box.high .risk-title { color: var(--red); }
+    .risk-box.mid  { background: #FFFBEB; border: 1px solid #FDE68A; }
+    .risk-box.mid  .risk-title { color: var(--yellow); }
+    .risk-box.low  { background: #F0FDF4; border: 1px solid #BBF7D0; }
+    .risk-box.low  .risk-title { color: var(--green); }
+
+    .summary-item { border-left: 3px solid var(--blue); padding: 16px 20px; margin-bottom: 12px; background: var(--white); border-radius: 0 8px 8px 0; border-top: 1px solid var(--border); border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .summary-item .si-title { font-size: 0.88rem; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+    .summary-item .si-body  { font-size: 0.83rem; color: var(--muted); line-height: 1.9; }
+    .summary-item.orange { border-left-color: var(--orange); }
+    .summary-item.green  { border-left-color: var(--green);  }
+    .summary-item.red    { border-left-color: var(--red);    }
+    .summary-item.yellow { border-left-color: var(--yellow); }
+
+    .source-note { font-size: 0.72rem; color: #9CA3AF; margin-top: 16px; line-height: 1.7; }
+    p { color: var(--muted); font-size: 0.85rem; line-height: 1.85; }
+    strong { color: var(--text); }
+  </style>
+</head>
+<body>
+
+  <div class="page-hero">
+    <div style="max-width:860px;margin:0 auto;">
+      <p class="label">JCS 2026 · 感染性心内膜炎診療ガイドライン</p>
+      <h1>第9章 CQ（臨床的疑問）<br><span style="font-size:1rem;font-weight:400;opacity:0.85;">Clinical Questions — Evidence &amp; Recommendations</span></h1>
+      <p class="subtitle">初期・後期研修医 / 内科系集中治療医 向けサマリー</p>
+      <div class="badge-row">
+        <span class="badge">JCS 2026</span>
+        <span class="badge">2026年3月発行</span>
+        <span class="badge">班長：泉 知里（国循）</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:var(--blue);"></div>コアコンテンツ（白カード）</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--purple);"></div>＋α 発展的内容（紫カード）</div>
+    </div>
+
+    <!-- 導入 -->
+    <div class="card blue">
+      <div class="card-inner">
+        <div class="card-title">CQとは何か——「推奨」の根拠を明示するプロセス</div>
+        <p class="prose">
+          本ガイドラインのCQ（Clinical Question：臨床的疑問）章では、
+          臨床的に重要でありながら従来のガイドライン推奨では根拠が不明確だった問いに対して、
+          系統的レビュー（SR）とエビデンス評価を経て明示的な「推奨の強さ」と「エビデンスの確実性」を提示している。
+        </p>
+        <p class="prose">
+          本ガイドラインには2つのCQが設定されている。
+          <strong>CQ1</strong>は「IEリスクの高い患者への歯科処置前予防的抗菌薬投与」、
+          <strong>CQ2</strong>は「脳出血合併IEに対する4週間以内の早期手術」である。
+          いずれも日常診療で遭遇しうる場面であり、推奨の背景を知っておくことが適切な患者説明と意思決定に役立つ。
+        </p>
+      </div>
+    </div>
+
+
+    <!-- ═══ CQ1 ═══ -->
+    <h2 class="step-header">
+      <span class="step-label">CQ 1</span>
+      感染性心内膜炎発症リスクの高い患者に対する侵襲的歯科治療前の予防的抗菌薬投与は推奨されるか？
+    </h2>
+
+    <div class="cq-box">
+      <div class="cq-header">
+        <div class="cq-label">CQ 1 ／ 推奨</div>
+        <div class="cq-q">高度リスク群：歯科治療前の予防的抗菌薬投与を推奨する<br>
+        中等度リスク群：歯科治療前の予防的抗菌薬投与を考慮する</div>
+      </div>
+      <div class="cq-answer">
+        <div>
+          <span class="cq-strength">高度リスク：推奨の強さ 1（強い推奨）</span>
+          <span class="cq-evidence">エビデンス B（中）</span>
+        </div>
+        <br>
+        <div>
+          <span class="cq-strength">中等度リスク：推奨の強さ 2（弱い推奨）</span>
+          <span class="cq-evidence">エビデンス D（非常に低）</span>
+        </div>
+      </div>
+      <div class="cq-body">
+        <p class="prose">
+          RCTは存在しないが、複数のコホート内症例対照研究が高度リスク群において予防的抗菌薬投与のIE発症予防効果を一貫して示している。
+          予防に用いるアモキシシリン（2g単回投与）の副作用は致死的なものでゼロ、非致死的副作用も21.4/100万回投与と極めて稀であり、
+          薬剤費も非常に安価（2g投与で約83円）であることから、<span class="mark-blue"><strong>高度リスク群では益が害を大きく上回る</strong></span>。
+        </p>
+        <p class="prose">
+          中等度リスク群への予防的抗菌薬投与の直接的な有効性は証明されていないが、
+          英国での時系列研究では予防的抗菌薬投与の原則中止後に中等度リスク群のIE頻度が上昇したとする報告があり、
+          望ましくない作用がわずかであることも踏まえ<span class="mark-yellow"><strong>中等度リスク群でも益が害を上回るとパネルは判断した</strong></span>。
+          なお、わが国では予防的抗菌薬投与は保険適用外であり、実際の運用に際しては各施設・歯科医師との連携が必要である。
+        </p>
+      </div>
+    </div>
+
+    <div class="card blue">
+      <div class="card-inner">
+        <div class="card-title">IEリスク分類——どの患者に予防的抗菌薬を使うか</div>
+        <p class="prose">
+          JCS2026では第7章の内容を踏まえ、IEリスクを高度・中等度・低（リスクなし）の3群に分類している。
+          この分類は本ガイドラインの予防章（第7章）および小児ガイドラインと整合している。
+          研修医として最低限押さえるべきは<span class="mark-red"><strong>「人工弁」「IE既往」「未修復チアノーゼ性先天性心疾患」が高度リスク</strong></span>であるという点。
+        </p>
+        <div class="risk-grid">
+          <div class="risk-box high">
+            <div class="risk-title">🔴 高度リスク群（予防：強く推奨）</div>
+            <ul>
+              <li>人工弁術後</li>
+              <li>IE既往</li>
+              <li>未修復チアノーゼ性先天性心疾患</li>
+              <li>人工材料使用の先天性心疾患修復後6か月以内または残存病変あり</li>
+              <li>弁膜症を生じた心移植後</li>
+              <li>TAVI後・経カテーテル弁置換後</li>
+              <li>補助人工心臓を有する患者</li>
+            </ul>
+          </div>
+          <div class="risk-box mid">
+            <div class="risk-title">🟡 中等度リスク群（予防：考慮する）</div>
+            <ul>
+              <li>高度・低リスク以外の先天性心疾患（大動脈二尖弁含む）</li>
+              <li>弁閉鎖不全を伴う僧帽弁逸脱症</li>
+              <li>閉塞性肥大型心筋症</li>
+              <li>中等度以上の弁膜症（大動脈弁・僧帽弁）</li>
+            </ul>
+          </div>
+          <div class="risk-box low">
+            <div class="risk-title">🟢 低（リスクなし）（予防：不要）</div>
+            <ul>
+              <li>閉鎖した心房中隔欠損（術後6か月以上）</li>
+              <li>冠動脈バイパス術後</li>
+              <li>ペースメーカ・ICD単独</li>
+              <li>逆流を伴わない僧帽弁逸脱症</li>
+              <li>機能性心雑音</li>
+              <li>基礎心疾患なし</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card green">
+      <div class="card-inner">
+        <div class="card-title">予防的抗菌薬の具体的なレジメン——歯科処置前の1時間前内服</div>
+        <p class="prose">
+          予防的抗菌薬は<span class="mark-green"><strong>処置の30〜60分前に単回内服</strong></span>する。
+          第一選択はアモキシシリン2g（内服）。
+          ペニシリンアレルギーの場合はクリンダマイシン600mg（内服）を使用する。
+          内服不可能な場合は静脈内投与に切り替える。
+          予防対象となる歯科処置は「歯肉・歯根端・口腔粘膜への処置や穿刺を伴うもの」に限られ、
+          レントゲン撮影・矯正装置の調整・乳歯の自然脱落などは対象外。
+        </p>
+        <table class="data-table">
+          <thead>
+            <tr><th>状況</th><th>薬剤</th><th>投与量・方法</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>第一選択</strong></td>
+              <td>アモキシシリン</td>
+              <td>2 g 処置の30〜60分前に内服（単回）</td>
+            </tr>
+            <tr>
+              <td>ペニシリンアレルギー<br>（非重症）</td>
+              <td>クリンダマイシン</td>
+              <td>600 mg 処置の30〜60分前に内服（単回）</td>
+            </tr>
+            <tr>
+              <td>内服不可能</td>
+              <td>アンピシリン</td>
+              <td>2 g 静注（処置30分前）</td>
+            </tr>
+            <tr>
+              <td>内服不可能＋<br>ペニシリンアレルギー</td>
+              <td>セファゾリン<br>またはクリンダマイシン</td>
+              <td>セファゾリン1g 静注 または クリンダマイシン600mg 静注</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="alert alert-green">
+          予防的抗菌薬の目的は<strong>菌血症の持続時間を短縮し、弁への付着を防ぐこと</strong>。
+          処置後の追加投与は不要。副作用（致死的）はゼロ、非致死的も100万回に21回程度という安全性。
+        </div>
+      </div>
+    </div>
+
+    <div class="card orange">
+      <div class="card-inner">
+        <div class="card-title">「予防だけが感染予防ではない」——日常の口腔衛生が最も重要</div>
+        <p class="prose">
+          IEの感染経路として口腔内（齲歯・歯周病）は重要な侵入門戸のひとつだが、
+          日常の歯磨きや食事でも継続的に低レベルの菌血症が生じることは広く知られている。
+          これに対し侵襲的歯科処置による一過性の菌血症は比較的短時間で消退する。
+          したがって、<span class="mark-yellow"><strong>予防的抗菌薬の数回投与よりも、日々の良好な口腔衛生の維持の方がIEリスク低減に大きく貢献する</strong></span>可能性がある。
+        </p>
+        <p class="prose">
+          年1回以上の定期的な歯科スケーリングがIE発症率の有意な低下と関連していた研究報告もある。
+          高度・中等度リスク患者には、<strong>定期的な歯科受診と口腔衛生指導を継続的に行うことが予防の基本</strong>であることを伝えることが重要。
+        </p>
+      </div>
+    </div>
+
+    <div class="card-alpha">
+      <div class="card-inner">
+        <div class="alpha-header">
+          <span class="alpha-badge">＋α</span>
+          <span class="alpha-title">各国ガイドラインとの相違点——欧米は高度リスク群のみ、日本は中等度リスクにも推奨</span>
+        </div>
+        <p class="prose">
+          予防的抗菌薬投与の対象範囲は国際的にも議論が続いており、各国ガイドラインで見解が異なる。
+          <strong>ESC 2023・AHA</strong>は高度リスク群のみへの予防的投与を推奨している。
+          <strong>NICE（英国）</strong>は2008年から予防的投与をルーチンには推奨しない立場をとっている（ただし特別な配慮が必要な患者群は定義）。
+          これに対し<strong>JCS2026</strong>は、わが国の全国調査で歯科処置後に発症したIE患者の多くが中等度リスク群であったことを根拠に、
+          中等度リスク群への予防的投与も弱く推奨している点が特徴である。
+        </p>
+        <p class="prose">
+          英国でNICEが予防中止を推奨した2008年以降、英国でIE発症率の増加（特に連鎖球菌による）が時系列研究で示されており、
+          この結果は予防的投与の有効性を間接的に支持するデータとして重視されている。
+          ただし時系列研究の性質上、因果関係の証明としてはエビデンスレベルが低い（Dランク）ことは念頭に置く。
+        </p>
+      </div>
+    </div>
+
+
+    <!-- ═══ CQ2 ═══ -->
+    <h2 class="step-header orange">
+      <span class="step-label">CQ 2</span>
+      脳出血を合併した感染性心内膜炎例では、適応があれば4週間以内に手術を行うことが推奨されるか？
+    </h2>
+
+    <div class="cq-box orange">
+      <div class="cq-header">
+        <div class="cq-label">CQ 2 ／ 推奨</div>
+        <div class="cq-q">脳出血を合併したIEでは、適応があれば4週間以内に手術を行ってもよい</div>
+      </div>
+      <div class="cq-answer">
+        <div>
+          <span class="cq-strength">推奨の強さ：2（弱い推奨）</span>
+          <span class="cq-evidence">エビデンスの確実性：C（低）</span>
+        </div>
+      </div>
+      <div class="cq-body">
+        <p class="prose">
+          RCTは存在せず、7つの観察研究（計244例）を対象としたメタ解析を行った。
+          待機的手術群と早期手術群（脳出血後4週間以内）の間で院内死亡率に有意差はなかった（15% vs 16.4%、RR 1.09）。
+          再出血・神経学的悪化についても有意差はなかったが、早期手術で悪化する傾向はあり個別症例での注意が必要。
+        </p>
+        <p class="prose">
+          以上の結果から、脳出血合併IEに対する早期手術は「明確に推奨するものではないが、禁忌ともいえない」とされている。
+          <span class="mark-yellow"><strong>心不全合併・弁輪周囲膿瘍など手術をしなければ救命できない症例が含まれることを考慮すると、脳出血後に一律に手術を延期すべきではない</strong></span>。
+          個々の症例の神経学的状態・手術緊急性・再出血リスクを考慮したうえで判断する。
+        </p>
+      </div>
+    </div>
+
+    <div class="card orange">
+      <div class="card-inner">
+        <div class="card-title">脳出血合併IE——なぜ「4週間待てるか」が重要な問いなのか</div>
+        <p class="prose">
+          IEに合併する脳梗塞については、早期手術（脳梗塞後1〜2週間以内）でも術後神経合併症リスクが低いことが示されており、
+          JCS2026では<span class="mark-blue">脳梗塞合併IEへの早期手術は積極的に推奨</span>されている（第3章・第5章参照）。
+          一方、脳出血合併例では開心術に伴う体外循環・ヘパリン使用が出血悪化を招く懸念から、
+          従来は「可能な限り4週間待機する」方針が主流だった。
+        </p>
+        <p class="prose">
+          しかし待機期間中に感染が進行したり心不全が悪化したりして待機的手術の機会を失う症例も存在し、
+          実際に「4週間の待機が本当に必要か」という問いは長年議論されてきた。
+          今回のCQ2の結論は「4週間以内の手術も許容しうる」であり、<span class="mark-orange"><strong>一律の4週間待機ルールを撤廃し、個別の病態評価に基づいた意思決定を行う</strong></span>ことを示している。
+        </p>
+        <div class="alert alert-yellow">
+          <strong>重要な但し書き：</strong>再出血・神経学的悪化は早期手術で悪化する傾向があり、個々の症例では注意が必要。
+          脳神経外科・神経内科・心臓外科による多科合同での意思決定が推奨される。
+        </div>
+      </div>
+    </div>
+
+    <div class="card blue">
+      <div class="card-inner">
+        <div class="card-title">意思決定の実際——どんなときに「早期手術を考慮する」か</div>
+        <p class="prose">
+          脳出血合併IEで4週間以内の手術を考慮する具体的な状況として、
+          以下のいずれかを満たす場合は手術を待機するリスクが高く、早期手術の検討が正当化される：
+        </p>
+        <div class="flow">
+          <div class="flow-item">
+            <div class="num">1</div>
+            <div class="flow-text"><strong>難治性心不全・血行動態の破綻：</strong>降圧・昇圧薬で対応できないショックや重症心不全</div>
+          </div>
+          <div class="flow-item">
+            <div class="num">2</div>
+            <div class="flow-text"><strong>弁輪周囲膿瘍・難治性感染：</strong>抗菌薬で制御できない感染（7日間以上の血液培養持続陽性）</div>
+          </div>
+          <div class="flow-item">
+            <div class="num">3</div>
+            <div class="flow-text"><strong>繰り返す塞栓症：</strong>抗菌薬治療中も再発する塞栓症、巨大疣腫（>10mm）が増大傾向</div>
+          </div>
+        </div>
+        <p class="prose" style="margin-top:12px;">
+          逆に、脳出血の出血量が多い・脳浮腫が高度・神経学的状態が不良な場合や、
+          感染が内科的治療で十分にコントロールされている場合は待機を優先する。
+        </p>
+        <div class="alert alert-blue">
+          脳出血が感染性脳動脈瘤（IA）の破裂による場合は、まず脳動脈瘤の治療（血管内治療または直達手術）を優先することが多い。
+          ただしIAがMRA/CTAで検出されない場合もあるため、くも膜下出血合併IEでは積極的に脳血管イメージングを行う。
+        </div>
+      </div>
+    </div>
+
+    <div class="card-alpha">
+      <div class="card-inner">
+        <div class="alpha-header">
+          <span class="alpha-badge">＋α</span>
+          <span class="alpha-title">脳出血合併IEのエビデンスの限界——なぜ「弱い推奨」にとどまるか</span>
+        </div>
+        <p class="prose">
+          CQ2に対するエビデンスの確実性がC（低）にとどまる主な理由は以下の3点。
+          ①RCTが存在せず、すべて観察研究であること（選択バイアスが入りやすい）。
+          ②各研究での「早期手術」の定義がまちまち（1週間以内〜1か月以内まで幅広い）。
+          ③症例数が少なく（メタ解析で最大244例）、稀な重篤合併症（再出血・神経学的悪化）の正確な評価が困難。
+        </p>
+        <p class="prose">
+          観察研究では、手術適応があっても全身状態が悪くて手術できない症例が待機群に集まりやすく（indication bias）、
+          早期手術群が過大評価される可能性がある。
+          今後、より大規模な多施設コホートや——理想的には——RCTによる検証が期待される。
+          現時点では「4週間以内の早期手術は禁忌ではない」という実用的な推奨として理解するのが適切。
+        </p>
+      </div>
+    </div>
+
+
+    <!-- ═══ CHAPTER SUMMARY ═══ -->
+    <h2 class="step-header green">
+      <span class="step-label">CHAPTER SUMMARY</span>
+      第9章 まとめ：CQ2つの臨床的エッセンス
+    </h2>
+
+    <div class="summary-item">
+      <div class="si-title">CQ1：高度リスク患者の歯科処置前は予防的抗菌薬を投与する（弱い推奨でも実施を）</div>
+      <div class="si-body">
+        人工弁・IE既往・チアノーゼ性先天性心疾患などの<span class="mark-red"><strong>高度リスク群では強く推奨（推奨1 / エビデンスB）</strong></span>。
+        中等度リスク群も弱く推奨（推奨2 / エビデンスD）。低リスク群（ペースメーカ単独・閉鎖した中隔欠損など）には不要。
+        第一選択はアモキシシリン2g、処置の30〜60分前に単回内服。
+        <strong>予防的抗菌薬よりも日常の口腔衛生管理が長期的には重要であることを患者に伝える。</strong>
+      </div>
+    </div>
+
+    <div class="summary-item orange">
+      <div class="si-title">CQ2：脳出血合併IEに「一律の4週間待機ルール」はない</div>
+      <div class="si-body">
+        難治性心不全・弁輪周囲膿瘍・繰り返す塞栓症など<span class="mark-orange"><strong>手術をしないと救命できない病態では4週間以内の早期手術を検討してよい（弱い推奨 / エビデンスC）</strong></span>。
+        再出血・神経学的悪化のリスクは早期手術で悪化する傾向があるため、
+        脳神経外科・神経内科・心臓外科の多科合同で個別に判断する。
+      </div>
+    </div>
+
+
+    <!-- ═══ 全章総括 ═══ -->
+    <h2 class="step-header green" style="margin-top:60px;">
+      <span class="step-label">FINAL SUMMARY</span>
+      JCS2026 全章を通じた「研修医・ICU医が押さえるべき10のポイント」
+    </h2>
+
+    <div class="card green">
+      <div class="card-inner">
+        <div class="card-title">このガイドラインで最も重要なメッセージ</div>
+        <div class="flow">
+          <div class="flow-item">
+            <div class="num">1</div>
+            <div class="flow-text"><strong>血液培養は抗菌薬投与前に必ず3セット採取する（15〜30分空けて採取）</strong></div>
+          </div>
+          <div class="flow-item">
+            <div class="num">2</div>
+            <div class="flow-text"><strong>IEを疑ったら心エコー（TTE）を速やかに施行。人工弁・デバイス・不明熱ではTEEも行う</strong></div>
+          </div>
+          <div class="flow-item">
+            <div class="num">3</div>
+            <div class="flow-text"><strong>2023 Duke-ISCVID基準を適用。「可能性」でもIEとして治療開始を検討する</strong></div>
+          </div>
+          <div class="flow-item">
+            <div class="num">4</div>
+            <div class="flow-text"><strong>IEを診断したら心臓外科に早期コンサルトし、IEチームを立ち上げる</strong></div>
+          </div>
+          <div class="flow-item">
+            <div class="num">5</div>
+            <div class="flow-text"><strong>神経症状の有無にかかわらず脳MRIを施行する（無症候性病変が65〜80%に存在）</strong></div>
+          </div>
+          <div class="flow-item">
+            <div class="num">6</div>
+            <div class="flow-text"><strong>新規の房室ブロック出現 → 弁輪周囲膿瘍を疑いTEEで確認 → 緊急手術を検討</strong></div>
+          </div>
+          <div class="flow-item">
+            <div class="num">7</div>
+            <div class="flow-text"><strong>MSSA: セファゾリン。MRSA: バンコマイシン（TDM必須）またはダプトマイシン。腸球菌: アンピシリン＋ゲンタマイシン</strong></div>
+          </div>
+          <div class="flow-item">
+            <div class="num">8</div>
+            <div class="flow-text"><strong>CIED患者の不明熱 → CDRIEを疑う。デバイス・リードの完全抜去が原則</strong></div>
+          </div>
+          <div class="flow-item">
+            <div class="num">9</div>
+            <div class="flow-text"><strong>右心系IE（発熱＋両側肺多発影）は内科的治療優先。三尖弁・リードを心エコーで評価</strong></div>
+          </div>
+          <div class="flow-item">
+            <div class="num">10</div>
+            <div class="flow-text"><strong>高度リスク患者の歯科処置前はアモキシシリン2g単回内服。日常の口腔衛生管理が最も重要</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="source-note">
+      出典：JCS 2026 Guideline on the Management of Infective Endocarditis（2026年3月20日発行）/ 班長：泉 知里（国立循環器病研究センター）<br>
+      本資料は教育目的で作成したサマリーです。診断・治療方針の決定には必ず原典ガイドラインを参照してください。
+    </p>
+
+  </div>
+</body>
+</html>

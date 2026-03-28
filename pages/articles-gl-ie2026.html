@@ -12,6 +12,17 @@
   <link rel="stylesheet" href="../style-v2.css">
   <script src="../site-config.js"></script>
   <style>
+    .ie-echo-grid { display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px; }
+    @media (max-width:520px) { .ie-echo-grid { grid-template-columns:1fr; } }
+    .ie-echo-box { border:1px solid var(--border);border-radius:8px;padding:14px 16px;background:#F8FAFC; }
+    .ie-echo-name { font-size:0.8rem;font-weight:700;color:var(--text);margin-bottom:6px; }
+    .ie-echo-body { font-size:0.78rem;color:var(--muted);line-height:1.8; }
+    .ie-tdm-grid { display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px; }
+    @media (max-width:520px) { .ie-tdm-grid { grid-template-columns:1fr; } }
+    .ie-tdm-box { border:1px solid var(--border);border-radius:8px;padding:14px 16px;background:#F8FAFC; }
+    .ie-tdm-name { font-size:0.8rem;font-weight:700;color:var(--text);margin-bottom:4px; }
+    .ie-tdm-drug { font-size:0.78rem;font-weight:600;color:#2D7A4F;margin-bottom:4px; }
+    .ie-tdm-note { font-size:0.75rem;color:var(--muted);line-height:1.7; }
     .subpage-hero { background: linear-gradient(150deg, #1A3A2A 0%, #2D7A4F 55%, #3D9B65 100%) !important; }
     .ie-badge { display:inline-block;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:20px;padding:4px 12px;font-size:0.72rem;font-weight:500;color:#fff;margin-right:6px;margin-top:8px; }
     .ie-table { width:100%;border-collapse:collapse;font-size:0.82rem;line-height:1.7;margin-top:10px; }
@@ -24,8 +35,8 @@
     .ie-flow-arrow { text-align:center;color:#2D7A4F;font-size:1.1rem;padding:2px 0; }
     .ie-stat-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:8px; }
     @media (max-width:520px) { .ie-stat-grid { grid-template-columns:1fr 1fr; } }
-    .ie-stat { background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;padding:16px 12px;text-align:center; }
-    .ie-stat-val { font-size:1.5rem;font-weight:900;color:#2D7A4F;line-height:1.2; }
+    .ie-stat { background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;padding:16px 12px;text-align:center;display:flex;flex-direction:column;justify-content:center;min-height:110px; }
+    .ie-stat-val { font-size:1.5rem;font-weight:900;color:#2D7A4F;line-height:1.3; }
     .ie-stat-label { font-size:0.7rem;color:var(--muted);margin-top:6px;line-height:1.5; }
     .ie-alpha { background:#F5F3FF;border:1px solid #C4B5FD;border-radius:var(--radius);margin-bottom:16px;overflow:hidden; }
     .ie-alpha-inner { padding:18px 24px; }
@@ -37,6 +48,17 @@
     .ie-legend { display:flex;gap:16px;flex-wrap:wrap;background:var(--white);border:1px solid var(--border);border-radius:8px;padding:12px 18px;margin-bottom:28px;font-size:0.78rem;color:var(--muted); }
     .ie-legend-item { display:flex;align-items:center;gap:6px; }
     .ie-legend-dot { width:10px;height:10px;border-radius:2px;flex-shrink:0; }
+
+    /* Sidebar TOC */
+    .ie-page-flex { display:flex;gap:32px;align-items:flex-start; }
+    .ie-main-col { flex:1;max-width:900px;min-width:0; }
+    .ie-sidebar { width:220px;flex-shrink:0;position:sticky;top:80px;align-self:flex-start;max-height:calc(100vh - 100px);overflow-y:auto; }
+    .ie-sidebar-card { background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:16px; }
+    .ie-sidebar-title { font-size:0.82rem;font-weight:800;margin-bottom:10px;color:var(--text); }
+    .ie-sidebar-card a.ie-toc-chapter { display:block;font-size:0.78rem;font-weight:700;color:var(--text);text-decoration:none;padding:3px 0;line-height:1.5; }
+    .ie-sidebar-card a.ie-toc-section { display:block;font-size:0.72rem;color:var(--muted);text-decoration:none;padding:3px 0;padding-left:12px;line-height:1.5; }
+    .ie-sidebar-card a:hover { color:#2D7A4F; }
+    @media (max-width:900px) { .ie-sidebar { display:none; } .ie-page-flex { display:block; } }
   </style>
 </head>
 <body>
@@ -70,35 +92,16 @@
       <div>
         <span class="ie-badge">JCS 2026</span>
         <span class="ie-badge">2026年3月発行</span>
-        <span class="ie-badge">班長：泉 知里（国循）</span>
       </div>
     </div>
   </div>
 
   <!-- ===== CONTENT ===== -->
-  <div class="container" style="padding: 32px 20px 60px; max-width: 900px;">
+  <div class="container" style="padding: 32px 20px 60px; max-width: 1140px;">
+    <div class="ie-page-flex">
 
-    <!-- 凡例 -->
-    <div class="ie-legend">
-      <div class="ie-legend-item"><div class="ie-legend-dot" style="background:#2D7A4F;"></div><span><strong style="color:var(--text);">白背景カード</strong> — 必ず押さえるコア知識</span></div>
-      <div class="ie-legend-item"><div class="ie-legend-dot" style="background:#7C3AED;"></div><span><strong style="color:var(--text);">紫背景カード（＋α）</strong> — 発展的・挑戦的向けの内容</span></div>
-    </div>
-
-
-    <!-- ═══ 目次 ═══ -->
-    <div class="card" style="margin-bottom:24px;">
-      <div class="card-inner">
-        <h3 class="rule-title">目次</h3>
-        <div style="font-size:0.85rem;line-height:2.2;">
-          <div><a href="#ie-ch1" style="text-decoration:none;color:var(--text);font-weight:700;">第1章 総論</a></div>
-          <div style="padding-left:18px;"><a href="#ie-section1" style="text-decoration:none;color:var(--muted);">SECTION 1 — 感染性心内膜炎（IE）とは</a></div>
-          <div style="padding-left:18px;"><a href="#ie-section2" style="text-decoration:none;color:var(--muted);">SECTION 2 — IE の最近の動向（疫学）</a></div>
-          <div style="padding-left:18px;"><a href="#ie-section3" style="text-decoration:none;color:var(--muted);">SECTION 3 — チーム医療（IE チーム）の必要性</a></div>
-          <div style="padding-left:18px;"><a href="#ie-section4" style="text-decoration:none;color:var(--muted);">SECTION 4 — 専門病院に紹介すべきタイミング</a></div>
-          <div style="padding-left:18px;"><a href="#ie-summary" style="text-decoration:none;color:var(--muted);">SUMMARY — 第1章のキーメッセージ</a></div>
-        </div>
-      </div>
-    </div>
+    <!-- Main content column -->
+    <div class="ie-main-col">
 
     <!-- ═══ 第1章 総論 ═══ -->
     <div id="ie-ch1" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-bottom:0;">
@@ -152,15 +155,15 @@
         <h3 class="rule-title">日本データ（JROAD）</h3>
         <div class="ie-stat-grid">
           <div class="ie-stat">
-            <div class="ie-stat-val">≈2.59</div>
-            <div class="ie-stat-label">発生率（/10万人年）<br>2019年<br>（2016年：2.02）</div>
+            <div class="ie-stat-val">2.59</div>
+            <div class="ie-stat-label">発生率（/10万人年）<br>2016年 2.02 → 2019年</div>
           </div>
           <div class="ie-stat">
             <div class="ie-stat-val">15.4%</div>
-            <div class="ie-stat-label">院内死亡率<br>（依然として高値）</div>
+            <div class="ie-stat-label">院内死亡率<br>依然として高値</div>
           </div>
           <div class="ie-stat">
-            <div class="ie-stat-val">男性<br>高齢者</div>
+            <div class="ie-stat-val">男性・高齢者</div>
             <div class="ie-stat-label">患者の特徴<br>多臓器合併症が増加傾向</div>
           </div>
         </div>
@@ -310,10 +313,1810 @@
       </div>
     </div>
 
+
+    <!-- ════════════════════════════════════════════ -->
+    <!-- ═══ 第2章 診断 ═══ -->
+    <!-- ════════════════════════════════════════════ -->
+    <div id="ie-ch2" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+      <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+      <div style="font-size:1.3rem;font-weight:900;position:relative;">第2章 診断</div>
+      <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Infective Endocarditis — Diagnosis</div>
+    </div>
+
+    <!-- ═══ SECTION 1: Duke基準 ═══ -->
+    <h3 id="ie2-section1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;"><span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>Duke-ISCVID 2023 診断基準</h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">診断基準の変遷</h3>
+        <p class="rule-body" style="margin-bottom:12px;">IEの臨床診断に用いられる Duke 診断基準は、時代とともに改訂されてきた。最初の基準が 1994 年に発表されて以降、2000 年の修正 Duke 基準、2015 年 ESC 改訂と更新が重ねられ、2023 年に国際心臓血管感染病学会（ISCVID）から <strong>2023 Duke-ISCVID 診断基準</strong>が発表された。本ガイドラインはこの 2023 Duke-ISCVID 基準を採用している。</p>
+        <div class="ie-flow">
+          <div class="ie-flow-item">
+            <div class="ie-flow-num">1</div>
+            <div style="flex:1;"><p class="rule-body"><strong>1994年：</strong>初代 Duke 診断基準（大基準2つ＋小基準による臨床分類）</p></div>
+          </div>
+          <div class="ie-flow-arrow">↓</div>
+          <div class="ie-flow-item">
+            <div class="ie-flow-num">2</div>
+            <div style="flex:1;"><p class="rule-body"><strong>2000年：</strong>修正 Duke 基準（CoNS の扱い、エコー基準を修正）</p></div>
+          </div>
+          <div class="ie-flow-arrow">↓</div>
+          <div class="ie-flow-item">
+            <div class="ie-flow-num">3</div>
+            <div style="flex:1;"><p class="rule-body"><strong>2015年：</strong>ESC 修正 Duke 基準（CT・FDG-PET/CT を補助的に導入）</p></div>
+          </div>
+          <div class="ie-flow-arrow">↓</div>
+          <div class="ie-flow-item">
+            <div class="ie-flow-num" style="background:#DC2626;">4</div>
+            <div style="flex:1;"><p class="rule-body"><strong>2023年：2023 Duke-ISCVID 基準</strong>（典型的病原体リスト拡大・CT/PET を大基準へ・外科的大基準を新設）<br>感度 <span class="mark-red"><strong>84%</strong></span>（修正 Duke 基準 70% → 向上）</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">2023 Duke-ISCVID 基準の骨格</h3>
+        <p class="rule-body" style="margin-bottom:10px;">診断基準は<strong>病理学的基準</strong>と<strong>臨床的基準</strong>に大別される。病理学的基準（疣腫・手術検体・デバイスから病原体を検出）を満たせば確定診断。臨床現場では病理学的基準の確認を待てないことが多く、<strong>臨床的基準を活用して早期に治療を開始する</strong>。</p>
+        <table class="ie-table">
+          <thead><tr><th>分類</th><th>臨床的基準の組み合わせ</th></tr></thead>
+          <tbody>
+            <tr><td><span class="mark-red"><strong>確診</strong></span></td><td>大基準 ×2 ／ または 大基準1＋小基準3 ／ または 小基準 ×5</td></tr>
+            <tr><td><span class="mark-yellow"><strong>可能性</strong></span></td><td>大基準1＋小基準1 ／ または 小基準 ×3</td></tr>
+            <tr><td><strong>否定的</strong></td><td>IEを説明できる代替診断が確定、または抗菌薬4日未満で改善、など</td></tr>
+          </tbody>
+        </table>
+        <div class="alert-yellow" style="margin-top:12px;">
+          <strong>注意：</strong>「可能性」群でも臨床的にIEが疑わしければ <strong>IEとして治療を開始する</strong>。Duke 基準の感度は 84% であり、初回評価で確定できないことは珍しくない。特に人工弁・CIED 例では心エコーの感度が低下するため、臨床的疑いが強ければ<strong>再検査を繰り返す</strong>。
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">3つの大基準と7つの小基準</h3>
+        <table class="ie-table">
+          <thead><tr><th style="width:40%">大基準（3種）</th><th>主な内容</th></tr></thead>
+          <tbody>
+            <tr><td><span class="mark-yellow"><strong>A. 微生物学的</strong></span></td><td>典型的IE病原体が2セット以上の血液培養から検出（S. aureus, S. lugdunensis, E. faecalis, HACEK, VGS 等）<br>または Coxiella / Bartonella / T. whipplei が PCR で検出、抗体価高値</td></tr>
+            <tr><td><span class="mark-yellow"><strong>B. 画像診断的</strong></span></td><td>心エコーまたは心臓 CT で疣腫・弁穿孔・弁瘤・膿瘍・仮性瘤・心内瘻孔・新規弁逆流のいずれか<br>または 18F-FDG PET/CT で代謝異常陽性（術後3か月以降）</td></tr>
+            <tr><td><span class="mark-green"><strong>C. 外科的</strong></span>（2023 新設）</td><td>術中に肉眼で明らかな IE 所見（疣腫・穿孔・膿瘍など）を認める</td></tr>
+          </tbody>
+        </table>
+        <table class="ie-table" style="margin-top:12px;">
+          <thead><tr><th>小基準（7種）</th><th>内容</th></tr></thead>
+          <tbody>
+            <tr><td>A. 素因</td><td>IEの既往、人工弁/弁形成術後、先天性心疾患、中等度以上の弁逆流・狭窄、CIED、注射薬物使用</td></tr>
+            <tr><td>B. 発熱</td><td>38.0℃以上</td></tr>
+            <tr><td>C. 血管現象</td><td>主要動脈塞栓、敗血症性肺梗塞、脳/脾膿瘍、感染性動脈瘤、頭蓋内出血、結膜出血、Janeway病変</td></tr>
+            <tr><td>D. 免疫学的現象</td><td>糸球体腎炎、Osler 結節、Roth 斑、リウマチ因子</td></tr>
+            <tr><td>E. 微生物学的所見</td><td>大基準を満たさない血液培養陽性、または無菌部位からの菌検出</td></tr>
+            <tr><td>F. 画像診断（新設）</td><td>デバイス植込み後3か月以内の FDG-PET/CT 代謝異常</td></tr>
+            <tr><td>G. 身体所見（新設）</td><td>心エコーが使えない場合の新規の弁逆流の心雑音（既存の変化は除く）</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">診断アルゴリズム（国内運用版）</h3>
+        <p class="rule-body" style="margin-bottom:12px;">IE を疑ったら、まず「基本3点セット」を速やかに実施。その後、基準を満たさなくてもIEが否定できなければ追加評価を行う。</p>
+        <div class="ie-flow">
+          <div class="ie-flow-item">
+            <div class="ie-flow-num">1</div>
+            <div style="flex:1;"><p class="rule-body"><strong>基本評価（全例）：</strong>臨床所見 ＋ 血液培養 ＋ 心エコー（TTE ± TEE）→ Duke 基準を適用</p></div>
+          </div>
+          <div class="ie-flow-arrow">↓ 確診でなくても IE が否定できない場合</div>
+          <div class="ie-flow-item">
+            <div class="ie-flow-num">2</div>
+            <div style="flex:1;"><p class="rule-body"><strong>基本評価を再検：</strong>血液培養の再提出・心エコーの再検（3〜7日後）</p></div>
+          </div>
+          <div class="ie-flow-arrow">↓ それでも確定できない場合</div>
+          <div class="ie-flow-item">
+            <div class="ie-flow-num">3</div>
+            <div style="flex:1;"><p class="rule-body"><strong>追加評価：</strong>PCR等の微生物学的検査、心臓 CT / 18F-FDG PET/CT、MRI（全身の血管現象・脊椎病変）</p></div>
+          </div>
+        </div>
+        <div class="alert-blue" style="margin-top:12px;">
+          IEは急速に重症化するため、<strong>確診が得られなくてもIEが疑わしい場合はIEを念頭に治療方針を立てる</strong>ことが重要。
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ SECTION 2: 症状・身体所見 ═══ -->
+    <h3 id="ie2-section2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;"><span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>症状・身体所見</h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">臨床症状の特徴</h3>
+        <p class="rule-body" style="margin-bottom:12px;">IEの臨床像は急性から亜急性・慢性まで幅広い。急性の発熱性疾患として現れることも多いが、悪寒・倦怠感・体重減少などの非特異的症状で経過し診断に難渋する亜急性例も多い。<strong>抗炎症薬の使用で発熱がマスクされることに注意</strong>。</p>
+        <div class="ie-stat-grid" style="grid-template-columns:repeat(3,1fr);">
+          <div class="ie-stat">
+            <div class="ie-stat-val">77〜96%</div>
+            <div class="ie-stat-label">発熱<br>（最も頻度の高い症状）</div>
+          </div>
+          <div class="ie-stat">
+            <div class="ie-stat-val">27%</div>
+            <div class="ie-stat-label">うっ血性心不全<br>合併</div>
+          </div>
+          <div class="ie-stat">
+            <div class="ie-stat-val">48%</div>
+            <div class="ie-stat-label">新規の心雑音<br>（既存悪化は約20%）</div>
+          </div>
+          <div class="ie-stat">
+            <div class="ie-stat-val">20〜35%</div>
+            <div class="ie-stat-label">塞栓症<br>（脳・脾・腎など）</div>
+          </div>
+          <div class="ie-stat">
+            <div class="ie-stat-val">44%</div>
+            <div class="ie-stat-label">筋骨格系症状<br>（関節痛・腰痛等）</div>
+          </div>
+          <div class="ie-stat">
+            <div class="ie-stat-val">12%</div>
+            <div class="ie-stat-label">伝導異常<br>（I〜III度房室ブロック等）</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">皮膚・粘膜所見（Small but Useful）</h3>
+        <p class="rule-body" style="margin-bottom:10px;">IEに特徴的な皮膚・粘膜所見は診断の小基準にも含まれる。頻度は低くても確認すべき所見として覚えておく。<span class="mark-yellow"><strong>点状出血が最頻（20〜40%）</strong></span>で、結膜・頬粘膜・口蓋・四肢に現れやすい。</p>
+        <table class="ie-table">
+          <thead><tr><th>所見</th><th>頻度</th><th>特徴</th></tr></thead>
+          <tbody>
+            <tr><td><strong>点状出血・紫斑</strong></td><td>20〜40%</td><td>塞栓または免疫複合体機序。結膜・口腔・四肢に多い</td></tr>
+            <tr><td><strong>爪の線状出血斑</strong></td><td>8%</td><td>爪甲下の縦走する暗赤色線条</td></tr>
+            <tr><td><strong>Janeway 病変</strong></td><td>4〜5%</td><td>手掌・足底の<span class="mark-green">無痛性</span>紅斑（急性 IE に多い）</td></tr>
+            <tr><td><strong>Osler 結節</strong></td><td>2〜3%</td><td>指腹・母指球の<span class="mark-red">有痛性</span>皮疹（亜急性 IE に多い）</td></tr>
+            <tr><td><strong>Roth 斑</strong></td><td>2%</td><td>眼底の白色滲出斑（眼底鏡で確認）</td></tr>
+            <tr><td><strong>脾腫</strong></td><td>11%</td><td>亜急性 IE での持続的菌血症による</td></tr>
+          </tbody>
+        </table>
+        <div class="alert-yellow" style="margin-top:12px;">
+          <strong>ポイント：</strong>脳卒中が IE の最初の臨床症状となることがある。若年者の原因不明の脳梗塞では、心エコーと血液培養を必ず行う。抗菌薬開始後2週間で塞栓症発症率は経時的に低下する。
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ SECTION 3: 微生物学的検査 ═══ -->
+    <h3 id="ie2-section3" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;"><span style="color:#16A34A;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>微生物学的検査（血液培養）</h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">血液培養の実施方法</h3>
+        <p class="rule-body" style="margin-bottom:12px;">血液培養はIEの診断において最重要の検査であり、原因菌の同定と感受性試験のために必須。IEは<strong>持続的な菌血症</strong>を呈するため、発熱・悪寒戦慄のタイミングに関わらず採取してよい。適切に3セット以上採取した場合の陽性率は <span class="mark-green"><strong>96〜98%</strong></span>と高い。</p>
+        <div class="ie-flow">
+          <div class="ie-flow-item">
+            <div class="ie-flow-num">1</div>
+            <div style="flex:1;"><p class="rule-body"><strong>3セット以上</strong>提出（好気ボトル＋嫌気ボトルで1セット）<br>敗血症・急性心不全を呈する場合は速やかに最低2セット採取して抗菌薬開始</p></div>
+          </div>
+          <div class="ie-flow-item">
+            <div class="ie-flow-num">2</div>
+            <div style="flex:1;"><p class="rule-body"><strong>複数の穿刺部位</strong>から採取（上肢静脈が原則、カテーテル採血は可能な限り回避）<br>1か所のみの穿刺でも菌の検出率は劣らないが、常在菌汚染の鑑別が困難になる</p></div>
+          </div>
+          <div class="ie-flow-item">
+            <div class="ie-flow-num">3</div>
+            <div style="flex:1;"><p class="rule-body"><strong>培養期間は7日間</strong>で十分（HACEK グループや真菌も検出可能）<br>長期培養は基本的に不要</p></div>
+          </div>
+        </div>
+        <div class="alert-red" style="margin-top:12px;">
+          <strong>前治療抗菌薬の影響：</strong>すでに抗菌薬が投与されている場合、特に VGS など菌種によっては血液培養の陽性率が低下する。亜急性経過で緊急性がなければ抗菌薬をいったん休薬して採取することを検討。
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">血液培養分離菌の汚染率——「陽性」を鵜呑みにしない</h3>
+        <p class="rule-body" style="margin-bottom:10px;">血液培養が陽性であっても、菌種によっては高確率で汚染菌である。一方、IEに典型的な菌種が1セットのみ陽性でも、臨床的IEが疑われる患者では診断的価値が高い。<strong>安易に汚染と判断せず、追加培養を検討する</strong>。</p>
+        <table class="ie-table">
+          <thead><tr><th>微生物</th><th>汚染率</th><th>臨床的対応</th></tr></thead>
+          <tbody>
+            <tr><td><em>Staphylococcus aureus</em></td><td><span class="mark-red"><strong>1%</strong></span></td><td>陽性なら即IEを疑う。心エコー実施を積極的に検討</td></tr>
+            <tr><td><em>Enterococcus</em> spp.</td><td><span class="mark-yellow"><strong>11%</strong></span></td><td>IEの可能性が高い。複数セット陽性なら大基準</td></tr>
+            <tr><td>Viridans group streptococci（VGS）</td><td><span class="mark-yellow"><strong>55%</strong></span></td><td>半数は汚染。複数セット・複数部位での確認が重要</td></tr>
+            <tr><td>Coagulase-negative staphylococci（CoNS）</td><td><span class="mark-red"><strong>82%</strong></span></td><td>多くは汚染。ただし人工弁感染では重要な病原体</td></tr>
+            <tr><td><em>Cutibacterium</em> / <em>Corynebacterium</em> spp.</td><td>88〜94%</td><td>ほぼ汚染。IEの原因菌としてはまれ</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ＋α: 培養陰性IE -->
+    <div class="ie-alpha">
+      <div class="ie-alpha-inner">
+        <div class="ie-alpha-header">
+          <span class="ie-alpha-badge">＋α</span>
+          <span class="ie-alpha-title">培養陰性IEの原因菌（診断基準の大基準に含まれる特殊病原体）</span>
+        </div>
+        <p class="rule-body" style="color:#4C1D95;margin-bottom:10px;">通常の血液培養で検出困難な微生物は、診断基準上も特別な扱いを受ける。「血液培養陰性 ＋ 心エコーで疣腫」の場合は、以下の微生物を念頭に置く。</p>
+        <table class="ie-table">
+          <thead><tr><th>微生物</th><th>疫学的背景</th><th>診断法</th></tr></thead>
+          <tbody>
+            <tr><td><em>Coxiella burnetii</em>（Q熱）</td><td>家畜（牛・羊・山羊）との接触歴</td><td>抗 phase I IgG 抗体価 &gt;1:800 が大基準<br>血液 PCR も可</td></tr>
+            <tr><td><em>Bartonella</em> spp.</td><td>猫との接触（henselae）、ホームレス（quintana）</td><td>IFA で IgG 抗体価 ≥1:800 が大基準<br>血液 PCR も可</td></tr>
+            <tr><td><em>Tropheryma whipplei</em></td><td>Whipple 病（慢性下痢・関節炎・体重減少）</td><td>血液 PCR または組織 PCR</td></tr>
+            <tr><td>真菌（<em>Candida</em> / <em>Aspergillus</em>）</td><td>免疫抑制患者・中心静脈カテーテル留置</td><td>Aspergillus: 血液培養陽性率 &lt;10%<br>β-D-グルカン・アスペルギルス抗原（感度不十分）→ 感染症科に相談</td></tr>
+          </tbody>
+        </table>
+        <div style="background:#EDE9FE;color:#5B21B6;border-radius:6px;padding:12px 16px;margin-top:8px;font-size:0.85rem;line-height:1.7;">
+          <strong>実践ポイント：</strong>疫学的背景（職業・動物接触・居住歴）のルーティン問診が培養陰性IEの診断を左右する。Bartonella / Coxiella が疑われれば感染症専門医・専門機関への依頼を早期に検討する。
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ SECTION 4: 画像診断 ═══ -->
+    <h3 id="ie2-section4" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;"><span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 4</span>画像診断</h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">心エコー図検査（推奨クラスI）</h3>
+        <p class="rule-body" style="margin-bottom:12px;">心エコーはIEの診断・治療方針決定・効果判定・予後推定に最も重要な画像診断法。<span class="mark-red"><strong>IEが疑われる全例で、血液培養陰性例も含め、速やかに TTE を施行する</strong></span>。</p>
+        <div class="ie-echo-grid">
+          <div class="ie-echo-box">
+            <div class="ie-echo-name">TTE（経胸壁）</div>
+            <div class="ie-echo-body">
+              <strong>全例に第一選択</strong><br>
+              疣腫検出感度：自己弁 70%、人工弁 50%<br>
+              特異度：90%程度<br>
+              非侵襲的で繰り返し可能。心機能・血行動態評価にも優れる
+            </div>
+          </div>
+          <div class="ie-echo-box">
+            <div class="ie-echo-name">TEE（経食道）</div>
+            <div class="ie-echo-body">
+              <strong>以下で積極的に実施</strong><br>
+              · TTE 画像不良 / TTE 陰性でも疑い強い<br>
+              · 人工弁 / CIED 留置例<br>
+              · 膿瘍・心内シャント等の評価（TTE 陽性例でも推奨）<br>
+              疣腫検出感度：自己弁・人工弁とも &gt;90%
+            </div>
+          </div>
+        </div>
+        <div class="alert-blue" style="margin-top:12px;">
+          <strong>初回陰性でも繰り返す：</strong>TTE / TEE が陰性でも臨床的に疑わしい場合は<strong>3〜7日後に再検</strong>。人工弁IEでは TEE を繰り返してはじめて診断できる例もある。S. aureus・E. faecalis・VGS 菌血症例は心エコーをより積極的に検討する。
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">CT（2023 Duke-ISCVID の大基準に追加）</h3>
+        <p class="rule-body" style="margin-bottom:10px;">心臓 CT は心エコーが苦手とする<strong>弁周囲合併症（膿瘍・仮性瘤・瘻孔）の評価に優れる</strong>。人工弁IEでは TEE でも診断困難な場合があり、CT の追加が推奨される。また、全身 CT は塞栓症（Duke 小基準）の検索にも有用。</p>
+        <table class="ie-table">
+          <thead><tr><th>CT の目的</th><th>具体的な内容</th></tr></thead>
+          <tbody>
+            <tr><td><strong>心臓合併症の評価</strong></td><td>弁周囲膿瘍・仮性瘤・瘻孔の同定（TEEより優れる）。疣腫は10mm以上でないと検出困難</td></tr>
+            <tr><td><strong>全身塞栓症の検索</strong></td><td>脾梗塞・腎梗塞・敗血症性肺梗塞・感染性動脈瘤（推奨クラスI）</td></tr>
+            <tr><td><strong>頭蓋内病変</strong></td><td>くも膜下出血・脳出血の検出。感染性動脈瘤は CTA で評価可。梗塞の検出は MRI に劣る</td></tr>
+            <tr><td><strong>術前評価</strong></td><td>手術計画・冠動脈 CTA（大動脈弁疣腫がある場合、冠動脈造影は塞栓リスクがあり CTA を優先）</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ＋α: PET/CT -->
+    <div class="ie-alpha">
+      <div class="ie-alpha-inner">
+        <div class="ie-alpha-header">
+          <span class="ie-alpha-badge">＋α</span>
+          <span class="ie-alpha-title">18F-FDG PET/CT ——日本では保険適用外だが知っておくべき検査</span>
+        </div>
+        <p class="rule-body" style="color:#4C1D95;margin-bottom:10px;">2023 Duke-ISCVID 診断基準では、FDG-PET/CT の代謝異常が<strong>画像診断的大基準</strong>に含まれる。欧米では特に人工弁 / CIED 感染で推奨クラス I の検査だが、<span class="mark-red"><strong>わが国では IE に対して 2026 年 3 月時点で保険適用外</strong></span>である点に注意。</p>
+        <table class="ie-table">
+          <thead><tr><th>対象</th><th>感度</th><th>特異度</th></tr></thead>
+          <tbody>
+            <tr><td>人工弁 IE（PVE）</td><td><span class="mark-green">87%</span></td><td>84%</td></tr>
+            <tr><td>CIED 感染</td><td><span class="mark-green">87%</span></td><td>94%</td></tr>
+            <tr><td>自己弁 IE（NVE）</td><td><span class="mark-red">11〜31%（低い）</span></td><td>90%台</td></tr>
+          </tbody>
+        </table>
+        <table class="ie-table" style="margin-top:8px;">
+          <thead><tr><th>実施上の注意点</th><th>内容</th></tr></thead>
+          <tbody>
+            <tr><td>前処置</td><td>心サルコイドーシスプロトコールに準じた<strong>長時間絶食＋24時間炭水化物制限</strong>が必須（心筋への生理的集積を抑制するため）</td></tr>
+            <tr><td>避けるべき期間</td><td>デバイス植込み後<strong>3か月以内</strong>は術後炎症で偽陽性が多く、大基準ではなく小基準扱い</td></tr>
+            <tr><td>脳病変は評価困難</td><td>FDG は脳に生理的集積があるため、脳病変の評価には不向き</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ═══ SECTION 5: リスク評価 ═══ -->
+    <h3 id="ie2-section5" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;"><span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 5</span>入院時リスク評価</h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <p class="rule-body" style="margin-bottom:12px;">IEは加療中でも予後が不良であり、特に心不全・脳合併症・感染コントロール不良の3つが主要な死亡原因である。入院後まず行うべきことは、<strong>起こりうる合併症リスクを評価し、早期手術など予防的介入を速やかに講じること</strong>。リスク評価は IEチームで多角的に行う。</p>
+        <table class="ie-table">
+          <thead><tr><th>カテゴリ</th><th>主な予後不良因子</th></tr></thead>
+          <tbody>
+            <tr><td><span class="mark-yellow"><strong>① 患者背景</strong></span></td><td>高齢者、人工弁感染（PVE）、血液透析、糖尿病、frailty、チャールソン指数高値</td></tr>
+            <tr><td><span class="mark-red"><strong>② IEによる合併症</strong></span></td><td><strong>うっ血性心不全</strong>（30日死亡OR 2.37）、脳血管疾患（同OR 2.00）、敗血症性ショック、腎不全</td></tr>
+            <tr><td><span class="mark-yellow"><strong>③ 原因菌</strong></span></td><td><strong>S. aureus</strong>（30日死亡OR 1.48）、多剤耐性菌、真菌、非 HACEK グラム陰性桿菌、抗菌薬開始後48〜72時間でも持続菌血症</td></tr>
+            <tr><td><span class="mark-yellow"><strong>④ 心エコー所見</strong></span></td><td>弁周囲合併症（膿瘍等）、左心系の疣腫、<strong>疣腫10mm以上</strong>（30日死亡OR 2.00）、重症弁逆流、左室駆出率低下</td></tr>
+          </tbody>
+        </table>
+        <div class="alert-red" style="margin-top:12px;">
+          <strong>早期手術が予後を改善：</strong>手術施行はOR 0.37（30日死亡）と最も強力な保護因子。感染コントロール不良・心不全合併例では早期に心臓外科へコンサルト。抗菌薬開始後48〜72時間でも血液培養陽性が続く場合は早期手術を検討する。
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ SUMMARY: 第2章 ═══ -->
+    <h3 id="ie2-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;"><span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>第2章のキーメッセージ</h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span><span class="rule-body"><strong>診断基準は「Duke-ISCVID 2023」——感度 84%、過信しない：</strong>2023 年改訂で感度が 70% → 84% に向上。CT・FDG-PET/CT が大基準に加わり人工弁/CIED 感染に強くなった。それでも感度は 100% ではなく、<span class="mark-red"><strong>初回評価で確定できないことは珍しくない</strong></span>。疑い続けて血液培養・心エコーを繰り返すことが診断を成立させる。</span></div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span><span class="rule-body"><strong>血液培養は 3 セット——陽性菌の「汚染率」を知って判断する：</strong>S. aureus の血液培養陽性は汚染率わずか 1%、Enterococcus でも 11%。<span class="mark-yellow"><strong>これらの菌が陽性なら即 IE を疑い、心エコーの実施を積極的に検討する</strong></span>。VGS・CoNS は汚染が多いが、複数セット陽性・人工弁例では慎重に判断する。</span></div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span><span class="rule-body"><strong>心エコーは全例に——TTE から始め、人工弁/CIED では TEE を：</strong>TTE は非侵襲的で全例に第一選択。ただし人工弁では感度 50% にとどまる。<span class="mark-red"><strong>人工弁・CIED 留置例や TTE で画像不良・陰性の場合は TEE を追加</strong></span>。初回陰性でも臨床的に疑わしければ 3〜7 日後に再検する。</span></div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span><span class="rule-body"><strong>CT は塞栓症と弁周囲合併症のスクリーニングに使う：</strong>心臓 CT は心エコーが不得意な弁周囲膿瘍・瘻孔の評価に優れる。全身 CT で脾梗塞・腎梗塞・感染性動脈瘤を検索することも推奨クラスI（症候性患者）。<span class="mark-red"><strong>人工弁 IE 疑いでは積極的に CT を活用する</strong></span>。</span></div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;"><span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span><span class="rule-body"><strong>リスク評価は入院当日から——早期手術が最大の予後改善手段：</strong>院内死亡 15〜30% という高死亡率のIEで、手術施行は 30 日死亡を 63% 低下させる（OR 0.37）。<span class="mark-yellow"><strong>心不全・脳合併症・持続菌血症・S. aureus 感染のいずれかがあれば、診断当日に心臓外科へコンサルト</strong></span>する。</span></div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ════════════════════════════════════════════ -->
+    <!-- ═══ 第3章 合併症の管理 ═══ -->
+    <!-- ════════════════════════════════════════════ -->
+    <div id="ie-ch3" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+      <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+      <div style="font-size:1.3rem;font-weight:900;position:relative;">第3章 合併症の管理</div>
+      <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Complications — Diagnosis &amp; Management</div>
+    </div>
+
+    <!-- ═══ SECTION 1：心不全 ═══ -->
+    <h3 id="ie3-section1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;"><span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>心不全（最も多い死亡原因）</h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">IEにおける心不全の特殊性</h3>
+        <p class="rule-body" style="margin-bottom:12px;">心不全はIEの合併症の中で最も頻度が高く、院内死亡の最大の原因である。IE患者の約<strong>27%</strong>に心不全が合併し、その主な原因は弁破壊による急性弁逆流である。<span class="mark-red"><strong>急性大動脈弁逆流症では、一見重症度が低くみえても重度の心不全を呈することがある</strong></span>。慢性弁膜症とは異なり、心臓が急性の逆流に適応できていないためである。</p>
+        <p class="rule-body" style="margin-bottom:12px;">ブドウ球菌によるIEでは弁破壊が急速に進行するため、心機能の悪化速度が速い。単回のTTE評価で安定と判断せず、<span class="mark-red"><strong>経時的・頻回に心エコーを繰り返す</strong></span>ことが早期の血行動態悪化の把握に不可欠である。</p>
+        <div class="ie-stat-grid">
+          <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+            <div class="ie-stat-val" style="color:#DC2626;">27%</div>
+            <div class="ie-stat-label">IE患者の<br>心不全合併率</div>
+          </div>
+          <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+            <div class="ie-stat-val" style="color:#DC2626;">#1</div>
+            <div class="ie-stat-label">IE院内死亡の<br>最多原因</div>
+          </div>
+          <div class="ie-stat" style="background:#FFF7ED;border-color:#FED7AA;">
+            <div class="ie-stat-val" style="color:#EA580C;">60〜70%</div>
+            <div class="ie-stat-label">敗血症性ショック<br>合併時の院内死亡率</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">心不全合併IEの手術時期</h3>
+        <p class="rule-body" style="margin-bottom:10px;">心不全を合併したIEは外科的治療の最大の適応であり、手術施行により30日死亡率が大幅に改善する。内科的治療で心不全がコントロールできない場合や血行動態が破綻している場合は、<span class="mark-red"><strong>24時間以内の緊急手術</strong></span>を検討する。</p>
+        <table class="ie-table">
+          <thead><tr><th>手術時期</th><th>タイミング</th><th>主な適応</th></tr></thead>
+          <tbody>
+            <tr><td><span class="mark-red"><strong>緊急手術</strong></span></td><td>24時間以内</td><td>難治性心不全・血行動態破綻・敗血症性ショック</td></tr>
+            <tr><td><span class="mark-yellow"><strong>準緊急手術</strong></span></td><td>数日以内</td><td>心不全が内科治療で十分にコントロールできない</td></tr>
+            <tr><td><span class="mark-green"><strong>待機的手術</strong></span></td><td>1〜2週後</td><td>内科的に安定を維持できている</td></tr>
+          </tbody>
+        </table>
+        <div class="alert-yellow" style="margin-top:12px;">
+          IEチームカンファレンスでの合意形成は重要だが、<strong>緊急手術の適応がある症例で手術決定が遅れてはならない</strong>。心臓外科への早期コンサルトを原則とする。
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ SECTION 2：治療抵抗性感染 ═══ -->
+    <h3 id="ie3-section2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;"><span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>治療抵抗性感染症・弁輪周囲膿瘍</h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">「持続性感染」とはどういう状態か</h3>
+        <p class="rule-body" style="margin-bottom:12px;">適切な抗菌薬治療を<strong>およそ7日間</strong>継続しても血液培養が持続陽性のまま続く状態を持続性感染という。抗菌薬開始後<span class="mark-red"><strong>48〜72時間で血液培養が持続陽性の場合、院内死亡の独立した危険因子</strong></span>となる。持続性感染の背景には、耐性菌・高病原性菌による感染と、弁輪周囲膿瘍のように<strong>抗菌薬が到達しにくい局所感染巣</strong>が形成されているケースの2パターンがある。</p>
+        <div class="alert-blue" style="margin-top:12px;">
+          持続する発熱は抗菌薬の副作用として生じることもある。抗菌薬治療が奏功しているにもかかわらず発熱が続く場合は薬剤熱も鑑別に挙げ、血液培養の再提出とともに評価する。
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">弁輪周囲膿瘍を早期に疑うための臨床サイン</h3>
+        <p class="rule-body" style="margin-bottom:10px;">弁輪周囲膿瘍は感染が弁周囲組織に波及した状態であり、放置すれば仮性瘤・瘻孔・弁離開へと進展し致死的になる。以下のいずれかが新規に出現した場合は弁輪周囲膿瘍の存在を積極的に疑う：</p>
+        <table class="ie-table">
+          <thead><tr><th>臨床サイン</th><th>病態・背景</th></tr></thead>
+          <tbody>
+            <tr><td><span class="mark-red"><strong>新規の房室ブロック</strong></span></td><td>大動脈弁輪部の膿瘍が刺激伝導系（房室結節・ヒス束）に炎症が波及した結果。最重要サイン。</td></tr>
+            <tr><td><strong>適切な抗菌薬下でも持続する発熱</strong></td><td>抗菌薬が到達しない膿瘍腔で感染が持続していることを示唆</td></tr>
+            <tr><td><strong>新たな心雑音・弁逆流の悪化</strong></td><td>膿瘍による弁・弁輪組織の破壊・弁離開を反映</td></tr>
+            <tr><td><strong>再発性塞栓症</strong></td><td>感染が持続し疣腫が形成・増大し続けていることを示唆</td></tr>
+            <tr><td><strong>新規の心不全発症</strong></td><td>弁の構造破壊が急速に進行している可能性</td></tr>
+          </tbody>
+        </table>
+        <div class="alert-red" style="margin-top:12px;">
+          <strong>新規の房室ブロック出現 → TEEで弁輪周囲膿瘍を確認 → 緊急手術を検討</strong><br>この一連の対応を躊躇なく行うことが予後改善につながる。
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">弁輪周囲膿瘍の画像診断</h3>
+        <p class="rule-body" style="margin-bottom:12px;">弁輪周囲膿瘍はTTEでは感度30〜50%に留まり、正確な評価には<span class="mark-green"><strong>TEE（感度約90%）が必須</strong></span>である。臨床的に強く疑う場合は数日後の再検や心臓CTの併用を検討する。心臓CTは心エコーが不得意な弁周囲の解剖評価（膿瘍の範囲・仮性瘤・瘻孔）に優れており補完的に使用する。</p>
+        <p class="rule-body">膿瘍が進行し組織が脆弱になると、大動脈と左室・左房が交通する瘻孔や、心室中隔を介した右室・右房への瘻孔が形成されることがある。術前に可能な限りTEEと心臓CTを駆使して解剖を把握することが、外科的治療の術式選択に直結する。</p>
+      </div>
+    </div>
+
+    <div class="ie-alpha">
+      <div class="ie-alpha-inner">
+        <div class="ie-alpha-header">
+          <span class="ie-alpha-badge">＋α</span>
+          <span class="ie-alpha-title">治療抵抗性・持続性感染を引き起こす主な原因菌</span>
+        </div>
+        <p class="rule-body" style="color:#4C1D95;margin-bottom:10px;">抗菌薬で制御できない感染を引き起こしやすい菌種として以下が挙げられる。真菌性IEは血液培養の陽性率が低く（<em>Aspergillus</em>では10%未満）、ほぼ全例で手術が必要となる。</p>
+        <table class="ie-table">
+          <thead><tr><th>原因菌カテゴリ</th><th>臨床的特徴</th></tr></thead>
+          <tbody>
+            <tr><td><strong>黄色ブドウ球菌（S. aureus）</strong></td><td>最多。組織破壊速い。MRSA は薬剤選択肢が限られる</td></tr>
+            <tr><td><strong>真菌（Candida / Aspergillus）</strong></td><td>血培陽性率低い。抗真菌薬単独不十分。ほぼ全例手術適応</td></tr>
+            <tr><td><strong>MRSA / VRE</strong></td><td>多剤耐性。デバイス関連IEで増加</td></tr>
+            <tr><td><strong>非HACEKグラム陰性菌</strong></td><td>静注薬物使用者・免疫不全者に多い。治療難渋</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ═══ SECTION 3：塞栓症 ═══ -->
+    <h3 id="ie3-section3" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;"><span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>塞栓症</h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">塞栓症の頻度・時期・分布</h3>
+        <p class="rule-body" style="margin-bottom:12px;">IEにおける塞栓症は生命を脅かす重篤な合併症であり、合併率は<strong>20〜50%</strong>に上る。中枢神経系（脳）への塞栓が60〜70%と最多であり、続いて脾臓・腎臓・肝臓・四肢動脈・肺の順となる。</p>
+        <p class="rule-body" style="margin-bottom:12px;">塞栓症は<span class="mark-red"><strong>抗菌薬投与前〜投与直後に最も多く発生</strong></span>し、適切な抗菌薬治療開始後2週間で発症率は急激に低下する。<span class="mark-yellow"><strong>塞栓症の予防において最も重要なのは適切な抗菌薬の迅速な開始</strong></span>である。</p>
+        <div class="ie-stat-grid">
+          <div class="ie-stat">
+            <div class="ie-stat-val">20〜50%</div>
+            <div class="ie-stat-label">IE患者の<br>塞栓症合併率</div>
+          </div>
+          <div class="ie-stat">
+            <div class="ie-stat-val">60〜70%</div>
+            <div class="ie-stat-label">塞栓部位の最多<br>（脳・中枢神経系）</div>
+          </div>
+          <div class="ie-stat">
+            <div class="ie-stat-val">2週</div>
+            <div class="ie-stat-label">抗菌薬開始後<br>発症率が急減</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">塞栓症リスク因子と手術時期の判断</h3>
+        <p class="rule-body" style="margin-bottom:10px;">心エコーで評価できる疣腫の性状が重要で、<span class="mark-red"><strong>疣腫径 &gt;10 mm</strong></span>、抗菌薬投与にもかかわらず増大する疣腫、可動性が高い疣腫は高リスクである。付着部位では<span class="mark-red"><strong>僧帽弁前尖</strong></span>が最もリスクが高い。</p>
+        <table class="ie-table">
+          <thead><tr><th>リスクカテゴリ</th><th>高リスク因子</th></tr></thead>
+          <tbody>
+            <tr><td><strong>疣腫の性状</strong></td><td>径 &gt;10 mm・抗菌薬下で増大・可動性に富む・僧帽弁前尖・多弁性</td></tr>
+            <tr><td><strong>原因菌</strong></td><td>黄色ブドウ球菌・真菌</td></tr>
+            <tr><td><strong>臨床背景</strong></td><td>高齢・塞栓症の既往・心房細動・糖尿病</td></tr>
+          </tbody>
+        </table>
+        <div class="alert-yellow" style="margin-top:12px;">
+          ただし、疣腫の大きさのみが手術の「唯一の」適応にはならない点に注意する。心不全・感染制御困難などの他の手術適応がない症例において、疣腫径が予後不良因子として独立した意義を持つ。
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ SECTION 4：中枢神経合併症 ═══ -->
+    <h3 id="ie3-section4" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;"><span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 4</span>中枢神経合併症</h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">中枢神経合併症の頻度と多彩な病型</h3>
+        <p class="rule-body" style="margin-bottom:12px;">IEに合併する中枢神経合併症は、症候性のものだけで患者の<strong>10〜35%</strong>に認められる。脳MRIによるスクリーニングを行うと、無症候性のものを含め<strong>65〜80%</strong>に何らかの病変が検出される。</p>
+        <p class="rule-body">最も多いのは<strong>脳梗塞・TIA</strong>であり、多発性・小病変が多く無症候性も含めると約50%に認められる。<strong>脳出血・くも膜下出血</strong>は5〜10%に生じ、感染性脳動脈瘤の破裂や出血性梗塞が原因となる。原因菌では黄色ブドウ球菌が脳梗塞リスクを他菌種の2〜3倍高める。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">脳MRIはIE疑い全例に——「症状がない」は免除にならない</h3>
+        <p class="rule-body" style="margin-bottom:12px;">局所神経症状がある場合はもちろん、<span class="mark-red"><strong>明らかな神経症状がない患者でも脳MRIによるスクリーニングが推奨される（推奨クラスI）</strong></span>。MRIの撮影条件は<strong>DWI・FLAIR・T2*/SWI・MRA</strong>の組み合わせが推奨される。</p>
+        <div class="alert-blue" style="margin-top:12px;">
+          <strong>脳出血・くも膜下出血を認めた場合：</strong>感染性脳動脈瘤の合併検索のため脳血管イメージング（CTA・MRA・DSA）を施行する。感染性脳動脈瘤はくも膜下出血合併例で22%、非合併例でも4〜9%に認められる。
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">中枢神経合併症に対する治療の原則</h3>
+        <p class="rule-body" style="margin-bottom:10px;">中枢神経合併症の発症・再発を防ぐ最も重要な治療は<span class="mark-green"><strong>適切な抗菌薬の早期開始</strong></span>である。</p>
+        <table class="ie-table">
+          <thead><tr><th>状況</th><th>対応方針</th></tr></thead>
+          <tbody>
+            <tr><td><span class="mark-red"><strong>頭蓋内出血（微小脳出血を除く）</strong></span></td><td><span class="mark-red"><strong>抗血小板薬・抗凝固薬を速やかに中止</strong></span></td></tr>
+            <tr><td>急性期脳梗塞への<strong>t-PA（血栓溶解療法）</strong></td><td><span class="mark-red"><strong>禁忌</strong></span>——頭蓋内出血発症率が20%と極めて高い</td></tr>
+            <tr><td>主幹動脈閉塞への<strong>血栓回収療法</strong></td><td>考慮してもよい（少数例で良好な成績が報告されている）</td></tr>
+            <tr><td>塞栓症予防目的での<strong>新規の抗血小板薬・抗凝固薬開始</strong></td><td>出血リスクを高める可能性があり、<strong>新規開始は推奨されない</strong></td></tr>
+            <tr><td>感染性脳動脈瘤（破裂・増大する未破裂）</td><td>血管内治療または直達手術。いずれも<strong>抗菌薬治療は必須</strong></td></tr>
+            <tr><td>感染性脳動脈瘤（小型・増大なし）</td><td>抗菌薬継続のもと保存的治療。定期的な画像フォローを行う</td></tr>
+          </tbody>
+        </table>
+        <div class="alert-green" style="margin-top:12px;">
+          重度でない脳梗塞（出血性でない）合併例では、早期の開心術後も術後神経合併症リスクは低い。一方、<strong>頭蓋内出血を伴う場合は手術時期の延期を検討する</strong>。
+        </div>
+      </div>
+    </div>
+
+    <div class="ie-alpha">
+      <div class="ie-alpha-inner">
+        <div class="ie-alpha-header">
+          <span class="ie-alpha-badge">＋α</span>
+          <span class="ie-alpha-title">感染性脳動脈瘤——通常の脳動脈瘤とは別物として扱う</span>
+        </div>
+        <p class="rule-body" style="color:#4C1D95;">感染性脳動脈瘤は、通常の脳動脈瘤とは好発部位が大きく異なり、<strong>中大脳動脈の遠位（末梢側：M3以遠）</strong>に形成されやすい。約25%は多発性である。5mm未満の動脈瘤はMRAで検出できないことがあるため、くも膜下出血や脳出血を合併している場合は3D-CTAまたはDSAを検討する。治療は破裂動脈瘤・増大する未破裂動脈瘤に対して血管内治療または直達手術を考慮するが、脳神経外科との緊密な連携が必須である。</p>
+      </div>
+    </div>
+
+    <!-- ═══ SECTION 5：伝導障害 ═══ -->
+    <h3 id="ie3-section5" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;"><span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 5</span>伝導障害</h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">新規の房室ブロックが持つ臨床的意味</h3>
+        <p class="rule-body" style="margin-bottom:12px;">大動脈弁の無冠尖・右冠尖直下には房室結節とヒス束が走行しており、大動脈弁位IEの炎症が弁輪部に波及すると房室ブロックを生じうる。IEにおける新規の房室伝導障害は<span class="mark-red"><strong>感染が弁周囲に広がっている（弁輪周囲膿瘍の存在を強く示唆する）サイン</strong></span>であり、<span class="mark-red"><strong>新規の房室ブロックを認めたら緊急手術の検討が必要</strong></span>である。</p>
+        <p class="rule-body">感染が収束すれば遠隔期に伝導障害が改善することがあるが、感染活動期の予測は難しい。完全房室ブロックに至った場合はペースメーカが必要となるが、感染活動期に<span class="mark-yellow"><strong>恒久ペースメーカを植え込むことは避け、一時的ペースメーカで対応する</strong></span>。外科的治療後に12.8%が術後にペースメーカを必要としたという報告がある。</p>
+      </div>
+    </div>
+
+    <!-- ═══ SECTION 6：腎障害 ═══ -->
+    <h3 id="ie3-section6" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;"><span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 6</span>腎障害</h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">IEにおけるAKIの頻度と機序</h3>
+        <p class="rule-body" style="margin-bottom:12px;">急性腎障害（AKI）はIE患者の<strong>53〜69%</strong>に認められる頻度の高い合併症である。6%が透析を要する重度AKIとなりその場合の院内死亡率は40%に上る。機序は①塞栓性腎梗塞、②免疫複合体性糸球体腎炎、③薬剤性腎障害、④腎前性（心不全による低灌流）の4つがあり、<span class="mark-yellow"><strong>腎障害が発生した時期（抗菌薬投与前か後か）が鑑別の重要な手がかり</strong></span>となる。</p>
+        <div class="ie-stat-grid">
+          <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+            <div class="ie-stat-val" style="color:#DC2626;">53〜69%</div>
+            <div class="ie-stat-label">IE入院患者の<br>AKI合併率</div>
+          </div>
+          <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+            <div class="ie-stat-val" style="color:#DC2626;">6%</div>
+            <div class="ie-stat-label">透析を要する<br>重度AKI</div>
+          </div>
+          <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+            <div class="ie-stat-val" style="color:#DC2626;">40%</div>
+            <div class="ie-stat-label">重度AKI<br>院内死亡率</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">AKI機序の鑑別と対応</h3>
+        <p class="rule-body" style="margin-bottom:10px;">感染による腎炎は抗菌薬治療開始<strong>前</strong>に重症度がピークに達し、治療とともに改善する。一方、薬剤による腎炎は治療介入<strong>後</strong>に出現する。</p>
+        <table class="ie-table">
+          <thead><tr><th>機序</th><th>特徴・鑑別点</th><th>対応</th></tr></thead>
+          <tbody>
+            <tr><td><strong>塞栓性腎梗塞</strong></td><td>血尿・背部痛・側腹部痛。造影CTで楔形の造影欠損</td><td>抗菌薬治療継続。膿瘍化したら排膿</td></tr>
+            <tr><td><strong>糸球体腎炎</strong><br>（免疫複合体性）</td><td>血尿・蛋白尿・尿沈渣円柱。抗菌薬<strong>前</strong>にピーク</td><td>抗菌薬治療で改善</td></tr>
+            <tr><td><span class="mark-yellow"><strong>薬剤性腎障害</strong></span></td><td>抗菌薬開始<strong>後</strong>に悪化。好酸球増多は薬剤性間質性腎炎を示唆</td><td>原因薬の同定と中止</td></tr>
+            <tr><td><strong>腎前性（心不全）</strong></td><td>心不全進行と並行して悪化</td><td>心不全の治療</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="ie-alpha">
+      <div class="ie-alpha-inner">
+        <div class="ie-alpha-header">
+          <span class="ie-alpha-badge">＋α</span>
+          <span class="ie-alpha-title">IE診療でよく使う薬剤の腎毒性</span>
+        </div>
+        <p class="rule-body" style="color:#4C1D95;">バンコマイシンは最も注意が必要な薬剤のひとつであり、TDM（治療薬物モニタリング）による血中濃度管理が必須。NSAIDsや利尿薬との併用はAKIリスクをさらに高めるため原則として併用を避ける。アミノグリコシド系（ゲンタマイシンなど）は急性尿細管壊死を主体とする腎毒性を持つ。IEチームに薬剤師が参加し腎機能をモニタリングすることで、薬剤性AKIの発生率を低下させられることが示されている。</p>
+      </div>
+    </div>
+
+    <!-- ═══ SECTION 7：DIC ═══ -->
+    <h3 id="ie3-section7" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;"><span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 7</span>播種性血管内凝固症候群（DIC）</h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">IEにおけるDICの特徴</h3>
+        <p class="rule-body">DICはIE患者の<strong>1〜32%</strong>に合併し、院内死亡率は<strong>27〜50%</strong>と高い。IEに伴う敗血症性DICは<strong>線溶抑制型</strong>を呈することが多く、微小血管内に血栓が形成されて重篤な臓器障害をきたす。DIC治療の最も重要な柱は<span class="mark-red"><strong>原疾患（IE）そのものの治療</strong></span>であり、弁置換術によってDICが改善したとの報告もある。</p>
+      </div>
+    </div>
+
+    <div class="ie-alpha">
+      <div class="ie-alpha-inner">
+        <div class="ie-alpha-header">
+          <span class="ie-alpha-badge">＋α</span>
+          <span class="ie-alpha-title">DIC診断基準の使い分けとAT・rh-TM製剤の位置づけ</span>
+        </div>
+        <p class="rule-body" style="color:#4C1D95;">J-SSCG2024では、早期診断と治療介入の判断には<strong>JAAM-DIC基準またはSIC診断基準</strong>を、確定診断や予後・重症度予測には<strong>ISTH-DIC診断基準</strong>を用いることが推奨されている。アンチトロンビン（AT）製剤・リコンビナントトロンボモジュリン（rh-TM）製剤は敗血症性DICの改善に有効な可能性があるが、J-SSCG2024では<strong>弱推奨</strong>に留まっている。</p>
+      </div>
+    </div>
+
+    <!-- ═══ SECTION 8：化膿性脊椎炎 ═══ -->
+    <h3 id="ie3-section8" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;"><span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 8</span>化膿性脊椎炎</h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">IEと化膿性脊椎炎は双方向に合併する</h3>
+        <p class="rule-body" style="margin-bottom:12px;">化膿性脊椎炎はIEの播種性病変として知られ、IE患者の<strong>5〜10%</strong>に合併する。逆に化膿性脊椎炎として治療されている患者の<strong>10〜30%</strong>にIEが潜んでいるという報告もあり、この双方向の合併関係を常に意識することが重要である。</p>
+        <p class="rule-body">主症状は背部痛と発熱であり、<span class="mark-yellow"><strong>激しい背部痛を訴える場合は硬膜外膿瘍の合併を疑う</strong></span>。IE患者で持続する背部痛・腰痛があれば積極的にMRIで脊椎炎を検索し、化膿性脊椎炎が確認されたら必ず血液培養とTTE/TEEでIEを評価する。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">診断と治療方針</h3>
+        <p class="rule-body" style="margin-bottom:12px;">脊椎炎の画像診断では<strong>MRI</strong>が感度85%・特異度66%と第一選択となるが、感染初期には偽陰性となることがあり、強く疑う場合は一定期間後の再検を行う。抗菌薬治療は原因菌と感受性に基づき選択し、通常4〜6週間行う。</p>
+        <p class="rule-body">血液培養が陰性の場合は<strong>CTガイド下針生検または外科的生検</strong>による起因菌の同定を検討する。診断未確定・抗菌薬に反応しない・脊椎不安定性・進行性の神経障害が生じた場合は外科的治療の適応となる。</p>
+      </div>
+    </div>
+
+    <div class="ie-alpha">
+      <div class="ie-alpha-inner">
+        <div class="ie-alpha-header">
+          <span class="ie-alpha-badge">＋α</span>
+          <span class="ie-alpha-title">化膿性脊椎炎の起因菌と微生物学的診断</span>
+        </div>
+        <p class="rule-body" style="color:#4C1D95;">最も多いのは<strong>黄色ブドウ球菌</strong>であり、続いてレンサ球菌属、腸球菌属、コアグラーゼ陰性ブドウ球菌の順となる。血液培養が陰性の場合にはCTガイド下針生検が重要な手段となる。起因菌の確定は抗菌薬の選択と治療期間の決定に直結するため、血液培養陰性でも安易に経験的治療のみで完結させないことが重要である。</p>
+      </div>
+    </div>
+
+    <!-- ═══ SECTION 9：その他の全身塞栓症 ═══ -->
+    <h3 id="ie3-section9" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;"><span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 9</span>その他の全身塞栓症</h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">全身の塞栓症を見逃さない——臓器別の特徴</h3>
+        <p class="rule-body" style="margin-bottom:10px;">中枢神経系以外にも塞栓症は多臓器に生じる。画像検索（全身CT）によって塞栓症の範囲を把握することがDuke基準の充足や手術計画にも影響する。</p>
+        <table class="ie-table">
+          <thead><tr><th>塞栓部位</th><th>頻度・症状</th><th>臨床的意義</th></tr></thead>
+          <tbody>
+            <tr><td><strong>脾臓</strong></td><td>CTで31%に脾梗塞。左上腹部痛・発熱</td><td>脾膿瘍化（3〜5%）すると抗菌薬単独で制御困難 → 脾摘出適応</td></tr>
+            <tr><td><strong>腎臓</strong></td><td>10%。多くは無症状。血尿・背部痛のこともある</td><td>膿瘍化は稀。抗菌薬治療が有効</td></tr>
+            <tr><td><strong>肺（右心系IE）</strong></td><td>ペースメーカ感染の30〜50%。両側多発影・空洞影</td><td>敗血症性肺塞栓症。発熱＋呼吸困難で胸部CTに多発影を認めたらIEを疑う</td></tr>
+            <tr><td><strong>四肢末梢動脈</strong></td><td>11.7%。末梢冷感・虚血</td><td>早期なら外科的または経カテーテル的除去が可能</td></tr>
+            <tr><td><strong>冠動脈</strong></td><td>0.3〜0.5%（稀）</td><td>発症すれば死亡率高い。ACSとして発症することがある</td></tr>
+          </tbody>
+        </table>
+        <div class="alert-blue" style="margin-top:12px;">
+          胸部CTで<strong>両側多発性陰影・空洞形成</strong>を認めた場合は、右心系IEや心臓植込み型デバイス感染による敗血症性肺塞栓症を念頭に置き、三尖弁・肺動脈弁・デバイスリードを心エコーで評価する。
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ SUMMARY: 第3章 ═══ -->
+    <h3 id="ie3-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;"><span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>第3章のキーメッセージ</h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span><span class="rule-body"><strong>新規の房室ブロックは弁輪周囲膿瘍の緊急サイン：</strong>大動脈弁位IEで新規の房室ブロックが出現したら、刺激伝導系への炎症波及（弁輪周囲膿瘍）を強く疑う。TEEで評価し、<span class="mark-red"><strong>緊急手術を検討する</strong></span>。感染活動期には恒久ペースメーカは植え込まず、一時的ペースメーカで対応する。</span></div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span><span class="rule-body"><strong>7日間で血液培養が陽性のまま → 持続性感染として外科コンサルト：</strong>適切な抗菌薬を7日間投与しても血液培養が陽性なら持続性感染。心臓外の感染源を除外したうえで、<span class="mark-yellow"><strong>早期外科的治療を検討</strong></span>する。弁輪周囲膿瘍（TEE感度約90%）が形成されていれば緊急手術適応。</span></div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span><span class="rule-body"><strong>脳MRIはIE疑い全例に——「症状がない」は免除にならない：</strong>症候性CNS合併症は10〜35%だが、MRIでは65〜80%に病変あり。<span class="mark-red"><strong>頭蓋内出血を認めたら抗凝固薬を即中止。脳梗塞へのt-PAは禁忌。</strong></span>脳出血・くも膜下出血 → 脳血管イメージングで感染性脳動脈瘤を検索。</span></div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span><span class="rule-body"><strong>AKIの機序を見極める——「いつ悪化したか」が鑑別の鍵：</strong>抗菌薬<strong>前</strong>にピーク → 感染性（腎梗塞・糸球体腎炎）。抗菌薬<strong>後</strong>に悪化 → 薬剤性を疑いTDM確認・原因薬の再評価。<span class="mark-green"><strong>バンコマイシン・アミノグリコシドはTDMを必ず行い、NSAIDsの使用は原則避ける。</strong></span></span></div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;"><span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span><span class="rule-body"><strong>IE患者の背部痛 → 化膿性脊椎炎を検索。脊椎炎患者 → IEを検索：</strong>IE患者の5〜10%に脊椎炎が合併し、脊椎炎患者の10〜30%にIEが潜む。<span class="mark-yellow"><strong>IE患者で持続する背部痛があれば積極的にMRIで評価する。激しい疼痛は硬膜外膿瘍を疑う。</strong></span></span></div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ════════════════════════════════════════════ -->
+    <!-- ═══ 第4章 抗菌薬治療 ═══ -->
+    <!-- ════════════════════════════════════════════ -->
+    <div id="ie-ch4" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+      <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+      <div style="font-size:1.3rem;font-weight:900;position:relative;">第4章 抗菌薬治療</div>
+      <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Antimicrobial Therapy</div>
+    </div>
+
+    <!-- ═══ SECTION 1 ═══ -->
+    <h3 id="ie4-section1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;"><span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>抗菌薬治療の基本原則</h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">抗菌薬開始前に必ず血液培養を——これだけは絶対に守る</h3>
+        <p class="rule-body" style="margin-bottom:12px;"><span class="mark-red"><strong>抗菌薬の投与を始める前に血液培養を採取すること</strong></span>。先行する抗菌薬投与は血液培養の陽性率を大幅に低下させ、起因菌の同定と治療方針の決定を困難にする。緊急性がある場合でも、できる限り複数セット（最低2セット、望ましくは3セット）採取してから抗菌薬を開始する。</p>
+        <div class="alert-red">
+          <strong>抗菌薬投与前に血液培養（複数セット）→ その後に抗菌薬開始。</strong>血行動態が不安定な場合でも血液培養は採取してから投与する。
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">IEには殺菌性抗菌薬を——静菌性薬では治らない理由</h3>
+        <p class="rule-body">IEの感染巣（疣腫）は高密度の菌塊とフィブリン・血小板が積み重なった構造物であり、補体や免疫細胞が十分に到達できない「免疫特権的」な環境に菌が存在する。このため静菌性抗菌薬では菌を根絶できず、<span class="mark-red"><strong>β-ラクタム系薬・グリコペプチド系薬・ダプトマイシンなどの殺菌性抗菌薬</strong></span>が必須となる。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">TDM（治療薬物モニタリング）は必須</h3>
+        <p class="rule-body" style="margin-bottom:12px;">バンコマイシン・テイコプラニン・アミノグリコシド系薬は、治療域と毒性域が近接しており、血中濃度を個別に測定・管理しなければ治療失敗や腎毒性・聴器毒性のリスクが高まる。</p>
+        <div class="ie-tdm-grid">
+          <div class="ie-tdm-box">
+            <div class="ie-tdm-name">バンコマイシン</div>
+            <div class="ie-tdm-drug">目標：AUC/MIC 400〜600</div>
+            <div class="ie-tdm-note">トラフ＋ピーク値による2点採血でAUCを推定する方法が推奨</div>
+          </div>
+          <div class="ie-tdm-box">
+            <div class="ie-tdm-name">テイコプラニン</div>
+            <div class="ie-tdm-drug">目標トラフ値：≥20 μg/mL</div>
+            <div class="ie-tdm-note">定常状態に達するまでの負荷投与が必要（1〜2日目：12 mg/kg×2回/日）</div>
+          </div>
+          <div class="ie-tdm-box">
+            <div class="ie-tdm-name">アミノグリコシド系薬</div>
+            <div class="ie-tdm-drug">1日1回投与でもよい</div>
+            <div class="ie-tdm-note">腎毒性・第8脳神経障害に注意。2〜4週超える場合は耳鼻科評価を</div>
+          </div>
+          <div class="ie-tdm-box">
+            <div class="ie-tdm-name">定期モニタリング</div>
+            <div class="ie-tdm-drug">週1〜2回：腎機能・肝機能</div>
+            <div class="ie-tdm-note">異常を早期に発見し投与量調整・薬剤変更に繋げる</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">治療期間のカウント開始日——「抗菌薬開始日」ではない</h3>
+        <p class="rule-body" style="margin-bottom:12px;">IEの抗菌薬治療期間は、<span class="mark-green"><strong>血液培養が陰性化した日を起点</strong></span>としてカウントする。手術を行った症例で術中検体の培養が陽性になった場合は、手術日が起点となる。</p>
+        <div class="alert-green" style="margin-top:12px;">
+          <strong>治療効果の判定タイミング：</strong>抗菌薬開始後48〜72時間を目安に行う。24〜48時間おきに血液培養を再提出し陰性化を確認する。大多数の患者は適切な治療開始後3〜5日以内に解熱するが、<em>S. aureus</em>では5〜7日かかることがある。
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ SECTION 2 ═══ -->
+    <h3 id="ie4-section2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;"><span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>エンピリック治療（培養結果が出る前）</h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">エンピリック治療をいつ始めるか</h3>
+        <p class="rule-body" style="margin-bottom:12px;">以下のいずれかに当てはまる場合は速やかに開始する。</p>
+        <div class="ie-flow">
+          <div class="ie-flow-item">
+            <div class="ie-flow-num">1</div>
+            <div style="flex:1;"><p class="rule-body"><strong>臨床的にIEの可能性が高い：</strong>Duke基準「可能性」以上を満たす</p></div>
+          </div>
+          <div class="ie-flow-item">
+            <div class="ie-flow-num">2</div>
+            <div style="flex:1;"><p class="rule-body"><strong>血行動態が不安定：</strong>敗血症性ショック・急性心不全</p></div>
+          </div>
+          <div class="ie-flow-item">
+            <div class="ie-flow-num">3</div>
+            <div style="flex:1;"><p class="rule-body"><strong>塞栓症を起こしている</strong></p></div>
+          </div>
+          <div class="ie-flow-item">
+            <div class="ie-flow-num">4</div>
+            <div style="flex:1;"><p class="rule-body"><strong>弁輪周囲膿瘍が疑われる</strong></p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">エンピリック治療レジメンの選択</h3>
+        <p class="rule-body" style="margin-bottom:10px;">MRSA保菌歴の有無、自己弁か人工弁か、市中発症か医療関連感染かによって選択する薬剤が変わる。</p>
+        <table class="ie-table">
+          <thead><tr><th>状況</th><th>推奨レジメン</th></tr></thead>
+          <tbody>
+            <tr><td><strong>自己弁・MRSAリスク低</strong><br>（市中発症・MRSA保菌歴なし）</td><td><span class="mark-green"><strong>アンピシリン・スルバクタム 3 g × 3〜4回/日</strong></span> ＋ セフトリアキソン 2 g × 1回/日</td></tr>
+            <tr><td><strong>自己弁・MRSAリスクあり</strong><br>（医療関連・MRSA保菌歴あり）</td><td><span class="mark-red"><strong>バンコマイシン（TDM管理）</strong></span> ＋ セフトリアキソン 2 g × 1回/日</td></tr>
+            <tr><td><strong>人工弁・デバイス関連</strong></td><td>バンコマイシン（TDM管理）＋ セフェピム 2 g × 2回/日<br><span class="mark-yellow">（グラム陰性桿菌のカバー追加）</span></td></tr>
+            <tr><td><strong>β-ラクタムアレルギー（重度）</strong></td><td>バンコマイシン or ダプトマイシン ＋ セフトリアキソン</td></tr>
+          </tbody>
+        </table>
+        <div class="alert-blue" style="margin-top:12px;">
+          ダプトマイシンはバンコマイシンの代替として選択できる（8〜10 mg/kg 1日1回）。ただし、ダプトマイシンは日本では<strong>右心系IEにのみ保険適用</strong>がある点に注意する。
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ SECTION 3 ═══ -->
+    <h3 id="ie4-section3" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;"><span style="color:#16A34A;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>標的治療①：Streptococcus 属（レンサ球菌）</h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">緑色レンサ球菌（VGS）・S. gallolyticus——最も治療しやすい原因菌</h3>
+        <p class="rule-body" style="margin-bottom:10px;">VGSはIEの原因菌として依然頻度が高く、ペニシリン感性株が多い（MIC ≤ 0.12 µg/mL）。β-ラクタム系薬による治療成績は良好である。</p>
+        <table class="ie-table">
+          <thead><tr><th>感受性</th><th>第一選択薬</th><th>治療期間</th><th>備考</th></tr></thead>
+          <tbody>
+            <tr><td><strong>ペニシリン感性</strong><br>(MIC ≤0.12)</td><td>ペニシリンG / アンピシリン<br>またはセフトリアキソン 2 g×1回/日</td><td>自己弁：4週<br>人工弁：6週</td><td>条件を満たす自己弁IEでは2週間の短縮療法も可</td></tr>
+            <tr><td><strong>ペニシリン非感性</strong><br>(MIC ≥0.25)</td><td>ペニシリンG / アンピシリン ＋ ゲンタマイシン（最初の2週）</td><td>自己弁：4〜6週<br>人工弁：6週</td><td>β-ラクタムアレルギー（重度）はバンコマイシン単剤</td></tr>
+          </tbody>
+        </table>
+        <div class="alert-green" style="margin-top:12px;">
+          <strong>短縮療法（2週間）が可能な条件（全て満たすこと）：</strong>①疣腫径 ≤10 mm、②塞栓症・遠隔感染巣なし、③手術適応なし、④伝導障害なし、⑤腎機能・肝機能が正常
+        </div>
+      </div>
+    </div>
+
+    <div class="ie-alpha">
+      <div class="ie-alpha-inner">
+        <div class="ie-alpha-header">
+          <span class="ie-alpha-badge">＋α</span>
+          <span class="ie-alpha-title">β溶血性レンサ球菌と栄養要求性レンサ球菌（NVS）</span>
+        </div>
+        <p class="rule-body" style="color:#4C1D95;">β溶血性レンサ球菌は稀だが、臨床経過が急速で死亡率20%超と高い。自己弁・人工弁ともに6週間の治療が推奨される。旧「栄養要求性レンサ球菌（NVS）」である<em>Abiotrophia spp.</em>・<em>Granulicatella spp.</em>は、亜急性の経過をとり塞栓症・弁破壊が起きやすく、手術を要する症例が多い。治療期間は自己弁・人工弁ともに6週間。肺炎球菌によるIEは全体の1%未満と稀だが、髄膜炎合併時は中枢移行性の高いセフトリアキソン（2 g×2回/日）を選択する。</p>
+      </div>
+    </div>
+
+    <!-- ═══ SECTION 4 ═══ -->
+    <h3 id="ie4-section4" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;"><span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 4</span>標的治療②：Staphylococcus 属（ブドウ球菌）</h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">ブドウ球菌性IEの特殊性——急速進行・高死亡率</h3>
+        <p class="rule-body">黄色ブドウ球菌は先進国でIE原因菌の第1位であり、院内死亡率は20%以上に達する。組織破壊力が強く、弁破壊・弁輪周囲膿瘍・遠隔感染巣の形成など重症化しやすい。CoNSは人工弁IEの主要な原因菌であり、日本ではCoNSの約80%がメチシリン耐性（MR-CoNS）であるため、<span class="mark-red"><strong>感受性が判明するまではMRSAに準じて治療する</strong></span>。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">MSSA（メチシリン感性黄色ブドウ球菌）の治療</h3>
+        <p class="rule-body" style="margin-bottom:10px;">日本では<span class="mark-green"><strong>セファゾリン 2 g × 3回/日が第一選択</strong></span>。ただし、<strong>セファゾリンは中枢神経への移行性が不良なため、脳膿瘍・髄膜炎合併例には使用しない</strong>（代替：セフェピム・メロペネム・バンコマイシン）。</p>
+        <table class="ie-table">
+          <thead><tr><th>弁種</th><th>第一選択（日本）</th><th>期間</th><th>ゲンタマイシン併用</th></tr></thead>
+          <tbody>
+            <tr><td><strong>自己弁</strong></td><td>セファゾリン 2 g × 3回/日</td><td>4〜6週</td><td><span class="mark-red"><strong>推奨しない</strong></span>（腎障害リスク）</td></tr>
+            <tr><td><strong>人工弁</strong></td><td>セファゾリン 2 g × 3回/日<br>± ゲンタマイシン（最初2週）</td><td>6〜8週</td><td>有益性の証明は不十分。腎機能に問題なければ考慮可</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">MRSA（メチシリン耐性黄色ブドウ球菌）の治療——TDM管理が命</h3>
+        <p class="rule-body" style="margin-bottom:10px;">日本でMRSAのIEに保険適用がある薬剤はバンコマイシンとダプトマイシンの2剤。バンコマイシンは<span class="mark-red"><strong>AUC/MIC 400〜600を目標にTDM管理を行う</strong></span>。MICが&gt;1 µg/mLの場合は他剤（ダプトマイシン）への変更を検討する。ダプトマイシンは<strong>8〜10 mg/kg 1日1回の高用量</strong>での投与が推奨される。</p>
+        <table class="ie-table">
+          <thead><tr><th>弁種</th><th>第一選択</th><th>期間</th><th>ゲンタマイシン併用</th></tr></thead>
+          <tbody>
+            <tr><td><strong>自己弁</strong></td><td>バンコマイシン（TDM管理）<br>or ダプトマイシン 8〜10 mg/kg 1日1回</td><td>4〜6週</td><td><span class="mark-red"><strong>推奨しない</strong></span></td></tr>
+            <tr><td><strong>人工弁</strong></td><td>バンコマイシン（TDM管理）<br>or ダプトマイシン 8〜10 mg/kg 1日1回</td><td>6〜8週</td><td>原則不要、忍容性があれば最初2週考慮可</td></tr>
+          </tbody>
+        </table>
+        <div class="alert-red" style="margin-top:12px;">
+          <strong>バンコマイシン + β-ラクタム系薬の併用は推奨しない（推奨クラスIII harm）</strong>——臨床試験で死亡率や治療失敗の改善は証明されておらず、腎機能障害リスクが上昇する。
+        </div>
+      </div>
+    </div>
+
+    <div class="ie-alpha">
+      <div class="ie-alpha-inner">
+        <div class="ie-alpha-header">
+          <span class="ie-alpha-badge">＋α</span>
+          <span class="ie-alpha-title">MRSA IEに対する併用療法の考え方</span>
+        </div>
+        <p class="rule-body" style="color:#4C1D95;">ダプトマイシンにβ-ラクタム系薬またはホスホマイシンを併用すると、in vitroで相乗効果が示されており、小規模報告では治療成績向上が示唆されている。ただし、併用薬・投与量・投与期間は確立されておらず、感染症専門医へのコンサルトを推奨する。リネゾリドはIEへの保険適用はないが、サルベージ療法として使用報告がある。リファンピシンのMRSA人工弁IEへの併用は、本ガイドラインでは推奨していない。</p>
+      </div>
+    </div>
+
+    <!-- ═══ SECTION 5 ═══ -->
+    <h3 id="ie4-section5" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;"><span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 5</span>標的治療③：Enterococcus 属（腸球菌）</h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">腸球菌IEの難しさ——高齢者に多く、治療に難渋しやすい</h3>
+        <p class="rule-body">腸球菌は全体の約10%を占める第3位の原因菌。高齢者に多く、消化管や泌尿器が主な侵入門戸。<span class="mark-yellow"><strong>標準治療後でも1年以内の再発率が10%と高い</strong></span>。腸球菌は本来β-ラクタム系薬に自然耐性があり、アミノグリコシド系薬も自然耐性があるため、<strong>β-ラクタムとアミノグリコシドの組み合わせで初めて殺菌的な効果</strong>が得られる。<span class="mark-red"><strong>まず検査室にゲンタマイシン高度耐性の有無を確認することが重要</strong></span>。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">腸球菌IEの治療選択——ゲンタマイシン高度耐性の有無が鍵</h3>
+        <table class="ie-table">
+          <thead><tr><th>状況</th><th>推奨レジメン</th><th>期間</th></tr></thead>
+          <tbody>
+            <tr><td><strong>ペニシリン感性</strong><br>ゲンタ高度耐性なし</td><td><span class="mark-green"><strong>アンピシリン 2g × 4〜6回/日</strong></span><br>＋ ゲンタマイシン 2〜3 mg/kg 1日1回</td><td>自己弁：4〜6週<br>人工弁：6週</td></tr>
+            <tr><td><strong>ペニシリン感性</strong><br>高齢者・腎機能低下<br>またはゲンタ高度耐性</td><td><span class="mark-yellow"><strong>アンピシリン 2g × 4〜6回/日<br>＋ セフトリアキソン 2g × 1〜2回/日</strong></span></td><td>自己弁：4〜6週<br>人工弁：6週</td></tr>
+            <tr><td><strong>ペニシリン耐性</strong><br>（<em>E. faecium</em>など）</td><td>バンコマイシン（TDM管理）<br>± ゲンタマイシン</td><td>4〜6週</td></tr>
+          </tbody>
+        </table>
+        <div class="alert-yellow" style="margin-top:12px;">
+          <strong>アンピシリン＋セフトリアキソン併用療法</strong>は高齢者や腎機能低下例で優先的に使用し、ゲンタマイシン高度耐性株でも有効。<em>E. faecium</em>に対しては無効であり用いない点に注意。
+        </div>
+      </div>
+    </div>
+
+    <div class="ie-alpha">
+      <div class="ie-alpha-inner">
+        <div class="ie-alpha-header">
+          <span class="ie-alpha-badge">＋α</span>
+          <span class="ie-alpha-title">VRE（バンコマイシン耐性腸球菌）の治療</span>
+        </div>
+        <p class="rule-body" style="color:#4C1D95;">VREに対してはリネゾリドまたはダプトマイシンを選択し、アンピシリンやゲンタマイシンの併用を考慮する。ダプトマイシンは高用量投与（10〜12 mg/kg）や併用療法について標準的方法は定まっていない。治療方針については感染症専門医へのコンサルトを強く推奨する。</p>
+      </div>
+    </div>
+
+    <!-- ═══ SECTION 6 ═══ -->
+    <h3 id="ie4-section6" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;"><span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 6</span>標的治療④：HACEK グループ・真菌・血液培養陰性IE</h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">HACEKグループ——血液培養から出たら必ずIEを疑う</h3>
+        <p class="rule-body">HACEKグループは口腔・咽頭に常在するグラム陰性桿菌の総称。IE全体の1%未満と稀だが、<span class="mark-red"><strong>血液培養から検出された場合は高い確率でIEが関連している</strong></span>ため、必ずIEを評価する。予後は比較的良好で死亡率は約5%。治療はセフトリアキソン（2 g 1日2回）が第一選択で、4週間（人工弁は6週間）投与する。</p>
+      </div>
+    </div>
+
+    <div class="ie-alpha">
+      <div class="ie-alpha-inner">
+        <div class="ie-alpha-header">
+          <span class="ie-alpha-badge">＋α</span>
+          <span class="ie-alpha-title">真菌性IE——血液培養陰性でも疑うべき重篤な病態</span>
+        </div>
+        <p class="rule-body" style="color:#4C1D95;margin-bottom:10px;">真菌性IEは院内死亡率が30〜50%と極めて高い。Candida属が最多。<span class="mark-red"><strong>血液培養の陽性率は50〜75%、Aspergillusでは5%未満</strong></span>であるため培養陰性でも否定できない。抗真菌薬単独では感染制御が困難であり、<strong>ほぼ全例で外科的治療が必要</strong>。外科的治療が行えない場合にはアゾール系抗真菌薬による長期抑制療法が推奨される。</p>
+      </div>
+    </div>
+
+    <div class="ie-alpha">
+      <div class="ie-alpha-inner">
+        <div class="ie-alpha-header">
+          <span class="ie-alpha-badge">＋α</span>
+          <span class="ie-alpha-title">血液培養陰性IE——細胞内寄生菌を考慮する</span>
+        </div>
+        <p class="rule-body" style="color:#4C1D95;margin-bottom:10px;">培養陰性の主な原因は①事前の抗菌薬投与、②細胞内寄生菌、③真菌の3つ。</p>
+        <table class="ie-table">
+          <thead><tr><th>起因菌</th><th>疫学・手がかり</th><th>治療</th></tr></thead>
+          <tbody>
+            <tr><td><strong><em>Coxiella burnetii</em></strong>（Q熱）</td><td>家畜・農場との接触歴。Phase I IgG ≥1:800が大基準</td><td>ドキシサイクリン＋ヒドロキシクロロキン 18か月以上</td></tr>
+            <tr><td><strong><em>Bartonella spp.</em></strong></td><td>猫引っかき歴・ノミ。ホームレス・シラミ</td><td>アンピシリン or ゲンタマイシン＋ドキシサイクリン 3か月以上</td></tr>
+            <tr><td><strong><em>Tropheryma whipplei</em></strong></td><td>慢性腸炎・関節炎・神経症状</td><td>長期コトリモキサゾール</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ═══ SECTION 7 ═══ -->
+    <h3 id="ie4-section7" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;"><span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 7</span>特殊な状況——髄膜炎合併・長期抗菌薬療法</h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">髄膜炎・脳膿瘍合併時の抗菌薬投与の注意点</h3>
+        <p class="rule-body" style="margin-bottom:10px;">脳膿瘍または髄膜炎を合併したIEでは、抗菌薬の中枢神経への移行性を考慮した薬剤選択が必要。<span class="mark-red"><strong>セファゾリンは中枢移行性が不良なため使用しない</strong></span>。</p>
+        <table class="ie-table">
+          <thead><tr><th>合併状況</th><th>投与量の注意</th></tr></thead>
+          <tbody>
+            <tr><td><strong>髄膜炎合併</strong></td><td>セフトリアキソン：1回2 g <span class="mark-red">1日2回</span>へ増量。治療開始2週間は本量で投与</td></tr>
+            <tr><td><strong>脳膿瘍合併</strong></td><td>セフトリアキソン：1回2 g 1日2回を<span class="mark-red">治療期間全体を通して</span>継続</td></tr>
+            <tr><td><strong>セファゾリン</strong></td><td><span class="mark-red"><strong>使用禁止</strong></span>（中枢移行性不良のためde-escalation不可）</td></tr>
+            <tr><td><strong>セフェピム高用量</strong></td><td>抗菌薬脳症に注意（高用量時）</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="ie-alpha">
+      <div class="ie-alpha-inner">
+        <div class="ie-alpha-header">
+          <span class="ie-alpha-badge">＋α</span>
+          <span class="ie-alpha-title">手術適応があっても手術できない症例への長期抗菌薬療法</span>
+        </div>
+        <p class="rule-body" style="color:#4C1D95;">高齢・フレイル・多臓器障害など様々な理由で手術に至らないケースでは、抑制的抗菌薬療法（suppressive antibiotic therapy）や長期抗菌薬療法が重要な選択肢となる。外来静注抗菌薬療法（OPAT）や経口抗菌薬への切り替えが行われるが、<strong>抗菌薬中止後の再発率が高い</strong>ため治療期間の設定は慎重に行う。退院後も継続治療が必要な患者には入院中から多職種での支援体制を構築する。</p>
+      </div>
+    </div>
+
+    <!-- ═══ SUMMARY: 第4章 ═══ -->
+    <h3 id="ie4-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;"><span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>第4章のキーメッセージ</h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span><span class="rule-body"><strong>抗菌薬を始める前に血液培養——これは絶対：</strong>先行する抗菌薬投与は血液培養の陽性率を下げ、起因菌同定を妨げ予後に悪影響を及ぼす。<span class="mark-red"><strong>複数セット採血 → 抗菌薬開始。</strong></span>緊急時でもこの順序は変えない。</span></div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span><span class="rule-body"><strong>治療期間は「血液培養陰性化日」からカウント：</strong>抗菌薬開始日ではない。24〜48時間おきに血液培養を再提出し陰性化を確認する。手術した場合は術中検体が陽性なら手術日が起点となる。</span></div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span><span class="rule-body"><strong>バンコマイシン・テイコプラニン・アミノグリコシドはTDM必須：</strong>バンコマイシン目標：<span class="mark-red"><strong>AUC/MIC 400〜600</strong></span>（2点採血によるAUC推定を推奨）。テイコプラニン：トラフ値≥20 µg/mL。アミノグリコシド：腎毒性・聴器毒性に注意し週1〜2回腎機能チェック。</span></div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span><span class="rule-body"><strong>MRSA → セファゾリンは使えない。バンコマイシン or ダプトマイシン：</strong>CoNSは感受性判明まで<span class="mark-red">MRSAに準じて治療</span>。MSSAの第一選択は<strong>セファゾリン 2 g × 3回/日</strong>（脳膿瘍・髄膜炎合併時は禁忌）。バンコマイシン + β-ラクタム系薬の併用は<strong>推奨しない</strong>。</span></div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;"><span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span><span class="rule-body"><strong>腸球菌はまずゲンタマイシン高度耐性の確認から：</strong>高度耐性なし → <span class="mark-green"><strong>アンピシリン ＋ ゲンタマイシン</strong></span>。高齢者・腎機能低下・高度耐性株 → <span class="mark-yellow"><strong>アンピシリン ＋ セフトリアキソン</strong></span>（E. faeciumには無効）。1年以内再発率10%の高さを念頭に、治療完了後もフォローアップを続ける。</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ 第5章 外科的治療 ═══ -->
+    <div id="ie-ch5" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;"><div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div><div style="font-size:1.3rem;font-weight:900;position:relative;">第5章 外科的治療</div><div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Surgical Treatment — Indications &amp; Timing</div></div>
+
+    <!-- ═══ SECTION 1 ═══ -->
+    <h3 id="ie5-section1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;"><span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>手術リスク評価と術前検査</h3>
+
+    <div class="card" style="margin-bottom:16px;"><div class="card-inner">
+      <h3 class="rule-title">活動期IEの手術リスク</h3>
+      <p class="rule-body">活動期IEの手術リスクは通常の弁膜症手術より高い。JapanSCOREやEuroSCORE IIは<span class="mark-red">IE特有の因子（膿瘍・塞栓・菌血症持続など）を組み込んでいないため不十分</span>であり、総合的な判断が必要である。</p>
+      <p class="rule-body" style="margin-top:10px;font-weight:700;">主なリスク因子（オッズ比）：</p>
+      <table class="ie-table">
+        <thead><tr><th>リスク因子</th><th>OR（95% CI）</th></tr></thead>
+        <tbody>
+          <tr><td>緊急手術</td><td>1.55–2.39</td></tr>
+          <tr><td>心原性ショック</td><td>2.52–4.97</td></tr>
+          <tr><td>弁輪周囲膿瘍</td><td>1.60–6.45</td></tr>
+          <tr><td>腎不全</td><td>1.32–3.62</td></tr>
+        </tbody>
+      </table>
+      <p class="rule-body" style="margin-top:12px;font-weight:700;">リスク評価で考慮すべき5領域：</p>
+      <table class="ie-table">
+        <thead><tr><th>領域</th><th>評価項目</th></tr></thead>
+        <tbody>
+          <tr><td>患者背景</td><td>年齢、併存疾患、腎機能、frailty</td></tr>
+          <tr><td>手術状況</td><td>緊急度、再手術、多弁手術</td></tr>
+          <tr><td>感染の性状</td><td>起因菌、菌血症持続期間、抗菌薬反応性</td></tr>
+          <tr><td>局所所見</td><td>膿瘍、瘻孔、弁破壊の程度</td></tr>
+          <tr><td>合併症</td><td>脳梗塞、腎不全、DIC、心不全</td></tr>
+        </tbody>
+      </table>
+    </div></div>
+
+    <div class="card" style="margin-bottom:16px;"><div class="card-inner">
+      <h3 class="rule-title">術前検査フロー</h3>
+      <div class="ie-flow">
+        <div class="ie-flow-item"><div class="ie-flow-num">1</div><div style="flex:1;"><p class="rule-body"><strong>脳画像：</strong>DWI / FLAIR / T2* / MRA — 無症候性脳梗塞・感染性脳動脈瘤のスクリーニング</p></div></div>
+        <div class="ie-flow-item"><div class="ie-flow-num">2</div><div style="flex:1;"><p class="rule-body"><strong>冠動脈評価：</strong>冠動脈CTまたは造影 — 虚血リスクの評価（活動期はカテーテル操作に注意）</p></div></div>
+        <div class="ie-flow-item"><div class="ie-flow-num">3</div><div style="flex:1;"><p class="rule-body"><strong>胸腹部CT：</strong>膿瘍・脾膿瘍・腎膿瘍・感染性動脈瘤の検索</p></div></div>
+        <div class="ie-flow-item"><div class="ie-flow-num">4</div><div style="flex:1;"><p class="rule-body"><strong>腰背部痛がある場合 → MRI：</strong>化膿性脊椎炎の除外</p></div></div>
+      </div>
+    </div></div>
+
+    <!-- ═══ SECTION 2 ═══ -->
+    <h3 id="ie5-section2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;"><span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>手術の3大適応</h3>
+
+    <div class="card" style="margin-bottom:16px;"><div class="card-inner">
+      <h3 class="rule-title">3大カテゴリ</h3>
+      <p class="rule-body">IEにおける外科手術の適応は以下の<strong>3つのカテゴリ</strong>に大別される：</p>
+      <div class="ie-flow" style="margin-top:10px;">
+        <div class="ie-flow-item"><div class="ie-flow-num">①</div><div style="flex:1;"><p class="rule-body"><strong>心不全</strong> — 弁破壊による急性弁逆流に伴ううっ血性心不全</p></div></div>
+        <div class="ie-flow-item"><div class="ie-flow-num">②</div><div style="flex:1;"><p class="rule-body"><strong>治療抵抗性感染</strong> — 抗菌薬のみでは感染コントロール不能</p></div></div>
+        <div class="ie-flow-item"><div class="ie-flow-num">③</div><div style="flex:1;"><p class="rule-body"><strong>塞栓症リスクの高い疣腫</strong> — 大きな可動性疣腫による塞栓予防</p></div></div>
+      </div>
+      <div class="alert-red" style="margin-top:12px;">
+        <strong>⚠ 心不全合併の院内死亡率：</strong>内科治療のみ <span class="mark-red"><strong>45%</strong></span> → 外科手術併用 <span class="mark-green"><strong>21%</strong></span>。日本では全IE患者の<strong>61%</strong>が外科手術を受けている。
+      </div>
+    </div></div>
+
+    <div class="card" style="margin-bottom:16px;"><div class="card-inner">
+      <h3 class="rule-title">手術タイミングの定義</h3>
+      <p class="rule-body">手術の緊急度は以下の3段階に分類される：</p>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:12px;">
+        <div style="flex:1;min-width:140px;background:#FEE2E2;border-radius:8px;padding:14px 16px;text-align:center;">
+          <span style="display:inline-block;font-size:0.72rem;font-weight:700;padding:2px 10px;border-radius:4px;background:#991B1B;color:#fff;">緊急手術</span>
+          <p class="rule-body" style="margin-top:8px;color:#991B1B;font-weight:700;">24時間以内</p>
+        </div>
+        <div style="flex:1;min-width:140px;background:#FEF3C7;border-radius:8px;padding:14px 16px;text-align:center;">
+          <span style="display:inline-block;font-size:0.72rem;font-weight:700;padding:2px 10px;border-radius:4px;background:#92400E;color:#fff;">準緊急手術</span>
+          <p class="rule-body" style="margin-top:8px;color:#92400E;font-weight:700;">3–5日以内</p>
+        </div>
+        <div style="flex:1;min-width:140px;background:#D1FAE5;border-radius:8px;padding:14px 16px;text-align:center;">
+          <span style="display:inline-block;font-size:0.72rem;font-weight:700;padding:2px 10px;border-radius:4px;background:#065F46;color:#fff;">待機的手術</span>
+          <p class="rule-body" style="margin-top:8px;color:#065F46;font-weight:700;">1–2週間後</p>
+        </div>
+      </div>
+    </div></div>
+
+    <!-- ═══ SECTION 3 ═══ -->
+    <h3 id="ie5-section3" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;"><span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>適応①：うっ血性心不全</h3>
+
+    <div class="card" style="margin-bottom:16px;"><div class="card-inner">
+      <h3 class="rule-title">心不全合併のIE</h3>
+      <p class="rule-body">左心系自己弁IEの<strong>心不全合併率は約40%</strong>。弁破壊による急性弁逆流が主因である。心不全はIEの最も重要な手術適応であり、最も多い死亡原因でもある。</p>
+      <table class="ie-table" style="margin-top:12px;">
+        <thead><tr><th>臨床像</th><th>タイミング</th><th>推奨クラス</th></tr></thead>
+        <tbody>
+          <tr><td>心原性ショック・肺水腫</td><td><span style="display:inline-block;font-size:0.72rem;font-weight:700;padding:2px 10px;border-radius:4px;background:#FEE2E2;color:#991B1B;">緊急手術</span></td><td><strong>クラス I</strong></td></tr>
+          <tr><td>難治性心不全（内科治療に反応せず）</td><td><span style="display:inline-block;font-size:0.72rem;font-weight:700;padding:2px 10px;border-radius:4px;background:#FEF3C7;color:#92400E;">準緊急手術</span></td><td><strong>クラス I</strong></td></tr>
+        </tbody>
+      </table>
+      <div class="alert-yellow" style="margin-top:12px;">
+        <strong>⚠ 注意：</strong>NYHA IIでも増悪傾向があれば、心不全が重症化する前の早期手術介入を検討する。弁逆流が重度でも自覚症状が軽い場合があり、心エコーによる血行動態評価が重要。
+      </div>
+    </div></div>
+
+    <!-- ═══ SECTION 4 ═══ -->
+    <h3 id="ie5-section4" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;"><span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 4</span>適応②：治療抵抗性感染・弁輪周囲膿瘍</h3>
+
+    <div class="card" style="margin-bottom:16px;"><div class="card-inner">
+      <h3 class="rule-title">治療抵抗性感染と弁輪周囲膿瘍</h3>
+      <p class="rule-body">適切な抗菌薬投与後<strong>3–5日</strong>で菌血症が解消しなければ<span class="mark-red">治療抵抗性</span>と判断する。弁輪周囲膿瘍は抗菌薬のみでの治癒が困難であり、外科的ドレナージ・弁置換が必要となることが多い。</p>
+      <p class="rule-body" style="margin-top:10px;">弁輪周囲膿瘍の画像診断感度：<strong>TTE 約50%</strong>、<strong>TEE 約90%</strong>。TEEが疑い症例では必須である。</p>
+      <div class="alert-red" style="margin-top:12px;">
+        <strong>⚠ 弁輪周囲膿瘍 → 緊急〜準緊急手術の適応：</strong>膿瘍は弁輪破壊・瘻孔形成・伝導障害を引き起こし、放置すれば致死的となる。TEEで膿瘍が確認されれば速やかに手術を検討する。
+      </div>
+    </div></div>
+
+    <!-- ═══ SECTION 5 ═══ -->
+    <h3 id="ie5-section5" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;"><span style="color:#16A34A;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 5</span>適応③：塞栓症予防</h3>
+
+    <div class="card" style="margin-bottom:16px;"><div class="card-inner">
+      <h3 class="rule-title">塞栓症リスクと疣腫管理</h3>
+      <p class="rule-body">IEにおける塞栓症の発生率は<strong>20–50%</strong>。抗菌薬治療開始後、塞栓リスクは急速に低下する：1週目 <strong>44.9回/1000患者・週</strong> → 6週目 <strong>2.4回/1000患者・週</strong>。しかし大きな疣腫が残存する場合はリスクが持続する。</p>
+      <table class="ie-table" style="margin-top:12px;">
+        <thead><tr><th>疣腫の状態</th><th>タイミング</th><th>推奨クラス</th></tr></thead>
+        <tbody>
+          <tr><td>残存疣腫 &gt;10 mm + 塞栓イベント後</td><td><span style="display:inline-block;font-size:0.72rem;font-weight:700;padding:2px 10px;border-radius:4px;background:#FEF3C7;color:#92400E;">準緊急手術</span></td><td><strong>クラス I</strong></td></tr>
+          <tr><td>可動性疣腫 &gt;10 mm（単独）</td><td><span style="display:inline-block;font-size:0.72rem;font-weight:700;padding:2px 10px;border-radius:4px;background:#FEF3C7;color:#92400E;">準緊急手術</span></td><td><strong>クラス I / IIb</strong></td></tr>
+        </tbody>
+      </table>
+      <div class="alert-green" style="margin-top:12px;">
+        <strong>塞栓高リスク因子：</strong>疣腫径 &gt;10 mm、可動性疣腫、僧帽弁前尖付着、黄色ブドウ球菌IE、抗菌薬開始後も疣腫増大、塞栓イベントの既往
+      </div>
+    </div></div>
+
+    <!-- ═══ SECTION 6 ═══ -->
+    <h3 id="ie5-section6" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;"><span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 6</span>脳合併症を伴う症例の手術時期</h3>
+
+    <div class="card" style="margin-bottom:16px;"><div class="card-inner">
+      <h3 class="rule-title">脳合併症別の手術時期</h3>
+      <p class="rule-body">脳合併症を有するIE患者の心臓手術時期は、脳病変の種類と重症度に応じて判断する。</p>
+      <table class="ie-table" style="margin-top:12px;">
+        <thead><tr><th>脳合併症の種類</th><th>推奨される手術時期</th></tr></thead>
+        <tbody>
+          <tr><td>無症候性脳梗塞 / TIA</td><td>遅滞なく手術可能</td></tr>
+          <tr><td>小範囲脳梗塞</td><td>14日以内</td></tr>
+          <tr><td>広範囲脳梗塞</td><td>神経学的に安定後</td></tr>
+          <tr><td>脳出血（拡大なし）</td><td>2週以内も可</td></tr>
+          <tr><td>脳出血（拡大あり）</td><td>4週間以上待機</td></tr>
+        </tbody>
+      </table>
+      <div class="alert-blue" style="margin-top:12px;">
+        <strong>JCS 2026 変更点：</strong>従来は脳出血後の心臓手術は4週間以上の待機が原則とされていたが、JCS 2026では<span class="mark-yellow">脳出血拡大がない場合は2週以内でも手術可能</span>と改訂された。脳外科・脳卒中科との連携による慎重な判断が前提。
+      </div>
+    </div></div>
+
+    <div class="ie-alpha"><div class="ie-alpha-inner"><div class="ie-alpha-header"><span class="ie-alpha-badge">＋α</span><span class="ie-alpha-title">感染性脳動脈瘤合併例の管理</span></div><p class="rule-body" style="color:#4C1D95;">感染性脳動脈瘤はIE患者の2–4%に合併し、破裂するとくも膜下出血を引き起こす。MRAでの術前スクリーニングが重要。破裂例・増大例は血管内治療（コイル塞栓術）または外科的クリッピングを先行させる。未破裂で縮小傾向の場合は抗菌薬治療で経過観察可能だが、心臓手術前に必ず脳血管評価を行うこと。</p></div></div>
+
+    <!-- ═══ SECTION 7 ═══ -->
+    <h3 id="ie5-section7" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;"><span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 7</span>高齢者・frailty</h3>
+
+    <div class="card" style="margin-bottom:16px;"><div class="card-inner">
+      <h3 class="rule-title">高齢者IEの手術判断</h3>
+      <p class="rule-body"><strong>80歳以上</strong>のIE患者の院内死亡率は<span class="mark-red"><strong>25–27%</strong></span>と高い。高齢であること自体は手術の絶対禁忌ではないが、frailty・併存疾患・認知機能を含めた総合的評価が不可欠である。</p>
+      <p class="rule-body" style="margin-top:10px;"><strong>Shared Decision Making（SDM）</strong>が特に重要であり、患者・家族・多職種チームで手術のリスク・ベネフィットを十分に協議する。</p>
+      <div class="alert-yellow" style="margin-top:12px;">
+        <strong>⚠ CCI（Charlson Comorbidity Index）：</strong>CCI高値の患者では手術による生存改善効果が減弱する。手術適応の判断にはCCIを含めた併存疾患の重み付け評価を行い、「手術をしない」という選択肢も含めた意思決定を行う。
+      </div>
+    </div></div>
+
+    <!-- ═══ SUMMARY 第5章 ═══ -->
+    <h3 id="ie5-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;"><span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>第5章のキーメッセージ</h3>
+
+    <div class="card" style="margin-bottom:16px;"><div class="card-inner">
+      <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+        <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span><span class="rule-body"><strong>3大適応：</strong>心不全・治療抵抗性感染・塞栓リスクの高い疣腫。心不全合併の院内死亡率は内科のみ45%→外科21%と大きく改善する。</span></div>
+        <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span><span class="rule-body"><strong>緊急/準緊急/待機的の3区分：</strong>緊急は24時間以内、準緊急は3–5日以内、待機的は1–2週間後。臨床状況に応じた適切なタイミング判断が求められる。</span></div>
+        <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span><span class="rule-body"><strong>弁輪周囲膿瘍はTEEで評価：</strong>TTE感度50%では不十分。TEE（感度約90%）が膿瘍疑い症例では必須であり、確認されれば速やかに手術を検討。</span></div>
+        <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span><span class="rule-body"><strong>脳出血後2週以内も手術可（JCS 2026変更）：</strong>従来の4週待機から、脳出血拡大がなければ2週以内の手術も許容される方向に改訂。脳外科との連携が前提。</span></div>
+        <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;"><span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span><span class="rule-body"><strong>高齢者はSDM：</strong>80歳以上の院内死亡率25–27%。frailty・CCI・認知機能を総合評価し、患者・家族と共に手術の是非を判断する。</span></div>
+      </div>
+    </div></div>
+
+
+    <!-- ═══ 第6章 外来でのフォローアップ ═══ -->
+    <div id="ie-ch6" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;"><div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div><div style="font-size:1.3rem;font-weight:900;position:relative;">第6章 外来でのフォローアップ</div><div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Outpatient Follow-up after IE Treatment</div></div>
+
+    <!-- ═══ SECTION 1 ═══ -->
+    <h3 id="ie6-section1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;"><span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>なぜフォローアップが必要か</h3>
+
+    <div class="card" style="margin-bottom:16px;"><div class="card-inner">
+      <h3 class="rule-title">IE治療後の長期予後</h3>
+      <p class="rule-body">IE治療後も予後は不良であり、退院後の長期フォローアップが不可欠である。</p>
+      <div class="ie-stat-grid" style="margin-top:12px;">
+        <div class="ie-stat"><div class="ie-stat-val">2–9%</div><div class="ie-stat-label">再発率</div></div>
+        <div class="ie-stat"><div class="ie-stat-val">~20%</div><div class="ie-stat-label">自己弁IE人工弁置換後<br>15年再発率</div></div>
+        <div class="ie-stat"><div class="ie-stat-val">3–8%</div><div class="ie-stat-label">慢性期弁手術<br>施行率</div></div>
+      </div>
+    </div></div>
+
+    <div class="card" style="margin-bottom:16px;"><div class="card-inner">
+      <h3 class="rule-title">フォローアップの5つのポイント</h3>
+      <div class="ie-flow">
+        <div class="ie-flow-item"><div class="ie-flow-num">1</div><div style="flex:1;"><p class="rule-body"><strong>再発の有無：</strong>発熱・炎症マーカー上昇・新たな菌血症の確認</p></div></div>
+        <div class="ie-flow-item"><div class="ie-flow-num">2</div><div style="flex:1;"><p class="rule-body"><strong>弁機能不全：</strong>心エコーによる弁逆流・弁狭窄の経時的評価</p></div></div>
+        <div class="ie-flow-item"><div class="ie-flow-num">3</div><div style="flex:1;"><p class="rule-body"><strong>心不全：</strong>BNP/NT-proBNP・症状・運動耐容能の評価</p></div></div>
+        <div class="ie-flow-item"><div class="ie-flow-num">4</div><div style="flex:1;"><p class="rule-body"><strong>感染性脳動脈瘤：</strong>MRAによる動脈瘤サイズの経時的フォロー</p></div></div>
+        <div class="ie-flow-item"><div class="ie-flow-num">5</div><div style="flex:1;"><p class="rule-body"><strong>感染門戸の管理：</strong>口腔衛生・皮膚管理・静脈ルート管理の継続</p></div></div>
+      </div>
+    </div></div>
+
+    <!-- ═══ SECTION 2 ═══ -->
+    <h3 id="ie6-section2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;"><span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>再発（再燃と再感染）</h3>
+
+    <div class="card" style="margin-bottom:16px;"><div class="card-inner">
+      <h3 class="rule-title">再燃 vs 再感染</h3>
+      <p class="rule-body"><strong>再燃（relapse）：</strong>治療終了後に<span class="mark-red">同一菌種</span>による再発。初回治療の不十分さを示唆する。</p>
+      <p class="rule-body" style="margin-top:8px;"><strong>再感染（reinfection）：</strong><span class="mark-yellow">異なる菌種</span>、または十分な時間経過後の同一菌種による再発。再感染の方が予後不良。</p>
+      <p class="rule-body" style="margin-top:10px;">最多原因は<strong>初回治療における不適切な抗菌薬治療</strong>（投与期間不足・不適切な薬剤選択）である。</p>
+      <div class="alert-yellow" style="margin-top:12px;">
+        <strong>⚠ 再発リスクが高い患者：</strong>人工弁IE既往、透析患者、静注薬物使用者（IVDU）、初回治療で抗菌薬投与期間が不十分だった患者、起因菌が腸球菌・S. aureusの患者
+      </div>
+    </div></div>
+
+    <!-- ═══ SECTION 3 ═══ -->
+    <h3 id="ie6-section3" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;"><span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>慢性期弁手術の適応</h3>
+
+    <div class="card" style="margin-bottom:16px;"><div class="card-inner">
+      <h3 class="rule-title">慢性期弁手術</h3>
+      <p class="rule-body">近年は活動期の早期手術が普及し、慢性期弁手術の頻度は減少している（<strong>3–8%</strong>）。しかし、治療終了後に弁機能不全が進行する場合は慢性期での弁手術が必要となる。</p>
+      <p class="rule-body" style="margin-top:10px;"><span class="mark-green">治療終了時に心エコーで基礎値（ベースライン）を記録</span>しておくことが、その後の変化を評価する上で極めて重要。</p>
+      <div class="alert-blue" style="margin-top:12px;">
+        <strong>慢性期弁手術の適応を考慮するタイミング：</strong><br>
+        ・弁逆流の増悪（ベースラインからの変化）<br>
+        ・心不全症状の出現・増悪<br>
+        ・左室拡大・左室機能低下の進行
+      </div>
+    </div></div>
+
+    <!-- ═══ SECTION 4 ═══ -->
+    <h3 id="ie6-section4" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;"><span style="color:#16A34A;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 4</span>患者教育</h3>
+
+    <div class="card" style="margin-bottom:16px;"><div class="card-inner">
+      <h3 class="rule-title">患者教育の重要性</h3>
+      <p class="rule-body">IEの既往は<span class="mark-red">再発の高度リスク因子</span>であり、患者自身が予防行動をとれるよう教育することが不可欠。</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;">
+        <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:14px 16px;">
+          <p class="rule-body" style="font-weight:700;margin-bottom:8px;">患者への指導</p>
+          <p class="rule-body">・IE既往であることの自覚<br>・侵襲的処置前の予防的抗菌薬の必要性<br>・発熱時は速やかに血液培養を含む検査を受ける<br>・IE手帳やカードの携帯</p>
+        </div>
+        <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:14px 16px;">
+          <p class="rule-body" style="font-weight:700;margin-bottom:8px;">口腔・皮膚管理</p>
+          <p class="rule-body">・定期的な歯科受診（最低年2回）<br>・口腔衛生の徹底<br>・皮膚の傷・感染の早期治療<br>・ピアス・タトゥーを避ける</p>
+        </div>
+      </div>
+      <div class="alert-green" style="margin-top:12px;">
+        <strong>かかりつけ医への情報提供：</strong>退院時にIE既往・起因菌・手術歴・予防的抗菌薬の必要性を含む診療情報提供書を作成し、かかりつけ医・歯科医に共有する。
+      </div>
+    </div></div>
+
+    <div class="ie-alpha"><div class="ie-alpha-inner"><div class="ie-alpha-header"><span class="ie-alpha-badge">＋α</span><span class="ie-alpha-title">感染性脳動脈瘤のフォローアップ</span></div><p class="rule-body" style="color:#4C1D95;">感染性脳動脈瘤が治療中に縮小・消失しても、退院後のMRAフォローが推奨される。完全消失確認後も少なくとも6–12ヵ月は経過観察を継続し、遅発性の再増大に注意する。頭痛・神経症状の新規出現時は緊急MRA/CTAを施行する。</p></div></div>
+
+    <!-- ═══ SUMMARY 第6章 ═══ -->
+    <h3 id="ie6-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;"><span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>第6章のキーメッセージ</h3>
+
+    <div class="card" style="margin-bottom:16px;"><div class="card-inner">
+      <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+        <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span><span class="rule-body"><strong>長期予後不良：</strong>IE治療後も再発・弁機能不全・心不全のリスクが持続するため、長期フォローアップが不可欠。</span></div>
+        <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span><span class="rule-body"><strong>再発率2–9%：</strong>再燃（同一菌）と再感染（異菌）を区別し、再感染の方が予後不良。最多原因は初回治療の不適切さ。</span></div>
+        <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span><span class="rule-body"><strong>治療終了時に心エコー基礎値を記録：</strong>ベースラインの弁機能を記録しておくことで、慢性期の弁機能悪化を早期に検出できる。</span></div>
+        <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span><span class="rule-body"><strong>患者教育：</strong>IE既往＝再発高リスク。予防的抗菌薬の必要性、口腔衛生、発熱時の対応を患者自身が理解することが再発予防の鍵。</span></div>
+        <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;"><span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span><span class="rule-body"><strong>感染性脳動脈瘤フォロー：</strong>消失確認後も6–12ヵ月はMRAで経過観察。遅発性再増大に注意する。</span></div>
+      </div>
+    </div></div>
+
+
+    <!-- ═══ 第7章 予防 ═══ -->
+    <div id="ie-ch7" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;"><div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div><div style="font-size:1.3rem;font-weight:900;position:relative;">第7章 予防</div><div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Prevention of Infective Endocarditis</div></div>
+
+    <!-- ═══ SECTION 1 ═══ -->
+    <h3 id="ie7-section1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;"><span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>患者リスクの層別化</h3>
+
+    <div class="card" style="margin-bottom:16px;"><div class="card-inner">
+      <h3 class="rule-title">JCS 2026の方針</h3>
+      <p class="rule-body">JCS 2026は欧米ガイドラインと異なり、<span class="mark-red">中等度リスク群にも予防的抗菌薬を推奨</span>する日本独自の方針を維持している。</p>
+      <div class="alert-yellow" style="margin-top:10px;">
+        <strong>⚠ 注意：</strong>予防的抗菌薬投与は現時点で<strong>保険診療上は認められていない</strong>。患者への十分な説明と同意が必要。
+      </div>
+    </div></div>
+
+    <div class="card" style="margin-bottom:16px;"><div class="card-inner">
+      <h3 class="rule-title">高度リスク群（クラス I：予防推奨）</h3>
+      <p class="rule-body">以下の患者には侵襲的手技前の予防的抗菌薬投与が<strong>クラス I</strong>で推奨される：</p>
+      <div class="ie-flow" style="margin-top:10px;">
+        <div class="ie-flow-item"><div class="ie-flow-num" style="background:#DC2626;">1</div><div style="flex:1;"><p class="rule-body">人工弁置換術後（機械弁・生体弁いずれも）</p></div></div>
+        <div class="ie-flow-item"><div class="ie-flow-num" style="background:#DC2626;">2</div><div style="flex:1;"><p class="rule-body"><span class="mark-red">TAVI後 / 弁形成術後</span>（JCS 2026で新たに明記）</p></div></div>
+        <div class="ie-flow-item"><div class="ie-flow-num" style="background:#DC2626;">3</div><div style="flex:1;"><p class="rule-body">IE既往</p></div></div>
+        <div class="ie-flow-item"><div class="ie-flow-num" style="background:#DC2626;">4</div><div style="flex:1;"><p class="rule-body">複雑性チアノーゼ性先天性心疾患（未修復・姑息術後）</p></div></div>
+        <div class="ie-flow-item"><div class="ie-flow-num" style="background:#DC2626;">5</div><div style="flex:1;"><p class="rule-body">LVAD（左室補助人工心臓）装着患者</p></div></div>
+      </div>
+    </div></div>
+
+    <div class="card" style="margin-bottom:16px;"><div class="card-inner">
+      <h3 class="rule-title">中等度・低リスク群</h3>
+      <p class="rule-body" style="font-weight:700;">中等度リスク群（クラス IIa / IIb）：</p>
+      <p class="rule-body" style="margin-top:4px;"><strong>IIa：</strong>先天性心疾患（高度リスク以外）、後天性弁膜症、閉塞性肥大型心筋症（HCM）、僧帽弁逸脱（MVP）＋僧帽弁逆流（MR）</p>
+      <p class="rule-body" style="margin-top:4px;"><strong>IIb：</strong>心臓デバイス（ペースメーカー・ICD・CRT）植込み患者、弁変性を有する心移植後患者</p>
+      <p class="rule-body" style="font-weight:700;margin-top:14px;">低リスク群（クラス III：予防不要）：</p>
+      <p class="rule-body" style="margin-top:4px;">単独心房中隔欠損（ASD）、根治術後6ヵ月以上経過、CABG後</p>
+    </div></div>
+
+    <!-- ═══ SECTION 2 ═══ -->
+    <h3 id="ie7-section2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;"><span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>手技リスクの層別化</h3>
+
+    <div class="card" style="margin-bottom:16px;"><div class="card-inner">
+      <h3 class="rule-title">クラス I（予防推奨）の手技</h3>
+      <div class="ie-flow" style="margin-top:10px;">
+        <div class="ie-flow-item"><div class="ie-flow-num">1</div><div style="flex:1;"><p class="rule-body"><strong>歯科口腔外科：</strong>抜歯、歯周手術、インプラント、歯石除去など歯肉操作を伴う処置</p></div></div>
+        <div class="ie-flow-item"><div class="ie-flow-num">2</div><div style="flex:1;"><p class="rule-body"><strong>耳鼻科：</strong>扁桃腺摘出術、アデノイド切除術</p></div></div>
+        <div class="ie-flow-item"><div class="ie-flow-num">3</div><div style="flex:1;"><p class="rule-body"><strong>心血管：</strong>TAVI、人工弁置換術、デバイス植込みなど</p></div></div>
+      </div>
+      <div class="alert-blue" style="margin-top:12px;">
+        <strong>予防不要な手技：</strong>局所麻酔注射、歯科X線撮影、義歯の着脱、矯正装置の調整、乳歯の自然脱落、口唇外傷。これらは菌血症リスクが低く予防的抗菌薬は不要。
+      </div>
+    </div></div>
+
+    <div class="card" style="margin-bottom:16px;"><div class="card-inner">
+      <h3 class="rule-title">JCS 2026改訂：IIa・IIb手技</h3>
+      <p class="rule-body">JCS 2026では<span class="mark-yellow">上部消化管内視鏡・気管支鏡がIIbに追加</span>された。</p>
+      <table class="ie-table" style="margin-top:12px;">
+        <thead><tr><th>推奨クラス</th><th>手技</th></tr></thead>
+        <tbody>
+          <tr><td><strong>IIa</strong></td><td>膿瘍ドレナージ、感染巣の外科的処置、経食道心エコー（TEE）、尿路手技（感染尿路）</td></tr>
+          <tr><td><strong>IIb</strong></td><td>上部消化管内視鏡（生検あり）、気管支鏡（生検あり）、骨髄穿刺、経皮的腎生検</td></tr>
+        </tbody>
+      </table>
+    </div></div>
+
+    <!-- ═══ SECTION 3 ═══ -->
+    <h3 id="ie7-section3" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;"><span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>予防的抗菌薬の具体的投与法</h3>
+
+    <div class="card" style="margin-bottom:16px;"><div class="card-inner">
+      <h3 class="rule-title">歯科処置前の予防的抗菌薬</h3>
+      <table class="ie-table" style="margin-top:8px;">
+        <thead><tr><th>状況</th><th>薬剤</th><th>用量・投与法</th></tr></thead>
+        <tbody>
+          <tr><td>アレルギーなし・経口可</td><td><strong>アモキシシリン</strong></td><td>2 g　処置1時間前に内服</td></tr>
+          <tr><td>ペニシリンアレルギー・経口可</td><td><strong>クリンダマイシン</strong></td><td>600 mg　処置1時間前に内服</td></tr>
+          <tr><td>経口不可・アレルギーなし</td><td><strong>アンピシリン</strong> or <strong>セファゾリン</strong> or <strong>セフトリアキソン</strong></td><td>点滴静注　処置30分前</td></tr>
+          <tr><td>経口不可・アレルギーあり</td><td><strong>クリンダマイシン</strong></td><td>600 mg　点滴静注　処置30分前</td></tr>
+        </tbody>
+      </table>
+      <div class="alert-yellow" style="margin-top:12px;">
+        <strong>⚠ 減量投与時の注意：</strong>小児・腎機能障害患者で減量投与した場合、血中濃度が不十分となる可能性がある。処置が長時間に及ぶ場合は追加投与を考慮する。
+      </div>
+    </div></div>
+
+    <div class="card" style="margin-bottom:16px;"><div class="card-inner">
+      <h3 class="rule-title">心血管手技（TAVI等）の予防的抗菌薬</h3>
+      <table class="ie-table" style="margin-top:8px;">
+        <thead><tr><th>状況</th><th>薬剤</th><th>備考</th></tr></thead>
+        <tbody>
+          <tr><td>アレルギーなし</td><td><strong>ABPC/SBT 3 g</strong></td><td>腸球菌カバーを含む</td></tr>
+          <tr><td>代替薬</td><td><strong>セファゾリン（CEZ）</strong></td><td>腸球菌カバーなし</td></tr>
+          <tr><td>ペニシリン/セフェムアレルギー</td><td><strong>バンコマイシン（VCM）</strong> or <strong>テイコプラニン（TEIC）</strong></td><td>MRSA保菌者にも使用</td></tr>
+        </tbody>
+      </table>
+      <div class="alert-blue" style="margin-top:12px;">
+        <strong>MRSAスクリーニング：</strong>TAVI前にはMRSA保菌の有無をスクリーニングし、保菌者にはバンコマイシンまたはテイコプラニンでの予防を行う。TAVI後のIEは腸球菌が多いことから、ABPC/SBTが第一選択とされている。
+      </div>
+    </div></div>
+
+    <div class="ie-alpha"><div class="ie-alpha-inner"><div class="ie-alpha-header"><span class="ie-alpha-badge">＋α</span><span class="ie-alpha-title">口腔内衛生と菌血症の関係</span></div><p class="rule-body" style="color:#4C1D95;">日常の歯磨きや咀嚼でも低レベルの菌血症は生じている。歯科処置時の一過性菌血症よりも、毎日の口腔衛生不良による累積的な菌血症曝露の方がIE発症リスクへの寄与が大きいとする報告がある。予防的抗菌薬だけに頼らず、日常的な口腔衛生管理の徹底が最も重要な予防策である。</p></div></div>
+
+    <!-- ═══ SECTION 4 ═══ -->
+    <h3 id="ie7-section4" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;"><span style="color:#16A34A;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 4</span>患者教育・啓発</h3>
+
+    <div class="card" style="margin-bottom:16px;"><div class="card-inner">
+      <h3 class="rule-title">自己申告できる患者を育てる</h3>
+      <p class="rule-body">予防の最終防衛線は<strong>患者自身の行動</strong>である。自分がIEハイリスクであることを理解し、医療機関受診時に自己申告できる患者を育てることが目標。</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;">
+        <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:14px 16px;">
+          <p class="rule-body" style="font-weight:700;margin-bottom:8px;">主治医からの告知事項</p>
+          <p class="rule-body">・IEハイリスクであること<br>・侵襲的手技前に予防的抗菌薬が必要なこと<br>・IE手帳/カードを常に携帯すること<br>・歯科受診前に必ず申告すること</p>
+        </div>
+        <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:14px 16px;">
+          <p class="rule-body" style="font-weight:700;margin-bottom:8px;">発熱時の対応指導</p>
+          <p class="rule-body">・38°C以上の発熱が続く場合は速やかに受診<br>・血液培養を含む検査を依頼すること<br>・解熱剤で様子を見ない<br>・旅行先でも対応できるよう情報を携帯</p>
+        </div>
+      </div>
+    </div></div>
+
+    <!-- ═══ SUMMARY 第7章 ═══ -->
+    <h3 id="ie7-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;"><span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>第7章のキーメッセージ</h3>
+
+    <div class="card" style="margin-bottom:16px;"><div class="card-inner">
+      <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+        <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span><span class="rule-body"><strong>高度リスクにTAVI追加：</strong>JCS 2026で人工弁と同等の高度リスクとしてTAVI後・弁形成術後が新たに明記された。</span></div>
+        <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span><span class="rule-body"><strong>中等度リスクにも予防（日本独自）：</strong>欧米では高度リスクのみだが、JCS 2026は中等度リスク群にもIIaで予防的抗菌薬を推奨。ただし保険適用外。</span></div>
+        <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span><span class="rule-body"><strong>アモキシシリン 2 g：</strong>歯科処置前の標準レジメン。ペニシリンアレルギーではクリンダマイシン600 mg。処置1時間前の内服。</span></div>
+        <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span><span class="rule-body"><strong>TAVI前は腸球菌カバー：</strong>ABPC/SBT 3 gが第一選択。TAVI後IEでは腸球菌が多いため、セファゾリン単独では不十分。MRSA保菌者にはVCM/TEICを使用。</span></div>
+        <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;"><span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span><span class="rule-body"><strong>患者教育が最も重要：</strong>予防的抗菌薬だけでは不十分。口腔衛生の日常管理、発熱時の速やかな受診、IE手帳の携帯など、患者自身の行動変容が再発予防の鍵。</span></div>
+      </div>
+    </div></div>
+
+    <!-- ═══ 第8章 特殊な病態 ═══ -->
+    <div id="ie-ch8" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;"><div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div><div style="font-size:1.3rem;font-weight:900;position:relative;">第8章 特殊な病態</div><div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Special Conditions in IE</div></div>
+
+    <!-- ═══ SECTION 1: PVE ═══ -->
+    <h3 id="ie8-section1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;"><span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>人工弁感染性心内膜炎（PVE）</h3>
+
+    <div class="card" style="margin-bottom:16px;"><div class="card-inner">
+      <h3 class="rule-title">早期PVE vs 後期PVE</h3>
+      <p class="rule-body"><span class="mark-red"><strong>早期PVE（術後1年以内）</strong></span>と<span class="mark-yellow"><strong>後期PVE（1年以上）</strong></span>では起因菌が大きく異なり、治療戦略も変わる。早期PVEは周術期の汚染が原因であり、後期PVEは市中感染型である。</p>
+      <table class="ie-table">
+        <tr><th>分類</th><th>時期</th><th>主な起因菌</th></tr>
+        <tr><td><span class="mark-red">早期PVE</span></td><td>術後1年以内</td><td>CoNS・MRSA</td></tr>
+        <tr><td><span class="mark-yellow">後期PVE</span></td><td>術後1年以上</td><td>VGS・S. aureus</td></tr>
+      </table>
+      <div class="alert-red" style="margin-top:10px;"><strong>黄色ブドウ球菌PVEは死亡率が極めて高く、早期手術が予後改善に直結する。</strong>PVE全体の院内死亡率は20-40%と高い。</div>
+    </div></div>
+
+    <div class="card" style="margin-bottom:16px;"><div class="card-inner">
+      <h3 class="rule-title">TAVI後IE</h3>
+      <p class="rule-body">TAVIの普及に伴い、<span class="mark-red"><strong>TAVI後IE</strong></span>が増加している。JCS 2026ではTAVI後を人工弁と同等の<strong>高度リスク</strong>と位置付けた。</p>
+      <p class="rule-body" style="margin-top:8px;"><strong>リスク因子：</strong>入院中菌血症、AR残存、透析、男性、糖尿病</p>
+      <p class="rule-body" style="margin-top:4px;"><strong>主な起因菌：</strong>S. aureus／腸球菌／CoNS</p>
+    </div></div>
+
+    <!-- ═══ SECTION 2: CDRIE ═══ -->
+    <h3 id="ie8-section2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;"><span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>心臓植込みデバイス関連IE（CDRIE）</h3>
+
+    <div class="card" style="margin-bottom:16px;"><div class="card-inner">
+      <h3 class="rule-title">CDRIEの基本</h3>
+      <p class="rule-body"><span class="mark-red"><strong>CIED（ペースメーカー・ICD・CRT）患者の不明熱はCDRIEを疑う。</strong></span>感染経路はポケット感染と血行感染の2経路がある。起因菌は<strong>CoNSが最多</strong>。</p>
+      <div class="alert-red" style="margin-top:10px;"><strong>リード完全抜去が原則。</strong>抗菌薬のみでは治癒困難であり、リード抜去を行わない場合の再発率・死亡率は著明に高い。</div>
+    </div></div>
+
+    <div class="card" style="margin-bottom:16px;"><div class="card-inner">
+      <h3 class="rule-title">画像診断</h3>
+      <p class="rule-body"><strong>TEE（経食道エコー）が第一選択</strong>で、リード付着疣腫の検出感度は約<span class="mark-green"><strong>90%</strong></span>。TTEでは感度不十分。</p>
+      <p class="rule-body" style="margin-top:8px;">TEEで確定困難な場合は<strong>心腔内エコー（ICE）</strong>やFDG PET/CTも活用する。FDG PET/CTはポケット感染の評価にも有用。</p>
+    </div></div>
+
+    <div class="card" style="margin-bottom:16px;"><div class="card-inner">
+      <h3 class="rule-title">抗菌薬期間と再留置</h3>
+      <table class="ie-table">
+        <tr><th>感染範囲</th><th>抗菌薬期間</th></tr>
+        <tr><td>ポケット感染のみ</td><td>2週間（黄色ブドウ球菌は4週間）</td></tr>
+        <tr><td>リード疣腫あり</td><td>2〜4週間</td></tr>
+        <tr><td>弁疣腫あり</td><td>4〜6週間</td></tr>
+      </table>
+      <p class="rule-body" style="margin-top:10px;"><strong>再留置のタイミング：</strong>対側に留置。疣腫なし→血液培養陰性後72時間以降、疣腫あり→血液培養陰性後2週間以降。</p>
+    </div></div>
+
+    <!-- ═══ SECTION 3: 右心系IE ═══ -->
+    <h3 id="ie8-section3" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;"><span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>右心系IE</h3>
+
+    <div class="card" style="margin-bottom:16px;"><div class="card-inner">
+      <h3 class="rule-title">右心系IEの特徴</h3>
+      <p class="rule-body">IE全体の<strong>5-10%</strong>を占め、<span class="mark-red"><strong>三尖弁が最多</strong></span>。静注薬物使用者・CIED患者に多い。<span class="mark-yellow"><strong>発熱＋両側肺多発影→右心系IEを疑う</strong></span>（敗血症性肺塞栓）。</p>
+      <div class="ie-stat-grid" style="margin-top:12px;">
+        <div class="ie-stat"><div class="ie-stat-val">5-10%</div><div class="ie-stat-label">IE全体に占める割合</div></div>
+        <div class="ie-stat"><div class="ie-stat-val">90%</div><div class="ie-stat-label">薬物治療で奏功</div></div>
+        <div class="ie-stat"><div class="ie-stat-val">三尖弁</div><div class="ie-stat-label">最も多い罹患弁</div></div>
+      </div>
+    </div></div>
+
+    <div class="card" style="margin-bottom:16px;"><div class="card-inner">
+      <h3 class="rule-title">治療方針：内科的治療優先</h3>
+      <p class="rule-body"><span class="mark-green"><strong>内科的治療で約90%が奏功</strong></span>する。外科手術は以下の場合に検討。</p>
+      <table class="ie-table">
+        <tr><th>手術検討状況</th></tr>
+        <tr><td>① 右心不全が進行し利尿薬で制御不能</td></tr>
+        <tr><td>② 疣腫 ≧ 20 mmで繰り返す肺塞栓</td></tr>
+        <tr><td>③ 2週間以上の適切な抗菌薬治療に反応しない</td></tr>
+        <tr><td>④ 黄色ブドウ球菌で右心不全合併</td></tr>
+        <tr><td>⑤ 三尖弁以外の右心系弁への感染波及</td></tr>
+      </table>
+      <div class="alert-blue" style="margin-top:10px;"><strong>弁形成が優先。</strong>三尖弁置換は長期成績が不良であり、可能な限り弁形成を目指す。</div>
+    </div></div>
+
+    <!-- ═══ SECTION 4: 妊娠中のIE ═══ -->
+    <h3 id="ie8-section4" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;"><span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 4</span>妊娠中のIE</h3>
+
+    <div class="card" style="margin-bottom:16px;"><div class="card-inner">
+      <h3 class="rule-title">妊娠中IEの薬剤選択</h3>
+      <p class="rule-body">発症率は<strong>0.01%未満</strong>と稀だが、母体死亡率・胎児死亡率ともに高く、<span class="mark-red"><strong>母児ともに高リスク</strong></span>。薬剤の催奇形性に注意が必要。</p>
+      <table class="ie-table">
+        <tr><th>薬剤</th><th>安全性</th></tr>
+        <tr><td>ペニシリン系・セフェム系</td><td><span class="mark-green"><strong>使用可</strong></span></td></tr>
+        <tr><td>バンコマイシン</td><td><span class="mark-yellow"><strong>慎重投与</strong></span>（胎児腎毒性・聴覚毒性）</td></tr>
+        <tr><td>アミノグリコシド系</td><td><span class="mark-red"><strong>回避</strong></span>（胎児聴覚毒性）</td></tr>
+        <tr><td>フルオロキノロン系</td><td><span class="mark-red"><strong>回避</strong></span>（軟骨障害）</td></tr>
+        <tr><td>テトラサイクリン系</td><td><span class="mark-red"><strong>回避</strong></span>（歯牙着色・骨発育障害）</td></tr>
+      </table>
+    </div></div>
+
+    <div class="card" style="margin-bottom:16px;"><div class="card-inner">
+      <h3 class="rule-title">手術時期</h3>
+      <p class="rule-body">やむを得ない場合の心臓手術は<span class="mark-yellow"><strong>妊娠28週以降が推奨</strong></span>。胎児の肺成熟が進んでおり、帝王切開と同時施行が可能。<strong>24週未満は原則手術回避</strong>。</p>
+      <div class="alert-yellow" style="margin-top:10px;"><strong>妊娠中のIE手術は母体・胎児ともにリスクが高い。</strong>多診療科（産科・新生児科・心臓外科・麻酔科）での慎重な協議が不可欠。</div>
+    </div></div>
+
+    <!-- ═══ SECTION 5: 高齢者IE ═══ -->
+    <h3 id="ie8-section5" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;"><span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 5</span>高齢者IE</h3>
+
+    <div class="card" style="margin-bottom:16px;"><div class="card-inner">
+      <h3 class="rule-title">高齢者IEの特徴</h3>
+      <p class="rule-body"><span class="mark-yellow"><strong>非典型的症状</strong></span>（食欲低下・倦怠感・体重減少など）で発症し、<strong>診断が遅延しやすい</strong>。80歳以上では<span class="mark-red"><strong>腸球菌が最多起因菌</strong></span>となる。</p>
+      <p class="rule-body" style="margin-top:8px;"><strong>S. gallolyticus</strong>が検出された場合は<span class="mark-red"><strong>大腸がんの合併を検索</strong></span>する必要がある。</p>
+    </div></div>
+
+    <div class="card" style="margin-bottom:16px;"><div class="card-inner">
+      <h3 class="rule-title">高齢者IEの手術</h3>
+      <p class="rule-body">65歳未満では<strong>46%</strong>が手術を受けるのに対し、80歳以上ではわずか<strong>5.8%</strong>。しかし、<span class="mark-green"><strong>フレイルが低ければ高齢でも手術で予後改善が可能</strong></span>。年齢だけで手術を断念すべきではない。</p>
+      <div class="alert-blue" style="margin-top:10px;"><strong>S. gallolyticus（旧 S. bovis）検出時は大腸内視鏡を施行。</strong>大腸がん・大腸ポリープの合併率が高い。</div>
+    </div></div>
+
+    <!-- ═══ SECTION 6: 先天性心疾患・小児IE ═══ -->
+    <h3 id="ie8-section6" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;"><span style="color:#16A34A;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 6</span>先天性心疾患・小児IE</h3>
+
+    <div class="card" style="margin-bottom:16px;"><div class="card-inner">
+      <h3 class="rule-title">先天性心疾患のIE</h3>
+      <p class="rule-body">先天性心疾患児のIE発症率は<strong>10万人年あたり41人</strong>。成人IEと比べ<span class="mark-yellow"><strong>右心系が多い（46.9%）</strong></span>。起因菌はS. aureusが成人より多い。</p>
+      <div style="display:inline-grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;margin-top:12px;">
+        <div style="background:#FEF2F2;border:1px solid #FECACA;border-radius:8px;padding:14px 16px;">
+          <div style="font-size:0.8rem;font-weight:700;color:#DC2626;margin-bottom:6px;">高度リスク</div>
+          <p class="rule-body">人工弁・弁形成術後・TAVI後・未修復チアノーゼ性心疾患・IE既往・心臓移植後弁膜症</p>
+        </div>
+        <div style="background:#FFFBEB;border:1px solid #FDE68A;border-radius:8px;padding:14px 16px;">
+          <div style="font-size:0.8rem;font-weight:700;color:#D97706;margin-bottom:6px;">中等度リスク</div>
+          <p class="rule-body">ほとんどの先天性心疾患（修復後含む）・後天性弁膜症・肥大型心筋症・僧帽弁逸脱（MR合併）</p>
+        </div>
+      </div>
+    </div></div>
+
+    <div class="ie-alpha"><div class="ie-alpha-inner"><div class="ie-alpha-header"><span class="ie-alpha-badge">＋α</span><span class="ie-alpha-title">ACHD（成人先天性心疾患）のIE</span></div><p class="rule-body" style="color:#4C1D95;">成人先天性心疾患（ACHD）患者は増加しており、IEのハイリスク集団。修復後も残存シャントや人工材料がIEリスクとなる。成人循環器科と小児循環器科の連携が重要。定期的なフォローアップと患者教育が不可欠である。</p></div></div>
+
+    <!-- ═══ SECTION 7: NBTE ═══ -->
+    <h3 id="ie8-section7" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;"><span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 7</span>非細菌性血栓性心内膜炎（NBTE）</h3>
+
+    <div class="card" style="margin-bottom:16px;"><div class="card-inner">
+      <h3 class="rule-title">NBTEとは</h3>
+      <p class="rule-body"><span class="mark-yellow"><strong>無菌性の疣腫</strong></span>が弁膜に付着する病態。<strong>進行がん・抗リン脂質抗体症候群（APLS）・SLE</strong>などの基礎疾患に伴う。多発性の全身塞栓（脳梗塞・脾梗塞など）を認めた場合、<strong>TEEで弁評価</strong>を行う。</p>
+      <div class="alert-yellow" style="margin-top:10px;"><strong>血液培養陰性が鑑別のポイント。</strong>IEとの鑑別で最も重要なのは血液培養陰性であること。ただし、培養陰性IEとの鑑別は困難なことがある。</div>
+    </div></div>
+
+    <div class="ie-alpha"><div class="ie-alpha-inner"><div class="ie-alpha-header"><span class="ie-alpha-badge">＋α</span><span class="ie-alpha-title">人工血管感染（グラフト感染）</span></div><p class="rule-body" style="color:#4C1D95;">大動脈人工血管感染はIEと類似した病態を示す。FDG PET/CTが診断に有用で、感度・特異度ともに高い。治療は長期抗菌薬投与に加え、可能であれば再手術（人工血管置換）が必要。死亡率は25-75%と極めて高い。</p></div></div>
+
+    <!-- ═══ SUMMARY 第8章 ═══ -->
+    <h3 id="ie8-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;"><span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>第8章のキーメッセージ</h3>
+
+    <div class="card" style="margin-bottom:16px;"><div class="card-inner">
+      <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+        <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span><span class="rule-body"><strong>PVE早期/後期で起因菌が異なる：</strong>早期PVE（1年以内）はCoNS・MRSA、後期PVE（1年以上）はVGS・S. aureus。黄色ブドウ球菌PVEは早期手術。</span></div>
+        <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span><span class="rule-body"><strong>CDRIE：不明熱→リード抜去：</strong>CIED患者の不明熱はCDRIEを疑う。リード完全抜去が原則。TEEが第一選択の画像診断。</span></div>
+        <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span><span class="rule-body"><strong>右心系IE＝肺多発影：</strong>発熱＋両側肺多発影は右心系IE（三尖弁）を疑う。内科的治療で約90%が奏功。手術時は弁形成優先。</span></div>
+        <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span><span class="rule-body"><strong>妊娠IE：薬剤選択が重要：</strong>ペニシリン・セフェム系は使用可。アミノグリコシド・FQ・テトラサイクリンは回避。手術は28週以降推奨。</span></div>
+        <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;"><span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span><span class="rule-body"><strong>高齢者IE：非典型症状＋S. gallolyticus：</strong>80歳以上は腸球菌最多。非典型症状で診断遅延。S. gallolyticus→大腸内視鏡。フレイル低ければ手術検討。</span></div>
+      </div>
+    </div></div>
+
+
+    <!-- ═══ 第9章 CQ（臨床的疑問） ═══ -->
+    <div id="ie-ch9" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;"><div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div><div style="font-size:1.3rem;font-weight:900;position:relative;">第9章 CQ（臨床的疑問）</div><div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Clinical Questions — Evidence & Recommendations</div></div>
+
+    <!-- ═══ CQ 1 ═══ -->
+    <h3 id="ie9-cq1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;"><span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">CQ 1</span>高リスク患者への侵襲的歯科治療前の予防的抗菌薬投与は推奨されるか？</h3>
+
+    <div class="card" style="margin-bottom:16px;"><div class="card-inner">
+      <div style="background:#F0FDF4;border-radius:8px;padding:14px 18px;margin-bottom:14px;">
+        <h3 class="rule-title" style="color:#166534;">推奨</h3>
+      </div>
+      <p class="rule-body"><span class="mark-green"><strong>高度リスク群→強く推奨（推奨度1／エビデンスB）</strong></span></p>
+      <p class="rule-body" style="margin-top:4px;"><span class="mark-yellow"><strong>中等度リスク群→弱く推奨（推奨度2／エビデンスD）</strong></span></p>
+      <p class="rule-body" style="margin-top:10px;">アモキシシリン2 g内服の副作用は、致死的アナフィラキシー<strong>ゼロ</strong>、非致死的副作用<strong>21.4/100万回</strong>と極めて低頻度。予防投与の利益がリスクを大幅に上回る。</p>
+    </div></div>
+
+    <div class="card" style="margin-bottom:16px;"><div class="card-inner">
+      <h3 class="rule-title">IEリスク分類</h3>
+      <div style="display:inline-grid;grid-template-columns:1fr 1fr 1fr;gap:12px;width:100%;margin-top:10px;">
+        <div style="background:#FEF2F2;border:1px solid #FECACA;border-radius:8px;padding:14px 16px;">
+          <div style="font-size:0.8rem;font-weight:700;color:#DC2626;margin-bottom:6px;">高度リスク</div>
+          <p class="rule-body">人工弁・弁形成術後・TAVI後・未修復チアノーゼ性心疾患・IE既往・心臓移植後弁膜症</p>
+        </div>
+        <div style="background:#FFFBEB;border:1px solid #FDE68A;border-radius:8px;padding:14px 16px;">
+          <div style="font-size:0.8rem;font-weight:700;color:#D97706;margin-bottom:6px;">中等度リスク</div>
+          <p class="rule-body">後天性弁膜症・先天性心疾患（修復後含む）・肥大型心筋症・僧帽弁逸脱（MR合併）</p>
+        </div>
+        <div style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;padding:14px 16px;">
+          <div style="font-size:0.8rem;font-weight:700;color:#16A34A;margin-bottom:6px;">低リスク</div>
+          <p class="rule-body">上記に該当しない心疾患・二次孔ASD（単独）・CABG後・僧帽弁逸脱（MRなし）</p>
+        </div>
+      </div>
+    </div></div>
+
+    <div class="card" style="margin-bottom:16px;"><div class="card-inner">
+      <h3 class="rule-title">予防的抗菌薬レジメン</h3>
+      <table class="ie-table">
+        <tr><th>状況</th><th>薬剤</th><th>用量</th></tr>
+        <tr><td>経口可能</td><td>アモキシシリン</td><td>2 g 内服（処置1時間前）</td></tr>
+        <tr><td>ペニシリンアレルギー</td><td>クリンダマイシン</td><td>600 mg 内服</td></tr>
+        <tr><td>経口不能</td><td>アンピシリン</td><td>2 g 点滴静注</td></tr>
+        <tr><td>経口不能＋アレルギー</td><td>セファゾリン</td><td>1 g 点滴静注</td></tr>
+      </table>
+      <div class="alert-green" style="margin-top:10px;"><strong>すべて単回投与。</strong>処置前30分〜1時間の投与が標準。追加投与は不要。</div>
+    </div></div>
+
+    <div class="card" style="margin-bottom:16px;"><div class="card-inner">
+      <h3 class="rule-title">口腔衛生が最も重要</h3>
+      <p class="rule-body">予防的抗菌薬以上に重要なのが<span class="mark-green"><strong>日常的な口腔衛生管理</strong></span>。日常の歯磨きでも菌血症は生じるため、抗菌薬だけでIEは予防できない。<strong>年1回以上の歯科スケーリング</strong>を推奨。</p>
+    </div></div>
+
+    <div class="ie-alpha"><div class="ie-alpha-inner"><div class="ie-alpha-header"><span class="ie-alpha-badge">＋α</span><span class="ie-alpha-title">各国ガイドラインとの相違点</span></div><p class="rule-body" style="color:#4C1D95;">ESC 2023・AHA 2015では高度リスク群のみに予防的抗菌薬を推奨。JCS 2026は日本独自のエビデンスに基づき中等度リスク群にも推奨を拡大（IIa）。ただし日本では中等度リスクへの予防投与は保険適用外であり、処方時の説明が必要。NICE（英国）は2008年に予防投与を全廃したが、IE増加傾向を受け2016年に部分的に方針転換。</p></div></div>
+
+    <!-- ═══ CQ 2 ═══ -->
+    <h3 id="ie9-cq2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;"><span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">CQ 2</span>脳出血を合併したIE例では4週間以内の手術は推奨されるか？</h3>
+
+    <div class="card" style="margin-bottom:16px;"><div class="card-inner">
+      <div style="background:#FFF7ED;border-radius:8px;padding:14px 18px;margin-bottom:14px;">
+        <h3 class="rule-title" style="color:#C2410C;">推奨</h3>
+      </div>
+      <p class="rule-body"><span class="mark-yellow"><strong>弱い推奨（推奨度2）／エビデンスC</strong></span></p>
+      <p class="rule-body" style="margin-top:10px;">メタ解析244例の結果、脳出血合併IE例において4週間以内の早期手術と4週間以降の待機手術で<strong>院内死亡率に有意差なし（15% vs 16.4%）</strong>。<span class="mark-red"><strong>一律の4週間待機ルールは撤廃</strong></span>された。</p>
+    </div></div>
+
+    <div class="card" style="margin-bottom:16px;"><div class="card-inner">
+      <h3 class="rule-title">なぜ「4週間待てるか」が重要な問い</h3>
+      <p class="rule-body"><strong>脳梗塞</strong>合併IEでは早期手術が推奨されている（出血性変化のリスクは低い）。一方、<strong>脳出血</strong>合併IEでは従来「4週間待機」がルールだったが、今回のJCS 2026で変更。</p>
+      <p class="rule-body" style="margin-top:8px;">4週間待機中に心不全進行・塞栓症再発で失われる患者がいるため、<span class="mark-yellow"><strong>個別リスク評価に基づく判断</strong></span>が求められる。</p>
+    </div></div>
+
+    <div class="card" style="margin-bottom:16px;"><div class="card-inner">
+      <h3 class="rule-title">早期手術を考慮する状況</h3>
+      <div class="ie-flow">
+        <div class="ie-flow-item">
+          <div class="ie-flow-num">1</div>
+          <div style="flex:1;"><p class="rule-body"><strong>難治性心不全：</strong>内科的治療で制御困難な心不全が進行している場合</p></div>
+        </div>
+        <div class="ie-flow-item">
+          <div class="ie-flow-num">2</div>
+          <div style="flex:1;"><p class="rule-body"><strong>弁輪周囲膿瘍：</strong>感染が弁周囲組織に波及し、伝導障害や瘻孔を形成</p></div>
+        </div>
+        <div class="ie-flow-item">
+          <div class="ie-flow-num">3</div>
+          <div style="flex:1;"><p class="rule-body"><strong>繰り返す塞栓症：</strong>適切な抗菌薬治療下でも塞栓イベントが反復</p></div>
+        </div>
+      </div>
+      <div class="alert-blue" style="margin-top:10px;"><strong>感染性脳動脈瘤に注意。</strong>脳出血の原因が感染性脳動脈瘤の場合、破裂リスクが高く、脳血管治療（コイル塞栓・クリッピング）を先行させることを検討。</div>
+    </div></div>
+
+    <div class="ie-alpha"><div class="ie-alpha-inner"><div class="ie-alpha-header"><span class="ie-alpha-badge">＋α</span><span class="ie-alpha-title">エビデンスの限界</span></div><p class="rule-body" style="color:#4C1D95;">CQ2の推奨根拠であるメタ解析は観察研究のみ（RCTなし）で、対象は244例と少数。脳出血の大きさ・部位・原因（出血性梗塞 vs 感染性動脈瘤破裂 vs 抗凝固関連）による層別解析は不十分。今後のRCTが待たれるが、倫理的困難さから実現は不透明。現時点では脳神経外科・脳血管内治療科との緊密な連携のもと、個別判断を行う。</p></div></div>
+
+    <!-- ═══ SUMMARY 第9章 ═══ -->
+    <h3 id="ie9-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;"><span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>第9章のキーメッセージ</h3>
+
+    <div class="card" style="margin-bottom:16px;"><div class="card-inner">
+      <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+        <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span><span class="rule-body"><strong>CQ1：高度リスク→強く推奨、中等度→弱く推奨：</strong>アモキシシリン2 g単回内服。副作用は極めて低頻度。口腔衛生管理が抗菌薬以上に重要。</span></div>
+        <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;"><span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span><span class="rule-body"><strong>CQ2：脳出血合併IEの4週間待機ルール撤廃：</strong>院内死亡率に有意差なし。難治性心不全・膿瘍・反復塞栓では早期手術を個別に検討。感染性脳動脈瘤は先行治療。</span></div>
+      </div>
+    </div></div>
+
+    <!-- ═══ FINAL: 研修医・ICU医が押さえるべき10のポイント ═══ -->
+    <h3 id="ie9-final" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;"><span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">FINAL</span>JCS 2026 全章を通じた「研修医・ICU医が押さえるべき10のポイント」</h3>
+
+    <div class="card" style="margin-bottom:16px;"><div class="card-inner">
+      <div class="ie-flow">
+        <div class="ie-flow-item">
+          <div class="ie-flow-num">1</div>
+          <div style="flex:1;"><p class="rule-body"><strong>血液培養は抗菌薬投与前に必ず3セット</strong></p></div>
+        </div>
+        <div class="ie-flow-item">
+          <div class="ie-flow-num">2</div>
+          <div style="flex:1;"><p class="rule-body"><strong>IEを疑ったら心エコー（TTE）を速やかに施行</strong></p></div>
+        </div>
+        <div class="ie-flow-item">
+          <div class="ie-flow-num">3</div>
+          <div style="flex:1;"><p class="rule-body"><strong>2023 Duke-ISCVID基準を適用</strong></p></div>
+        </div>
+        <div class="ie-flow-item">
+          <div class="ie-flow-num">4</div>
+          <div style="flex:1;"><p class="rule-body"><strong>IEを診断したら心臓外科に早期コンサルト</strong></p></div>
+        </div>
+        <div class="ie-flow-item">
+          <div class="ie-flow-num">5</div>
+          <div style="flex:1;"><p class="rule-body"><strong>神経症状の有無にかかわらず脳MRIを施行</strong></p></div>
+        </div>
+        <div class="ie-flow-item">
+          <div class="ie-flow-num">6</div>
+          <div style="flex:1;"><p class="rule-body"><strong>新規の房室ブロック → 弁輪周囲膿瘍を疑いTEE → 緊急手術検討</strong></p></div>
+        </div>
+        <div class="ie-flow-item">
+          <div class="ie-flow-num">7</div>
+          <div style="flex:1;"><p class="rule-body"><strong>MSSA：セファゾリン、MRSA：バンコマイシン（TDM）or ダプトマイシン、腸球菌：アンピシリン＋ゲンタマイシン</strong></p></div>
+        </div>
+        <div class="ie-flow-item">
+          <div class="ie-flow-num">8</div>
+          <div style="flex:1;"><p class="rule-body"><strong>CIED患者の不明熱 → CDRIEを疑う。リード完全抜去が原則</strong></p></div>
+        </div>
+        <div class="ie-flow-item">
+          <div class="ie-flow-num">9</div>
+          <div style="flex:1;"><p class="rule-body"><strong>右心系IE（発熱＋両側肺多発影）は内科的治療優先</strong></p></div>
+        </div>
+        <div class="ie-flow-item">
+          <div class="ie-flow-num">10</div>
+          <div style="flex:1;"><p class="rule-body"><strong>高度リスク患者の歯科処置前はアモキシシリン2 g単回内服</strong></p></div>
+        </div>
+      </div>
+    </div></div>
+
     <p style="font-size:0.72rem;color:#9CA3AF;margin-top:16px;line-height:1.7;">出典：JCS 2026 Guideline on the Management of Infective Endocarditis（2026年3月20日発行）/ 班長：泉 知里（国立循環器病研究センター）<br>本資料は教育目的で作成したサマリーです。診断・治療方針の決定には必ず原典ガイドラインを参照してください。</p>
 
     <p style="font-size:0.75rem;color:var(--muted);text-align:right;margin-top:8px;">制作：ICU 関谷</p>
 
+    </div><!-- /.ie-main-col -->
+
+    <!-- Sidebar TOC -->
+    <aside class="ie-sidebar">
+      <div class="ie-sidebar-card">
+        <div class="ie-sidebar-title">目次</div>
+        <a href="#ie-ch1" class="ie-toc-chapter">第1章 総論</a>
+        <a href="#ie-section1" class="ie-toc-section">SECTION 1 — IE とは</a>
+        <a href="#ie-section2" class="ie-toc-section">SECTION 2 — 疫学</a>
+        <a href="#ie-section3" class="ie-toc-section">SECTION 3 — チーム医療</a>
+        <a href="#ie-section4" class="ie-toc-section">SECTION 4 — 専門病院紹介</a>
+        <a href="#ie-summary" class="ie-toc-section">SUMMARY</a>
+        <a href="#ie-ch2" class="ie-toc-chapter" style="margin-top:6px;">第2章 診断</a>
+        <a href="#ie2-section1" class="ie-toc-section">SECTION 1 — Duke-ISCVID 2023</a>
+        <a href="#ie2-section2" class="ie-toc-section">SECTION 2 — 症状・身体所見</a>
+        <a href="#ie2-section3" class="ie-toc-section">SECTION 3 — 血液培養</a>
+        <a href="#ie2-section4" class="ie-toc-section">SECTION 4 — 画像診断</a>
+        <a href="#ie2-section5" class="ie-toc-section">SECTION 5 — リスク評価</a>
+        <a href="#ie2-summary" class="ie-toc-section">SUMMARY</a>
+        <a href="#ie-ch3" class="ie-toc-chapter" style="margin-top:6px;">第3章 合併症の管理</a>
+        <a href="#ie3-section1" class="ie-toc-section">SECTION 1 — 心不全</a>
+        <a href="#ie3-section2" class="ie-toc-section">SECTION 2 — 治療抵抗性感染症</a>
+        <a href="#ie3-section3" class="ie-toc-section">SECTION 3 — 塞栓症</a>
+        <a href="#ie3-section4" class="ie-toc-section">SECTION 4 — 中枢神経合併症</a>
+        <a href="#ie3-section5" class="ie-toc-section">SECTION 5 — 伝導障害</a>
+        <a href="#ie3-section6" class="ie-toc-section">SECTION 6 — 腎障害</a>
+        <a href="#ie3-section7" class="ie-toc-section">SECTION 7 — DIC</a>
+        <a href="#ie3-section8" class="ie-toc-section">SECTION 8 — 化膿性脊椎炎</a>
+        <a href="#ie3-section9" class="ie-toc-section">SECTION 9 — その他の塞栓症</a>
+        <a href="#ie3-summary" class="ie-toc-section">SUMMARY</a>
+        <a href="#ie-ch4" class="ie-toc-chapter" style="margin-top:6px;">第4章 抗菌薬治療</a>
+        <a href="#ie4-section1" class="ie-toc-section">SECTION 1 — 基本原則</a>
+        <a href="#ie4-section2" class="ie-toc-section">SECTION 2 — エンピリック治療</a>
+        <a href="#ie4-section3" class="ie-toc-section">SECTION 3 — レンサ球菌</a>
+        <a href="#ie4-section4" class="ie-toc-section">SECTION 4 — ブドウ球菌</a>
+        <a href="#ie4-section5" class="ie-toc-section">SECTION 5 — 腸球菌</a>
+        <a href="#ie4-section6" class="ie-toc-section">SECTION 6 — HACEK・真菌・培養陰性</a>
+        <a href="#ie4-section7" class="ie-toc-section">SECTION 7 — 特殊な状況</a>
+        <a href="#ie4-summary" class="ie-toc-section">SUMMARY</a>
+        <a href="#ie-ch5" class="ie-toc-chapter" style="margin-top:6px;">第5章 外科的治療</a>
+        <a href="#ie5-section1" class="ie-toc-section">SECTION 1 — 手術リスク評価</a>
+        <a href="#ie5-section2" class="ie-toc-section">SECTION 2 — 3大適応</a>
+        <a href="#ie5-section3" class="ie-toc-section">SECTION 3 — 心不全</a>
+        <a href="#ie5-section4" class="ie-toc-section">SECTION 4 — 治療抵抗性感染</a>
+        <a href="#ie5-section5" class="ie-toc-section">SECTION 5 — 塞栓症予防</a>
+        <a href="#ie5-section6" class="ie-toc-section">SECTION 6 — 脳合併症の手術時期</a>
+        <a href="#ie5-section7" class="ie-toc-section">SECTION 7 — 高齢者・frailty</a>
+        <a href="#ie5-summary" class="ie-toc-section">SUMMARY</a>
+        <a href="#ie-ch6" class="ie-toc-chapter" style="margin-top:6px;">第6章 フォローアップ</a>
+        <a href="#ie6-section1" class="ie-toc-section">SECTION 1 — 必要性</a>
+        <a href="#ie6-section2" class="ie-toc-section">SECTION 2 — 再発</a>
+        <a href="#ie6-section3" class="ie-toc-section">SECTION 3 — 慢性期弁手術</a>
+        <a href="#ie6-section4" class="ie-toc-section">SECTION 4 — 患者教育</a>
+        <a href="#ie6-summary" class="ie-toc-section">SUMMARY</a>
+        <a href="#ie-ch7" class="ie-toc-chapter" style="margin-top:6px;">第7章 予防</a>
+        <a href="#ie7-section1" class="ie-toc-section">SECTION 1 — 患者リスク</a>
+        <a href="#ie7-section2" class="ie-toc-section">SECTION 2 — 手技リスク</a>
+        <a href="#ie7-section3" class="ie-toc-section">SECTION 3 — 予防的抗菌薬</a>
+        <a href="#ie7-section4" class="ie-toc-section">SECTION 4 — 患者教育・啓発</a>
+        <a href="#ie7-summary" class="ie-toc-section">SUMMARY</a>
+        <a href="#ie-ch8" class="ie-toc-chapter" style="margin-top:6px;">第8章 特殊な病態</a>
+        <a href="#ie8-section1" class="ie-toc-section">SECTION 1 — PVE</a>
+        <a href="#ie8-section2" class="ie-toc-section">SECTION 2 — CDRIE</a>
+        <a href="#ie8-section3" class="ie-toc-section">SECTION 3 — 右心系IE</a>
+        <a href="#ie8-section4" class="ie-toc-section">SECTION 4 — 妊娠中のIE</a>
+        <a href="#ie8-section5" class="ie-toc-section">SECTION 5 — 高齢者IE</a>
+        <a href="#ie8-section6" class="ie-toc-section">SECTION 6 — 先天性心疾患・小児</a>
+        <a href="#ie8-section7" class="ie-toc-section">SECTION 7 — NBTE</a>
+        <a href="#ie8-summary" class="ie-toc-section">SUMMARY</a>
+        <a href="#ie-ch9" class="ie-toc-chapter" style="margin-top:6px;">第9章 CQ</a>
+        <a href="#ie9-cq1" class="ie-toc-section">CQ 1 — 予防的抗菌薬投与</a>
+        <a href="#ie9-cq2" class="ie-toc-section">CQ 2 — 脳出血合併IE手術時期</a>
+        <a href="#ie9-summary" class="ie-toc-section">SUMMARY</a>
+        <a href="#ie9-final" class="ie-toc-section">FINAL — 10のポイント</a>
+      </div>
+    </aside><!-- /.ie-sidebar -->
+
+    </div><!-- /.ie-page-flex -->
   </div>
 
   <script src="../script.js"></script>

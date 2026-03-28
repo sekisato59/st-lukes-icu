@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IE 抗菌薬治療 | JCS2026 感染性心内膜炎診療ガイドライン</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blue: #2563EB; --blue-light: #EFF6FF;
+      --orange: #EA580C; --green: #16A34A;
+      --red: #DC2626; --yellow: #D97706;
+      --purple: #7C3AED; --purple-light: #F5F3FF; --purple-border: #C4B5FD;
+      --text: #111827; --muted: #6B7280;
+      --border: #E5E7EB; --bg: #F9FAFB; --white: #FFFFFF;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Noto Sans JP', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; font-size: 0.9rem; }
+
+    .page-hero { background: linear-gradient(135deg, #1E3A5F 0%, #2563EB 100%); color: white; padding: 48px 20px 40px; }
+    .page-hero .label { font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; opacity: 0.7; margin-bottom: 8px; }
+    .page-hero h1 { font-size: 1.6rem; font-weight: 900; line-height: 1.3; margin-bottom: 10px; }
+    .page-hero .subtitle { font-size: 0.82rem; opacity: 0.75; }
+    .badge-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+    .badge { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: 20px; padding: 4px 12px; font-size: 0.72rem; font-weight: 500; }
+
+    .container { max-width: 860px; margin: 0 auto; padding: 32px 20px 80px; }
+
+    .legend { display: flex; gap: 16px; flex-wrap: wrap; background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 12px 18px; margin-bottom: 28px; font-size: 0.78rem; color: var(--muted); }
+    .legend-item { display: flex; align-items: center; gap: 6px; }
+    .legend-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+
+    .step-header { font-size: 1.05rem; font-weight: 900; color: var(--text); margin: 40px 0 14px; padding-left: 14px; border-left: 4px solid var(--blue); line-height: 1.4; }
+    .step-header .step-label { color: var(--blue); font-size: 0.68rem; letter-spacing: 0.12em; font-weight: 700; display: block; margin-bottom: 2px; }
+    .step-header.orange { border-left-color: var(--orange); } .step-header.orange .step-label { color: var(--orange); }
+    .step-header.green  { border-left-color: var(--green);  } .step-header.green  .step-label { color: var(--green);  }
+    .step-header.red    { border-left-color: var(--red);    } .step-header.red    .step-label { color: var(--red);    }
+
+    .card { background: var(--white); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 16px; overflow: hidden; }
+    .card-inner { padding: 20px 24px; }
+    .card.blue   { border-left: 4px solid var(--blue);   }
+    .card.orange { border-left: 4px solid var(--orange); }
+    .card.green  { border-left: 4px solid var(--green);  }
+    .card.red    { border-left: 4px solid var(--red);    }
+    .card-title { font-size: 0.9rem; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+
+    .card-alpha { background: var(--purple-light); border: 1px solid var(--purple-border); border-left: 4px solid var(--purple); border-radius: 10px; margin-bottom: 16px; }
+    .card-alpha .card-inner { padding: 18px 24px; }
+    .alpha-header { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+    .alpha-badge { display: inline-flex; align-items: center; background: var(--purple); color: white; font-size: 0.7rem; font-weight: 700; padding: 2px 10px; border-radius: 4px; flex-shrink: 0; }
+    .alpha-title { font-size: 0.88rem; font-weight: 700; color: var(--purple); }
+
+    .mark-red    { background: #FEE2E2; color: #991B1B; padding: 1px 4px; border-radius: 3px; }
+    .mark-yellow { background: #FEF3C7; color: #92400E; padding: 1px 4px; border-radius: 3px; }
+    .mark-green  { background: #D1FAE5; color: #065F46; padding: 1px 4px; border-radius: 3px; }
+    .mark-blue   { background: #DBEAFE; color: #1E40AF; padding: 1px 4px; border-radius: 3px; }
+
+    .alert { border-radius: 8px; padding: 14px 18px; margin-top: 12px; font-size: 0.85rem; line-height: 1.8; }
+    .alert-red    { background: #FEF2F2; color: #991B1B; border-left: 3px solid var(--red);    }
+    .alert-blue   { background: #EFF6FF; color: #1E40AF; border-left: 3px solid var(--blue);   }
+    .alert-yellow { background: #FFFBEB; color: #92400E; border-left: 3px solid var(--yellow); }
+    .alert-green  { background: #F0FDF4; color: #14532D; border-left: 3px solid var(--green);  }
+
+    .prose { color: var(--muted); font-size: 0.85rem; line-height: 1.95; margin-bottom: 12px; }
+    .prose:last-child { margin-bottom: 0; }
+
+    .data-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; margin-top: 10px; }
+    .data-table th { background: #F3F4F6; color: var(--text); font-weight: 700; padding: 10px 12px; text-align: left; border-bottom: 2px solid var(--border); }
+    .data-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); color: var(--muted); vertical-align: top; }
+    .data-table tr:last-child td { border-bottom: none; }
+
+    .flow { display: flex; flex-direction: column; gap: 6px; }
+    .flow-item { display: flex; align-items: flex-start; gap: 12px; background: #F8FAFC; border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; font-size: 0.83rem; }
+    .flow-item .num { background: var(--blue); color: white; border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+    .flow-item .flow-text { color: var(--muted); line-height: 1.7; }
+    .flow-item .flow-text strong { color: var(--text); }
+    .flow-arrow { text-align: center; color: var(--blue); font-size: 1.1rem; padding: 2px 0; }
+
+    .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 8px; }
+    @media (max-width: 520px) { .stat-grid { grid-template-columns: 1fr 1fr; } }
+    .stat-box { background: var(--blue-light); border: 1px solid #BFDBFE; border-radius: 8px; padding: 16px 12px; text-align: center; }
+    .stat-box .stat-val { font-size: 1.4rem; font-weight: 900; color: var(--blue); line-height: 1.2; }
+    .stat-box .stat-label { font-size: 0.7rem; color: var(--muted); margin-top: 6px; line-height: 1.5; }
+    .stat-box.red { background: #FEF2F2; border-color: #FECACA; } .stat-box.red .stat-val { color: var(--red); }
+    .stat-box.green { background: #F0FDF4; border-color: #BBF7D0; } .stat-box.green .stat-val { color: var(--green); }
+    .stat-box.orange { background: #FFF7ED; border-color: #FED7AA; } .stat-box.orange .stat-val { color: var(--orange); }
+
+    .summary-item { border-left: 3px solid var(--blue); padding: 16px 20px; margin-bottom: 12px; background: var(--white); border-radius: 0 8px 8px 0; border-top: 1px solid var(--border); border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .summary-item .si-title { font-size: 0.88rem; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+    .summary-item .si-body  { font-size: 0.83rem; color: var(--muted); line-height: 1.9; }
+    .summary-item.orange { border-left-color: var(--orange); }
+    .summary-item.green  { border-left-color: var(--green);  }
+    .summary-item.red    { border-left-color: var(--red);    }
+    .summary-item.yellow { border-left-color: var(--yellow); }
+
+    .abx-block { background: #F8FAFC; border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin-top: 10px; }
+    .abx-block .abx-title { font-size: 0.8rem; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+    .abx-block .abx-drug { font-size: 0.82rem; color: #2563EB; font-weight: 500; }
+    .abx-block .abx-note { font-size: 0.78rem; color: var(--muted); margin-top: 4px; }
+
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 8px; }
+    @media (max-width: 560px) { .two-col { grid-template-columns: 1fr; } }
+
+    .source-note { font-size: 0.72rem; color: #9CA3AF; margin-top: 16px; line-height: 1.7; }
+    p { color: var(--muted); font-size: 0.85rem; line-height: 1.85; }
+    strong { color: var(--text); }
+  </style>
+</head>
+<body>
+
+  <div class="page-hero">
+    <div style="max-width:860px;margin:0 auto;">
+      <p class="label">JCS 2026 · 感染性心内膜炎診療ガイドライン</p>
+      <h1>第4章 抗菌薬治療<br><span style="font-size:1rem;font-weight:400;opacity:0.85;">Antimicrobial Therapy</span></h1>
+      <p class="subtitle">初期・後期研修医 / 内科系集中治療医 向けサマリー</p>
+      <div class="badge-row">
+        <span class="badge">JCS 2026</span>
+        <span class="badge">2026年3月発行</span>
+        <span class="badge">班長：泉 知里（国循）</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:var(--blue);"></div>コアコンテンツ（白カード）</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--purple);"></div>＋α 発展的内容（紫カード）</div>
+    </div>
+
+
+    <!-- ═══ SECTION 1：抗菌薬治療の基本原則 ═══ -->
+    <h2 class="step-header">
+      <span class="step-label">SECTION 1</span>
+      抗菌薬治療の基本原則
+    </h2>
+
+    <div class="card blue">
+      <div class="card-inner">
+        <div class="card-title">抗菌薬開始前に必ず血液培養を——これだけは絶対に守る</div>
+        <p class="prose">
+          IEの診療で最も重要な原則のひとつは、<span class="mark-red"><strong>抗菌薬の投与を始める前に血液培養を採取すること</strong></span>である。
+          先行する抗菌薬投与は血液培養の陽性率を大幅に低下させ、起因菌の同定と治療方針の決定を困難にし、最終的に予後に悪影響を及ぼす。
+          緊急性がある場合でも、採血自体は数分で完了するため、できる限り複数セット（最低2セット、望ましくは3セット）採取してから抗菌薬を開始する。
+        </p>
+        <div class="alert alert-red">
+          <strong>抗菌薬投与前に血液培養（複数セット）→ その後に抗菌薬開始</strong><br>
+          血行動態が不安定な場合でも血液培養は採取してから投与する。
+        </div>
+      </div>
+    </div>
+
+    <div class="card blue">
+      <div class="card-inner">
+        <div class="card-title">IEには殺菌性抗菌薬を——静菌性薬では治らない理由</div>
+        <p class="prose">
+          IEの感染巣（疣腫）は高密度の菌塊とフィブリン・血小板が積み重なった構造物であり、
+          補体や免疫細胞が十分に到達できない「免疫特権的」な環境に菌が存在する。
+          このため、菌の増殖を抑制するだけの静菌性抗菌薬（テトラサイクリン、マクロライドなど）では菌を根絶できず、
+          <span class="mark-blue"><strong>β-ラクタム系薬・グリコペプチド系薬・ダプトマイシンなどの殺菌性抗菌薬</strong></span>が必須となる。
+          さらに、β-ラクタム系薬とアミノグリコシド系薬を併用することで相乗的な殺菌効果が得られる場面がある（腸球菌など）。
+        </p>
+      </div>
+    </div>
+
+    <div class="card blue">
+      <div class="card-inner">
+        <div class="card-title">TDM（治療薬物モニタリング）は必須——「感覚投与」は通用しない</div>
+        <p class="prose">
+          IEで使用するバンコマイシン・テイコプラニン・アミノグリコシド系薬は、治療域と毒性域が近接しており、
+          血中濃度を個別に測定・管理しなければ治療失敗や腎毒性・聴器毒性のリスクが高まる。
+          これらの薬剤ではTDMに基づいた投与設計が推奨される。
+        </p>
+        <div class="two-col">
+          <div class="abx-block">
+            <div class="abx-title">バンコマイシン</div>
+            <div class="abx-drug">目標：AUC/MIC 400〜600</div>
+            <div class="abx-note">トラフ値単独管理は腎障害リスクあり。トラフ＋ピーク値による2点採血でAUCを推定する方法が推奨</div>
+          </div>
+          <div class="abx-block">
+            <div class="abx-title">テイコプラニン</div>
+            <div class="abx-drug">目標トラフ値：≥20 μg/mL</div>
+            <div class="abx-note">定常状態に達するまでの負荷投与が必要（1〜2日目：12 mg/kg×2回/日）</div>
+          </div>
+          <div class="abx-block">
+            <div class="abx-title">アミノグリコシド系薬</div>
+            <div class="abx-drug">1日1回投与でもよい</div>
+            <div class="abx-note">腎毒性・第8脳神経障害（めまい・聴力低下）に注意。2〜4週超える場合は耳鼻科評価を</div>
+          </div>
+          <div class="abx-block">
+            <div class="abx-title">週1〜2回：腎機能・肝機能のモニタリング</div>
+            <div class="abx-drug">血液・生化学検査</div>
+            <div class="abx-note">異常を早期に発見し投与量調整・薬剤変更に繋げる</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card green">
+      <div class="card-inner">
+        <div class="card-title">治療期間のカウント開始日——「抗菌薬開始日」ではない</div>
+        <p class="prose">
+          IEの抗菌薬治療期間は、<span class="mark-green"><strong>血液培養が陰性化した日を起点</strong></span>としてカウントする。
+          抗菌薬投与を開始した日ではない点に注意が必要で、特に<em>S. aureus</em>など持続的な菌血症を起こしやすい症例では
+          この違いが治療期間に大きく影響する。
+          手術を行った症例で術中検体の培養が陽性になった場合は、手術日が起点となる。
+          弁検体のグラム染色が陽性でも培養が陰性なら死菌によるものと判断し、血液培養陰性化日を起点とする。
+        </p>
+        <div class="alert alert-green">
+          <strong>治療効果の判定タイミング：</strong>抗菌薬開始後48〜72時間を目安に行う。<br>
+          血液培養陽性例では24〜48時間おきに血液培養を再提出し陰性化を確認する。
+          大多数の患者は適切な治療開始後3〜5日以内に解熱するが、<em>S. aureus</em>では5〜7日かかることがある。
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ═══ SECTION 2：エンピリック治療 ═══ -->
+    <h2 class="step-header orange">
+      <span class="step-label">SECTION 2</span>
+      エンピリック治療（培養結果が出る前）
+    </h2>
+
+    <div class="card orange">
+      <div class="card-inner">
+        <div class="card-title">エンピリック治療をいつ始めるか</div>
+        <p class="prose">
+          培養結果が出る前にエンピリック治療を開始すべきかは一概には言えないが、
+          <strong>以下のいずれかに当てはまる場合は速やかに開始する</strong>。
+          IEの原因菌の約80%はブドウ球菌・レンサ球菌・腸球菌の3つのグループで占められるため、
+          この3群とHACEKグループをカバーするレジメンが基本となる。
+        </p>
+        <div class="flow">
+          <div class="flow-item">
+            <div class="num">1</div>
+            <div class="flow-text"><strong>臨床的にIEの可能性が高い</strong>：Duke基準「可能性」以上を満たす</div>
+          </div>
+          <div class="flow-item">
+            <div class="num">2</div>
+            <div class="flow-text"><strong>血行動態が不安定</strong>：敗血症性ショック・急性心不全</div>
+          </div>
+          <div class="flow-item">
+            <div class="num">3</div>
+            <div class="flow-text"><strong>塞栓症を起こしている</strong></div>
+          </div>
+          <div class="flow-item">
+            <div class="num">4</div>
+            <div class="flow-text"><strong>弁輪周囲膿瘍が疑われる</strong></div>
+          </div>
+        </div>
+        <div class="alert alert-yellow" style="margin-top:12px;">
+          エンピリック治療を迷わず開始してよい場面（上記）と、培養結果を待った方がよい特殊な状況
+          （細胞内寄生菌・真菌が疑われる場合）を区別して考える。
+        </div>
+      </div>
+    </div>
+
+    <div class="card blue">
+      <div class="card-inner">
+        <div class="card-title">エンピリック治療レジメンの選択</div>
+        <p class="prose">
+          MRSA保菌歴の有無、自己弁か人工弁か、市中発症か医療関連感染かによって選択する薬剤が変わる。
+          すべての患者に対して一律のレジメンを使うのではなく、感染リスク背景を考慮して選ぶ。
+        </p>
+        <table class="data-table">
+          <thead>
+            <tr><th>状況</th><th>推奨レジメン</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>自己弁・MRSAリスク低</strong><br>（市中発症・MRSA保菌歴なし）</td>
+              <td>
+                <span class="mark-green"><strong>アンピシリン・スルバクタム 3 g × 3〜4回/日</strong></span>
+                ＋ セフトリアキソン 2 g × 1回/日
+              </td>
+            </tr>
+            <tr>
+              <td><strong>自己弁・MRSAリスクあり</strong><br>（医療関連・MRSA保菌歴あり）</td>
+              <td>
+                <span class="mark-red"><strong>バンコマイシン（TDM管理）</strong></span>
+                ＋ セフトリアキソン 2 g × 1回/日
+              </td>
+            </tr>
+            <tr>
+              <td><strong>人工弁・デバイス関連（早期〜）</strong></td>
+              <td>
+                バンコマイシン（TDM管理）＋ セフェピム 2 g × 2回/日<br>
+                <em class="mark-yellow">（グラム陰性桿菌のカバー追加）</em>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>β-ラクタムアレルギー（重度）</strong></td>
+              <td>
+                バンコマイシン or ダプトマイシン ＋ セフトリアキソン
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="alert alert-blue" style="margin-top:12px;">
+          ダプトマイシンはバンコマイシンの代替として選択できる（8〜10 mg/kg 1日1回）。
+          ただし、ダプトマイシンは日本では<strong>右心系IEにのみ保険適用</strong>がある点に注意する。
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ═══ SECTION 3：レンサ球菌（原因菌別治療） ═══ -->
+    <h2 class="step-header green">
+      <span class="step-label">SECTION 3</span>
+      標的治療①：Streptococcus 属（レンサ球菌）
+    </h2>
+
+    <div class="card green">
+      <div class="card-inner">
+        <div class="card-title">緑色レンサ球菌（VGS）・S. gallolyticus——最も治療しやすい原因菌</div>
+        <p class="prose">
+          VGSはIEの原因菌として依然頻度が高く、市中発症・自己弁IEの主要な起因菌である。
+          ペニシリン感性株が多く（MIC ≤ 0.12 µg/mL）、β-ラクタム系薬による治療成績は良好である。
+          自己弁IEでは4週間、人工弁IEでは6週間の治療が基本となる。
+        </p>
+        <table class="data-table">
+          <thead>
+            <tr><th>感受性</th><th>第一選択薬</th><th>治療期間</th><th>備考</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>ペニシリン感性</strong><br>(MIC ≤0.12)</td>
+              <td>ペニシリンG / アンピシリン<br>またはセフトリアキソン 2 g×1回/日</td>
+              <td>自己弁：4週<br>人工弁：6週</td>
+              <td>条件を満たす自己弁IEでは2週間の短縮療法も可（本文参照）</td>
+            </tr>
+            <tr>
+              <td><strong>ペニシリン非感性</strong><br>(MIC ≥0.25)</td>
+              <td>ペニシリンG / アンピシリン ＋ ゲンタマイシン（最初の2週）</td>
+              <td>自己弁：4〜6週<br>人工弁：6週</td>
+              <td>β-ラクタムアレルギー（重度）はバンコマイシン単剤</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="alert alert-green" style="margin-top:12px;">
+          <strong>短縮療法（2週間）が可能な条件（全て満たすこと）：</strong>
+          ①疣腫径 ≤10 mm、②塞栓症・遠隔感染巣なし、③手術適応なし、
+          ④伝導障害なし、⑤腎機能・肝機能が正常
+        </div>
+      </div>
+    </div>
+
+    <div class="card-alpha">
+      <div class="card-inner">
+        <div class="alpha-header">
+          <span class="alpha-badge">＋α</span>
+          <span class="alpha-title">β溶血性レンサ球菌と栄養要求性レンサ球菌（NVS）</span>
+        </div>
+        <p class="prose">
+          β溶血性レンサ球菌（<em>S. agalactiae</em>、<em>S. dysgalactiae</em>など）は稀だが、臨床経過が急速で死亡率20%超と高い。
+          自己弁・人工弁ともに6週間の治療が推奨され、<em>S. agalactiae</em>など<em>S. pyogenes</em>以外の菌種では最初の2週間はゲンタマイシンの併用を検討する。
+        </p>
+        <p class="prose">
+          旧「栄養要求性レンサ球菌（NVS）」である<em>Abiotrophia spp.</em>・<em>Granulicatella spp.</em>は、
+          亜急性の経過をとり診断に時間を要するため塞栓症・弁破壊が起きやすく、手術を要する症例が多い。
+          感受性は良好でもバンコマイシン耐性・ゲンタマイシン高度耐性株がないことを確認してから治療する。
+          治療期間は自己弁・人工弁ともに6週間。
+        </p>
+        <p class="prose">
+          肺炎球菌によるIEは全体の1%未満と稀だが、肺炎・髄膜炎を合併することがしばしばある。
+          髄膜炎合併時は中枢移行性の高いセフトリアキソン（2 g×2回/日）を選択し、セファゾリンは避ける。
+          薬剤感受性が判明するまではセフトリアキソン＋バンコマイシンの併用を考慮する。
+        </p>
+      </div>
+    </div>
+
+
+    <!-- ═══ SECTION 4：ブドウ球菌 ═══ -->
+    <h2 class="step-header red">
+      <span class="step-label">SECTION 4</span>
+      標的治療②：Staphylococcus 属（ブドウ球菌）
+    </h2>
+
+    <div class="card red">
+      <div class="card-inner">
+        <div class="card-title">ブドウ球菌性IEの特殊性——急速進行・高死亡率</div>
+        <p class="prose">
+          黄色ブドウ球菌は先進国でIE原因菌の第1位であり、院内死亡率は20%以上に達する。
+          組織破壊力が強く、弁破壊・弁輪周囲膿瘍・遠隔感染巣の形成など重症化しやすいのが特徴で、
+          特に人工弁IEでは致死率がさらに高い。
+          コアグラーゼ陰性ブドウ球菌（CoNS）は病原性が低めだが、人工弁IEの主要な原因菌であり、
+          日本ではCoNSの約80%がメチシリン耐性（MR-CoNS）であるため、<span class="mark-red"><strong>感受性が判明するまではMRSAに準じて治療する</strong></span>。
+        </p>
+      </div>
+    </div>
+
+    <div class="card blue">
+      <div class="card-inner">
+        <div class="card-title">MSSA（メチシリン感性黄色ブドウ球菌）の治療</div>
+        <p class="prose">
+          海外の第一選択はnafcillinやoxacillinだが、日本ではこれらが使用できないため、
+          <span class="mark-green"><strong>セファゾリン 2 g × 3回/日が日本における第一選択</strong></span>となる。
+          コホート研究でoxacillinと同等の治療成績と、有意に少ない腎機能障害が確認されている。
+          ただし、セファゾリンは中枢神経への移行性が不良なため、<strong>脳膿瘍・髄膜炎合併例には使用しない</strong>（代替：セフェピム・メロペネム・バンコマイシン）。
+        </p>
+        <table class="data-table">
+          <thead>
+            <tr><th>弁種</th><th>第一選択（日本）</th><th>期間</th><th>ゲンタマイシン併用</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>自己弁</strong></td>
+              <td>セファゾリン 2 g × 3回/日</td>
+              <td>4〜6週</td>
+              <td><span class="mark-red"><strong>推奨しない</strong></span>（腎障害リスク）</td>
+            </tr>
+            <tr>
+              <td><strong>人工弁</strong></td>
+              <td>セファゾリン 2 g × 3回/日<br>± ゲンタマイシン（最初2週）</td>
+              <td>6〜8週</td>
+              <td>有益性の証明は不十分。腎機能に問題なければ考慮可</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card red">
+      <div class="card-inner">
+        <div class="card-title">MRSA（メチシリン耐性黄色ブドウ球菌）の治療——TDM管理が命</div>
+        <p class="prose">
+          日本でMRSAのIEに保険適用がある薬剤はバンコマイシンとダプトマイシンの2剤である。
+          バンコマイシンは最も臨床経験が豊富な薬剤であり、<span class="mark-red"><strong>AUC/MIC 400〜600を目標にTDM管理を行う</strong></span>。
+          従来のトラフ値（目標15〜20 µg/mL）単独での管理は腎機能障害リスクと関連することが示されており、
+          現在はトラフ・ピーク値を利用した2点採血によるAUC推定での投与設計が推奨される。
+        </p>
+        <p class="prose">
+          分離されたMRSAのバンコマイシンMICが&gt;1 µg/mLの場合、目標AUC達成に要する高用量バンコマイシンは腎障害リスクを高めるため、
+          他剤（ダプトマイシン）への変更を検討する。
+          ダプトマイシンは濃度依存性殺菌薬で、治療効果を高めるために<strong>8〜10 mg/kg 1日1回の高用量</strong>での投与が推奨される。
+          CK上昇・好酸球性肺炎などの副作用に注意する。
+        </p>
+        <table class="data-table">
+          <thead>
+            <tr><th>弁種</th><th>第一選択</th><th>期間</th><th>ゲンタマイシン併用</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>自己弁</strong></td>
+              <td>バンコマイシン（TDM管理）<br>or ダプトマイシン 8〜10 mg/kg 1日1回</td>
+              <td>4〜6週</td>
+              <td><span class="mark-red"><strong>推奨しない</strong></span>（腎障害リスク↑）</td>
+            </tr>
+            <tr>
+              <td><strong>人工弁</strong></td>
+              <td>バンコマイシン（TDM管理）<br>or ダプトマイシン 8〜10 mg/kg 1日1回</td>
+              <td>6〜8週</td>
+              <td>有益性乏しい。腎障害懸念から原則不要、忍容性があれば最初2週考慮可</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="alert alert-red" style="margin-top:12px;">
+          <strong>バンコマイシン + β-ラクタム系薬の併用は推奨しない（推奨クラスIII harm）</strong><br>
+          相乗効果は in vitro では示されているが臨床試験で死亡率や治療失敗の改善は証明されておらず、
+          腎機能障害リスクが上昇する。
+        </div>
+      </div>
+    </div>
+
+    <div class="card-alpha">
+      <div class="card-inner">
+        <div class="alpha-header">
+          <span class="alpha-badge">＋α</span>
+          <span class="alpha-title">MRSA IEに対する併用療法の考え方</span>
+        </div>
+        <p class="prose">
+          ダプトマイシンにβ-ラクタム系薬（セファゾリン、flucloxacillinなど）またはホスホマイシンを併用すると、
+          in vitroで相乗効果が示されており、小規模報告では治療成績向上が示唆されている。
+          ただし、併用薬・投与量・投与期間は確立されておらず、感染症専門医へのコンサルトを推奨する。
+        </p>
+        <p class="prose">
+          リネゾリドはIEへの保険適用はないが、バンコマイシン・ダプトマイシンに忍容性のない症例への
+          サルベージ療法として使用報告がある。投与2週間を超えると血球減少が生じやすく、継続困難なことがある。
+          リファンピシンのMRSA人工弁IEへの併用は、十分なエビデンスがないため本ガイドラインでは推奨していない。
+        </p>
+      </div>
+    </div>
+
+
+    <!-- ═══ SECTION 5：腸球菌 ═══ -->
+    <h2 class="step-header orange">
+      <span class="step-label">SECTION 5</span>
+      標的治療③：Enterococcus 属（腸球菌）
+    </h2>
+
+    <div class="card orange">
+      <div class="card-inner">
+        <div class="card-title">腸球菌IEの難しさ——高齢者に多く、治療に難渋しやすい</div>
+        <p class="prose">
+          腸球菌はレンサ球菌・ブドウ球菌に次ぐ第3位の原因菌であり、全体の約10%を占める。
+          高齢者に多い傾向があり、消化管（手術部位含む）や泌尿器が主な侵入門戸である。
+          死亡率は10〜30%とブドウ球菌と同程度かやや低く、<span class="mark-yellow"><strong>標準治療後でも1年以内の再発率が10%と高い</strong></span>ことが特徴である。
+        </p>
+        <p class="prose">
+          腸球菌は本来β-ラクタム系薬に自然耐性があり（βラクタムは静菌的に作用）、
+          アミノグリコシド系薬も自然耐性があるため、<strong>β-ラクタムとアミノグリコシドの組み合わせで初めて殺菌的な効果</strong>が得られる。
+          ただし、アミノグリコシド高度耐性株（MIC &gt;500 µg/mL）では相乗効果が得られないため、
+          <span class="mark-red"><strong>まず検査室にゲンタマイシン高度耐性の有無を確認することが重要</strong></span>。
+          国内報告では<em>E. faecalis</em>の32%、<em>E. faecium</em>の24%に高度耐性が認められている。
+        </p>
+      </div>
+    </div>
+
+    <div class="card blue">
+      <div class="card-inner">
+        <div class="card-title">腸球菌IEの治療選択——ゲンタマイシン高度耐性の有無が鍵</div>
+        <table class="data-table">
+          <thead>
+            <tr><th>状況</th><th>推奨レジメン</th><th>期間</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>ペニシリン感性</strong><br>ゲンタ高度耐性なし</td>
+              <td><span class="mark-green"><strong>アンピシリン 2g × 4〜6回/日</strong></span><br>＋ ゲンタマイシン 2〜3 mg/kg 1日1回</td>
+              <td>自己弁：4〜6週<br>人工弁：6週</td>
+            </tr>
+            <tr>
+              <td><strong>ペニシリン感性</strong><br>高齢者・腎機能低下<br>またはゲンタ高度耐性</td>
+              <td><span class="mark-blue"><strong>アンピシリン 2g × 4〜6回/日<br>＋ セフトリアキソン 2g × 1〜2回/日</strong></span></td>
+              <td>自己弁：4〜6週<br>人工弁：6週</td>
+            </tr>
+            <tr>
+              <td><strong>ペニシリン耐性<br>（<em>E. faecium</em>など）</strong></td>
+              <td>バンコマイシン（TDM管理）<br>± ゲンタマイシン</td>
+              <td>4〜6週</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="alert alert-yellow" style="margin-top:12px;">
+          <strong>アンピシリン＋セフトリアキソン併用療法</strong>は高齢者や腎機能低下例で優先的に使用し、
+          ゲンタマイシン高度耐性株でも有効である。<em>E. faecium</em>に対しては無効であり用いない点に注意。
+        </div>
+      </div>
+    </div>
+
+    <div class="card-alpha">
+      <div class="card-inner">
+        <div class="alpha-header">
+          <span class="alpha-badge">＋α</span>
+          <span class="alpha-title">VRE（バンコマイシン耐性腸球菌）の治療</span>
+        </div>
+        <p class="prose">
+          VREに対してはリネゾリドまたはダプトマイシンを選択し、アンピシリンやゲンタマイシンの併用を考慮する。
+          ダプトマイシンは国内での腸球菌IEへの適応は確立しておらず、高用量投与（10〜12 mg/kg）や
+          併用療法について標準的方法は定まっていない。VREに対するダプトマイシン単剤治療や通常用量では成績が不十分との指摘もある。
+          治療方針については感染症専門医へのコンサルトを強く推奨する。
+        </p>
+      </div>
+    </div>
+
+
+    <!-- ═══ SECTION 6：その他の原因菌 ═══ -->
+    <h2 class="step-header">
+      <span class="step-label">SECTION 6</span>
+      標的治療④：HACEK グループ・真菌・血液培養陰性IE
+    </h2>
+
+    <div class="card blue">
+      <div class="card-inner">
+        <div class="card-title">HACEKグループ——血液培養から出たら必ずIEを疑う</div>
+        <p class="prose">
+          HACEKグループは口腔・咽頭に常在するグラム陰性桿菌の総称であり、
+          <em>Haemophilus parainfluenzae</em>、<em>Aggregatibacter spp.</em>、<em>Cardiobacterium hominis</em>、
+          <em>Eikenella corrodens</em>、<em>Kingella kingae</em>からなる。
+          IE全体の1%未満と稀だが、<span class="mark-blue"><strong>血液培養から検出された場合は高い確率でIEが関連している</strong></span>ため、必ずIEを評価する。
+          患者は全体的に若く（10歳程度若い）市中発症が多く、予後は比較的良好で死亡率は約5%である。
+        </p>
+        <p class="prose">
+          治療はセフトリアキソン（2 g 1日2回）が第一選択であり、4週間（人工弁は6週間）投与する。
+          β-ラクタム系薬にアレルギーがある場合はシプロフロキサシンへの変更も可能で、経口スイッチ療法としても使用できる。
+        </p>
+      </div>
+    </div>
+
+    <div class="card-alpha">
+      <div class="card-inner">
+        <div class="alpha-header">
+          <span class="alpha-badge">＋α</span>
+          <span class="alpha-title">真菌性IE——血液培養陰性でも疑うべき重篤な病態</span>
+        </div>
+        <p class="prose">
+          真菌性IEはIE全体の約1%と稀だが、院内死亡率が30〜50%（人工弁IEでは50〜70%）と極めて高い。
+          Candida属真菌が最多であり、リスク因子として長期間の抗菌薬投与・血管内カテーテル留置・術後（特に冠動脈バイパス術）・免疫抑制状態が挙げられる。
+          <span class="mark-red"><strong>血液培養の陽性率は50〜75%に留まり、Aspergillusでは5%未満</strong></span>であるため培養陰性でも否定できない。
+          β-グルカン測定は補助診断程度の位置づけである。
+        </p>
+        <p class="prose">
+          抗真菌薬単独では感染制御が困難であり、<strong>ほぼ全例で外科的治療が必要</strong>となる。
+          外科的治療が行えない場合や術後にはアゾール系抗真菌薬による長期抑制療法（suppressive therapy）が推奨され、
+          人工弁IEで手術未施行の場合には生涯投与が必要となることもある。
+          治療方針は感染症科・感染症専門医と必ず協議する。
+        </p>
+      </div>
+    </div>
+
+    <div class="card-alpha">
+      <div class="card-inner">
+        <div class="alpha-header">
+          <span class="alpha-badge">＋α</span>
+          <span class="alpha-title">血液培養陰性IE——細胞内寄生菌を考慮する</span>
+        </div>
+        <p class="prose">
+          IEの90%以上で血液培養は陽性となるが、陰性になるのは主に①事前の抗菌薬投与、②細胞内寄生菌、③真菌の3つの場合である。
+          国内では培養陰性IEの主な原因は事前の抗菌薬投与であるが、細胞内寄生菌として以下が重要である。
+        </p>
+        <table class="data-table">
+          <thead>
+            <tr><th>起因菌</th><th>疫学・手がかり</th><th>治療</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong><em>Coxiella burnetii</em></strong><br>（Q熱）</td>
+              <td>家畜・農場との接触歴。特異抗体価（Phase I IgG ≥1:800が大基準）。PCRで確定</td>
+              <td>ドキシサイクリン＋ヒドロキシクロロキン 18か月以上</td>
+            </tr>
+            <tr>
+              <td><strong><em>Bartonella spp.</em></strong></td>
+              <td><em>B. henselae</em>：猫引っかき歴・ノミ。<em>B. quintana</em>：ホームレス・シラミ。抗体価・PCR</td>
+              <td>アンピシリン or ゲンタマイシン＋ドキシサイクリン 3か月以上</td>
+            </tr>
+            <tr>
+              <td><strong><em>Tropheryma whipplei</em></strong><br>（Whipple病）</td>
+              <td>慢性腸炎・関節炎・神経症状。弁・生検検体のPCRで確定</td>
+              <td>長期コトリモキサゾール</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="prose" style="margin-top:10px;">
+          これらは<strong>基本的に検査陽性が確認されてからの治療開始</strong>が望ましいが、
+          臨床的に強く疑い血行動態が不安定な場合はエンピリックにドキシサイクリン追加併用を検討する。
+        </p>
+      </div>
+    </div>
+
+
+    <!-- ═══ SECTION 7：特殊な状況 ═══ -->
+    <h2 class="step-header">
+      <span class="step-label">SECTION 7</span>
+      特殊な状況——髄膜炎合併・長期抗菌薬療法
+    </h2>
+
+    <div class="card orange">
+      <div class="card-inner">
+        <div class="card-title">髄膜炎・脳膿瘍合併時の抗菌薬投与の注意点</div>
+        <p class="prose">
+          脳膿瘍または髄膜炎を合併したIEでは、抗菌薬の中枢神経への移行性を考慮した薬剤選択が必要となる。
+          <span class="mark-red"><strong>セファゾリンは中枢移行性が不良なため使用しない</strong></span>。
+          MSSAでも髄膜炎・脳膿瘍を合併する場合はセフェピム・メロペネム・バンコマイシンを選択し、
+          感染症専門医への相談を推奨する。
+        </p>
+        <table class="data-table">
+          <thead>
+            <tr><th>合併状況</th><th>投与量の注意</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>髄膜炎合併</strong></td>
+              <td>セフトリアキソン：1回2 g <span class="mark-red">1日2回</span>へ増量。治療開始2週間は本量で投与</td>
+            </tr>
+            <tr>
+              <td><strong>脳膿瘍合併</strong></td>
+              <td>セフトリアキソン：1回2 g 1日2回を<span class="mark-red">治療期間全体を通して</span>継続</td>
+            </tr>
+            <tr>
+              <td><strong>セファゾリンは</strong></td>
+              <td><span class="mark-red"><strong>使用禁止</strong></span>（髄膜炎合併例では治療開始2週間、脳膿瘍合併例は治療全体でde-escalation不可）</td>
+            </tr>
+            <tr>
+              <td><strong>セフェピム高用量</strong></td>
+              <td>抗菌薬脳症に注意（高用量時）</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card-alpha">
+      <div class="card-inner">
+        <div class="alpha-header">
+          <span class="alpha-badge">＋α</span>
+          <span class="alpha-title">手術適応があっても手術できない症例への長期抗菌薬療法</span>
+        </div>
+        <p class="prose">
+          手術適応があるにもかかわらず、高齢・フレイル・多臓器障害など様々な理由で手術に至らないケースは少なくない。
+          このような患者の予後は非常に厳しく、抑制的抗菌薬療法（suppressive antibiotic therapy）や長期抗菌薬療法が重要な選択肢となる。
+          具体的には、外来静注抗菌薬療法（OPAT）や在宅での抗菌薬治療、または経口抗菌薬への切り替えが行われる。
+        </p>
+        <p class="prose">
+          CIEDの抜去が不可能な場合や、人工関節・TAVI後の人工弁関連感染でも同様の検討が行われる。
+          用いられる経口レジメンとしてはST合剤、アモキシシリン、クリンダマイシン、ドキシサイクリンの報告があるが、抗菌薬の選択と投与量に一定の見解はなく、
+          <strong>抗菌薬中止後の再発率が高い</strong>ため治療期間の設定は慎重に行う。
+          退院後も継続治療が必要な患者には入院中から心臓内科・心臓外科・感染症科・薬剤師・看護師・OPATチームなど多職種での支援体制を構築することが推奨される。
+        </p>
+      </div>
+    </div>
+
+
+    <!-- ═══ CHAPTER SUMMARY ═══ -->
+    <h2 class="step-header green">
+      <span class="step-label">CHAPTER SUMMARY</span>
+      第4章 まとめ：抗菌薬治療の5大原則
+    </h2>
+
+    <div class="summary-item red">
+      <div class="si-title">① 抗菌薬を始める前に血液培養——これは絶対</div>
+      <div class="si-body">
+        先行する抗菌薬投与は血液培養の陽性率を下げ、起因菌同定を妨げ予後に悪影響を及ぼす。
+        <span class="mark-red"><strong>複数セット採血 → 抗菌薬開始。</strong></span>緊急時でもこの順序は変えない。
+      </div>
+    </div>
+
+    <div class="summary-item">
+      <div class="si-title">② 治療期間は「血液培養陰性化日」からカウント</div>
+      <div class="si-body">
+        抗菌薬開始日ではない。24〜48時間おきに血液培養を再提出し陰性化を確認する。
+        手術した場合は術中検体が陽性なら手術日が起点となる。
+      </div>
+    </div>
+
+    <div class="summary-item orange">
+      <div class="si-title">③ バンコマイシン・テイコプラニン・アミノグリコシドはTDM必須</div>
+      <div class="si-body">
+        バンコマイシン目標：<span class="mark-blue"><strong>AUC/MIC 400〜600</strong></span>（2点採血によるAUC推定を推奨）。
+        テイコプラニン：トラフ値≥20 µg/mL。アミノグリコシド：腎毒性・聴器毒性に注意し週1〜2回腎機能チェック。
+      </div>
+    </div>
+
+    <div class="summary-item green">
+      <div class="si-title">④ MRSA → セファゾリンは使えない。バンコマイシン or ダプトマイシン</div>
+      <div class="si-body">
+        CoNSは感受性判明まで<span class="mark-red">MRSAに準じて治療</span>（日本では約80%がMR-CoNS）。
+        MSSAの第一選択は<strong>セファゾリン 2 g × 3回/日</strong>（ただし脳膿瘍・髄膜炎合併時は禁忌）。
+        バンコマイシン + β-ラクタム系薬の併用は腎障害リスクのため<strong>推奨しない</strong>。
+      </div>
+    </div>
+
+    <div class="summary-item yellow">
+      <div class="si-title">⑤ 腸球菌はまずゲンタマイシン高度耐性の確認から</div>
+      <div class="si-body">
+        ゲンタマイシン高度耐性なし → <span class="mark-green"><strong>アンピシリン ＋ ゲンタマイシン</strong></span><br>
+        高齢者・腎機能低下・高度耐性株 → <span class="mark-blue"><strong>アンピシリン ＋ セフトリアキソン</strong></span>（E. faeciumには無効）<br>
+        1年以内再発率10%の高さを念頭に、治療完了後もフォローアップを続ける。
+      </div>
+    </div>
+
+    <p class="source-note">
+      出典：JCS 2026 Guideline on the Management of Infective Endocarditis（2026年3月20日発行）/ 班長：泉 知里（国立循環器病研究センター）<br>
+      本資料は教育目的で作成したサマリーです。診断・治療方針の決定には必ず原典ガイドラインを参照してください。
+    </p>
+
+  </div>
+</body>
+</html>
