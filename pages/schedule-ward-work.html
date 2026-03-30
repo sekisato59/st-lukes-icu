@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>病棟業務 | 聖路加ICU</title>
+  <title>ICUセット | 聖路加ICU</title>
   <meta name="robots" content="noindex, nofollow">
   <link rel="icon" type="image/png" href="../images/logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,6 +18,38 @@
       color: var(--blue);
     }
     .todo-link:hover strong { color: var(--blue); }
+
+    /* ICU Set tree lines */
+    .set-tree { border-collapse:separate;border-spacing:0;width:100%;font-size:0.82rem;line-height:1.7; }
+    .set-tree td, .set-tree th { border-bottom:1px solid var(--border);border-right:1px solid var(--border);white-space:nowrap; }
+    .set-tree td:last-child, .set-tree th:last-child { border-right:none; }
+    .set-tree thead th { position:sticky;top:0;z-index:2;background:#F3F4F6;border-bottom:2px solid var(--border);box-shadow:0 2px 0 -1px var(--border); }
+    /* 大見出し（カテゴリ） */
+    .set-tree .sh { background:#EFF6FF; }
+    .set-tree .sh td { padding:7px 12px;font-weight:800;color:var(--text);position:relative; }
+    /* 中見出し（サブカテゴリ） */
+    .set-tree .sm td:first-child { position:relative;padding:5px 12px 5px 32px;font-weight:700;font-size:0.78rem;color:var(--muted);background:#F8FAFC; }
+    .set-tree .sm td:first-child::before { content:'';position:absolute;left:14px;top:0;height:50%;border-left:1.5px solid #93C5FD; }
+    .set-tree .sm td:first-child::after  { content:'';position:absolute;left:14px;top:50%;width:10px;border-top:1.5px solid #93C5FD; }
+    .set-tree .sm.sc td:first-child::before { height:100%; }
+    .set-tree .sm td { background:#F8FAFC; }
+    /* 小見出し（個別アイテム、大見出し直下） */
+    .set-tree .si td:first-child { position:relative;padding:6px 12px 6px 32px; }
+    .set-tree .si td:first-child::before { content:'';position:absolute;left:14px;top:0;height:50%;border-left:1.5px solid #BFDBFE; }
+    .set-tree .si td:first-child::after  { content:'';position:absolute;left:14px;top:50%;width:10px;border-top:1.5px solid #BFDBFE; }
+    .set-tree .si.sc td:first-child::before { height:100%; }
+    .set-tree .si td { padding:6px 12px; }
+    .set-tree .si td:nth-child(n+3) { padding:6px 6px;text-align:center;vertical-align:middle; }
+    .set-tree .sm td:nth-child(n+3) { padding:6px 6px;text-align:center;vertical-align:middle; }
+    .set-tree .si td:nth-child(2) { color:var(--muted); }
+    /* 小見出し（中見出し配下、深いインデント） */
+    .set-tree .sid td:first-child { position:relative;padding:6px 12px 6px 48px; }
+    .set-tree .sid td:first-child::before { content:'';position:absolute;left:30px;top:0;height:50%;border-left:1.5px solid #BFDBFE; }
+    .set-tree .sid td:first-child::after  { content:'';position:absolute;left:30px;top:50%;width:10px;border-top:1.5px solid #BFDBFE; }
+    .set-tree .sid.sc td:first-child::before { height:100%; }
+    /* 中見出しの親ラインを引き続ける */
+    .set-tree .sid.sp td:first-child { background-image:linear-gradient(#93C5FD,#93C5FD);background-size:1.5px 100%;background-position:14px 0;background-repeat:no-repeat; }
+    .set-tree .sm.sp td:first-child { background-image:linear-gradient(#93C5FD,#93C5FD);background-size:1.5px 100%;background-position:14px 0;background-repeat:no-repeat; }
   </style>
 </head>
 <body>
@@ -47,274 +79,238 @@
   <div class="subpage-hero">
     <div class="container">
       <a href="../index.html" class="back-link">← メインページへ戻る</a>
-      <h1 class="subpage-title">病棟業務</h1>
-      <p class="subpage-subtitle">9:00〜 | 日勤スケジュール</p>
+      <h1 class="subpage-title">ICUセット</h1>
+      <p class="subpage-subtitle">オーダーセット・入退室業務</p>
     </div>
   </div>
 
   <!-- ===== CONTENT ===== -->
   <div class="container" style="padding: 32px 20px 60px; max-width: 900px;">
 
-    <!-- ═══ SECTION 1: ICU入室時のTo Do List ═══ -->
-    <h3 id="ward-admission" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid var(--blue);line-height:1.4;"><span style="color:var(--blue);font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>ICU入室時のTo Do List</h3>
-
-    <div class="card" id="ward-admission-todo" style="margin-bottom:16px;">
-      <div class="card-inner">
-        <div style="display:flex;flex-direction:column;gap:0;">
-          <a href="#ward-adm-set" style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--border);text-decoration:none;color:var(--text);transition:background 0.15s,padding-left 0.15s;font-size:0.83rem;" class="todo-link"><span style="color:var(--blue);font-weight:800;width:24px;flex-shrink:0;">#1</span><strong>ICU入室時セットを展開（各種スコア入力）</strong><span style="margin-left:auto;color:var(--muted);font-size:0.75rem;">↓</span></a>
-          <a href="#ward-adm-consent" style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--border);text-decoration:none;color:var(--text);transition:background 0.15s,padding-left 0.15s;font-size:0.83rem;" class="todo-link"><span style="color:var(--blue);font-weight:800;width:24px;flex-shrink:0;">#2</span><strong>同意書4点セットを全例取得する</strong><span style="margin-left:auto;color:var(--muted);font-size:0.75rem;">↓</span></a>
-          <a href="#ward-adm-ppi" style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--border);text-decoration:none;color:var(--text);transition:background 0.15s,padding-left 0.15s;font-size:0.83rem;" class="todo-link"><span style="color:var(--blue);font-weight:800;width:24px;flex-shrink:0;">#3</span><strong>PPI / ビタミン / DVT予防を必要に応じてオーダー</strong><span style="margin-left:auto;color:var(--muted);font-size:0.75rem;">↓</span></a>
-          <a href="#ward-adm-meds" style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--border);text-decoration:none;color:var(--text);transition:background 0.15s,padding-left 0.15s;font-size:0.83rem;" class="todo-link"><span style="color:var(--blue);font-weight:800;width:24px;flex-shrink:0;">#4</span><strong>内服・点滴オーダー（常用薬継続の判断も）</strong><span style="margin-left:auto;color:var(--muted);font-size:0.75rem;">↓</span></a>
-          <a href="#ward-adm-labs" style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--border);text-decoration:none;color:var(--text);transition:background 0.15s,padding-left 0.15s;font-size:0.83rem;" class="todo-link"><span style="color:var(--blue);font-weight:800;width:24px;flex-shrink:0;">#5</span><strong>翌日以降の採血，レントゲンオーダー</strong><span style="margin-left:auto;color:var(--muted);font-size:0.75rem;">↓</span></a>
-          <a href="#ward-adm-chart" style="display:flex;align-items:center;gap:10px;padding:10px 14px;text-decoration:none;color:var(--text);transition:background 0.15s,padding-left 0.15s;font-size:0.83rem;" class="todo-link"><span style="color:var(--blue);font-weight:800;width:24px;flex-shrink:0;">#6</span><strong>ICU Admission, ICU Daily Chart記載</strong><span style="margin-left:auto;color:var(--muted);font-size:0.75rem;">↓</span></a>
-        </div>
-      </div>
-    </div>
-
-    <!-- 各論 -->
-    <div id="ward-adm-set" style="display:flex;border-radius:var(--radius);overflow:hidden;margin-top:20px;margin-bottom:0;">
-      <div style="background:linear-gradient(180deg,#08214A,#0F172A);color:#fff;padding:5px 10px;display:flex;align-items:center;justify-content:center;"><span style="font-size:0.9rem;font-weight:900;opacity:0.6;">1</span></div>
-      <div style="background:linear-gradient(135deg,#1269B0,#1586C0);color:#fff;padding:7px 14px;flex:1;"><div style="font-size:0.9rem;font-weight:700;">ICU入室時セットを展開</div><div style="font-size:0.68rem;color:rgba(255,255,255,0.6);">各種スコア入力</div></div>
-    </div>
-    <div class="card" style="margin-bottom:8px;border-radius:0 0 var(--radius) var(--radius);">
-      <div class="card-inner">
-
-        <!-- 中見出し：ICUセットへのアクセス方法 -->
-        <div style="display:flex;border-radius:6px;overflow:hidden;margin-bottom:10px;"><div style="background:#0F172A;color:#fff;padding:4px 8px;font-size:0.65rem;font-weight:800;display:flex;align-items:center;">A</div><div style="background:linear-gradient(135deg,#1269B0,#1586C0);color:#fff;padding:5px 12px;font-size:0.82rem;font-weight:700;flex:1;">ICUセットへのアクセス方法</div></div>
-        <ul class="rule-body" style="list-style:disc;padding-left:18px;">
-          <li>ICUオーダーに関わる内服，点滴，コメントオーダーまでが全て登録されています</li>
-          <li>「セット展開」→「内科共通」→「ICU」から展開できます</li>
-        </ul>
-        <p class="rule-body" style="margin-top:10px;color:var(--muted);font-style:italic;">【画像：セット展開画面】</p>
-        <div class="alert-blue" style="margin-top:10px;">
-          「ICU」の上で右クリックをして初期展開フォルダー設定をすると，次回からセット展開を押した際に「ICU」に直接アクセスできるようになります．
-        </div>
-        <p class="rule-body" style="margin-top:10px;color:var(--muted);font-style:italic;">【画像：右クリック設定画面】</p>
-
-        <!-- 中見出し：入室経路に応じたセット選択 -->
-        <div style="display:flex;border-radius:6px;overflow:hidden;margin-top:20px;margin-bottom:10px;"><div style="background:#0F172A;color:#fff;padding:4px 8px;font-size:0.65rem;font-weight:800;display:flex;align-items:center;">B</div><div style="background:linear-gradient(135deg,#1269B0,#1586C0);color:#fff;padding:5px 12px;font-size:0.82rem;font-weight:700;flex:1;">入室経路に応じたセット選択</div></div>
-        <p class="rule-body" style="margin-bottom:10px;">ICUへ患者が入室となる場合には，その入室経路に応じて「外科術後入室」「ERからICU入室」「病棟からICU入室（=急変）」を選択してセット展開をお願いします．同意書4点はセットに含まれていないため，未取得の場合には別途，展開してください．</p>
-
-        <!-- 小見出し：共通事項 -->
-        <div style="font-size:0.92rem;font-weight:800;color:var(--text);padding:8px 0;margin-top:16px;border-bottom:2px solid var(--blue);">共通事項</div>
-        <div style="padding-left:12px;margin-top:10px;">
-          <p class="rule-body" style="color:var(--muted);font-style:italic;">【画像：共通事項1】</p>
-          <p class="rule-body" style="margin-top:6px;color:var(--muted);font-style:italic;">【画像：共通事項2】</p>
-          <p class="rule-body" style="margin-top:6px;color:var(--muted);font-style:italic;">【画像：共通事項3】</p>
-        </div>
-
-        <!-- 小見出し：セットで異なる点 -->
-        <div style="font-size:0.92rem;font-weight:800;color:var(--text);padding:8px 0;margin-top:20px;border-bottom:2px solid var(--blue);">セットで異なる点</div>
-
-        <!-- 少々見出し：ERからICU入室 -->
-        <div class="card" style="margin-top:12px;margin-bottom:8px;">
-          <div class="card-inner">
-            <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
-              <span style="width:8px;height:8px;border-radius:50%;background:var(--blue);flex-shrink:0;"></span>
-              <span style="font-size:0.88rem;font-weight:800;color:var(--text);">ERからICU入室</span>
-            </div>
-            <ul class="rule-body" style="list-style:disc;padding-left:18px;margin-bottom:10px;">
-              <li>状態の悪い患者が救急外来や内科外来から直接，入院になることを想定したセットです</li>
-              <li>通常の入院に必要なオーダーやコメントを含みつつ，ICU管理に必要なオーダーに対応しています</li>
-            </ul>
-            <p class="rule-body" style="font-weight:700;margin-bottom:6px;">ICU admission note</p>
-            <ul class="rule-body" style="list-style:disc;padding-left:18px;">
-              <li>患者の重要なプロフィールとなりますので入室までの経緯が分かるように記入をお願いします</li>
-            </ul>
-            <p class="rule-body" style="margin-top:10px;color:var(--muted);font-style:italic;">【画像：ER入室 admission note】</p>
-          </div>
-        </div>
-
-        <!-- 少々見出し：病棟からICU入室 -->
-        <div class="card" style="margin-bottom:8px;">
-          <div class="card-inner">
-            <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
-              <span style="width:8px;height:8px;border-radius:50%;background:var(--blue);flex-shrink:0;"></span>
-              <span style="font-size:0.88rem;font-weight:800;color:var(--text);">病棟からICU入室</span>
-            </div>
-            <ul class="rule-body" style="list-style:disc;padding-left:18px;margin-bottom:10px;">
-              <li>すでに一般床へ入院している患者が急変してICU入室になることを想定したセットです</li>
-              <li>病棟との引継ぎに重きをおきつつ，ICU管理に必要なオーダーが揃っています</li>
-            </ul>
-            <p class="rule-body" style="font-weight:700;margin-bottom:6px;">To Next doctor ＆ ICU admission note</p>
-            <ul class="rule-body" style="list-style:disc;padding-left:18px;">
-              <li>ICU入室前に患者を担当していた医師が記入を行います</li>
-              <li>当直帯の入室では患者情報を内科当直が，翌日以降に入室前の受持医がProblem List以降を記入します</li>
-            </ul>
-            <p class="rule-body" style="margin-top:10px;color:var(--muted);font-style:italic;">【画像：病棟入室 To Next doctor】</p>
-          </div>
-        </div>
-
-        <!-- 少々見出し：外科術後入室 -->
-        <div class="card" style="margin-bottom:8px;">
-          <div class="card-inner">
-            <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
-              <span style="width:8px;height:8px;border-radius:50%;background:var(--blue);flex-shrink:0;"></span>
-              <span style="font-size:0.88rem;font-weight:800;color:var(--text);">外科術後入室</span>
-            </div>
-            <ul class="rule-body" style="list-style:disc;padding-left:18px;margin-bottom:10px;">
-              <li>ハイリスク患者の術後入室を想定したセット内容です</li>
-              <li>翌日または数日間のみのICU滞在を想定しているため，リハビリオーダーなどは含まれていません</li>
-            </ul>
-            <p class="rule-body" style="font-weight:700;margin-bottom:6px;">術後ICU admission note</p>
-            <ul class="rule-body" style="list-style:disc;padding-left:18px;">
-              <li>必要事項を簡潔に入力してください．現病歴以降の情報は，入室時に外科や麻酔科から聴取した内容・麻酔記録を参照してもれなく入力するようにしましょう</li>
-            </ul>
-            <p class="rule-body" style="margin-top:10px;color:var(--muted);font-style:italic;">【画像：術後 admission note】</p>
-
-            <p class="rule-body" style="font-weight:700;margin-top:14px;margin-bottom:6px;">血栓予防</p>
-            <ul class="rule-body" style="list-style:disc;padding-left:18px;">
-              <li>外科術後のDVT予防は原則，「機械的予防」を選択してください</li>
-            </ul>
-            <p class="rule-body" style="margin-top:10px;color:var(--muted);font-style:italic;">【画像：血栓予防オーダー画面】</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div id="ward-adm-consent" style="display:flex;border-radius:var(--radius);overflow:hidden;margin-top:36px;margin-bottom:0;">
-      <div style="background:linear-gradient(180deg,#08214A,#0F172A);color:#fff;padding:5px 10px;display:flex;align-items:center;justify-content:center;"><span style="font-size:0.9rem;font-weight:900;opacity:0.6;">2</span></div>
-      <div style="background:linear-gradient(135deg,#1269B0,#1586C0);color:#fff;padding:7px 14px;flex:1;"><div style="font-size:0.9rem;font-weight:700;">同意書4点セット</div><div style="font-size:0.68rem;color:rgba(255,255,255,0.6);">全例で取得する</div></div>
-    </div>
-    <div class="card" style="margin-bottom:8px;border-radius:0 0 var(--radius) var(--radius);">
-      <div class="card-inner">
-        <p class="rule-body" style="margin-bottom:10px;">ICU入室となる方には，全例で取得するようにしてください．</p>
-        <p class="rule-body" style="color:var(--muted);font-style:italic;">【画像：同意書4点セット一覧】</p>
-
-        <div style="display:flex;border-radius:6px;overflow:hidden;margin-top:16px;margin-bottom:10px;"><div style="background:#0F172A;color:#fff;padding:4px 8px;font-size:0.65rem;font-weight:800;display:flex;align-items:center;">A</div><div style="background:linear-gradient(135deg,#1269B0,#1586C0);color:#fff;padding:5px 12px;font-size:0.82rem;font-weight:700;flex:1;">輸血＿説明・同意文書について</div></div>
-        <ul class="rule-body" style="list-style:disc;padding-left:18px;">
-          <li>必ずカルテ上で使用予定の単位数を入力してください！「手書きで単位数を記載されている」「単位数が記載されていない」同意書はすべて受け取り不可で戻ってきてしまいます</li>
-          <li>「その他」と書かれている箇所を☑にすると，自由記載欄にその詳細のコメントが必須になるため☑不要です</li>
-        </ul>
-        <p class="rule-body" style="margin-top:10px;color:var(--muted);font-style:italic;">【画像：輸血同意書の記入例】</p>
-
-        <div style="display:flex;border-radius:6px;overflow:hidden;margin-top:16px;margin-bottom:10px;"><div style="background:#0F172A;color:#fff;padding:4px 8px;font-size:0.65rem;font-weight:800;display:flex;align-items:center;">B</div><div style="background:linear-gradient(135deg,#1269B0,#1586C0);color:#fff;padding:5px 12px;font-size:0.82rem;font-weight:700;flex:1;">特定生物由来製品＿説明書・同意書について</div></div>
-        <ul class="rule-body" style="list-style:disc;padding-left:18px;">
-          <li>以下のように☑をお願いします．ICU領域では，その他の特定生物由来製品，製品名は空欄で構いません</li>
-          <li>印鑑の押し忘れに注意しましょう</li>
-        </ul>
-        <p class="rule-body" style="margin-top:10px;color:var(--muted);font-style:italic;">【画像：特定生物由来製品同意書の記入例】</p>
-      </div>
-    </div>
-
-    <div id="ward-adm-ppi" style="display:flex;border-radius:var(--radius);overflow:hidden;margin-top:36px;margin-bottom:0;">
-      <div style="background:linear-gradient(180deg,#08214A,#0F172A);color:#fff;padding:5px 10px;display:flex;align-items:center;justify-content:center;"><span style="font-size:0.9rem;font-weight:900;opacity:0.6;">3</span></div>
-      <div style="background:linear-gradient(135deg,#1269B0,#1586C0);color:#fff;padding:7px 14px;flex:1;"><div style="font-size:0.9rem;font-weight:700;">PPI / ビタミン / DVT予防</div><div style="font-size:0.68rem;color:rgba(255,255,255,0.6);">必要に応じてオーダー</div></div>
-    </div>
-    <div class="card" style="margin-bottom:8px;border-radius:0 0 var(--radius) var(--radius);">
-      <div class="card-inner">
-        <p class="rule-body">ICUセット内に含まれるPPI・ビタミン・DVT予防のオーダーを，患者の状態に応じて選択してください．</p>
-      </div>
-    </div>
-
-    <div id="ward-adm-meds" style="display:flex;border-radius:var(--radius);overflow:hidden;margin-top:36px;margin-bottom:0;">
-      <div style="background:linear-gradient(180deg,#08214A,#0F172A);color:#fff;padding:5px 10px;display:flex;align-items:center;justify-content:center;"><span style="font-size:0.9rem;font-weight:900;opacity:0.6;">4</span></div>
-      <div style="background:linear-gradient(135deg,#1269B0,#1586C0);color:#fff;padding:7px 14px;flex:1;"><div style="font-size:0.9rem;font-weight:700;">内服・点滴オーダー</div><div style="font-size:0.68rem;color:rgba(255,255,255,0.6);">常用薬継続の判断も</div></div>
-    </div>
-    <div class="card" style="margin-bottom:8px;border-radius:0 0 var(--radius) var(--radius);">
-      <div class="card-inner">
-        <p class="rule-body">常用薬の継続・中止の判断を行い，必要な内服・点滴をオーダーしてください．</p>
-      </div>
-    </div>
-
-    <div id="ward-adm-labs" style="display:flex;border-radius:var(--radius);overflow:hidden;margin-top:36px;margin-bottom:0;">
-      <div style="background:linear-gradient(180deg,#08214A,#0F172A);color:#fff;padding:5px 10px;display:flex;align-items:center;justify-content:center;"><span style="font-size:0.9rem;font-weight:900;opacity:0.6;">5</span></div>
-      <div style="background:linear-gradient(135deg,#1269B0,#1586C0);color:#fff;padding:7px 14px;flex:1;"><div style="font-size:0.9rem;font-weight:700;">翌日以降の採血，レントゲンオーダー</div></div>
-    </div>
-    <div class="card" style="margin-bottom:8px;border-radius:0 0 var(--radius) var(--radius);">
-      <div class="card-inner">
-        <p class="rule-body">翌朝の採血セットとレントゲンを事前にオーダーしておきましょう．</p>
-      </div>
-    </div>
-
-    <div id="ward-adm-chart" style="display:flex;border-radius:var(--radius);overflow:hidden;margin-top:36px;margin-bottom:0;">
-      <div style="background:linear-gradient(180deg,#08214A,#0F172A);color:#fff;padding:5px 10px;display:flex;align-items:center;justify-content:center;"><span style="font-size:0.9rem;font-weight:900;opacity:0.6;">6</span></div>
-      <div style="background:linear-gradient(135deg,#1269B0,#1586C0);color:#fff;padding:7px 14px;flex:1;"><div style="font-size:0.9rem;font-weight:700;">ICU Admission, ICU Daily Chart記載</div></div>
-    </div>
-    <div class="card" style="margin-bottom:16px;border-radius:0 0 var(--radius) var(--radius);">
-      <div class="card-inner">
-        <p class="rule-body">入室時にはICU Admission noteを，毎日の管理にはICU Daily Chartを記載してください．</p>
-      </div>
-    </div>
-
-    <!-- ═══ SECTION 2: ICU退室時のTo Do List ═══ -->
-    <h3 id="ward-discharge" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid var(--blue);line-height:1.4;"><span style="color:var(--blue);font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>ICU退室時のTo Do List</h3>
+    <!-- ═══ SECTION 1: ICUセットへのアクセス方法 ═══ -->
+    <h3 id="ward-set-access" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid var(--blue);line-height:1.4;"><span style="color:var(--blue);font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>ICUセットへのアクセス方法</h3>
 
     <div class="card" style="margin-bottom:16px;">
       <div class="card-inner">
-        <p class="rule-body">ICU退室時には主科に応じて「内科退室時」「外科退室時」を選択して展開してください．</p>
-      </div>
-    </div>
-
-    <!-- 内科退室時：大見出し -->
-    <div id="ward-discharge-med" style="display:flex;border-radius:var(--radius);overflow:hidden;margin-top:20px;margin-bottom:0;">
-      <div style="background:linear-gradient(180deg,#08214A,#0F172A);color:#fff;padding:5px 10px;display:flex;align-items:center;justify-content:center;"><span style="font-size:0.9rem;font-weight:900;opacity:0.6;">A</span></div>
-      <div style="background:linear-gradient(135deg,#1269B0,#1586C0);color:#fff;padding:7px 14px;flex:1;"><div style="font-size:0.9rem;font-weight:700;">内科退室時</div><div style="font-size:0.68rem;color:rgba(255,255,255,0.6);">以下の5点を忘れずに</div></div>
-    </div>
-    <div class="card" style="margin-bottom:8px;border-radius:0 0 var(--radius) var(--radius);">
-      <div class="card-inner">
-        <div style="display:flex;border-radius:6px;overflow:hidden;margin-bottom:10px;"><div style="background:#0F172A;color:#fff;padding:4px 8px;font-size:0.65rem;font-weight:800;display:flex;align-items:center;">1</div><div style="background:linear-gradient(135deg,#1269B0,#1586C0);color:#fff;padding:5px 12px;font-size:0.82rem;font-weight:700;flex:1;">不要なデバイス抜去（A-line, CVC, Foleyなど）</div></div>
-        <ul class="rule-body" style="list-style:disc;padding-left:18px;margin-bottom:16px;">
-          <li>A-lineはHCU病棟のみ可能，一般床は管理できません</li>
-          <li>CVCはすべての病棟で管理可能ですが，退室時に継続して必要か判断するようにしましょう</li>
-        </ul>
-
-        <div style="display:flex;border-radius:6px;overflow:hidden;margin-bottom:10px;"><div style="background:#0F172A;color:#fff;padding:4px 8px;font-size:0.65rem;font-weight:800;display:flex;align-items:center;">2</div><div style="background:linear-gradient(135deg,#1269B0,#1586C0);color:#fff;padding:5px 12px;font-size:0.82rem;font-weight:700;flex:1;">不要なICUコメントの削除</div></div>
-        <p class="rule-body" style="margin-bottom:6px;">一般床で使用できない持続注射のMain，カテコラミンなどのPRNオーダー，電解質や血液ガスに関するコメントオーダーはすべて退室日で中止するようにしてください．</p>
-        <p class="rule-body" style="margin-top:10px;color:var(--muted);font-style:italic;">【画像：ICUコメント削除例1】</p>
-        <p class="rule-body" style="margin-top:6px;margin-bottom:16px;color:var(--muted);font-style:italic;">【画像：ICUコメント削除例2】</p>
-
-        <div style="display:flex;border-radius:6px;overflow:hidden;margin-bottom:10px;"><div style="background:#0F172A;color:#fff;padding:4px 8px;font-size:0.65rem;font-weight:800;display:flex;align-items:center;">3</div><div style="background:linear-gradient(135deg,#1269B0,#1586C0);color:#fff;padding:5px 12px;font-size:0.82rem;font-weight:700;flex:1;">不要なPRNの削除</div></div>
-        <p class="rule-body" style="margin-bottom:16px;">上記2と同様に，一般床で不要なPRNオーダーを中止してください．</p>
-
-        <div style="display:flex;border-radius:6px;overflow:hidden;margin-bottom:10px;"><div style="background:#0F172A;color:#fff;padding:4px 8px;font-size:0.65rem;font-weight:800;display:flex;align-items:center;">4</div><div style="background:linear-gradient(135deg,#1269B0,#1586C0);color:#fff;padding:5px 12px;font-size:0.82rem;font-weight:700;flex:1;">酸素コメントの展開</div></div>
         <ul class="rule-body" style="list-style:disc;padding-left:18px;">
-          <li>一般床で使用可能な酸素コメントを，酸素管理目標にあわせてひとつ展開してください</li>
+          <li>「セット展開」→「ICU」から展開できます</li>
+          <li><span class="mark-red"><strong>手打ちオーダーは処方ミスやコメント修正が必要な際に手間となるため、原則セットを使用してください</strong></span></li>
         </ul>
-        <p class="rule-body" style="margin-top:10px;margin-bottom:16px;color:var(--muted);font-style:italic;">【画像：酸素コメント展開画面】</p>
-
-        <div style="display:flex;border-radius:6px;overflow:hidden;margin-bottom:10px;"><div style="background:#0F172A;color:#fff;padding:4px 8px;font-size:0.65rem;font-weight:800;display:flex;align-items:center;">5</div><div style="background:linear-gradient(135deg,#1269B0,#1586C0);color:#fff;padding:5px 12px;font-size:0.82rem;font-weight:700;flex:1;">病棟医への申し送り，退室日の管理担当者を確認</div></div>
-        <ul class="rule-body" style="list-style:disc;padding-left:18px;">
-          <li>以下のフローチャートに沿って病棟長が病棟間での「申し送り」を行います</li>
-          <li>退室患者は，病棟長が専用のTeamsグループに共有して申し送りの時間を設定します．病棟長不在時には，内科チーフレジデントまたは退室先の病棟長に連絡をお願いします</li>
-          <li>上記連絡を忘れると，病棟医に患者の退室が伝わらない可能性があります</li>
-        </ul>
-        <p class="rule-body" style="margin-top:10px;color:var(--muted);font-style:italic;">【画像：退室フローチャート】</p>
+        <img src="../images/セット登録/画像(0).png" alt="セット展開画面" style="margin-top:10px;max-width:100%;border-radius:6px;border:1px solid var(--border);">
+        <div class="alert-blue" style="margin-top:10px;">
+          「ICU」の上で右クリックをして初期展開フォルダー設定をすると，次回からセット展開を押した際に「ICU」に直接アクセスできるようになります．
+        </div>
+        <img src="../images/セット登録/画像のコピー.png" alt="右クリック設定画面" style="margin-top:10px;max-width:100%;border-radius:6px;border:1px solid var(--border);">
       </div>
     </div>
 
-    <!-- 外科退室時：大見出し -->
-    <div id="ward-discharge-surg" style="display:flex;border-radius:var(--radius);overflow:hidden;margin-top:36px;margin-bottom:0;">
-      <div style="background:linear-gradient(180deg,#08214A,#0F172A);color:#fff;padding:5px 10px;display:flex;align-items:center;justify-content:center;"><span style="font-size:0.9rem;font-weight:900;opacity:0.6;">B</span></div>
-      <div style="background:linear-gradient(135deg,#1269B0,#1586C0);color:#fff;padding:7px 14px;flex:1;"><div style="font-size:0.9rem;font-weight:700;">外科退室時</div><div style="font-size:0.68rem;color:rgba(255,255,255,0.6);">以下の3点を忘れずに</div></div>
-    </div>
-    <div class="card" style="margin-bottom:16px;border-radius:0 0 var(--radius) var(--radius);">
+    <!-- ICU入室時・退室時ToDoリストは schedule-ward-daily.html に移動済み -->
+
+    <!-- ═══ SECTION 2: ICUセット登録一覧 ═══ -->
+    <h3 id="ward-icu-sets" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid var(--blue);line-height:1.4;"><span style="color:var(--blue);font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>ICUセット登録一覧</h3>
+
+    <div class="card" style="margin-bottom:16px;">
       <div class="card-inner">
-        <div style="display:flex;border-radius:6px;overflow:hidden;margin-bottom:10px;"><div style="background:#0F172A;color:#fff;padding:4px 8px;font-size:0.65rem;font-weight:800;display:flex;align-items:center;">1</div><div style="background:linear-gradient(135deg,#1269B0,#1586C0);color:#fff;padding:5px 12px;font-size:0.82rem;font-weight:700;flex:1;">不要なデバイス抜去（A-line, CVC, Foleyなど）</div></div>
-        <ul class="rule-body" style="list-style:disc;padding-left:18px;margin-bottom:16px;">
-          <li>A-lineはHCU病棟のみ可能，一般床は管理できません</li>
-          <li>CVCはすべての病棟で管理可能ですが，退室時に継続して必要か判断するようにしましょう</li>
-        </ul>
+        <p class="rule-body">ICUで使用可能なオーダーセットの一覧です。</p>
+        <div style="overflow:auto;margin-top:12px;max-height:70vh;-webkit-overflow-scrolling:touch;">
+          <table class="set-tree">
+            <thead>
+              <tr>
+                <th style="padding:8px 12px;text-align:left;font-weight:700;vertical-align:middle;"></th>
+                <th style="padding:8px 12px;text-align:center;font-weight:700;vertical-align:middle;">説明</th>
+                <th style="padding:8px 10px;text-align:center;font-weight:700;font-size:0.75rem;vertical-align:middle;">使用時のコメント登録</th>
+                <th style="padding:8px 10px;text-align:center;font-weight:700;font-size:0.75rem;vertical-align:middle;">変更時のコメント修正</th>
+                <th style="padding:8px 10px;text-align:center;font-weight:700;font-size:0.75rem;vertical-align:middle;">退室時のコメント終了</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- ── ICU入室時セット ── -->
+              <tr class="sh"><td colspan="5">ICU入室時セット</td></tr>
+              <tr class="si sc"><td>ICU入室時セット</td><td>ICU入室時に全患者で展開</td><td></td><td></td><td></td></tr>
+              <tr class="si sc"><td>外科術後入室</td><td>詳細はこちら</td><td></td><td></td><td></td></tr>
+              <tr class="si sc"><td>ERからICU入室</td><td>詳細はこちら</td><td></td><td></td><td></td></tr>
+              <tr class="si sc"><td>病棟からICU入室</td><td>詳細はこちら</td><td></td><td></td><td></td></tr>
+              <tr class="sm"><td colspan="5">bypass術後</td></tr>
 
-        <div style="display:flex;border-radius:6px;overflow:hidden;margin-bottom:10px;"><div style="background:#0F172A;color:#fff;padding:4px 8px;font-size:0.65rem;font-weight:800;display:flex;align-items:center;">2</div><div style="background:linear-gradient(135deg,#1269B0,#1586C0);color:#fff;padding:5px 12px;font-size:0.82rem;font-weight:700;flex:1;">不要なICUコメントの削除</div></div>
-        <p class="rule-body" style="margin-bottom:6px;">一般床で使用できない持続注射のMain，カテコラミンなどのPRNオーダー，電解質や血液ガスに関するコメントオーダーはすべて退室日で中止するようにしてください．</p>
-        <p class="rule-body" style="margin-top:10px;color:var(--muted);font-style:italic;">【画像：ICUコメント削除例1】</p>
-        <p class="rule-body" style="margin-top:6px;margin-bottom:16px;color:var(--muted);font-style:italic;">【画像：ICUコメント削除例2】</p>
+              <!-- ── ICU退室時セット ── -->
+              <tr class="sh"><td colspan="5">ICU退室時セット</td></tr>
+              <tr class="si sc"><td>ICU退室時セット</td><td>ICU退室時に全患者で展開</td><td></td><td></td><td></td></tr>
+              <tr class="si sc"><td>ICU看取りToDo</td><td>使用頻度：低</td><td></td><td></td><td></td></tr>
+              <tr class="si sc"><td>内科退室時</td><td>詳細はこちら</td><td></td><td></td><td></td></tr>
+              <tr class="si"><td>外科退室時</td><td>詳細はこちら</td><td></td><td></td><td></td></tr>
 
-        <div style="display:flex;border-radius:6px;overflow:hidden;margin-bottom:10px;"><div style="background:#0F172A;color:#fff;padding:4px 8px;font-size:0.65rem;font-weight:800;display:flex;align-items:center;">3</div><div style="background:linear-gradient(135deg,#1269B0,#1586C0);color:#fff;padding:5px 12px;font-size:0.82rem;font-weight:700;flex:1;">不要なPRNの削除</div></div>
-        <p class="rule-body">上記2と同様に，一般床で不要なPRNオーダーを中止してください．</p>
-      </div>
-    </div>
+              <!-- ── Chart ── -->
+              <tr class="sh"><td colspan="5">Chart（申し送り, ICU相談）</td></tr>
+              <tr class="si sc"><td>Daily chart</td><td>日勤で1日の動きを記載</td><td></td><td></td><td></td></tr>
+              <tr class="si sc"><td>ICU相談PHS</td><td>RRS対応をした際に必ず記載</td><td></td><td></td><td></td></tr>
+              <tr class="si sc"><td>夕回診記録</td><td>日→夜の申し送り内容に記載</td><td></td><td></td><td></td></tr>
+              <tr class="si sc"><td>当直医記録</td><td>夜勤が朝の申し送り前に記載</td><td></td><td></td><td></td></tr>
+              <tr class="si sc"><td>病棟→ICU申し送り</td><td>ICU退室時セットのセットパーツ</td><td></td><td></td><td></td></tr>
+              <tr class="si sc"><td>ICU→病棟ToNext</td><td>ICU入室時セットのセットパーツ</td><td></td><td></td><td></td></tr>
+              <tr class="si"><td>DIC診断基準</td><td>各DIC基準の確認に</td><td></td><td></td><td></td></tr>
 
-    <!-- ═══ SECTION 3: ICUカルテに関するSOS ═══ -->
-    <h3 id="ward-karte" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid var(--blue);line-height:1.4;"><span style="color:var(--blue);font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>ICUカルテに関するSOS</h3>
+              <!-- ── 各種同意書 ── -->
+              <tr class="sh"><td colspan="5">各種同意書</td></tr>
+              <tr class="si sc"><td>入院時4点セット</td><td>全患者で取得必須：詳細はこちら</td><td></td><td></td><td></td></tr>
+              <tr class="si sc"><td>入院時4点セット（英語）</td><td>外国人患者で取得必須</td><td></td><td></td><td></td></tr>
+              <tr class="si sc"><td>透析ブラッドアクセス</td><td>緊急透析施行時に要取得</td><td></td><td></td><td></td></tr>
+              <tr class="si sc"><td>気管支鏡同意書</td><td>左記手技で取得必須（BALのみ）</td><td></td><td></td><td></td></tr>
+              <tr class="si sc"><td>上部内視鏡</td><td>左記手技で取得必須</td><td></td><td></td><td></td></tr>
+              <tr class="si sc"><td>胸腔穿刺</td><td>左記手技で取得必須</td><td></td><td></td><td></td></tr>
+              <tr class="si sc"><td>腹腔穿刺</td><td>左記手技で取得必須</td><td></td><td></td><td></td></tr>
+              <tr class="si sc"><td>腰椎穿刺</td><td>左記手技で取得必須</td><td></td><td></td><td></td></tr>
+              <tr class="si sc"><td>経食道心エコー</td><td></td><td></td><td></td><td></td></tr>
+              <tr class="si sc"><td>気管切開</td><td></td><td></td><td></td><td></td></tr>
+              <tr class="si sc"><td>口頭同意</td><td>同意書の短縮版を使う場合に展開</td><td></td><td></td><td></td></tr>
+              <tr class="si"><td>ミニトラック</td><td>左記手技で取得必須</td><td></td><td></td><td></td></tr>
 
-    <!-- ICU退室時セット：中見出し -->
-    <div class="card" id="ward-karte-discharge-set" style="margin-bottom:16px;">
-      <div class="card-inner">
-        <div style="display:flex;border-radius:6px;overflow:hidden;margin-bottom:10px;"><div style="background:#0F172A;color:#fff;padding:4px 8px;font-size:0.65rem;font-weight:800;display:flex;align-items:center;">K</div><div style="background:linear-gradient(135deg,#1269B0,#1586C0);color:#fff;padding:5px 12px;font-size:0.82rem;font-weight:700;flex:1;">ICU退室時セット</div></div>
-        <p class="rule-body" style="font-weight:700;margin-bottom:8px;">内科系退室時</p>
-        <p class="rule-body" style="color:var(--muted);font-style:italic;">【画像：内科系退室時セット画面】</p>
+              <!-- ── 点滴セット ── -->
+              <tr class="sh"><td colspan="5">点滴セット</td></tr>
+              <tr class="sm sc"><td>メイン輸液・脂肪製剤</td><td></td><td>必要</td><td>必要</td><td></td></tr>
+              <tr class="sm sc"><td>TPN</td><td></td><td>必要</td><td>必要</td><td></td></tr>
+              <tr class="sm sc"><td>昇圧薬</td><td></td><td>必要</td><td></td><td>終了</td></tr>
+              <tr class="sm sc"><td>降圧薬</td><td></td><td>必要</td><td></td><td>終了</td></tr>
+              <tr class="sm sc"><td>抗不整脈薬</td><td></td><td>必要</td><td></td><td>終了</td></tr>
+              <tr class="sm sc"><td>鎮静薬</td><td></td><td>必要</td><td></td><td>終了</td></tr>
+              <tr class="sm sc"><td>鎮痛薬</td><td></td><td>必要</td><td></td><td>終了</td></tr>
+              <tr class="sm sc"><td>筋弛緩薬</td><td></td><td>必要</td><td></td><td></td></tr>
+              <tr class="sm sc"><td>不眠・不穏時</td><td></td><td>必要</td><td>回数や投与量の上限変更時</td><td></td></tr>
+              <tr class="sm sc"><td>ストレス潰瘍/DVT予防</td><td></td><td></td><td></td><td></td></tr>
+              <tr class="sm sc"><td>ステロイド</td><td></td><td></td><td></td><td></td></tr>
+              <tr class="sm sc"><td>電解質補正</td><td></td><td></td><td></td><td></td></tr>
+              <tr class="sm sc"><td>アルブミン</td><td></td><td>速度コメントが必要</td><td></td><td></td></tr>
+              <tr class="sm sc"><td>ビタメジン/チアミン</td><td></td><td></td><td></td><td></td></tr>
+              <tr class="sm sc"><td>利尿薬</td><td></td><td></td><td></td><td></td></tr>
+              <tr class="sm sc"><td>制吐剤・蠕動改善薬</td><td></td><td></td><td></td><td></td></tr>
+              <tr class="sm sc"><td>抗凝固療法</td><td></td><td></td><td></td><td></td></tr>
+              <tr class="sm sc"><td>抗てんかん薬</td><td></td><td></td><td></td><td></td></tr>
+              <tr class="sm sc"><td>抗菌薬</td><td></td><td></td><td></td><td></td></tr>
+              <tr class="sm sc"><td>輸血セット</td><td></td><td></td><td></td><td></td></tr>
+              <tr class="sm sc"><td>血液セット</td><td></td><td>速度コメントが必要</td><td>製剤の投与時間変更時</td><td></td></tr>
+              <tr class="sm sc"><td>挿管・気切関連</td><td></td><td>必要</td><td></td><td></td></tr>
+              <tr class="sm"><td>気管支鏡検査・喀痰吸引</td><td></td><td></td><td></td><td></td></tr>
+
+              <!-- ── 内服薬 ── -->
+              <tr class="sh"><td colspan="5">内服薬</td></tr>
+              <tr class="sm sc"><td>昇圧薬</td><td></td><td>PRNは必要</td><td>PRN：回数や投与量の上限変更時</td><td></td></tr>
+              <tr class="sm sc"><td>降圧薬</td><td></td><td>PRNは必要</td><td>PRN：回数や投与量の上限変更時</td><td></td></tr>
+              <tr class="sm sc"><td>内服鎮痛薬</td><td></td><td>PRNは必要</td><td>PRN：回数や投与量の上限変更時</td><td></td></tr>
+              <tr class="sm sc"><td>緩下剤</td><td></td><td></td><td></td><td></td></tr>
+              <tr class="sm sc"><td>止痢薬・整腸剤</td><td></td><td></td><td></td><td></td></tr>
+              <tr class="sm sc"><td>睡眠薬・せん妄薬</td><td></td><td>PRNは必要</td><td>PRN：回数や投与量の上限変更時</td><td></td></tr>
+              <tr class="sm sc"><td>漢方</td><td></td><td></td><td></td><td></td></tr>
+              <tr class="sm sc"><td>去痰薬</td><td></td><td></td><td></td><td></td></tr>
+              <tr class="sm sc"><td>アルコール離脱予防</td><td></td><td></td><td></td><td></td></tr>
+              <tr class="sm sc"><td>電解質</td><td></td><td>PRNは必要</td><td>PRN：回数や投与量の上限変更時</td><td></td></tr>
+              <tr class="sm sc"><td>制酸剤</td><td></td><td></td><td></td><td></td></tr>
+              <tr class="sm sc"><td colspan="5">バンコマイシン内服</td></tr>
+              <tr class="si sc"><td>バンコマイシン散高用量</td><td></td><td></td><td></td><td></td></tr>
+              <tr class="si sc"><td>リクシアナ</td><td></td><td></td><td></td><td></td></tr>
+              <tr class="si"><td>アズノールうがい液</td><td></td><td></td><td></td><td></td></tr>
+
+              <!-- ── 呼吸器・HFNC・酸素 ── -->
+              <tr class="sh"><td colspan="5">呼吸器・HFNC・酸素</td></tr>
+              <tr class="si sc"><td>酸素コメント</td><td></td><td></td><td></td><td></td></tr>
+              <tr class="si sc"><td>SAT/SBT指示</td><td></td><td>必要</td><td></td><td>必要</td></tr>
+              <tr class="si sc"><td>HFNC指示</td><td></td><td>必要</td><td></td><td>必要</td></tr>
+              <tr class="si sc"><td>HFNC離脱</td><td></td><td>必要</td><td></td><td>必要</td></tr>
+              <tr class="si sc"><td>NPPV（S/T）</td><td></td><td>必要</td><td></td><td>必要</td></tr>
+              <tr class="si sc"><td>NPPV（CPAP）</td><td></td><td>必要</td><td></td><td>必要</td></tr>
+              <tr class="si sc"><td>呼吸器（PCV）</td><td></td><td>必要</td><td></td><td>必要</td></tr>
+              <tr class="si sc"><td>呼吸器（VCV）</td><td></td><td>必要</td><td></td><td></td></tr>
+              <tr class="si sc"><td>呼吸器（PSV）</td><td></td><td>必要</td><td></td><td></td></tr>
+              <tr class="si sc"><td>呼吸器（ASV）</td><td></td><td>必要</td><td></td><td>必要</td></tr>
+              <tr class="si sc"><td>呼吸器（I-ASV）</td><td></td><td>必要</td><td></td><td>必要</td></tr>
+              <tr class="si sc"><td>呼吸器（トリロジー）</td><td></td><td>必要</td><td></td><td>必要</td></tr>
+              <tr class="si sc"><td>食道内圧指示</td><td></td><td>必要</td><td></td><td></td></tr>
+              <tr class="si"><td>HFNC離脱プロトコール</td><td></td><td>必要</td><td></td><td></td></tr>
+
+              <!-- ── インスリン指示 ── -->
+              <tr class="sh"><td colspan="5">インスリン指示</td></tr>
+              <tr class="si sc"><td>ICU DKA/HHSプロトコール</td><td></td><td>必要</td><td>メイン輸液のコメントのみ必要</td><td>終了</td></tr>
+              <tr class="si sc"><td>ICU スライディングスケール</td><td></td><td>必要</td><td></td><td>終了</td></tr>
+              <tr class="si sc"><td>一般床スライディングスケール</td><td></td><td></td><td></td><td></td></tr>
+              <tr class="si sc"><td>ダイナミックスケール</td><td></td><td>必要</td><td></td><td>終了</td></tr>
+              <tr class="si sc"><td>グラルギン</td><td></td><td></td><td></td><td></td></tr>
+              <tr class="si sc"><td>ログ追加分</td><td></td><td></td><td></td><td></td></tr>
+              <tr class="sm sc"><td colspan="5">固定注射（スケールなし）</td></tr>
+              <tr class="sm"><td>血糖測定のみ</td><td></td><td>必要</td><td></td><td></td></tr>
+
+              <!-- ── 経腸栄養 ── -->
+              <tr class="sh"><td colspan="5">経腸栄養</td></tr>
+              <tr class="si sc"><td>手動プロトコール</td><td></td><td>必要</td><td></td><td>要修正</td></tr>
+              <tr class="si sc"><td>12hプロトコール</td><td></td><td>必要</td><td></td><td>要修正</td></tr>
+              <tr class="si sc"><td>24hプロトコール</td><td></td><td>必要</td><td></td><td>要修正</td></tr>
+              <tr class="si sc"><td>エレンタール</td><td></td><td>必要</td><td></td><td></td></tr>
+              <tr class="si sc"><td>アミノレバン</td><td></td><td>必要</td><td></td><td></td></tr>
+              <tr class="si"><td>GFO（コメント）</td><td></td><td>必要</td><td></td><td></td></tr>
+
+              <!-- ── リハ・嚥下・栄養依頼 ── -->
+              <tr class="sh"><td colspan="5">リハ・嚥下・栄養依頼</td></tr>
+
+              <!-- ── 吸入・ネブ・点鼻・点眼 ── -->
+              <tr class="sh"><td colspan="5">吸入・ネブ・点鼻・点眼</td></tr>
+              <tr class="si sc"><td>サルタノールコメント+オーダー</td><td></td><td>必要</td><td></td><td></td></tr>
+              <tr class="si sc"><td>PRNサルタノール</td><td></td><td>必要</td><td></td><td></td></tr>
+              <tr class="si sc"><td>全吸入薬指示コメント</td><td></td><td>必要</td><td></td><td></td></tr>
+              <tr class="si sc"><td>ベネトリンネブ</td><td></td><td>必要</td><td></td><td></td></tr>
+              <tr class="si sc"><td>ヒアレイン点眼薬</td><td></td><td></td><td></td><td></td></tr>
+              <tr class="si sc"><td>デスモプレシン点鼻</td><td></td><td>必要</td><td></td><td></td></tr>
+              <tr class="si sc"><td>アトロベント</td><td></td><td>必要</td><td></td><td></td></tr>
+              <tr class="si sc"><td>フルティフォーム（限定薬）</td><td></td><td>必要</td><td></td><td></td></tr>
+              <tr class="sm"><td>トブラマイシン吸入</td><td></td><td>必要</td><td></td><td></td></tr>
+
+              <!-- ── 軟膏セット ── -->
+              <tr class="sh"><td colspan="5">軟膏セット</td></tr>
+
+              <!-- ── 貼付剤 ── -->
+              <tr class="sh"><td colspan="5">貼付剤（ビソノ、ロキソ）</td></tr>
+
+              <!-- ── ケアラウンド ── -->
+              <tr class="sh"><td colspan="5">ケアラウンド・退室後訪問</td></tr>
+
+              <!-- ── 代行入力依頼セット ── -->
+              <tr class="sh"><td colspan="5">代行入力依頼セット</td></tr>
+              <tr class="si sc"><td>採血+尿+胸部XP</td><td>患者の平日標準セット</td><td></td><td></td><td></td></tr>
+              <tr class="si sc"><td>採血+尿+胸腹部XP</td><td></td><td></td><td></td><td></td></tr>
+              <tr class="si sc"><td>採血+尿</td><td></td><td></td><td></td><td></td></tr>
+              <tr class="si sc"><td>緊急採血+尿+胸部XP</td><td>患者の日祝日標準セット</td><td></td><td></td><td></td></tr>
+              <tr class="si sc"><td>緊急採血+尿+胸腹部XP</td><td></td><td></td><td></td><td></td></tr>
+              <tr class="si sc"><td>緊急採血+尿</td><td></td><td></td><td></td><td></td></tr>
+              <tr class="si sc"><td>バンコマイシン</td><td></td><td></td><td></td><td></td></tr>
+              <tr class="si sc"><td>COVID-19 PCR保険</td><td></td><td></td><td></td><td></td></tr>
+              <tr class="si sc"><td>D-Bil</td><td></td><td></td><td></td><td></td></tr>
+              <tr class="si sc"><td>脂質セット</td><td></td><td></td><td></td><td></td></tr>
+              <tr class="si sc"><td>心筋セット</td><td></td><td></td><td></td><td></td></tr>
+              <tr class="si sc"><td>APTT6時間毎</td><td></td><td></td><td></td><td></td></tr>
+              <tr class="si sc"><td>貧血セット</td><td></td><td></td><td></td><td></td></tr>
+              <tr class="si sc"><td>輸血検査</td><td></td><td></td><td></td><td></td></tr>
+              <tr class="si sc"><td>β-Dグルカン</td><td></td><td></td><td></td><td></td></tr>
+              <tr class="si sc"><td>アスペルギルス抗原</td><td></td><td></td><td></td><td></td></tr>
+              <tr class="si sc"><td>サイトメガロ抗原</td><td></td><td></td><td></td><td></td></tr>
+              <tr class="si sc"><td>プロカルシトニン</td><td></td><td></td><td></td><td></td></tr>
+              <tr class="si"><td>甲状腺セット</td><td></td><td></td><td></td><td></td></tr>
+
+              <!-- ── SDU呼吸ケアチーム加算 ── -->
+              <tr class="sh"><td colspan="5">SDU呼吸ケアチーム加算</td></tr>
+
+              <!-- ── 蓄尿セット ── -->
+              <tr class="sh"><td colspan="5">蓄尿セット</td></tr>
+              <tr class="si sc"><td>8時間蓄尿</td><td></td><td>必要</td><td></td><td></td></tr>
+              <tr class="si"><td>24時間蓄尿</td><td></td><td>必要</td><td></td><td></td></tr>
+
+              <!-- ── その他 ── -->
+              <tr class="sh"><td colspan="5">その他</td></tr>
+              <tr class="si sc"><td>鼻血セット</td><td></td><td></td><td></td><td></td></tr>
+              <tr class="si sc"><td>病理解剖セット</td><td></td><td>必要</td><td></td><td></td></tr>
+              <tr class="si sc"><td>レントゲン_PICC/CV</td><td></td><td></td><td></td><td></td></tr>
+              <tr class="si sc"><td>膀胱還流指示</td><td></td><td>必要</td><td></td><td></td></tr>
+              <tr class="si sc"><td>膀胱内圧測定</td><td></td><td></td><td></td><td></td></tr>
+              <tr class="si sc"><td>レポートサインNew</td><td>ICU入室時セットのパーツ</td><td>必要</td><td></td><td>必要</td></tr>
+              <tr class="si"><td>NP同意書</td><td></td><td></td><td></td><td></td></tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 
