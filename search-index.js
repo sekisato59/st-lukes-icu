@@ -11,15 +11,53 @@ const SEARCH_INDEX = [
   {"title":"ICUコアカン","url":"pages/icu-core-conf.html","desc":"ICUコアカンファレンス一覧","keywords":"コアカン カンファレンス 学習 プレゼンテーション By System 透析"},
   {"title":"注目論文・最新ガイドラインまとめ","url":"pages/articles-guidelines.html","desc":"ICU関連の注目論文や最新ガイドラインの要約","keywords":"論文 ガイドライン エビデンス 文献 レビュー 最新"},
   {"title":"論文まとめ：神経系","url":"pages/articles-guidelines.html#art-neuro","desc":"神経系の注目論文・ガイドライン","keywords":"神経 脳 意識障害 TTM 心停止"},
+  {"title":"AHA/ASA 2023 くも膜下出血（aSAH）管理ガイドライン","url":"pages/articles-gl-sah2023.html","desc":"AHA/ASA 2023年版aSAHガイドライン — 診断・再出血予防・血管攣縮・DCI・水頭症・痙攣・リハビリの推奨まとめ","keywords":"くも膜下出血 SAH aSAH subarachnoid hemorrhage 動脈瘤 aneurysm DCI delayed cerebral ischemia 脳血管攣縮 vasospasm ニモジピン nimodipine TCD transcranial Doppler EVD 脳室ドレナージ 水頭症 hydrocephalus 痙攣 seizure レベチラセタム クリッピング コイル塞栓 ISAT 再出血 トラネキサム酸 TXA 血圧管理 HH grade WFNS Hunt-Hess 雷鳴頭痛 thunderclap headache Ottawa SAH rule CT LP 腰椎穿刺 CTA DSA 高ボリューム施設 多職種 リハビリ 認知機能 MoCA AHA ASA Stroke 2023 Hoh"},
   {"title":"論文まとめ：循環器系","url":"pages/articles-guidelines.html#art-cardio","desc":"循環器系の注目論文・ガイドライン","keywords":"循環 ショック 昇圧薬 心不全"},
+  {"title":"ERC-ESICM 2021 心拍再開後管理（PCAS）ガイドライン","url":"pages/articles-gl-pcas-erc2021.html","desc":"心停止後症候群（PCAS）の包括的管理 — TTM・神経予後予測・冠動脈再灌流・血行動態管理のまとめ","keywords":"PCAS 心停止後症候群 post-cardiac arrest syndrome ROSC 心拍再開 心停止 cardiac arrest 体温管理療法 TTM targeted temperature management 神経予後予測 neuroprognostication NSE 神経特異エノラーゼ SSEP 体性感覚誘発電位 N20 EEG 脳波 burst suppression 瞳孔反射 status myoclonus 頭部CT GWR PCI 冠動脈再灌流 MAP 低血圧 ノルアドレナリン ドブタミン ICD 心蘇生 認知障害 長期転帰 臓器提供 DCD WLST 治療中止 ERC ESICM Nolan Intensive Care Med 2021"},
+  {"title":"ERC-ESICM PCAS — S1 PCAS概念と初期管理","url":"pages/articles-gl-pcas-erc2021.html#pcas-overview","desc":"Post-Cardiac Arrest Syndromeの4要素と心停止原因の診断戦略","keywords":"PCAS 心停止後症候群 脳障害 心筋機能障害 虚血再灌流 原因診断 CAG PCI STEMI CT脳 心停止センター"},
+  {"title":"ERC-ESICM PCAS — S2 呼吸管理","url":"pages/articles-gl-pcas-erc2021.html#respiratory","desc":"ROSC後の酸素目標（SpO₂ 94–98%）・PaCO₂管理・肺保護換気","keywords":"SpO₂ 94 98 PaO₂ 酸素目標 過酸素血症 低酸素血症 PaCO₂ 換気管理 肺保護 tidal volume 一回換気量 ROSC"},
+  {"title":"ERC-ESICM PCAS — S3 循環管理","url":"pages/articles-gl-pcas-erc2021.html#hemodynamics","desc":"PCI適応・MAP目標・昇圧薬・心エコー・機械的循環補助","keywords":"MAP 65 低血圧 ノルアドレナリン ドブタミン 心エコー 乳酸 IABP Impella VA-ECMO 機械的循環補助 CAG PCI COACT"},
+  {"title":"ERC-ESICM PCAS — S4 神経系管理","url":"pages/articles-gl-pcas-erc2021.html#neuro-mgmt","desc":"痙攣管理（レベチラセタム・バルプロ酸）と体温管理療法（TTM 32–36°C）","keywords":"けいれん 痙攣 ミオクローヌス レベチラセタム バルプロ酸 TTM 32 33 36 体温管理 発熱 シバリング Lance Adams EEG"},
+  {"title":"ERC-ESICM PCAS — S6 神経学的予後予測","url":"pages/articles-gl-pcas-erc2021.html#prognostication","desc":"マルチモーダル予後予測：臨床診察・EEG・SSEP・NSE・頭部画像","keywords":"神経予後 予後予測 neuroprognostication マルチモーダル 瞳孔反射 角膜反射 SSEP N20 EEG burst suppression suppression NSE 60 GWR MRI ADC status myoclonus WLST 自己成就予言"},
+  {"title":"AHA/NCS 2024 心停止後の集中治療管理 科学的声明","url":"pages/articles-gl-pcas-aha2024.html","desc":"AHA・NCS共同コンセンサス声明 — 心停止後ICU管理（体温管理・神経予後予測除く）の専門家コンセンサス声明","keywords":"PCAS 心停止後 post cardiac arrest MAP 80 autoregulation MAPOPT ICP 脳浮腫 EEG cEEG 72 120時間 痙攣 てんかん重積 SE IIC 発作間欠期連続体 ミオクローヌス myoclonus バルプロ酸 レベチラセタム クロナゼパム 鎮静 プロポフォール レミフェンタニル フェンタニル 短時間作用性 NMB 筋弛緩 早期CAG STEMI 非ST上昇 エコー 心エコー 機械的循環補助 MCS ECMO 肺保護換気 SpO₂ 92 98 PaCO₂ DVT LMWH 低分子ヘパリン 輸血 Hb 7 9 経腸栄養 栄養 EN trophic PN 経験的抗菌薬 CRP PCT 血糖 81 180 ステロイド 副腎 重炭酸ナトリウム RRT 定量的瞳孔計測 Quantitative Pupillometry Hirsch Geocadin AHA NCS Circulation 2024"},
+  {"title":"AHA/NCS PCAS — 脳灌流・酸素化・ICP","url":"pages/articles-gl-pcas-aha2024.html#aha-s1","desc":"MAP >80 mmHg目標・MAPOPT・ICP侵襲的モニタリング・Hb >7・SpO₂ 92–98%","keywords":"MAP 80 MAPOPT autoregulation cerebrovascular 脳灌流圧 CPP ICP 脳浮腫 brain edema 侵襲的モニタリング pressure reactivity index 近赤外分光 NIRS TCD Hb 7 SpO₂ 92 98"},
+  {"title":"AHA/NCS PCAS — EEG・痙攣・IIC","url":"pages/articles-gl-pcas-aha2024.html#aha-s2","desc":"cEEG 72–120時間・SE治療（burst suppression ≥24h）・バルプロ酸・レベチラセタム・散発性放電は治療しない","keywords":"EEG cEEG 72 120時間 痙攣 seizure てんかん重積 status epilepticus SE IIC 発作間欠期連続体 ictal-interictal continuum ミオクローヌス myoclonus 電気臨床的 electroclinical burst suppression バルプロ酸 valproic acid レベチラセタム levetiracetam クロナゼパム clonazepam 散発性放電 sporadic epileptiform discharges"},
+  {"title":"AHA/NCS PCAS — 鎮静・早期トリアージ","url":"pages/articles-gl-pcas-aha2024.html#aha-s3","desc":"短時間作用性鎮静（プロポフォール・レミフェンタニル）推奨・早期リスク層別化は治療中止根拠にしない","keywords":"鎮静 sedation プロポフォール propofol レミフェンタニル remifentanil フェンタニル fentanyl ミダゾラム midazolam モルヒネ morphine NMB 筋弛緩 早期トリアージ early triage life support 治療中止 prognostication 覚醒 awakening"},
+  {"title":"AHA/NCS PCAS — 心臓・循環管理","url":"pages/articles-gl-pcas-aha2024.html#aha-s4","desc":"早期エコー・MAP個別化・難治性ショックへのMCS・非ST上昇でも早期CAGを検討","keywords":"心エコー echocardiography MAP 80 inotrope vasopressor lactate ScvO₂ 乳酸 IABP LVAD RVAD ECMO MCS 機械的循環補助 CAG 冠動脈造影 STEMI 非ST上昇 COACT ARREST PEARL EMERGE PCI 冠動脈"},
+  {"title":"AHA/NCS PCAS — 呼吸・血液・栄養・感染症","url":"pages/articles-gl-pcas-aha2024.html#aha-s5","desc":"肺保護換気・SpO₂ 92–98%・Hb閾値・DVT予防LMWH・早期EN・CRP/PCT不使用","keywords":"肺保護換気 lung protective ventilation ARDS tidal volume 一回換気量 SpO₂ 92 98 FiO₂ PaCO₂ DVT 深部静脈血栓症 LMWH 低分子ヘパリン Hb 7 9 輸血 RBCT EN 経腸栄養 trophic PN 経静脈栄養 CRP PCT 抗菌薬 経験的 prophylactic antibiotic"},
   {"title":"論文まとめ：呼吸器系","url":"pages/articles-guidelines.html#art-resp","desc":"呼吸器系の注目論文・ガイドライン","keywords":"呼吸 ARDS 人工呼吸 PEEP"},
   {"title":"インスピロンネブライザー完全ガイド（看護学雑誌 2008）","url":"pages/articles-gl-inspiron2008.html","desc":"ベンチュリ管の原理・O₂濃度調節・流量・気道加湿の解説","keywords":"インスピロン ネブライザー ベンチュリ ベルヌーイ 酸素療法 O2濃度 流量 加湿 相対湿度 絶対湿度 飽和水蒸気量 結露 ヒュミディファイヤー エアロゾル 粒子径 アキュロックス ダイリューター PEEP弁 看護学雑誌 2008"},
   {"title":"論文まとめ：腎・電解質系","url":"pages/articles-guidelines.html#art-renal","desc":"腎・電解質系の注目論文・ガイドライン","keywords":"腎 AKI RRT 電解質 透析"},
   {"title":"論文まとめ：消化器 / 肝胆道系","url":"pages/articles-guidelines.html#art-gi","desc":"消化器・肝胆道系の注目論文・ガイドライン","keywords":"消化器 肝臓 胆道 膵炎"},
   {"title":"論文まとめ：血液系","url":"pages/articles-guidelines.html#art-heme","desc":"血液系の注目論文・ガイドライン","keywords":"血液 輸血 DIC 凝固"},
   {"title":"血小板減少症の鑑別フロー（Intensivist 2026）","url":"pages/articles-gl-thrombocytopenia2026.html","desc":"ICUにおける血小板減少症の循環構造型鑑別フロー（梅村 穣）","keywords":"血小板減少 血小板減少症 鑑別 DIC TMA TTP HUS HIT ECMO 偽性血小板減少 EDTA 循環型フロー 梅村 Intensivist 血球貪食 HPS SFTS ヘパリン 溶血 破砕赤血球 ADAMTS13 von Willebrand"},
+  {"title":"ICU血小板減少症 DIC vs TMA 鑑別アルゴリズム（Vincent 2018）","url":"pages/articles-gl-dic-tma2018.html","desc":"DIC・TTP・HUSを迅速鑑別するアルゴリズム — 凝固検査・ADAMTS13・STEC検査の活用法（Critical Care 2018）","keywords":"DIC 播種性血管内凝固 TMA 血栓性微小血管障害 TTP 血栓性血小板減少性紫斑病 HUS 溶血性尿毒症症候群 aHUS 非典型HUS ADAMTS13 血漿交換 PLASMIC スコア エクリズマブ STEC 志賀毒素 スキストサイト 破砕赤血球 MAHA 微小血管障害性溶血性貧血 LDH 凝固機能 フィブリノゲン Dダイマー Vincent Critical Care 2018 鑑別 血小板減少 ICU"},
+  {"title":"ICU血小板減少症 DIC vs TMA — S1 背景・疫学","url":"pages/articles-gl-dic-tma2018.html#s1-background","desc":"ICUにおける血小板減少症の頻度（25〜55%）とDIC・TTPの疫学","keywords":"血小板減少 ICU DIC 25% 55% 9% 19% TTP 疫学 MAHA"},
+  {"title":"ICU血小板減少症 DIC vs TMA — S2 凝固機能検査","url":"pages/articles-gl-dic-tma2018.html#s2-differentiation","desc":"DIC vs TMAの最重要鑑別点：凝固機能検査（PT・aPTT・フィブリノゲン・Dダイマー）","keywords":"凝固機能 PT aPTT フィブリノゲン Dダイマー アンチトロンビン 鑑別 DIC TMA 凝固異常"},
+  {"title":"ICU血小板減少症 DIC vs TMA — S3 診断アルゴリズム","url":"pages/articles-gl-dic-tma2018.html#s3-algorithm","desc":"Step1：DIC vs TMA、Step2：ADAMTS13でTTP診断、Step3：STEC検査でHUS鑑別","keywords":"アルゴリズム ADAMTS13 TTP 血漿交換 STEC-HUS aHUS 診断フロー"},
+  {"title":"ICU血小板減少症 DIC vs TMA — S5 PLASMICスコア","url":"pages/articles-gl-dic-tma2018.html#s5-plasmic","desc":"ADAMTS13が測定できない場合のTTP予測ツール：PLASMICスコア（7成分）","keywords":"PLASMIC スコア ADAMTS13 TTP 予測 代替 血小板 LDH INR クレアチニン"},
   {"title":"論文まとめ：感染症","url":"pages/articles-guidelines.html#art-id","desc":"感染症の注目論文・ガイドライン","keywords":"感染症 抗菌薬 敗血症 セプシス"},
+  {"title":"緑膿菌菌血症の抗菌薬投与期間 7日 vs 14日（BALANCE post hoc, CID 2026）","url":"pages/articles-gl-pa-bacteremia2026.html","desc":"BALANCE試験のpost hoc解析 — P. aeruginosa菌血症157例で7日間 vs 14日間の投与期間を比較","keywords":"緑膿菌 Pseudomonas aeruginosa 菌血症 bacteremia 抗菌薬 投与期間 duration BALANCE trial 7日間 14日間 90日死亡率 post hoc RCT ピペラシリン タゾバクタム セフタジジム メロペネム シプロフロキサシン MDR DTR SHORTEN-2 Yahav CID Clinical Infectious Diseases 2026 院内感染 耐性 バイオフィルム qSOFA 年齢 抗菌薬フリー days alive antibiotic-free"},
+  {"title":"ペラミビル（Alpivab）：単純性インフルエンザ治療のレビュー（Drugs 2018）","url":"pages/articles-gl-peramivir-review.html","desc":"静注ペラミビルの薬理・臨床試験・用量・耐性・臨床的位置づけのまとめ","keywords":"ペラミビル peramivir Alpivab Rapivab インフルエンザ influenza ノイラミニダーゼ阻害薬 NAI 静注 単回投与 オセルタミビル ザナミビル H275Y 耐性 腎機能 腎障害 小児 悪心 嘔吐 嚥下困難 Drugs 2018"},
   {"title":"論文まとめ：栄養 / 代謝系","url":"pages/articles-guidelines.html#art-nutrition","desc":"栄養・代謝系の注目論文・ガイドライン","keywords":"栄養 代謝 経腸栄養 血糖"},
+  {"title":"代謝性アシドーシス 最新エビデンス（ICM 2025）","url":"pages/articles-gl-metabolic-acidosis2025.html","desc":"ICUにおける代謝性アシドーシスの疫学・臓器影響・診断（HAGMA/NAGMA）・重炭酸ナトリウム療法・KRTの最新エビデンスまとめ","keywords":"代謝性アシドーシス metabolic acidosis HAGMA NAGMA アニオンギャップ anion gap 乳酸アシドーシス lactic acidosis 重炭酸ナトリウム sodium bicarbonate BICAR-ICU AKI 腎代替療法 KRT RRT Stewart法 SID 呼吸代償 Winters式 pH アシデミア acidemia DKA ケトアシドーシス 腫瘍崩壊 TLS 低カリウム 低カルシウム Jung Forni Jaber Intensive Care Med 2025"},
+
+  // ── 混合性酸塩基平衡障害 Core Curriculum 2025 ──
+  {"title":"混合性酸塩基平衡障害 Core Curriculum 2025（Am J Kidney Dis）","url":"pages/articles-gl-mixed-acidbase2025.html","desc":"混合性酸塩基平衡障害の系統的診断アプローチ：代償公式・アニオンギャップ・6ステップ評価と8症例解説","keywords":"酸塩基平衡 acid-base 混合性障害 mixed disorder アニオンギャップ anion gap 代償公式 Winter式 D-乳酸 D-lactic acidosis アルコール性ケトアシドーシス AKA サリチル酸中毒 COPD 呼吸性アシドーシス 代謝性アルカローシス RTA 1型 2型 4型 尿細管性アシドーシス AG Henderson-Hasselbalch Palmer AJKD 2025"},
+  {"title":"第1章 混合性酸塩基障害の診断アプローチ","url":"pages/articles-gl-mixed-acidbase2025.html#mab-ch1","desc":"混合性酸塩基平衡障害 › 第1章","keywords":"混合性酸塩基 診断アプローチ Henderson-Hasselbalch 代償 アニオンギャップ ΔAG ΔHCO3 尿浸透圧ギャップ 尿アニオンギャップ Cl Na 系統的評価"},
+  {"title":"代償公式（Box 1）と混合性障害の診断","url":"pages/articles-gl-mixed-acidbase2025.html#mab1-s2","desc":"混合性酸塩基平衡障害 第1章 › SECTION 2","keywords":"代償公式 暗記 急性呼吸性アシドーシス 慢性呼吸性アシドーシス 急性呼吸性アルカローシス 慢性呼吸性アルカローシス 代謝性アシドーシス Winter式 代謝性アルカローシス 0.7 3.5 1mEq 2mEq 5mEq"},
+  {"title":"アニオンギャップ・ΔAG/ΔHCO3・電解質評価","url":"pages/articles-gl-mixed-acidbase2025.html#mab1-s3","desc":"混合性酸塩基平衡障害 第1章 › SECTION 3","keywords":"アニオンギャップ AG アルブミン補正 ΔAG ΔHCO3 代謝性アルカローシス 正常AG 細胞内緩衝 Cl Na 電解質 尿浸透圧ギャップ 尿アニオンギャップ NH4 アンモニウム"},
+  {"title":"系統的アプローチ 6ステップ（Box 2）","url":"pages/articles-gl-mixed-acidbase2025.html#mab1-s4","desc":"混合性酸塩基平衡障害 第1章 › SECTION 4","keywords":"6ステップ 系統的 Na Cl アニオンギャップ ΔAG 血液ガス K カリウム RTA 鑑別"},
+  {"title":"Case 1：正常AG代謝性アシドーシス + 呼吸性アシドーシス（1型RTA）","url":"pages/articles-gl-mixed-acidbase2025.html#mab2-s1","desc":"混合性酸塩基平衡障害 第2章 › Case 1","keywords":"正常AG 代謝性アシドーシス 呼吸性アシドーシス 1型RTA 遠位型 尿細管性アシドーシス 低カリウム K補充 HCO3補正 Winter式 呼吸筋麻痺 横紋筋融解"},
+  {"title":"Case 2：呼吸性アルカローシス + AG増加型代謝性アシドーシス（サリチル酸）","url":"pages/articles-gl-mixed-acidbase2025.html#mab2-s2","desc":"混合性酸塩基平衡障害 第2章 › Case 2","keywords":"サリチル酸 salicylate 中毒 呼吸性アルカローシス AG増加 ケトン体 乳酸 敗血症 肝疾患 過換気 意識障害"},
+  {"title":"Case 3：代謝性アルカローシス + 呼吸性アルカローシス（腎結石・嘔吐）","url":"pages/articles-gl-mixed-acidbase2025.html#mab2-s3","desc":"混合性酸塩基平衡障害 第2章 › Case 3","keywords":"代謝性アルカローシス 呼吸性アルカローシス 腎結石 嘔吐 疼痛 pH 7.61 アルカレミア 酸素解離曲線 生食補液"},
+  {"title":"Case 4：慢性呼吸性アシドーシス + 代謝性アルカローシス（COPD + ループ利尿薬）","url":"pages/articles-gl-mixed-acidbase2025.html#mab2-s4","desc":"混合性酸塩基平衡障害 第2章 › Case 4","keywords":"COPD 慢性呼吸性アシドーシス ループ利尿薬 代謝性アルカローシス HCO3 Cl 腎代償 post-hypercapnic アセタゾラミド"},
+  {"title":"Post-hypercapnic代謝性アルカローシスとCOPD管理","url":"pages/articles-gl-mixed-acidbase2025.html#mab3-s1","desc":"混合性酸塩基平衡障害 第3章 › SECTION 1","keywords":"post-hypercapnic 代謝性アルカローシス COPD 挿管 人工呼吸 PaCO2 急速低下 アセタゾラミド 生食 EABV 有効動脈血液量"},
+  {"title":"Case 5：慢性呼吸性アシドーシス + 急性呼吸性アシドーシス（CO₂ナルコーシス）","url":"pages/articles-gl-mixed-acidbase2025.html#mab3-s2","desc":"混合性酸塩基平衡障害 第3章 › Case 5","keywords":"CO2ナルコーシス COPD 肺炎 ゲンタマイシン 神経筋遮断 高流量酸素 Haldane効果 死腔 低酸素性換気駆動 SaO2 88 92"},
+  {"title":"Case 6：AG増加型 + 正常AG代謝性アシドーシス（D-乳酸アシドーシス）","url":"pages/articles-gl-mixed-acidbase2025.html#mab4-s1","desc":"混合性酸塩基平衡障害 第4章 › Case 6","keywords":"D-乳酸 D-lactic acid アシドーシス 短腸症候群 short bowel 腸管切除 食後 失調 構音障害 L-乳酸 測定不能 腸内細菌 炭水化物 腎尿細管 立体選択性"},
+  {"title":"Case 7：AG増加型代謝性アシドーシス + 代謝性アルカローシス（AKA）","url":"pages/articles-gl-mixed-acidbase2025.html#mab4-s2","desc":"混合性酸塩基平衡障害 第4章 › Case 7","keywords":"アルコール性ケトアシドーシス AKA alcoholic ketoacidosis 嘔吐 代謝性アルカローシス 正常pH AG増加 ΔAG ΔHCO3 アルコール離脱 トリプル酸塩基"},
+  {"title":"Case 8：トリプル酸塩基障害（下痢 + 嘔吐）","url":"pages/articles-gl-mixed-acidbase2025.html#mab4-s3","desc":"混合性酸塩基平衡障害 第4章 › Case 8","keywords":"トリプル酸塩基障害 triple acid-base 下痢 嘔吐 正常AG 代謝性アルカローシス 呼吸性アルカローシス 相殺 pH正常 低カリウム 脱水"},
+
   {"title":"論文まとめ：筋骨格系","url":"pages/articles-guidelines.html#art-msk","desc":"筋骨格系の注目論文・ガイドライン","keywords":"筋骨格 リハビリ ICU-AW"},
   {"title":"論文まとめ：予防","url":"pages/articles-guidelines.html#art-ppx","desc":"予防の注目論文・ガイドライン","keywords":"予防 DVT VAP 褥瘡 潰瘍"},
 
@@ -73,6 +111,21 @@ const SEARCH_INDEX = [
   {"title":"血液内科","url":"pages/video-lectures.html#vid-hematology","desc":"動画講座集 › カテゴリ","keywords":"血液内科 AML 造血幹細胞移植 リンパ腫 藤野"},
   {"title":"画像","url":"pages/video-lectures.html#vid-imaging","desc":"動画講座集 › カテゴリ","keywords":"画像 胸部X線 読影 石井"},
 
+  // ── 疾患・項目別まとめ ──
+  {"title":"疾患・項目別まとめ","url":"pages/disease-topics.html","desc":"疾患ごとの総説まとめ（by system形式）","keywords":"疾患 トピック 総説 まとめ by system"},
+  {"title":"低ナトリウム血症（総説）","url":"pages/disease-topics/dt-hyponatremia.html","desc":"低Na血症の診断・治療の総説","keywords":"低ナトリウム 低Na SIADH 補正速度 ODS 尿浸透圧 尿Na 3%食塩水"},
+  {"title":"緑膿菌感染症（総説）","url":"pages/disease-topics/dt-pa-infection.html","desc":"P. aeruginosa菌血症の特徴・BALANCE試験の知見・投与期間の考え方","keywords":"緑膿菌 Pseudomonas aeruginosa 菌血症 bacteremia 投与期間 BALANCE SHORTEN-2 7日 14日 MDR バイオフィルム"},
+
+  // ── ICUセット ──
+  {"title":"ICUセット","url":"pages/schedule-ward-work.html","desc":"ICUオーダーセットへのアクセス方法・セット登録一覧","keywords":"ICUセット セット展開 オーダー セット登録 カルテ アクセス"},
+  {"title":"ICUセットへのアクセス方法","url":"pages/schedule-ward-work.html#ward-set-access","desc":"ICUセット › アクセス方法","keywords":"セット展開 右クリック フォルダー設定 アクセス"},
+  {"title":"ICUセット登録一覧","url":"pages/schedule-ward-work.html#ward-icu-sets","desc":"ICUセット › 全セット一覧表","keywords":"セット一覧 点滴 内服 コメント 入室 退室 同意書 輸血 呼吸器 インスリン 経腸栄養 吸入 代行入力"},
+
+  // ── 病棟業務 ──
+  {"title":"病棟業務","url":"pages/schedule-ward-daily.html","desc":"カンファレンス後のルーチン業務・手技","keywords":"病棟業務 ルーチン 採血 レントゲン 点滴 内服 コメント Daily Chart"},
+  {"title":"ICU入室時のTo Do List","url":"pages/schedule-ward-daily.html#ward-admission","desc":"病棟業務 › 入室時ToDo","keywords":"入室 入室時 セット展開 同意書 スコア入力 admission"},
+  {"title":"ICU退室時のTo Do List","url":"pages/schedule-ward-daily.html#ward-discharge","desc":"病棟業務 › 退室時ToDo","keywords":"退室 退室時 内科退室 外科退室 コメント削除 PRN削除 申し送り"},
+
   // ── ICUのルール ──
   {"title":"ICUのルール","url":"pages/rules.html","desc":"ICUの基本ルール","keywords":"ルール 規則"},
   {"title":"看護師への情報伝達","url":"pages/rules.html#rule-point1","desc":"ICUのルール › ポイント①","keywords":"看護師 オーダーシート 口頭オーダー 情報伝達"},
@@ -81,7 +134,7 @@ const SEARCH_INDEX = [
   {"title":"ICUセットから展開してオーダー","url":"pages/rules.html#rule-point4","desc":"ICUのルール › ポイント④","keywords":"ICUセット オーダー エラー"},
   {"title":"ICUリーダーに情報共有","url":"pages/rules.html#rule-point5","desc":"ICUのルール › ポイント⑤","keywords":"リーダー 情報共有 チャット 血液内科 総合診療科 心臓血管外科"},
   {"title":"時間外申請のルール","url":"pages/rules.html#rule-overtime","desc":"ICUのルール","keywords":"時間外 残業 申請 80時間 打刻 自己研鑽"},
-  {"title":"主食10点","url":"pages/rules.html#rule-10points","desc":"ICUのルール","keywords":"十箇条 心得 感染防御 上級医報告 主科報告 カルテ 検査"},
+  {"title":"その他重要事項10点","url":"pages/rules.html#rule-10points","desc":"ICUのルール","keywords":"十箇条 心得 感染防御 上級医報告 主科報告 カルテ 検査 重要事項"},
   {"title":"愛されローテーターになるために","url":"pages/rules.html#rule-loved","desc":"ICUのルール › ＋α","keywords":"愛される 名前 駆けつけ プラスアルファ"},
 
   // ── チーム編成 ──
@@ -115,39 +168,39 @@ const SEARCH_INDEX = [
 
   // ── SSC 2026 ガイドライン ──
   {"title":"SSC 2026 敗血症・敗血症性ショック管理 国際ガイドライン","url":"pages/articles-gl-ssc2026.html","desc":"Surviving Sepsis Campaign 2026 国際ガイドライン","keywords":"SSC 敗血症 セプシス ショック 輸液 昇圧薬 抗菌薬 乳酸 MAP 蘇生"},
-  {"title":"SSC 2026 第1章 スクリーニングと初期管理","url":"注目論文ガイドラインのまとめ/ssc-chapter1.html#ssc-ch1","desc":"SSC 2026 › 第1章","keywords":"SSC スクリーニング QI NEWS qSOFA EWS コードセプシス 血液培養 乳酸 輸液 昇圧薬 MAP 30mL 蘇生 ICU入室"},
-  {"title":"SSC 2026 パフォーマンス改善・コードセプシス","url":"注目論文ガイドラインのまとめ/ssc-chapter1.html#ssc-s1","desc":"SSC 2026 第1章 › SECTION 1","keywords":"QI プログラム コードセプシス セプシスハドル スクリーニング 質改善"},
-  {"title":"SSC 2026 スクリーニングツール：NEWS vs qSOFA","url":"注目論文ガイドラインのまとめ/ssc-chapter1.html#ssc-s2","desc":"SSC 2026 第1章 › SECTION 2","keywords":"NEWS NEWS2 MEWS SIRS qSOFA スクリーニング 感度 AUC 院外 院内"},
-  {"title":"SSC 2026 血液培養・乳酸値","url":"注目論文ガイドラインのまとめ/ssc-chapter1.html#ssc-s4","desc":"SSC 2026 第1章 › SECTION 4","keywords":"血液培養 乳酸 lactate 抗菌薬前 採取 S.aureus カンジダ 繰り返し培養"},
-  {"title":"SSC 2026 初期蘇生：輸液・末梢昇圧薬","url":"注目論文ガイドラインのまとめ/ssc-chapter1.html#ssc-s5","desc":"SSC 2026 第1章 › SECTION 5","keywords":"輸液 晶質液 30mL/kg 昇圧薬 ノルアドレナリン 末梢 中心静脈 蘇生"},
-  {"title":"SSC 2026 MAP目標 65mmHg・高齢者60〜65mmHg","url":"注目論文ガイドラインのまとめ/ssc-chapter1.html#ssc-s6","desc":"SSC 2026 第1章 › SECTION 6","keywords":"MAP 65mmHg 血圧目標 高齢者 昇圧薬 ICU入室"},
+  {"title":"SSC 2026 第1章 スクリーニングと初期管理","url":"pages/articles-gl-ssc2026.html#ssc-ch1","desc":"SSC 2026 › 第1章","keywords":"SSC スクリーニング QI NEWS qSOFA EWS コードセプシス 血液培養 乳酸 輸液 昇圧薬 MAP 30mL 蘇生 ICU入室"},
+  {"title":"SSC 2026 パフォーマンス改善・コードセプシス","url":"pages/articles-gl-ssc2026.html#ssc-s1","desc":"SSC 2026 第1章 › SECTION 1","keywords":"QI プログラム コードセプシス セプシスハドル スクリーニング 質改善"},
+  {"title":"SSC 2026 スクリーニングツール：NEWS vs qSOFA","url":"pages/articles-gl-ssc2026.html#ssc-s2","desc":"SSC 2026 第1章 › SECTION 2","keywords":"NEWS NEWS2 MEWS SIRS qSOFA スクリーニング 感度 AUC 院外 院内"},
+  {"title":"SSC 2026 血液培養・乳酸値","url":"pages/articles-gl-ssc2026.html#ssc-s4","desc":"SSC 2026 第1章 › SECTION 4","keywords":"血液培養 乳酸 lactate 抗菌薬前 採取 S.aureus カンジダ 繰り返し培養"},
+  {"title":"SSC 2026 初期蘇生：輸液・末梢昇圧薬","url":"pages/articles-gl-ssc2026.html#ssc-s5","desc":"SSC 2026 第1章 › SECTION 5","keywords":"輸液 晶質液 30mL/kg 昇圧薬 ノルアドレナリン 末梢 中心静脈 蘇生"},
+  {"title":"SSC 2026 MAP目標 65mmHg・高齢者60〜65mmHg","url":"pages/articles-gl-ssc2026.html#ssc-s6","desc":"SSC 2026 第1章 › SECTION 6","keywords":"MAP 65mmHg 血圧目標 高齢者 昇圧薬 ICU入室"},
 
   // SSC 2026 第2章
-  {"title":"SSC 2026 第2章 感染症管理","url":"注目論文ガイドラインのまとめ/ssc-chapter2.html#ssc-ch2","desc":"SSC 2026 › 第2章","keywords":"SSC 感染症 抗菌薬 タイミング ソースコントロール MDR ESBL βラクタム 延長投与 de-escalation SDD PCT BALANCE BLING"},
-  {"title":"SSC 2026 抗菌薬投与タイミング：1時間・3時間ルール","url":"注目論文ガイドラインのまとめ/ssc-chapter2.html#ssc-s2-1","desc":"SSC 2026 第2章 › SECTION 1","keywords":"抗菌薬 タイミング 1時間 3時間 敗血症性ショック 院外 PCT"},
-  {"title":"SSC 2026 ソースコントロール：6時間以内の介入","url":"注目論文ガイドラインのまとめ/ssc-chapter2.html#ssc-s2-2","desc":"SSC 2026 第2章 › SECTION 2","keywords":"ソースコントロール 感染源 ドレナージ デブリードマン 6時間"},
-  {"title":"SSC 2026 βラクタム延長投与（BLING III試験）","url":"注目論文ガイドラインのまとめ/ssc-chapter2.html#ssc-s2-5","desc":"SSC 2026 第2章 › SECTION 5","keywords":"βラクタム 延長投与 prolonged infusion BLING III PK/PD TDM 時間依存性"},
-  {"title":"SSC 2026 De-escalation・抗菌薬投与期間（BALANCE試験）","url":"注目論文ガイドラインのまとめ/ssc-chapter2.html#ssc-s2-6","desc":"SSC 2026 第2章 › SECTION 6","keywords":"de-escalation 投与期間 7日 14日 BALANCE PCT ADAPT-Sepsis 短期間"},
+  {"title":"SSC 2026 第2章 感染症管理","url":"pages/articles-gl-ssc2026.html#ssc-ch2","desc":"SSC 2026 › 第2章","keywords":"SSC 感染症 抗菌薬 タイミング ソースコントロール MDR ESBL βラクタム 延長投与 de-escalation SDD PCT BALANCE BLING"},
+  {"title":"SSC 2026 抗菌薬投与タイミング：1時間・3時間ルール","url":"pages/articles-gl-ssc2026.html#ssc-s2-1","desc":"SSC 2026 第2章 › SECTION 1","keywords":"抗菌薬 タイミング 1時間 3時間 敗血症性ショック 院外 PCT"},
+  {"title":"SSC 2026 ソースコントロール：6時間以内の介入","url":"pages/articles-gl-ssc2026.html#ssc-s2-2","desc":"SSC 2026 第2章 › SECTION 2","keywords":"ソースコントロール 感染源 ドレナージ デブリードマン 6時間"},
+  {"title":"SSC 2026 βラクタム延長投与（BLING III試験）","url":"pages/articles-gl-ssc2026.html#ssc-s2-5","desc":"SSC 2026 第2章 › SECTION 5","keywords":"βラクタム 延長投与 prolonged infusion BLING III PK/PD TDM 時間依存性"},
+  {"title":"SSC 2026 De-escalation・抗菌薬投与期間（BALANCE試験）","url":"pages/articles-gl-ssc2026.html#ssc-s2-6","desc":"SSC 2026 第2章 › SECTION 6","keywords":"de-escalation 投与期間 7日 14日 BALANCE PCT ADAPT-Sepsis 短期間"},
 
   // SSC 2026 第3章
-  {"title":"SSC 2026 第3章 血行動態管理","url":"注目論文ガイドラインのまとめ/ssc-chapter3.html#ssc-ch3","desc":"SSC 2026 › 第3章","keywords":"SSC 輸液 晶質液 生食 バランス HES ゼラチン アルブミン 昇圧薬 ノルアドレナリン バソプレシン PLR SVV 乳酸 CRT ドブタミン"},
-  {"title":"SSC 2026 輸液の選択：バランス晶質液・HES禁忌","url":"注目論文ガイドラインのまとめ/ssc-chapter3.html#ssc-s3-2","desc":"SSC 2026 第3章 › SECTION 2","keywords":"晶質液 バランス 生理食塩水 生食 HES スターチ ゼラチン アルブミン SMART BaSICS PLUS 輸液"},
-  {"title":"SSC 2026 蘇生エンドポイント：乳酸値・毛細血管再充填時間（CRT）","url":"注目論文ガイドラインのまとめ/ssc-chapter3.html#ssc-s3-4","desc":"SSC 2026 第3章 › SECTION 4","keywords":"乳酸 lactate CRT 毛細血管再充填 ANDROMEDA-SHOCK 蘇生エンドポイント"},
-  {"title":"SSC 2026 昇圧薬：ノルエピネフリン→バソプレシン追加","url":"注目論文ガイドラインのまとめ/ssc-chapter3.html#ssc-s3-5","desc":"SSC 2026 第3章 › SECTION 5","keywords":"ノルエピネフリン ノルアドレナリン バソプレシン アンジオテンシン エピネフリン 昇圧薬 テルリプレシン"},
+  {"title":"SSC 2026 第3章 血行動態管理","url":"pages/articles-gl-ssc2026.html#ssc-ch3","desc":"SSC 2026 › 第3章","keywords":"SSC 輸液 晶質液 生食 バランス HES ゼラチン アルブミン 昇圧薬 ノルアドレナリン バソプレシン PLR SVV 乳酸 CRT ドブタミン"},
+  {"title":"SSC 2026 輸液の選択：バランス晶質液・HES禁忌","url":"pages/articles-gl-ssc2026.html#ssc-s3-2","desc":"SSC 2026 第3章 › SECTION 2","keywords":"晶質液 バランス 生理食塩水 生食 HES スターチ ゼラチン アルブミン SMART BaSICS PLUS 輸液"},
+  {"title":"SSC 2026 蘇生エンドポイント：乳酸値・毛細血管再充填時間（CRT）","url":"pages/articles-gl-ssc2026.html#ssc-s3-4","desc":"SSC 2026 第3章 › SECTION 4","keywords":"乳酸 lactate CRT 毛細血管再充填 ANDROMEDA-SHOCK 蘇生エンドポイント"},
+  {"title":"SSC 2026 昇圧薬：ノルエピネフリン→バソプレシン追加","url":"pages/articles-gl-ssc2026.html#ssc-s3-5","desc":"SSC 2026 第3章 › SECTION 5","keywords":"ノルエピネフリン ノルアドレナリン バソプレシン アンジオテンシン エピネフリン 昇圧薬 テルリプレシン"},
 
   // SSC 2026 第4章
-  {"title":"SSC 2026 第4章 呼吸管理","url":"注目論文ガイドラインのまとめ/ssc-chapter4.html#ssc-ch4","desc":"SSC 2026 › 第4章","keywords":"SSC 呼吸 HFNC NIV NIPPV SpO2 酸素 ARDS 人工呼吸 一回換気量 PEEP 腹臥位 覚醒 ECMO"},
-  {"title":"SSC 2026 HFNC vs NIV vs 通常酸素療法","url":"注目論文ガイドラインのまとめ/ssc-chapter4.html#ssc-s4-3","desc":"SSC 2026 第4章 › SECTION 3","keywords":"HFNC NIV NIPPV 高流量鼻カニュラ 非侵襲的 酸素療法 急性低酸素性呼吸不全"},
-  {"title":"SSC 2026 ARDS管理：低TV・高PEEP・腹臥位","url":"注目論文ガイドラインのまとめ/ssc-chapter4.html#ssc-s4-5","desc":"SSC 2026 第4章 › SECTION 5","keywords":"ARDS 一回換気量 TV PEEP 腹臥位 prone NMBA プラトー圧 低肺傷害"},
+  {"title":"SSC 2026 第4章 呼吸管理","url":"pages/articles-gl-ssc2026.html#ssc-ch4","desc":"SSC 2026 › 第4章","keywords":"SSC 呼吸 HFNC NIV NIPPV SpO2 酸素 ARDS 人工呼吸 一回換気量 PEEP 腹臥位 覚醒 ECMO"},
+  {"title":"SSC 2026 HFNC vs NIV vs 通常酸素療法","url":"pages/articles-gl-ssc2026.html#ssc-s4-3","desc":"SSC 2026 第4章 › SECTION 3","keywords":"HFNC NIV NIPPV 高流量鼻カニュラ 非侵襲的 酸素療法 急性低酸素性呼吸不全"},
+  {"title":"SSC 2026 ARDS管理：低TV・高PEEP・腹臥位","url":"pages/articles-gl-ssc2026.html#ssc-s4-5","desc":"SSC 2026 第4章 › SECTION 5","keywords":"ARDS 一回換気量 TV PEEP 腹臥位 prone NMBA プラトー圧 低肺傷害"},
 
   // SSC 2026 第5章
-  {"title":"SSC 2026 第5章 補助療法・支持療法","url":"注目論文ガイドラインのまとめ/ssc-chapter5.html#ssc-ch5","desc":"SSC 2026 › 第5章","keywords":"SSC ステロイド 解熱薬 ビタミンC IVIG 血液浄化 PPI VTE 輸血 インスリン 血糖 RRT 輸液除去"},
-  {"title":"SSC 2026 ステロイド：敗血症性ショックへのhydrocortisone","url":"注目論文ガイドラインのまとめ/ssc-chapter5.html#ssc-s5-1","desc":"SSC 2026 第5章 › SECTION 1","keywords":"ステロイド hydrocortisone コルチゾール ショック 200mg 7日 ADRENAL"},
-  {"title":"SSC 2026 PPI：ストレス潰瘍予防（REVISE試験）","url":"注目論文ガイドラインのまとめ/ssc-chapter5.html#ssc-s5-3","desc":"SSC 2026 第5章 › SECTION 3","keywords":"PPI 潰瘍予防 ストレス潰瘍 GI出血 REVISE プロトンポンプ"},
+  {"title":"SSC 2026 第5章 補助療法・支持療法","url":"pages/articles-gl-ssc2026.html#ssc-ch5","desc":"SSC 2026 › 第5章","keywords":"SSC ステロイド 解熱薬 ビタミンC IVIG 血液浄化 PPI VTE 輸血 インスリン 血糖 RRT 輸液除去"},
+  {"title":"SSC 2026 ステロイド：敗血症性ショックへのhydrocortisone","url":"pages/articles-gl-ssc2026.html#ssc-s5-1","desc":"SSC 2026 第5章 › SECTION 1","keywords":"ステロイド hydrocortisone コルチゾール ショック 200mg 7日 ADRENAL"},
+  {"title":"SSC 2026 PPI：ストレス潰瘍予防（REVISE試験）","url":"pages/articles-gl-ssc2026.html#ssc-s5-3","desc":"SSC 2026 第5章 › SECTION 3","keywords":"PPI 潰瘍予防 ストレス潰瘍 GI出血 REVISE プロトンポンプ"},
 
   // SSC 2026 第6章
-  {"title":"SSC 2026 第6章 Goals of Care・長期アウトカム","url":"注目論文ガイドラインのまとめ/ssc-chapter6.html#ssc-ch6","desc":"SSC 2026 › 第6章","keywords":"SSC GoC ゴールオブケア 緩和ケア 退院 PICS 長期後遺症 リハビリ メンタルヘルス 認知機能 フォローアップ"},
-  {"title":"SSC 2026 PICS（集中治療後症候群）の長期管理","url":"注目論文ガイドラインのまとめ/ssc-chapter6.html#ssc-s6-6","desc":"SSC 2026 第6章 › SECTION 6","keywords":"PICS post ICU syndrome 長期後遺症 リハビリ メンタルヘルス 認知機能 フォローアップ QOL"},
+  {"title":"SSC 2026 第6章 Goals of Care・長期アウトカム","url":"pages/articles-gl-ssc2026.html#ssc-ch6","desc":"SSC 2026 › 第6章","keywords":"SSC GoC ゴールオブケア 緩和ケア 退院 PICS 長期後遺症 リハビリ メンタルヘルス 認知機能 フォローアップ"},
+  {"title":"SSC 2026 PICS（集中治療後症候群）の長期管理","url":"pages/articles-gl-ssc2026.html#ssc-s6-6","desc":"SSC 2026 第6章 › SECTION 6","keywords":"PICS post ICU syndrome 長期後遺症 リハビリ メンタルヘルス 認知機能 フォローアップ QOL"},
 
   // 低ナトリウム血症ガイドライン 2014（ESICM/ESE/ERA-EDTA）
   {"title":"低ナトリウム血症 診断・治療ガイドライン（ESICM/ESE/ERA-EDTA 2014）","url":"pages/articles-gl-hn2014.html","desc":"低ナトリウム血症ガイドライン概要","keywords":"低ナトリウム血症 低Na血症 SIAD SIADH バソプレシン AVP 高張食塩水 ODS 浸透圧性脱髄 電解質 ESICM ESE ERA-EDTA 3%食塩水 トルバプタン vaptan 輸液制限 尿浸透圧 尿ナトリウム"},
@@ -195,5 +248,29 @@ const SEARCH_INDEX = [
   {"title":"KDIGO 2026 第6章 AKI後フォローアップ","url":"pages/articles-gl-kdigo-aki2026.html#aki-ch6","desc":"KDIGO 2026 › 第6章","keywords":"フォローアップ CKD AKI後 退院後 RASi SGLT2阻害薬 GLP-1受容体作動薬 MRA 3ヶ月 腎機能評価 リスク層別化"},
   {"title":"退院後の計画的フォローアップ","url":"pages/articles-gl-kdigo-aki2026.html#aki6-s1","desc":"KDIGO 2026 第6章 › SECTION 1","keywords":"フォローアップ 1B 退院後 計画的 腎臓専門医 紹介基準 リスク層別化 2D AKI後 回復"},
   {"title":"退院後の薬剤管理（RASi・腎保護薬）","url":"pages/articles-gl-kdigo-aki2026.html#aki6-s2","desc":"KDIGO 2026 第6章 › SECTION 2","keywords":"RASi 再開 1B ACE阻害薬 ARB SGLT2阻害薬 GLP-1受容体作動薬 MRA ミネラルコルチコイド受容体拮抗薬 フィネレノン 心腎連関 薬剤再評価"},
-  {"title":"CKD評価とRRT離脱後のフォロー","url":"pages/articles-gl-kdigo-aki2026.html#aki6-s3","desc":"KDIGO 2026 第6章 › SECTION 3","keywords":"CKD 評価 3ヶ月 eGFR 尿蛋白 尿アルブミン RRT離脱後 腎機能回復 AKD CKD移行 腎生検 適応"}
+  {"title":"CKD評価とRRT離脱後のフォロー","url":"pages/articles-gl-kdigo-aki2026.html#aki6-s3","desc":"KDIGO 2026 第6章 › SECTION 3","keywords":"CKD 評価 3ヶ月 eGFR 尿蛋白 尿アルブミン RRT離脱後 腎機能回復 AKD CKD移行 腎生検 適応"},
+
+  // ── IDSA 2025 複雑性UTIガイドライン ──
+  {"title":"IDSA 2025 複雑性尿路感染症（cUTI）管理ガイドライン — 経験的抗菌薬 / IV-to-oral転換 / 投与期間","url":"pages/articles-gl-uti-idsa2025.html","desc":"IDSA 2025 › 概要","keywords":"尿路感染症 UTI cUTI 複雑性UTI IDSA 腎盂腎炎 pyelonephritis CAUTI カテーテル関連UTI 抗菌薬耐性 フルオロキノロン ST合剤 TMP-SMX ニトロフラントイン Enterobacterales IV-to-oral 投与期間 GRADE"},
+  {"title":"cUTI新分類 — 「解剖学的異常」から「全身症状の有無」へ","url":"pages/articles-gl-uti-idsa2025.html#uti-ch0","desc":"IDSA 2025 › 前提：新分類","keywords":"複雑性UTI cUTI 非複雑性UTI uUTI 分類 全身症状 発熱 CVA叩打痛 悪寒 戦慄 血行動態不安定 CAUTI 糖尿病 免疫不全 腎盂腎炎 解剖学的異常"},
+  {"title":"CQ1：経験的抗菌薬の選択 — 推奨一覧（重症度別）","url":"pages/articles-gl-uti-idsa2025.html#uti-cq1-rec","desc":"IDSA 2025 CQ1 › 推奨一覧","keywords":"経験的抗菌薬 敗血症 敗血症性ショック 第3世代セファロスポリン カルバペネム PIPC TAZ フルオロキノロン TMP-SMX ニトロフラントイン 不適切 Enterobacterales"},
+  {"title":"4ステップアプローチ（経験的抗菌薬選択）","url":"pages/articles-gl-uti-idsa2025.html#uti-4step","desc":"IDSA 2025 CQ1 › 4ステップ","keywords":"4ステップ 重症度 SOFA qSOFA 耐性リスク 先行培養 フルオロキノロン使用歴 12ヶ月 患者固有 アンチビオグラム 感受性率 90% 80% 経験的選択"},
+  {"title":"各薬剤クラスの位置づけとエビデンス","url":"pages/articles-gl-uti-idsa2025.html#uti-drugs","desc":"IDSA 2025 CQ1 › 薬剤別エビデンス","keywords":"セフトリアキソン PIPC/TAZ ピペラシリン タゾバクタム フルオロキノロン カルバペネム ESBL 耐性 経口抗菌薬 CAZ-AVI セフィデロコル プラゾミシン 新規BLBLI"},
+  {"title":"確定治療とde-escalation（cUTI）","url":"pages/articles-gl-uti-idsa2025.html#uti-definitive","desc":"IDSA 2025 CQ1 › 確定治療","keywords":"確定治療 de-escalation ナローイング スチュワードシップ 感受性既知 抗菌薬スペクトラム 腸内細菌科 緑膿菌 CRE ESBL 培養結果"},
+  {"title":"CQ2：IV-to-oral転換 — 3条件と菌血症合併の扱い","url":"pages/articles-gl-uti-idsa2025.html#uti-cq2-rec","desc":"IDSA 2025 CQ2 › IV-to-oral転換","keywords":"IV-to-oral 早期経口転換 菌血症 bacteremia 3条件 臨床改善 経口摂取 有効な経口薬 BALANCE試験 von Dach 入院期間短縮 IVカテーテル"},
+  {"title":"CQ3：投与期間 — FQ/非FQ/菌血症合併","url":"pages/articles-gl-uti-idsa2025.html#uti-cq3-rec","desc":"IDSA 2025 CQ3 › 投与期間","keywords":"投与期間 5-7日 7日 菌血症合併 グラム陰性菌血症 10-14日 不要 メタ解析 2945例 非劣性 フルオロキノロン FQ 非FQ 臨床的治癒率"},
+  {"title":"男性のcUTI・前立腺炎・臨床改善なし時の対応","url":"pages/articles-gl-uti-idsa2025.html#uti-special","desc":"IDSA 2025 CQ3 › 特殊状況","keywords":"男性 前立腺炎 10-14日 前立腺移行性 FQ TMP-SMX ニトロフラントイン 不適 drug-bug mismatch 感染源コントロール 他の診断 発熱"},
+
+  // ── ペラミビル（Drugs 2018）──
+  {"title":"ペラミビル（Rapiacta®）レビュー — 非重症インフルエンザ","url":"pages/articles-gl-peramivir2018.html","desc":"Drugs 2018 › 概要","keywords":"ペラミビル peramivir Rapiacta Rapivab Alpivab インフルエンザ influenza NAI ノイラミニダーゼ阻害薬 静注 単回投与 オセルタミビル 非劣性"},
+  {"title":"ペラミビルの薬理学的特性（作用機序・耐性・PK）","url":"pages/articles-gl-peramivir2018.html#pera-ch1","desc":"Drugs 2018 › 第1章","keywords":"ノイラミニダーゼ NA シクロペンタン H275Y 耐性 GISRS サーベイランス 薬物動態 PK 線形 腎排泄 気道上皮"},
+  {"title":"作用機序と抗ウイルス活性（ペラミビル）","url":"pages/articles-gl-peramivir2018.html#pera1-s1","desc":"Drugs 2018 第1章 › SECTION 1","keywords":"ノイラミニダーゼ阻害 シアル酸 シクロペンタン 5員環 耐性 RI HRI H275Y クロス耐性 GISRS 1%未満"},
+  {"title":"薬物動態 — ペラミビルのPKプロファイル","url":"pages/articles-gl-peramivir2018.html#pera1-s2","desc":"Drugs 2018 第1章 › SECTION 2","keywords":"薬物動態 PK 線形 用量比例 分布容積 タンパク結合 腎排泄 半減期 気道上皮ライニング液 腎機能低下 用量調整"},
+  {"title":"ペラミビルの臨床的有効性（成人・小児）","url":"pages/articles-gl-peramivir2018.html#pera-ch2","desc":"Drugs 2018 › 第2章","keywords":"有効性 第3相試験 成人 小児 症状消失 プラセボ対照 オセルタミビル 非劣性 解熱 サブタイプ A/H1N1 A/H3N2"},
+  {"title":"成人における有効性（Kohno 2010/2011試験）","url":"pages/articles-gl-peramivir2018.html#pera2-s1","desc":"Drugs 2018 第2章 › SECTION 1","keywords":"Kohno 2010 2011 プラセボ オセルタミビル 非劣性 症状消失 59.9時間 81.8時間 解熱 A/H3N2 HR 0.666 単回投与"},
+  {"title":"小児における有効性（ペラミビル）","url":"pages/articles-gl-peramivir2018.html#pera2-s2","desc":"Drugs 2018 第2章 › SECTION 2","keywords":"小児 2歳 12mg/kg 600mg 最大 中間解析 75.6時間 IDWeek 2017 解熱 2〜12歳 13〜17歳"},
+  {"title":"ペラミビルの安全性・用量・臨床的位置づけ","url":"pages/articles-gl-peramivir2018.html#pera-ch3","desc":"Drugs 2018 › 第3章","keywords":"安全性 副反応 好中球減少 悪心 TEN SJS 神経精神症状 腎障害 600mg 単回 15-30分 48時間以内"},
+  {"title":"忍容性と有害事象（ペラミビル）","url":"pages/articles-gl-peramivir2018.html#pera3-s1","desc":"Drugs 2018 第3章 › SECTION 1","keywords":"副反応 好中球減少 悪心 下痢 軽度 中等度 TEN SJS 多形性紅斑 神経精神症状 せん妄 幻覚 腎障害 小児 発疹 発熱"},
+  {"title":"投与方法と用量（ペラミビル）","url":"pages/articles-gl-peramivir2018.html#pera3-s2","desc":"Drugs 2018 第3章 › SECTION 2","keywords":"用量 600mg 12mg/kg 最大600mg 15-30分 48時間以内 2歳以上 腎機能低下 B型 重症 非推奨"},
+  {"title":"ペラミビルの強みと使い分け（NAI3剤比較）","url":"pages/articles-gl-peramivir2018.html#pera4-s1","desc":"Drugs 2018 第4章 › SECTION 1","keywords":"NAI比較 オセルタミビル ザナミビル 静注 単回 嘔吐 嚥下困難 アドヒアランス 2歳以上 気管支痙攣 吸入 高リスク"}
 ];

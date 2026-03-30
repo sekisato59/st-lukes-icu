@@ -13,12 +13,14 @@ const SITE_CONFIG = {
   //   image を省略するとアイコンのみ表示されます
   // ==========================================================
   staff: [
-    { role: 'ICU部長',    name: '岡本 洋史 先生', image: '', url: 'pages/staff-okamoto.html' },
-    { role: 'スタッフ医師', name: '青木 和裕 先生', image: '', url: 'pages/staff-aoki.html' },
-    { role: 'スタッフ医師', name: '岡野 弘 先生',   image: '', url: 'pages/staff-okano.html' },
-    { role: 'スタッフ医師', name: '後藤 俊作 先生', image: '', url: 'pages/staff-goto.html' },
-    { role: 'スタッフ医師', name: '宮﨑 令奈 先生', image: '', url: 'pages/staff-miyazaki.html' },
-    { role: 'スタッフ医師', name: '関谷 智 先生',   image: '', url: 'pages/staff-sekiya.html' },
+    { role: 'ICU部長',    name: '岡本 洋史 先生', image: '' },
+    { role: 'スタッフ医師', name: '青木 和裕 先生', image: '' },
+    { role: 'スタッフ医師', name: '岡野 弘 先生',   image: '' },
+    { role: 'スタッフ医師', name: '後藤 俊作 先生', image: '' },
+    { role: 'スタッフ医師', name: '村松 俊 先生',   image: '' },
+    { role: 'フェロー',    name: '宮﨑 令奈 先生', image: '' },
+    { role: 'フェロー',    name: '関谷 智 先生',   image: '' },
+    { role: 'フェロー',    name: '田中 優希 先生', image: '' },
   ],
 
   // ==========================================================

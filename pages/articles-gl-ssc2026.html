@@ -12,31 +12,55 @@
   <link rel="stylesheet" href="../style-v2.css">
   <script src="../site-config.js"></script>
   <style>
+    .ie-echo-grid { display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px; }
+    @media (max-width:520px) { .ie-echo-grid { grid-template-columns:1fr; } }
+    .ie-echo-box { border:1px solid var(--border);border-radius:8px;padding:14px 16px;background:#F8FAFC; }
+    .ie-echo-name { font-size:0.8rem;font-weight:700;color:var(--text);margin-bottom:6px; }
+    .ie-echo-body { font-size:0.78rem;color:var(--muted);line-height:1.8; }
     .subpage-hero { background: linear-gradient(150deg, #1A3A2A 0%, #2D7A4F 55%, #3D9B65 100%) !important; }
     .ie-badge { display:inline-block;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:20px;padding:4px 12px;font-size:0.72rem;font-weight:500;color:#fff;margin-right:6px;margin-top:8px; }
-
-    /* Chapter list card */
-    .ch-list { display:flex;flex-direction:column;gap:0; }
-    .ch-row { display:flex;align-items:center;gap:14px;padding:14px 18px;border-bottom:1px solid var(--border);text-decoration:none;color:var(--text);transition:background 0.15s; }
-    .ch-row:last-child { border-bottom:none; }
-    .ch-row:hover { background:#F0FDF4; }
-    .ch-num { width:32px;height:32px;border-radius:50%;background:#2D7A4F;color:#fff;font-size:0.78rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0; }
-    .ch-num.disabled { background:#E5E7EB;color:var(--muted); }
-    .ch-info { flex:1; }
-    .ch-title { font-size:0.88rem;font-weight:700;color:var(--text); }
-    .ch-sub   { font-size:0.75rem;color:var(--muted);margin-top:2px; }
-    .ch-stmts { font-size:0.72rem;color:#2D7A4F;font-weight:600;flex-shrink:0; }
-    .ch-stmts.disabled { color:var(--muted); }
-
-    /* Overview stat */
-    .ov-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:8px; }
-    @media (max-width:520px) { .ov-grid { grid-template-columns:1fr 1fr; } }
-    .ov-box { background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;padding:16px 12px;text-align:center; }
-    .ov-val { font-size:1.4rem;font-weight:900;color:#2D7A4F;line-height:1.3; }
-    .ov-label { font-size:0.7rem;color:var(--muted);margin-top:5px;line-height:1.5; }
-
+    .ie-table { width:100%;border-collapse:collapse;font-size:0.82rem;line-height:1.7;margin-top:10px; }
+    .ie-table th { background:#F3F4F6;color:var(--text);font-weight:700;padding:10px 12px;text-align:left;border-bottom:2px solid var(--border); }
+    .ie-table td { padding:10px 12px;border-bottom:1px solid var(--border);color:var(--muted);vertical-align:top; }
+    .ie-table tr:last-child td { border-bottom:none; }
+    .ie-flow { display:flex;flex-direction:column;gap:6px; }
+    .ie-flow-item { display:flex;align-items:flex-start;gap:12px;background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:12px 16px;font-size:0.83rem; }
+    .ie-flow-num { background:#2D7A4F;color:#fff;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;flex-shrink:0;margin-top:1px; }
+    .ie-flow-arrow { text-align:center;color:#2D7A4F;font-size:1.1rem;padding:2px 0; }
+    .ie-stat-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:8px; }
+    @media (max-width:520px) { .ie-stat-grid { grid-template-columns:1fr 1fr; } }
+    .ie-stat { background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;padding:16px 12px;text-align:center;display:flex;flex-direction:column;justify-content:center;min-height:110px; }
+    .ie-stat-val { font-size:1.5rem;font-weight:900;color:#2D7A4F;line-height:1.3; }
+    .ie-stat-label { font-size:0.7rem;color:var(--muted);margin-top:6px;line-height:1.5; }
+    .ie-alpha { background:#F5F3FF;border:1px solid #C4B5FD;border-radius:var(--radius);margin-bottom:16px;overflow:hidden; }
+    .ie-alpha-inner { padding:18px 24px; }
+    .ie-alpha-header { display:flex;align-items:center;gap:8px;margin-bottom:10px; }
+    .ie-alpha-badge { display:inline-flex;align-items:center;background:#7C3AED;color:#fff;font-size:0.7rem;font-weight:700;padding:2px 10px;border-radius:4px; }
+    .ie-alpha-title { font-size:0.88rem;font-weight:700;color:#7C3AED; }
     .alert-yellow { background:#FFFBEB;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#92400E;line-height:1.7; }
     .alert-green  { background:#F0FDF4;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#14532D;line-height:1.7; }
+    /* Sidebar TOC */
+    .ie-page-flex { display:flex;gap:32px;align-items:flex-start; }
+    .ie-main-col { flex:1;max-width:900px;min-width:0; }
+    .ie-sidebar { width:220px;flex-shrink:0;position:sticky;top:80px;align-self:flex-start;max-height:calc(100vh - 100px);overflow-y:auto; }
+    .ie-sidebar-card { background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:16px; }
+    .ie-sidebar-title { font-size:0.82rem;font-weight:800;margin-bottom:10px;color:var(--text); }
+    .ie-sidebar-card a.ie-toc-chapter { display:block;font-size:0.78rem;font-weight:700;color:var(--text);text-decoration:none;padding:3px 0;line-height:1.5; }
+    .ie-sidebar-card a.ie-toc-section { display:block;font-size:0.72rem;color:var(--muted);text-decoration:none;padding:3px 0;padding-left:12px;line-height:1.5; }
+    .ie-sidebar-card a:hover { color:#2D7A4F; }
+    @media (max-width:900px) { .ie-sidebar { display:none; } .ie-page-flex { display:block; } }
+    /* Recommendation tags */
+    .rec-strong { display:inline-block;background:#2D7A4F;color:#fff;font-size:0.65rem;font-weight:700;padding:2px 8px;border-radius:4px;margin-right:6px;vertical-align:middle; }
+    .rec-cond   { display:inline-block;background:#D97706;color:#fff;font-size:0.65rem;font-weight:700;padding:2px 8px;border-radius:4px;margin-right:6px;vertical-align:middle; }
+    .rec-gps    { display:inline-block;background:#2563EB;color:#fff;font-size:0.65rem;font-weight:700;padding:2px 8px;border-radius:4px;margin-right:6px;vertical-align:middle; }
+    .rec-iop    { display:inline-block;background:#6B7280;color:#fff;font-size:0.65rem;font-weight:700;padding:2px 8px;border-radius:4px;margin-right:6px;vertical-align:middle; }
+    .rec-evi    { display:inline-block;background:#F3F4F6;color:var(--muted);font-size:0.65rem;font-weight:600;padding:2px 8px;border-radius:4px;vertical-align:middle; }
+    .ie-tdm-grid { display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px; }
+    @media (max-width:520px) { .ie-tdm-grid { grid-template-columns:1fr; } }
+    .ie-tdm-box { border:1px solid var(--border);border-radius:8px;padding:14px 16px;background:#F8FAFC; }
+    .ie-tdm-name { font-size:0.8rem;font-weight:700;color:var(--text);margin-bottom:4px; }
+    .ie-tdm-drug { font-size:0.82rem;font-weight:600;color:#2D7A4F;margin-bottom:4px; }
+    .ie-tdm-note { font-size:0.75rem;color:var(--muted);line-height:1.7; }
   </style>
 </head>
 <body>
@@ -75,25 +99,29 @@
   </div>
 
   <!-- ===== CONTENT ===== -->
-  <div class="container" style="padding:32px 20px 80px;max-width:860px;">
+  <div class="container" style="padding:32px 20px 60px;max-width:1140px;">
+    <div class="ie-page-flex">
+
+    <!-- ═══ MAIN CONTENT ═══ -->
+    <div class="ie-main-col">
 
     <!-- Overview -->
     <div class="card" style="margin-bottom:20px;">
       <div class="card-inner">
         <h3 class="rule-title">ガイドライン概要</h3>
         <p class="rule-body">Surviving Sepsis Campaign (SSC) 2026 ガイドラインは、成人の敗血症・敗血症性ショック患者の管理に関する包括的な推奨をまとめた国際指針である。Critical Care Medicine（CCM）と Intensive Care Medicine（ICM）に同時掲載。SCCM と ESICM が共同主催し、23か国69名の委員が策定に参加した（LMICからの参加率38%）。GRADE 方式によるエビデンス評価と EtD（Evidence to Decision）フレームワークに基づき、強い推奨・条件付き推奨・Good Practice Statement・In Our Practice 声明に分類されている。</p>
-        <div class="ov-grid">
-          <div class="ov-box">
-            <div class="ov-val">69名</div>
-            <div class="ov-label">委員会メンバー数<br>（23か国）</div>
+        <div class="ie-stat-grid">
+          <div class="ie-stat">
+            <div class="ie-stat-val">69名</div>
+            <div class="ie-stat-label">委員会メンバー数<br>（23か国）</div>
           </div>
-          <div class="ov-box">
-            <div class="ov-val">129項目</div>
-            <div class="ov-label">推奨ステートメント数<br>（6章構成）</div>
+          <div class="ie-stat">
+            <div class="ie-stat-val">129項目</div>
+            <div class="ie-stat-label">推奨ステートメント数<br>（6章構成）</div>
           </div>
-          <div class="ov-box">
-            <div class="ov-val">GRADE</div>
-            <div class="ov-label">エビデンス評価<br>+ EtD フレームワーク</div>
+          <div class="ie-stat">
+            <div class="ie-stat-val">GRADE</div>
+            <div class="ie-stat-label">エビデンス評価<br>+ EtD フレームワーク</div>
           </div>
         </div>
         <div class="alert-green" style="margin-top:14px;">
@@ -103,81 +131,2147 @@
       </div>
     </div>
 
-    <!-- Chapter list -->
-    <div class="card" style="margin-bottom:20px;">
-      <div class="card-inner" style="padding:0;">
-        <div style="padding:14px 18px;border-bottom:1px solid var(--border);">
-          <h3 class="rule-title" style="margin:0;">章一覧</h3>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         第1章 スクリーニングと初期管理
+    ══════════════════════════════════════════════════════════════ -->
+    <div id="ssc-ch1" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+      <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+      <div style="font-size:1.3rem;font-weight:900;position:relative;">第1章 スクリーニングと初期管理</div>
+      <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Screening and Early Management — Statements 1–15</div>
+    </div>
+
+    <h3 id="ssc-s1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+      パフォーマンス改善プログラム
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">敗血症の質改善（QI）プログラムを導入する <span class="rec-strong">強い推奨</span><span class="rec-evi">エビデンス：中等度〜超低</span></h3>
+        <p class="rule-body">病院・医療システムは、①敗血症スクリーニング、②標準治療手順（SOP）、③敗血症QI戦略を組み込んだ<span class="mark-green"><strong>パフォーマンス改善プログラム（PIP）</strong></span>を導入することが強く推奨される。これは単なる推奨にとどまらず、米国CDCの「Hospital Sepsis Program Core Elements」とも整合する取り組みである。</p>
+        <p class="rule-body">敗血症QIイニシアチブの効果を検討したメタアナリシス（50の観察研究）では、推奨ケアプロセスの改善と死亡率の有意な低下が示されている（<span class="mark-green"><strong>OR 0.66; 95%CI 0.61–0.72</strong></span>）。また、大規模ステップウェッジRCT「SCREEN試験」（60,055人）では、電子アラートシステム＋スタッフ教育＋フィードバックの導入により90日院内死亡率が有意に低下した（<span class="mark-green"><strong>aRR 0.85; 95%CI 0.77–0.93</strong></span>）。</p>
+        <div class="ie-stat-grid">
+          <div class="ie-stat">
+            <div class="ie-stat-val">49M件</div>
+            <div class="ie-stat-label">年間敗血症症例数<br>（世界全体）</div>
+          </div>
+          <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+            <div class="ie-stat-val" style="color:#DC2626;">13M人</div>
+            <div class="ie-stat-label">年間敗血症関連<br>死亡者数（推計）</div>
+          </div>
+          <div class="ie-stat">
+            <div class="ie-stat-val">OR 0.66</div>
+            <div class="ie-stat-label">QIプログラムによる<br>死亡率低下効果</div>
+          </div>
         </div>
-        <div class="ch-list">
-
-          <!-- Chapter 1: available -->
-          <a href="../注目論文ガイドラインのまとめ/ssc-chapter1.html" class="ch-row">
-            <div class="ch-num">1</div>
-            <div class="ch-info">
-              <div class="ch-title">スクリーニングと初期管理</div>
-              <div class="ch-sub">Screening and Early Management</div>
-            </div>
-            <div class="ch-stmts">Statements 1–15 →</div>
-          </a>
-
-          <!-- Chapter 2: available -->
-          <a href="../注目論文ガイドラインのまとめ/ssc-chapter2.html" class="ch-row">
-            <div class="ch-num">2</div>
-            <div class="ch-info">
-              <div class="ch-title">感染症管理</div>
-              <div class="ch-sub">Infection — Antibiotic Timing, Source Control, Deescalation</div>
-            </div>
-            <div class="ch-stmts">Statements 16–41 →</div>
-          </a>
-
-          <!-- Chapter 3: available -->
-          <a href="../注目論文ガイドラインのまとめ/ssc-chapter3.html" class="ch-row">
-            <div class="ch-num">3</div>
-            <div class="ch-info">
-              <div class="ch-title">血行動態管理</div>
-              <div class="ch-sub">Hemodynamic Management — Fluids, Vasopressors, Monitoring</div>
-            </div>
-            <div class="ch-stmts">Statements 42–64 →</div>
-          </a>
-
-          <!-- Chapter 4: available -->
-          <a href="../注目論文ガイドラインのまとめ/ssc-chapter4.html" class="ch-row">
-            <div class="ch-num">4</div>
-            <div class="ch-info">
-              <div class="ch-title">呼吸管理</div>
-              <div class="ch-sub">Respiratory Support — Mechanical Ventilation, Oxygenation</div>
-            </div>
-            <div class="ch-stmts">Statements 65–78 →</div>
-          </a>
-
-          <!-- Chapter 5: available -->
-          <a href="../注目論文ガイドラインのまとめ/ssc-chapter5.html" class="ch-row">
-            <div class="ch-num">5</div>
-            <div class="ch-info">
-              <div class="ch-title">補助療法・支持療法</div>
-              <div class="ch-sub">Adjunctive Therapies — Steroids, Vitamin C, Blood Glucose, RRT, VTE</div>
-            </div>
-            <div class="ch-stmts">Statements 79–99 →</div>
-          </a>
-
-          <!-- Chapter 6: available -->
-          <a href="../注目論文ガイドラインのまとめ/ssc-chapter6.html" class="ch-row">
-            <div class="ch-num">6</div>
-            <div class="ch-info">
-              <div class="ch-title">Goals of Care・退院後管理・長期アウトカム</div>
-              <div class="ch-sub">Goals of Care, Transitions, Long-term Outcomes, PICS</div>
-            </div>
-            <div class="ch-stmts">Statements 100–129 →</div>
-          </a>
-
+        <div class="alert-green" style="margin-top:14px;">
+          <strong>臨床ポイント：</strong>QIプログラムの効果は「システムのベースライン品質」に依存する。既に強固な敗血症管理体制がある施設では追加効果が小さく、インフラが未整備な施設で最大効果が期待できる。低・中所得国（LMIC）でもバンドル遵守率フィードバック主体のQI介入は適応可能。
         </div>
       </div>
     </div>
 
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">コードセプシス / セプシスハドルを導入する <span class="rec-cond">条件付き推奨</span><span class="rec-evi">低確実性</span></h3>
+        <p class="rule-body">「コードセプシス」または「セプシスハドル」とは、敗血症スクリーニング陽性患者に対して多職種チーム（医師・看護師・薬剤師・ユニットマネージャーなど）がベッドサイドに集まり、敗血症の診断と治療を迅速に進める多職種主導プロセスである。既存のラピッドレスポンスチームシステムを活用した導入が現実的であり、世界66病院（24か国）を対象とした研究では約28%の施設がICUアウトリーチサービスを有しており、これをコードセプシス対応チームとして活用できる可能性がある。</p>
+        <p class="rule-body">複数の介入研究・観察研究では、コードセプシスプロトコルにより<span class="mark-yellow"><strong>抗菌薬投与までの時間短縮、死亡率低下、機械的換気率低下</strong></span>が報告されている。ただし一部の研究では差がなく、エビデンスの確実性は低い。パネルは利益が不利益を上回ると判断し、条件付き推奨とした。</p>
+        <div class="alert-yellow" style="margin-top:10px;">
+          <strong>Remark：</strong>コードセプシスプロトコルの構成要素は施設によって異なる（スクリーニングツール・アラート機構・応答チームの構成など）。導入には施設のコミットメントと専任リーダーシップが不可欠。
+        </div>
+      </div>
+    </div>
+
+    <h3 id="ssc-s2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+      <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+      スクリーニングツール：院外・院内
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">院外（救急搬送中）：標準スクリーニングツールを使用する <span class="rec-cond">条件付き推奨</span><span class="rec-evi">超低確実性</span></h3>
+        <p class="rule-body">入院患者の約半数が救急車で搬送される。院外環境でスクリーニングツールを活用し早期に敗血症を識別・病院に事前通知することで、治療開始時間の短縮が期待できる。221,429件の院外医療記録を解析した比較研究では、NEWS2が最も良好な診断性能を示した。</p>
+        <table class="ie-table">
+          <thead><tr><th>ツール</th><th>感度</th><th>AUC</th><th>特徴</th></tr></thead>
+          <tbody>
+            <tr><td><strong>NEWS2</strong></td><td><span class="mark-green"><strong>73.1%</strong></span></td><td><span class="mark-green">0.77</span></td><td>最も高い絶対的診断精度。ただし特異度81.6%、偽陽性率高い（PPV 6.5%）</td></tr>
+            <tr><td>NEWS</td><td>中程度</td><td>—</td><td>NEWS2と類似した性能</td></tr>
+            <tr><td>MEWS</td><td>中程度</td><td>—</td><td>使い慣れた施設では実用的</td></tr>
+            <tr><td>SIRS</td><td>中程度</td><td>—</td><td>検査不要で即時算出可能</td></tr>
+            <tr><td><strong>qSOFA</strong></td><td><span class="mark-red"><strong>23.1%</strong></span></td><td>最低</td><td>感度が最も低い。院外スクリーニングには不適</td></tr>
+          </tbody>
+        </table>
+        <p class="rule-body" style="margin-top:10px;">パネルは特定のツールを指定しなかったが、qSOFAの感度の低さ（23.1%）は院外環境でのスクリーニング使用に適さないことを示している。院外スクリーニングは病院の事前通知・受入れ体制と連動して機能したときに最も有効となる。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">院内スクリーニング：NEWS・NEWS2・MEWS・SIRS を qSOFA より優先する <span class="rec-strong">強い推奨</span><span class="rec-evi">中等度確実性</span></h3>
+        <p class="rule-body">2021年版SSCガイドラインに引き続き、院内急性期患者のスクリーニングには<span class="mark-green"><strong>早期警告スコア（EWS）をqSOFA単独より優先</strong></span>することが強く推奨される。4つのSR/MAが一貫して「NEWS・NEWS2・MEWS・SIRSはqSOFAより敗血症診断の感度が高い」と報告しており、LMICでの研究も同様の結果を示している。</p>
+        <p class="rule-body">qSOFAは感度が低く（≈30%台）、スクリーニングには偽陰性が多すぎる。ただしqSOFA陽性は敗血症の可能性を喚起する上でなお有用であり、qSOFA陽性後に電子アラート・看護師・医師評価を組み合わせた介入（SCREEN試験）では死亡率改善が示されている。<span class="mark-yellow"><strong>qSOFAを「除外ツール」として使うことは危険</strong></span>であり、EWSで引っかかった患者には全例、臨床的総合評価を行う必要がある。</p>
+        <div class="alert-green" style="margin-top:10px;">
+          <strong>実践ポイント：</strong>EWSは敗血症だけでなく急性増悪全般の検出を目的として設計されており、感度が高い一方で特異度は低い。陽性患者全員が敗血症ではないことを理解した上で、臨床評価と組み合わせて使用する。AIを用いたスクリーニングも注目されているが、現時点では比較試験が不十分。
+        </div>
+      </div>
+    </div>
+
+    <h3 id="ssc-s3" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+      <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>
+      バイオマーカーと新規迅速診断
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">敗血症は臨床診断：単一バイオマーカーで確定・除外はできない <span class="rec-gps">Good Practice</span></h3>
+        <p class="rule-body">敗血症の診断は臨床的判断に基づくものであり、単一のバイオマーカーや検査によってのみ確定または除外することはできない。これは自明に見えるが、MDW（モノサイト分布幅）、IntelliSep（好中球変形能）、SeptiCyte Rapid・TriVerity（mRNA転写）、Sepsis ImmunoScore（AI+バイオマーカー）、膵石タンパク質（PSP）など複数の新規宿主反応診断が市場に出ている現在、この原則の再確認は重要である。</p>
+        <p class="rule-body">これらの新規診断は「陽性/陰性」ではなく、<span class="mark-yellow"><strong>検査後の敗血症リスクカテゴリ（低〜高）</strong></span>を提示するものであり、結果を単独で意思決定に用いることには限界がある。敗血症の事前確率が非常に高い症例（90%以上）では確認価値が低く、逆に非典型的な症例で診断補助として機能しうる。</p>
+      </div>
+    </div>
+
+    <div class="ie-alpha">
+      <div class="ie-alpha-inner">
+        <div class="ie-alpha-header">
+          <span class="ie-alpha-badge">＋α</span>
+          <span class="ie-alpha-title">新規宿主反応診断（Host Response Diagnostics）の現状</span>
+        </div>
+        <p class="rule-body" style="color:#4C1D95;">現時点で<strong>「新規迅速宿主反応診断の使用に関して推奨を示すエビデンスが不十分」</strong>とパネルは結論している（Statement 6）。患者アウトカムや資源利用への影響を評価したRCTがないことが主な理由。LMICではほとんど利用できない点も障壁。ただし、臨床アウトカムや資源利用を評価する研究の前提として、施設・臨床家がこれらを活用しつつ研究を推進することは合理的とされる。</p>
+        <table class="ie-table">
+          <thead><tr><th>検査</th><th>原理</th><th>特徴</th></tr></thead>
+          <tbody>
+            <tr><td><strong>MDW（モノサイト分布幅）</strong></td><td>白血球サイズ特性</td><td>CBC施行時に自動取得可。CBCオーダーがあれば非典型症例の再評価に使用可</td></tr>
+            <tr><td><strong>IntelliSep</strong></td><td>好中球変形能</td><td>専用装置が必要</td></tr>
+            <tr><td><strong>SeptiCyte Rapid / TriVerity</strong></td><td>mRNA転写産物</td><td>TriVerityはウイルス vs 細菌鑑別も</td></tr>
+            <tr><td><strong>Sepsis ImmunoScore</strong></td><td>AI+電子カルテ+バイオマーカー</td><td>複合的アプローチ</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3 id="ssc-s4" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+      <span style="color:#16A34A;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 4</span>
+      血液培養・乳酸値測定
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">可能な限り抗菌薬投与前に血液培養を採取する <span class="rec-strong">強い推奨</span><span class="rec-evi">低確実性</span></h3>
+        <p class="rule-body">敗血症または敗血症性ショックが疑われる・ほぼ確実・確実な成人患者に対しては、<span class="mark-red"><strong>できる限り早く、理想的には抗菌薬投与前に血液培養を採取する</strong></span>。原因菌の同定は抗菌薬の最適化、適切なカバレッジの確認、抗菌薬スチュワードシップ（de-escalation）に不可欠である。</p>
+        <p class="rule-body">敗血症患者の約60〜70%で病原体が同定されるが、血液培養が陽性となるのは約10〜20%にすぎない。抗菌薬投与後に血液培養の陽性率は著明に低下する：敗血症性低血圧患者を対象とした多施設研究（325人）では、<span class="mark-red"><strong>抗菌薬投与前31.4% → 投与後（中央値70分後）19.4%</strong></span>へと低下（相対的低下38.2%）。</p>
+        <div class="alert-yellow" style="margin-top:10px;">
+          <strong>重要：</strong>血液培養採取のために抗菌薬投与を遅らせてはならない。特に低血圧を伴う患者では、採取を試みつつ、採取が難しければ抗菌薬を優先する。血液培養採取後速やかに抗菌薬を開始することが原則。
+        </div>
+        <p class="rule-body" style="margin-top:12px;"><strong>採取本数と方法：</strong>通常は2か所の静脈穿刺から採取し、各チューブ10 mLの血液量を確保する。2セット採取で感度が91.5%→99.3%に向上するとの報告もある一方、2025年ドイツガイドラインは1か所採取で推奨量確保・汚染減少・穿刺回数減少のメリットを示した系統的レビューを根拠に1か所採取を支持している。採取本数は患者背景や施設状況に応じて個別化する。</p>
+        <p class="rule-body"><strong>繰り返し培養：</strong><span class="mark-yellow"><strong>黄色ブドウ球菌・S. lugdunensis・カンジダ属</strong></span>の菌血症では、菌血症のクリアランスを確認するため繰り返し血液培養を行う。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">血中乳酸値を測定する <span class="rec-cond">条件付き推奨</span><span class="rec-evi">低確実性</span></h3>
+        <p class="rule-body">可能、ほぼ確実、確実な敗血症・敗血症性ショックが疑われる成人において、血中乳酸値測定を行うことが推奨される（2021年版 carryover）。乳酸値は組織低灌流の指標として機能し、敗血症の重症度評価・蘇生ガイドの補助となる。Sepsis-3の敗血症性ショックの診断基準（乳酸 ≥2 mmol/L）との整合性も重要である。</p>
+        <p class="rule-body">乳酸 ≥4 mmol/L は古くからの輸液蘇生閾値だが、中等度乳酸上昇（>2〜<4 mmol/L）も死亡率増加と関連し、輸液蘇生の恩恵を受ける可能性がある。<span class="mark-yellow"><strong>乳酸 >2 mmol/L の患者では、過少蘇生を避けるため輸液投与を積極的に考慮する</strong></span>。</p>
+      </div>
+    </div>
+
+    <h3 id="ssc-s5" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 5</span>
+      初期蘇生：輸液と昇圧薬
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">敗血症・敗血症性ショックは医療緊急事態：治療と蘇生は直ちに開始する <span class="rec-gps">Good Practice</span></h3>
+        <p class="rule-body">敗血症・敗血症性ショックは医療緊急事態であり、認識した時点で治療と蘇生を即座に開始しなければならない。ショックが明確でなく敗血症の可能性にとどまる段階でも、蘇生開始への閾値は低く保つべきである。時間的な遅れがアウトカムに直結することは多くのエビデンスが示しており、「様子をみる」という姿勢は許容されない。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">初期3時間以内に少なくとも30 mL/kg の晶質液を投与する <span class="rec-cond">条件付き推奨</span><span class="rec-evi">低確実性</span></h3>
+        <p class="rule-body">敗血症誘発性低灌流または敗血症性ショックを伴う成人には、<span class="mark-green"><strong>最初の3時間で少なくとも30 mL/kg の静脈内晶質液</strong></span>を投与することが推奨される。この数値は主に観察研究から導かれており、ランダム化試験での比較データはないが、30 mL/kgを3時間以内に完了しないことは院内死亡率・血圧改善の遅延・ICU在室日数の増加と関連する（後ろ向き研究）。2016年・2021年SSCガイドラインから変更なし。</p>
+        <p class="rule-body"><strong>体重計算の注意：</strong>BMI ≤30 kg/m² では実際の体重（実体重）で計算する。<span class="mark-yellow"><strong>BMI >30 kg/m² では補正体重または理想体重</strong></span>で計算し、過剰輸液を防ぐ。るい痩・低体重患者でも実体重ベースで計算する（過剰輸液リスク）。</p>
+        <table class="ie-table">
+          <thead><tr><th>体重（kg）</th><th>30 mL/kg（L）</th><th>BMI>30の補正例</th></tr></thead>
+          <tbody>
+            <tr><td>60 kg、身長170 cm（BMI≤30）</td><td>1.8 L</td><td>実体重で計算</td></tr>
+            <tr><td>80 kg、身長170 cm（BMI≒27.7）</td><td>2.4 L</td><td>実体重で計算</td></tr>
+            <tr><td>100 kg、身長170 cm（BMI≒34.6）</td><td>目安2.5 L</td><td>補正体重で計算</td></tr>
+            <tr><td>120 kg、身長170 cm（BMI≒41.5）</td><td>目安2.7 L</td><td>補正体重で計算</td></tr>
+          </tbody>
+        </table>
+        <div class="alert-yellow" style="margin-top:12px;">
+          <strong>重要：</strong>輸液は「とりあえず30 mL/kgを全量投与」ではない。<strong>頻回な再評価を行いながら</strong>投与し、過少蘇生・過剰蘇生の両リスクを監視する。低リソース環境では呼吸サポートが限られるため、特に輸液過多に注意。
+        </div>
+        <p class="rule-body" style="margin-top:10px;">なお、ESICM臨床実践ガイドラインは「最大30 mL/kgまで」とやや保守的な表現を用いており、SSCガイドラインとは微妙にニュアンスが異なる点を認識しておく。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">輸液ボーラス後も低血圧が持続する場合は昇圧薬を追加する <span class="rec-cond">条件付き推奨</span><span class="rec-evi">超低確実性</span></h3>
+        <p class="rule-body">敗血症誘発性低血圧に対しては、<span class="mark-green"><strong>まず晶質液ボーラスを行い、低血圧が持続する場合に昇圧薬サポートを追加する</strong></span>という逐次的アプローチが推奨される。この順序を基本としつつ、不安定な敗血症性ショック（血圧が著しく低い、皮膚チアノーゼ・網状皮斑・意識障害・重篤な低酸素化など）では、輸液と並行した昇圧薬の同時開始も症例に応じて検討する。</p>
+        <p class="rule-body">早期昇圧薬投与のメリットとして血圧の速やかな回復・輸液過多の防止が挙げられる一方、固定低用量ノルエピネフリン早期投与の効果を検討した小規模RCT 2件（単施設）ではショック改善時間が両群とも数時間かかっており、その一般化可能性は限られる。大規模多施設RCT「CLOVERS試験」では早期 vs. 遅延の昇圧薬開始アルゴリズム間で90日死亡率・臓器サポート不要日数に差がなかった。<span class="mark-yellow"><strong>現在5件のRCTが進行中</strong></span>（NCT05179499・NCT04569942等）であり、今後のエビデンス充実が期待される。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">昇圧薬は末梢静脈路から開始し、中心静脈カテーテル確保を待たない <span class="rec-cond">条件付き推奨</span><span class="rec-evi">超低確実性</span></h3>
+        <p class="rule-body">敗血症性ショックに対する昇圧薬は、<span class="mark-green"><strong>中心静脈カテーテル確保を待たずに末梢静脈路から開始する</strong></span>ことが推奨される。従来、昇圧薬は血管外漏出による組織壊死リスクから中心静脈経路が必須とされてきたが、近年の観察研究でその安全性が確認されつつある。</p>
+        <p class="rule-body">7研究（1,657人）のメタアナリシスでは、末梢昇圧薬の局所合併症率は<span class="mark-yellow"><strong>5.97%（超低確実性）</strong></span>であった。90日死亡率も中心静脈と比較して有意差なし。SSCパネルの<strong>86.6%</strong>が何らかの場面で末梢昇圧薬を使用しており、期間は「中心静脈確保まで」（12.1%）から「6時間まで」（46.6%）、「24時間まで」（13.8%）、「期間設定なし」（27.6%）と多様。</p>
+        <div class="ie-stat-grid">
+          <div class="ie-stat">
+            <div class="ie-stat-val">86.6%</div>
+            <div class="ie-stat-label">末梢昇圧薬を使用する<br>パネリストの割合</div>
+          </div>
+          <div class="ie-stat" style="background:#FFF7ED;border-color:#FED7AA;">
+            <div class="ie-stat-val" style="color:#EA580C;">5.97%</div>
+            <div class="ie-stat-label">末梢昇圧薬の<br>局所合併症率</div>
+          </div>
+          <div class="ie-stat">
+            <div class="ie-stat-val">46.6%</div>
+            <div class="ie-stat-label">「6時間まで」<br>末梢使用のパネリスト</div>
+          </div>
+        </div>
+        <div class="alert-yellow" style="margin-top:12px;">
+          <strong>Remark：</strong>末梢昇圧薬使用時は、①末梢ラインの品質確保、②漏出の頻回モニタリング、③漏出時の迅速対処の安全プロトコルが前提。適切なモニタリングが困難な環境（LMIC等）では慎重に使用する。ミッドラインカテーテルは本勧告の対象外。
+        </div>
+      </div>
+    </div>
+
+    <h3 id="ssc-s6" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+      <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 6</span>
+      MAP目標と ICU 入室
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">敗血症性ショックの初期 MAP 目標は 65 mmHg <span class="rec-strong">強い推奨</span><span class="rec-evi">中等度確実性</span></h3>
+        <p class="rule-body">敗血症性ショック成人患者に対しては、<span class="mark-green"><strong>初期 MAP 目標として65 mmHg以上（高い目標より65 mmHgを推奨）</strong></span>を設定することが強く推奨される（2021年版から継続）。MAPは平均体循環充満圧の主要決定因子であり、60 mmHg 未満では臓器灌流が線形に低下するが、65 mmHg 以上では臓器灌流改善効果は明確でない。</p>
+        <p class="rule-body">RCT（MAP 65〜70 vs. 80〜85 mmHg）では死亡率に差がなく（RR 1.05; 95%CI 0.90–1.23, 低確実性）、高MAP目標群では<span class="mark-red"><strong>心房細動リスクが増加</strong></span>した。個人水準メタアナリシスでも低MAPターゲットが有益な傾向を示したが、CIがno differenceを含む。</p>
+        <div class="alert-yellow" style="margin-top:10px;">
+          <strong>実践上の注意：</strong>MAPをちょうど65 mmHgに維持することは実際には困難であり、±5 mmHg程度の許容範囲（60〜70 mmHg）で昇圧薬を調節することが現実的。
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">65歳以上の患者では初期 MAP 目標を 60〜65 mmHg に設定する <span class="rec-cond">条件付き推奨</span><span class="rec-evi">低確実性</span></h3>
+        <p class="rule-body">新たに追加された推奨。65歳以上の高齢患者では、より低いMAP目標（60〜65 mmHg）が死亡率低下と関連するという証拠が蓄積されてきた。「65試験」（permissive hypotension: MAP 60〜65 vs. usual care; 65歳以上の分配性ショック、2,463人）では、低MAPターゲット群で昇圧薬投与期間・総量が有意に減少した。90日死亡率は低MAPターゲット群41.0% vs. usual care群43.8%と数値上の差はあったが有意差なし。</p>
+        <p class="rule-body">65歳以上に限定したメタアナリシスでは、低MAPターゲットが最長追跡時点での死亡率低下と関連（<span class="mark-green"><strong>RR 0.89; 95%CI 0.81–0.98</strong></span>、<span class="mark-green"><strong>高確実性</strong></span>）。ガイドライン完成後に公表された試験（518人；MAP 65〜70 vs. 80〜85 mmHg；65歳以上）でも高MAPターゲットで死亡率増加が示された。</p>
+        <p class="rule-body">昇圧薬使用量の減少は、<span class="mark-yellow"><strong>カテコラミン過剰曝露の回避</strong></span>という観点からも高齢者にとって重要な利益となりうる。</p>
+        <div class="ie-echo-grid">
+          <div class="ie-echo-box">
+            <div class="ie-echo-name">全年齢（Statement 13）</div>
+            <div class="ie-echo-body">強い推奨：MAP ≥65 mmHg<br>（高MAPより65 mmHgを推奨）<br>中等度確実性</div>
+          </div>
+          <div class="ie-echo-box">
+            <div class="ie-echo-name">65歳以上（Statement 14）</div>
+            <div class="ie-echo-body">条件付き推奨：MAP 60〜65 mmHg<br>（高MAPより低めの目標を推奨）<br>低確実性</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">ICU 入室が必要な敗血症・敗血症性ショックでは 6 時間以内に ICU に入室させる <span class="rec-cond">条件付き推奨</span><span class="rec-evi">低確実性</span></h3>
+        <p class="rule-body">ICU入室を要する敗血症・敗血症性ショック患者においては、<span class="mark-green"><strong>6時間以内にICUに収容する</strong></span>ことが推奨される（2021年版 carryover）。ICU外での長時間の管理は、集中的モニタリングや臓器サポートの遅れにつながり、アウトカムを悪化させる。ICU以外の環境での初療・安定化も重要だが、継続的な管理はICU環境で行われるべきである。</p>
+      </div>
+    </div>
+
+    <h3 id="ssc-ch1-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+      第1章のキーメッセージ
+    </h3>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+            <span class="rule-body"><strong>QIプログラムで死亡率を下げる：</strong>敗血症スクリーニング＋標準治療手順（SOP）＋QI戦略を組み合わせたパフォーマンス改善プログラムは、死亡率を有意に低下させる（OR 0.66）。コードセプシスによる多職種即応体制の整備も有効。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+            <span class="rule-body"><strong>スクリーニングは EWS（NEWS2等）が qSOFA より優れる：</strong>院内・院外ともにEWSがqSOFAより高い感度を示す。qSOFAを単独の除外ツールとして使用することは危険。陽性後は必ず臨床的総合評価を行う。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+            <span class="rule-body"><strong>血液培養は「できれば抗菌薬前に」、ただし培養で治療を遅らせない：</strong>抗菌薬投与後に血液培養陽性率が38%低下する。可能な限り前に採取しつつ、特に低血圧・ショックでは採取困難なら抗菌薬を優先する。S. aureus・カンジダでは菌血症クリアランス確認のため反復培養を行う。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+            <span class="rule-body"><strong>初期蘇生：30 mL/kg 晶質液 ＋ 末梢から昇圧薬：</strong>最初の3時間で少なくとも 30 mL/kg（BMI>30 は補正体重）を投与し、頻回に再評価する。低血圧が持続する場合は昇圧薬を追加。中心静脈確保を待たず末梢路から昇圧薬を開始できる（局所合併症率 5.97%）。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+            <span class="rule-body"><strong>MAP 目標は 65 mmHg、高齢者（≥65歳）では 60〜65 mmHg：</strong>高MAP目標は死亡率を改善せず、心房細動リスクを増加させる。65歳以上では低めのMAP目標が死亡率低下と関連（RR 0.89, 高確実性）。ICU入室が必要な患者は6時間以内に収容する。</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════════════════════════════
+         第2章 感染症管理
+    ══════════════════════════════════════════════════════════════ -->
+    <div id="ssc-ch2" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+      <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+      <div style="font-size:1.3rem;font-weight:900;position:relative;">第2章 感染症管理</div>
+      <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Infection — Statements 16–41</div>
+    </div>
+
+    <h3 id="ssc-s2-1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+      抗菌薬投与タイミング
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">敗血症性ショック：認識後1時間以内に抗菌薬投与 <span class="rec-strong">強い推奨</span><span class="rec-evi">低確実性</span></h3>
+        <p class="rule-body">敗血症性ショック（septic shock）と認識されたら、<span class="mark-red"><strong>できるだけ早く、遅くとも1時間以内</strong></span>に適切な抗菌薬投与を開始する。抗菌薬投与の遅れは死亡率に直結する。観察研究の統合解析では、投与1時間遅延ごとに死亡リスクが有意に上昇することが示されており、ショックという「時間的緊急性が高い病態」に対しては最短での介入が求められる。</p>
+        <p class="rule-body">この推奨は「敗血症性ショック」に限定される点が重要である。全敗血症患者への一律1時間ルールの適用は不適切であり、ショックのない敗血症には別の推奨が設けられている。</p>
+        <div class="alert-green">
+          <strong>臨床ポイント：</strong>血液培養は<strong>抗菌薬開始前</strong>に採取することが望ましいが、適切な培養採取のために抗菌薬投与を遅らせてはならない。採取できない場合は直ちに抗菌薬を投与する。
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">敗血症（ショックなし）：3時間以内に抗菌薬投与 <span class="rec-cond">条件付き推奨</span><span class="rec-evi">低確実性</span></h3>
+        <p class="rule-body">ショックを伴わない敗血症（sepsis without shock）と認識されたら、<span class="mark-yellow"><strong>3時間以内</strong></span>に適切な抗菌薬投与を開始する。ショックなしの敗血症では、確診前のすべての患者に1時間ルールを適用する必要はなく、適切な評価・診断のための時間的猶予が与えられている。</p>
+        <p class="rule-body">この推奨は「敗血症と確認・強く疑われた段階」から時計が動く。臨床的に感染症の可能性を評価中の患者（「possible sepsis」）には、さらに別の対応フローが提示されている。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">疑い段階（Possible Sepsis）：迅速評価ののち3時間以内に抗菌薬決定 <span class="rec-cond">条件付き推奨</span><span class="rec-evi">低確実性</span></h3>
+        <p class="rule-body">「感染を疑うが敗血症の確診に至っていない」患者（possible sepsis）では、ただちに迅速評価（rapid clinical assessment）を行い、<span class="mark-yellow"><strong>敗血症が疑われてから3時間以内</strong></span>に抗菌薬投与の要否を決定する。評価の結果として感染リスクが低いと判断した場合は、抗菌薬を開始せず観察継続も選択肢となる。</p>
+        <p class="rule-body">過剰な抗菌薬使用を避けるため、不確実な患者に対して一律に抗菌薬を投与することは推奨されない。ただし評価中に状態が悪化した場合（ショックへの移行など）は、直ちに抗菌薬を開始する。</p>
+        <div class="alert-yellow">
+          <strong>注意：</strong>「3時間以内」は「3時間で抗菌薬を開始する」のではなく、「3時間以内に投与するか否かの判断を完了する」ことを意味する。迅速評価によって感染可能性が低ければ不要。
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">院外（救急搬送中）：搬送時間が60分超なら病院前抗菌薬投与 <span class="rec-cond">条件付き推奨</span><span class="rec-evi">超低確実性</span></h3>
+        <p class="rule-body">敗血症性ショックを疑う患者で、病院到着予定時刻（ETA）が<span class="mark-yellow"><strong>60分超</strong></span>の場合は、救急隊員による病院前抗菌薬投与を考慮する。直接のRCTエビデンスは乏しいが、長時間の搬送遅延による死亡リスク増加を踏まえ、条件付きで推奨される。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">プロカルシトニン（PCT）による抗菌薬開始判断は推奨しない <span class="rec-cond">条件付き推奨</span><span class="rec-evi">低確実性</span></h3>
+        <p class="rule-body">PCT値に基づいて抗菌薬を開始するか否かを決定することは、SSC 2026では<span class="mark-red"><strong>推奨しない</strong></span>。PCTは炎症マーカーとして有用だが、敗血症の診断特異度が十分でなく、PCT低値だからといって細菌感染を除外できるわけではない。抗菌薬開始判断は臨床評価・微生物学的所見・臓器障害の有無などを統合して行うべきである。</p>
+        <p class="rule-body">なお、抗菌薬を<strong>中止</strong>する判断（de-escalation）についてはPCTが有用であり、後述のStatement 40に別の推奨が示されている。開始と中止で異なる方針をとる点が重要。</p>
+      </div>
+    </div>
+
+    <h3 id="ssc-s2-2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+      <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+      ソースコントロール
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">ソースコントロールの評価は迅速に行い、可能なら6時間以内に介入 <span class="rec-gps">Good Practice Statement</span></h3>
+        <p class="rule-body"><span class="mark-green"><strong>ソースコントロール（感染源除去）</strong></span>は敗血症管理の根幹であり、抗菌薬と並行して迅速に評価・実施することが Good Practice Statement として推奨される。理想的には認識から<span class="mark-yellow"><strong>6時間以内</strong></span>に介入を完了することが望ましい。</p>
+        <div class="ie-echo-grid">
+          <div class="ie-echo-box">
+            <div class="ie-echo-name">ソースコントロールの対象（例）</div>
+            <div class="ie-echo-body">• 腹腔内膿瘍・腸管穿孔<br>• 胆嚢炎・胆管炎<br>• 尿管閉塞（閉塞性腎盂腎炎）<br>• 感染デバイス（カテーテル・プロテーゼ）<br>• 壊死性軟部組織感染症</div>
+          </div>
+          <div class="ie-echo-box">
+            <div class="ie-echo-name">介入方法の選択基準</div>
+            <div class="ie-echo-body">• 経皮的ドレナージ：第1選択（侵襲小）<br>• 内視鏡的介入：胆道・消化管感染<br>• 外科的手術：穿孔・壊死・他法が無効<br>• デバイス抜去：感染源が明確な場合</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">ソースコントロール後は抗菌薬の必要性を再評価する <span class="rec-gps">Good Practice Statement</span></h3>
+        <p class="rule-body">感染源のコントロールが達成されたのちは、継続する抗菌薬治療の必要性を改めて評価する。ソースコントロールによって感染源が完全に除去された場合、抗菌薬投与期間の短縮が可能なことがある。</p>
+      </div>
+    </div>
+
+    <h3 id="ssc-s2-3" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+      <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>
+      抗菌薬の選択（MDR・真菌・嫌気性菌カバレッジ）
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">MDR菌リスクが高い場合：広域抗菌薬を使用する <span class="rec-cond">条件付き推奨</span><span class="rec-evi">超低確実性</span></h3>
+        <p class="rule-body">多剤耐性（MDR）菌感染のリスク因子を有する患者では、<span class="mark-yellow"><strong>MDRカバレッジを含む広域抗菌薬</strong></span>の使用を条件付きで推奨する。MDRリスク因子がない患者では、不必要な広域抗菌薬の使用を<span class="mark-red"><strong>避けるべき</strong></span>である。</p>
+        <p class="rule-body">MDRリスク因子の例：①過去90日以内のMDR菌の分離歴、②長期入院歴・療養施設入居、③免疫抑制、④MDR菌蔓延地域からの渡航・治療歴、⑤近年の広域抗菌薬長期使用歴。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">侵襲性真菌感染リスクが低い患者への抗真菌薬経験的投与は推奨しない <span class="rec-cond">条件付き推奨</span><span class="rec-evi">低確実性</span></h3>
+        <p class="rule-body">一般的な敗血症患者への<span class="mark-red"><strong>経験的抗真菌薬投与は推奨しない</strong></span>。ただし高リスク患者（腸管穿孔、免疫抑制、長期ICU入室＋カンジダ血症危険因子複数）では個別に検討する。</p>
+        <div class="alert-yellow">
+          <strong>注意：</strong>「Candida biomarkers（β-Dグルカン・Candida PCRなど）に基づいて抗真菌薬を開始することも推奨しない」（Statement 32）。
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">嫌気性菌カバレッジ：リスクに応じて判断 <span class="rec-cond">条件付き推奨</span><span class="rec-evi">低〜超低確実性</span></h3>
+        <p class="rule-body">嫌気性菌感染リスク因子がない患者では<span class="mark-red"><strong>嫌気性菌カバレッジは不要</strong></span>。リスク因子がある患者（消化管穿孔・腹腔内感染・壊死性筋膜炎・糖尿病性足感染など）ではカバレッジを追加する。</p>
+      </div>
+    </div>
+
+    <h3 id="ssc-s2-4" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+      <span style="color:#16A34A;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 4</span>
+      迅速診断・サーベイランス培養
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">ICU全体のサーベイランス培養は推奨しない（エビデンス不十分） <span class="rec-iop">In Our Practice</span></h3>
+        <p class="rule-body">ICU入室患者全員を対象とした日常的サーベイランス培養については、敗血症アウトカム改善に関するエビデンスが不十分。施設の感染制御方針や地域疫学に応じて個別判断する。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">病原体特異的迅速診断検査の使用：症例ごとに判断 <span class="rec-iop">In Our Practice</span></h3>
+        <p class="rule-body">multiplex PCR や MALDI-TOF などの迅速診断検査の使用は、症例ごとに個別判断とした。抗菌薬適正使用を支援する可能性があるが、敗血症アウトカムへの直接的影響を示す高確実性エビデンスが現時点では不十分。</p>
+      </div>
+    </div>
+
+    <h3 id="ssc-s2-5" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 5</span>
+      抗菌薬の最適化：延長投与・TDM
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">βラクタム系抗菌薬は延長投与（prolonged infusion）を行う <span class="rec-strong">強い推奨</span><span class="rec-evi">高確実性</span></h3>
+        <p class="rule-body">βラクタム系抗菌薬は<span class="mark-green"><strong>延長投与（3〜4時間または持続投与）</strong></span>を行うことが強く推奨される。2024年発表の大規模RCT「<span class="mark-green"><strong>BLING III試験</strong></span>」（ICU患者7,421名）では、持続投与群が短時間投与群と比較して90日死亡率を有意に低下させた（<span class="mark-green"><strong>RR 0.91; 95%CI 0.83–0.99</strong></span>、1000人あたり25名の死亡減少）。</p>
+        <div class="ie-stat-grid">
+          <div class="ie-stat">
+            <div class="ie-stat-val">RR 0.91</div>
+            <div class="ie-stat-label">延長投与による<br>90日死亡リスク比（BLING III）</div>
+          </div>
+          <div class="ie-stat">
+            <div class="ie-stat-val">25名/1000</div>
+            <div class="ie-stat-label">1000人あたりの<br>死亡減少数（絶対効果）</div>
+          </div>
+          <div class="ie-stat">
+            <div class="ie-stat-val">高確実性</div>
+            <div class="ie-stat-label">GRADEエビデンス<br>（強い推奨の根拠）</div>
+          </div>
+        </div>
+        <div class="alert-green" style="margin-top:14px;">
+          <strong>実践ポイント：</strong>延長投与（例：ピペラシリン/タゾバクタム 4.5g を4時間かけて点滴、またはメロペネム 1g を3時間かけて投与）を院内標準化することが推奨される。ローディングドーズを忘れずに。
+        </div>
+      </div>
+    </div>
+
+    <div class="ie-alpha">
+      <div class="ie-alpha-inner">
+        <div class="ie-alpha-header">
+          <span class="ie-alpha-badge">＋α</span>
+          <span class="ie-alpha-title">TDM（薬物血中濃度モニタリング）：症例ごとに判断</span>
+        </div>
+        <p class="rule-body" style="color:#4C1D95;">Statement 34では、抗菌薬TDMによる投与最適化を症例ごとに判断することを推奨（条件付き、超低確実性）。特に重症感染・腎機能変動・肥満・熱傷患者などでは積極的なTDMが有益と考えられる。</p>
+      </div>
+    </div>
+
+    <h3 id="ssc-s2-6" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+      <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 6</span>
+      De-escalation・投与期間・中止判断
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">De-escalation（抗菌薬スペクトル縮小）は臨床状況に応じて積極的に行う</h3>
+        <p class="rule-body">抗菌薬の<span class="mark-green"><strong>de-escalation</strong></span>は抗菌薬スチュワードシップの核心である。</p>
+        <table class="ie-table">
+          <thead><tr><th>Statement</th><th>状況</th><th>推奨</th><th>エビデンス</th></tr></thead>
+          <tbody>
+            <tr><td><strong>35</strong></td><td>一般的な敗血症患者</td><td><span class="rec-gps">GPS</span> De-escalationを推奨</td><td>間接的根拠</td></tr>
+            <tr><td><strong>36</strong></td><td>病原体が確認・感受性判明</td><td><span class="rec-strong">強い推奨</span> 最も狭域の抗菌薬に切り替え</td><td>低確実性</td></tr>
+            <tr><td><strong>37</strong></td><td>培養陰性・病原体不明</td><td><span class="rec-cond">条件付き推奨</span> 臨床改善あれば中止</td><td>低確実性</td></tr>
+          </tbody>
+        </table>
+        <div class="alert-green" style="margin-top:12px;">
+          <strong>臨床ポイント：</strong>培養が陰性でも48〜72時間で臨床改善が得られた場合は抗菌薬中止を積極的に検討する。
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">抗菌薬投与期間は短期間を推奨 <span class="rec-cond">条件付き推奨</span><span class="rec-evi">低確実性</span></h3>
+        <p class="rule-body">大規模RCT「<span class="mark-green"><strong>BALANCE試験</strong></span>」（ICU患者3,608名）では、<span class="mark-green"><strong>7日間投与は14日間投与と比較して90日死亡率が非劣性</strong></span>であることが確認された（RR 0.95; 95%CI 0.85–1.06）。</p>
+        <div class="ie-stat-grid">
+          <div class="ie-stat">
+            <div class="ie-stat-val">7日間</div>
+            <div class="ie-stat-label">BALANCE試験：短期間投与<br>（14日間と非劣性）</div>
+          </div>
+          <div class="ie-stat">
+            <div class="ie-stat-val">RR 0.95</div>
+            <div class="ie-stat-label">7日間 vs 14日間<br>90日死亡リスク比</div>
+          </div>
+          <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+            <div class="ie-stat-val" style="color:#DC2626;">✕ 過剰</div>
+            <div class="ie-stat-label">不必要な長期投与は<br>耐性・副作用のリスク</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">PCT＋臨床評価による抗菌薬中止判断 <span class="rec-cond">条件付き推奨</span><span class="rec-evi">低確実性</span></h3>
+        <p class="rule-body">PCTは抗菌薬開始には使わず、<span class="mark-green"><strong>中止のタイミング判断の補助</strong></span>として活用する。ADAPT-Sepsis試験（1,227名）では、PCTガイド下での抗菌薬中止は死亡率を悪化させることなく投与日数を短縮した。</p>
+        <div class="alert-green">
+          <strong>開始 vs 中止：</strong>Statement 22（開始にPCTを使わない）とStatement 40（中止にはPCT＋臨床評価を使える）は矛盾しない。PCTは「改善の確認ツール」として使う。
+        </div>
+      </div>
+    </div>
+
+    <h3 id="ssc-s2-7" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+      <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 7</span>
+      選択的消化管除菌（SDD）
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">MDR菌低蔓延施設で人工呼吸患者へのSDD <span class="rec-cond">条件付き推奨</span><span class="rec-evi">中等度確実性</span></h3>
+        <p class="rule-body"><span class="mark-yellow"><strong>MDR菌の蔓延率が低い施設・地域</strong></span>では条件付きで推奨される。SuDDICU試験では28日死亡率の有意な改善を認めた（<span class="mark-green"><strong>RR 0.91; 95%CI 0.84–0.99</strong></span>）。</p>
+        <div class="alert-yellow" style="margin-top:12px;">
+          <strong>日本のICUでの適用：</strong>日本はMRSAや多剤耐性菌の蔓延状況が施設により異なる。SDDを導入する場合は施設の耐性菌サーベイランスデータを確認し、感染制御チームと連携した意思決定が不可欠。
+        </div>
+      </div>
+    </div>
+
+    <div class="ie-alpha">
+      <div class="ie-alpha-inner">
+        <div class="ie-alpha-header">
+          <span class="ie-alpha-badge">＋α</span>
+          <span class="ie-alpha-title">SDD と SOD の違い</span>
+        </div>
+        <p class="rule-body" style="color:#4C1D95;">SDD は口腔咽頭＋消化管全体の除菌と短期IV抗菌薬を組み合わせる。SOD は口腔咽頭のみ（IV抗菌薬なし）。SSC 2026はSDD にのみ条件付き推奨を与え、SODには言及していない。</p>
+      </div>
+    </div>
+
+    <h3 id="ssc-ch2-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:36px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+      第2章のキーメッセージ
+    </h3>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+            <span class="rule-body"><strong>抗菌薬投与タイミングは「診断精度」と「時間緊急性」のバランス：</strong>敗血症性ショックは1時間以内、ショックなし敗血症は3時間以内が目標。「possible sepsis」段階では迅速評価を優先し、全員に一律投与は不要。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+            <span class="rule-body"><strong>ソースコントロールは抗菌薬と同等に重要：</strong>可能なら6時間以内に実施。介入後は継続する抗菌薬の必要性を再評価する。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+            <span class="rule-body"><strong>βラクタム系の延長投与は「強い推奨」（高確実性）：</strong>BLING III試験（7,421名）でICU患者の90日死亡率を有意に低下（RR 0.91）。院内での標準化を推進する。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+            <span class="rule-body"><strong>De-escalationと短期間投与で耐性菌を防ぐ：</strong>病原体が確認された段階で最狭域の抗菌薬へ切り替える（強い推奨）。BALANCE試験では7日間は14日間と非劣性。PCTは中止判断の補助として活用できる。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+            <span class="rule-body"><strong>MDR菌・真菌・嫌気性菌カバレッジはリスクに応じて個別判断：</strong>不必要な広域抗菌薬・経験的抗真菌薬は推奨しない。MDR蔓延低施設での機械的換気患者へのSDDはエビデンスあり（RR 0.91, SuDDICU試験）。</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <!-- ══════════════════════════════════════
+         第3章 血行動態管理
+    ══════════════════════════════════════ -->
+    <div id="ssc-ch3" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+      <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+      <div style="font-size:1.3rem;font-weight:900;position:relative;">第3章 血行動態管理</div>
+      <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Hemodynamic Management — Statements 42–64</div>
+    </div>
+
+    <!-- ─────────────────────────────────────
+         SECTION 1: 血圧モニタリング
+    ───────────────────────────────────── -->
+    <h3 id="ssc-s3-1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+      血圧モニタリング
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">侵襲的 vs 非侵襲的血圧モニタリング：個別に判断 <span class="rec-cond">条件付き推奨</span><span class="rec-evi">超低確実性</span></h3>
+        <p class="rule-body">敗血症性ショック患者において、動脈ラインによる侵襲的血圧モニタリングと非侵襲的モニタリング（自動血圧計など）のいずれを選択するかは、<span class="mark-yellow"><strong>患者の状態・施設のリソース・担当医の判断</strong></span>に委ねられる（Statement 42）。EVERDAC試験では非侵襲的モニタリングは侵襲的モニタリングに対して非劣性であることが示された。</p>
+        <p class="rule-body">実臨床では、敗血症性ショックでは昇圧薬の滴定・頻回の血液ガス採取の観点から動脈ラインを留置するのが一般的である。一方、リソースが限られた環境や低侵襲モニタリングが適切な場面では非侵襲的手法も選択肢となる。侵襲的手技の合併症（血腫・感染・血管損傷）リスクも考慮すべきである。</p>
+        <div class="alert-green">
+          <strong>MAP目標について：</strong>SEPSISPAM試験など複数のRCTで、MAP 65–70 mmHg と 80–85 mmHg の間にアウトカムの差は認めなかった。SSC 2026はキャリーオーバー推奨として<strong>MAP ≥ 65 mmHg</strong>を維持目標として示している。慢性高血圧を有する患者では個別に高めの目標設定を検討する。
+        </div>
+      </div>
+    </div>
+
+    <!-- ─────────────────────────────────────
+         SECTION 2: 輸液療法
+    ───────────────────────────────────── -->
+    <h3 id="ssc-s3-2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+      <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+      輸液療法：輸液の種類
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">初期蘇生には晶質液（crystalloid）を第1選択 <span class="rec-strong">強い推奨</span><span class="rec-evi">中等度確実性</span></h3>
+        <p class="rule-body">敗血症性ショックの初期蘇生において、<span class="mark-green"><strong>晶質液（crystalloids）</strong></span>を第1選択とすることが強く推奨される（Statement 43）。膠質液（コロイド）ではなく晶質液を使用することにより、コスト・副作用・アウトカムのバランスが優れていることが複数のRCTで示されている。</p>
+        <p class="rule-body">第1選択として晶質液を選ぶことは変わらないが、どの晶質液を使うかについては後述のStatement 44で別途推奨が示されている。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">バランス晶質液 vs 生理食塩水 → バランス型を推奨 <span class="rec-cond">条件付き推奨</span><span class="rec-evi">中等度確実性</span></h3>
+        <p class="rule-body">生理食塩水（0.9% NaCl）よりも<span class="mark-green"><strong>バランス晶質液（balanced crystalloids：乳酸リンゲル液・酢酸リンゲル液など）</strong></span>の使用を条件付きで推奨する（Statement 44）。生理食塩水の大量投与は高塩素血症性代謝性アシドーシスおよび急性腎障害リスクを増加させることが知られている。</p>
+        <p class="rule-body">SMART試験（ICU患者15,802名）・BaSICS試験（ブラジル）・PLUS試験（オーストラリア/ニュージーランド）の結果を総合すると、バランス晶質液は腎機能保護の面で生理食塩水より有利である。ただし絶対的な差は小さく、一時的な生理食塩水使用が禁忌となるわけではない。</p>
+        <div class="ie-stat-grid">
+          <div class="ie-stat">
+            <div class="ie-stat-val">15,802名</div>
+            <div class="ie-stat-label">SMART試験の<br>対象患者数</div>
+          </div>
+          <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+            <div class="ie-stat-val" style="color:#DC2626;">高Cl血症</div>
+            <div class="ie-stat-label">生理食塩水大量投与の<br>代謝リスク</div>
+          </div>
+          <div class="ie-stat">
+            <div class="ie-stat-val">中等度</div>
+            <div class="ie-stat-label">GRADEエビデンス<br>確実性</div>
+          </div>
+        </div>
+        <div class="ie-echo-grid" style="margin-top:14px;">
+          <div class="ie-echo-box">
+            <div class="ie-echo-name">バランス晶質液（推奨）</div>
+            <div class="ie-echo-body">
+              • 乳酸リンゲル液（ラクテック等）<br>
+              • 酢酸リンゲル液（ソルラクト等）<br>
+              • 電解質組成が血漿に近い<br>
+              • 腎障害リスクが相対的に低い<br>
+              • 代謝性アシドーシスを起こしにくい
+            </div>
+          </div>
+          <div class="ie-echo-box">
+            <div class="ie-echo-name">生理食塩水（第2選択）</div>
+            <div class="ie-echo-body">
+              • 0.9% NaCl（Na 154 mEq/L、Cl 154 mEq/L）<br>
+              • 大量投与で高塩素性アシドーシス<br>
+              • 腎血管収縮・AKIリスク増加の可能性<br>
+              • 入手性・コスト面では優れる<br>
+              • 脳浮腫懸念時などに選択肢
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">アルブミンより晶質液単独を推奨 <span class="rec-cond">条件付き推奨</span><span class="rec-evi">中等度確実性</span></h3>
+        <p class="rule-body">蘇生輸液としてアルブミンを晶質液に上乗せすることは、晶質液単独と比較してアウトカムの改善を示すエビデンスが不十分であり、<span class="mark-yellow"><strong>晶質液単独での蘇生を推奨する</strong></span>（Statement 45）。ALBIOS試験をはじめとする複数の検討では、アルブミン補充は死亡率を有意に改善しなかった。アルブミン製剤は高コストかつ供給に制約がある。</p>
+        <p class="rule-body">ただし、低アルブミン血症そのものへの補充療法（例：ALB &lt; 20 g/L などの栄養・膠質浸透圧の補正）は別の臨床判断であり、本推奨の対象外である。</p>
+        <div class="alert-yellow">
+          <strong>注意：</strong>スターチ製剤（HES：ヒドロキシエチルスターチ）は強い推奨で使用しないこととされている（Statement 46）。急性腎障害・死亡率の増加が複数の大規模RCTで確認されており、高確実性のエビデンスがある。ゼラチン製剤も条件付きで回避が推奨される（Statement 47）。
+        </div>
+      </div>
+    </div>
+
+    <div class="ie-alpha">
+      <div class="ie-alpha-inner">
+        <div class="ie-alpha-header">
+          <span class="ie-alpha-badge">＋α</span>
+          <span class="ie-alpha-title">スターチ禁忌の背景：CHEST試験・6S試験・CRYSTMAS試験</span>
+        </div>
+        <p class="rule-body" style="color:#4C1D95;">HES（ヒドロキシエチルスターチ）については、CHEST試験（オーストラリア、7,000名超）でHES群の腎代替療法施行率が有意に増加し、6S試験（スカンジナビア）でもHES群の死亡率・RRT率が高かった。その後の大規模解析でも腎毒性は一貫して報告されており、SSC 2026では「強い推奨・高確実性」で禁忌とされた。ゼラチン製剤については、AKIリスクに関するデータが不十分であるが、条件付きで使用を避けることが推奨されている。</p>
+      </div>
+    </div>
+
+    <!-- ─────────────────────────────────────
+         SECTION 3: 輸液量の判断
+    ───────────────────────────────────── -->
+    <h3 id="ssc-s3-3" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+      <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>
+      輸液量の判断：積極的 vs 制限的・動的指標
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">積極的輸液 vs 制限的輸液：どちらでも可 <span class="rec-cond">条件付き推奨</span><span class="rec-evi">低確実性</span></h3>
+        <p class="rule-body">初期蘇生後の輸液管理において、積極的（liberal）輸液と制限的（conservative/restrictive）輸液のいずれかを一律に推奨するエビデンスは現時点では不十分であり、<span class="mark-yellow"><strong>どちらの戦略も可</strong></span>とされた（Statement 48）。CLOVERS試験（早期制限vs通常ケア）・CLASSIC試験・PLUS試験などの結果を統合しても、一方の優位性は示されなかった。</p>
+        <p class="rule-body">実臨床では、初期蘇生（ショック対応）後の輸液は「fluid challenge（少量輸液を行い反応を評価する）→ 再評価」のサイクルで個別化することが重要である。過剰輸液は肺水腫・腹部コンパートメント症候群・組織浮腫を招き、長期予後に悪影響を与える可能性がある。</p>
+        <div class="alert-green">
+          <strong>臨床ポイント：</strong>「4時間以内に30 mL/kg投与」という従来のプロトコルは廃止された。初期蘇生は乳酸・CRT・MAP・尿量などの反応性を確認しながら個別化して行う。
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">動的指標による輸液反応性評価 <span class="rec-cond">条件付き推奨</span><span class="rec-evi">低確実性</span></h3>
+        <p class="rule-body">蘇生輸液の要否判断には、<span class="mark-green"><strong>動的指標（dynamic measures）</strong></span>を使用することが条件付きで推奨される（Statement 49）。CVP・PCWPなどの静的指標は輸液反応性の予測精度が低く、現在では推奨されない。</p>
+        <p class="rule-body"><span class="mark-green"><strong>受動的下肢挙上（PLR：Passive Leg Raising）試験</strong></span>は非侵襲的で即時的に輸液反応性を評価でき、機械的換気の有無を問わず使用可能なため特に有用である。SVV（一回拍出量変動）・PPV（脈圧変動）は人工呼吸器管理下・洞調律・一回換気量 ≥ 8 mL/kg の条件が揃った場合に信頼性が高い。</p>
+        <table class="ie-table" style="margin-top:12px;">
+          <thead><tr><th>指標</th><th>利点</th><th>条件・制限</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>PLR（受動的下肢挙上）</strong></td>
+              <td>非侵襲的、即時可逆的、自発呼吸でも使用可</td>
+              <td>腹腔内圧上昇・下肢固定時は制限あり</td>
+            </tr>
+            <tr>
+              <td><strong>SVV（一回拍出量変動）</strong></td>
+              <td>リアルタイム連続モニタリング可</td>
+              <td>機械的換気+洞調律+Vt ≥ 8 mL/kg が必要</td>
+            </tr>
+            <tr>
+              <td><strong>PPV（脈圧変動）</strong></td>
+              <td>動脈ラインのみで計算可能</td>
+              <td>SVVと同様の条件が必要</td>
+            </tr>
+            <tr>
+              <td><strong>Echo（stroke volume変化）</strong></td>
+              <td>PLRや輸液負荷試験と組み合わせ可</td>
+              <td>技術者依存性・連続モニタリング困難</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="alert-yellow" style="margin-top:12px;">
+          <strong>静的指標（CVP・PCWP）の問題点：</strong>CVP（中心静脈圧）は前負荷の指標として広く用いられてきたが、輸液反応性との相関が低く（複数のメタ解析で否定）、現在は輸液量決定の根拠として推奨されない。
+        </div>
+      </div>
+    </div>
+
+    <div class="ie-alpha">
+      <div class="ie-alpha-inner">
+        <div class="ie-alpha-header">
+          <span class="ie-alpha-badge">＋α</span>
+          <span class="ie-alpha-title">低侵襲的・非侵襲的心拍出量モニタリング：エビデンス不十分</span>
+        </div>
+        <p class="rule-body" style="color:#4C1D95;">PiCCO・FloTrac・LiDCO などの低侵襲的心拍出量モニタリングや、胸部インピーダンス法・超音波など非侵襲的手法については、敗血症アウトカム改善への寄与に関するエビデンスが現時点では不十分として、推奨の提示を控えた（Statement 50: In Our Practice）。肺動脈カテーテル（PAC）も同様に、ルーティンでの使用はエビデンス不十分であるが、特殊な患者（右心不全・難治性ショック・肺高血圧など）では個別の判断が必要。</p>
+      </div>
+    </div>
+
+    <!-- ─────────────────────────────────────
+         SECTION 4: 蘇生エンドポイント
+    ───────────────────────────────────── -->
+    <h3 id="ssc-s3-4" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+      <span style="color:#16A34A;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 4</span>
+      蘇生エンドポイント：乳酸値・CRT
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">乳酸値を連続測定して蘇生をガイドする <span class="rec-cond">条件付き推奨</span><span class="rec-evi">低確実性</span></h3>
+        <p class="rule-body">蘇生の効果判定として、<span class="mark-green"><strong>乳酸値（血清乳酸）の連続測定</strong></span>を蘇生ガイドとして使用することが条件付きで推奨される（Statement 51）。乳酸値は組織灌流不全の指標として古くから使用され、複数の観察研究・RCTで予後との相関が示されている。</p>
+        <p class="rule-body">推奨される目標は、<span class="mark-yellow"><strong>2時間ごとに乳酸値 ≥ 10% の低下</strong></span>を確認し、正常化（≤ 2 mmol/L）を目指すことである。ANDROMEDA-SHOCK試験・LACTATES試験では乳酸ガイド蘇生が末梢循環ガイドと同等以上の結果を示した。</p>
+        <div class="ie-stat-grid">
+          <div class="ie-stat">
+            <div class="ie-stat-val">≥ 10%</div>
+            <div class="ie-stat-label">2時間ごとの<br>乳酸低下目標</div>
+          </div>
+          <div class="ie-stat">
+            <div class="ie-stat-val">≤ 2 mmol/L</div>
+            <div class="ie-stat-label">乳酸値<br>正常化目標</div>
+          </div>
+          <div class="ie-stat">
+            <div class="ie-stat-val">2〜4時間毎</div>
+            <div class="ie-stat-label">推奨される<br>測定頻度（蘇生期）</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">毛細血管再充填時間（CRT）を蘇生の補助的ガイドとして使用 <span class="rec-cond">条件付き推奨</span><span class="rec-evi">低確実性</span></h3>
+        <p class="rule-body"><span class="mark-green"><strong>毛細血管再充填時間（CRT：Capillary Refill Time）</strong></span>を蘇生の補助的エンドポイントとして使用することが推奨される（Statement 52）。CRTは装置・コストを要せず、末梢の循環状態を迅速に評価できる簡便な指標である。</p>
+        <p class="rule-body">ANDROMEDA-SHOCK-2試験（N=706）では、CRTガイドによる蘇生は乳酸ガイドと比較してwin ratio 1.16（95%CI 0.99–1.36）を示し、主要エンドポイントにおいてCRTガイドが有利である傾向が認められた（統計的有意差には至らなかったが臨床的に意義ある差）。<span class="mark-yellow"><strong>CRT ≤ 2秒</strong></span>を目標とする。</p>
+        <div class="ie-echo-grid">
+          <div class="ie-echo-box">
+            <div class="ie-echo-name">CRTの測定方法</div>
+            <div class="ie-echo-body">
+              • 指腹（第2〜4指先端）または胸骨を5秒間圧迫<br>
+              • 解放後の皮膚色回復時間を測定<br>
+              • 正常：≤ 2秒（成人）<br>
+              • 環境温度・末梢循環・年齢に影響を受ける<br>
+              • 繰り返し測定で経時変化を評価することが重要
+            </div>
+          </div>
+          <div class="ie-echo-box">
+            <div class="ie-echo-name">ANDROMEDA-SHOCK-2試験</div>
+            <div class="ie-echo-body">
+              • N=706、ラテンアメリカ・欧州・カナダ<br>
+              • CRTガイド vs 乳酸ガイドの比較RCT<br>
+              • Win ratio 1.16（95%CI 0.99–1.36）<br>
+              • 28日死亡率はCRT群で数値的に低い傾向<br>
+              • 器官不全スコア・入院日数も改善傾向
+            </div>
+          </div>
+        </div>
+        <div class="alert-green" style="margin-top:12px;">
+          <strong>実践ポイント：</strong>乳酸値とCRTは相補的なエンドポイントとして組み合わせて使用するのが合理的。乳酸は組織全体の代謝を反映し、CRTは末梢の微小循環を反映する。両者の正常化を目標とする。
+        </div>
+      </div>
+    </div>
+
+    <!-- ─────────────────────────────────────
+         SECTION 5: 昇圧薬
+    ───────────────────────────────────── -->
+    <h3 id="ssc-s3-5" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 5</span>
+      昇圧薬：選択と使用戦略
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">第1選択はノルエピネフリン <span class="rec-strong">強い推奨</span><span class="rec-evi">低確実性</span></h3>
+        <p class="rule-body">敗血症性ショックに対する昇圧薬の第1選択は<span class="mark-green"><strong>ノルエピネフリン（norepinephrine）</strong></span>である（Statement 53）。ドパミン（dopamine）との比較では、ドパミンは不整脈（とくに心房細動）リスクが有意に高く、一部の研究では死亡率増加傾向も認められた。SOAP II試験（N=1,679）でドパミンはノルエピネフリンと比較して死亡率に差はなかったが不整脈イベントが多かった。</p>
+        <p class="rule-body">フェニレフリン（phenylephrine）は純粋な血管収縮薬であり、心拍出量を低下させるリスクがあるため、心機能障害を伴うショックには適さない。心機能が正常で反射性徐脈が問題となる場合などに限定的に使用する。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">テルリプレシン（terlipressin）は推奨しない <span class="rec-cond">条件付き推奨</span><span class="rec-evi">低確実性</span></h3>
+        <p class="rule-body">テルリプレシン（terlipressin）は、ATHOS-3試験での好結果から注目されたが、SSC 2026では<span class="mark-red"><strong>敗血症性ショックへの使用を推奨しない</strong></span>（Statement 54）。その理由として、心臓毒性・末梢虚血（デジタル虚血を含む）・低ナトリウム血症などの重篤な副作用リスクが挙げられる。また、長時間作用型のため副作用が遷延するリスクがある。</p>
+        <p class="rule-body">バソプレシン（ADH/vasopressin）とは薬理学的に類似しているが、選択性・副作用プロファイルが異なる。バソプレシンはStatement 56で第2選択として追加使用が推奨されている（後述）。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">ノルエピネフリン増量中にバソプレシンを追加 <span class="rec-cond">条件付き推奨</span><span class="rec-evi">中等度確実性</span></h3>
+        <p class="rule-body">ノルエピネフリンの用量を増量していく過程で、<span class="mark-green"><strong>バソプレシン（vasopressin）を追加</strong></span>することが条件付きで推奨される（Statement 56）。SSCパネルの<span class="mark-yellow"><strong>85.1%が支持</strong></span>した推奨であり、バソプレシン追加によりカテコラミン用量を節減し、カテコラミン誘発性の副作用（不整脈・心筋虚血・末梢血管収縮・免疫抑制）を軽減する目的がある。</p>
+        <p class="rule-body">バソプレシン追加のタイミングについて明確な閾値は定められていないが、<span class="mark-yellow"><strong>ノルエピネフリン 0.25〜0.5 μg/kg/min 前後</strong></span>での追加が一般的に推奨される。バソプレシンは通常 0.03〜0.04 units/min の固定用量で使用する（用量調整型ではない）。</p>
+        <div class="ie-stat-grid">
+          <div class="ie-stat">
+            <div class="ie-stat-val">85.1%</div>
+            <div class="ie-stat-label">バソプレシン追加を<br>支持したパネリスト比率</div>
+          </div>
+          <div class="ie-stat">
+            <div class="ie-stat-val">0.03–0.04</div>
+            <div class="ie-stat-label">バソプレシン固定用量<br>（units/min）</div>
+          </div>
+          <div class="ie-stat">
+            <div class="ie-stat-val">0.25–0.5</div>
+            <div class="ie-stat-label">NE追加目安<br>（μg/kg/min）</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">NE＋バソプレシンで不十分ならエピネフリンを追加 <span class="rec-cond">条件付き推奨</span><span class="rec-evi">超低確実性</span></h3>
+        <p class="rule-body">ノルエピネフリンとバソプレシンの併用でも目標MAPを達成できない場合は、<span class="mark-yellow"><strong>エピネフリン（epinephrine）を追加</strong></span>することが条件付きで推奨される（Statement 57）。エピネフリンはα作用・β作用を兼備し、血管収縮と心拍出量増加の両方を期待できる。ただし代謝性副作用（高血糖・乳酸値上昇・頻脈）に注意が必要である。</p>
+        <p class="rule-body">また、<span class="mark-yellow"><strong>心機能障害を伴うショック</strong></span>ではノルエピネフリンまたはエピネフリンの使用が条件付きで推奨される（Statement 58）。心機能が低下した状態では心収縮力の増強も必要であり、エピネフリンのβ作用が有用となる場面がある。</p>
+        <div class="alert-yellow">
+          <strong>メチレンブルーについて（Statement 59）：</strong>難治性血管拡張性ショックに対するメチレンブルー投与については、エビデンスが不十分として In Our Practice に分類された。小規模観察研究では有効性を示す報告もあるが、現時点では推奨を行う根拠がない。
+        </div>
+      </div>
+    </div>
+
+    <!-- 昇圧薬フローチャート -->
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title" style="font-size:0.92rem;font-weight:800;border-bottom:2px solid var(--blue);padding-bottom:6px;">昇圧薬使用アルゴリズム（SSC 2026）</h3>
+        <div class="ie-flow" style="margin-top:12px;">
+          <div class="ie-flow-item">
+            <div class="ie-flow-num">1</div>
+            <div style="flex:1;"><p class="rule-body"><strong>第1選択：ノルエピネフリン開始</strong><br>MAP ≥ 65 mmHg を目標に用量を調整</p></div>
+          </div>
+          <div class="ie-flow-arrow">↓</div>
+          <div class="ie-flow-item">
+            <div class="ie-flow-num">2</div>
+            <div style="flex:1;"><p class="rule-body"><strong>NE 0.25〜0.5 μg/kg/min 前後でバソプレシンを追加</strong><br>0.03–0.04 units/min 固定用量で開始（カテコラミン節減・腎保護）</p></div>
+          </div>
+          <div class="ie-flow-arrow">↓</div>
+          <div class="ie-flow-item">
+            <div class="ie-flow-num">3</div>
+            <div style="flex:1;"><p class="rule-body"><strong>NE＋バソプレシンで目標MAP未達成 → エピネフリン追加</strong><br>超低確実性エビデンスだが、難治性ショックへの対応として</p></div>
+          </div>
+          <div class="ie-flow-arrow">↓</div>
+          <div class="ie-flow-item">
+            <div class="ie-flow-num">4</div>
+            <div style="flex:1;"><p class="rule-body"><strong>心機能障害合併ショック → 強心薬の追加を検討</strong><br>ドブタミンまたはエピネフリン（次セクション参照）</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─────────────────────────────────────
+         SECTION 6: 強心薬・その他
+    ───────────────────────────────────── -->
+    <h3 id="ssc-s3-6" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+      <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 6</span>
+      強心薬・レボシメンダン・β遮断薬
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">心機能障害を伴う敗血症性ショックには強心薬を使用 <span class="rec-cond">条件付き推奨</span><span class="rec-evi">超低確実性</span></h3>
+        <p class="rule-body">心機能障害（低心拍出量・左室/右室不全）を伴う敗血症性ショックでは、昇圧薬に加えて<span class="mark-yellow"><strong>強心薬（inotropes）の使用</strong></span>を条件付きで推奨する（Statement 60）。敗血症性心筋障害（septic cardiomyopathy）は敗血症性ショックの10〜40%に合併し、適切な対応が予後に影響する。</p>
+        <p class="rule-body">心機能障害の確認には心エコーが有用であり、左室収縮能（EF）・右室機能・前後負荷の評価を組み合わせて判断する。ただし心エコーのみで強心薬の要否を決定するのではなく、臨床的な灌流不全の徴候（乳酸上昇・CRT延長・乏尿など）も合わせて総合判断する。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">ドブタミンまたはエピネフリンを使用 <span class="rec-cond">条件付き推奨</span><span class="rec-evi">超低確実性</span></h3>
+        <p class="rule-body">強心薬としては<span class="mark-green"><strong>ドブタミン（dobutamine）またはエピネフリン（epinephrine）</strong></span>の使用が条件付きで推奨される（Statement 61）。ドブタミンはβ1作用による心収縮力増強が主体であり、昇圧薬（ノルエピネフリン）と組み合わせて使用する場合が多い。エピネフリンはα＋β作用で昇圧と強心の両効果を期待できるが、代謝性副作用（乳酸上昇・高血糖・頻脈）に注意が必要である。</p>
+        <p class="rule-body">ドブタミンの注意点として、末梢血管拡張によるMAPの低下が起こりえるため、昇圧薬との組み合わせが必要となる場面が多い。</p>
+        <div class="ie-echo-grid">
+          <div class="ie-echo-box">
+            <div class="ie-echo-name">ドブタミン</div>
+            <div class="ie-echo-body">
+              • 主にβ1作用（心収縮力↑、心拍数↑）<br>
+              • 軽度β2作用（末梢血管拡張）<br>
+              • 通常 2.5〜20 μg/kg/min<br>
+              • 頻脈・低血圧に注意<br>
+              • NE と組み合わせて使用
+            </div>
+          </div>
+          <div class="ie-echo-box">
+            <div class="ie-echo-name">エピネフリン（強心目的）</div>
+            <div class="ie-echo-body">
+              • α＋β作用（昇圧＋強心）<br>
+              • 一剤で両効果を期待可能<br>
+              • 乳酸値上昇（腸管組織）に注意<br>
+              • 高血糖・頻脈・不整脈リスク<br>
+              • NE＋バソプレシンへの追加か代替として
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">レボシメンダンは推奨しない <span class="rec-cond">条件付き推奨</span><span class="rec-evi">低確実性</span></h3>
+        <p class="rule-body">カルシウム感受性増強薬であるレボシメンダン（levosimendan）の敗血症性ショックへの使用は推奨しない（Statement 62）。LeoPARDS試験（N=516）では、レボシメンダン群で心房細動・低血圧の増加が認められ、臓器機能改善にも有意差がなかった。血管拡張作用による血圧低下がすでにショック状態にある患者では問題となりうる。</p>
+        <p class="rule-body">コスト・副作用・エビデンスの不足を踏まえると、ルーティンでの使用は支持されない。</p>
+        <div class="alert-yellow">
+          <strong>ミドドリン（midodrine）について（Statement 63）：</strong>経口昇圧薬ミドドリンは、ICU離脱後の管理や昇圧薬の早期離脱目的で使用される場面があるが、敗血症患者へのルーティン使用についてはエビデンス不十分として In Our Practice に分類された。
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">敗血症性ショックへのβ遮断薬は推奨しない <span class="rec-cond">条件付き推奨</span><span class="rec-evi">超低確実性</span></h3>
+        <p class="rule-body">β遮断薬（例：エスモロール）の敗血症性ショックへの使用は推奨しない（Statement 64）。ESМOLOL試験（JAMA 2013）では、頻脈性敗血症性ショック患者でエスモロールによる心拍数制御が死亡率改善につながると報告されたが、その後の追試・検討ではアウトカム改善の一貫したエビデンスが得られていない。</p>
+        <p class="rule-body">敗血症における頻脈は交感神経亢進・代謝亢進に対する生理的代償反応である側面もあり、薬剤による強制的な抑制が有害となる可能性が否定できない。心拍数が高いことが心機能・灌流に明らかな悪影響を及ぼす症例では、個別の判断で検討の余地があるが、現時点では推奨されない。</p>
+      </div>
+    </div>
+
+    <div class="ie-alpha">
+      <div class="ie-alpha-inner">
+        <div class="ie-alpha-header">
+          <span class="ie-alpha-badge">＋α</span>
+          <span class="ie-alpha-title">アンジオテンシンIIの位置づけ（Statement 55）</span>
+        </div>
+        <p class="rule-body" style="color:#4C1D95;">アンジオテンシンII（angiotensin II、製品名：Giapreza）は難治性血管拡張性ショックへの使用が試みられている。ATHOS-3試験（N=321）では、ノルエピネフリンへの追加でMAPの改善を認めた。SSC 2026では、ノルエピネフリン vs バソプレシン or アンジオテンシンIIの比較においてノルエピネフリン優先の条件付き推奨が示された（Statement 55）。アンジオテンシンIIは血栓症・手足の虚血などの副作用があり、現時点では難治性ショックへの第3の選択肢として個別判断での使用に留まる。</p>
+      </div>
+    </div>
+
+    <!-- ─────────────────────────────────────
+         SUMMARY
+    ───────────────────────────────────── -->
+    <h3 id="ssc-ch3-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:36px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+      第3章のキーメッセージ
+    </h3>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+            <span class="rule-body"><strong>輸液選択は「バランス晶質液」が第1選択：</strong>生食より腎保護効果あり。スターチ禁忌（強い推奨・高確実性）、ゼラチンも条件付きで回避。積極的 vs 制限的輸液はどちらも可（Statements 43–48）。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+            <span class="rule-body"><strong>蘇生のエンドポイントは「乳酸値＋CRT」の組み合わせ：</strong>乳酸は2時間ごとに ≥ 10% 低下を目標。CRTは低コストで有用な末梢灌流指標（ANDROMEDA-SHOCK-2、win ratio 1.16）（Statements 51–52）。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+            <span class="rule-body"><strong>昇圧薬の第1選択はノルエピネフリン（強い推奨）：</strong>用量増加時にバソプレシンを追加（条件付き推奨・中等度確実性、パネリスト85%が支持）（Statements 53–56）。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+            <span class="rule-body"><strong>動的指標（PLR・SVV・PPV）で輸液反応性を評価：</strong>静的指標（CVP・PCWP）ではなく動的指標を用いて不必要な輸液を避ける（Statement 49）。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+            <span class="rule-body"><strong>心機能障害合併ショックにはドブタミンまたはエピネフリンを追加：</strong>レボシメンダン・β遮断薬は推奨しない（Statements 60–64）。</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         第4章 呼吸管理
+    ══════════════════════════════════════ -->
+    <div id="ssc-ch4" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+      <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+      <div style="font-size:1.3rem;font-weight:900;position:relative;">第4章 呼吸管理</div>
+      <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Respiratory Support — Statements 65–78</div>
+    </div>
+
+    <!-- ─────────────────────────────────────
+         SECTION 1: 酸素化モニタリング
+    ───────────────────────────────────── -->
+    <h3 id="ssc-s4-1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+      酸素化モニタリング
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">SpO2またはSaO2で酸素化をモニタリングする <span class="rec-cond">条件付き推奨</span><span class="rec-evi">超低確実性</span></h3>
+        <p class="rule-body">動脈血ガス（ABG）はPaO2を直接測定できるという点で酸素化評価の金標準である。しかし、ABGは侵襲的であり継続的モニタリングには向かない。SSC 2026ではパルスオキシメトリー（SpO2）または動脈血酸素飽和度（SaO2）による非侵襲的モニタリングを条件付きで推奨している（Statement 65）。</p>
+        <p class="rule-body">ただし、パルスオキシメトリーの精度には重要な限界がある。<span class="mark-red"><strong>循環不全（ショック）・末梢循環不良・暗色肌・マニキュア・SpO2が低値（&lt;90%）あるいは高値（&gt;97%）の範囲</strong></span>では測定精度が著しく低下することが知られている。このような状況ではABGによる確認が必要である。</p>
+        <p class="rule-body">ARDSの重症度分類に用いるPaO2/FiO2（P/F比）の代替として、SpO2/FiO2（S/F比）を使用することができる。S/F比はベッドサイドでの非侵襲的評価に有用だが、P/F比との相関は高い領域では一定でなく精度的な劣りがある点を認識しておく必要がある。</p>
+        <div class="alert-yellow">
+          <strong>人種的公平性の問題：</strong>暗色肌の患者ではSpO2がSaO2を<strong>過大評価</strong>する（隠れた低酸素血症：occult hypoxemia）ことが複数の研究で示されている。モニタリング精度の人種差を認識し、臨床状態と乖離があれば積極的にABGを採取する。
+        </div>
+      </div>
+    </div>
+
+    <!-- ─────────────────────────────────────
+         SECTION 2: 酸素目標値
+    ───────────────────────────────────── -->
+    <h3 id="ssc-s4-2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+      <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+      酸素目標値
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">高め（liberal）または低め（conservative）の酸素目標のいずれかに滴定する <span class="rec-cond">条件付き推奨</span><span class="rec-evi">低確実性</span></h3>
+        <p class="rule-body">成人ICU患者における最適な酸素目標値については、10件のRCT（計24,022名）のメタ解析で評価された（Statement 66）。その結果、低め酸素目標群（conservative O2）と高め目標群（liberal O2）の間で死亡率に有意差はなく（<span class="mark-yellow"><strong>RR 1.02、差なし</strong></span>）、目標値の選択は低確実性のエビデンスに基づく条件付き推奨にとどまった。</p>
+        <p class="rule-body">SSCパネルの実際の診療では、<span class="mark-green"><strong>SpO2 90%（IQR 90〜92%）から96%（IQR 94〜98%）</strong></span>の範囲を目標としており、患者の病態・基礎疾患・臨床状況に応じて個別に設定することが推奨される。低資源環境や在宅酸素が限られている状況では、保守的（低め）な目標設定が現実的な選択肢となる。</p>
+        <div class="ie-echo-grid">
+          <div class="ie-echo-box">
+            <div class="ie-echo-name">Conservative（低め）目標</div>
+            <div class="ie-echo-body">
+              SpO2 目標：90〜93%<br>
+              酸素消費量を抑制できる<br>
+              低資源環境で実際的<br>
+              高酸素血症を回避できる<br>
+              低値域ではSpO2精度低下に注意
+            </div>
+          </div>
+          <div class="ie-echo-box">
+            <div class="ie-echo-name">Liberal（高め）目標</div>
+            <div class="ie-echo-body">
+              SpO2 目標：≥96%<br>
+              モニタリングが容易<br>
+              ショック・貧血患者では有利な場面も<br>
+              酸素毒性・吸収性無気肺のリスク<br>
+              高酸素血症は予後を悪化させる可能性
+            </div>
+          </div>
+        </div>
+        <div class="alert-green">
+          <strong>今後の更新予定：</strong>MEGA-ROX試験（目標登録40,000名）が進行中であり、酸素目標値に関するより大規模かつ高確実性のエビデンスが近い将来提供される見込みである。
+        </div>
+      </div>
+    </div>
+
+    <!-- ─────────────────────────────────────
+         SECTION 3: 非侵襲的呼吸サポート（HFNC・NIV）
+    ───────────────────────────────────── -->
+    <h3 id="ssc-s4-3" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+      <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>
+      非侵襲的呼吸サポート（HFNC・NIV）
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">急性低酸素性呼吸不全には通常酸素療法よりHFNCを推奨 <span class="rec-cond">条件付き推奨</span><span class="rec-evi">超低確実性</span></h3>
+        <p class="rule-body">PaO2/FiO2 &lt;200（またはSpO2/FiO2 &lt;235）を示す急性低酸素性呼吸不全患者に対して、通常の鼻カヌラ・フェイスマスクによる酸素療法よりも<span class="mark-green"><strong>高流量鼻カヌラ（HFNC）を推奨</strong></span>する（Statement 67）。</p>
+        <p class="rule-body">HFNCはFiO2 0.8〜0.9、最大60 L/minの加温加湿ガスを投与でき、通常酸素療法では達成できない高濃度酸素投与と陽圧効果（low-level PEEP）を両立する。11件のRCT（計3,546名）のメタ解析では、通常酸素療法と比較してHFNCは挿管率を有意に低下させ（<span class="mark-yellow"><strong>RR 0.88、95%CI 0.77〜1.00</strong></span>）、患者快適性も良好であった。ただし確実性は超低であり、今後のエビデンスの蓄積が待たれる。</p>
+        <div class="ie-stat-grid">
+          <div class="ie-stat">
+            <div class="ie-stat-val">RR 0.88</div>
+            <div class="ie-stat-label">HFNC vs 通常酸素<br>挿管リスク比（11 RCT）</div>
+          </div>
+          <div class="ie-stat">
+            <div class="ie-stat-val">3,546名</div>
+            <div class="ie-stat-label">メタ解析対象<br>患者数</div>
+          </div>
+          <div class="ie-stat">
+            <div class="ie-stat-val">60 L/min</div>
+            <div class="ie-stat-label">HFNCの最大<br>流量設定</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">NIV（NIPPV）よりHFNCを初期治療として推奨 <span class="rec-cond">条件付き推奨</span><span class="rec-evi">低確実性</span></h3>
+        <p class="rule-body">急性低酸素性呼吸不全に対して、非侵襲的陽圧換気（NIV/NIPPV）よりも<span class="mark-green"><strong>HFNCを初期治療として優先</strong></span>することを推奨する（Statement 68）。HFNCはNIVと比較して装着が容易で、患者の快適性が高い。また胃膨満・誤嚥・顔面皮膚障害・動脈性低血圧などのNIV特有のリスクが低い。</p>
+        <p class="rule-body">7件のRCT（計2,465名）のメタ解析では、HFNCはNIVと比較して死亡率を有意に低下させる傾向が示され（<span class="mark-yellow"><strong>RR 0.89、低確実性</strong></span>）、人工呼吸期間はHFNC群で有意に短かった（中等度確実性）。ただし、急性心原性肺水腫や高CO2血症型呼吸不全ではNIVが有効であることが知られており、病態に応じた判断が必要である。</p>
+        <div class="alert-yellow">
+          <strong>注意：</strong>この推奨は<strong>低酸素性呼吸不全</strong>（type I）に限定される。急性心原性肺水腫や高CO2血症型（type II）呼吸不全ではNIVの適応が上回る場面があり、一律にHFNCを選択しないよう注意する。
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">HFNCと交互NIVよりHFNC単独を推奨 <span class="rec-cond">条件付き推奨</span><span class="rec-evi">超低確実性</span></h3>
+        <p class="rule-body">HFNCとNIVを交互に使用する戦略（HFNC alternating with NIV）よりも、<span class="mark-green"><strong>HFNC単独での管理</strong></span>を条件付きで推奨する（Statement 69）。2件のRCT（計515名）のメタ解析では、HFNC単独群でventilator-free days（VFD）が約4日多く（低確実性）、患者への利便性も高かった。交互使用戦略の有益性を示すエビデンスは乏しく、HFNCで管理できる間はHFNCを継続するのが合理的である。</p>
+      </div>
+    </div>
+
+    <p class="rule-body" style="margin-bottom:24px;">急性低酸素性呼吸不全に対する呼吸サポートのアルゴリズムを以下に示す。</p>
+
+    <div class="ie-flow" style="margin-bottom:24px;">
+      <div class="ie-flow-item">
+        <div class="ie-flow-num">1</div>
+        <div style="flex:1;"><p class="rule-body"><strong>急性低酸素性呼吸不全の認識：</strong>PaO2/FiO2 &lt;200（またはSpO2/FiO2 &lt;235）。通常酸素療法でSpO2目標が維持できない状態。</p></div>
+      </div>
+      <div class="ie-flow-arrow">↓</div>
+      <div class="ie-flow-item">
+        <div class="ie-flow-num">2</div>
+        <div style="flex:1;"><p class="rule-body"><strong>HFNCを開始：</strong>高流量（最大60 L/min）・高濃度（FiO2 0.8〜0.9）で開始。通常酸素療法・NIVより優先する（Statements 67-69）。</p></div>
+      </div>
+      <div class="ie-flow-arrow">↓</div>
+      <div class="ie-flow-item">
+        <div class="ie-flow-num">3</div>
+        <div style="flex:1;"><p class="rule-body"><strong>覚醒下腹臥位を試みる：</strong>挿管していない患者で忍容可能ならば覚醒下腹臥位を積極的に行う（Statement 70）。挿管回避効果あり（RR 0.82）。</p></div>
+      </div>
+      <div class="ie-flow-arrow">↓</div>
+      <div class="ie-flow-item">
+        <div class="ie-flow-num">4</div>
+        <div style="flex:1;"><p class="rule-body"><strong>改善しない場合は挿管を検討：</strong>HFNC・覚醒下腹臥位で改善しない場合、早期に気管挿管・侵襲的人工呼吸管理へ移行する。遅延した挿管は予後を悪化させる可能性がある。</p></div>
+      </div>
+      <div class="ie-flow-arrow">↓</div>
+      <div class="ie-flow-item">
+        <div class="ie-flow-num">5</div>
+        <div style="flex:1;"><p class="rule-body"><strong>人工呼吸管理の最適化：</strong>低一回換気量（6 mL/kg IBW）・プラトー圧 ≤30 cmH2O・中等度〜重症ARDSには腹臥位換気 &gt;12時間/日（Statements 71-77）。</p></div>
+      </div>
+    </div>
+
+    <!-- ─────────────────────────────────────
+         SECTION 4: 覚醒下腹臥位（Awake Proning）
+    ───────────────────────────────────── -->
+    <h3 id="ssc-s4-4" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+      <span style="color:#16A34A;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 4</span>
+      覚醒下腹臥位（Awake Proning）
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">挿管していない急性低酸素性呼吸不全患者に覚醒下腹臥位を試みる <span class="rec-cond">条件付き推奨</span><span class="rec-evi">超低確実性</span></h3>
+        <p class="rule-body">非挿管の急性低酸素性呼吸不全患者に対して、<span class="mark-green"><strong>覚醒下腹臥位（awake prone positioning）</strong></span>を試みることを条件付きで推奨する（Statement 70）。17件のRCT（計3,537名）のメタ解析では、覚醒下腹臥位によって挿管率が有意に低下することが示された（<span class="mark-green"><strong>RR 0.82、95%CI 0.73〜0.93、低確実性</strong></span>）。</p>
+        <p class="rule-body">ただし、採用されたRCTのほぼ全てがCOVID-19肺炎患者を対象としており、一般的な急性低酸素性呼吸不全への外挿には間接性の問題が残る。また、覚醒下腹臥位は<span class="mark-yellow"><strong>患者の忍容性に強く依存</strong></span>しており、腹臥位を維持できる患者を適切に選定することが重要である。腹臥位のために鎮静薬を使用することは、その後の挿管管理を複雑にするため推奨されない。</p>
+        <div class="ie-stat-grid">
+          <div class="ie-stat">
+            <div class="ie-stat-val">RR 0.82</div>
+            <div class="ie-stat-label">覚醒下腹臥位による<br>挿管リスク比</div>
+          </div>
+          <div class="ie-stat">
+            <div class="ie-stat-val">17 RCT</div>
+            <div class="ie-stat-label">メタ解析<br>採用試験数</div>
+          </div>
+          <div class="ie-stat">
+            <div class="ie-stat-val">3,537名</div>
+            <div class="ie-stat-label">メタ解析<br>総対象患者数</div>
+          </div>
+        </div>
+        <div class="alert-green">
+          <strong>低資源環境での利点：</strong>覚醒下腹臥位は特殊な機器を必要とせず、低コストで実施可能である。患者自身が体位変換できる場合は自力で行ってもらうことができ、低資源環境でも広く適用可能な介入である。
+        </div>
+      </div>
+    </div>
+
+    <!-- ─────────────────────────────────────
+         SECTION 5: 人工呼吸管理（ARDS・非ARDS）
+    ───────────────────────────────────── -->
+    <h3 id="ssc-s4-5" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 5</span>
+      人工呼吸管理（ARDS・非ARDS）
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">ARDS患者には低一回換気量 6 mL/kg IBW <span class="rec-strong">強い推奨</span><span class="rec-evi">高確実性</span></h3>
+        <p class="rule-body">ARDSと診断された患者の人工呼吸管理において、<span class="mark-green"><strong>一回換気量（TV）を6 mL/kg（理想体重IBW基準）</strong></span>に設定することは、ARDSnet試験以来の確立された推奨であり（Statement 71）、SSC 2026でも強い推奨・高確実性として継続されている。高一回換気量は人工呼吸器関連肺損傷（VILI）を惹起し死亡率を悪化させる。この推奨は実臨床で徹底されるべき最重要の原則の一つである。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">ARDS以外の急性低酸素性呼吸不全：一回換気量 6〜8 mL/kg IBW <span class="rec-cond">条件付き推奨</span><span class="rec-evi">低確実性</span></h3>
+        <p class="rule-body">ARDS以外の急性低酸素性呼吸不全患者（すなわち非ARDS）に対しては、<span class="mark-yellow"><strong>6〜8 mL/kg IBW</strong></span>の一回換気量を条件付きで推奨する（Statement 72）。これはSSC 2026の新しい推奨である。</p>
+        <p class="rule-body">2件のRCTメタ解析では、低TV群（4〜6 mL/kg）と中等度TV群（8〜10 mL/kg）の比較で90日死亡率に有意差はなかった（RR 1.04、差なし）。しかし、<span class="mark-red"><strong>ARDSの見逃し率（mislabeling rate）は臨床試験では48〜52%と非常に高い</strong></span>ことが示されており、ARDS診断の不確実性を踏まえると、非ARDSと判断されている患者にも6〜8 mL/kgの低め設定が安全と考えられる。</p>
+        <div class="alert-yellow">
+          <strong>ARDS見逃しに注意：</strong>ICUで管理される急性低酸素性呼吸不全患者の約半数は、後になってARDSの診断基準を満たすことが明らかになる。「非ARDS」と判断した患者でも、低TV管理を継続することがより安全である。
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">プラトー圧 ≤30 cmH2O・高PEEP・腹臥位換気（確立した推奨） <span class="rec-strong">強い推奨</span><span class="rec-evi">高確実性</span></h3>
+        <p class="rule-body">Statements 73〜76はSSC以前から確立している人工呼吸管理の原則であり、本ガイドラインでも継続して推奨されている。</p>
+        <table class="ie-table" style="margin-top:12px;">
+          <thead>
+            <tr>
+              <th>Statement</th>
+              <th>推奨内容</th>
+              <th>推奨の強さ</th>
+              <th>確実性</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>St. 73</td>
+              <td>プラトー圧 ≤30 cmH2O を維持する</td>
+              <td>強い推奨</td>
+              <td>高確実性</td>
+            </tr>
+            <tr>
+              <td>St. 74</td>
+              <td>中等度〜重症ARDSには高PEEP戦略を行う</td>
+              <td>条件付き推奨</td>
+              <td>中等度確実性</td>
+            </tr>
+            <tr>
+              <td>St. 75</td>
+              <td>漸増的PEEP滴定戦略（incremental PEEP titration）は推奨しない</td>
+              <td>強い推奨</td>
+              <td>中等度確実性</td>
+            </tr>
+            <tr>
+              <td>St. 76</td>
+              <td>中等度〜重症ARDSには腹臥位換気 &gt;12時間/日を行う</td>
+              <td>条件付き推奨</td>
+              <td>中等度確実性</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">中等度〜重症ARDSには持続NMBAより間欠的NMBAボーラスを推奨 <span class="rec-cond">条件付き推奨</span><span class="rec-evi">中等度確実性</span></h3>
+        <p class="rule-body">中等度〜重症ARDSに対して筋弛緩薬（NMBA）を使用する場合、持続投与（continuous infusion）よりも<span class="mark-yellow"><strong>間欠的ボーラス投与</strong></span>を条件付きで推奨する（Statement 77）。持続NMBAは一時的に呼吸ドライブや人工呼吸器非同調を抑制できるが、筋力低下・ICU-acquired weakness（ICU-AW）・長期的な機能予後の悪化リスクがある。間欠的ボーラスは必要時のみ使用し、早期離床・覚醒・呼吸リハビリテーションへの移行を妨げない。</p>
+      </div>
+    </div>
+
+    <div class="ie-alpha">
+      <div class="ie-alpha-inner">
+        <div class="ie-alpha-header">
+          <span class="ie-alpha-badge">＋α</span>
+          <span class="ie-alpha-title">ARDS重症度分類と人工呼吸設定の目安</span>
+        </div>
+        <p class="rule-body" style="color:#4C1D95;">ARDSの重症度はP/F比（またはS/F比）で軽症（P/F 201〜300）・中等度（P/F 101〜200）・重症（P/F ≤100）に分類される（Berlin定義、PEEP ≥5 cmH2O下）。高PEEPや腹臥位換気の適応は中等度〜重症（P/F ≤200）に限定される。軽症ARDSへの高PEEP戦略は有害となる可能性があり、過剰な適用を避ける。なお、ARDS診断にはSpO2/FiO2（S/F比）で代替できる場合があり（S/F &lt;235 が P/F &lt;200 に対応）、ABGが困難な場面で活用する。</p>
+      </div>
+    </div>
+
+    <div class="ie-alpha">
+      <div class="ie-alpha-inner">
+        <div class="ie-alpha-header">
+          <span class="ie-alpha-badge">＋α</span>
+          <span class="ie-alpha-title">漸増的PEEP滴定（incremental PEEP titration）とは何か</span>
+        </div>
+        <p class="rule-body" style="color:#4C1D95;">漸増的PEEP滴定とは、PEEP値を段階的に増加させながら肺リクルートメント（recruitment maneuver）を行い、最適なPEEPを見つけようとする手法である。ART試験（2017年、1,010名）では、この戦略が通常のPEEP管理と比較して死亡率を増加させる結果となり（RR 1.20）、以来有害な可能性があるとして推奨されていない。SSC 2026でも「推奨しない」（強い推奨）として継続されている。</p>
+      </div>
+    </div>
+
+    <!-- ─────────────────────────────────────
+         SECTION 6: VV-ECMO
+    ───────────────────────────────────── -->
+    <h3 id="ssc-s4-6" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+      <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 6</span>
+      VV-ECMO（静脈静脈体外式膜型人工肺）
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">通常の人工呼吸管理が不十分な重症ARDSにはVV-ECMOを考慮する <span class="rec-cond">条件付き推奨</span><span class="rec-evi">低確実性</span></h3>
+        <p class="rule-body">最適な人工呼吸管理（低TV・高PEEP・腹臥位換気を含む）を行っても酸素化・換気が不十分な重症ARDS患者において、<span class="mark-yellow"><strong>静脈静脈体外式膜型人工肺（VV-ECMO）</strong></span>を条件付きで推奨する（Statement 78）。これはSSC以前から継続する推奨である。</p>
+        <p class="rule-body">VV-ECMOは肺を「休ませながら」（lung rest）血液の酸素化・CO2除去を体外で行うことで、救命できる可能性がある。ただし、その効果は経験豊富な専門センターに限定されており、習熟した多職種チームが不可欠である。EOLIA試験（2018年）ではVV-ECMO群の90日死亡率は有意差に達しなかったが（p=0.09）、救済治療としてのECMO使用も含めた解析では有意な生存改善が示された。</p>
+        <div class="alert-red" style="background:#FEF2F2;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#991B1B;line-height:1.7;">
+          <strong>施設・チームの経験が前提：</strong>VV-ECMOは経験豊富なECMOセンターでのみ実施する。適切なトレーニング・管理体制が整っていない施設での実施は患者に害をもたらす可能性がある。必要に応じて経験豊富なセンターへの転院を検討する。
+        </div>
+      </div>
+    </div>
+
+    <div class="ie-alpha">
+      <div class="ie-alpha-inner">
+        <div class="ie-alpha-header">
+          <span class="ie-alpha-badge">＋α</span>
+          <span class="ie-alpha-title">VV-ECMO の適応基準と禁忌（参考）</span>
+        </div>
+        <p class="rule-body" style="color:#4C1D95;">一般的にVV-ECMOの適応を検討する目安は：P/F比 &lt;80（最適な人工呼吸管理下）、または Murray score ≥3.0、または高二酸化炭素血症による難治性アシドーシス（pH &lt;7.15）などである。禁忌（相対的）としては：不可逆的な非呼吸器疾患、重篤な多臓器不全、抗凝固療法が不可能な場合、長期間（&gt;7日）の高圧換気（プラトー圧 &gt;30 cmH2O）による不可逆的な肺損傷などが挙げられる。日本では適応判断に際して体外循環専門チームとの連携が必須である。</p>
+      </div>
+    </div>
+
+    <!-- ─────────────────────────────────────
+         SUMMARY
+    ───────────────────────────────────── -->
+    <h3 id="ssc-ch4-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:36px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+      第4章のキーメッセージ
+    </h3>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+            <span class="rule-body"><strong>SpO2モニタリングの限界を認識：</strong>ABGが金標準。ショック・暗色肌・高・低SpO2域ではパルスオキシメトリーの精度が低下する。人種的公平性の問題（暗色肌でのSpO2過大評価）にも注意する（Statement 65）。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+            <span class="rule-body"><strong>酸素目標値はSpO2 90〜96%の範囲で個別設定：</strong>高め・低め目標いずれも可（低確実性）。低資源環境では保守的目標が実際的。大規模MEGA-ROX試験の結果で今後更新予定（Statement 66）。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+            <span class="rule-body"><strong>急性低酸素性呼吸不全にはHFNCが第1選択：</strong>通常酸素・NIVよりHFNCを優先（条件付き推奨）。P/F &lt;200が適応目安。急性心原性肺水腫・高CO2血症型ではNIVを考慮（Statements 67-69）。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+            <span class="rule-body"><strong>ARDSには低TV（6 mL/kg）・高PEEP・腹臥位換気が確立した推奨：</strong>ARDS見逃し率が48〜52%と高いため、非ARDS患者でも6〜8 mL/kgが推奨。漸増的PEEP滴定は有害として推奨しない（Statements 71-77）。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+            <span class="rule-body"><strong>覚醒下腹臥位は挿管回避に有効（RR 0.82）：</strong>低コスト・低資源環境にも適用可能。COVID-19データが主体だが試みる価値あり。腹臥位のために鎮静薬を使用してはならない（Statement 70）。</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         第5章 補助療法・支持療法
+    ══════════════════════════════════════ -->
+    <div id="ssc-ch5" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+      <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+      <div style="font-size:1.3rem;font-weight:900;position:relative;">第5章 補助療法・支持療法</div>
+      <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Adjunctive &amp; Additional Supportive Therapies — Statements 79–99</div>
+    </div>
+
+    <!-- ─────────────────────────────────────
+         SECTION 1: ステロイド
+    ───────────────────────────────────── -->
+    <h3 id="ssc-s5-1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+      ステロイド（corticosteroids）
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">敗血症性ショックへの静注ステロイド <span class="rec-cond">条件付き推奨</span><span class="rec-evi">低確実性</span></h3>
+        <p class="rule-body">敗血症性ショックに対して静注ステロイド（intravenous corticosteroids）を投与することを条件付きで推奨する（Statement 79）。45のRCT・9,543名を含むメタ解析では、28日死亡率の相対リスク（RR）は0.92（95%CI 0.83–1.01）と統計的有意差には届かないが、<span class="mark-green"><strong>ショックからの離脱（shock reversal）はRR 1.29と高確実性で改善</strong></span>することが示されている。このショック離脱効果を重視し、パネルの88.4%がステロイド投与を支持した。</p>
+        <p class="rule-body">投与レジメンとしては、パネルの約90%が<span class="mark-yellow"><strong>hydrocortisone 200 mg/日</strong></span>を選択する。投与方法は持続投与よりも間欠投与（例：50 mg を4〜6時間ごと）が一般的に用いられる。なお、ショックを伴わない敗血症（sepsis without shock）ではステロイドの効果は示されておらず（RR 1.09）、この推奨はあくまで敗血症性ショックの患者に限定される。</p>
+        <div class="ie-stat-grid">
+          <div class="ie-stat">
+            <div class="ie-stat-val">RR 0.92</div>
+            <div class="ie-stat-label">28日死亡率への効果<br>（低確実性、CI 0.83–1.01）</div>
+          </div>
+          <div class="ie-stat">
+            <div class="ie-stat-val">RR 1.29</div>
+            <div class="ie-stat-label">ショック離脱の改善<br>（高確実性）</div>
+          </div>
+          <div class="ie-stat">
+            <div class="ie-stat-val">200 mg/日</div>
+            <div class="ie-stat-label">Hydrocortisone<br>標準投与量（90%が選択）</div>
+          </div>
+        </div>
+        <div class="alert-yellow">
+          <strong>有害事象に注意：</strong>ステロイド投与により<span class="mark-red"><strong>高血糖（RR 1.19）・高ナトリウム血症（RR 1.64）</strong></span>のリスクが有意に上昇する。血糖モニタリングの強化と、必要に応じたインスリン調整が不可欠。
+        </div>
+      </div>
+    </div>
+
+    <!-- ─────────────────────────────────────
+         SECTION 2: 非推奨の補助療法
+    ───────────────────────────────────── -->
+    <h3 id="ssc-s5-2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+      <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+      推奨しない補助療法（Statements 80–86）
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">解熱療法（薬物・体表冷却）は推奨しない <span class="rec-cond">条件付き推奨</span><span class="rec-evi">超低確実性</span></h3>
+        <p class="rule-body">敗血症患者への積極的な解熱療法（アセトアミノフェンなどの解熱薬、または体表冷却）は推奨しない（Statement 80）。13のRCT・3,333名のメタ解析では、死亡率に対する効果は RR 1.02 とほぼ差がなく、介入の利益が確認できなかった。発熱は免疫応答の一部であり、一律に抑制する根拠が乏しい。</p>
+        <p class="rule-body">ただし、患者の苦痛緩和や快適さを目的とした解熱薬の使用は選択肢として残される。また<span class="mark-yellow"><strong>神経集中治療患者（脳損傷・脳卒中後など）や心停止後症候群の患者</strong></span>はこの推奨の対象外であり、これらの患者群では体温管理が別の理由で重要となる。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">静注ビタミンC（Vitamin C）は推奨しない <span class="rec-cond">条件付き推奨</span><span class="rec-evi">低確実性</span></h3>
+        <p class="rule-body">敗血症患者への静注ビタミンC投与は推奨しない（Statement 81）。55のRCTを対象としたメタ解析において、バイアスリスクが低い7試験に限定した解析では90日死亡率 RR 1.06（差なし）であり、有効性が示されなかった。</p>
+        <p class="rule-body">「LOVIT試験」などの大規模RCTでも同様に利益を認めず、むしろビタミンCに特有の<span class="mark-red"><strong>偽性高血糖（glucometer が誤って高値を示す）</strong></span>に注意が必要である。フルクトース-6-リン酸法を利用したポイントオブケア血糖測定器では干渉が生じるため、投与中は血糖モニタリング法に注意する。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">推奨しない補助療法の一覧（Statements 82–86）</h3>
+        <p class="rule-body">以下の治療介入はいずれも高品質RCTで有効性が示されておらず、SSC 2026では推奨しない（条件付き推奨）。エビデンスの質はおおむね低〜超低確実性である。</p>
+        <table class="ie-table">
+          <thead>
+            <tr>
+              <th>Statement</th>
+              <th>介入</th>
+              <th>推奨レベル・確実性</th>
+              <th>主な根拠・注記</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>82</strong></td>
+              <td>免疫グロブリン静注（IVIG）</td>
+              <td><span class="rec-cond">条件付き推奨</span><span class="rec-evi">低確実性</span></td>
+              <td>有効性を示すRCTなし。コストも高い</td>
+            </tr>
+            <tr>
+              <td><strong>83</strong></td>
+              <td>血液浄化法（吸着・高用量血液濾過・血漿交換）</td>
+              <td><span class="rec-cond">条件付き推奨</span><span class="rec-evi">超低確実性</span></td>
+              <td>サイトカイン除去を目的とした特殊な血液浄化法。標準的RRTとは区別する</td>
+            </tr>
+            <tr>
+              <td><strong>84</strong></td>
+              <td>ポリミキシンB血液吸着（PMX-DHP）</td>
+              <td><span class="rec-cond">条件付き推奨</span><span class="rec-evi">低確実性</span></td>
+              <td>エビデンスの信頼性が低い。TIGRIS RCT（特定患者群）の結果が待たれる</td>
+            </tr>
+            <tr>
+              <td><strong>85</strong></td>
+              <td>ビタミンD療法</td>
+              <td><span class="rec-cond">条件付き推奨</span><span class="rec-evi">超低確実性</span></td>
+              <td>11 RCT・2,003名 RR 0.84（超低確実性）。VIOLET試験のサブグループで死亡率上昇</td>
+            </tr>
+            <tr>
+              <td><strong>86</strong></td>
+              <td>XueBiJing（血必清）注射液</td>
+              <td><span class="rec-cond">条件付き推奨</span><span class="rec-evi">超低確実性</span></td>
+              <td>薬事承認地域（中国）外では推奨しない</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="alert-yellow" style="margin-top:12px;">
+          <strong>ビタミンDについての注意：</strong>VIOLET試験の敗血症サブグループ（350名）において、<span class="mark-red"><strong>高用量ビタミンD群で死亡率が上昇（絶対リスク増加 +12.4%）</strong></span>することが示された。ビタミンD欠乏症の治療や標準的な栄養補充目的のビタミンD補充はこの推奨の対象外だが、「敗血症治療としての高用量投与」は行うべきでない。
+        </div>
+      </div>
+    </div>
+
+    <div class="ie-alpha">
+      <div class="ie-alpha-inner">
+        <div class="ie-alpha-header">
+          <span class="ie-alpha-badge">＋α</span>
+          <span class="ie-alpha-title">ポリミキシンB血液吸着（PMX-DHP）とTIGRIS試験</span>
+        </div>
+        <p class="rule-body" style="color:#4C1D95;">ポリミキシンB血液吸着は腸管穿孔・腹腔内感染由来の内毒素（エンドトキシン）を血液から除去する目的で開発されたカラム（商品名：Toraymyxin）である。これまでの試験（EUPHRATES試験など）では一貫した有効性を示せなかった。現在進行中のTIGRIS試験では、エンドトキシン活性が高い特定の患者サブグループを対象として効果を検証しており、その結果によってはより限定的な推奨が生まれる可能性がある。日本では保険適用されているが、現時点でSSC 2026は一般的使用を推奨しない立場をとっている。</p>
+      </div>
+    </div>
+
+    <!-- ─────────────────────────────────────
+         SECTION 3: ストレス潰瘍予防・プロバイオティクス
+    ───────────────────────────────────── -->
+    <h3 id="ssc-s5-3" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+      <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>
+      ストレス潰瘍予防・プロバイオティクス
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">GI出血リスクがある患者へのPPIによるストレス潰瘍予防 <span class="rec-cond">条件付き推奨</span><span class="rec-evi">中等度確実性</span></h3>
+        <p class="rule-body">消化管（GI）出血のリスク因子を有する敗血症患者には、プロトンポンプ阻害薬（PPI）によるストレス潰瘍予防を条件付きで推奨する（Statement 87）。12のRCTにREVISE試験（2024年発表）を加えたメタ解析では、<span class="mark-green"><strong>PPI投与により臨床的に重要なGI出血が RR 0.48（95%CI 0.30–0.78）と約半減</strong></span>することが中等度確実性で示された。</p>
+        <p class="rule-body">ただし、死亡率・<em>C. difficile</em>感染率・人工呼吸器装着期間への影響は不確実であり、推奨はリスク因子を有する患者に限定される。全敗血症患者への一律投与は過剰介入となる可能性がある。PPIが利用できない場合はH2受容体拮抗薬（H2RA）も代替選択肢となる。</p>
+        <div class="ie-stat-grid">
+          <div class="ie-stat">
+            <div class="ie-stat-val">RR 0.48</div>
+            <div class="ie-stat-label">臨床的GI出血の<br>相対リスク（PPI投与）</div>
+          </div>
+          <div class="ie-stat">
+            <div class="ie-stat-val">中等度</div>
+            <div class="ie-stat-label">GRADEエビデンス<br>確実性</div>
+          </div>
+          <div class="ie-stat" style="background:#FFF7ED;border-color:#FED7AA;">
+            <div class="ie-stat-val" style="color:#EA580C;">限定的</div>
+            <div class="ie-stat-label">リスク因子がある<br>患者のみに推奨</div>
+          </div>
+        </div>
+        <div class="alert-green">
+          <strong>GI出血リスク因子：</strong>以下の因子がある患者では予防を積極的に検討する。<br>
+          ①急性腎障害（AKI）、②男性、③凝固障害（DICなど）、④敗血症性ショック、⑤慢性肝不全。これらのリスク因子がない患者では予防の必要性を個別に検討する。
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">プロバイオティクスは推奨しない <span class="rec-cond">条件付き推奨</span><span class="rec-evi">超低確実性</span></h3>
+        <p class="rule-body">敗血症患者へのプロバイオティクス投与は推奨しない（Statement 88）。65以上のRCTが存在するが、バイアスリスクが低い試験（PROSPECT試験など）に限定した解析では臨床的利益が認められなかった。さらに、<span class="mark-red"><strong>免疫不全患者や腸管バリア機能が低下した重症患者では菌血症リスクが否定できない</strong></span>。腸内細菌叢の改善という理論的根拠はあるものの、現時点では敗血症患者への推奨を支持するエビデンスが不十分である。</p>
+      </div>
+    </div>
+
+    <!-- ─────────────────────────────────────
+         SECTION 4: 輸液管理（脱蘇生）・輸血
+    ───────────────────────────────────── -->
+    <h3 id="ssc-s5-4" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+      <span style="color:#16A34A;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 4</span>
+      輸液管理（脱蘇生）・輸血
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">急性蘇生後の敗血症性ショックには積極的な輸液除去（脱蘇生）を推奨 <span class="rec-cond">条件付き推奨</span><span class="rec-evi">超低確実性</span></h3>
+        <p class="rule-body">急性蘇生期（acute resuscitation phase）を脱した敗血症性ショック患者に対して、<span class="mark-green"><strong>積極的な体液除去（active fluid removal）</strong></span>を条件付きで推奨する（Statement 89）。13のRCT・2,517名のメタ解析では死亡率 RR 0.92（超低確実性）であった。エビデンスの確実性は低いが、体液過剰・浮腫が死亡率に関連すること、および患者代表からの「浮腫回避に高い価値を置く」という要望を踏まえてパネルは推奨を決定した。</p>
+        <p class="rule-body">積極的体液除去の方法としては<span class="mark-yellow"><strong>利尿薬（ループ利尿薬）を第1選択</strong></span>とし、利尿薬が不十分な場合は体外的除水（持続腎代替療法：CRRTなど）を用いる。「急性蘇生後」の定義は重要で、<span class="mark-green"><strong>昇圧薬の増量が不要になり・高用量昇圧薬の維持が不要になり・持続的な輸液負荷拡張が不要になった状態</strong></span>を指す。蘇生中の患者への積極的利尿は禁忌である。</p>
+        <div class="ie-flow">
+          <div class="ie-flow-item">
+            <div class="ie-flow-num">1</div>
+            <div style="flex:1;"><p class="rule-body"><strong>急性蘇生期（Active Resuscitation）：</strong>昇圧薬増量中・高用量昇圧薬維持中・持続的輸液拡張が必要な状態。この時期は脱蘇生の適応外。</p></div>
+          </div>
+          <div class="ie-flow-arrow">↓ 安定化・蘇生完了</div>
+          <div class="ie-flow-item">
+            <div class="ie-flow-num">2</div>
+            <div style="flex:1;"><p class="rule-body"><strong>蘇生後期（Post-Resuscitation）：</strong>昇圧薬が安定または減量中。積極的輸液除去の適応。利尿薬（フロセミドなど）を第1選択として投与開始。</p></div>
+          </div>
+          <div class="ie-flow-arrow">↓ 利尿薬が不十分な場合</div>
+          <div class="ie-flow-item">
+            <div class="ie-flow-num">3</div>
+            <div style="flex:1;"><p class="rule-body"><strong>体外的除水：</strong>CRRTなどの腎代替療法で体外的に除水を行う。AKI合併例では特に有効な手段となる。</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">制限的輸血戦略（Hb ≥7 g/dL 目標） <span class="rec-strong">強い推奨</span><span class="rec-evi">中等度確実性</span></h3>
+        <p class="rule-body">敗血症・敗血症性ショック患者への輸血は、<span class="mark-green"><strong>制限的戦略（restrictive strategy）</strong></span>を用いることを強く推奨する（Statement 90）。具体的にはHb &lt;7 g/dL を輸血トリガーとし、Hb ≥7 g/dL の維持を目標とする。自由輸血戦略（Hb &lt;9–10 g/dL でトリガー）と比較して死亡率・合併症に差がなく、不要な輸血を避けることができる。ただし、急性心筋梗塞・重篤な低酸素血症・活動性出血など、より高いHb目標を要する特定の状況は対象外として個別判断する。</p>
+      </div>
+    </div>
+
+    <!-- ─────────────────────────────────────
+         SECTION 5: 栄養・血糖管理
+    ───────────────────────────────────── -->
+    <h3 id="ssc-s5-5" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 5</span>
+      栄養・血糖管理
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">早期経腸栄養（72時間以内） <span class="rec-cond">条件付き推奨</span><span class="rec-evi">超低確実性</span></h3>
+        <p class="rule-body">経腸栄養が可能な敗血症患者では、ICU入室後<span class="mark-yellow"><strong>72時間以内</strong></span>に経腸栄養を開始することを条件付きで推奨する（Statement 91）。早期経腸栄養は腸管バリア機能の維持・腸内細菌叢の保護・免疫機能への利益が期待される。ただし腸閉塞・腸管虚血・腸管穿孔などの禁忌がある場合は適応しない。循環が安定していれば（少量の昇圧薬維持中でも）経腸栄養を開始できる。</p>
+        <div class="alert-green">
+          <strong>実践ポイント：</strong>ショック急性期でも少量の経腸栄養（10–20 mL/hr 程度のtrophic feeding）から開始し、循環安定後に漸増するアプローチが標準的。経腸栄養不耐の場合は静脈栄養への切り替えを早めに検討する。
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">血糖 ≥180 mg/dL（10 mmol/L）でインスリン療法開始 <span class="rec-strong">強い推奨</span><span class="rec-evi">中等度確実性</span></h3>
+        <p class="rule-body">ICUにおける敗血症患者の血糖管理では、<span class="mark-green"><strong>血糖値が180 mg/dL（10 mmol/L）以上になった時点でインスリン療法を開始</strong></span>することを強く推奨する（Statement 92）。血糖目標は<span class="mark-yellow"><strong>144–180 mg/dL（8–10 mmol/L）</strong></span>とする。</p>
+        <p class="rule-body"><span class="mark-red"><strong>厳格な血糖管理（目標 80–110 mg/dL）は推奨しない。</strong></span>NICE-SUGAR試験をはじめとする複数の大規模RCTで、厳格管理群では重篤な低血糖（≤40 mg/dL）が有意に多く、むしろ死亡率が増加することが示されている。「正常血糖を維持する」より「高血糖を避ける」という考え方が現代の標準である。</p>
+        <div class="ie-echo-grid">
+          <div class="ie-echo-box">
+            <div class="ie-echo-name">推奨される血糖管理目標</div>
+            <div class="ie-echo-body">
+              • インスリン開始閾値：≥180 mg/dL<br>
+              • 血糖目標範囲：144–180 mg/dL<br>
+              • 厳格管理（80–110 mg/dL）は禁忌<br>
+              • 低血糖（≤70 mg/dL）を避ける
+            </div>
+          </div>
+          <div class="ie-echo-box">
+            <div class="ie-echo-name">モニタリングの注意点</div>
+            <div class="ie-echo-body">
+              • ビタミンC投与中は偽性高血糖に注意<br>
+              • 末梢循環不全時は動脈血での確認<br>
+              • 1〜2時間ごとの頻回測定が必要<br>
+              • プロトコール化された管理が推奨
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─────────────────────────────────────
+         SECTION 6: 腎代替療法・炭酸水素ナトリウム
+    ───────────────────────────────────── -->
+    <h3 id="ssc-s5-6" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+      <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 6</span>
+      腎代替療法（RRT）・炭酸水素ナトリウム
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">AKI：明確な適応がない限りRRTは不要 <span class="rec-cond">条件付き推奨</span><span class="rec-evi">中等度確実性</span></h3>
+        <p class="rule-body">敗血症に伴うAKI（急性腎障害）患者において、<span class="mark-yellow"><strong>乏尿・クレアチニン上昇のみでは腎代替療法（RRT）の適応とはならない</strong></span>（Statement 93）。RRTを開始すべき明確な適応は、生命を脅かす高カリウム血症・代謝性アシドーシス・体液過剰（利尿薬抵抗性）・尿毒症症状などに限定される。早期・予防的RRTが有益であることを示す高確実性エビデンスはなく、侵襲的・高コストな介入を不必要に行う害を避ける観点から、適応を絞ることが推奨される。</p>
+        <p class="rule-body">RRTのモダリティについては、<span class="mark-green"><strong>持続的RRT（CRRT）と間欠的血液透析（IHD）のいずれも選択可能</strong></span>であり、どちらが優れるかを示す一貫したエビデンスはない（Statement 94）。血行動態が不安定な患者ではCRRTが耐容されやすい傾向はあるが、最終的には施設・患者状況に応じて選択する。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">炭酸水素ナトリウム（重曹）投与の判断</h3>
+        <p class="rule-body">炭酸水素ナトリウム（sodium bicarbonate）投与については、対象状況によって推奨が分かれる（Statements 95–96）。</p>
+        <table class="ie-table">
+          <thead>
+            <tr>
+              <th>Statement</th>
+              <th>状況</th>
+              <th>推奨</th>
+              <th>確実性</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>95</strong></td>
+              <td>低灌流性乳酸アシドーシス（ショックに起因）</td>
+              <td><span class="rec-cond">条件付き推奨</span> 投与しない</td>
+              <td>低確実性</td>
+            </tr>
+            <tr>
+              <td><strong>96</strong></td>
+              <td>pH ≤7.2 + AKI（AKIN Stage 2–3）</td>
+              <td><span class="rec-cond">条件付き推奨</span> 投与を検討してもよい</td>
+              <td>超低確実性</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="rule-body" style="margin-top:10px;">Statement 95の根拠は、低灌流性アシドーシス（ショックや組織低酸素に起因する乳酸アシドーシス）に対する重曹投与が循環動態や臓器障害を改善するというエビデンスがないことによる。一方、Statement 96は BICAR-ICU 試験（2018年）に基づき、<span class="mark-yellow"><strong>重症 AKI（AKIN 2–3）を合併した高度アシドーシス（pH ≤7.2）の患者では死亡率改善・RRT回避効果が示唆された</strong></span>。2つの推奨は矛盾するのではなく、「ショックのみ起因のアシドーシス」と「AKI合併例」で対応を分けるという考え方である。</p>
+      </div>
+    </div>
+
+    <!-- ─────────────────────────────────────
+         SECTION 7: VTE予防
+    ───────────────────────────────────── -->
+    <h3 id="ssc-s5-7" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+      <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 7</span>
+      静脈血栓塞栓症（VTE）予防
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">薬物的VTE予防は禁忌がなければ実施する <span class="rec-strong">強い推奨</span><span class="rec-evi">中等度確実性</span></h3>
+        <p class="rule-body">敗血症患者において、薬物投与の禁忌がなければ<span class="mark-green"><strong>薬物的VTE予防（pharmacological VTE prophylaxis）</strong></span>を実施することを強く推奨する（Statement 97）。ICU患者はVTE（深部静脈血栓症・肺塞栓症）の高リスク群であり、抗凝固薬による予防が標準治療として確立している。禁忌（活動性出血・血小板減少・凝固障害など）がある場合を除き、すべての敗血症患者に適用する。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">VTE予防には低分子ヘパリン（LMWH）を推奨 <span class="rec-strong">強い推奨</span><span class="rec-evi">中等度確実性</span></h3>
+        <p class="rule-body">薬物的VTE予防の薬剤としては、<span class="mark-green"><strong>未分画ヘパリン（UFH）よりも低分子ヘパリン（LMWH）</strong></span>を優先することを強く推奨する（Statement 98）。LMWHは UFH と比較して投与が簡便（1日1〜2回の皮下注）で、HIT（ヘパリン起因性血小板減少症）のリスクが低く、VTE予防効果も同等以上である。</p>
+        <div class="alert-green">
+          <strong>実践ポイント：</strong>エノキサパリン（クレキサン）などのLMWHを1日1〜2回皮下注で投与する。腎機能障害（eGFR &lt;30 mL/min）がある場合はLMWHが蓄積するため、UFHへの変更または用量調整を検討する。
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">薬物的VTE予防単独で十分（機械的VTE予防の追加は不要） <span class="rec-cond">条件付き推奨</span><span class="rec-evi">中等度確実性</span></h3>
+        <p class="rule-body">薬物的VTE予防が実施されている患者において、<span class="mark-yellow"><strong>機械的VTE予防（弾性ストッキング・間欠的空気圧迫法）を追加投与する必要はない</strong></span>（Statement 99）。薬物予防に機械的予防を上乗せしても追加の利益は示されていない。機械的VTE予防は薬物予防の禁忌がある場合（出血リスクが高い患者など）の代替として位置づけられる。</p>
+      </div>
+    </div>
+
+    <!-- ─────────────────────────────────────
+         SUMMARY
+    ───────────────────────────────────── -->
+    <h3 id="ssc-ch5-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:36px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+      第5章のキーメッセージ
+    </h3>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+            <span class="rule-body"><strong>敗血症性ショックにはステロイド（条件付き推奨）：</strong>hydrocortisone 200 mg/日が標準。ショック離脱を改善（RR 1.29, 高確実性）。高血糖・高ナトリウム血症に注意（Statement 79）。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+            <span class="rule-body"><strong>解熱薬・ビタミンC・IVIG・血液浄化・ビタミンDはいずれも推奨しない：</strong>高品質RCTで有効性が示されず、一部では害の可能性（VIOLET試験でビタミンD高用量群の死亡率上昇）（Statements 80–86）。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+            <span class="rule-body"><strong>GI出血リスクがある敗血症患者にはPPIを使用：</strong>GI出血を約半減（RR 0.48, 中等度確実性, REVISE試験）。リスク因子（AKI・ショック・凝固障害など）がある場合に限定（Statement 87）。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+            <span class="rule-body"><strong>急性蘇生後は積極的輸液除去（脱蘇生）を推奨：</strong>利尿薬を第1選択として体液過剰を解消。浮腫は死亡率に関連。蘇生中（昇圧薬増量中）の患者には適用しない（Statement 89）。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+            <span class="rule-body"><strong>輸血はHb ≥7 g/dL目標の制限的戦略（強い推奨）；血糖 ≥180でインスリン開始・目標144–180（強い推奨）；LMWHによるVTE予防（強い推奨）はすべて変わらず：</strong>これらは確立した支持療法として継続推奨される（Statements 90–99）。</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         第6章 Goals of Care・ケアの移行・長期アウトカム
+    ══════════════════════════════════════ -->
+    <div id="ssc-ch6" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+      <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+      <div style="font-size:1.3rem;font-weight:900;position:relative;">第6章 Goals of Care・ケアの移行・長期アウトカム</div>
+      <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Goals of Care, Transitions of Care, Long-term Outcomes — Statements 100–129</div>
+    </div>
+
+    <!-- ─────────────────────────────────────
+         SECTION 1: Goals of Care の話し合い
+    ───────────────────────────────────── -->
+    <h3 id="ssc-s6-1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+      Goals of Care（ゴール・オブ・ケア）の話し合い
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">患者・家族とGoals of Careおよび予後を話し合う <span class="rec-gps">Good Practice Statement</span></h3>
+        <p class="rule-body">敗血症患者の治療において、<span class="mark-green"><strong>患者本人や家族・代理意思決定者とGoals of Care（ケアの目標）および予後</strong></span>について話し合うことは不可欠な実践である（Statement 100）。18,000人以上の敗血症入院患者を対象としたコホート研究では、GoC話し合いが一貫して行われていないこと、そして病院間でその実施頻度に大きなばらつきがあることが明らかになっている。</p>
+        <p class="rule-body">GoC話し合いは単なる「同意取得」ではなく、患者の価値観・意向・懸念事項を理解し、それをケア計画に反映させるプロセスである。敗血症という重篤な病態では、積極的治療を継続するか、緩和的アプローチに移行するかの意思決定が必要になることが多く、患者・家族が十分な情報を持った上で決定に参加できる環境を整えることが医療者の責務となる。</p>
+        <div class="alert-green">
+          <strong>臨床ポイント：</strong>GoC話し合いは「悪い知らせを伝える場」ではなく、患者中心のケアを実現するための<strong>コミュニケーションプロセス</strong>である。予後の不確実性を共有しながら、患者の価値観に沿った治療目標を共同で設定することが重要。
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">GoC話し合いは入院72時間以内（早期）に行う <span class="rec-cond">条件付き推奨</span><span class="rec-evi">低確実性</span></h3>
+        <p class="rule-body">敗血症患者では、<span class="mark-yellow"><strong>入院から72時間以内</strong></span>にGoals of Careの話し合いを開始することが条件付きで推奨される（Statement 101）。早期のGoC話し合いは、患者の価値観に沿ったケアを確実に提供するうえで重要であり、不必要な侵襲的治療の継続を防ぐことにもつながる。</p>
+        <p class="rule-body">予測死亡率を医師・患者・家族に通知することで早期のGoC討議が促進されることが非ランダム化試験で示されているが、ランダム化試験のエビデンスは現時点では限られている。72時間という期限はあくまでも目安であり、患者の状態・コミュニケーション能力・家族の状況に応じて柔軟に対応する必要がある。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">GoC話し合いをトリガーする標準化基準についてはエビデンス不十分 <span class="rec-iop">In Our Practice</span></h3>
+        <p class="rule-body">GoC話し合いを開始すべき特定の臨床的トリガー（例：SOFA スコア閾値、予測死亡率、ICU滞在日数など）を標準化することについては、現時点でエビデンスが不十分であるとSSCパネルは判断し、具体的な推奨を控えた（Statement 102）。</p>
+        <p class="rule-body">予測死亡率の積極的な通知が早期GoC話し合いを促進した報告はあるが、いずれも非ランダム化試験にとどまる。標準化されたトリガーの存在はGoC話し合いの漏れを防ぐ一方、形式化によって個別性が損なわれるリスクもある。患者の状態変化・家族の不安・予後の不確実性など、臨床文脈に応じた判断が現実的に求められる。</p>
+      </div>
+    </div>
+
+    <!-- ─────────────────────────────────────
+         SECTION 2: 事前指示・時間限定試験
+    ───────────────────────────────────── -->
+    <h3 id="ssc-s6-2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+      <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+      事前指示・時間限定試験（Time-Limited Trial）
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">退院後に事前指示を作成できるよう医療システムが戦略を実施する <span class="rec-gps">Good Practice Statement</span></h3>
+        <p class="rule-body">敗血症から回復して退院した患者が、将来の重篤な疾患に際して自分の意向が尊重されるよう、<span class="mark-green"><strong>退院後に事前指示（Advance Directive）を作成できる機会と支援</strong></span>を医療システムとして整備することが Good Practice Statement として推奨される（Statement 103）。</p>
+        <p class="rule-body">ICU入室中は意識障害や急性疾患によって意思決定能力が損なわれていることが多く、入院中に事前指示を整備することは現実的に困難なことが多い。退院後の外来受診や回復フォローアップの機会を活用して、患者が落ち着いた状態で自分の価値観と今後の治療方針について考えられる環境を提供することが重要である。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">体系的な退院前事前指示の確立：エビデンス不十分</h3>
+        <p class="rule-body">入院中または退院前に体系的・標準化されたプロセスで事前指示を確立することについては、1件のRCTが存在する（Statement 104）。そのRCTでは事前指示介入によりコードステータス変更が増加した（<span class="mark-yellow"><strong>RR 2.15、中等度確実性</strong></span>）が、この単一試験の結果のみをもって全患者への体系的実施を推奨するには証拠が不十分であるとパネルは判断した。</p>
+        <p class="rule-body">事前指示の内容・形式・法的効力は国や施設によって異なり、日本の医療文化・法制度にあわせた対応が必要である。事前指示の作成支援は死亡を促進するものではなく、患者の自律性を守るための重要なプロセスであることを医療者が正しく理解することが前提となる。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">正式なTime-Limited Trial（時間限定試験）の実施：エビデンス不十分 <span class="rec-iop">In Our Practice</span></h3>
+        <p class="rule-body"><span class="mark-yellow"><strong>Time-Limited Trial（TLT：時間限定試験）</strong></span>とは、一定期間にわたって生命維持治療を継続し、その期間における患者の反応に応じて治療継続または緩和的アプローチへの移行を決定する、患者・家族・医療者の共同アプローチである（Statement 105）。SSCパネルの64%がTLTを実際に使用していると回答しているが、RCTは存在せず、現時点では正式な推奨の対象外となった。</p>
+        <p class="rule-body">TLTは「治療をやめる」という決定を回避し、時間をかけた観察と再評価を可能にする点で臨床的に有用なフレームワークである。ただし、TLTが十分なコミュニケーションなしに実施された場合には、弱者や社会的マイノリティへの格差を拡大するリスクがある点にも注意が必要である。</p>
+        <div class="ie-echo-grid">
+          <div class="ie-echo-box">
+            <div class="ie-echo-name">TLTの基本的なプロセス</div>
+            <div class="ie-echo-body">
+              • 明確な期間（例：48〜72時間）を設定<br>
+              • 評価指標（臨床的反応）を事前に合意<br>
+              • 期間終了時に患者・家族と再評価<br>
+              • 反応あり → 継続または次のステップへ<br>
+              • 反応なし → 目標変更・緩和ケアへ移行
+            </div>
+          </div>
+          <div class="ie-echo-box">
+            <div class="ie-echo-name">TLT実施の注意点</div>
+            <div class="ie-echo-body">
+              • 十分なコミュニケーションが前提<br>
+              • 患者・家族の理解と同意を確認<br>
+              • 文化的背景・言語バリアを考慮<br>
+              • 期間終了後の再評価を必ず実施<br>
+              • 格差拡大のリスクに配慮する
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─────────────────────────────────────
+         SECTION 3: 緩和ケア
+    ───────────────────────────────────── -->
+    <h3 id="ssc-s6-3" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+      <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>
+      緩和ケアの統合
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">緩和ケアの原則を治療計画に統合する <span class="rec-gps">Good Practice Statement</span></h3>
+        <p class="rule-body">敗血症患者の治療計画には、<span class="mark-green"><strong>緩和ケアの原則（症状緩和・精神的サポート・スピリチュアルケア・家族支援など）</strong></span>を初期から統合することが Good Practice Statement として推奨される（Statement 106）。緩和ケアは「積極的治療の代替」ではなく、積極的治療と並行して提供されるものである。</p>
+        <p class="rule-body">ICUでは疼痛・呼吸困難・不安・せん妄といった苦痛症状が高頻度に生じる。これらに対する適切な症状管理は、患者の尊厳と Quality of Life を守るために不可欠であり、「できることをすべてやる」という文化の中でも緩和ケアの視点を忘れてはならない。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">全患者への定期的な緩和ケアコンサルテーションは推奨しない <span class="rec-cond">条件付き推奨</span><span class="rec-evi">低確実性</span></h3>
+        <p class="rule-body">すべての敗血症患者に対して<span class="mark-red"><strong>定型的・定期的な緩和ケアチームへのコンサルテーションを行うことは条件付きで推奨しない</strong></span>（Statement 107）。緩和ケアチームへの依頼は、患者の状態・ニーズ・希望に基づいて個別に判断することが重要である。</p>
+        <p class="rule-body">定型的コンサルテーションに関するRCTではアウトカムの明確な改善が示されなかった。一方で、緩和ケアが必要と判断された患者（複雑な症状管理・家族とのコンフリクト・予後の不確実性が高い場合など）においては積極的にコンサルテーションを活用することが推奨される。</p>
+        <div class="alert-yellow">
+          <strong>注意：</strong>「定型的コンサルテーションを推奨しない」は「緩和ケアが不要」を意味しない。緩和ケアの原則は全患者に統合されるべきであり（Statement 106）、専門的コンサルテーションは適切なタイミングで積極的に活用すべきである。
+        </div>
+      </div>
+    </div>
+
+    <!-- ─────────────────────────────────────
+         SECTION 4: ケアの移行（ICU→病棟→退院）
+    ───────────────────────────────────── -->
+    <h3 id="ssc-s6-4" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+      <span style="color:#16A34A;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 4</span>
+      ケアの移行（ICU退室・退院）
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">ICU退室後のクリティカルケア移行プログラムを使用する <span class="rec-cond">条件付き推奨</span><span class="rec-evi">超低確実性</span></h3>
+        <p class="rule-body">ICU退室後に一般病棟へ移行する敗血症患者に対して、<span class="mark-yellow"><strong>クリティカルケア移行プログラム</strong></span>（structured transition programs）を使用することが条件付きで推奨される（Statement 108）。このようなプログラムには、ICUと一般病棟間の情報伝達の改善、退室後のモニタリング強化、患者教育などが含まれる。</p>
+        <p class="rule-body">ICU退室後の患者は急激な監視密度の低下にさらされ、急変リスクが高い時期にある。体系的な移行プログラムは再入室率・合併症・患者満足度の改善につながる可能性があるが、現時点のエビデンスは超低確実性にとどまる。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">ケアの移行における重要情報の申し送りプロセスを使用する <span class="rec-cond">条件付き推奨</span><span class="rec-evi">超低確実性</span></h3>
+        <p class="rule-body">ICUから病棟へ、あるいは病棟から退院・施設へのケアの移行においては、<span class="mark-yellow"><strong>標準化された申し送りプロセス</strong></span>を使用することが条件付きで推奨される（Statement 109）。申し送りに含めるべき重要情報として、診断・治療経過・現在の薬剤・フォローアップ計画・患者・家族の懸念事項・GoC話し合いの内容などが挙げられる。</p>
+        <p class="rule-body">情報の断絶は移行期の合併症・再入院・薬剤エラーの主要な原因となる。ICU退室サマリーの標準化や構造化されたハンドオフツールの活用によって、こうした移行期のリスクを軽減することができる。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">経済的・社会的サポートニーズのスクリーニングを実施する <span class="rec-gps">Good Practice Statement</span></h3>
+        <p class="rule-body">ケアの移行時には、<span class="mark-green"><strong>経済的困難・住居の不安定・栄養不足・財政的サポート・精神的サポート</strong></span>などの社会的ニーズを系統的にスクリーニングすることが Good Practice Statement として推奨される（Statement 110）。</p>
+        <p class="rule-body">敗血症からの回復には身体的・精神的回復だけでなく、社会的基盤が不可欠である。特に長期入院後の患者では、退院後の生活を支えるリソースが著しく損なわれていることが多い。社会福祉・ソーシャルワーカーとの連携を通じて、地域の支援サービスにつなぐことが長期的な回復を促進する。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">移行時に包括的薬剤調整を実施する <span class="rec-gps">Good Practice Statement</span></h3>
+        <p class="rule-body">ICU退室・退院などケアの移行時には、<span class="mark-green"><strong>包括的な薬剤調整（medication reconciliation）</strong></span>を実施することが Good Practice Statement として推奨される（Statement 111）。ICU入室中には多くの薬剤が追加・変更・中止されるため、移行時に薬剤リストを精査し、不要な薬剤の継続を防ぎ、必要な薬剤の漏れを補正することが重要である。</p>
+        <p class="rule-body">薬剤調整の対象には、抗精神病薬・プロトンポンプ阻害薬（PPI）・オピオイド・ステロイド・抗凝固薬など、ICU退室後に不必要に継続されがちな薬剤が含まれる。不要な薬剤の長期継続は副作用・薬物相互作用・コスト増大につながる。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">薬剤師主導の薬剤調整を実施する <span class="rec-cond">条件付き推奨</span><span class="rec-evi">超低確実性</span></h3>
+        <p class="rule-body">ケアの移行時の薬剤調整は、<span class="mark-yellow"><strong>薬剤師が主導して実施すること</strong></span>が条件付きで推奨される（Statement 112）。薬剤師介入を検討した研究では、ICU退室時の<span class="mark-yellow"><strong>抗精神病薬処方が RR 0.84（低確実性）</strong></span>で減少し、退院時の<span class="mark-yellow"><strong>PPI（プロトンポンプ阻害薬）の不要継続が RR 0.16（低確実性）</strong></span>で大幅に減少することが示されている。</p>
+        <p class="rule-body">薬剤師は薬剤の適応・用量・相互作用・中止タイミングについて専門的知識を持ち、医師チームと協働することで安全な薬剤調整を実現できる。ICU退室後の薬剤管理において薬剤師の関与を強化することが、患者安全の向上につながる。</p>
+        <div class="ie-stat-grid">
+          <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+            <div class="ie-stat-val" style="color:#DC2626;">RR 0.84</div>
+            <div class="ie-stat-label">薬剤師介入による<br>抗精神病薬処方減少</div>
+          </div>
+          <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+            <div class="ie-stat-val" style="color:#DC2626;">RR 0.16</div>
+            <div class="ie-stat-label">薬剤師介入による<br>PPI不要継続減少</div>
+          </div>
+          <div class="ie-stat">
+            <div class="ie-stat-val">低確実性</div>
+            <div class="ie-stat-label">両アウトカムの<br>エビデンス確実性</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─────────────────────────────────────
+         SECTION 5: 退院計画・患者教育
+    ───────────────────────────────────── -->
+    <h3 id="ssc-s6-5" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 5</span>
+      退院計画・患者教育
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">退院計画への患者・家族参加と入院経過に関する情報提供 <span class="rec-gps">Good Practice Statement</span></h3>
+        <p class="rule-body">退院計画には<span class="mark-green"><strong>患者および家族・介護者を積極的に参加</strong></span>させることが Good Practice Statement として推奨される（Statement 113）。また、<span class="mark-green"><strong>入院経過・敗血症の診断・受けた治療・想定される後遺症</strong></span>に関する書面および口頭での情報提供を行うことも推奨される（Statement 114）。</p>
+        <p class="rule-body">多くの患者はICU退室後に「何が起きていたのか」を理解していないことが多い。退院時の丁寧な説明と書面の提供は、患者・家族の不安を軽減し、回復期における自己管理能力と医療機関へのアクセスを向上させる。特に敗血症という診断名を患者・家族が明確に認識していることが、その後の適切なフォローアップにつながる。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">新たな障害を持つ患者の退院計画：後遺症管理ができる医師へのフォローアップを含める <span class="rec-gps">Good Practice Statement</span></h3>
+        <p class="rule-body">敗血症によって新たな身体的・認知的・精神的障害を生じた患者の退院計画には、<span class="mark-green"><strong>これらの後遺症を適切に管理できる専門家へのフォローアップ</strong></span>を必ず含めることが Good Practice Statement として推奨される（Statement 115）。また、退院後の移行を支援する情報を患者・家族だけでなく<span class="mark-green"><strong>プライマリケア医（かかりつけ医）</strong></span>にも提供することが推奨される（Statement 116）。</p>
+        <p class="rule-body">PICS（Post-Intensive Care Syndrome：集中治療後症候群）を含む多様な後遺症は、退院後に初めて顕在化することも多い。プライマリケア医が敗血症後の特異的な後遺症を認識していない場合、適切な診断と介入が遅れる可能性がある。退院サマリーには敗血症の診断・ICU経過・既知の後遺症・フォローアップ計画を明記することが重要である。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">特定の構造的退院計画プロセス：エビデンス不十分</h3>
+        <p class="rule-body">特定の構造的・多成分の退院計画プロセスを標準的に実施することについては、3件のRCT（合計592名）が存在するが、介入の効果に関するエビデンスの確信度が低く、現時点では推奨を行わないとされた（Statement 117）。これらのRCTは再入院率・死亡率・QOLなどのアウトカムを検討したが、一貫した効果の証明には至っていない。</p>
+        <p class="rule-body">退院計画の内容・担い手・タイミングは施設ごとに大きく異なるため、特定のモデルを普遍的に推奨することには慎重さが必要である。ただし GPS として推奨されている基本的な退院計画要素（患者参加・情報提供・フォローアップ手配）は引き続き実施すべきである。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">患者・家族への敗血症教育（診断・治療・PICS）を提供する <span class="rec-gps">Good Practice Statement</span> <span class="rec-cond">条件付き推奨</span><span class="rec-evi">超低確実性</span></h3>
+        <p class="rule-body">入院前後を問わず、<span class="mark-green"><strong>敗血症の診断・治療経過・PICS（Post-Intensive Care Syndrome）に関する教育</strong></span>を患者と家族に提供することが推奨される（Statements 118–119）。入院中の教育は GPS として、退院後の教育継続については条件付き推奨（超低確実性）として位置づけられている。</p>
+        <p class="rule-body">患者・家族が敗血症という診断・受けた治療・回復過程で起こりうること（PICS）を正しく理解することは、回復期における適切な自己管理・医療機関への受診行動・精神的回復を支える基盤となる。「敗血症」という病名を明示的に伝えることが、認識の乏しさを解消する第一歩である。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">プライマリケア医への敗血症教育資材提供：エビデンス不十分 <span class="rec-gps">Good Practice Statement</span></h3>
+        <p class="rule-body">医療システムとして、<span class="mark-green"><strong>プライマリケア医（PCP）への敗血症教育戦略を実施すること</strong></span>が GPS として推奨される（Statement 120）。PCPは敗血症生存者の長期フォローアップにおける重要な役割を担うが、敗血症後のPICS・認知機能障害・精神疾患リスクについての認識が不十分なことが多い。</p>
+        <p class="rule-body">PCPへの具体的な敗血症教育資材の提供効果については、現時点でエビデンスが不十分であるとされた（Statement 121）。医療システムレベルの継続医学教育・退院サマリーへの明記・専門的フォローアップ窓口の周知など、多角的なアプローチが求められる。</p>
+      </div>
+    </div>
+
+    <!-- ─────────────────────────────────────
+         SECTION 6: 長期アウトカム・回復支援
+    ───────────────────────────────────── -->
+    <h3 id="ssc-s6-6" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+      <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 6</span>
+      長期アウトカム・回復支援（PICS）
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">PICS（Post-Intensive Care Syndrome）：敗血症生存者の多領域後遺症 <span class="rec-gps">Good Practice Statement</span></h3>
+        <p class="rule-body"><span class="mark-red"><strong>PICS（Post-Intensive Care Syndrome：集中治療後症候群）</strong></span>は、ICUを生存退院した患者に高頻度にみられる複合的後遺症群であり、<span class="mark-yellow"><strong>身体的機能障害・認知機能障害・精神的障害（不安・うつ・PTSD）</strong></span>の3領域にわたる。敗血症はPICSの最も重要なリスク因子の一つである（Statement 124）。</p>
+        <p class="rule-body">退院後の身体的・認知的・感情的問題を系統的に評価し、フォローアップを促進する体制を医療システムとして整備することが GPS として推奨される。PICSは退院直後から数年にわたって継続することがあり、患者の自立性・就労・家族関係・QOL に大きな影響を与える。医療者がPICSの存在を認識し、積極的にスクリーニングすることが回復の第一歩となる。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">退院後の回復支援・集中治療後フォローアップサービスを提供する <span class="rec-cond">条件付き推奨</span><span class="rec-evi">低確実性</span></h3>
+        <p class="rule-body">敗血症生存者に対して、<span class="mark-yellow"><strong>退院後の集中治療後フォローアップサービス（post-ICU follow-up clinics）</strong></span>を提供することが条件付きで推奨される（Statements 122, 125）。8件のRCTのメタアナリシスでは、フォローアップサービスにより以下の改善が示された：</p>
+        <div class="ie-stat-grid">
+          <div class="ie-stat">
+            <div class="ie-stat-val">SMD -0.25</div>
+            <div class="ie-stat-label">QOL身体的健康成分<br>（8 RCT, 低確実性）</div>
+          </div>
+          <div class="ie-stat">
+            <div class="ie-stat-val">RR 0.88</div>
+            <div class="ie-stat-label">再入院リスク<br>（低確実性）</div>
+          </div>
+          <div class="ie-stat">
+            <div class="ie-stat-val">改善</div>
+            <div class="ie-stat-label">不安症状・PTSD<br>（低確実性）</div>
+          </div>
+        </div>
+        <p class="rule-body" style="margin-top:12px;">集中治療後クリニックは、PICSの包括的スクリーニング・多職種による評価・必要に応じた専門家紹介を行う場として機能する。日本では普及が途上にあるが、敗血症生存者の長期ケアの質を向上させるために今後の体制整備が求められる。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">人工呼吸 ＞48時間の敗血症生存者：退院後の身体リハビリテーションを提供する <span class="rec-cond">条件付き推奨</span><span class="rec-evi">低確実性</span></h3>
+        <p class="rule-body"><span class="mark-yellow"><strong>48時間を超える人工呼吸管理</strong></span>を受けた敗血症生存者に対して、退院後の身体リハビリテーションプログラムを提供することが条件付きで推奨される（Statement 126）。12件のRCT（782名）のメタアナリシスでは、身体リハビリテーションにより<span class="mark-yellow"><strong>6分間歩行試験距離が SMD 0.21 改善</strong></span>（低確実性）し、QOL の改善も認められた。</p>
+        <p class="rule-body">ICU関連筋力低下（ICU-AW：ICU-Acquired Weakness）は長期人工呼吸後に高頻度に発生し、日常生活動作・歩行能力・就労復帰に大きく影響する。退院後の継続的リハビリテーションは、入院中の早期リハビリと連続した回復支援プログラムの一部として計画されるべきである。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">退院後のメンタルヘルス支援サービスを提供する <span class="rec-cond">条件付き推奨</span><span class="rec-evi">低確実性</span></h3>
+        <p class="rule-body">敗血症生存者に対して、<span class="mark-yellow"><strong>退院後のメンタルヘルス支援サービス</strong></span>（精神的健康サポート・カウンセリング・グループ支援など）を提供することが条件付きで推奨される（Statement 127）。9件のRCTのメタアナリシスでは以下の改善が示された：</p>
+        <div class="ie-stat-grid">
+          <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+            <div class="ie-stat-val" style="color:#DC2626;">RR 0.69</div>
+            <div class="ie-stat-label">不安症状リスク<br>（低確実性）</div>
+          </div>
+          <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+            <div class="ie-stat-val" style="color:#DC2626;">RR 0.60</div>
+            <div class="ie-stat-label">うつ症状リスク<br>（低確実性）</div>
+          </div>
+          <div class="ie-stat">
+            <div class="ie-stat-val">SMD 0.48</div>
+            <div class="ie-stat-label">ケア満足度<br>（中等度確実性）</div>
+          </div>
+        </div>
+        <p class="rule-body" style="margin-top:12px;">不安・うつ・PTSD は敗血症生存者の最大50%に発生するとされる。これらは身体的回復と並行して評価・介入されるべきであり、精神科・心理士・ソーシャルワーカーとの連携が重要である。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">精神疾患症状がある生存者は適切な専門家に紹介する <span class="rec-gps">Good Practice Statement</span></h3>
+        <p class="rule-body">退院後のフォローアップで<span class="mark-green"><strong>精神疾患症状（不安・うつ・PTSD・せん妄後遺症など）が確認された生存者</strong></span>は、適切な精神科専門医・心理士などの専門家に紹介することが Good Practice Statement として推奨される（Statement 128）。</p>
+        <p class="rule-body">一般的なフォローアップクリニックや外来では精神医学的な専門介入を提供できないことも多く、症状の重症度に応じた適切な紹介経路を事前に整備しておくことが重要である。精神的後遺症は患者本人だけでなく家族にも大きな負担をもたらすことがあり、家族へのサポートも視野に入れる必要がある。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">認知機能改善療法：エビデンス不十分（今後の研究優先課題）</h3>
+        <p class="rule-body">敗血症生存者の認知機能障害に対する特定の改善療法（cognitive rehabilitation）については、4件のRCT（513名）のメタアナリシスで<span class="mark-yellow"><strong>認知障害有病率 RR 0.54（低確実性）</strong></span>、<span class="mark-yellow"><strong>全体的認知機能 SMD 1.04（低確実性）</strong></span>の改善が示されたものの、エビデンスの確信度が低く現時点では推奨に至らないとされた（Statement 129）。</p>
+        <p class="rule-body">認知機能障害は敗血症生存者の就労復帰・日常生活・対人関係・QOL に深刻な影響を与える。効果的な認知リハビリテーションプログラムの開発と検証は今後の重要な研究課題として位置づけられており、現時点では認知機能の系統的評価（例：MoCA, MMSE）と専門家への紹介が実践的なアプローチとなる。</p>
+        <div class="alert-yellow">
+          <strong>臨床での現実的対応：</strong>認知機能改善への特定介入はエビデンス不十分だが、<strong>認知機能スクリーニングの実施・認知リハビリ専門家への紹介・家族への情報提供</strong>は現時点でも可能であり実践すべきである。
+        </div>
+      </div>
+    </div>
+
+    <div class="ie-alpha">
+      <div class="ie-alpha-inner">
+        <div class="ie-alpha-header">
+          <span class="ie-alpha-badge">＋α</span>
+          <span class="ie-alpha-title">PICS（Post-Intensive Care Syndrome）の全体像</span>
+        </div>
+        <p class="rule-body" style="color:#4C1D95;">PICSは2012年にSCCM（Society of Critical Care Medicine）が提唱した概念で、ICU退室後に新たに発生または悪化する身体・認知・精神的機能障害の総称である。身体的障害（筋力低下・易疲労性・ADL低下）、認知機能障害（記憶・注意・実行機能）、精神的障害（不安・うつ・PTSD）が三本柱を構成する。敗血症生存者の50〜70%に何らかのPICS症状が認められ、その多くは1年以上持続する。家族もPICS-F（Family）として精神的後遺症を受けることが知られている。ICU後外来（Post-ICU Clinic）はPICSの包括的管理のプラットフォームとして国際的に推奨されているが、日本での普及はまだ発展途上にある。</p>
+      </div>
+    </div>
+
+    <!-- ─────────────────────────────────────
+         SUMMARY
+    ───────────────────────────────────── -->
+    <h3 id="ssc-ch6-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:36px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+      第6章のキーメッセージ
+    </h3>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+            <span class="rule-body"><strong>Goals of Careの話し合いは入院72時間以内に：</strong>GoC話し合いは臨床結果に影響し、患者の価値観に沿ったケアを実現する重要なプロセスである。病院間のばらつきを解消するために早期の実施が推奨される（Statements 100–102）。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+            <span class="rule-body"><strong>ケアの移行では薬剤調整・情報共有・社会的サポートのスクリーニングが必須：</strong>薬剤師主導の薬剤調整で抗精神病薬処方（RR 0.84）・PPI不要継続（RR 0.16）を削減し、経済的・社会的ニーズの系統的スクリーニングで退院後の生活基盤を支える（Statements 108–112）。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+            <span class="rule-body"><strong>患者・家族への敗血症教育と退院計画への参加を推奨：</strong>退院サマリーに敗血症診断・後遺症情報・フォローアップ計画を必ず含め、プライマリケア医への情報提供も行うことで、連続したケアを実現する（Statements 113–121）。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+            <span class="rule-body"><strong>敗血症生存者の長期後遺症（PICS）は多領域：</strong>集中治療後フォローアップサービス・退院後の身体リハビリテーション（6MWT SMD 0.21）・メンタルヘルス支援（不安 RR 0.69、うつ RR 0.60）をそれぞれ提供することが条件付きで推奨される（Statements 124–128）。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+            <span class="rule-body"><strong>認知機能後遺症への対応は今後の研究課題：</strong>認知障害は患者の自立性とQOLに大きく影響するが、効果的な認知機能改善療法の高品質なエビデンスは未だ不十分であり、認知機能の系統的評価と専門家への紹介が現時点での現実的なアプローチとなる（Statement 129）。</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    </div><!-- /ie-main-col -->
+
+    <!-- ═══ SIDEBAR TOC ═══ -->
+    <aside class="ie-sidebar">
+      <div class="ie-sidebar-card">
+        <div class="ie-sidebar-title">目次</div>
+        <a href="#ssc-ch1" class="ie-toc-chapter">第1章 スクリーニング・初期管理</a>
+        <a href="#ssc-s1" class="ie-toc-section">S1 — QIプログラム</a>
+        <a href="#ssc-s2" class="ie-toc-section">S2 — スクリーニングツール</a>
+        <a href="#ssc-s3" class="ie-toc-section">S3 — バイオマーカー・迅速診断</a>
+        <a href="#ssc-s4" class="ie-toc-section">S4 — 血液培養・乳酸値</a>
+        <a href="#ssc-s5" class="ie-toc-section">S5 — 初期蘇生（輸液・昇圧薬）</a>
+        <a href="#ssc-s6" class="ie-toc-section">S6 — MAP目標・ICU入室</a>
+        <a href="#ssc-ch1-summary" class="ie-toc-section">SUMMARY</a>
+        <a href="#ssc-ch2" class="ie-toc-chapter">第2章 感染症管理</a>
+        <a href="#ssc-s2-1" class="ie-toc-section">S1 — 抗菌薬タイミング</a>
+        <a href="#ssc-s2-2" class="ie-toc-section">S2 — ソースコントロール</a>
+        <a href="#ssc-s2-3" class="ie-toc-section">S3 — MDR・真菌・嫌気性菌</a>
+        <a href="#ssc-s2-4" class="ie-toc-section">S4 — 迅速診断・サーベイランス</a>
+        <a href="#ssc-s2-5" class="ie-toc-section">S5 — 延長投与・TDM</a>
+        <a href="#ssc-s2-6" class="ie-toc-section">S6 — De-escalation・投与期間</a>
+        <a href="#ssc-s2-7" class="ie-toc-section">S7 — SDD</a>
+        <a href="#ssc-ch2-summary" class="ie-toc-section">SUMMARY</a>
+        <a href="#ssc-ch3" class="ie-toc-chapter">第3章 血行動態管理</a>
+        <a href="#ssc-s3-1" class="ie-toc-section">S1 — 血圧モニタリング</a>
+        <a href="#ssc-s3-2" class="ie-toc-section">S2 — 輸液の種類</a>
+        <a href="#ssc-s3-3" class="ie-toc-section">S3 — 輸液量・動的指標</a>
+        <a href="#ssc-s3-4" class="ie-toc-section">S4 — 蘇生エンドポイント</a>
+        <a href="#ssc-s3-5" class="ie-toc-section">S5 — 昇圧薬</a>
+        <a href="#ssc-s3-6" class="ie-toc-section">S6 — 強心薬・β遮断薬</a>
+        <a href="#ssc-ch3-summary" class="ie-toc-section">SUMMARY</a>
+        <a href="#ssc-ch4" class="ie-toc-chapter">第4章 呼吸管理</a>
+        <a href="#ssc-s4-1" class="ie-toc-section">S1 — 酸素化モニタリング</a>
+        <a href="#ssc-s4-2" class="ie-toc-section">S2 — 酸素目標値</a>
+        <a href="#ssc-s4-3" class="ie-toc-section">S3 — HFNC・NIV</a>
+        <a href="#ssc-s4-4" class="ie-toc-section">S4 — 覚醒下腹臥位</a>
+        <a href="#ssc-s4-5" class="ie-toc-section">S5 — 人工呼吸管理（ARDS）</a>
+        <a href="#ssc-s4-6" class="ie-toc-section">S6 — VV-ECMO</a>
+        <a href="#ssc-ch4-summary" class="ie-toc-section">SUMMARY</a>
+        <a href="#ssc-ch5" class="ie-toc-chapter">第5章 補助療法・支持療法</a>
+        <a href="#ssc-s5-1" class="ie-toc-section">S1 — ステロイド</a>
+        <a href="#ssc-s5-2" class="ie-toc-section">S2 — 非推奨の補助療法</a>
+        <a href="#ssc-s5-3" class="ie-toc-section">S3 — 潰瘍予防・プロバイオティクス</a>
+        <a href="#ssc-s5-4" class="ie-toc-section">S4 — 輸液除去・輸血</a>
+        <a href="#ssc-s5-5" class="ie-toc-section">S5 — 栄養・血糖管理</a>
+        <a href="#ssc-s5-6" class="ie-toc-section">S6 — RRT・炭酸水素ナトリウム</a>
+        <a href="#ssc-s5-7" class="ie-toc-section">S7 — VTE予防</a>
+        <a href="#ssc-ch5-summary" class="ie-toc-section">SUMMARY</a>
+        <a href="#ssc-ch6" class="ie-toc-chapter">第6章 Goals of Care・移行・長期</a>
+        <a href="#ssc-s6-1" class="ie-toc-section">S1 — Goals of Care</a>
+        <a href="#ssc-s6-2" class="ie-toc-section">S2 — 事前指示・TLT</a>
+        <a href="#ssc-s6-3" class="ie-toc-section">S3 — 緩和ケア</a>
+        <a href="#ssc-s6-4" class="ie-toc-section">S4 — ケアの移行</a>
+        <a href="#ssc-s6-5" class="ie-toc-section">S5 — 退院計画・患者教育</a>
+        <a href="#ssc-s6-6" class="ie-toc-section">S6 — 長期アウトカム・PICS</a>
+        <a href="#ssc-ch6-summary" class="ie-toc-section">SUMMARY</a>
+      </div>
+    </aside>
+
+    </div><!-- /ie-page-flex -->
+
     <!-- Source note -->
     <p style="font-size:0.72rem;color:#9CA3AF;margin-top:16px;line-height:1.7;">
-      出典：Prescott HC, et al. Surviving Sepsis Campaign: International Guidelines for Management of Sepsis and Septic Shock 2026. Critical Care Medicine / Intensive Care Medicine. April 2026; 54(4). DOI: 10.1097/CCM.0000000000007075<br>
+      出典：Prescott HC, et al. Surviving Sepsis Campaign: International Guidelines for Management of Sepsis and Septic Shock 2026. Critical Care Medicine / Intensive Care Medicine. April 2026; 54(4).<br>
+      DOI：<a href="https://doi.org/10.1097/CCM.0000000000007075" target="_blank" rel="noopener" style="color:#60A5FA;">https://doi.org/10.1097/CCM.0000000000007075</a><br>
       本資料は教育目的で作成したサマリーです。診断・治療方針の決定には必ず原典ガイドラインを参照してください。
     </p>
     <p style="font-size:0.75rem;color:var(--muted);text-align:right;margin-top:8px;">制作：ICU 関谷</p>

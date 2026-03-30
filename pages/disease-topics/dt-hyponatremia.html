@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>低ナトリウム血症 | 聖路加ICU</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../style-v2.css">
+  <script src="../../site-config.js"></script>
+  <style>
+    .subpage-hero { background: linear-gradient(150deg, #3D1F00 0%, #B45309 55%, #D97706 100%) !important; }
+    .ie-badge { display:inline-block;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:20px;padding:4px 12px;font-size:0.72rem;font-weight:500;color:#fff;margin-right:6px;margin-top:8px; }
+
+    .alert-yellow { background:#FFFBEB;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#92400E;line-height:1.7; }
+    .alert-green  { background:#F0FDF4;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#14532D;line-height:1.7; }
+
+    /* Table */
+    .ie-table { width:100%;border-collapse:collapse;font-size:0.82rem;line-height:1.7;margin-top:10px; }
+    .ie-table th { background:#F3F4F6;color:var(--text);font-weight:700;padding:10px 12px;text-align:left;border-bottom:2px solid var(--border); }
+    .ie-table td { padding:10px 12px;border-bottom:1px solid var(--border);color:var(--muted);vertical-align:top; }
+    .ie-table tr:last-child td { border-bottom:none; }
+
+    /* Flow */
+    .ie-flow { display:flex;flex-direction:column;gap:6px; }
+    .ie-flow-item { display:flex;align-items:flex-start;gap:12px;background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:12px 16px;font-size:0.83rem; }
+    .ie-flow-num { background:#B45309;color:#fff;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;flex-shrink:0;margin-top:1px; }
+    .ie-flow-num.red { background:#DC2626; }
+    .ie-flow-arrow { text-align:center;color:#B45309;font-size:1.1rem;padding:2px 0; }
+    .ie-flow-arrow.red { color:#DC2626; }
+
+    /* Stat grid */
+    .ie-stat-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:8px; }
+    @media (max-width:520px) { .ie-stat-grid { grid-template-columns:1fr 1fr; } }
+    .ie-stat { background:#FFFBEB;border:1px solid #FDE68A;border-radius:8px;padding:16px 12px;text-align:center;display:flex;flex-direction:column;justify-content:center;min-height:110px; }
+    .ie-stat-val { font-size:1.5rem;font-weight:900;color:#B45309;line-height:1.3; }
+    .ie-stat-label { font-size:0.7rem;color:var(--muted);margin-top:6px;line-height:1.5; }
+
+    /* Echo grid */
+    .ie-echo-grid { display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px; }
+    @media (max-width:520px) { .ie-echo-grid { grid-template-columns:1fr; } }
+    .ie-echo-box { border:1px solid var(--border);border-radius:8px;padding:14px 16px;background:#F8FAFC; }
+    .ie-echo-name { font-size:0.8rem;font-weight:700;color:var(--text);margin-bottom:6px; }
+    .ie-echo-body { font-size:0.78rem;color:var(--muted);line-height:1.8; }
+
+    /* Alpha card */
+    .ie-alpha { background:#F5F3FF;border:1px solid #C4B5FD;border-radius:var(--radius);margin-bottom:16px;overflow:hidden; }
+    .ie-alpha-inner { padding:18px 24px; }
+    .ie-alpha-header { display:flex;align-items:center;gap:8px;margin-bottom:10px; }
+    .ie-alpha-badge { display:inline-flex;align-items:center;background:#7C3AED;color:#fff;font-size:0.7rem;font-weight:700;padding:2px 10px;border-radius:4px; }
+    .ie-alpha-title { font-size:0.88rem;font-weight:700;color:#7C3AED; }
+
+    /* TDM grid */
+    .ie-tdm-grid { display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px; }
+    @media (max-width:520px) { .ie-tdm-grid { grid-template-columns:1fr; } }
+    .ie-tdm-box { border:1px solid var(--border);border-radius:8px;padding:14px 16px;background:#F8FAFC; }
+    .ie-tdm-name { font-size:0.82rem;font-weight:700;color:var(--text);margin-bottom:4px; }
+    .ie-tdm-drug { font-size:0.9rem;font-weight:900;color:#B45309;margin-bottom:4px; }
+    .ie-tdm-note { font-size:0.75rem;color:var(--muted);line-height:1.6; }
+
+    /* Sidebar TOC */
+    .ie-page-flex { display:flex;gap:32px;align-items:flex-start; }
+    .ie-main-col  { flex:1;max-width:900px;min-width:0; }
+    .ie-sidebar   { width:220px;flex-shrink:0;position:sticky;top:80px;align-self:flex-start;max-height:calc(100vh - 100px);overflow-y:auto; }
+    .ie-sidebar-card { background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:16px; }
+    .ie-sidebar-title { font-size:0.82rem;font-weight:800;margin-bottom:10px;color:var(--text); }
+    .ie-sidebar-card a.ie-toc-chapter { display:block;font-size:0.78rem;font-weight:700;color:var(--text);text-decoration:none;padding:3px 0;line-height:1.5; }
+    .ie-sidebar-card a.ie-toc-section { display:block;font-size:0.72rem;color:var(--muted);text-decoration:none;padding:3px 0;padding-left:12px;line-height:1.5; }
+    .ie-sidebar-card a:hover { color:#B45309; }
+    @media (max-width:900px) { .ie-sidebar { display:none; } .ie-page-flex { display:block; } }
+
+    /* Correction box */
+    .corr-box { background:#FEF2F2;border:2px solid #FECACA;border-radius:10px;padding:18px 22px;margin-top:12px; }
+    .corr-box-title { font-size:0.9rem;font-weight:800;color:#DC2626;margin-bottom:12px; }
+    .corr-rule { padding:10px 0;border-bottom:1px solid #FECACA;font-size:0.84rem; }
+    .corr-rule:last-child { border-bottom:none; }
+    .corr-rule-head { display:flex;align-items:baseline;gap:10px;margin-bottom:4px; }
+    .corr-label { color:#DC2626;font-weight:800;font-size:0.78rem;flex-shrink:0; }
+    .corr-val { color:var(--text);font-weight:700;font-size:1.05rem;flex-shrink:0; }
+    .corr-desc { color:var(--muted);font-size:0.82rem;line-height:1.7;padding-left:2px; }
+
+    /* Algo box */
+    .algo-box { background:#F8FAFC;border:1px solid var(--border);border-radius:10px;padding:18px 20px;margin-top:12px; }
+    .algo-decision { background:#FFFBEB;border:1px solid #FDE68A;border-radius:6px;padding:10px 14px;margin:10px 0;font-size:0.82rem;font-weight:700;color:#92400E;text-align:center; }
+    .algo-branch { display:flex;gap:12px;margin:8px 0; }
+    .algo-branch-col { flex:1;background:#F8FAFC;border:1px solid var(--border);border-radius:6px;padding:10px 12px;font-size:0.8rem;color:var(--muted);line-height:1.7; }
+    .algo-branch-col strong { color:var(--text);display:block;margin-bottom:4px; }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="../../index.html" class="nav-logo">
+        <img src="../../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+        <span class="nav-logo-text">聖路加国際病院ICU</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="../../index.html#intro" class="nav-link">はじめに</a></li>
+        <li><a href="../../index.html#schedule" class="nav-link">スケジュール</a></li>
+        <li><a href="../../index.html#rules" class="nav-link">ICUのルール</a></li>
+        <li><a href="../../index.html#learning" class="nav-link">学習・評価</a></li>
+        <li><a href="../../index.html#faq" class="nav-link">FAQ</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <div class="subpage-hero">
+    <div class="container">
+      <a href="../disease-topics.html#dt-renal" class="back-link">← 疾患・項目別まとめへ戻る</a>
+      <h1 class="subpage-title">低ナトリウム血症</h1>
+      <p class="subpage-subtitle">#4 NEPHROLOGICAL SYSTEM / ELECTROLYTES</p>
+      <div>
+        <span class="ie-badge">総説</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== CONTENT ===== -->
+  <div class="container" style="padding:32px 20px 80px;max-width:1140px;">
+    <div class="ie-page-flex">
+
+    <!-- MAIN CONTENT -->
+    <div class="ie-main-col">
+
+    <!-- ══════════════════════════════════════
+         SECTION 1: 低Na血症とは
+    ══════════════════════════════════════ -->
+    <h3 id="dt-hn-s1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+      <span style="color:#B45309;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+      低Na血症とは
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">定義と疫学</h3>
+        <p class="rule-body">低ナトリウム血症は血清ナトリウム濃度 <span class="mark-red"><strong>&lt;135 mmol/L</strong></span> と定義され、体液・電解質バランス障害の中で最も頻度の高い疾患である。救急入院患者の <strong>15〜20%</strong> に認められ、重症度は軽微な認知障害から痙攣・昏睡・致死的脳浮腫まで幅広い。入院死亡率・罹患率・在院日数の増加と関連することが多くの研究で示されているが、これが低ナトリウム血症自体の影響か基礎疾患の反映かは依然として議論がある（<a href="../articles-gl-hn2014.html#hn-s1" style="color:var(--blue);font-weight:700;">ガイドライン 疫学・病態生理</a>）。</p>
+        <p class="rule-body">低ナトリウム血症の本態は、体内の水分がナトリウムに対して相対的に過剰になることである。腎臓の自由水排泄能は主にバソプレシン（AVP / ADH）によって制御されており、AVP が不適切に分泌または作用することで、希釈尿が産生できず水が体内に貯留する。</p>
+        <div class="ie-stat-grid">
+          <div class="ie-stat">
+            <div class="ie-stat-val">15–20%</div>
+            <div class="ie-stat-label">救急入院患者での<br>低Na血症の頻度</div>
+          </div>
+          <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+            <div class="ie-stat-val" style="color:#DC2626;">&lt;135</div>
+            <div class="ie-stat-label">定義：血清Na濃度<br>（mmol/L）</div>
+          </div>
+          <div class="ie-stat">
+            <div class="ie-stat-val">~48h</div>
+            <div class="ie-stat-label">急性・慢性の<br>境界（脳適応の閾値）</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">重症度分類</h3>
+        <p class="rule-body">血清ナトリウム濃度による生化学的分類は治療の積極性を判断する際の目安となる。ただし生化学的重症度と臨床症状の重症度が必ずしも一致しない点に注意が必要である。特に軽度の低ナトリウム血症で重篤な症状を呈している場合は、他の原因を積極的に検索する（<a href="../articles-gl-hn2014.html#hn-s2" style="color:var(--blue);font-weight:700;">ガイドライン 分類</a>）。</p>
+        <table class="ie-table">
+          <thead>
+            <tr><th>分類</th><th>血清Na濃度</th><th>臨床的意義</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>軽度（mild）</strong></td><td>130–134 mmol/L</td><td>症状は軽微なことが多い。原則としてNa上昇のみを目的とした積極的治療は推奨しない</td></tr>
+            <tr><td><strong>中等度（moderate）</strong></td><td>125–129 mmol/L</td><td>慢性の場合は補正速度の管理が必要。治療の適応・種類は症状と背景疾患で判断</td></tr>
+            <tr><td><strong>重度（profound）</strong></td><td>&lt;125 mmol/L</td><td>症状出現リスクが高い。補正速度の厳密な管理が必要</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">急性 vs 慢性：48時間が分岐点</h3>
+        <p class="rule-body">低ナトリウム血症の持続期間は <span class="mark-red"><strong>48時間</strong></span> を境に急性・慢性に分類する。この区別が治療戦略を決定する最重要因子の一つである（<a href="../articles-gl-hn2014.html#hn-s2" style="color:var(--blue);font-weight:700;">ガイドライン 発症期間による分類</a>）。</p>
+        <div class="ie-echo-grid" style="margin-top:12px;">
+          <div class="ie-echo-box">
+            <div class="ie-echo-name" style="color:#DC2626;">急性（&lt;48h）</div>
+            <div class="ie-echo-body">
+              発症から 48時間未満と確認できるもの。脳適応が完了していないため<strong>脳浮腫リスク</strong>が高い。補正速度の上限設定はなく、症状消失・Na 130 到達・10 mmol/L 上昇のいずれかを目標に積極的に高張食塩水を継続できる。
+            </div>
+          </div>
+          <div class="ie-echo-box">
+            <div class="ie-echo-name" style="color:#B45309;">慢性（≥48h または不明）</div>
+            <div class="ie-echo-body">
+              48時間以上持続するもの、または発症時期が不明なもの。脳適応完了により<strong>浸透圧性脱髄症候群（ODS）</strong>リスクあり。補正は 24時間で 10 mmol/L 以内、その後は 1日 8 mmol/L 以内に制限する。発症時期不明は慢性として扱う。
+            </div>
+          </div>
+        </div>
+        <div class="alert-yellow" style="margin-top:10px;">
+          <strong>脳適応の二面性：</strong> 急性期（&lt;48h）は脳浮腫リスクが高く速やかな補正が有益。慢性期（≥48h）は急速補正による ODS リスクが生じるため、補正速度の管理が最重要課題となる。
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">症状による分類：臨床的緊急度の判定</h3>
+        <p class="rule-body">本ガイドラインでは症状の重症度を最優先の治療判断基準とする。症状は脳浮腫の程度を反映するとともに、即時的な危険性を表すものである。ただし低ナトリウム血症の症状は非特異的であり、他疾患との鑑別・症状の原因がNa低下か否かの判断を慎重に行う（<a href="../articles-gl-hn2014.html#hn-s2" style="color:var(--blue);font-weight:700;">ガイドライン 症状による分類</a>）。</p>
+        <table class="ie-table">
+          <thead>
+            <tr><th>重症度</th><th>症状</th><th>治療方針</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span style="color:#DC2626;font-weight:800;">重篤（severe）</span></td>
+              <td>痙攣、昏睡（GCS &lt;8）、呼吸抑制（挿管を要する）、深い眠気・失見当識</td>
+              <td>即時に高張食塩水（3%）を開始。急性・慢性を問わず緊急対応</td>
+            </tr>
+            <tr>
+              <td><span style="color:#D97706;font-weight:800;">中等度（moderately severe）</span></td>
+              <td>嘔気（嘔吐なし）、混乱、頭痛、注意力低下</td>
+              <td>高張食塩水 1回投与＋診断評価を並行して進める</td>
+            </tr>
+            <tr>
+              <td><span style="color:#2D7A4F;font-weight:800;">軽度（mild）</span></td>
+              <td>軽度の嘔気、めまい（他に神経症状なし）</td>
+              <td>原因特異的治療を中心に。高張食塩水の緊急投与は原則不要</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="alert-yellow" style="margin-top:10px;">
+          <strong>軽度低ナトリウム血症に重篤な症状が伴う場合</strong>（例：Na 131 mmol/L で痙攣）は、症状の原因として低ナトリウム血症以外を積極的に検索すること。
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         SECTION 2: 診断アプローチ
+    ══════════════════════════════════════ -->
+    <h3 id="dt-hn-s2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+      <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+      診断アプローチ
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">非低張性低ナトリウム血症の除外が最初のステップ</h3>
+        <p class="rule-body">本ガイドラインが対象とするのは低張性低ナトリウム血症であり、非低張性（等張性・高張性）は脳浮腫を生じないため対応が異なる。最初のステップとして非低張性の原因を除外することが必須である（<a href="../articles-gl-hn2014.html#hn-s3" style="color:var(--blue);font-weight:700;">ガイドライン 非低張性の除外</a>）。</p>
+        <div class="ie-flow" style="margin-top:12px;">
+          <div class="ie-flow-item">
+            <div class="ie-flow-num">1</div>
+            <div style="flex:1;"><p class="rule-body"><strong>高血糖の除外：</strong>血清グルコースを測定し、高血糖がある場合は補正ナトリウムを計算する。グルコース 100 mg/dL 上昇するごとに Na に 2.4 mmol/L を加算する。</p></div>
+          </div>
+          <div class="ie-flow-arrow">↓</div>
+          <div class="ie-flow-item">
+            <div class="ie-flow-num">2</div>
+            <div style="flex:1;"><p class="rule-body"><strong>血清浸透圧の確認：</strong>実測浸透圧 &lt;275 mOsm/kg であれば低張性低ナトリウム血症。偽性低ナトリウム血症（高脂血症・高タンパク血症）も考慮する。</p></div>
+          </div>
+        </div>
+        <div class="alert-green" style="margin-top:12px;">
+          <strong>計算例：</strong> 血糖 600 mg/dL の患者で血清Na 125 mmol/L → 補正Na = 125 + 2.4 × (600−100)/100 = 125 + 12 = <strong>137 mmol/L</strong>。実際には低ナトリウム血症ではなく、血糖管理が優先。
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">従来の「体液量評価」はなぜ頼れないか</h3>
+        <p class="rule-body">低ナトリウム血症の鑑別で従来重視されてきた体液量の視診的評価（脱水所見の有無・浮腫の有無）は、感度・特異度が低く誤分類を招くリスクがある。ESICM/ESE/ERA-EDTA 2014 ガイドラインは、この問題を克服するために<span class="mark-yellow"><strong>尿浸透圧・尿中ナトリウム濃度を診断の入口とする2ステップアルゴリズム</strong></span>を提案している（<a href="../articles-gl-hn2014.html#hn-s4" style="color:var(--blue);font-weight:700;">ガイドライン 診断アルゴリズム</a>）。</p>
+        <p class="rule-body">重篤な症状を伴う場合は、鑑別診断が完了する前であっても高張食塩水による治療を開始する。治療と診断は並行して進めてよい。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">2ステップ診断アルゴリズム</h3>
+        <p class="rule-body">血液検体と尿検体を同時に採取し、以下の順に解釈する。前提として、高血糖の補正と偽性低Na血症の除外を先に行う。</p>
+
+        <p style="font-size:0.92rem;font-weight:800;border-bottom:2px solid #B45309;padding-bottom:4px;margin-top:14px;margin-bottom:10px;">Step 1：尿浸透圧 — ADHは出ているか？</p>
+        <div class="algo-box">
+          <div class="algo-decision">尿浸透圧を測定</div>
+          <div class="algo-branch">
+            <div class="algo-branch-col">
+              <strong>≤ 100 mOsm/kg（最大希釈尿）</strong>
+              バソプレシン完全抑制<br>
+              → 原発性多飲症<br>
+              → 低溶質摂取（ビール多飲症 等）<br>
+              ※原因解決で自然改善することが多い
+            </div>
+            <div class="algo-branch-col">
+              <strong>&gt; 100 mOsm/kg（尿が濃縮されている）</strong>
+              バソプレシン活性が非抑制状態<br>
+              → Step 2 へ進む
+            </div>
+          </div>
+        </div>
+
+        <p style="font-size:0.92rem;font-weight:800;border-bottom:2px solid #B45309;padding-bottom:4px;margin-top:18px;margin-bottom:10px;">Step 2：尿中Na濃度 — RAASは回っているか？</p>
+        <div class="algo-box">
+          <div class="algo-decision">尿中Na濃度を測定（閾値 30 mmol/L）</div>
+          <div class="algo-branch">
+            <div class="algo-branch-col">
+              <strong>≤ 30 mmol/L（腎がNaを保持）</strong>
+              有効循環血液量の低下を示唆<br><br>
+              <span style="color:#DC2626;font-weight:700;">体液過剰型：</span>心不全・肝硬変・ネフローゼ<br>
+              <span style="color:#D97706;font-weight:700;">体液減少型：</span>嘔吐・下痢・出血
+            </div>
+            <div class="algo-branch-col">
+              <strong>&gt; 30 mmol/L（腎からNa排泄）</strong>
+              利尿薬・腎疾患がない場合：<br>
+              → <span style="color:#B45309;font-weight:700;">SIAD</span>（最も多い）<br>
+              → 副腎不全<br>
+              → 甲状腺機能低下症<br>
+              → 腎性・脳性塩類喪失
+            </div>
+          </div>
+        </div>
+        <div class="alert-yellow" style="margin-top:10px;">
+          <strong>利尿薬使用中の解釈：</strong> 利尿薬は尿中Na濃度を人工的に上昇させ、体液量にかかわらず 30 mmol/L 超になりうる。利尿薬使用中は尿Naの解釈に注意が必要である。
+        </div>
+        <div class="alert-blue" style="margin-top:10px;">
+          <strong>ADH x RAAS の2軸で理解する：</strong> 「ADHは出ているか？」（→尿浸透圧）と「RAASは回っているか？」（→尿Na）の2つの問いに立ち返れば、すべての尿所見パターンを論理的に予測できる。詳細は<a href="../articles-gl-hn2014.html#hn-clinical-urine" style="color:var(--blue);font-weight:700;">ガイドラインの ADH x RAAS マトリクス</a>を参照。
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">SIAD の診断基準（6条件）</h3>
+        <p class="rule-body">SIAD は低Na血症の最も一般的な原因の一つであり、以下の6条件をすべて満たす場合に診断する（<a href="../articles-gl-hn2014.html#hn-s5" style="color:var(--blue);font-weight:700;">ガイドライン SIAD診断基準</a>）。</p>
+        <table class="ie-table">
+          <thead>
+            <tr><th>#</th><th>診断基準</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td><td>有効血清浸透圧 &lt;275 mOsm/kg</td></tr>
+            <tr><td>2</td><td>尿浸透圧 &gt;100 mOsm/kg（血漿低浸透圧の状況で）</td></tr>
+            <tr><td>3</td><td>臨床的に euvolemia（明らかな脱水・浮腫なし）</td></tr>
+            <tr><td>4</td><td>尿中Na &gt;30 mmol/L（通常の塩分・水分摂取のもとで）</td></tr>
+            <tr><td>5</td><td>甲状腺機能・副腎機能が正常</td></tr>
+            <tr><td>6</td><td>最近の利尿薬使用なし</td></tr>
+          </tbody>
+        </table>
+        <div class="alert-yellow" style="margin-top:10px;">
+          <strong>SIAD の主な原因：</strong> 悪性腫瘍（肺小細胞癌など）、CNS疾患（脳卒中・出血・炎症）、肺疾患（肺炎・陽圧換気）、薬剤性（SSRIs・カルバマゼピン・シクロフォスファミドなど）、術後状態。HIV感染やその他の多くの疾患でも生じうる。原因検索を必ず行う。
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         SECTION 3: 治療
+    ══════════════════════════════════════ -->
+    <h3 id="dt-hn-s3" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+      <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>
+      治療
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">治療の大原則：症状の重症度が治療を決める</h3>
+        <p class="rule-body">低ナトリウム血症の治療戦略は <span class="mark-yellow"><strong>症状の重症度を最優先</strong></span> とし、次に発症期間（急性 vs 慢性）を考慮する。血清Na値のみで治療の積極性を判断するのではなく、「今どれほど危険な状態か」を症状から判断することが基本原則である（<a href="../articles-gl-hn2014.html#hn-tx-overview" style="color:var(--blue);font-weight:700;">ガイドライン 治療アルゴリズム</a>）。</p>
+        <table class="ie-table">
+          <thead>
+            <tr><th>状況</th><th>初期治療</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><span style="color:#DC2626;font-weight:700;">重篤な症状</span>（痙攣・昏睡・呼吸抑制）</td><td>3% 食塩水 150 ml を 20 分で即時投与（急性・慢性を問わず）</td></tr>
+            <tr><td><span style="color:#D97706;font-weight:700;">中等度症状</span>（嘔気・混乱・頭痛）</td><td>3% 食塩水 150 ml を 20 分で 1回投与し診断評価を並行</td></tr>
+            <tr><td>急性（&lt;48h）症状なし/軽度</td><td>原因除去＋3% 食塩水の 1回投与を考慮</td></tr>
+            <tr><td>慢性（≥48h）症状なし/軽度</td><td>原因特異的治療。補正速度制限の厳守</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">重篤症状（痙攣・昏睡・呼吸抑制）：即座に 3% NaCl</h3>
+        <p class="rule-body">重篤な症状は脳浮腫による即時の生命危機を意味する。急性・慢性を問わず、まず高張食塩水で血清Naを速やかに上昇させ脳浮腫を軽減する。目標は症状の緩和であり、正常化ではない（<a href="../articles-gl-hn2014.html#hn-tx-severe" style="color:var(--blue);font-weight:700;">ガイドライン 重篤症状の管理</a>）。</p>
+        <div class="ie-flow">
+          <div class="ie-flow-item">
+            <div class="ie-flow-num red">1</div>
+            <div style="flex:1;"><p class="rule-body"><strong>3% NaCl 150 ml を 20 分で静注</strong>（体重 &gt;80kg では 2 ml/kg でも可）</p></div>
+          </div>
+          <div class="ie-flow-arrow red">↓</div>
+          <div class="ie-flow-item">
+            <div class="ie-flow-num red">2</div>
+            <div style="flex:1;"><p class="rule-body"><strong>目標：最初の1時間で血清Na を 5 mmol/L 上昇</strong>。5 mmol/L の上昇で症状緩和に十分な場合が多い。</p></div>
+          </div>
+          <div class="ie-flow-arrow red">↓</div>
+          <div class="ie-flow-item">
+            <div class="ie-flow-num red">3</div>
+            <div style="flex:1;"><p class="rule-body">5 mmol/L 上昇しない場合は<strong>同じプロトコルを最大2回繰り返す（合計3回まで）</strong></p></div>
+          </div>
+          <div class="ie-flow-arrow red">↓</div>
+          <div class="ie-flow-item">
+            <div class="ie-flow-num red">4</div>
+            <div style="flex:1;"><p class="rule-body">症状改善後は高張食塩水を中止し、原因特異的治療へ移行。この段階から補正速度制限（最初の 24h で合計 10 mmol/L 以内）が適用される。</p></div>
+          </div>
+        </div>
+        <div class="alert-red" style="margin-top:10px;">
+          <strong>重要：</strong> 脳浮腫による重篤症状では「死」や「永続的脳障害」が目前の危機である。この状況ではODSリスクよりも脳浮腫のリスクが圧倒的に高く、積極的補正が正当化される。
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">中等度症状（嘔気・混乱・頭痛）</h3>
+        <p class="rule-body">中等度症状は明らかな脳浮腫ではないが、さらなる悪化リスクがある。1回の高張食塩水投与後は診断的評価を優先し、原因特異的治療に切り替える（<a href="../articles-gl-hn2014.html#hn-tx-moderate" style="color:var(--blue);font-weight:700;">ガイドライン 中等度症状</a>）。</p>
+        <div class="ie-flow">
+          <div class="ie-flow-item">
+            <div class="ie-flow-num" style="background:#D97706;">1</div>
+            <div style="flex:1;"><p class="rule-body"><strong>3% NaCl 150 ml を 20 分で 1回静注</strong>（さらなる低下の防止が主目的）</p></div>
+          </div>
+          <div class="ie-flow-arrow">↓</div>
+          <div class="ie-flow-item">
+            <div class="ie-flow-num" style="background:#D97706;">2</div>
+            <div style="flex:1;"><p class="rule-body"><strong>直ちに診断評価を開始</strong>（原因同定のための尿検査・採血を並行して進める）</p></div>
+          </div>
+          <div class="ie-flow-arrow">↓</div>
+          <div class="ie-flow-item">
+            <div class="ie-flow-num" style="background:#D97706;">3</div>
+            <div style="flex:1;"><p class="rule-body">原因特異的治療を開始。24h での Na 上昇は <strong>5 mmol/L を目標、最大 10 mmol/L</strong>（その後は毎日 8 mmol/L 以内）</p></div>
+          </div>
+        </div>
+        <div class="alert-yellow" style="margin-top:12px;">
+          <strong>中等度症状の注意点：</strong> 症状が中等度でも急性低ナトリウム血症の場合（特に運動後・術後・MDMA 使用後など）は短時間で重篤化する可能性がある。症状の推移を密に観察し、悪化した場合は重篤症状プロトコルへ移行する。
+        </div>
+      </div>
+    </div>
+
+    <!-- 補正速度 -->
+    <div class="corr-box">
+      <div class="corr-box-title">補正速度の上限（ODS予防のための制限値）</div>
+      <div class="corr-rule">
+        <div class="corr-rule-head">
+          <div class="corr-label">最初の 24h</div>
+          <div class="corr-val">≤ 10 mmol/L</div>
+        </div>
+        <div class="corr-desc">これを超えたら補正過剰。能動的治療を中止し、自由水輸液+デスモプレシンを検討する。</div>
+      </div>
+      <div class="corr-rule">
+        <div class="corr-rule-head">
+          <div class="corr-label">その後の各 24h</div>
+          <div class="corr-val">≤ 8 mmol/L</div>
+        </div>
+        <div class="corr-desc">血清Na が 130 mmol/L に達するまで、毎日この制限を維持する。</div>
+      </div>
+      <div class="corr-rule">
+        <div class="corr-rule-head">
+          <div class="corr-label">急性の場合</div>
+          <div class="corr-val">制限なし</div>
+        </div>
+        <div class="corr-desc">急性（&lt;48h で確認）ではODSリスクが低く、症状消失・Na 130・10 mmol/L 上昇を目標に積極補正する。</div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:16px;margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">SIAD の治療ラダー</h3>
+        <p class="rule-body">SIAD による慢性低Na血症は原因疾患の治療が最優先だが、原因が除去できない場合は段階的に治療を追加する（<a href="../articles-gl-hn2014.html#hn-tx-chronic" style="color:var(--blue);font-weight:700;">ガイドライン 慢性低Na血症</a>）。</p>
+        <div class="ie-flow">
+          <div class="ie-flow-item">
+            <div class="ie-flow-num">1</div>
+            <div style="flex:1;"><p class="rule-body"><strong>輸液制限（第1選択）：</strong>摂取水分量を尿量より500 ml少なく制限する。尿中電解質排泄量（尿Na+尿K）の和が血清Naを上回る場合、輸液制限だけでは改善しにくい。</p></div>
+          </div>
+          <div class="ie-flow-arrow">↓</div>
+          <div class="ie-flow-item">
+            <div class="ie-flow-num">2</div>
+            <div style="flex:1;"><p class="rule-body"><strong>第2選択（輸液制限が無効な場合）：</strong></p>
+            <div class="ie-tdm-grid" style="margin-top:8px;">
+              <div class="ie-tdm-box">
+                <div class="ie-tdm-name">溶質補充療法</div>
+                <div class="ie-tdm-drug">尿素 0.25–0.50 g/kg/日</div>
+                <div class="ie-tdm-note">経口投与。苦味を減らすため甘味料と混ぜる。自由水排泄を促進。</div>
+              </div>
+              <div class="ie-tdm-box">
+                <div class="ie-tdm-name">ループ利尿薬+食塩</div>
+                <div class="ie-tdm-drug">フロセミド+NaCl経口</div>
+                <div class="ie-tdm-note">フロセミド20-40mg + NaCl 3-9g/日。自由水クリアランスを増加させる。</div>
+              </div>
+            </div>
+            </div>
+          </div>
+        </div>
+        <div class="alert-red" style="margin-top:12px;">
+          <strong>推奨しない治療：</strong> Vaptan（トルバプタン）はいずれの重症度でも推奨しない。中等度低Naでは補正過剰リスク 60% 増（RR 1.61）、重度低Na（&lt;125）では特に高リスク。デメクロサイクリン・リチウムも禁忌。
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">低血圧・循環血液量低下型の治療</h3>
+        <p class="rule-body">嘔吐・下痢・出血・サードスペーシングなどによる有効循環血液量の低下が原因の場合、<strong>0.9% 食塩水または平衡晶質液を 0.5〜1.0 ml/kg/h</strong> で体液量を補正する。循環が回復すると AVP 分泌が急速に抑制され、自由水排泄が急増して血清Naが想定以上に速く上昇する危険がある（<a href="../articles-gl-hn2014.html#hn-tx-chronic" style="color:var(--blue);font-weight:700;">ガイドライン 低血圧型</a>）。</p>
+        <div class="alert-yellow" style="margin-top:10px;">
+          <strong>循環回復後の補正過剰に注意：</strong> 体液補充後に尿量が急増（&gt;100 ml/h）した場合は直ちにNaを測定する。計算式の予測を大幅に超えることがある。
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         SECTION 4: 補正過剰への対処
+    ══════════════════════════════════════ -->
+    <h3 id="dt-hn-s4" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+      <span style="color:#16A34A;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 4</span>
+      補正過剰への対処
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">ODS のリスク因子</h3>
+        <p class="rule-body">浸透圧性脱髄症候群（ODS）は稀だが重篤で不可逆的な場合がある。ODS のリスク因子には<span class="mark-red"><strong>アルコール多飲・肝疾患・サイアザイド使用・低カリウム血症・栄養不良・重度低ナトリウム血症（Na &lt;105 mmol/L）</strong></span>が含まれる。これらのリスク因子を持つ患者では特に補正速度の管理を厳格にする（<a href="../articles-gl-hn2014.html#hn-tx-overcorr" style="color:var(--blue);font-weight:700;">ガイドライン 補正過剰対処</a>）。</p>
+        <div class="ie-stat-grid">
+          <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+            <div class="ie-stat-val" style="color:#DC2626;">Na &lt;105</div>
+            <div class="ie-stat-label">重度低Na血症<br>（最大リスク因子）</div>
+          </div>
+          <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+            <div class="ie-stat-val" style="color:#DC2626;">低K血症</div>
+            <div class="ie-stat-label">K補正でNaも上昇<br>（合算が必要）</div>
+          </div>
+          <div class="ie-stat" style="background:#FFF7ED;border-color:#FED7AA;">
+            <div class="ie-stat-val" style="color:#EA580C;">肝疾患</div>
+            <div class="ie-stat-label">アルコール多飲<br>栄養不良</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">補正過剰時の緊急プロトコル</h3>
+        <p class="rule-body">補正速度が制限値を超えた場合（最初の24hで &gt;10 mmol/L、またはその後の24hで &gt;8 mmol/L）は、即座に以下の対応を行う。</p>
+        <div class="ie-flow">
+          <div class="ie-flow-item">
+            <div class="ie-flow-num red">1</div>
+            <div style="flex:1;"><p class="rule-body"><strong>即座に能動的治療（高張食塩水等）を中止</strong></p></div>
+          </div>
+          <div class="ie-flow-arrow red">↓</div>
+          <div class="ie-flow-item">
+            <div class="ie-flow-num red">2</div>
+            <div style="flex:1;"><p class="rule-body"><strong>専門医に相談の上、5% ブドウ糖液 10 ml/kg を1時間かけて輸液</strong>（電解質フリー水の投与で血清Naを再降下させる）</p></div>
+          </div>
+          <div class="ie-flow-arrow red">↓</div>
+          <div class="ie-flow-item">
+            <div class="ie-flow-num red">3</div>
+            <div style="flex:1;"><p class="rule-body"><strong>専門医に相談の上、デスモプレシン 2 mcg 静注</strong>。8時間以内には繰り返さない。</p></div>
+          </div>
+        </div>
+        <div class="alert-red" style="margin-top:12px;">
+          <strong>補正過剰が特に起きやすい状況：</strong> 体液量補充後に AVP が急速に抑制される場合（低血圧型）、糖質コルチコイド補充後（副腎不全）、サイアザイド中止後、精神性多飲の改善後。これらの患者では 4時間ごとの Na 確認を怠らない。
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">K補正も血清Naを上げることを忘れない</h3>
+        <p class="rule-body">低カリウム血症を補正すると、カリウムが細胞内に取り込まれる際にナトリウムが細胞外に移行し、血清Naが上昇する。<span class="mark-red"><strong>K補正分も24時間のNa上昇量に含めて管理</strong></span>する必要がある。低Na血症と低K血症が合併する場合は、高張食塩水の投与量とK補充の合計で補正速度を評価すること。</p>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         SECTION 5: 実践Tips
+    ══════════════════════════════════════ -->
+    <h3 id="dt-hn-s5" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+      <span style="color:#B45309;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 5</span>
+      実践Tips
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">血清ナトリウムのモニタリング頻度</h3>
+        <p class="rule-body">治療中のモニタリング頻度は臨床状況に応じて設定する。特に高張食塩水投与中と循環回復後は頻回の確認が必須である（<a href="../articles-gl-hn2014.html#hn-tx-practice" style="color:var(--blue);font-weight:700;">ガイドライン モニタリング</a>）。</p>
+        <table class="ie-table">
+          <thead><tr><th>臨床状況</th><th>モニタリング頻度</th></tr></thead>
+          <tbody>
+            <tr><td>重篤症状で高張食塩水持続投与中</td><td><span class="mark-red"><strong>4時間ごと</strong></span></td></tr>
+            <tr><td>重篤症状・高張食塩水中止後（症状改善後）</td><td><strong>6時間後・12時間後・その後毎日</strong></td></tr>
+            <tr><td>中等度症状・高張食塩水1回投与後</td><td><strong>6時間後・その後毎日</strong></td></tr>
+            <tr><td>慢性低Na血症・治療安定中</td><td><strong>6時間ごと（安定するまで）</strong>、その後毎日</td></tr>
+            <tr><td>循環補充後（尿量が急増した場合）</td><td><span class="mark-red"><strong>即座に測定</strong></span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">3% NaCl の調製</h3>
+        <p class="rule-body">3% 食塩水（Na濃度 513 mmol/L）は多くの施設で既製品が入手困難な場合がある。病院薬局に150mlバッグの事前調製・保管を依頼しておくことで、緊急時に即座に投与できる体制を整えておく（<a href="../articles-gl-hn2014.html#hn-tx-practice" style="color:var(--blue);font-weight:700;">ガイドライン 投与準備</a>）。</p>
+        <div class="alert-blue" style="margin-top:10px;">
+          <strong>緊急時の代替調製法：</strong> 生理食塩液 100 ml に 10% NaCl 40 ml を加えると約3%食塩水 140 ml が得られる（Na濃度 ≈ 510 mmol/L）。可能であれば薬局調製品が望ましい。
+        </div>
+      </div>
+    </div>
+
+    <div class="ie-alpha" style="margin-bottom:16px;">
+      <div class="ie-alpha-inner">
+        <div class="ie-alpha-header">
+          <span class="ie-alpha-badge">＋α</span>
+          <span class="ie-alpha-title">Adrogué-Madias 式（参考値としての利用）</span>
+        </div>
+        <p class="rule-body" style="color:#4C1D95;">血清Na の変化量を予測する計算式：</p>
+        <div style="background:#F3F0FF;border-radius:6px;padding:12px 16px;margin:8px 0;font-family:monospace;font-size:0.83rem;color:#4C1D95;">
+          ΔNa（mmol/L）＝（輸液のNa濃度 − 血清Na）÷（体内総水分量 + 1）
+        </div>
+        <p class="rule-body" style="color:#4C1D95;">体内総水分量：非高齢男性 = 体重 x 0.6、非高齢女性 = 体重 x 0.5、高齢男性 = 体重 x 0.5、高齢女性 = 体重 x 0.45。<strong>実際の上昇量はこの計算値を上回ることが多い</strong>（特に Na &lt;120 mmol/L では平均2.4倍の上昇が報告されている）。計算値はあくまで参考値であり、実測値でのモニタリングが必須。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">関連リソース</h3>
+        <p class="rule-body">低ナトリウム血症についてさらに深く学びたい場合は、以下を参照。</p>
+        <table class="ie-table">
+          <thead><tr><th>リソース</th><th>内容</th></tr></thead>
+          <tbody>
+            <tr><td><a href="../articles-gl-hn2014.html" style="color:var(--blue);font-weight:700;">ESICM/ESE/ERA-EDTA 2014 ガイドライン</a></td><td>低ナトリウム血症の診断・治療に関する原典ガイドラインまとめ（全2章）</td></tr>
+            <tr><td><a href="../video-lectures.html#vid-renal" style="color:var(--blue);font-weight:700;">ZP 低ナトリウム血症の基礎知識</a></td><td>動画講義（腎・電解質セクション）</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         SUMMARY
+    ══════════════════════════════════════ -->
+    <h3 id="dt-hn-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+      <span style="color:#B45309;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+      低ナトリウム血症のキーメッセージ
+    </h3>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+            <span class="rule-body"><strong>診断は尿浸透圧→尿Naの2ステップ：</strong>体液量の視診は感度・特異度が低い。尿浸透圧（ADHの活性）と尿Na（RAASの活性）を軸に鑑別を進める。尿浸透圧 ≤100 → 多飲・低溶質摂取、尿Na ≤30 → 有効循環血液量低下、尿Na &gt;30かつ利尿薬なし → SIADを疑う。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+            <span class="rule-body"><strong>治療はNa値ではなく症状の重症度で決める：</strong>重篤症状（痙攣・昏睡）には即座に3% NaCl 150ml/20分。中等度症状には1回投与後に診断評価を並行。軽度・無症状は原因特異的治療が中心。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+            <span class="rule-body"><strong>補正速度の厳守がODS予防の要：</strong>慢性低Na血症では最初の24hで≤10 mmol/L、その後は≤8 mmol/L/day。K補正分も合算する。制限を超えたら即座に中止し、専門医相談の上、5%ブドウ糖液+デスモプレシンで再降下を図る。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+            <span class="rule-body"><strong>SIADの治療は輸液制限→尿素/フロセミド+NaCl：</strong>トルバプタン（vaptan）は補正過剰リスクが高く（中等度低NaでRR 1.61）、いずれの重症度でも推奨しない。デメクロサイクリン・リチウムも禁忌。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+            <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+            <span class="rule-body"><strong>低血圧型は循環回復後の急速上昇に警戒：</strong>0.9%食塩水 0.5〜1 ml/kg/hで循環補正後、AVP抑制による自由水排泄の急増で計算値を大幅に超えるNa上昇をきたすことがある。尿量>100 ml/hで即座にNa測定。</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Source -->
+    <p style="font-size:0.72rem;color:#9CA3AF;margin-top:16px;line-height:1.7;">
+      出典：Spasovski G, et al. Clinical practice guideline on diagnosis and treatment of hyponatraemia. Eur J Endocrinol. 2014;170(3):G1-47.<br>
+      本資料は教育目的で作成した総説です。個々の診断・治療方針の決定には必ず原典を参照してください。
+    </p>
+    <p style="font-size:0.75rem;color:var(--muted);text-align:right;margin-top:8px;">制作：ICU 関谷</p>
+
+    </div><!-- /ie-main-col -->
+
+    <!-- SIDEBAR -->
+    <aside class="ie-sidebar">
+      <div class="ie-sidebar-card">
+        <div class="ie-sidebar-title">目次</div>
+        <a href="#dt-hn-s1" class="ie-toc-chapter">S1 低Na血症とは</a>
+        <a href="#dt-hn-s2" class="ie-toc-chapter">S2 診断アプローチ</a>
+        <a href="#dt-hn-s3" class="ie-toc-chapter">S3 治療</a>
+        <a href="#dt-hn-s4" class="ie-toc-chapter">S4 補正過剰への対処</a>
+        <a href="#dt-hn-s5" class="ie-toc-chapter">S5 実践Tips</a>
+        <div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border);"></div>
+        <a href="#dt-hn-summary" class="ie-toc-section">SUMMARY</a>
+        <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border);"></div>
+        <a href="../articles-gl-hn2014.html" class="ie-toc-section" style="color:#B45309;">原典ガイドライン →</a>
+      </div>
+    </aside>
+
+    </div><!-- /ie-page-flex -->
+  </div><!-- /container -->
+
+  <script src="../../script.js"></script>
+</body>
+</html>

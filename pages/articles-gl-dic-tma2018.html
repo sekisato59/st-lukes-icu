@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ICU血小板減少症 DIC vs TMA 鑑別アルゴリズム（Vincent 2018） | 聖路加ICU</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style-v2.css">
+  <script src="../site-config.js"></script>
+  <style>
+    .subpage-hero { background: linear-gradient(150deg, #1A3A2A 0%, #2D7A4F 55%, #3D9B65 100%) !important; }
+    .ie-badge { display:inline-block;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:20px;padding:4px 12px;font-size:0.72rem;font-weight:500;color:#fff;margin-right:6px;margin-top:8px; }
+
+    /* Layout */
+    .content-wrap { display:flex;gap:32px;align-items:flex-start;max-width:1140px;margin:0 auto;padding:32px 20px 80px; }
+    .main-col { flex:1;min-width:0;max-width:900px; }
+    .ie-sidebar { width:220px;flex-shrink:0; }
+    .ie-sidebar-card { background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:16px;position:sticky;top:80px; }
+    .ie-sidebar-title { font-size:0.72rem;font-weight:800;color:var(--muted);letter-spacing:0.08em;margin-bottom:10px;text-transform:uppercase; }
+    .ie-toc-chapter { display:block;font-size:0.8rem;font-weight:700;color:var(--text);padding:6px 0;border-bottom:1px solid var(--border);text-decoration:none;line-height:1.4; }
+    .ie-toc-chapter:last-child { border-bottom:none;padding-bottom:0; }
+    .ie-toc-chapter:hover { color:#2D7A4F; }
+    .ie-toc-section { display:block;font-size:0.75rem;color:var(--muted);padding:4px 0 4px 10px;text-decoration:none;line-height:1.4;border-left:2px solid var(--border); }
+    .ie-toc-section:hover { color:#2D7A4F;border-left-color:#2D7A4F; }
+    @media (max-width:900px) { .ie-sidebar { display:none; } .content-wrap { max-width:860px; } }
+
+    /* Tables */
+    .ie-table { width:100%;border-collapse:collapse;font-size:0.82rem;margin-top:10px; }
+    .ie-table th { background:#F0FDF4;border:1px solid #BBF7D0;padding:8px 12px;font-weight:700;font-size:0.78rem;text-align:left; }
+    .ie-table td { border:1px solid var(--border);padding:8px 12px;vertical-align:top;line-height:1.7; }
+    .ie-table tr:nth-child(even) td { background:#F8FAFC; }
+
+    /* Flow */
+    .ie-flow { display:flex;flex-direction:column;gap:0; }
+    .ie-flow-item { display:flex;align-items:flex-start;gap:14px;background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:14px 16px; }
+    .ie-flow-arrow { text-align:center;color:#2D7A4F;font-size:1.1rem;font-weight:700;padding:4px 0; }
+    .ie-flow-num { width:28px;height:28px;border-radius:50%;background:#2D7A4F;color:#fff;font-size:0.78rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0; }
+
+    /* Stat grid */
+    .ie-stat-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px; }
+    @media (max-width:520px) { .ie-stat-grid { grid-template-columns:1fr 1fr; } }
+    .ie-stat { background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;padding:14px 12px;text-align:center; }
+    .ie-stat-val { font-size:1.25rem;font-weight:900;color:#2D7A4F;line-height:1.3; }
+    .ie-stat-label { font-size:0.68rem;color:var(--muted);margin-top:5px;line-height:1.5; }
+
+    /* Alpha card */
+    .ie-alpha { background:#F5F3FF;border:1px solid #DDD6FE;border-radius:8px;padding:2px;margin-top:10px; }
+    .ie-alpha-inner { padding:14px 16px; }
+    .ie-alpha-header { display:flex;align-items:center;gap:8px;margin-bottom:8px; }
+    .ie-alpha-badge { background:#7C3AED;color:#fff;font-size:0.65rem;font-weight:800;padding:2px 8px;border-radius:20px;letter-spacing:0.05em; }
+    .ie-alpha-title { font-size:0.85rem;font-weight:700;color:#4C1D95; }
+
+    /* Alerts */
+    .alert-yellow { background:#FFFBEB;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#92400E;line-height:1.7; }
+    .alert-green  { background:#F0FDF4;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#14532D;line-height:1.7; }
+    .alert-red    { background:#FEF2F2;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#7F1D1D;line-height:1.7; }
+
+    /* Branch box for algorithm */
+    .branch-grid { display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px; }
+    @media (max-width:600px) { .branch-grid { grid-template-columns:1fr; } }
+    .branch-box { border-radius:8px;padding:14px 16px;border:1px solid; }
+    .branch-box-red { background:#FEF2F2;border-color:#FECACA; }
+    .branch-box-blue { background:#EFF6FF;border-color:#BFDBFE; }
+    .branch-box-green { background:#F0FDF4;border-color:#BBF7D0; }
+    .branch-box-orange { background:#FFF7ED;border-color:#FED7AA; }
+    .branch-label { font-size:0.72rem;font-weight:800;letter-spacing:0.06em;margin-bottom:6px; }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="../index.html" class="nav-logo">
+        <img src="../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+        <span class="nav-logo-text">聖路加国際病院ICU</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="../index.html#intro" class="nav-link">はじめに</a></li>
+        <li><a href="../index.html#schedule" class="nav-link">スケジュール</a></li>
+        <li><a href="../index.html#rules" class="nav-link">ICUのルール</a></li>
+        <li><a href="../index.html#learning" class="nav-link">学習・評価</a></li>
+        <li><a href="../index.html#faq" class="nav-link">FAQ</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <div class="subpage-hero">
+    <div class="container">
+      <div style="padding:40px 0 32px;">
+        <div style="margin-bottom:12px;">
+          <a href="articles-guidelines.html" style="color:rgba(255,255,255,0.7);font-size:0.78rem;text-decoration:none;">← 注目論文・ガイドライン一覧</a>
+        </div>
+        <h1 style="font-size:clamp(1.2rem,3vw,1.7rem);font-weight:900;color:#fff;line-height:1.4;margin-bottom:10px;">
+          ICU血小板減少症<br>DIC vs TMA 鑑別アルゴリズム
+        </h1>
+        <p style="color:rgba(255,255,255,0.75);font-size:0.85rem;margin-bottom:14px;line-height:1.6;">
+          集中治療医が知るべき DIC・TTP・HUS の迅速鑑別と対応
+        </p>
+        <div>
+          <span class="ie-badge">Critical Care 2018</span>
+          <span class="ie-badge">Vincent et al.</span>
+          <span class="ie-badge">Editorial</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== CONTENT ===== -->
+  <div class="content-wrap">
+
+    <!-- Main column -->
+    <div class="main-col">
+
+      <!-- ===== SECTION 1: 背景と疫学 ===== -->
+      <h3 id="s1-background" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+        ICUにおける血小板減少症の概況と鑑別の難しさ
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">ICUで高頻度な血小板減少症</h3>
+          <p class="rule-body">血小板減少症は ICU 患者の 25〜55% に生じる。原因は敗血症・薬剤・体外循環装置など多岐にわたる。そのなかでも、血小板減少と <span class="mark-red"><strong>微小血管障害性溶血性貧血（MAHA）</strong></span> を同時に呈する症例は特に注意を要する。MAHA は血管内で微小血栓が形成され、赤血球がそれにぶつかって破砕されることで生じ（スキストサイト）、LDH 上昇を伴う。この血小板減少＋MAHA という組み合わせは DIC・TTP・HUS のいずれでも生じうる。</p>
+          <div class="ie-stat-grid">
+            <div class="ie-stat">
+              <div class="ie-stat-val">25〜55%</div>
+              <div class="ie-stat-label">ICU患者における<br>血小板減少症の頻度</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">9〜19%</div>
+              <div class="ie-stat-label">ICU患者における<br>DICの頻度</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">6/100万</div>
+              <div class="ie-stat-label">TTPの推定発生率<br>（人口100万人あたり）</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">なぜ DIC と TMA を混同してはいけないか</h3>
+          <p class="rule-body">DIC は ICU で比較的よく見かける病態（ICU 患者の 9〜19%）だが、TTP や HUS は桁違いに稀である（TTP: 6/百万、STEC-HUS: 29/百万まで、aHUS: 0.2〜0.4/百万）。このため ICU 医は血小板減少症を見ると DIC と考えがちで、より稀な TTP・HUS を見逃すリスクがある。しかし <span class="mark-red"><strong>TTP は血漿交換なしでは死亡率 90%</strong></span> にのぼるため、誤診・治療遅延は致命的となる。DIC と TMA を迅速に鑑別し、TTP であれば直ちに血漿交換を開始することが予後を左右する。</p>
+          <div class="alert-red" style="margin-top:10px;">
+            <strong>臨床上の落とし穴：</strong> DIC・TTP・HUS はいずれも「血小板減少＋MAHA＋LDH上昇＋臓器障害」を呈しうる。TTP の古典的五徴（発熱・血小板減少・MAHA・腎障害・神経症状）はしばしば揃わない。臨床像だけで TTP を除外しようとしないこと。
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== SECTION 2: 共通所見と鑑別の鍵 ===== -->
+      <h3 id="s2-differentiation" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:36px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+        DIC と TMA の鑑別：凝固機能検査が最重要
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">共通所見と鑑別点</h3>
+          <p class="rule-body">DIC・TTP・aHUS はいずれも「血小板減少＋MAHA＋Coombs試験陰性＋LDH上昇＋臓器障害」を共通所見として呈する。TTP や敗血症性 DIC では特に重篤な血小板減少を示すことがある。これらの共通所見だけでは鑑別できないため、追加検査が必要となる。</p>
+          <table class="ie-table" style="margin-top:10px;">
+            <thead>
+              <tr>
+                <th>所見</th>
+                <th>DIC</th>
+                <th>TTP</th>
+                <th>HUS（STEC / aHUS）</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>血小板減少</td>
+                <td>あり（重篤なことも）</td>
+                <td>あり（重篤なことが多い）</td>
+                <td>あり</td>
+              </tr>
+              <tr>
+                <td>MAHA（スキストサイト）</td>
+                <td>あり</td>
+                <td>あり</td>
+                <td>あり</td>
+              </tr>
+              <tr>
+                <td>LDH上昇</td>
+                <td>あり</td>
+                <td>あり</td>
+                <td>あり</td>
+              </tr>
+              <tr>
+                <td>臓器障害</td>
+                <td>あり</td>
+                <td>あり（神経症状が特徴的）</td>
+                <td>あり（腎障害が特徴的）</td>
+              </tr>
+              <tr>
+                <td><strong>凝固機能検査</strong></td>
+                <td><span class="mark-red"><strong>異常（PT延長・フィブリノゲン低下・Dダイマー上昇など）</strong></span></td>
+                <td><strong>正常</strong></td>
+                <td><strong>正常</strong></td>
+              </tr>
+              <tr>
+                <td>血圧</td>
+                <td>低血圧が多い</td>
+                <td>さまざま</td>
+                <td><strong>高血圧が多い</strong></td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="rule-body" style="margin-top:10px;"><strong>最重要鑑別点は凝固機能検査：</strong> PT・aPTT・フィブリノゲン・フィブリン分解産物・Dダイマー・アンチトロンビンなどの凝固検査が異常であれば DIC を強く示唆する。TMA（TTP・HUS）では凝固機能は保たれる。血圧も補助診断となる（HUS は高血圧を伴うことが多く、DIC は低血圧を伴うことが多い）。</p>
+        </div>
+      </div>
+
+      <!-- ===== SECTION 3: 診断アルゴリズム ===== -->
+      <h3 id="s3-algorithm" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:36px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+        <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>
+        Vincent et al. 2018 — 迅速鑑別アルゴリズム
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">Step 1：DIC か TMA か</h3>
+          <p class="rule-body">血小板減少＋MAHA（スキストサイト＋Coombs陰性＋LDH上昇）＋臓器障害を認めたら、まず凝固機能検査（PT・aPTT・フィブリノゲン・Dダイマー・アンチトロンビン）を施行する。血圧評価も同時に行う。</p>
+          <div class="ie-flow" style="margin-top:12px;">
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">1</div>
+              <div style="flex:1;">
+                <p class="rule-body"><strong>凝固機能検査を行う</strong><br>PT, aPTT, フィブリノゲン, Dダイマー, フィブリン分解産物, アンチトロンビン</p>
+              </div>
+            </div>
+            <div class="ie-flow-arrow">↓</div>
+            <div class="branch-grid">
+              <div class="branch-box branch-box-red">
+                <div class="branch-label" style="color:#991B1B;">凝固異常あり → DIC</div>
+                <p class="rule-body" style="color:#7F1D1D;font-size:0.82rem;">PT延長 / aPTT延長 / フィブリノゲン低下 / Dダイマー上昇 / アンチトロンビン低下<br>→ 原疾患の治療（敗血症管理など）</p>
+              </div>
+              <div class="branch-box branch-box-blue">
+                <div class="branch-label" style="color:#1E40AF;">凝固正常 → TMA疑い</div>
+                <p class="rule-body" style="color:#1E3A8A;font-size:0.82rem;">TTP / HUS を考慮<br>→ Step 2 へ進む<br><br>補足：高血圧あれば HUS の可能性が高まる</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">Step 2：TTP か HUS か — ADAMTS13 活性を測定</h3>
+          <p class="rule-body">TMA と判断したら、次に ADAMTS13 活性を測定して TTP と HUS を鑑別する。ADAMTS13 は VWF を切断する金属プロテアーゼで、その欠乏が TTP の病態中心となる。活性が著明低下していれば TTP と診断し、直ちに血漿交換を開始する。</p>
+          <div class="ie-flow" style="margin-top:12px;">
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">2</div>
+              <div style="flex:1;">
+                <p class="rule-body"><strong>ADAMTS13 活性を測定</strong></p>
+              </div>
+            </div>
+            <div class="ie-flow-arrow">↓</div>
+            <div class="branch-grid">
+              <div class="branch-box branch-box-red">
+                <div class="branch-label" style="color:#991B1B;">ADAMTS13 &lt;5〜10% → TTP</div>
+                <p class="rule-body" style="color:#7F1D1D;font-size:0.82rem;"><span class="mark-red"><strong>緊急で血漿交換を開始</strong></span><br>治療なしでは死亡率 90%<br>ステロイドも同時投与</p>
+              </div>
+              <div class="branch-box branch-box-blue">
+                <div class="branch-label" style="color:#1E40AF;">ADAMTS13 正常（&gt;5〜10%）→ HUS</div>
+                <p class="rule-body" style="color:#1E3A8A;font-size:0.82rem;">→ Step 3 へ（STEC-HUS か aHUS かを鑑別）</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">Step 3：STEC-HUS か aHUS か — 便培養・PCR</h3>
+          <p class="rule-body">HUS と判断したら、Shiga 毒素産生大腸菌（STEC）の便培養・PCR 検査を施行する。陽性なら STEC-HUS、陰性なら非典型 HUS（aHUS）と考える。</p>
+          <div class="ie-flow" style="margin-top:12px;">
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">3</div>
+              <div style="flex:1;">
+                <p class="rule-body"><strong>STEC 便培養・PCR を施行</strong></p>
+              </div>
+            </div>
+            <div class="ie-flow-arrow">↓</div>
+            <div class="branch-grid">
+              <div class="branch-box branch-box-orange">
+                <div class="branch-label" style="color:#9A3412;">STEC 陽性 → STEC-HUS</div>
+                <p class="rule-body" style="color:#7C2D12;font-size:0.82rem;">O157 などの Shiga 毒素産生大腸菌による<br>支持療法が主体（抗菌薬は原則不使用）</p>
+              </div>
+              <div class="branch-box branch-box-green">
+                <div class="branch-label" style="color:#14532D;">STEC 陰性 → aHUS 疑い</div>
+                <p class="rule-body" style="color:#14532D;font-size:0.82rem;">補体制御異常（遺伝的素因または自己抗体）<br>誘因（感染・悪性高血圧・妊娠後・腎移植・薬剤・悪性腫瘍）を検索<br><span class="mark-green"><strong>エクリズマブ</strong></span>の早期投与を検討（臓器障害の不可逆的進行を防ぐ）</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== SECTION 4: 各疾患の病態と治療 ===== -->
+      <h3 id="s4-diseases" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:36px 0 16px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+        <span style="color:#16A34A;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 4</span>
+        各疾患の病態・特徴・治療
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">DIC：凝固亢進と線溶の全身的活性化</h3>
+          <p class="rule-body">DIC は ICU で最も頻繁に遭遇する凝固異常で、敗血症・外傷・悪性腫瘍などを契機として全身の凝固系が過剰活性化する。微小血栓と凝固因子・血小板の消費が同時進行し、出血と血栓の両面を呈する。ICU 患者の 9〜19% に合併し、人口あたり発生率は 18/100,000 とされる。治療は原疾患へのアプローチが最も重要であり、凝固因子の補充（FFP・フィブリノゲン製剤）や抗凝固療法（アンチトロンビン補充など）が補助的に行われる。</p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">TTP：ADAMTS13欠乏による大型VWFマルチマーの蓄積</h3>
+          <p class="rule-body">TTP の病態中心は ADAMTS13 活性の著明低下にある。通常 ADAMTS13 は血管内皮から分泌される超大型 von Willebrand 因子（UL-VWF）マルチマーを切断するが、その欠乏により UL-VWF が蓄積し、血小板が過剰凝集して微小血管内に血栓を形成する。神経症状や腎障害を伴うこともあるが、古典的五徴（発熱・血小板減少・MAHA・腎機能障害・神経症状）が揃わないことも多い。</p>
+          <div class="alert-red" style="margin-top:10px;">
+            <strong>治療：</strong> ADAMTS13 &lt;5〜10% で TTP と診断したら<strong>緊急血漿交換</strong>を開始する。血漿交換により欠乏した ADAMTS13 が補充され、自己抗体が除去される。治療なしの死亡率は 90%。ステロイド（プレドニゾロン 1 mg/kg/日）も同時に投与する。カプラシズマブ（抗 VWF 抗体）の追加が臨床転帰を改善することが示されている。
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">STEC-HUS：志賀毒素による腎障害が主体</h3>
+          <p class="rule-body">STEC-HUS は O157 などの志賀毒素産生大腸菌（STEC）感染によって引き起こされる。志賀毒素が腎糸球体の血管内皮細胞に結合して障害を起こし、局所の TMA と急性腎障害を生じる。小児に多いが成人でも発症する。発生率は最大 29/100 万とされる。治療は支持療法が中心（抗菌薬は志賀毒素の大量放出を促す可能性があり、原則使用しない）。</p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">aHUS：補体制御異常による難治性 TMA</h3>
+          <p class="rule-body">非典型 HUS（aHUS）は補体の代替経路の制御異常（遺伝性または後天性）によって生じる稀かつ重篤な疾患で、有病率は 0.2〜0.4/100 万とされる。発症は急性で非特異的な症状を呈し、DIC や感染症との鑑別が難しい。補体活性化を誘発する病態（感染・悪性高血圧・妊娠後・腎移植・薬剤・悪性腫瘍）を伴う場合があり、これらが aHUS と共存することもある。また aHUS 自体が悪性高血圧を引き起こすことがあり、高血圧 → TMA という逆の経路も存在する。</p>
+          <div class="alert-green" style="margin-top:10px;">
+            <strong>治療：</strong> <strong>エクリズマブ</strong>（抗 C5 モノクローナル抗体）が有効。早期に投与を開始することで不可逆的臓器障害を防げる。診断・治療の遅れが予後を大きく左右するため、aHUS が疑われれば腎臓内科・血液内科と早期に連携する。
+          </div>
+          <div class="ie-alpha" style="margin-top:10px;">
+            <div class="ie-alpha-inner">
+              <div class="ie-alpha-header">
+                <span class="ie-alpha-badge">＋α</span>
+                <span class="ie-alpha-title">aHUS における補体遺伝子検査の役割</span>
+              </div>
+              <p class="rule-body" style="color:#4C1D95;">補体制御因子（CFH・CFI・MCP・CFB・C3・THBD など）の遺伝子変異や抗 CFH 抗体は aHUS の診断確定に有用だが、ICU では回答に時間がかかるため、診断の確定を待つことはできない。遺伝子検査はすでに aHUS と判断した後の確認・専門施設へのコンサルト目的で活用する。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== SECTION 5: PLASMIC スコア ===== -->
+      <h3 id="s5-plasmic" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:36px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 5</span>
+        PLASMIC スコア — ADAMTS13 が測定できない場合の代替手段
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">PLASMIC スコアとは</h3>
+          <p class="rule-body">ADAMTS13 活性測定は施設によっては即日結果が得られないこともある。そのような状況では <span class="mark-yellow"><strong>PLASMIC スコア</strong></span>（7 成分からなる予測ツール）が有用で、重篤な ADAMTS13 欠乏の確率を精度よく推定できる。スコアが高ければ TTP の可能性が高く、結果を待たずに血漿交換の開始を検討する根拠となる（Bendapudi et al., Lancet Haematol 2017）。</p>
+          <table class="ie-table" style="margin-top:10px;">
+            <thead>
+              <tr>
+                <th>PLASMIC スコアの構成因子（各 1 点）</th>
+                <th>点数の解釈</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>P</strong>latelet count &lt; 30,000/μL</td>
+                <td rowspan="7" style="vertical-align:middle;text-align:center;">
+                  <strong>0〜4点：</strong>低リスク（ADAMTS13欠乏の可能性低い）<br><br>
+                  <strong>5点：</strong>中間リスク<br><br>
+                  <strong>6〜7点：</strong>高リスク（TTP の可能性高い）
+                </td>
+              </tr>
+              <tr><td><strong>L</strong>DH &gt; 2 × 正常上限</td></tr>
+              <tr><td><strong>A</strong>ST or ALT &lt; 正常上限の 2 倍（活動性肝炎なし）</td></tr>
+              <tr><td><strong>S</strong>TVT（脳卒中・DVT・PEなど血栓症の既往）なし</td></tr>
+              <tr><td><strong>M</strong>CV 正常（大球性貧血なし）</td></tr>
+              <tr><td><strong>I</strong>nternational normalized ratio（INR）&lt; 1.5</td></tr>
+              <tr><td><strong>C</strong>reatinine &lt; 2.0 mg/dL</td></tr>
+            </tbody>
+          </table>
+          <div class="alert-yellow" style="margin-top:10px;">
+            <strong>注意：</strong> PLASMIC スコアは TTP と HUS の鑑別を完全に代替するものではない。スコアが低くても TTP を完全には除外できず、臨床全体を見て判断する。ADAMTS13 結果が得られたら必ず再評価する。
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== SECTION 6: 実践上の注意点 ===== -->
+      <h3 id="s6-caveats" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:36px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 6</span>
+        アルゴリズムの限界と臨床上の注意点
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">このアルゴリズムが適用できない例</h3>
+          <p class="rule-body">本アルゴリズムは ICU における血小板減少症の大多数のケースをカバーするよう設計されているが、特殊な臨床提示を示す症例も存在する。例えば、ADAMTS13 が部分的に低下しているが &lt;5〜10% には達しない aHUS の報告があり、ADAMTS13 値のみで機械的に判断することには限界がある（Feng et al., Blood 2013）。また、TTP と敗血症は合併することがあり、凝固異常の解釈が複雑になる場合もある。</p>
+          <p class="rule-body" style="margin-top:8px;"><strong>実践上のポイント：</strong> 血液内科・腎臓内科の専門家への早期コンサルトは、特に TMA が疑われる症例では必須と考えるべきである。診断の不確実な症例では臨床的判断を優先し、疑わしければ血漿交換を先行させる選択も許容される（TTP の場合、治療が遅れることのリスクの方が治療開始による副作用より大きい）。</p>
+          <div class="alert-yellow" style="margin-top:10px;">
+            <strong>妊娠関連 TMA に注意：</strong> 妊娠・産褥期の血小板減少は本アルゴリズムの適用外。HELLP 症候群・妊娠 TTP・補体活性化後の産褥期 aHUS など特有の鑑別が必要であり、専門家へのコンサルトを先行させる。
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== SUMMARY ===== -->
+      <h3 id="summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:36px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+        キーメッセージ
+      </h3>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+              <span class="rule-body"><strong>血小板減少＋MAHA を見たら DIC・TTP・HUS を同時に考える：</strong>ICU 患者の 25〜55% に生じる血小板減少症のうち、MAHA を伴う場合は DIC と TMA（TTP・HUS）の鑑別が緊急課題となる。臨床像だけで除外しようとしないこと。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+              <span class="rule-body"><strong>凝固機能検査が DIC vs TMA の最重要鑑別点：</strong>PT・aPTT・フィブリノゲン・Dダイマー・アンチトロンビンが異常であれば DIC、正常であれば TMA を強く疑う。血圧（HUS は高血圧、DIC は低血圧が多い）も参考にする。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+              <span class="rule-body"><strong>TMA なら ADAMTS13 活性で TTP と HUS を鑑別：</strong>ADAMTS13 &lt;5〜10% は TTP を確定診断し、直ちに血漿交換を開始する。TTP は治療なしでは死亡率 90% であり、治療の遅延は致命的となる。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+              <span class="rule-body"><strong>HUS は STEC 検査で STEC-HUS か aHUS かを鑑別：</strong>ADAMTS13 正常 → STEC 便培養・PCR → 陽性なら STEC-HUS（支持療法）、陰性なら aHUS（エクリズマブを早期検討）。aHUS は急速に不可逆的臓器障害を来すため、迅速な対応が必要。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+              <span class="rule-body"><strong>ADAMTS13 が測定できない場合は PLASMIC スコアを活用：</strong>PLASMIC スコア（7 成分）で重篤な ADAMTS13 欠乏の確率を推定し、スコア高値であれば結果を待たずに血漿交換を先行することを検討する。血液内科・腎臓内科への早期コンサルトも忘れない。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 出典注記 -->
+      <p style="font-size:0.72rem;color:#9CA3AF;margin-top:16px;line-height:1.7;">
+        出典：Vincent JL, Castro P, Hunt BJ, et al. Thrombocytopenia in the ICU: disseminated intravascular coagulation and thrombotic microangiopathies—what intensivists need to know. Critical Care. 2018;22:158.<br>
+        DOI：<a href="https://doi.org/10.1186/s13054-018-2073-2" target="_blank" rel="noopener" style="color:#60A5FA;">https://doi.org/10.1186/s13054-018-2073-2</a><br>
+        本資料は教育目的で作成したサマリーです。診断・治療方針の決定には必ず原典を参照してください。
+      </p>
+      <p style="font-size:0.75rem;color:var(--muted);text-align:right;margin-top:8px;">制作：ICU 関谷</p>
+
+    </div><!-- /main-col -->
+
+    <!-- Sidebar -->
+    <aside class="ie-sidebar">
+      <div class="ie-sidebar-card">
+        <div class="ie-sidebar-title">目次</div>
+        <a href="#s1-background" class="ie-toc-chapter">背景・疫学</a>
+        <a href="#s1-background" class="ie-toc-section">S1 — ICUにおける血小板減少</a>
+        <a href="#s2-differentiation" class="ie-toc-chapter">DIC vs TMA の鑑別</a>
+        <a href="#s2-differentiation" class="ie-toc-section">S2 — 凝固機能検査が最重要</a>
+        <a href="#s3-algorithm" class="ie-toc-chapter">診断アルゴリズム</a>
+        <a href="#s3-algorithm" class="ie-toc-section">S3 — Step 1：DIC か TMA か</a>
+        <a href="#s3-algorithm" class="ie-toc-section">S3 — Step 2：ADAMTS13</a>
+        <a href="#s3-algorithm" class="ie-toc-section">S3 — Step 3：STEC vs aHUS</a>
+        <a href="#s4-diseases" class="ie-toc-chapter">各疾患の特徴・治療</a>
+        <a href="#s4-diseases" class="ie-toc-section">S4 — DIC・TTP・STEC-HUS・aHUS</a>
+        <a href="#s5-plasmic" class="ie-toc-chapter">PLASMIC スコア</a>
+        <a href="#s5-plasmic" class="ie-toc-section">S5 — ADAMTS13代替ツール</a>
+        <a href="#s6-caveats" class="ie-toc-chapter">注意点・限界</a>
+        <a href="#s6-caveats" class="ie-toc-section">S6 — アルゴリズムの限界</a>
+        <a href="#summary" class="ie-toc-chapter">SUMMARY</a>
+      </div>
+    </aside>
+
+  </div><!-- /content-wrap -->
+
+  <script src="../script.js"></script>
+</body>
+</html>
