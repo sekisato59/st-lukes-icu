@@ -1,3 +1,82 @@
+// ===== 全ページ共通検索機能 =====
+(function initGlobalSearch() {
+  // 既にメインページで検索UIがある場合はスキップ
+  if (document.getElementById('heroSearchTrigger')) return;
+
+  var navMenu = document.getElementById('navMenu');
+  if (!navMenu) return;
+
+  // 検索ボタンをnavbarに追加
+  var li = document.createElement('li');
+  li.innerHTML = '<button class="nav-search-trigger" id="globalSearchTrigger" aria-label="検索を開く">検索<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left:4px;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></button>';
+  navMenu.appendChild(li);
+
+  // 検索オーバーレイをbodyに追加
+  var overlay = document.createElement('div');
+  overlay.className = 'search-overlay';
+  overlay.id = 'globalSearchOverlay';
+  overlay.innerHTML = '<div class="search-overlay-inner"><button class="search-overlay-close" id="globalSearchClose" aria-label="閉じる">&times;</button><input type="text" id="globalSearchInput" class="search-overlay-input" placeholder="キーワードで検索（例：抗菌薬、透析、ルール）" autocomplete="off"><div class="search-overlay-results" id="globalSearchResults"></div></div>';
+  document.body.appendChild(overlay);
+
+  // search-index.jsを動的に読み込む
+  var basePath = '';
+  var scripts = document.getElementsByTagName('script');
+  for (var i = 0; i < scripts.length; i++) {
+    var src = scripts[i].getAttribute('src') || '';
+    if (src.indexOf('script.js') !== -1) {
+      basePath = src.replace('script.js', '');
+      break;
+    }
+  }
+
+  function bindSearch() {
+    if (typeof SEARCH_INDEX === 'undefined') return;
+    var trigger = document.getElementById('globalSearchTrigger');
+    var ov = document.getElementById('globalSearchOverlay');
+    var cl = document.getElementById('globalSearchClose');
+    var inp = document.getElementById('globalSearchInput');
+    var res = document.getElementById('globalSearchResults');
+
+    // サブページからのURL補正（scriptのパスからルートへの相対パスを算出）
+    var urlPrefix = basePath;
+
+    function openS() { ov.classList.add('active'); setTimeout(function(){ inp.focus(); }, 100); }
+    function closeS() { ov.classList.remove('active'); inp.value = ''; res.innerHTML = ''; }
+
+    trigger.addEventListener('click', openS);
+    cl.addEventListener('click', closeS);
+    ov.addEventListener('click', function(e) { if (e.target === ov) closeS(); });
+    document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && ov.classList.contains('active')) closeS(); });
+
+    inp.addEventListener('input', function() {
+      var q = this.value.trim().toLowerCase();
+      if (q.length < 1) { res.innerHTML = ''; return; }
+      var tokens = q.split(/\s+/);
+      var matches = SEARCH_INDEX.filter(function(item) {
+        var h = (item.title + ' ' + item.desc + ' ' + item.keywords).toLowerCase();
+        return tokens.every(function(t) { return h.indexOf(t) !== -1; });
+      });
+      if (matches.length === 0) {
+        res.innerHTML = '<div class="search-overlay-noresult">該当するページが見つかりません</div>';
+      } else {
+        res.innerHTML = matches.map(function(m) {
+          return '<a href="' + urlPrefix + m.url + '" class="search-overlay-result"><div class="search-overlay-result-title">' + m.title + '</div><div class="search-overlay-result-desc">' + m.desc + '</div></a>';
+        }).join('');
+      }
+    });
+  }
+
+  // search-index.jsがまだ読み込まれていなければ動的に読み込む
+  if (typeof SEARCH_INDEX !== 'undefined') {
+    bindSearch();
+  } else {
+    var s = document.createElement('script');
+    s.src = basePath + 'search-index.js';
+    s.onload = bindSearch;
+    document.head.appendChild(s);
+  }
+})();
+
 // ===== site-config.js からコンテンツを動的生成 =====
 (function renderConfig() {
   if (typeof SITE_CONFIG === 'undefined') return;
