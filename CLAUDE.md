@@ -360,6 +360,33 @@ DOIなし（未確認の場合）：
 3. `disease-topics.html` の該当行の更新日を更新する
 4. `search-index.js` のキーワードを必要に応じて追加する
 
+### カード出典タグ（dt-source）
+各カード（テキストボックス）の外側右下に、そのカードの内容がどのGLまとめページに由来するかを小さく明示する。
+
+**CSS（ページ内 `<style>` に定義）：**
+```css
+.dt-source { text-align:right;margin-top:-10px;margin-bottom:16px;padding-right:4px; }
+.dt-source a { font-size:0.68rem;color:#9CA3AF;text-decoration:none;transition:color 0.15s; }
+.dt-source a:hover { color:#2D7A4F; }
+.dt-source::before { content:"出典：";font-size:0.65rem;color:#BFBFBF; }
+```
+
+**使い方：**
+```html
+<!-- カードの閉じタグの直後に配置。リンク先はGLページの該当セクションのアンカーIDまで指定する -->
+</div>
+<div class="dt-source"><a href="../articles-gl-xxx.html#section-id">論文名（雑誌 年）▸ セクション名</a></div>
+
+<!-- 複数出典の場合は / 区切り -->
+<div class="dt-source"><a href="../articles-gl-aaa.html#sec1">論文A ▸ セクション</a> / <a href="../articles-gl-bbb.html#sec2">論文B ▸ セクション</a></div>
+```
+
+**ルール：**
+- すべてのコンテンツカードに出典タグを付ける（SUMMARY カードと導入部の総論カードは除く）
+- 出典はカード外・右寄せ・小さなグレーテキストで、本文の邪魔にならないデザイン
+- リンク先は `pages/articles-gl-*.html` のGLまとめページの**該当セクションのアンカーID**まで指定し、読者がクリックで元のテキストボックスに直接飛べるようにする
+- `▸` 区切りで「論文名 ▸ セクション名」の形式とする
+
 ### インラインリンクの種類
 総説ページ内では3種類のリンクを使い分ける：
 - **ガイドライン参照：** `<a href="../articles-gl-xxx.html#section" style="color:var(--blue);font-weight:700;">テキスト</a>`
