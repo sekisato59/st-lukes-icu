@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>移植における免疫抑制薬と感染リスク — 免疫抑制のネットステート（CID 2021） | 聖路加ICU</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style-v2.css">
+  <script src="../site-config.js"></script>
+  <style>
+    .subpage-hero { background: linear-gradient(150deg, #1A3A2A 0%, #2D7A4F 55%, #3D9B65 100%) !important; }
+    .ie-badge { display:inline-block;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:20px;padding:4px 12px;font-size:0.72rem;font-weight:500;color:#fff;margin-right:6px;margin-top:8px; }
+
+    /* Layout */
+    .content-wrap { display:flex;gap:32px;align-items:flex-start;max-width:1140px;margin:0 auto;padding:32px 20px 80px; }
+    .main-col { flex:1;min-width:0;max-width:900px; }
+    .ie-sidebar { width:220px;flex-shrink:0; }
+    .ie-sidebar-card { background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:16px;position:sticky;top:80px; }
+    .ie-sidebar-title { font-size:0.72rem;font-weight:800;color:var(--muted);letter-spacing:0.08em;margin-bottom:10px;text-transform:uppercase; }
+    .ie-toc-chapter { display:block;font-size:0.8rem;font-weight:700;color:var(--text);padding:6px 0;border-bottom:1px solid var(--border);text-decoration:none;line-height:1.4; }
+    .ie-toc-chapter:last-child { border-bottom:none;padding-bottom:0; }
+    .ie-toc-chapter:hover { color:#2D7A4F; }
+    .ie-toc-section { display:block;font-size:0.75rem;color:var(--muted);padding:4px 0 4px 10px;text-decoration:none;line-height:1.4;border-left:2px solid var(--border); }
+    .ie-toc-section:hover { color:#2D7A4F;border-left-color:#2D7A4F; }
+    @media (max-width:900px) { .ie-sidebar { display:none; } .content-wrap { max-width:860px; } }
+
+    /* Tables */
+    .ie-table { width:100%;border-collapse:collapse;font-size:0.82rem;margin-top:10px; }
+    .ie-table th { background:#F0FDF4;border:1px solid #BBF7D0;padding:8px 12px;font-weight:700;font-size:0.78rem;text-align:left; }
+    .ie-table td { border:1px solid var(--border);padding:8px 12px;vertical-align:top;line-height:1.7; }
+    .ie-table tr:nth-child(even) td { background:#F8FAFC; }
+
+    /* Stat grid */
+    .ie-stat-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px; }
+    @media (max-width:520px) { .ie-stat-grid { grid-template-columns:1fr 1fr; } }
+    .ie-stat { background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;padding:14px 12px;text-align:center; }
+    .ie-stat-val { font-size:1.25rem;font-weight:900;color:#2D7A4F;line-height:1.3; }
+    .ie-stat-label { font-size:0.68rem;color:var(--muted);margin-top:5px;line-height:1.5; }
+
+    /* Alpha card */
+    .ie-alpha { background:#F5F3FF;border:1px solid #DDD6FE;border-radius:8px;padding:2px;margin-top:10px; }
+    .ie-alpha-inner { padding:14px 16px; }
+    .ie-alpha-header { display:flex;align-items:center;gap:8px;margin-bottom:8px; }
+    .ie-alpha-badge { background:#7C3AED;color:#fff;font-size:0.65rem;font-weight:800;padding:2px 8px;border-radius:20px;letter-spacing:0.05em; }
+    .ie-alpha-title { font-size:0.85rem;font-weight:700;color:#4C1D95; }
+
+    /* Alerts */
+    .alert-yellow { background:#FFFBEB;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#92400E;line-height:1.7; }
+    .alert-green  { background:#F0FDF4;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#14532D;line-height:1.7; }
+    .alert-red    { background:#FEF2F2;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#7F1D1D;line-height:1.7; }
+
+    /* 2col grid */
+    .ie-echo-grid { display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px; }
+    @media (max-width:520px) { .ie-echo-grid { grid-template-columns:1fr; } }
+    .ie-echo-box { background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:12px 14px; }
+    .ie-echo-name { font-size:0.78rem;font-weight:800;color:var(--text);margin-bottom:6px; }
+    .ie-echo-body { font-size:0.82rem;color:var(--text);line-height:1.7; }
+
+    /* Flow */
+    .ie-flow { display:flex;flex-direction:column;gap:0; }
+    .ie-flow-item { display:flex;align-items:flex-start;gap:12px;background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:12px 14px; }
+    .ie-flow-num { background:#2D7A4F;color:#fff;font-size:0.75rem;font-weight:800;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px; }
+    .ie-flow-arrow { text-align:center;color:var(--muted);font-size:1rem;padding:4px 0; }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="../index.html" class="nav-logo">
+        <img src="../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+        <span class="nav-logo-text">聖路加国際病院ICU</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="../index.html#intro" class="nav-link">はじめに</a></li>
+        <li><a href="../index.html#schedule" class="nav-link">スケジュール</a></li>
+        <li><a href="../index.html#rules" class="nav-link">ICUの方針</a></li>
+        <li><a href="../index.html#learning" class="nav-link">学習・評価</a></li>
+        <li><a href="../index.html#faq" class="nav-link">FAQ</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <div class="subpage-hero">
+    <div class="container">
+      <a href="articles-guidelines.html#art-id" class="back-link">← 注目論文・ガイドラインまとめへ戻る</a>
+      <h1 class="subpage-title">移植における免疫抑制薬と感染リスク<br>「免疫抑制のネットステート」を管理する</h1>
+      <p class="subpage-subtitle">#7 INFECTIOUS DISEASE / 感染症</p>
+      <div>
+        <span class="ie-badge">Roberts MB &amp; Fishman JA</span>
+        <span class="ie-badge">Clinical Infectious Diseases 2021</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== CONTENT ===== -->
+  <div class="content-wrap">
+
+    <div class="main-col">
+
+      <!-- ── SECTION 1: 概念 ── -->
+      <h3 id="concept" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:0 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+        「免疫抑制のネットステート」とは
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">概念フレームワーク</h3>
+          <p class="rule-body">固形臓器移植（SOT）の成功は、<span class="mark-green"><strong>グラフト拒絶リスクと感染リスクのバランス</strong></span>を詳細に管理することにかかっている。「免疫抑制のネットステート（net state of immunosuppression）」とは、感染リスクに寄与するすべての因子を包括した概念フレームワークである。</p>
+          <p class="rule-body" style="margin-top:8px;">免疫抑制薬の免疫学的作用は、個人の先天免疫・適応免疫の遺伝的背景や薬物代謝によって異なる。複数の薬剤を同時または順次使用することでさらに複雑さが増す。</p>
+          <div class="alert-yellow" style="margin-top:10px;">
+            <strong>主な課題：</strong>免疫機能とグラフト機能・感染リスクを同時に評価する標準化アッセイが存在しない。SOTにおける感染中の免疫抑制管理は、現状では大部分が臨床経験に基づいている。
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">感染時の免疫抑制調整：4つの考慮点</h3>
+          <p class="rule-body">SOTレシピエントに感染症が発生した場合、免疫抑制の調整を検討する前に以下の4点を評価することが重要である。</p>
+          <div class="ie-flow" style="margin-top:10px;">
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">1</div>
+              <div style="flex:1;"><p class="rule-body"><strong>感染の病因における免疫抑制の役割：</strong>感染は免疫抑制が主因か、解剖学的・循環器的要因が加わっているか</p></div>
+            </div>
+            <div class="ie-flow-arrow">↓</div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">2</div>
+              <div style="flex:1;"><p class="rule-body"><strong>免疫抑制削減なしで解決できるか：</strong>有効な抗菌薬が存在し、宿主免疫の関与なしに感染が治癒できるか</p></div>
+            </div>
+            <div class="ie-flow-arrow">↓</div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">3</div>
+              <div style="flex:1;"><p class="rule-body"><strong>グラフト拒絶リスク：</strong>免疫抑制削減によってグラフト拒絶がどの程度起こりうるか</p></div>
+            </div>
+            <div class="ie-flow-arrow">↓</div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">4</div>
+              <div style="flex:1;"><p class="rule-body"><strong>免疫再構成症候群のリスク：</strong>免疫抑制削減によって免疫再構成症候群（IRIS）が誘発されないか</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">感染症カテゴリーと免疫抑制調整の方針</h3>
+          <p class="rule-body">感染症の種類によって免疫抑制調整の方針は大きく異なる。免疫抑制削減が特に重要となる感染症カテゴリーを以下に示す。</p>
+          <table class="ie-table" style="margin-top:10px;">
+            <thead><tr><th>感染症カテゴリー</th><th>免疫抑制調整の考え方</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><strong>慢性ウイルス感染<br>（CMV・EBV・HBV等）</strong></td>
+                <td>抗ウイルス薬が存在するが、T細胞媒介免疫による制御が主体。ウイルス量・免疫抑制強度・グラフト拒絶リスクを総合的に判断して調整</td>
+              </tr>
+              <tr>
+                <td><strong>日和見感染症<br>（PJP・侵襲性真菌・結核・Nocardia等）</strong></td>
+                <td>治癒に宿主免疫応答が必須。免疫抑制削減が感染制御の鍵となることが多い。ただし削減速度・種類によりIRIS誘発に注意</td>
+              </tr>
+              <tr>
+                <td><strong>重症急性感染症<br>（細菌性敗血症・COVID-19等）</strong></td>
+                <td>自然免疫の即時回復が必要。特にコルチコステロイド以外の免疫抑制薬を削減。副腎不全に注意</td>
+              </tr>
+              <tr>
+                <td><strong>特異的治療のない慢性感染症<br>（Norovirus・BKV・JCウイルス等）</strong></td>
+                <td>免疫回復による自然消退を目指す。段階的な免疫抑制削減が主戦略だが、グラフト拒絶との均衡が難しい</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ── SECTION 2: 免疫機能の評価 ── -->
+      <h3 id="immune-assessment" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+        免疫抑制状態の評価ツール
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">薬物血中濃度（Drug Levels）</h3>
+          <p class="rule-body">免疫抑制の客観的評価の第一歩として薬物血中濃度測定が行われる。カルシニューリン阻害薬（CNI）のトラフ濃度が高いほど腎移植後の感染リスクが増加するというデータがある。しかし、多くの薬剤は血中濃度測定が不可能または臨床的意義が不明確である。</p>
+          <div class="alert-yellow" style="margin-top:10px;">
+            <strong>注意：</strong>コルチコステロイド・抗体療法（Belatacept等）・コスティミュレーション阻害薬は血中濃度測定ができない。また、MMFの用量調整において薬物代謝の人種差（アフリカ系・アジア系など）を考慮する必要があるが、治療薬モニタリング研究が乏しい。
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">白血球・リンパ球サブセット</h3>
+          <p class="rule-body">移植レシピエントの感染リスク評価に最も広く用いられる基本的な方法が白血球数・リンパ球サブセット測定である。<span class="mark-yellow"><strong>CD4+とCD8+ Tリンパ球の低値は日和見感染・CMV移植後発症リスクと相関する。</strong></span>移植前の低リンパ球数は感染リスク上昇と関連し、CMV治療後の低絶対リンパ球数は再燃リスクの指標となる。</p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">定量的ウイルス量（Quantitative Viral Loads）</h3>
+          <p class="rule-body">CMV・EBV・HHV-6/7・BK・JCポリオーマウイルスの定量的PCRは、宿主免疫応答の有効性を測る指標として機能する。ウイルス血症は免疫抑制の強度を反映するが、グラフト維持に必要な免疫抑制の充足性とは必ずしも相関しない。</p>
+          <p class="rule-body" style="margin-top:8px;">移植レシピエントの最大30%は何らかのウイルス血症を有し、同時に2種以上のウイルスが循環することもある。ある小児腎移植研究では73%にウイルス血症（EBV 34%・CMV 23%・BK 23%・JC 21%）が確認されている。</p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">Torque teno virus（TTV）：免疫抑制の新たな指標</h3>
+          <p class="rule-body">Torque teno virus（TTV、アネロウイルス）はユビキタスな常在ウイルスで病原的意義は不明だが、TTV血症は免疫抑制の程度と関連する。<span class="mark-yellow"><strong>高いTTVレベルは免疫抑制の過剰を示す可能性があり、グラフト拒絶リスクは低下するが感染リスクは上昇する。</strong></span>逆に低TTVレベルは拒絶リスク上昇と関連する。ただし免疫抑制管理への介入試験はまだなく、TTVは現時点で研究ツールの段階である。</p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">その他の免疫機能アッセイ</h3>
+          <p class="rule-body">複数の免疫機能アッセイが研究されているが、いずれも一貫した有用性は示されていない。</p>
+          <table class="ie-table" style="margin-top:10px;">
+            <thead><tr><th>アッセイ</th><th>概要</th><th>現状の評価</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><strong>可溶性CD30（sCD30）</strong></td>
+                <td>T細胞機能のマーカー。低sCD30→移植後感染増加（心臓・腎移植）の報告あり</td>
+                <td>グラフト拒絶との相関はメタ解析で不良。免疫抑制管理ツールとしては支持されない</td>
+              </tr>
+              <tr>
+                <td><strong>細胞内ATP（iATP）</strong></td>
+                <td>全T細胞機能の指標。肝移植248例で低iATP→侵襲性真菌感染多い（細菌感染は相関せず）</td>
+                <td>研究結果は不一致。臨床的有用性は不明確</td>
+              </tr>
+              <tr>
+                <td><strong>IFN-γアッセイ</strong></td>
+                <td>全血抗原刺激後のIFN-γ産生。137例の心臓移植でIFN-γ低値→移植後6ヶ月の感染増加</td>
+                <td>拒絶エピソードとは無相関。介入試験が必要</td>
+              </tr>
+              <tr>
+                <td><strong>複合免疫プロファイル（IRP）</strong></td>
+                <td>CD4/CD8比・CMV血清状態・NK細胞・免疫グロブリン・補体・好中球機能の複合スコア</td>
+                <td>IRP陽性（CD4/CD8比&lt;1かつCD8 T細胞&gt;90パーセンタイル）→日和見感染HR 2.97（95%CI 1.53–5.76）・重症細菌感染HR 2.33（95%CI 1.34–3.92）。移植管理への応用は未報告</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">低ガンマグロブリン血症・補体欠乏・腸内細菌叢</h3>
+          <p class="rule-body">低ガンマグロブリン血症（免疫グロブリン補充を要する免疫グロブリン欠乏症）はSOT後の感染リスクを高める。補体第3成分（C3）・マンノース結合レクチン（MBL）欠乏もリスク因子である。</p>
+          <p class="rule-body" style="margin-top:8px;">免疫調節遺伝子の対立遺伝子変異（MBL2・フィコリン-2・MASP2多型）は各々で感染リスクを2倍増加させ、3つすべての多型を持つ肝移植レシピエントでは75%の感染リスク（野生型18%）、最大6倍の死亡率上昇（P=9×10⁻⁶）が示されている。</p>
+          <p class="rule-body" style="margin-top:8px;">腸内細菌叢（マイクロバイオーム）の異常（Dysbiosis）は免疫抑制・抗菌薬・手術によって生じる。腎移植患者においてビチュリン酸産生菌の減少とウイルス性呼吸器感染の増加との関連が報告されている。マイクロバイオームの正常化はグラフト拒絶を軽減し、維持に必要な免疫抑制量を変化させる可能性がある。</p>
+        </div>
+      </div>
+
+      <!-- ── SECTION 3: 各免疫抑制薬の免疫への影響 ── -->
+      <h3 id="drug-effects" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+        <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>
+        各免疫抑制薬の免疫への影響
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">作用機序の概要（Table 1）</h3>
+          <p class="rule-body">各免疫抑制薬の標的と免疫学的作用を把握することが、感染時の戦略的削減の基盤となる。</p>
+          <table class="ie-table" style="margin-top:10px;">
+            <thead><tr><th>薬剤</th><th>主な作用機序</th><th>主な免疫標的</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><strong>CNI<br>（シクロスポリン・タクロリムス）</strong></td>
+                <td>シクロスポリン→シクロフィリン結合、タクロリムス→FKBP12結合。いずれもカルシニューリン阻害</td>
+                <td>T細胞・B細胞・骨髄細胞での核内NF-AT転写因子阻害→広範な遺伝子転写抑制</td>
+              </tr>
+              <tr>
+                <td><strong>MMF（ミコフェノール酸モフェチル）</strong></td>
+                <td>IMPDH（イノシン一リン酸脱水素酵素）阻害→プリン合成障害</td>
+                <td>T・B細胞・樹状細胞・単球・マクロファージへの広範な影響</td>
+              </tr>
+              <tr>
+                <td><strong>アザチオプリン</strong></td>
+                <td>6-MPに代謝→DNA組み込み→プリン合成阻害</td>
+                <td>B・T細胞増殖障害</td>
+              </tr>
+              <tr>
+                <td><strong>mTOR阻害薬<br>（シロリムス・エベロリムス）</strong></td>
+                <td>FKBP12結合→sirolimus-FKBP12複合体がmTOR阻害</td>
+                <td>IL-2依存性・CD28依存性T細胞増殖抑制（G1→S期移行阻害）</td>
+              </tr>
+              <tr>
+                <td><strong>グルココルチコイド</strong></td>
+                <td>細胞内グルココルチコイド受容体結合</td>
+                <td>遺伝子発現変化→サイトカイン放出・細胞接着・白血球遊走に間接的影響</td>
+              </tr>
+              <tr>
+                <td><strong>Belatacept</strong></td>
+                <td>CD28のCD80/CD86への結合を遮断</td>
+                <td>T細胞コスティミュレーション阻害→T細胞活性化に必要な第2シグナル遮断</td>
+              </tr>
+              <tr>
+                <td><strong>ATG（抗胸腺細胞グロブリン）</strong></td>
+                <td>ヒト胸腺・T細胞株で免疫したポリクローナルIgG</td>
+                <td>補体媒介性・活性化関連のT細胞除去</td>
+              </tr>
+              <tr>
+                <td><strong>Basiliximab</strong></td>
+                <td>IL-2受容体（CD25）に対する抗体</td>
+                <td>IL-2のIL-2受容体への結合を競合的に阻害→T細胞増殖抑制</td>
+              </tr>
+              <tr>
+                <td><strong>Alemtuzumab</strong></td>
+                <td>抗CD52モノクローナル抗体</td>
+                <td>T・B細胞・NK細胞・単球・樹状細胞のCD52を標的→広範かつ長期間の除去</td>
+              </tr>
+              <tr>
+                <td><strong>Rituximab</strong></td>
+                <td>抗CD20モノクローナル抗体</td>
+                <td>B細胞除去（抗体依存性細胞傷害・補体依存性細胞傷害等）</td>
+              </tr>
+              <tr>
+                <td><strong>Eculizumab</strong></td>
+                <td>抗補体（C5）モノクローナル抗体</td>
+                <td>C5開裂阻止→膜侵襲複合体（MAC）形成阻害</td>
+              </tr>
+              <tr>
+                <td><strong>IL-6拮抗薬<br>（トシリズマブ等）</strong></td>
+                <td>IL-6受容体アンタゴニスト</td>
+                <td>可溶性・膜結合IL-6受容体阻害→IL-6シグナル伝達遮断</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">免疫機能への影響サマリー（Table 3）</h3>
+          <p class="rule-body">各薬剤が自然免疫・細胞性免疫・液性免疫に与える影響を把握することで、感染症の種類に応じた免疫抑制削減の優先順位を決定できる。</p>
+          <table class="ie-table" style="margin-top:10px;">
+            <thead><tr><th>薬剤</th><th>自然免疫</th><th>細胞性免疫</th><th>液性免疫</th></tr></thead>
+            <tbody>
+              <tr><td><strong>CNI</strong></td><td>障害 +</td><td>障害 +++</td><td>障害 ++</td></tr>
+              <tr><td><strong>MMF</strong></td><td>軽度障害 ±</td><td>障害 +++</td><td>障害 ++</td></tr>
+              <tr><td><strong>アザチオプリン</strong></td><td>障害の可能性 ±</td><td>障害 +++</td><td>障害 ++</td></tr>
+              <tr><td><strong>mTOR阻害薬</strong></td><td>障害 ++</td><td>障害 +++</td><td>障害 +</td></tr>
+              <tr><td><strong>グルココルチコイド</strong></td><td>障害 +++</td><td>障害 +++</td><td>障害 +++</td></tr>
+              <tr><td><strong>ATG</strong></td><td>障害 +</td><td>障害 +++</td><td>障害 ++</td></tr>
+              <tr><td><strong>Basiliximab</strong></td><td>不明</td><td>障害 +++</td><td>不明</td></tr>
+              <tr><td><strong>Alemtuzumab</strong></td><td>障害 −（軽度）</td><td>障害 +++</td><td>障害 ++</td></tr>
+              <tr><td><strong>Rituximab</strong></td><td>最小限</td><td>障害の可能性 ±</td><td>障害 +++</td></tr>
+              <tr><td><strong>Eculizumab</strong></td><td>障害 +++</td><td>障害の可能性 ±</td><td>障害の可能性 ±</td></tr>
+              <tr><td><strong>IL-6拮抗薬</strong></td><td>障害 ++</td><td>障害の可能性 ±</td><td>障害 +</td></tr>
+            </tbody>
+          </table>
+          <p class="rule-body" style="margin-top:8px;font-size:0.8rem;color:var(--muted);">+++：強く障害、++：中等度障害、+：軽度障害、±：障害の可能性あり、−：最小限またはなし</p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">CNI（カルシニューリン阻害薬）の免疫影響</h3>
+          <p class="rule-body">CNIは自然免疫・細胞性免疫・液性免疫の広範な領域に影響を与える。自然免疫への影響としては、好中球・マクロファージの細菌貪食能障害・樹状細胞機能障害・NK細胞機能の低下・カンジダに対する横方向転移の障害が含まれる。</p>
+          <p class="rule-body" style="margin-top:8px;">T細胞機能への影響は広範で、T細胞活性化・増殖・IL-2産生・マスト細胞脱顆粒・循環T細胞の再分布障害が含まれる。液性免疫においては、B細胞活性化・免疫グロブリン産生・IGクラススイッチに影響する。カルシニューリン阻害が尿路感染症への易感染性と関連することも示されている。</p>
+          <div class="ie-alpha" style="margin-top:10px;">
+            <div class="ie-alpha-inner">
+              <div class="ie-alpha-header">
+                <span class="ie-alpha-badge">＋α</span>
+                <span class="ie-alpha-title">CNIの侵襲性Aspergillus感染への影響</span>
+              </div>
+              <p class="rule-body" style="color:#4C1D95;">シクロスポリンはAspergillus fumigatusのマクロファージによる細胞死における横方向転移を障害し（Am J Respir Crit Care Med 2016）、Toll-like受容体シグナルを抑制する。CNIの侵襲性真菌感染への自然免疫障害メカニズムは複数報告されており、CNI削減が真菌感染への対応の一環として理にかなう根拠となる。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">グルココルチコイドの免疫影響</h3>
+          <p class="rule-body">グルココルチコイドは自然免疫・細胞性免疫・液性免疫のすべてに最も広範かつ強力な障害を与える薬剤である。自然免疫への影響として、PAMPs・DAMPsへの細胞応答抑制・炎症メディエーター（サイトカイン・ケモカイン）の産生低下・樹状細胞の補体依存性溶解・リンパ球の末梢組織から血管内・リンパ節への再分布が含まれる。</p>
+          <p class="rule-body" style="margin-top:8px;"><span class="mark-red"><strong>コルチコステロイドは自然免疫に即時かつ強力に影響し、侵襲性真菌（Pneumocystis・Nocardia）への感受性を増大させる。</strong></span>一方、炎症性応答を抑制することで免疫再構成症候群を誘発することもある。副腎不全を来しやすいため、SOTの重症感染では急激な中断を避け、ストレスドーズへの切り替えを検討する。</p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">Alemtuzumab（Campath）の特殊性</h3>
+          <p class="rule-body">Alemtuzumabは抗CD52モノクローナル抗体であり、T・B細胞・NK細胞・単球・樹状細胞のCD52を標的とするため、<span class="mark-red"><strong>多ラインの免疫系に対して深く・長期間の影響を与える。</strong></span></p>
+          <p class="rule-body" style="margin-top:8px;">Alemtuzumab使用後の再発感染は、免疫抑制薬の影響を超えた解剖学的・循環器的欠陥・糖尿病・吻合部問題・感染した人工物などの関与を示唆することが多い。Pneumocystis肺炎・細菌感染の頻度が高く、免疫抑制削減の際には多面的な評価が必要である。</p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">Eculizumab：補体阻害と莢膜細菌への感受性</h3>
+          <p class="rule-body">Eculizumab（抗C5モノクローナル抗体）は膜侵襲複合体の形成を阻害することで、<span class="mark-red"><strong>髄膜炎菌をはじめとする莢膜を持つ細菌（Neisseria等）に対して著明な易感染性をもたらす。</strong></span>血清IgA・IgGの低下も報告されている。使用前に髄膜炎菌ワクチン接種を行うことが必須であり、SOT後にEculizumabを使用する際は感染リスクを十分考慮する必要がある。</p>
+        </div>
+      </div>
+
+      <!-- ── SECTION 4: 感染時の免疫抑制調整 ── -->
+      <h3 id="infection-management" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+        <span style="color:#16A34A;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 4</span>
+        感染症別：免疫抑制調整の実際
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">CMV感染：免疫抑制調整の役割</h3>
+          <p class="rule-body">CMVおよびその他のウイルスの活性化に伴う「間接的効果」はグラフト拒絶率と日和見感染リスクの増加と関連する。CMV感染に対するアプローチは主にT細胞媒介免疫の再構築を目標とする。</p>
+          <p class="rule-body" style="margin-top:8px;"><span class="mark-yellow"><strong>CNIを削減してT細胞機能を回復させること（または好中球減少がある場合は抗増殖薬を削減すること）が考慮される。</strong></span>コルチコステロイドの強度はCMVリスクと相関し、T細胞除去薬と高用量ステロイドはその後の真菌感染の素因となりうる。</p>
+          <p class="rule-body" style="margin-top:8px;">mTOR阻害薬はCMV感染率を低下させる可能性があるが（普遍的ではない）、移植管理での役割はさらなる研究を要する。Belatacept使用例ではCMV感染の治療が困難であるとの報告がある。難治性・再発CMVには、体液性免疫がCMV管理に重要であるという認識が広まりつつある。</p>
+          <div class="alert-green" style="margin-top:10px;">
+            <strong>Key point：</strong>免疫抑制を維持したまま有効な抗ウイルス薬で治療できるCMVでは、免疫抑制削減は難治性/再発例に限定することが多い。一方、血清陰性のレシピエントへの血清陽性臓器移植（ドナー由来初感染リスクが高い場合）や重篤なCMV疾患では、より積極的な削減が必要となる。
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">EBV / 移植後リンパ増殖性疾患（PTLD）</h3>
+          <p class="rule-body">血清陰性レシピエントへの血清陽性臓器移植では、予防なしの免疫学的ナイーブな移植レシピエントの半数以上でドナー由来CMV初感染が生じる。EBVウイルス血症のモニタリングおよびウイルス血症への早期対応は、PTLDの発症を抑制する上での基盤となる。</p>
+          <p class="rule-body" style="margin-top:8px;"><span class="mark-yellow"><strong>PTLDには、コルチコステロイド以外の免疫抑制の大幅削減（特に化学療法・抗CD20療法との組み合わせ）が有効である。</strong></span>免疫機能が回復するにつれてグラフト拒絶が生じる可能性はあるが、コルチコステロイドによる管理は腫瘍抑制の観点からも許容されやすい。</p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">侵襲性真菌感染症</h3>
+          <p class="rule-body">侵襲性真菌感染（侵襲性カビ・PJP・クリプトコッカス等）の治療にあたっては、抗真菌薬の投与と並行して免疫抑制削減を考慮する。治癒には宿主の自然免疫・適応免疫の関与が必要である。</p>
+          <p class="rule-body" style="margin-top:8px;"><span class="mark-red"><strong>クリプトコッカス髄膜炎やPneumocystis髄膜炎では、コルチコステロイドの急速削減は脳室閉塞・浮腫のリスクからしばしば避けられる。</strong></span>これらの感染では初期にCNI削減が優先されることが多い。侵襲性真菌感染ではCMV再活性化の共存も確認・管理が必要（自然免疫再構築のため）。</p>
+          <p class="rule-body" style="margin-top:8px;">コルチコステロイドのリファンピシン（結核治療との関連でも重要）による代謝促進は、CNI・mTOR阻害薬の血中濃度を急激に低下させることがあるため、結核治療においては免疫抑制薬の用量調整が必要となる場合がある。</p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">重症・急性感染症（細菌性敗血症）</h3>
+          <p class="rule-body">SOTにおける重症急性感染症（細菌性敗血症・COVID-19など）の管理には、<span class="mark-red"><strong>コルチコステロイド以外の免疫抑制薬の削減が主戦略となる。</strong></span>これは自然免疫を早期に回復させることを目的とする。</p>
+          <p class="rule-body" style="margin-top:8px;">副腎不全を回避するため、長期にコルチコステロイドを使用しているSOTレシピエントではストレスドーズの投与が必要となる。この際、プレドニゾン（降圧作用が強い）よりもヒドロコルチゾンが好ましい。</p>
+          <p class="rule-body" style="margin-top:8px;">CNI・抗増殖薬の削減は腎保護の観点からも有益である。Pneumocystis・COVID-19・肺炎球菌髄膜炎では補助ステロイドが有用な場合がある。急性グラフト拒絶は一時的な免疫抑制削減では比較的まれである。</p>
+          <div class="alert-yellow" style="margin-top:10px;">
+            <strong>COVID-19への特別な配慮：</strong>COVID-19はSOTでリンパ球減少・サイトカイン嵐・多臓器障害を引き起こす。免疫抑制が防御的か有害かは現時点では不明。デキサメタゾンの抗炎症目的での使用は院内感染（特にAspergillus等の真菌感染）リスクを増大させる可能性がある。
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">BKポリオーマウイルス（BKPyV）感染</h3>
+          <p class="rule-body">BKポリオーマウイルス（BKPyV）はほぼ腎移植に限定した問題であり、BK腎症はグラフト喪失の原因となりうる。抗ウイルス薬は無効であり、<span class="mark-yellow"><strong>持続的な高ウイルス量または生検で確認されたBK腎症に対しては、段階的な免疫抑制削減が標準的アプローチである。</strong></span></p>
+          <p class="rule-body" style="margin-top:8px;">一般的なアプローチはまずMMF削減から始め、反応がなければCNI削減（またはmTOR阻害薬への切り替え）を行う。BK腎症とグラフト拒絶が共存する場合もあり、判断が難しい。グラフト拒絶が必須であれば、リンパ球除去療法が用いられることもある。</p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">特異的治療のない慢性感染症（Norovirus・PML等）</h3>
+          <p class="rule-body">ノロウイルス・クリプトスポリジウム・B型肝炎E型・PML（JCウイルス）などの慢性感染症では最適な免疫操作戦略が不明である。</p>
+          <p class="rule-body" style="margin-top:8px;">ノロウイルスには免疫抑制削減（MMF減量・アザチオプリン変更・中止）が一定の効果を示している。長期的にはCNI削減と腸内細菌叢の回復が根絶に有効な可能性がある。ノロウイルスによる大量の下痢は腎機能に悪影響を及ぼすため、MMFを減量・中止・他剤へ変更することで下痢を改善させることが優先される。</p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">感染に対する免疫抑制調整の実臨床データ（Table 4 エッセンス）</h3>
+          <p class="rule-body">感染時の免疫抑制調整に関するデータは主に後ろ向き観察研究に限られており、免疫抑制削減の適応・タイミング・程度に関する標準化された指針は存在しない。主な研究のエッセンスを以下に示す。</p>
+          <table class="ie-table" style="margin-top:10px;">
+            <thead><tr><th>感染症</th><th>主な研究と免疫抑制変更</th><th>拒絶との関係</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><strong>生命危機感染<br>（肝移植・各種）</strong></td>
+                <td>完全なIS中断を5〜102日間。13/31が感染で死亡（Massarolo 1998）<br>生命危機感染で15日以上IS中断：18/31が生存（Manez 1994）</td>
+                <td>一時的IS中断による急性拒絶は5/20（25%）。IS再開でCNI中央値が>50%削減を経験した生存者での拒絶頻度は増加</td>
+              </tr>
+              <tr>
+                <td><strong>BKポリオーマウイルス<br>（腎移植）</strong></td>
+                <td>MMF/Aza中断3〜4週＋タクロリムス削減（Hardinger 2006）<br>BKウイルス→MMF/Aza中断＋段階的タクロリムス削減（Brennan 2005）</td>
+                <td>急性拒絶5/23（Hardinger）vs 19/77（BKなし）で差なし<br>1/23で拒絶（IS削減関連）（Brennan）</td>
+              </tr>
+              <tr>
+                <td><strong>結核（腎移植）</strong></td>
+                <td>IS削減22/74（リファンピシン使用のため）（Canet 2019）<br>IS削減15/59（腎移植、台湾）（Hsu 2020）</td>
+                <td>急性拒絶3/29（Chen）。IS削減と拒絶との明確な関係は限定的</td>
+              </tr>
+              <tr>
+                <td><strong>侵襲性真菌感染（接合菌等）</strong></td>
+                <td>IS完全中断3/84、40〜580%削減（Almyroudis 2006）<br>IS削減25/48＋IS中断16/48（rhino-orbital-cerebral Zygomycosis、Sun）</td>
+                <td>1/23で拒絶（IS削減関連）（Almyroudis）</td>
+              </tr>
+              <tr>
+                <td><strong>ノロウイルス（腎移植）</strong></td>
+                <td>54/67でIS変更（Lee 2016）：3例タクロリムス中断・33例MMF削減・MMFを他剤変更<br>13/15でMMF→Aza変更（Roos-Wei 2006）</td>
+                <td>拒絶なし（Lee 2016 群では）</td>
+              </tr>
+              <tr>
+                <td><strong>重症敗血症（心臓移植）</strong></td>
+                <td>12例全例でIS完全中断（Chou 2006）。重症敗血症後15件で12例生存（50%生存）</td>
+                <td>2/7が急性拒絶なし（良好なグラフト機能）で生存。1例が拒絶で急性拒絶後グラフト喪失</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ── SUMMARY ── -->
+      <h3 id="summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+        キーメッセージ
+      </h3>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+              <span class="rule-body"><strong>免疫抑制のネットステート：</strong>感染リスクに寄与するすべての因子（免疫抑制薬・遺伝的背景・糖尿病・腸内細菌叢・栄養状態等）の総体として捉える概念。グラフト拒絶と感染リスクのバランスを管理することがSOT成功の鍵であり、標準化アッセイが存在しないため管理は臨床経験に頼る部分が大きい。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+              <span class="rule-body"><strong>免疫機能評価の現状：</strong>薬物血中濃度・CD4/CD8・ウイルス量（CMV/EBV/BK/TTV）・IRP複合スコアなど複数の評価ツールが研究されているが、いずれも個別には感染リスクとグラフト拒絶を同時に指導できる水準にはなく、臨床判断と組み合わせた使用が必須。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+              <span class="rule-body"><strong>グルココルチコイドは最強の自然免疫障害薬：</strong>自然免疫・細胞性免疫・液性免疫のすべてに広範な影響。侵襲性真菌（PJP・Nocardia）への易感染性に直結。一方で急速削減はIRIS誘発リスクがあり、SOT患者では副腎不全にも注意が必要。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+              <span class="rule-body"><strong>感染種類別の免疫抑制調整戦略：</strong>CMVは抗ウイルス薬＋T細胞回復（CNI削減）、PTLDはコルチコステロイド以外の大幅削減、侵襲性真菌は抗真菌薬＋免疫抑制削減（CNI優先）、重症敗血症はコルチコステロイド以外を削減、BKVはMMF→CNI削減の段階的アプローチが一般的。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+              <span class="rule-body"><strong>データの限界と今後の課題：</strong>感染時の免疫抑制調整に関するデータはほぼ後ろ向き観察研究に限られ、標準化された指針はない。免疫抑制削減の適応・タイミング・程度を評価する前向き介入試験が必要。免疫機能測定・ウイルス量・臨床所見の統合により個別化された戦略の構築が今後の課題である。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 出典注記 -->
+      <p style="font-size:0.72rem;color:#9CA3AF;margin-top:16px;line-height:1.7;">
+        出典：Roberts MB, Fishman JA. Immunosuppressive Agents and Infectious Risk in Transplantation: Managing the "Net State of Immunosuppression". Clin Infect Dis. 2021;73(7):1302–1317. Published online August 17, 2020.<br>
+        DOI：<a href="https://doi.org/10.1093/cid/ciaa1189" target="_blank" rel="noopener" style="color:#60A5FA;">https://doi.org/10.1093/cid/ciaa1189</a><br>
+        本資料は教育目的で作成したサマリーです。診断・治療方針の決定には必ず原典を参照してください。
+      </p>
+      <p style="font-size:0.75rem;color:var(--muted);text-align:right;margin-top:8px;">制作：ICU 関谷</p>
+
+    </div><!-- /.main-col -->
+
+    <!-- ===== SIDEBAR ===== -->
+    <aside class="ie-sidebar">
+      <div class="ie-sidebar-card">
+        <div class="ie-sidebar-title">目次</div>
+        <a href="#concept" class="ie-toc-chapter">S1 — 免疫抑制のネットステートとは</a>
+        <a href="#concept" class="ie-toc-section">概念フレームワーク</a>
+        <a href="#concept" class="ie-toc-section">感染時の4つの考慮点</a>
+        <a href="#immune-assessment" class="ie-toc-chapter">S2 — 免疫機能の評価ツール</a>
+        <a href="#immune-assessment" class="ie-toc-section">薬物血中濃度</a>
+        <a href="#immune-assessment" class="ie-toc-section">白血球・リンパ球サブセット</a>
+        <a href="#immune-assessment" class="ie-toc-section">ウイルス量・TTV</a>
+        <a href="#immune-assessment" class="ie-toc-section">その他アッセイ（sCD30・iATP・IRP）</a>
+        <a href="#immune-assessment" class="ie-toc-section">低ガンマグロブリン・腸内細菌叢</a>
+        <a href="#drug-effects" class="ie-toc-chapter">S3 — 各薬剤の免疫影響</a>
+        <a href="#drug-effects" class="ie-toc-section">作用機序の概要（Table 1）</a>
+        <a href="#drug-effects" class="ie-toc-section">免疫影響サマリー（Table 3）</a>
+        <a href="#drug-effects" class="ie-toc-section">CNI・グルココルチコイド</a>
+        <a href="#drug-effects" class="ie-toc-section">Alemtuzumab・Eculizumab</a>
+        <a href="#infection-management" class="ie-toc-chapter">S4 — 感染症別の調整戦略</a>
+        <a href="#infection-management" class="ie-toc-section">CMV感染</a>
+        <a href="#infection-management" class="ie-toc-section">EBV / PTLD</a>
+        <a href="#infection-management" class="ie-toc-section">侵襲性真菌感染症</a>
+        <a href="#infection-management" class="ie-toc-section">重症敗血症</a>
+        <a href="#infection-management" class="ie-toc-section">BKポリオーマウイルス</a>
+        <a href="#infection-management" class="ie-toc-section">特異的治療のない慢性感染症</a>
+        <a href="#infection-management" class="ie-toc-section">実臨床データ（Table 4）</a>
+        <a href="#summary" class="ie-toc-chapter">SUMMARY</a>
+      </div>
+    </aside>
+
+  </div><!-- /.content-wrap -->
+
+  <script src="../script.js"></script>
+</body>
+</html>

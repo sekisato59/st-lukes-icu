@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ツムラ医療用漢方製剤一覧（薬価基準収載） | 聖路加ICU</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style-v2.css">
+  <script src="../site-config.js"></script>
+  <style>
+    .subpage-hero { background: linear-gradient(150deg, #1A3A2A 0%, #2D7A4F 55%, #3D9B65 100%) !important; }
+    .ie-badge { display:inline-block;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:20px;padding:4px 12px;font-size:0.72rem;font-weight:500;color:#fff;margin-right:6px;margin-top:8px; }
+    .ie-table { width:100%;border-collapse:collapse;font-size:0.82rem;line-height:1.7;margin-top:10px; }
+    .ie-table th { background:#F3F4F6;color:var(--text);font-weight:700;padding:10px 12px;text-align:left;border-bottom:2px solid var(--border); }
+    .ie-table td { padding:10px 12px;border-bottom:1px solid var(--border);color:var(--muted);vertical-align:top; }
+    .ie-table tr:last-child td { border-bottom:none; }
+    .ie-table td:first-child { font-weight:700;color:var(--text);white-space:nowrap; }
+    .ie-table td:nth-child(2) { font-weight:700;color:var(--text); }
+    .ie-table td:last-child { white-space:nowrap;color:#2D7A4F;font-weight:600;font-size:0.78rem; }
+    .ie-stat-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:8px; }
+    @media (max-width:520px) { .ie-stat-grid { grid-template-columns:1fr 1fr; } }
+    .ie-stat { background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;padding:16px 12px;text-align:center;display:flex;flex-direction:column;justify-content:center;min-height:90px; }
+    .ie-stat-val { font-size:1.4rem;font-weight:900;color:#2D7A4F;line-height:1.3; }
+    .ie-stat-label { font-size:0.7rem;color:var(--muted);margin-top:6px;line-height:1.5; }
+    .alert-yellow { background:#FFFBEB;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#92400E;line-height:1.7; }
+    .alert-green  { background:#F0FDF4;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#14532D;line-height:1.7; }
+    /* Sidebar */
+    .ie-page-flex { display:flex;gap:32px;align-items:flex-start; }
+    .ie-main-col { flex:1;max-width:900px;min-width:0; }
+    .ie-sidebar { width:220px;flex-shrink:0;position:sticky;top:80px;align-self:flex-start;max-height:calc(100vh - 100px);overflow-y:auto; }
+    .ie-sidebar-card { background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:16px; }
+    .ie-sidebar-title { font-size:0.82rem;font-weight:800;margin-bottom:10px;color:var(--text); }
+    .ie-sidebar-card a.ie-toc-chapter { display:block;font-size:0.78rem;font-weight:700;color:var(--text);text-decoration:none;padding:3px 0;line-height:1.5; }
+    .ie-sidebar-card a.ie-toc-section { display:block;font-size:0.72rem;color:var(--muted);text-decoration:none;padding:3px 0;padding-left:12px;line-height:1.5; }
+    .ie-sidebar-card a:hover { color:#2D7A4F; }
+    @media (max-width:900px) { .ie-sidebar { display:none; } .ie-page-flex { display:block; } }
+    /* Search */
+    .kampo-search { width:100%;padding:10px 14px;font-size:0.88rem;border:1px solid var(--border);border-radius:8px;margin-bottom:12px;font-family:inherit;outline:none; }
+    .kampo-search:focus { border-color:#2D7A4F; }
+    .kampo-row-hidden { display:none; }
+    /* Dosage badge */
+    .dose-special { background:#FFF7ED;border:1px solid #FED7AA;color:#EA580C;border-radius:4px;padding:1px 6px;font-size:0.7rem;font-weight:700;margin-left:4px;white-space:nowrap; }
+    /* Eco grid for dosage */
+    .ie-echo-grid { display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px; }
+    @media (max-width:520px) { .ie-echo-grid { grid-template-columns:1fr; } }
+    .ie-echo-box { border:1px solid var(--border);border-radius:8px;padding:14px 16px;background:#F8FAFC; }
+    .ie-echo-name { font-size:0.8rem;font-weight:700;color:var(--text);margin-bottom:6px; }
+    .ie-echo-body { font-size:0.78rem;color:var(--muted);line-height:1.8; }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="../index.html" class="nav-logo">
+        <img src="../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+        <span class="nav-logo-text">聖路加国際病院ICU</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="../index.html#intro" class="nav-link">はじめに</a></li>
+        <li><a href="../index.html#schedule" class="nav-link">スケジュール</a></li>
+        <li><a href="../index.html#rules" class="nav-link">ICUの方針</a></li>
+        <li><a href="../index.html#learning" class="nav-link">学習・評価</a></li>
+        <li><a href="../index.html#faq" class="nav-link">FAQ</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <div class="subpage-hero">
+    <div class="container">
+      <a href="articles-guidelines.html#art-gi" class="back-link">← 注目論文・ガイドラインまとめへ戻る</a>
+      <h1 class="subpage-title">ツムラ医療用漢方製剤一覧</h1>
+      <p class="subpage-subtitle">#5 GASTROINTESTINAL / PHARMACOLOGY</p>
+      <div>
+        <span class="ie-badge">薬価基準収載</span>
+        <span class="ie-badge">128品目収録</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== CONTENT ===== -->
+  <div class="container" style="padding:32px 20px 60px;max-width:1140px;">
+    <div class="ie-page-flex">
+
+    <!-- ═══ MAIN CONTENT ═══ -->
+    <div class="ie-main-col">
+
+    <!-- ─── 概要 ─── -->
+    <div class="card" style="margin-bottom:20px;">
+      <div class="card-inner">
+        <h3 class="rule-title">製品概要</h3>
+        <p class="rule-body">本資料は、ツムラ医療用漢方製剤一覧（薬価基準収載）をまとめたものである。TJ-1からTJ-138に加え、外用製剤・調剤用製剤を含む128品目が収録されている。各製剤はエキス顆粒（医療用）であり、通常の剤形は分包品1包2.5gである。製剤番号（TJ番号）・漢方名・効能又は効果・用量を一覧することで、処方参照として活用できる。</p>
+        <div class="ie-stat-grid">
+          <div class="ie-stat">
+            <div class="ie-stat-val">128品目</div>
+            <div class="ie-stat-label">薬価収載製剤数<br>（エキス顆粒医療用）</div>
+          </div>
+          <div class="ie-stat">
+            <div class="ie-stat-val">7.5g/日</div>
+            <div class="ie-stat-label">標準用量<br>（2〜3回 食前/食間）</div>
+          </div>
+          <div class="ie-stat">
+            <div class="ie-stat-val">2.5g</div>
+            <div class="ie-stat-label">分包品1包の標準g数<br>（115品目）</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── 用法・用量 ─── -->
+    <div id="kampo-dosage" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+      <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+      <div style="font-size:1.3rem;font-weight:900;position:relative;">用法及び用量</div>
+      <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Dosage and Administration</div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">標準用量（115品目）</h3>
+        <p class="rule-body">通常、成人1日7.5gを2〜3回に分割し、食前または食間に経口投与する。なお、年齢、体重、症状により適宜増減する。分包品1包あたりのg数は2.5g。</p>
+
+        <h3 class="rule-title" style="margin-top:20px;">特別用量が設定されている製剤</h3>
+        <p class="rule-body">下記の製剤は標準用量（7.5g/日）と異なるため注意する。</p>
+        <div class="ie-echo-grid">
+          <div class="ie-echo-box">
+            <div class="ie-echo-name">1日9.0g（分包品1包3.0g）— 9品目</div>
+            <div class="ie-echo-body">TJ-19 小青竜湯、TJ-29 麦門冬湯、TJ-34 白虎加人参湯、TJ-64 炙甘草湯、TJ-77 芎帰膠艾湯、TJ-90 清肺湯、TJ-92 滋陰至宝湯、TJ-108 人参栄養湯、TJ-114 柴苓湯</div>
+          </div>
+          <div class="ie-echo-box">
+            <div class="ie-echo-name">1日10.5g（分包品1包3.5g）— 1品目</div>
+            <div class="ie-echo-body">TJ-97 大防風湯</div>
+          </div>
+          <div class="ie-echo-box">
+            <div class="ie-echo-name">1日15.0g（分包品1包2.5g）— 2品目</div>
+            <div class="ie-echo-body">TJ-99 小建中湯、TJ-100 大建中湯</div>
+          </div>
+          <div class="ie-echo-box">
+            <div class="ie-echo-name">1日18.0g（分包品1包3.0g）— 1品目</div>
+            <div class="ie-echo-body">TJ-98 黄耆建中湯</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── 警告 ─── -->
+    <div id="kampo-warning" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+      <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+      <div style="font-size:1.3rem;font-weight:900;position:relative;">警告・禁忌</div>
+      <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Warnings and Contraindications</div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">間質性肺炎（全製剤共通の警告）</h3>
+        <p class="rule-body">本剤の投与により、間質性肺炎が起こり、早期に適切な処置を行わない場合、死亡等の重篤な転帰に至ることがある。患者の状態を十分観察し、発熱・咳嗽・呼吸困難・肺音の異常（捻髪音）・胸部X線異常・胸部CT異常等があらわれた場合には、ただちに本剤の投与を中止すること。</p>
+        <div class="alert-red" style="background:#FEF2F2;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#991B1B;line-height:1.7;">
+          <strong>患者への指導：</strong>発熱、咳嗽、呼吸困難等があらわれた場合には、本剤の服用を中止し、ただちに連絡するよう患者に対し注意を行うこと。
+        </div>
+        <h3 class="rule-title" style="margin-top:20px;">禁忌の詳細</h3>
+        <p class="rule-body">一部の製剤には個別の禁忌設定がある。各製品の電子添文を必ず参照すること。本資料は教育目的のサマリーであり、処方時には必ず各製品の最新添付文書を確認すること。</p>
+      </div>
+    </div>
+
+    <!-- ─── 製剤一覧 ─── -->
+    <div id="kampo-list" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+      <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+      <div style="font-size:1.3rem;font-weight:900;position:relative;">全製剤リファレンス一覧</div>
+      <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Complete Product Reference</div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <p class="rule-body">TJ番号・漢方名・効能のキーワードで絞り込み検索ができる。用量欄の数値は1日量。標準（7.5g）と異なる製剤はオレンジ色で表示。</p>
+        <input type="text" id="kampoSearch" class="kampo-search" placeholder="例：大建中湯、便秘、TJ-100、めまい" oninput="filterKampo()">
+        <div id="kampoCount" style="font-size:0.75rem;color:var(--muted);margin-bottom:8px;"></div>
+        <table class="ie-table" id="kampoTable">
+          <thead>
+            <tr>
+              <th style="width:70px;">TJ番号</th>
+              <th style="width:160px;">漢方名</th>
+              <th>効能又は効果</th>
+              <th style="width:72px;">用量</th>
+            </tr>
+          </thead>
+          <tbody id="kampoTbody">
+            <tr class="kampo-row"><td>TJ-1</td><td>葛根湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">かっこんとう</span></td><td>感冒、鼻かぜ、熱性疾患の初期、炎症性疾患（結膜炎、角膜炎、中耳炎、扁桃腺炎、乳腺炎、リンパ腺炎）、肩こり、上半身の神経痛、じんましん。自然発汗がなく頭痛・発熱・悪寒・肩こり等を伴う比較的体力のあるもの。</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-2</td><td>葛根湯加川芎辛夷<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">かっこんとうかせんきゅうしんい</span></td><td>鼻づまり、蓄膿症、慢性鼻炎</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-3</td><td>乙字湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">おつじとう</span></td><td>病状がそれほど激しくなく、体力が中位で衰弱していないものの次の諸症：キレ痔、イボ痔</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-5</td><td>安中散<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">あんちゅうさん</span></td><td>やせ型で腹部筋肉が弛緩する傾向にあり、胃痛または腹痛があって、ときに胸やけ・げっぷ・食欲不振・はきけなどを伴う次の諸症：神経性胃炎、慢性胃炎、胃アトニー</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-6</td><td>十味敗毒湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">じゅうみはいどくとう</span></td><td>化膿性皮膚疾患・急性皮膚疾患の初期、じんましん、急性湿疹、水虫</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-7</td><td>八味地黄丸<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">はちみじおうがん</span></td><td>疲労・倦怠感著しく、尿利減少または頻数、口渇し、手足に交互的に冷感と熱感のあるものの次の諸症：腎炎、糖尿病、陰萎、坐骨神経痛、腰痛、脚気、膀胱カタル、前立腺肥大、高血圧</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-8</td><td>大柴胡湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">だいさいことう</span></td><td>比較的体力のある人で、便秘がちで、上腹部が張って苦しく、耳鳴り・肩こりなど伴うものの次の諸症：胆石症、胆のう炎、黄疸、肝機能障害、高血圧症、脳溢血、じんましん、胃酸過多症、急性胃腸カタル、悪心、嘔吐、食欲不振、痔疾、糖尿病、ノイローゼ、不眠症</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-9</td><td>小柴胡湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">しょうさいことう</span></td><td>①体力中等度で上腹部がはって苦しく、舌苔を生じ、口中不快・食欲不振・時により微熱・悪心などのあるものの次の諸症：諸種の急性熱性病、肺炎、気管支炎、気管支喘息、感冒、リンパ腺炎、慢性胃腸障害、産後回復不全 ②慢性肝炎における肝機能障害の改善（★間質性肺炎に関する警告あり）</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-10</td><td>柴胡桂枝湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">さいこけいしとう</span></td><td>発熱汗出て、悪寒し、身体痛み、頭痛、はきけのあるものの次の諸症：感冒・流感・肺炎・肺結核などの熱性疾患、胃潰瘍・十二指腸潰瘍・胆のう炎・胆石・肝機能障害・膵臓炎などの心下部緊張疼痛</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-11</td><td>柴胡桂枝乾姜湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">さいこけいしかんきょうとう</span></td><td>体力が弱く、冷え症、貧血気味で、動悸・息切れがあり、神経過敏のものの次の諸症：更年期障害、血の道症、神経症、不眠症</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-12</td><td>柴胡加竜骨牡蛎湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">さいこかりゅうこつぼれいとう</span></td><td>比較的体力があり、心悸亢進・不眠・いらだち等の精神症状のあるものの次の諸症：高血圧症、動脈硬化症、慢性腎臓病、神経衰弱症、神経性心悸亢進症、てんかん、ヒステリー、小児夜啼症、陰萎</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-14</td><td>半夏瀉心湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">はんげしゃしんとう</span></td><td>みぞおちがつかえ、ときに悪心・嘔吐があり食欲不振で腹が鳴って軟便または下痢の傾向のあるものの次の諸症：急・慢性胃腸カタル、醗酵性下痢、消化不良、胃下垂、神経性胃炎、胃弱、二日酔、げっぷ、胸やけ、口内炎、神経症</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-15</td><td>黄連解毒湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">おうれんげどくとう</span></td><td>比較的体力があり、のぼせぎみで顔色赤く、いらいらする傾向のある次の諸症：鼻出血、高血圧、不眠症、ノイローゼ、胃炎、二日酔、血の道症、めまい、動悸、湿疹・皮膚炎、皮膚瘙痒症</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-16</td><td>半夏厚朴湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">はんげこうぼくとう</span></td><td>気分がふさいで、咽喉・食道部に異物感があり、ときに動悸・めまい・嘔気などを伴う次の諸症：不安神経症、神経性胃炎、つわり、せき、しわがれ声、神経性食道狭窄症、不眠症</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-17</td><td>五苓散<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">ごれいさん</span></td><td>口渇・尿量減少するものの次の諸症：浮腫、ネフローゼ、二日酔、急性胃腸カタル、下痢、悪心、嘔吐、めまい、胃内停水、頭痛、尿毒症、暑気あたり、糖尿病</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-18</td><td>桂枝加苓附湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">けいしかりょうぶとう</span></td><td>関節痛、神経痛</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-19</td><td>小青竜湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">しょうせいりゅうとう</span></td><td>下記疾患における水様の痰・水様鼻汁・鼻閉・くしゃみ・喘鳴・咳嗽・流涙：気管支炎、気管支喘息、鼻炎、アレルギー性鼻炎、アレルギー性結膜炎、感冒（★禁忌あり）</td><td><span class="dose-special">9.0g</span></td></tr>
+            <tr class="kampo-row"><td>TJ-20</td><td>防已黄耆湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">ぼういおうぎとう</span></td><td>色白で筋肉軟らかく水ぶとりの体質で疲れやすく、汗が多く、小便不利で下肢に浮腫をきたし、膝関節の腫痛するものの次の諸症：腎炎、ネフローゼ、妊娠腎、陰嚢水腫、肥満症、関節炎、癰、筋炎、浮腫、皮膚病、多汗症、月経不順</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-21</td><td>小半夏加茯苓湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">しょうはんげかぶくりょうとう</span></td><td>体力中等度の次の諸症：妊娠嘔吐（つわり）、そのほかの諸病の嘔吐（急性胃腸炎、湿性胸膜炎、水腫性脚気、蓄膿症）</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-22</td><td>消風散<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">しょうふうさん</span></td><td>分泌物が多く、かゆみの強い慢性の皮膚病（湿疹、蕁麻疹、水虫、あせも、皮膚瘙痒症）</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-23</td><td>当帰芍薬散<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">とうきしゃくやくさん</span></td><td>筋肉が一体に軟弱で疲労しやすく、腰脚の冷えやすいものの次の諸症：貧血、倦怠感、更年期障害（頭重・頭痛・めまい・肩こり等）、月経不順、月経困難、不妊症、動悸、慢性腎炎、妊娠中の諸病（浮腫・習慣性流産・痔・腹痛）、脚気、半身不随、心臓弁膜症</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-24</td><td>加味逍遙散<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">かみしょうようさん</span></td><td>体質虚弱な婦人で肩がこり、疲れやすく、精神不安などの精神神経症状、ときに便秘の傾向のある次の諸症：冷え症、虚弱体質、月経不順、月経困難、更年期障害、血の道症</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-25</td><td>桂枝茯苓丸<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">けいしぶくりょうがん</span></td><td>体格はしっかりしていて赤ら顔が多く、腹部は大体充実、下腹部に抵抗のあるものの次の諸症：子宮並びにその付属器の炎症、子宮内膜炎、月経不順、月経困難、帯下、更年期障害（頭痛・めまい・のぼせ・肩こり等）、冷え症、腹膜炎、打撲症、痔疾患、睾丸炎</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-26</td><td>桂枝加竜骨牡蛎湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">けいしかりゅうこつぼれいとう</span></td><td>下腹直腹筋に緊張のある比較的体力の衰えているものの次の諸症：小児夜尿症、神経衰弱、性的神経衰弱、遺精、陰萎</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-27</td><td>麻黄湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">まおうとう</span></td><td>悪寒・発熱・頭痛・腰痛・自然に汗の出ないものの次の諸症：感冒、インフルエンザ（初期のもの）、関節リウマチ、喘息、乳児の鼻閉塞、哺乳困難</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-28</td><td>越婢加朮湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">えっぴかじゅつとう</span></td><td>浮腫と汗が出て小便不利のあるものの次の諸症：腎炎、ネフローゼ、脚気、関節リウマチ、夜尿症、湿疹</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-29</td><td>麦門冬湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">ばくもんどうとう</span></td><td>痰の切れにくい咳、気管支炎、気管支ぜんそく</td><td><span class="dose-special">9.0g</span></td></tr>
+            <tr class="kampo-row"><td>TJ-30</td><td>真武湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">しんぶとう</span></td><td>新陳代謝の沈衰しているものの次の諸症：胃腸疾患、胃腸虚弱症、慢性腸炎、消化不良、胃アトニー症、胃下垂症、ネフローゼ、腹膜炎、脳溢血、脊髄疾患による運動ならびに知覚麻痺、神経衰弱、高血圧症、心臓弁膜症、心不全で心悸亢進、半身不随、リウマチ、老人性瘙痒症</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-31</td><td>呉茱萸湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">ごしゅゆとう</span></td><td>手足の冷えやすい中等度以下の体力のものの次の諸症：習慣性偏頭痛、習慣性頭痛、嘔吐、脚気衝心</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-32</td><td>人参湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">にんじんとう</span></td><td>体質虚弱の人、或いは虚弱により体力低下した人の次の諸症：急性・慢性胃腸カタル、胃アトニー症、胃拡張、悪阻（つわり）、萎縮腎（★禁忌あり）</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-33</td><td>大黄牡丹皮湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">だいおうぼたんぴとう</span></td><td>比較的体力があり、下腹部痛があって、便秘しがちなものの次の諸症：月経不順、月経困難、便秘、痔疾</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-34</td><td>白虎加人参湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">びゃっこかにんじんとう</span></td><td>のどの渇きとほてりのあるもの</td><td><span class="dose-special">9.0g</span></td></tr>
+            <tr class="kampo-row"><td>TJ-35</td><td>四逆散<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">しぎゃくさん</span></td><td>比較的体力のあるもので、大柴胡湯証と小柴胡湯証との中間証を表わすものの次の諸症：胆嚢炎、胆石症、胃炎、胃酸過多、胃潰瘍、鼻カタル、気管支炎、神経質、ヒステリー</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-36</td><td>木防已湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">もくぼういとう</span></td><td>顔色がさえず、咳をともなう呼吸困難があり、心臓下部に緊張圧重感があるものの心臓あるいは腎臓にもとづく疾患、浮腫、心臓性喘息</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-37</td><td>半夏白朮天麻湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">はんげびゃくじゅつてんまとう</span></td><td>胃腸虚弱で下肢が冷え、めまい、頭痛などがある者</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-38</td><td>当帰四逆加呉茱萸生姜湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">とうきしぎゃくかごしゅゆしょうきょうとう</span></td><td>手足の冷えを感じ、下肢が冷えると下肢または下腹部が痛くなり易いものの次の諸症：しもやけ、頭痛、下腹部痛、腰痛</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-39</td><td>苓桂朮甘湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">りょうけいじゅつかんとう</span></td><td>めまい・ふらつきがあり、または動悸があり尿量が減少するものの次の諸症：神経質、ノイローゼ、めまい、動悸、息切れ、頭痛</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-40</td><td>猪苓湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">ちょれいとう</span></td><td>尿量減少・小便難・口渇を訴えるものの次の諸症：尿道炎、腎臓炎、腎石症、淋炎、排尿痛、血尿、腰以下の浮腫、残尿感、下痢</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-41</td><td>補中益気湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">ほちゅうえっきとう</span></td><td>消化機能が衰え、四肢倦怠感著しい虚弱体質者の次の諸症：夏やせ、病後の体力増強、結核症、食欲不振、胃下垂、感冒、痔、脱肛、子宮下垂、陰萎、半身不随、多汗症</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-43</td><td>六君子湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">りっくんしとう</span></td><td>胃腸の弱いもので、食欲がなく、みぞおちがつかえ、疲れやすく、貧血性で手足が冷えやすいものの次の諸症：胃炎、胃アトニー、胃下垂、消化不良、食欲不振、胃痛、嘔吐</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-45</td><td>桂枝湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">けいしとう</span></td><td>体力が衰えたときの風邪の初期</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-46</td><td>七物降下湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">しちもつこうかとう</span></td><td>身体虚弱の傾向のあるものの次の諸症：高血圧に伴う随伴症状（のぼせ、肩こり、耳なり、頭重）</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-47</td><td>釣藤散<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">ちょうとうさん</span></td><td>慢性に続く頭痛で中年以降、または高血圧の傾向のあるもの</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-48</td><td>十全大補湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">じゅうぜんたいほとう</span></td><td>病後の体力低下、疲労倦怠、食欲不振、ねあせ、手足の冷え、貧血</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-50</td><td>荊芥連翹湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">けいがいれんぎょうとう</span></td><td>蓄膿症、慢性鼻炎、慢性扁桃炎、にきび</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-51</td><td>潤腸湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">じゅんちょうとう</span></td><td>便秘</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-52</td><td>薏苡仁湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">よくいにんとう</span></td><td>関節痛、筋肉痛</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-53</td><td>疎経活血湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">そけいかっけつとう</span></td><td>関節痛、神経痛、腰痛、筋肉痛</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-54</td><td>抑肝散<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">よくかんさん</span></td><td>虚弱な体質で神経がたかぶるものの次の諸症：神経症、不眠症、小児夜なき、小児疳症</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-55</td><td>麻杏甘石湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">まきょうかんせきとう</span></td><td>小児ぜんそく、気管支ぜんそく</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-56</td><td>五淋散<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">ごりんさん</span></td><td>頻尿、排尿痛、残尿感（★禁忌あり）</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-57</td><td>温清飲<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">うんせいいん</span></td><td>皮膚の色つやが悪く、のぼせるものに用いる：月経不順、月経困難、血の道症、更年期障害、神経症</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-58</td><td>清上防風湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">せいじょうぼうふうとう</span></td><td>にきび</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-59</td><td>治頭瘡一方<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">ぢづそういっぽう</span></td><td>湿疹、くさ、乳幼児の湿疹</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-60</td><td>桂枝加芍薬湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">けいしかしゃくやくとう</span></td><td>腹部膨満感のある次の諸症：しぶり腹、腹痛</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-61</td><td>桃核承気湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">とうかくじょうきとう</span></td><td>比較的体力があり、のぼせて便秘しがちなものの次の諸症：月経不順、月経困難症、月経時や産後の精神不安、腰痛、便秘、高血圧の随伴症状（頭痛・めまい・肩こり）</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-62</td><td>防風通聖散<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">ぼうふうつうしょうさん</span></td><td>腹部に皮下脂肪が多く、便秘がちなものの次の諸症：高血圧の随伴症状（どうき・肩こり・のぼせ）、肥満症、むくみ、便秘</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-63</td><td>五積散<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">ごしゃくさん</span></td><td>慢性に経過し、症状の激しくない次の諸症：胃腸炎、腰痛、神経痛、関節痛、月経痛、頭痛、冷え症、更年期障害、感冒</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-64</td><td>炙甘草湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">しゃかんぞうとう</span></td><td>体力がおとろえて、疲れやすいものの動悸、息切れ（★禁忌あり）</td><td><span class="dose-special">9.0g</span></td></tr>
+            <tr class="kampo-row"><td>TJ-65</td><td>帰脾湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">きひとう</span></td><td>虚弱体質で血色の悪い人の次の諸症：貧血、不眠症</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-66</td><td>参蘇飲<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">じんそいん</span></td><td>感冒、せき</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-67</td><td>女神散<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">にょしんさん</span></td><td>のぼせとめまいのあるものの次の諸症：産前産後の神経症、月経不順、血の道症</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-68</td><td>芍薬甘草湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">しゃくやくかんぞうとう</span></td><td>急激におこる筋肉のけいれんを伴う疼痛、筋肉・関節痛、胃痛、腹痛（★禁忌あり）</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-69</td><td>茯苓飲<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">ぶくりょういん</span></td><td>吐きけや胸やけがあり尿量が減少するものの次の諸症：胃炎、胃アトニー、溜飲</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-70</td><td>香蘇散<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">こうそさん</span></td><td>胃腸虚弱で神経質の人の風邪の初期</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-71</td><td>四物湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">しもつとう</span></td><td>皮膚が枯燥し、色つやの悪い体質で胃腸障害のない人の次の諸症：産後あるいは流産後の疲労回復、月経不順、冷え症、しもやけ、しみ、血の道症</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-72</td><td>甘麦大棗湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">かんばくたいそうとう</span></td><td>夜泣き、ひきつけ（★禁忌あり）</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-73</td><td>柴陥湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">さいかんとう</span></td><td>咳、咳による胸痛</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-74</td><td>調胃承気湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">ちょういじょうきとう</span></td><td>便秘</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-75</td><td>四君子湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">しくんしとう</span></td><td>やせて顔色が悪くて、食欲がなく、つかれやすいものの次の諸症：胃腸虚弱、慢性胃炎、胃のもたれ、嘔吐、下痢</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-76</td><td>竜胆瀉肝湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">りゅうたんしゃかんとう</span></td><td>比較的体力があり、下腹部筋肉が緊張する傾向があるものの次の諸症：排尿痛、残尿感、尿の濁り、こしけ</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-77</td><td>芎帰膠艾湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">きゅうききょうがいとう</span></td><td>痔出血（★禁忌あり）</td><td><span class="dose-special">9.0g</span></td></tr>
+            <tr class="kampo-row"><td>TJ-78</td><td>麻杏薏甘湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">まきょうよくかんとう</span></td><td>関節痛、神経痛、筋肉痛</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-79</td><td>平胃散<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">へいいさん</span></td><td>胃がもたれて消化不良の傾向のある次の諸症：急・慢性胃カタル、胃アトニー、消化不良、食欲不振</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-80</td><td>柴胡清肝湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">さいこせいかんとう</span></td><td>かんの強い傾向のある小児の次の諸症：神経症、慢性扁桃腺炎、湿疹</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-81</td><td>二陳湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">にちんとう</span></td><td>悪心、嘔吐</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-82</td><td>桂枝人参湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">けいしにんじんとう</span></td><td>胃腸の弱い人の次の諸症：頭痛、動悸、慢性胃腸炎、胃アトニー（★禁忌あり）</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-83</td><td>抑肝散加陳皮半夏<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">よくかんさんかちんぴはんげ</span></td><td>虚弱な体質で神経がたかぶるものの次の諸症：神経症、不眠症、小児夜なき、小児疳症</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-84</td><td>大黄甘草湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">だいおうかんぞうとう</span></td><td>便秘症</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-85</td><td>神秘湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">しんぴとう</span></td><td>小児ぜんそく、気管支ぜんそく、気管支炎</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-86</td><td>当帰飲子<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">とうきいんし</span></td><td>冷え症のものの次の諸症：慢性湿疹（分泌物の少ないもの）、かゆみ</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-87</td><td>六味丸<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">ろくみがん</span></td><td>疲れやすくて尿量減少または多尿で、時に口渇があるものの次の諸症：排尿困難、頻尿、むくみ、かゆみ</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-88</td><td>二朮湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">にじゅつとう</span></td><td>五十肩</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-89</td><td>治打撲一方<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">ぢだぼくいっぽう</span></td><td>打撲によるはれ及び痛み</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-90</td><td>清肺湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">せいはいとう</span></td><td>痰の多く出る咳</td><td><span class="dose-special">9.0g</span></td></tr>
+            <tr class="kampo-row"><td>TJ-91</td><td>竹筎温胆湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">ちくじょうんたんとう</span></td><td>インフルエンザ、風邪、肺炎などの回復期に熱が長びいたり、また平熱になっても、気分がさっぱりせず、せきや痰が多くて安眠が出来ないもの</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-92</td><td>滋陰至宝湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">じいんしほうとう</span></td><td>虚弱なものの慢性のせき・たん</td><td><span class="dose-special">9.0g</span></td></tr>
+            <tr class="kampo-row"><td>TJ-93</td><td>滋陰降火湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">じいんこうかとう</span></td><td>のどにうるおいがなく痰の出なくて咳こむもの</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-95</td><td>五虎湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">ごことう</span></td><td>せき、気管支ぜんそく</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-96</td><td>柴朴湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">さいぼくとう</span></td><td>気分がふさいで、咽喉・食道部に異物感があり、時に動悸・めまい・嘔気などを伴う次の諸症：小児ぜんそく、気管支ぜんそく、気管支炎、せき、不安神経症</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-97</td><td>大防風湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">だいぼうふうとう</span></td><td>関節がはれて痛み、麻痺、強直して屈伸しがたいものの次の諸症：下肢の関節リウマチ、慢性関節炎、痛風</td><td><span class="dose-special">10.5g</span></td></tr>
+            <tr class="kampo-row"><td>TJ-98</td><td>黄耆建中湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">おうぎけんちゅうとう</span></td><td>身体虚弱で疲労しやすいものの次の諸症：虚弱体質、病後の衰弱、ねあせ</td><td><span class="dose-special">18.0g</span></td></tr>
+            <tr class="kampo-row"><td>TJ-99</td><td>小建中湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">しょうけんちゅうとう</span></td><td>体質虚弱で疲労しやすく、血色がすぐれず、腹痛・動悸・手足のほてり・冷え・頻尿および多尿などのいずれかを伴う次の諸症：小児虚弱体質、疲労倦怠、神経質、慢性胃腸炎、小児夜尿症、夜なき</td><td><span class="dose-special">15.0g</span></td></tr>
+            <tr class="kampo-row"><td>TJ-100</td><td>大建中湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">だいけんちゅうとう</span></td><td>腹が冷えて痛み、腹部膨満感のあるもの</td><td><span class="dose-special">15.0g</span></td></tr>
+            <tr class="kampo-row"><td>TJ-101</td><td>升麻葛根湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">しょうまかっこんとう</span></td><td>感冒の初期、皮膚炎</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-102</td><td>当帰湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">とうきとう</span></td><td>背中に寒冷を覚え、腹部膨満感や腹痛のあるもの</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-103</td><td>酸棗仁湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">さんそうにんとう</span></td><td>心身がつかれ弱って眠れないもの</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-104</td><td>辛夷清肺湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">しんいせいはいとう</span></td><td>鼻づまり、慢性鼻炎、蓄膿症</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-105</td><td>通導散<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">つうどうさん</span></td><td>比較的体力があり下腹部に圧痛があって便秘しがちなものの次の諸症：月経不順、月経痛、更年期障害、腰痛、便秘、打ち身（打撲）、高血圧の随伴症状（頭痛・めまい・肩こり）</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-106</td><td>温経湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">うんけいとう</span></td><td>手足がほてり、唇がかわくものの次の諸症：月経不順、月経困難、こしけ、更年期障害、不眠、神経症、湿疹、足腰の冷え、しもやけ</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-107</td><td>牛車腎気丸<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">ごしゃじんきがん</span></td><td>疲れやすくて、四肢が冷えやすく尿量減少または多尿で時に口渇がある次の諸症：下肢痛、腰痛、しびれ、老人のかすみ目、かゆみ、排尿困難、頻尿、むくみ</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-108</td><td>人参栄養湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">にんじんえいようとう</span></td><td>病後の体力低下、疲労倦怠、食欲不振、ねあせ、手足の冷え、貧血</td><td><span class="dose-special">9.0g</span></td></tr>
+            <tr class="kampo-row"><td>TJ-109</td><td>小柴胡湯加桔梗石膏<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">しょうさいことうかききょうせっこう</span></td><td>咽喉がはれて痛む次の諸症：扁桃炎、扁桃周囲炎</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-110</td><td>立効散<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">りっこうさん</span></td><td>抜歯後の疼痛、歯痛</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-111</td><td>清心蓮子飲<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">せいしんれんしいん</span></td><td>全身倦怠感があり、口や舌が乾き、尿が出しぶるものの次の諸症：残尿感、頻尿、排尿痛</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-112</td><td>猪苓湯合四物湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">ちょれいとうごうしもつとう</span></td><td>皮膚が枯燥し、色つやの悪い体質で胃腸障害のない人の次の諸症：排尿困難、排尿痛、残尿感、頻尿</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-113</td><td>三黄瀉心湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">さんおうしゃしんとう</span></td><td>比較的体力があり、のぼせ気味で、顔面紅潮し、精神不安で、便秘の傾向のあるものの次の諸症：高血圧の随伴症状（のぼせ・肩こり・耳なり・頭重・不眠・不安）、鼻血、痔出血、便秘、更年期障害、血の道症</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-114</td><td>柴苓湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">さいれいとう</span></td><td>吐き気、食欲不振、のどのかわき、排尿が少ないなどの次の諸症：水瀉性下痢、急性胃腸炎、暑気あたり、むくみ（★禁忌あり）</td><td><span class="dose-special">9.0g</span></td></tr>
+            <tr class="kampo-row"><td>TJ-115</td><td>胃苓湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">いれいとう</span></td><td>水瀉性の下痢・嘔吐があり、口渇・尿量減少を伴う次の諸症：食あたり、暑気あたり、冷え腹、急性胃腸炎、腹痛</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-116</td><td>茯苓飲合半夏厚朴湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">ぶくりょういんごうはんげこうぼくとう</span></td><td>気分がふさいで、咽喉・食道部に異物感があり、時に動悸・めまい・嘔気・胸やけなどがあり、尿量の減少するものの次の諸症：不安神経症、神経性胃炎、つわり、溜飲、胃炎</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-117</td><td>茵陳五苓散<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">いんちんごれいさん</span></td><td>のどが渇いて、尿が少ないものの次の諸症：嘔吐、じんましん、二日酔のむかつき、むくみ</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-118</td><td>苓姜朮甘湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">りょうきょうじゅつかんとう</span></td><td>腰に冷えと痛みがあって、尿量が多い次の諸症：腰痛、腰の冷え、夜尿症</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-119</td><td>苓甘姜味辛夏仁湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">りょうかんきょうみしんげにんとう</span></td><td>貧血・冷え症で喘鳴を伴う喀痰の多い咳嗽があるもの：気管支炎、気管支喘息、心臓衰弱、腎臓病</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-120</td><td>黄連湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">おうれんとう</span></td><td>胃部の停滞感や重圧感・食欲不振のあるものの次の諸症：急性胃炎、二日酔、口内炎（★禁忌あり）</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-121</td><td>三物黄芩湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">さんもつおうごんとう</span></td><td>手足のほてり</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-122</td><td>排膿散及湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">はいのうさんきゅうとう</span></td><td>患部が発赤・腫脹して疼痛をともなった化膿症、瘍、面疔、その他腫症（★禁忌あり）</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-123</td><td>当帰建中湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">とうきけんちゅうとう</span></td><td>疲労しやすく、血色のすぐれないものの次の諸症：月経痛、下腹部痛、痔、脱肛の痛み</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-124</td><td>川芎茶調散<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">せんきゅうちゃちょうさん</span></td><td>かぜ、血の道症、頭痛</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-125</td><td>桂枝茯苓丸加薏苡仁<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">けいしぶくりょうがんかよくいにん</span></td><td>比較的体力があり、ときに下腹部痛・肩こり・頭重・めまい・のぼせて足冷えなどを訴えるものの次の諸症：月経不順、血の道症、にきび、しみ、手足のあれ</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-126</td><td>麻子仁丸<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">ましにんがん</span></td><td>便秘</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-127</td><td>麻黄附子細辛湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">まおうぶしさいしんとう</span></td><td>悪寒・微熱・全身倦怠・低血圧で頭痛・めまいあり、四肢に疼痛冷感あるものの次の諸症：感冒、気管支炎</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-128</td><td>啓脾湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">けいひとう</span></td><td>やせて、顔色が悪く、食欲がなく、下痢の傾向があるものの次の諸症：胃腸虚弱、慢性胃腸炎、消化不良、下痢</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-133</td><td>大承気湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">だいじょうきとう</span></td><td>腹部がかたくつかえて、便秘するもの、あるいは肥満体質で便秘するもの：常習便秘、急性便秘、高血圧、神経症、食当り</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-134</td><td>桂枝加芍薬大黄湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">けいしかしゃくやくだいおうとう</span></td><td>比較的体力のない人で、腹部膨満し、腸内の停滞感あるいは腹痛などを伴うものの次の諸症：①急性腸炎、大腸カタル ②常習便秘、宿便、しぶり腹</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-135</td><td>茵陳蒿湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">いんちんこうとう</span></td><td>尿量減少・ やや便秘がちで比較的体力のあるものの次の諸症：黄疸、肝硬変症、ネフローゼ、じんましん、口内炎</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-136</td><td>清暑益気湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">せいしょえっきとう</span></td><td>暑気あたり、暑さによる食欲不振・下痢・全身倦怠、夏やせ</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-137</td><td>加味帰脾湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">かみきひとう</span></td><td>虚弱体質で血色の悪い人の次の諸症：貧血、不眠症、精神不安、神経症</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-138</td><td>桔梗湯<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">ききょうとう</span></td><td>咽喉がはれて痛む次の諸症：扁桃炎、扁桃周囲炎（★禁忌あり）</td><td>7.5g</td></tr>
+            <tr class="kampo-row"><td>TJ-501</td><td>紫雲膏（外用）<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">しうんこう</span></td><td>火傷、痔核による疼痛、肛門裂傷。【外用】患部を清潔にしたのち、1日数回適量を直接患部に塗布、あるいはガーゼにのばして貼付する。（★禁忌あり）</td><td>外用</td></tr>
+            <tr class="kampo-row"><td>TJ-3020</td><td>生薬コウジン末（調剤用）<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">しょうやくこうじんまつ</span></td><td>漢方処方の調剤に用いる</td><td>調剤用</td></tr>
+            <tr class="kampo-row"><td>TJ-3023</td><td>ブシ末（調剤用）<br><span style="font-size:0.65rem;font-weight:400;color:var(--muted);">ぶしまつ</span></td><td>漢方処方の調剤に用いる（★禁忌あり）</td><td>調剤用</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ─── SUMMARY ─── -->
+    <h3 id="kampo-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+      ツムラ漢方製剤リファレンスのキーメッセージ
+    </h3>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+            <span class="rule-body"><strong>標準用量は7.5g/日（2〜3回 食前/食間）：</strong>115品目が標準用量。TJ-97・98・99・100など9品目は標準と異なる用量設定があり、処方時に必ず確認する。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+            <span class="rule-body"><strong>間質性肺炎は全製剤共通の警告：</strong>発熱・咳嗽・呼吸困難・胸部X線異常があらわれた場合はただちに投与中止する。特にTJ-9（小柴胡湯）は重症例の報告あり。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+            <span class="rule-body"><strong>大建中湯（TJ-100）は術後腸管麻痺に：</strong>腹部冷感・腹部膨満感を適応とし、1日15.0g（分包品1包2.5g × 6包/日）と他製剤の2倍量。消化器外科術後に処方されることが多い。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+            <span class="rule-body"><strong>芍薬甘草湯（TJ-68）は筋痙攣に即効：</strong>急激な筋肉けいれん・胃痛・腹痛に。透析患者の筋痙攣などに用いられるが、低カリウム血症・心疾患への禁忌に注意する。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+            <span class="rule-body"><strong>添付文書の確認が必須：</strong>本資料は教育目的のサマリーであり、禁忌・相互作用・副作用の詳細は各製剤の最新電子添文を参照すること。禁忌設定のある製剤には★印を付している。</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 出典注記 -->
+    <p style="font-size:0.72rem;color:#9CA3AF;margin-top:16px;line-height:1.7;">
+      出典：ツムラ医療用漢方製剤一覧（薬価基準収載）<br>
+      本資料は教育目的で作成したサマリーです。診断・治療方針の決定には必ず各製品の最新添付文書（電子添文）を参照してください。
+    </p>
+    <p style="font-size:0.75rem;color:var(--muted);text-align:right;margin-top:8px;">制作：ICU 関谷</p>
+
+    </div><!-- /ie-main-col -->
+
+    <!-- ═══ SIDEBAR ═══ -->
+    <aside class="ie-sidebar">
+      <div class="ie-sidebar-card">
+        <div class="ie-sidebar-title">目次</div>
+        <a href="#kampo-dosage" class="ie-toc-chapter">用法及び用量</a>
+        <a href="#kampo-warning" class="ie-toc-chapter">警告・禁忌</a>
+        <a href="#kampo-list" class="ie-toc-chapter">全製剤リファレンス</a>
+        <a href="#kampo-summary" class="ie-toc-chapter">SUMMARY</a>
+      </div>
+    </aside>
+
+    </div><!-- /ie-page-flex -->
+  </div>
+
+  <script src="../script.js"></script>
+  <script>
+    function filterKampo() {
+      var q = document.getElementById('kampoSearch').value.trim().toLowerCase();
+      var rows = document.querySelectorAll('.kampo-row');
+      var count = 0;
+      rows.forEach(function(row) {
+        var text = row.textContent.toLowerCase();
+        if (!q || text.indexOf(q) !== -1) {
+          row.classList.remove('kampo-row-hidden');
+          count++;
+        } else {
+          row.classList.add('kampo-row-hidden');
+        }
+      });
+      var countEl = document.getElementById('kampoCount');
+      if (q) {
+        countEl.textContent = count + '件 該当';
+      } else {
+        countEl.textContent = '';
+      }
+    }
+  </script>
+</body>
+</html>
