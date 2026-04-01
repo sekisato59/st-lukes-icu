@@ -352,6 +352,34 @@ PDFの章構成を把握してから作業を開始すること。
 ```
 - 班長名・著者名は記載しない
 
+### 略語一覧カード（外国語文献ページ必須）
+
+**すべての外国語文献に基づくGLまとめページには、メインコンテンツの先頭（第1章バナーの前）に略語一覧カードを配置する。**
+
+**目的：** 対象読者（初期・後期研修医）にとって、COR/LOE/CDL/VKA等の略語は馴染みがない。利用者フレンドリーなページにするため、ページ内で使用する略語をすべて日本語訳付きで一覧化する。
+
+**テンプレート：**
+```html
+<div class="card" style="margin-bottom:24px;">
+  <div class="card-inner">
+    <h3 class="rule-title" style="margin-bottom:10px;">本ページで使用する略語一覧</h3>
+    <table style="width:100%;border-collapse:collapse;font-size:0.8rem;line-height:1.6;">
+      <tbody>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">略語</td><td style="padding:4px 8px;">正式名称 — 日本語訳</td></tr>
+        <!-- 以下、ページ内で使用する略語をすべて列挙 -->
+      </tbody>
+    </table>
+  </div>
+</div>
+```
+
+**ルール：**
+- ページ内で3回以上使用される略語はすべて掲載する
+- 医学略語（疾患名・検査名・薬剤分類）と統計略語（COR/LOE/RR/CI/OR/HR/NNT/ITT等）の両方を含める
+- 略語は「英語略語 — 日本語訳（補足説明）」の形式
+- エビデンスレベル系（COR/LOE/GRADE）は解釈も併記する（例：COR 1=強く推奨）
+- 日本語文献のページには不要（読者が理解できる前提）
+
 ### DOIリンク（記載条件あり）
 
 DOIは以下の場合のみ記載する：
