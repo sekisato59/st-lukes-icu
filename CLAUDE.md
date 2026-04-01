@@ -234,6 +234,49 @@ PDFの章構成を把握してから作業を開始すること。
 </div>
 ```
 
+#### スコアカード（採点基準の縦リスト表示）
+
+**ルール：スコア構成項目が3つ以上ある場合、テーブルの1セルにカンマ区切りで詰め込まない。必ず縦リスト形式（ie-score-card）を使う。**
+
+- テーブルの「構成要素」列に複数項目をカンマ区切りで書くのは禁止
+- PLASMICスコア・CHA₂DS₂-VAScスコア・qSOFAなど項目数の多いスコアはすべてこの形式を使う
+- 各スコアを1枚のカードにまとめ、ページ内 `<style>` に以下を定義する
+
+```html
+<!-- ページ内 <style> に追記 -->
+.ie-score-grid { display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px; }
+@media (max-width:640px) { .ie-score-grid { grid-template-columns:1fr; } }
+.ie-score-card { background:#F8FAFC;border:1px solid var(--border);border-radius:8px;overflow:hidden; }
+.ie-score-head { background:#2D7A4F;color:#fff;padding:8px 14px;font-size:0.82rem;font-weight:800;letter-spacing:0.03em; }
+.ie-score-items { padding:10px 14px; }
+.ie-score-item { display:flex;align-items:baseline;gap:8px;padding:4px 0;border-bottom:1px solid var(--border);font-size:0.8rem;line-height:1.5; }
+.ie-score-item:last-child { border-bottom:none; }
+.ie-score-pt { flex-shrink:0;background:#E0F2E9;color:#2D7A4F;font-size:0.68rem;font-weight:800;padding:1px 6px;border-radius:10px;letter-spacing:0.03em; }
+.ie-score-foot { background:#F0FDF4;border-top:1px solid #BBF7D0;padding:8px 14px;font-size:0.78rem;color:#14532D;line-height:1.6; }
+```
+
+```html
+<!-- スコアカードの使い方：ie-score-pt には "+1" や略字を入れる -->
+<div class="ie-score-grid">
+  <div class="ie-score-card">
+    <div class="ie-score-head">PLASMICスコア（7項目・各1点）</div>
+    <div class="ie-score-items">
+      <div class="ie-score-item"><span class="ie-score-pt">P</span>血小板 &lt;30×10⁹/L</div>
+      <div class="ie-score-item"><span class="ie-score-pt">L</span>溶血所見（LDH上昇・ハプトグロビン低下）</div>
+      <div class="ie-score-item"><span class="ie-score-pt">A</span>活動性癌なし</div>
+      <div class="ie-score-item"><span class="ie-score-pt">S</span>造血幹細胞移植歴なし</div>
+      <div class="ie-score-item"><span class="ie-score-pt">M</span>MCV &lt;90 fL</div>
+      <div class="ie-score-item"><span class="ie-score-pt">I</span>INR &lt;1.5</div>
+      <div class="ie-score-item"><span class="ie-score-pt">C</span>Cr &lt;2 mg/dL</div>
+    </div>
+    <div class="ie-score-foot">カットオフ ≥5 — 感度 99% / 特異度 57%</div>
+  </div>
+  <div class="ie-score-card">
+    <!-- 2つ目のスコア -->
+  </div>
+</div>
+```
+
 #### TDMグリッド（薬剤モニタリング）
 ```html
 <div class="ie-tdm-grid">

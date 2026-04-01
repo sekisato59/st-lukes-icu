@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>タイダル肺ヒステレシスによるARDS PEEP評価（Critical Care 2023） | 聖路加ICU</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style-v2.css">
+  <script src="../site-config.js"></script>
+  <style>
+    .subpage-hero { background: linear-gradient(150deg, #1A3A2A 0%, #2D7A4F 55%, #3D9B65 100%) !important; }
+    .ie-badge { display:inline-block;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:20px;padding:4px 12px;font-size:0.72rem;font-weight:500;color:#fff;margin-right:6px;margin-top:8px; }
+
+    /* Layout */
+    .content-wrap { display:flex;gap:32px;align-items:flex-start;max-width:1140px;margin:0 auto;padding:32px 20px 80px; }
+    .main-col { flex:1;min-width:0;max-width:900px; }
+    .ie-sidebar { width:220px;flex-shrink:0; }
+    .ie-sidebar-card { background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:16px;position:sticky;top:80px; }
+    .ie-sidebar-title { font-size:0.72rem;font-weight:800;color:var(--muted);letter-spacing:0.08em;margin-bottom:10px;text-transform:uppercase; }
+    .ie-toc-chapter { display:block;font-size:0.8rem;font-weight:700;color:var(--text);padding:6px 0;border-bottom:1px solid var(--border);text-decoration:none;line-height:1.4; }
+    .ie-toc-chapter:last-child { border-bottom:none;padding-bottom:0; }
+    .ie-toc-chapter:hover { color:#2D7A4F; }
+    .ie-toc-section { display:block;font-size:0.75rem;color:var(--muted);padding:4px 0 4px 10px;text-decoration:none;line-height:1.4;border-left:2px solid var(--border); }
+    .ie-toc-section:hover { color:#2D7A4F;border-left-color:#2D7A4F; }
+    @media (max-width:900px) { .ie-sidebar { display:none; } .content-wrap { max-width:860px; } }
+
+    /* Tables */
+    .ie-table { width:100%;border-collapse:collapse;font-size:0.82rem;margin-top:10px; }
+    .ie-table th { background:#F0FDF4;border:1px solid #BBF7D0;padding:8px 12px;font-weight:700;font-size:0.78rem;text-align:left; }
+    .ie-table td { border:1px solid var(--border);padding:8px 12px;vertical-align:top;line-height:1.7; }
+    .ie-table tr:nth-child(even) td { background:#F8FAFC; }
+
+    /* Stat grid */
+    .ie-stat-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px; }
+    @media (max-width:520px) { .ie-stat-grid { grid-template-columns:1fr 1fr; } }
+    .ie-stat { background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;padding:14px 12px;text-align:center; }
+    .ie-stat-val { font-size:1.25rem;font-weight:900;color:#2D7A4F;line-height:1.3; }
+    .ie-stat-label { font-size:0.68rem;color:var(--muted);margin-top:5px;line-height:1.5; }
+
+    /* Alpha card */
+    .ie-alpha { background:#F5F3FF;border:1px solid #DDD6FE;border-radius:8px;padding:2px;margin-top:10px; }
+    .ie-alpha-inner { padding:14px 16px; }
+    .ie-alpha-header { display:flex;align-items:center;gap:8px;margin-bottom:8px; }
+    .ie-alpha-badge { background:#7C3AED;color:#fff;font-size:0.65rem;font-weight:800;padding:2px 8px;border-radius:20px;letter-spacing:0.05em; }
+    .ie-alpha-title { font-size:0.85rem;font-weight:700;color:#4C1D95; }
+
+    /* Flow */
+    .ie-flow { display:flex;flex-direction:column;gap:0;margin-top:10px; }
+    .ie-flow-item { display:flex;align-items:flex-start;gap:14px;background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:12px 14px; }
+    .ie-flow-num { background:#2D7A4F;color:#fff;font-size:0.78rem;font-weight:900;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px; }
+    .ie-flow-arrow { text-align:center;font-size:1.2rem;color:var(--muted);line-height:1.4;padding:2px 0; }
+
+    /* 2col grid */
+    .ie-echo-grid { display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px; }
+    @media (max-width:520px) { .ie-echo-grid { grid-template-columns:1fr; } }
+    .ie-echo-box { background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:12px 14px; }
+    .ie-echo-name { font-size:0.78rem;font-weight:800;color:var(--text);margin-bottom:6px; }
+    .ie-echo-body { font-size:0.82rem;color:var(--text);line-height:1.7; }
+
+    /* Alerts */
+    .alert-yellow { background:#FFFBEB;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#92400E;line-height:1.7; }
+    .alert-green  { background:#F0FDF4;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#14532D;line-height:1.7; }
+    .alert-red    { background:#FEF2F2;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#7F1D1D;line-height:1.7; }
+
+    /* Score cards */
+    .ie-score-grid { display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px; }
+    @media (max-width:640px) { .ie-score-grid { grid-template-columns:1fr; } }
+    .ie-score-card { background:#F8FAFC;border:1px solid var(--border);border-radius:8px;overflow:hidden; }
+    .ie-score-head { background:#2D7A4F;color:#fff;padding:8px 14px;font-size:0.82rem;font-weight:800;letter-spacing:0.03em; }
+    .ie-score-items { padding:10px 14px; }
+    .ie-score-item { display:flex;align-items:baseline;gap:8px;padding:4px 0;border-bottom:1px solid var(--border);font-size:0.8rem;line-height:1.5; }
+    .ie-score-item:last-child { border-bottom:none; }
+    .ie-score-pt { flex-shrink:0;background:#E0F2E9;color:#2D7A4F;font-size:0.68rem;font-weight:800;padding:1px 6px;border-radius:10px;letter-spacing:0.03em; }
+    .ie-score-foot { background:#F0FDF4;border-top:1px solid #BBF7D0;padding:8px 14px;font-size:0.78rem;color:#14532D;line-height:1.6; }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="../index.html" class="nav-logo">
+        <img src="../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+        <span class="nav-logo-text">聖路加国際病院ICU</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="../index.html#intro" class="nav-link">はじめに</a></li>
+        <li><a href="../index.html#schedule" class="nav-link">スケジュール</a></li>
+        <li><a href="../index.html#rules" class="nav-link">ICUの方針</a></li>
+        <li><a href="../index.html#learning" class="nav-link">学習・評価</a></li>
+        <li><a href="../index.html#faq" class="nav-link">FAQ</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <div class="subpage-hero">
+    <div class="container">
+      <a href="articles-guidelines.html#art-resp" class="back-link">← 注目論文・ガイドラインまとめへ戻る</a>
+      <h1 class="subpage-title">タイダル肺ヒステレシスによる<br>ARDSのPEEP誘発コンプライアンス変化の解釈</h1>
+      <p class="subpage-subtitle">#3 RESPIRATORY SYSTEM / 呼吸器系</p>
+      <div>
+        <span class="ie-badge">Mojoli F, et al.</span>
+        <span class="ie-badge">Critical Care 2023年6月</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== CONTENT ===== -->
+  <div class="content-wrap">
+
+    <div class="main-col">
+
+      <!-- ═══════════════════════════════════════════
+           SECTION 1: 研究の背景 — PEEP設定の課題
+      ═══════════════════════════════════════════ -->
+      <h3 id="s1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:0 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+        研究の背景 — PEEP設定の課題
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">"Best compliance" アプローチの落とし穴</h3>
+          <p class="rule-body">ARDSにおける機械換気のPEEP設定では、しばしば<strong>decremental PEEP trial（漸減PEEP試験）</strong>が実施される。この試験では各PEEPステップで呼吸系コンプライアンス（Cpl）を測定し、コンプライアンスが最大となるPEEP（PEEP<sub>BC</sub>）を選択する「best compliance」アプローチが用いられる。しかしこのアプローチには重大な問題がある。</p>
+          <p class="rule-body">PEEPを下げたときのコンプライアンス増加は、2つの全く異なるメカニズムによって生じうる。①過膨張肺胞が減少したことによる<span class="mark-green"><strong>真の呼吸器力学の改善</strong></span>と、②PEEPが低すぎて呼息時の肺胞虚脱と吸息時の再開放（tidal recruitment）が生じることで見かけ上コンプライアンスが増加する<span class="mark-red"><strong>誤った解釈</strong></span>である。タイダルリクルートメントは1回換気ごとに肺にエネルギーを散逸させ、VILI（人工呼吸器誘発肺傷害）の原因となる。</p>
+          <div class="alert-yellow" style="margin-top:10px;">
+            <strong>なぜ問題か：</strong>コンプライアンスが増加しているからといってPEEPを下げ続けると、タイダルリクルートメントが拡大し続けても気づけない。"best compliance" PEEP は臨床アウトカムを改善しないことが示されており（ART試験）、その背景にこの誤解釈がある可能性がある。
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">タイダル肺ヒステレシス — 概念と測定方法</h3>
+          <p class="rule-body"><strong>圧量（P-V）ループの面積（ヒステレシス面積）</strong>は肺リクルートメントと相関することが知られている。現代の人工呼吸器はlow-flow inflation-deflation（低流量送排気）操作によって、任意のPEEP値からプラトー圧までの「タイダルP-Vループ」を描記できる。このループの面積をΔP（駆動圧）で除した値が<strong>タイダル肺ヒステレシス（Hyst）</strong>であり、単位はmL（すなわちmL×cmH₂O / cmH₂O）として表される。</p>
+          <table class="ie-table" style="margin-top:10px;">
+            <thead><tr><th>指標</th><th>定義・計算式</th><th>意味</th></tr></thead>
+            <tbody>
+              <tr><td><strong>タイダルP-Vループ</strong></td><td>PEEPからプラトー圧までのlow-flow送排気操作で得られるP-Vカーブ</td><td>その PEEP 値でのタイダル換気域の肺力学を反映</td></tr>
+              <tr><td><strong>ヒステレシス面積（mL×cmH₂O）</strong></td><td>送気カーブと排気カーブで囲まれた面積</td><td>1呼吸で肺に散逸するエネルギー量に比例</td></tr>
+              <tr><td><strong>タイダル肺ヒステレシス（Hyst, mL）</strong></td><td>ヒステレシス面積 ÷ ΔP（駆動圧, cmH₂O）</td><td>タイダルリクルートメント量の指標</td></tr>
+              <tr><td><strong>ΔHyst/ΔPEEP（mL/cmH₂O）</strong></td><td>PEEPステップ間のHyst変化量 ÷ PEEP変化量</td><td>≥10 mL/cmH₂O を「大きな変化」と定義</td></tr>
+              <tr><td><strong>消散エネルギー（J/呼吸）</strong></td><td>ヒステレシス面積（mL×cmH₂O）÷ 1000</td><td>1呼吸で肺組織に散逸するエネルギー量（直接のVILI指標）</td></tr>
+            </tbody>
+          </table>
+          <p class="rule-body" style="margin-top:10px;">タイダルヒステレシスが大きく増加する場合、そのPEEP値では呼息時の肺胞虚脱を防げなくなっており、タイダルリクルートメントが生じていることを示す。この情報をコンプライアンスと組み合わせることで、PEEP設定の解釈が改善される。</p>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════
+           SECTION 2: 研究方法
+      ═══════════════════════════════════════════ -->
+      <h3 id="s2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+        研究方法
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">対象患者と試験プロトコル</h3>
+          <p class="rule-body">COVID-19による中等症〜重症ARDSの38名（ARDS判定はBerlin定義）を対象とし、担当医がdecrementalPEEP試験を実施した場合にデータを収集した。患者はすべて鎮静・筋弛緩下で管理され、Hamilton Medical製G5またはC6人工呼吸器を使用。</p>
+          <div class="ie-stat-grid" style="margin-top:10px;">
+            <div class="ie-stat">
+              <div class="ie-stat-val">38名</div>
+              <div class="ie-stat-label">COVID-19 ARDS<br>（中等症〜重症）</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">60.1±9.2歳</div>
+              <div class="ie-stat-label">年齢（平均±SD）<br>男性78.9%</div>
+            </div>
+            <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+              <div class="ie-stat-val" style="color:#DC2626;">18.4%</div>
+              <div class="ie-stat-label">ECMO導入<br>（7/38名）</div>
+            </div>
+          </div>
+          <div class="ie-flow" style="margin-top:12px;">
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">1</div>
+              <div style="flex:1;"><p class="rule-body"><strong>リクルートメント操作：</strong>5 cmH₂O/秒で気道内圧を35〜40 cmH₂Oまで増加し、10秒間維持。</p></div>
+            </div>
+            <div class="ie-flow-arrow">↓</div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">2</div>
+              <div style="flex:1;"><p class="rule-body"><strong>PEEP設定：</strong>臨床PEEP＋6 cmH₂O（PEEP start）から開始し、2 cmH₂Oずつ3分ごとに減少。臨床PEEP－6 cmH₂O（PEEP end）まで。</p></div>
+            </div>
+            <div class="ie-flow-arrow">↓</div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">3</div>
+              <div style="flex:1;"><p class="rule-body"><strong>定圧・増加ΔP方式：</strong>プラトー圧を約30 cmH₂Oに一定に保つため、PEEPを下げるたびにΔP（駆動圧）が2 cmH₂O増加する。これにより開放圧が一定に保たれ、各PEEPでタイダルリクルートメント評価が標準化される。</p></div>
+            </div>
+            <div class="ie-flow-arrow">↓</div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">4</div>
+              <div style="flex:1;"><p class="rule-body"><strong>各PEEPステップでのlow-flow操作：</strong>2 cmH₂O/秒でPEEPからプラトー圧まで送気・排気を行い、タイダルP-VループからCplとHystを測定。</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">2つのPEEP選択アプローチの定義</h3>
+          <table class="ie-table" style="margin-top:6px;">
+            <thead><tr><th>アプローチ</th><th>PEEP選択の基準</th><th>注目する指標</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><strong>Best compliance（PEEP<sub>BC</sub>）</strong><br><span style="font-size:0.75rem;color:var(--muted);">従来法</span></td>
+                <td>コンプライアンスが低下する直前の最後のPEEP値</td>
+                <td>Cpl のみ</td>
+              </tr>
+              <tr>
+                <td><strong>Combined approach（PEEP<sub>CA</sub>）</strong><br><span style="font-size:0.75rem;color:var(--muted);">本研究の提案</span></td>
+                <td>コンプライアンス低下<strong>または</strong>ヒステレシスの大幅増加のいずれかが生じる直前の最後のPEEP値</td>
+                <td>Cpl ＋ Hyst（ΔHyst/ΔPEEP ≥10 mL/cmH₂O を「不良」と判定）</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="alert-green" style="margin-top:10px;">
+            <strong>Combined approachの考え方：</strong>PEEP<sub>CA</sub>は「タイダルリクルートメントを回避できる最も低いPEEP」として解釈できる。ヒステレシスの大幅増加は、そのPEEP値ではもはや呼息時の肺胞虚脱を防げなくなっていることを示す客観的サインである。
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════
+           SECTION 3: 3つのタイダルリクルートメントパターン
+      ═══════════════════════════════════════════ -->
+      <h3 id="s3" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+        <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>
+        3つのタイダルリクルートメントパターン
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">PEEP漸減に伴うヒステレシス変化のパターン分類</h3>
+          <p class="rule-body">38名をタイダルヒステレシスの変化パターンに基づいて3群に分類した。各PEEPステップでヒステレシス面積の分布を解析し、ΔHyst/ΔPEEPが一貫して大きい群・小さい群・二相性を示す群に分けた。</p>
+          <div class="ie-echo-grid" style="margin-top:10px;">
+            <div class="ie-echo-box" style="border-left:4px solid #DC2626;">
+              <div class="ie-echo-name" style="color:#DC2626;">High tidal-recruiters（高リクルートメント群）</div>
+              <div class="ie-echo-body">
+                <strong>10名（26%）</strong><br>
+                PEEPを下げるたびにヒステレシスが一貫して大幅増加（ΔHyst/ΔPEEP 25.9±10.0 mL/cmH₂O）。どのPEEPでも高いタイダルリクルートメントが生じており、高PEEPを維持しないと肺胞虚脱を防げない。ヒステレシスは試験を通じて100.6±20.0 mLから335.4±82.8 mLに増加した。
+              </div>
+            </div>
+            <div class="ie-echo-box" style="border-left:4px solid #16A34A;">
+              <div class="ie-echo-name" style="color:#16A34A;">Low tidal-recruiters（低リクルートメント群）</div>
+              <div class="ie-echo-body">
+                <strong>12名（32%）</strong><br>
+                PEEPを下げてもヒステレシスが一貫して小さいまま（ΔHyst/ΔPEEP 4.5±1.6 mL/cmH₂O）。低PEEPでも肺胞虚脱が起きにくく、コンプライアンスの変化が真の呼吸器力学を反映する。ヒステレシスは35.7±12.5 mLから85.3±27.0 mLへの増加にとどまった。
+              </div>
+            </div>
+          </div>
+          <div class="ie-echo-box" style="border-left:4px solid #EA580C;margin-top:10px;">
+            <div class="ie-echo-name" style="color:#EA580C;">Biphasic pattern（二相性パターン）</div>
+            <div class="ie-echo-body">
+              <strong>16名（42%）</strong>。最多パターン。高PEEPではヒステレシスの増加が緩やか（slow phase: ΔHyst/ΔPEEP 5.6±2.0 mL/cmH₂O）だが、ある閾値PEEP以下になると急激に増加に転じる（fast phase: ΔHyst/ΔPEEP 23.7±7.0 mL/cmH₂O）。この転換点がタイダルリクルートメントが顕在化するPEEPを示す。ヒステレシスは62.0±14.9 mLから230.5±49.0 mLへ増加し、スロー相とファスト相の境目のヒステレシスは95.6±14.4 mLであった。
+            </div>
+          </div>
+          <div class="alert-yellow" style="margin-top:10px;">
+            <strong>臨床的意義：</strong>COVID-19 ARDSの2/3以上でPEEP漸減中に実質的なタイダルリクルートメントが生じていた。低リクルートメント群ではコンプライアンスのみによるPEEP評価が信頼できるが、高リクルートメント群と二相性群では最適PEEP判断を誤りやすい。
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">3群の患者背景と臨床特性の差異</h3>
+          <p class="rule-body">各群の臨床設定（試験直前の人工呼吸器設定・呼吸器力学・ガス交換）を比較した。</p>
+          <table class="ie-table" style="margin-top:8px;">
+            <thead>
+              <tr>
+                <th>指標</th>
+                <th>High recruiters<br>N=10</th>
+                <th>Biphasic<br>N=16</th>
+                <th>Low recruiters<br>N=12</th>
+                <th>P値</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>入院期間（日）</td><td>4.7（1.8–5.8）</td><td>10.2（3.4–13.1）</td><td>17.2（6.6–26.1）</td><td><strong>0.005</strong></td></tr>
+              <tr><td>人工呼吸期間（日）</td><td>1.8（0.9–4.8）</td><td>5.8（1.1–9.7）</td><td>14.5（2.6–24.0）</td><td><strong>0.014</strong></td></tr>
+              <tr><td>Cpl（mL/cmH₂O）</td><td>46.4±11.1</td><td>36.1±7.6</td><td>20.5±6.2</td><td><strong>&lt;0.001</strong></td></tr>
+              <tr><td>1回換気量（mL）</td><td>565.2±96.7</td><td>464.5±91.2</td><td>261.9±75.9</td><td><strong>&lt;0.001</strong></td></tr>
+              <tr><td>PEEP（cmH₂O）</td><td>16.3±2.8</td><td>15.3±2.5</td><td>15.3±2.5</td><td>0.220</td></tr>
+              <tr><td>P-plateau（cmH₂O）</td><td>28.7±2.2</td><td>28.2±2.4</td><td>27.2±2.1</td><td>0.331</td></tr>
+            </tbody>
+          </table>
+          <p class="rule-body" style="margin-top:8px;">低リクルートメント群は入院期間・人工呼吸期間が有意に長く、コンプライアンスが著しく低かった。PEEP値は3群間で差がなかった。</p>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════
+           SECTION 4: コンプライアンス vs ヒステレシス — 2アプローチの比較
+      ═══════════════════════════════════════════ -->
+      <h3 id="s4" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 4</span>
+        コンプライアンスとヒステレシスの解離 — 2つのアプローチの比較
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">コンプライアンス改善の44%はタイダルリクルートメントを伴っていた</h3>
+          <p class="rule-body">208回のPEEP漸減ステップを解析した結果、170回（82%）でコンプライアンスが増加した。しかしそのうち75回（44%）では、コンプライアンスの増加がヒステレシスの大幅増加（ΔHyst/ΔPEEP ≥10 mL/cmH₂O）を伴っていた。これは「コンプライアンスが上がった＝肺力学が改善した」という解釈が約半数のケースで誤りであることを示している。</p>
+          <div class="ie-stat-grid" style="margin-top:10px;">
+            <div class="ie-stat">
+              <div class="ie-stat-val">82%</div>
+              <div class="ie-stat-label">PEEPステップ低下時に<br>コンプライアンスが増加</div>
+            </div>
+            <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+              <div class="ie-stat-val" style="color:#DC2626;">44%</div>
+              <div class="ie-stat-label">コンプライアンス増加のうち<br>ヒステレシス大幅増加を伴う</div>
+            </div>
+            <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+              <div class="ie-stat-val" style="color:#DC2626;">58%</div>
+              <div class="ie-stat-label">2アプローチ間で<br>PEEP推奨が不一致（22/38名）</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">Combined approach vs Best compliance — 推奨PEEPとアウトカムの差</h3>
+          <p class="rule-body">2アプローチの一致率（Cohen's K係数）はわずか0.024（95%CI 0.023–0.071）であり、ほぼランダムな一致に等しかった。Combined approachは高リクルートメント群では高いPEEPを推奨し（PEEP<sub>CA</sub> 19.5±3.1 cmH₂O vs PEEP<sub>BC</sub> 11.5±3.5 cmH₂O）、低リクルートメント群では同じPEEPを推奨した（両者とも4 cmH₂O付近）。二相性群ではPEEPの維持（低下させない）を推奨することが多かった。</p>
+          <table class="ie-table" style="margin-top:10px;">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Best compliance<br>（PEEP<sub>BC</sub>）</th>
+                <th>Combined approach<br>（PEEP<sub>CA</sub>）</th>
+                <th>P値</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>推奨PEEP（cmH₂O）</strong></td><td>10.0±3.2</td><td>14.6±5.0</td><td>—</td></tr>
+              <tr><td><strong>タイダルヒステレシス（mL）</strong></td><td>204.7±110.0</td><td>92.7±20.9</td><td><strong>&lt;0.001</strong></td></tr>
+              <tr><td><strong>消散エネルギー（J/呼吸）</strong></td><td>0.4±0.2</td><td>0.1±0.1</td><td><strong>&lt;0.001</strong></td></tr>
+              <tr><td><strong>コンプライアンス（mL/cmH₂O）</strong></td><td>44.8±17.2</td><td>36.4±10.1</td><td>&lt;0.001</td></tr>
+            </tbody>
+          </table>
+          <div class="alert-green" style="margin-top:10px;">
+            <strong>解釈：</strong>Combined approachではコンプライアンスはやや低いが、タイダルヒステレシスが55%低下し（204.7 → 92.7 mL）、消散エネルギーが75%低下した（0.4 → 0.1 J）。つまり「タイダルリクルートメントによるエネルギー散逸を最小化したPEEP」を選択できる。Best compliance approachで達成される高コンプライアンスの一部は、タイダルリクルートメントがコンプライアンスを押し上げているに過ぎなかった。
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">各群におけるCombined approachの意義</h3>
+          <div class="ie-echo-grid" style="margin-top:6px;">
+            <div class="ie-echo-box">
+              <div class="ie-echo-name" style="color:#DC2626;">High tidal-recruiters</div>
+              <div class="ie-echo-body">PEEP<sub>BC</sub>（平均11.5 cmH₂O）よりもPEEP<sub>CA</sub>（平均19.5 cmH₂O）が有意に高かった（p&lt;0.001）。Low-flow操作ではPEEP<sub>BC</sub>の状態でも試験中のドライビングプレッシャーが試験後よりも大きかったため、最低PEEPを若干過大評価した可能性あり。</div>
+            </div>
+            <div class="ie-echo-box">
+              <div class="ie-echo-name" style="color:#EA580C;">Biphasic pattern</div>
+              <div class="ie-echo-body">PEEP<sub>BC</sub>（平均9.8 cmH₂O）よりもPEEP<sub>CA</sub>（平均15.7 cmH₂O）が高かった（p&lt;0.001）。二相性の転換点を超えてPEEPを下げることでタイダルリクルートメントが顕在化する。Combined approachは転換点の上でPEEPを維持することを推奨した。</div>
+            </div>
+            <div class="ie-echo-box">
+              <div class="ie-echo-name" style="color:#16A34A;">Low tidal-recruiters</div>
+              <div class="ie-echo-body">PEEP<sub>BC</sub>とPEEP<sub>CA</sub>はどちらも平均8.9 cmH₂Oで同一（不一致なし）。低リクルートメント群ではコンプライアンスが真の呼吸器力学を反映しており、both approachesが同じ結論に至る。</div>
+            </div>
+            <div class="ie-echo-box">
+              <div class="ie-echo-name">アプローチの一致率</div>
+              <div class="ie-echo-body">Cohen's K = 0.024（全体）。Low recruiters では両アプローチが一致し、High・Biphasic では58%以上で不一致。不一致の原因は主にHigh・Biphasic群での「タイダルリクルートメントによるコンプライアンス偽改善」。</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════
+           SECTION 5: タイダルヒステレシス≥100 mLの予測価値
+      ═══════════════════════════════════════════ -->
+      <h3 id="s5" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+        <span style="color:#16A34A;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 5</span>
+        タイダルヒステレシス ≥100 mL — 次のPEEP低下でのリクルートメント予測
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">ヒステレシス ≥100 mL は高精度の予測カットオフ値</h3>
+          <p class="rule-body">タイダルヒステレシスが100 mLを超えているとき、次のPEEPステップ低下後にタイダルリクルートメントが大幅増加（ΔHyst/ΔPEEP ≥10 mL/cmH₂O）する確率が極めて高かった。ROC解析では以下の結果が得られた。</p>
+          <div class="ie-stat-grid" style="margin-top:10px;">
+            <div class="ie-stat" style="background:#F0FDF4;border-color:#BBF7D0;">
+              <div class="ie-stat-val">0.97</div>
+              <div class="ie-stat-label">AUC（ROC曲線下面積）<br>p&lt;0.001</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">83.0%</div>
+              <div class="ie-stat-label">感度<br>（Hyst ≥100 mL のカットオフ）</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">96.5%</div>
+              <div class="ie-stat-label">特異度<br>（Hyst ≥100 mL のカットオフ）</div>
+            </div>
+          </div>
+          <div class="alert-green" style="margin-top:12px;">
+            <strong>臨床的含意：</strong>あるPEEPステップでHyst ≥100 mLを認めた場合、そのPEEP値はすでにタイダルリクルートメントを生じさせている可能性が高く、次のステップでさらにPEEPを下げれば大きなタイダルリクルートメント増加（＝肺傷害リスク）が生じる確率が83%ある。この閾値は「これ以上PEEPを下げるな」というサインとして使える。
+          </div>
+          <p class="rule-body" style="margin-top:10px;">100 mLというカットオフ値は二相性群でのパターン転換点（slow phase → fast phase）に相当するヒステレシス値（95.6±14.4 mL）ともほぼ一致しており、物理的に意味のある閾値であることが示唆された。</p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">なぜ Hyst ≥100 mL が意味を持つのか — 物理的な解釈</h3>
+          <p class="rule-body">低流量P-Vループ操作で測定されるタイダル肺ヒステレシスは、物理的には1回換気ごとに肺組織に散逸するエネルギー量に比例する。タイダルヒステレシスが大きいということは、送気時に開いた肺胞や気道が排気時に再び閉鎖し、次の送気時に再開放される（タイダルリクルートメント）ことを意味する。この繰り返しの開閉が肺組織へのせん断応力（shear stress）を生み出し、VILIの主要機序の一つである。</p>
+          <div class="ie-alpha">
+            <div class="ie-alpha-inner">
+              <div class="ie-alpha-header">
+                <span class="ie-alpha-badge">＋α</span>
+                <span class="ie-alpha-title">消散エネルギーとメカニカルパワーの関係</span>
+              </div>
+              <p class="rule-body" style="color:#4C1D95;">1呼吸あたりの消散エネルギー（J）= ヒステレシス面積（mL×cmH₂O）÷ 1000。Best compliance approachでのPEEP<sub>BC</sub>での消散エネルギーは0.4±0.2 J/呼吸であったのに対し、Combined approachでのPEEP<sub>CA</sub>では0.1±0.1 J/呼吸であった（p&lt;0.001）。一方、PEEPを上げること自体もメカニカルパワーを増加させるため、Combined approachは「タイダルリクルートメントによる消散エネルギーを最小化しつつ、PEEP自体のエネルギー増加分を差し引いた正味のベネフィットが最大となるPEEP」を選択すると解釈できる。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════
+           SUMMARY
+      ═══════════════════════════════════════════ -->
+      <h3 id="summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+        この論文のキーメッセージ
+      </h3>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+              <span class="rule-body"><strong>コンプライアンスの増加は信頼できないことがある：</strong>ARDS患者でdecrementalPEEP試験を行うと、コンプライアンス増加の44%でタイダルヒステレシスの大幅増加を伴う。この場合、コンプライアンス改善の少なくとも一部はタイダルリクルートメントによる見かけ上の改善であり、真の肺力学改善ではない。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+              <span class="rule-body"><strong>3つのリクルートメントパターン：</strong>患者はHigh（26%）・Low（32%）・Biphasic（42%）の3パターンに分類される。Biphasicが最多であり、ある閾値PEEP以下でタイダルリクルートメントが急増する転換点が存在する。Low recruitersでのみコンプライアンスが信頼できる指標となる。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+              <span class="rule-body"><strong>Combined approachはエネルギー散逸を大幅に削減する：</strong>コンプライアンス＋ヒステレシスを組み合わせたCombined approachは、Best compliance approachに比べタイダルヒステレシスを55%（204.7 → 92.7 mL）、消散エネルギーを75%（0.4 → 0.1 J/呼吸）削減した。これは機械換気による肺傷害リスクの実質的な低減を意味する。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+              <span class="rule-body"><strong>タイダルヒステレシス ≥100 mL は次ステップでのリクルートメント増加の強力な予測指標：</strong>AUC 0.97、感度83%、特異度96.5%で、次のPEEP低下時の大幅なタイダルリクルートメント増加を予測できる。「Hyst ≥100 mLであればそれ以上PEEPを下げるな」という臨床的閾値として使用可能。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+              <span class="rule-body"><strong>ベッドサイドでのPEEP設定に新しいパラダイムを提示：</strong>タイダルヒステレシスの評価は、低流量P-Vループ操作（10〜15秒・安全な操作）で取得可能であり、日常臨床で実施可能な検査である。コンプライアンス単独ではなく、コンプライアンス＋タイダルヒステレシスを組み合わせることで、肺過膨張・肺虚脱脱気・肺傷害（atelectrauma）の最良バランスを取ったPEEP設定が可能となる。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 出典注記 -->
+      <p style="font-size:0.72rem;color:#9CA3AF;margin-top:16px;line-height:1.7;">
+        出典：Mojoli F, Pozzi M, Arisi E, Mongodi S, Orlando A, Maggio G, Capra Marzani F, Brochard L. Tidal lung hysteresis to interpret PEEP-induced changes in compliance in ARDS patients. Critical Care. 2023;27:233.<br>
+        DOI：<a href="https://doi.org/10.1186/s13054-023-04506-6" target="_blank" rel="noopener" style="color:#60A5FA;">https://doi.org/10.1186/s13054-023-04506-6</a><br>
+        本資料は教育目的で作成したサマリーです。診断・治療方針の決定には必ず原典を参照してください。
+      </p>
+      <p style="font-size:0.75rem;color:var(--muted);text-align:right;margin-top:8px;">制作：ICU 関谷</p>
+
+    </div><!-- /.main-col -->
+
+    <!-- ===== SIDEBAR ===== -->
+    <aside class="ie-sidebar">
+      <div class="ie-sidebar-card">
+        <div class="ie-sidebar-title">目次</div>
+        <a href="#s1" class="ie-toc-chapter">S1 — 研究の背景・PEEP設定の課題</a>
+        <a href="#s2" class="ie-toc-chapter">S2 — 研究方法</a>
+        <a href="#s3" class="ie-toc-chapter">S3 — 3つのリクルートメントパターン</a>
+        <a href="#s4" class="ie-toc-chapter">S4 — 2アプローチの比較</a>
+        <a href="#s5" class="ie-toc-chapter">S5 — Hyst ≥100 mL の予測価値</a>
+        <a href="#summary" class="ie-toc-chapter">SUMMARY</a>
+      </div>
+    </aside>
+
+  </div><!-- /.content-wrap -->
+
+  <script src="../script.js"></script>
+</body>
+</html>

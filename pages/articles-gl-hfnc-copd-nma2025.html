@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HFNC初期流量設定とAECOPD — ネットワークメタ解析 Pulmonology 2025 | 聖路加ICU</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style-v2.css">
+  <script src="../site-config.js"></script>
+  <style>
+    .subpage-hero { background: linear-gradient(150deg, #1A3A2A 0%, #2D7A4F 55%, #3D9B65 100%) !important; }
+    .ie-badge { display:inline-block;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:20px;padding:4px 12px;font-size:0.72rem;font-weight:500;color:#fff;margin-right:6px;margin-top:8px; }
+
+    /* Layout */
+    .content-wrap { display:flex;gap:32px;align-items:flex-start;max-width:1140px;margin:0 auto;padding:32px 20px 80px; }
+    .main-col { flex:1;min-width:0;max-width:900px; }
+    .ie-sidebar { width:220px;flex-shrink:0; }
+    .ie-sidebar-card { background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:16px;position:sticky;top:80px; }
+    .ie-sidebar-title { font-size:0.72rem;font-weight:800;color:var(--muted);letter-spacing:0.08em;margin-bottom:10px;text-transform:uppercase; }
+    .ie-toc-chapter { display:block;font-size:0.8rem;font-weight:700;color:var(--text);padding:6px 0;border-bottom:1px solid var(--border);text-decoration:none;line-height:1.4; }
+    .ie-toc-chapter:last-child { border-bottom:none;padding-bottom:0; }
+    .ie-toc-chapter:hover { color:#2D7A4F; }
+    .ie-toc-section { display:block;font-size:0.75rem;color:var(--muted);padding:4px 0 4px 10px;text-decoration:none;line-height:1.4;border-left:2px solid var(--border); }
+    .ie-toc-section:hover { color:#2D7A4F;border-left-color:#2D7A4F; }
+    @media (max-width:900px) { .ie-sidebar { display:none; } .content-wrap { max-width:860px; } }
+
+    /* Tables */
+    .ie-table { width:100%;border-collapse:collapse;font-size:0.82rem;margin-top:10px; }
+    .ie-table th { background:#F0FDF4;border:1px solid #BBF7D0;padding:8px 12px;font-weight:700;font-size:0.78rem;text-align:left; }
+    .ie-table td { border:1px solid var(--border);padding:8px 12px;vertical-align:top;line-height:1.7; }
+    .ie-table tr:nth-child(even) td { background:#F8FAFC; }
+
+    /* Flow */
+    .ie-flow { display:flex;flex-direction:column;gap:0; }
+    .ie-flow-item { display:flex;align-items:flex-start;gap:14px;background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:14px 16px; }
+    .ie-flow-arrow { text-align:center;color:#2D7A4F;font-size:1.1rem;font-weight:700;padding:4px 0; }
+    .ie-flow-num { width:28px;height:28px;border-radius:50%;background:#2D7A4F;color:#fff;font-size:0.78rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0; }
+
+    /* Stat grid */
+    .ie-stat-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px; }
+    @media (max-width:520px) { .ie-stat-grid { grid-template-columns:1fr 1fr; } }
+    .ie-stat { background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;padding:14px 12px;text-align:center; }
+    .ie-stat-val { font-size:1.25rem;font-weight:900;color:#2D7A4F;line-height:1.3; }
+    .ie-stat-label { font-size:0.68rem;color:var(--muted);margin-top:5px;line-height:1.5; }
+
+    /* Alpha card */
+    .ie-alpha { background:#F5F3FF;border:1px solid #DDD6FE;border-radius:8px;padding:2px;margin-top:10px; }
+    .ie-alpha-inner { padding:14px 16px; }
+    .ie-alpha-header { display:flex;align-items:center;gap:8px;margin-bottom:8px; }
+    .ie-alpha-badge { background:#7C3AED;color:#fff;font-size:0.65rem;font-weight:800;padding:2px 8px;border-radius:20px;letter-spacing:0.05em; }
+    .ie-alpha-title { font-size:0.85rem;font-weight:700;color:#4C1D95; }
+
+    /* Alerts */
+    .alert-yellow { background:#FFFBEB;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#92400E;line-height:1.7; }
+    .alert-green  { background:#F0FDF4;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#14532D;line-height:1.7; }
+    .alert-red    { background:#FEF2F2;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#7F1D1D;line-height:1.7; }
+
+    /* 2-col echo grid */
+    .ie-echo-grid { display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px; }
+    @media (max-width:520px) { .ie-echo-grid { grid-template-columns:1fr; } }
+    .ie-echo-box { background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:12px 14px; }
+    .ie-echo-name { font-size:0.8rem;font-weight:800;color:var(--text);margin-bottom:4px; }
+    .ie-echo-body { font-size:0.78rem;color:var(--muted);line-height:1.6; }
+
+    /* SUCRA ranking table */
+    .sucra-table { width:100%;border-collapse:collapse;font-size:0.82rem;margin-top:10px; }
+    .sucra-table th { background:#F0FDF4;border:1px solid #BBF7D0;padding:7px 10px;font-weight:700;font-size:0.76rem;text-align:center; }
+    .sucra-table th:first-child { text-align:left; }
+    .sucra-table td { border:1px solid var(--border);padding:7px 10px;vertical-align:middle;text-align:center; }
+    .sucra-table td:first-child { text-align:left;font-weight:600; }
+    .sucra-table tr:nth-child(even) td { background:#F8FAFC; }
+    .sucra-best { color:#2D7A4F;font-weight:800; }
+    .sucra-bar { display:inline-block;height:8px;border-radius:4px;background:#2D7A4F;vertical-align:middle;margin-left:4px; }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="../index.html" class="nav-logo">
+        <img src="../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+        <span class="nav-logo-text">聖路加国際病院ICU</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="../index.html#intro" class="nav-link" data-section="intro">はじめに</a></li>
+        <li><a href="../index.html#schedule" class="nav-link" data-section="schedule">スケジュール</a></li>
+        <li><a href="../index.html#rules" class="nav-link" data-section="rules">ICUの方針</a></li>
+        <li><a href="../index.html#learning" class="nav-link" data-section="learning">学習・評価</a></li>
+        <li><a href="../index.html#faq" class="nav-link" data-section="faq">FAQ</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <div class="subpage-hero">
+    <div class="container">
+      <a href="articles-guidelines.html" class="back-link">← 注目論文・ガイドラインまとめへ戻る</a>
+      <h1 class="subpage-title" style="font-size:clamp(1.1rem,2.5vw,1.55rem);line-height:1.5;">AECOPD に対する HFNC 初期流量設定の比較<br>— 系統的レビュー・ネットワークメタ解析</h1>
+      <div>
+        <span class="ie-badge">Pulmonology 2025</span>
+        <span class="ie-badge">NMA / 40 RCTs</span>
+        <span class="ie-badge">HFNC vs NIV</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== CONTENT ===== -->
+  <div class="content-wrap">
+    <div class="main-col">
+
+      <!-- ═══════════════════════════════════════════
+           SECTION 1: 研究概要
+      ══════════════════════════════════════════════ -->
+      <div id="hfnc-overview" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:8px;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">研究概要</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Background &amp; Study Design</div>
+      </div>
+
+      <h3 id="hfnc-background" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+        背景と研究目的
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">AECOPD と HFNC — 解決されていない流量設定問題</h3>
+          <p class="rule-body">COPD急性増悪（AECOPD）では低酸素血症に加えてCO₂貯留・高CO₂血症を伴うことが多く、急性呼吸不全（ARHF）に至る。NIVはAECOPDの標準治療として確立されているが、<span class="mark-yellow"><strong>クラストロフォビア・顔面皮膚損傷・エアリーク・胃膨満</strong></span>などの副作用により約15%の患者が不耐容で中断する。</p>
+          <p class="rule-body" style="margin-top:8px;">HFNCは加温加湿高流量酸素を経鼻カニューレで供給する新しい呼吸補助法である。解剖学的死腔のCO₂をウォッシュアウトし、PaCO₂を低下させる。NIVよりも患者快適性が高く、AECOPDへの適応は2022年ERS臨床実践ガイドラインでも推奨されている（NIV不耐容患者に対して）。</p>
+          <p class="rule-body" style="margin-top:8px;">しかし、<span class="mark-red"><strong>AECOPDにおけるHFNCの最適初期流量設定は不明</strong></span>のまま、臨床試験ごとに大きなばらつきがある。流量はPEEP様効果・呼吸仕事量・患者快適性を直接左右するが、これまで異なる初期流量を比較した系統的レビューは存在しなかった。</p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">研究デザイン</h3>
+          <p class="rule-body">系統的レビューおよびネットワークメタ解析（NMA）。PROSPERO登録（CRD420250656517）、PRISMAガイドライン準拠。</p>
+          <div class="ie-stat-grid" style="margin-top:12px;">
+            <div class="ie-stat">
+              <div class="ie-stat-val">7</div>
+              <div class="ie-stat-label">検索データベース数<br>（PubMed / Embase 等）</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">40</div>
+              <div class="ie-stat-label">組み入れRCT数<br>（3,597例）</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">4群</div>
+              <div class="ie-stat-label">比較介入<br>（Low / Mod / High / NIV）</div>
+            </div>
+          </div>
+          <p class="rule-body" style="margin-top:12px;">統計解析はベイジアンフレームワーク（Markov chain Monte Carlo）で実施。介入のランキングにはSURCA（Surface Under Cumulative Ranking）を用いた。</p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">介入群の定義</h3>
+          <table class="ie-table">
+            <thead>
+              <tr><th>群</th><th>初期流量</th><th>備考</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>HFNC_Low</strong></td><td>20〜30 L/min</td><td>低流量設定</td></tr>
+              <tr><td><strong>HFNC_Mod</strong></td><td>30〜50 L/min</td><td>中流量設定</td></tr>
+              <tr><td><strong>HFNC_High</strong></td><td>&gt;50 L/min</td><td>高流量設定</td></tr>
+              <tr><td><strong>NIV</strong></td><td>— （基準群）</td><td>CPAP または BiPAP</td></tr>
+            </tbody>
+          </table>
+          <p class="rule-body" style="margin-top:10px;">主要アウトカムは<strong>挿管率</strong>。副次アウトカムは PaCO₂、pH、PaO₂/FiO₂、入院期間、鼻顔面損傷発生率、短期死亡率。</p>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════
+           SECTION 2: ペアワイズメタ解析（HFNC vs NIV 総合）
+      ══════════════════════════════════════════════ -->
+      <div id="hfnc-pairwise" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">HFNC vs NIV — ペアワイズメタ解析</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Pairwise Meta-Analysis: Overall HFNC vs NIV</div>
+      </div>
+
+      <h3 id="hfnc-pair-result" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+        HFNC全体とNIVの比較結果
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">ペアワイズメタ解析の主要結果（流量設定を問わずHFNC全体 vs NIV）</h3>
+          <p class="rule-body">まず流量設定を問わずHFNC全体とNIVを比較したペアワイズメタ解析の結果を示す。HFNCはNIVと比べていくつかのアウトカムで優位性を示した。</p>
+          <table class="ie-table" style="margin-top:12px;">
+            <thead>
+              <tr><th>アウトカム</th><th>研究数/患者数</th><th>効果量（95% CI）</th><th>有意差</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>挿管率</strong></td>
+                <td>20 RCT / 1,774例</td>
+                <td>OR 0.75（0.59〜0.99）</td>
+                <td><span class="mark-yellow"><strong>p=0.05（境界）</strong></span></td>
+              </tr>
+              <tr>
+                <td><strong>PaCO₂</strong></td>
+                <td>31 RCT / 2,826例</td>
+                <td>MD −1.63（−2.67〜−0.58）</td>
+                <td><span class="mark-green"><strong>p&lt;0.01 ★</strong></span></td>
+              </tr>
+              <tr>
+                <td>pH</td>
+                <td>20 RCT / 1,917例</td>
+                <td>MD 0.01（0.00〜0.02）</td>
+                <td>p=0.18（NS）</td>
+              </tr>
+              <tr>
+                <td>PaO₂/FiO₂</td>
+                <td>14 RCT / 1,494例</td>
+                <td>MD 8.99（1.01〜16.82）</td>
+                <td>p=0.2（NS）</td>
+              </tr>
+              <tr>
+                <td><strong>入院期間</strong></td>
+                <td>14 RCT / 1,314例</td>
+                <td>MD −1.08（−1.35〜−0.80）</td>
+                <td><span class="mark-green"><strong>p&lt;0.01 ★</strong></span></td>
+              </tr>
+              <tr>
+                <td><strong>鼻顔面損傷</strong></td>
+                <td>13 RCT / 1,369例</td>
+                <td>OR 0.22（0.15〜0.34）</td>
+                <td><span class="mark-green"><strong>p&lt;0.01 ★</strong></span></td>
+              </tr>
+              <tr>
+                <td>短期死亡率</td>
+                <td>—</td>
+                <td>—</td>
+                <td>NS</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="alert-green" style="margin-top:10px;">HFNC全体としてはNIVと比べてPaCO₂低下・入院期間短縮・鼻顔面損傷減少に優れるが、挿管率・死亡率・pH・PaO₂/FiO₂の有意な改善は示されなかった。</div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════
+           SECTION 3: NMA 主要アウトカム（挿管率）
+      ══════════════════════════════════════════════ -->
+      <div id="hfnc-nma-primary" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">NMA — 主要アウトカム（挿管率）</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Primary Outcome: Intubation Rate</div>
+      </div>
+
+      <h3 id="hfnc-intubation" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+        <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>
+        挿管率：流量設定別の NMA 結果
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">NMA 結果 — 挿管率</h3>
+          <p class="rule-body">3種類のHFNC初期流量設定はいずれも、NIVと比較して挿管率に有意差を示さなかった。</p>
+          <table class="ie-table" style="margin-top:12px;">
+            <thead>
+              <tr><th>介入</th><th>NIV 比較 OR（95% CrI）</th><th>エビデンスの質</th><th>SUCRA</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>HFNC_Low</strong></td>
+                <td>0.64（0.28〜1.37）</td>
+                <td>低</td>
+                <td><span class="sucra-best">74.24%（1位）</span></td>
+              </tr>
+              <tr>
+                <td><strong>HFNC_Mod</strong></td>
+                <td>0.75（0.45〜1.23）</td>
+                <td>非常に低</td>
+                <td>60.50%（2位）</td>
+              </tr>
+              <tr>
+                <td><strong>HFNC_High</strong></td>
+                <td>0.82（0.41〜1.65）</td>
+                <td>低</td>
+                <td>48.13%（3位）</td>
+              </tr>
+              <tr>
+                <td>NIV（基準）</td>
+                <td>—</td>
+                <td>—</td>
+                <td>17.14%（4位）</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="alert-yellow" style="margin-top:10px;"><strong>解釈：</strong>いずれのHFNC流量もNIVに対して挿管率を有意に減少させなかった。ただしSUCRA順位はHFNC_Low（74.24%）が最上位であり、低流量設定がベストである蓋然性が最も高い。</div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════
+           SECTION 4: NMA 副次アウトカム
+      ══════════════════════════════════════════════ -->
+      <div id="hfnc-nma-secondary" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">NMA — 副次アウトカム</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Secondary Outcomes: PaCO₂ / pH / Injuries / Hospital Stay / Mortality</div>
+      </div>
+
+      <h3 id="hfnc-paco2-ph" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+        <span style="color:#16A34A;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 4-A</span>
+        PaCO₂ と pH
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">NMA 結果 — PaCO₂（CO₂貯留）</h3>
+          <p class="rule-body">PaCO₂の低下においては<span class="mark-green"><strong>HFNC_Low（20〜30 L/min）が最も有効</strong></span>であり、NIVと比較して有意な低下を示した唯一の群である。</p>
+          <table class="ie-table" style="margin-top:12px;">
+            <thead>
+              <tr><th>介入</th><th>NIV 比較 MD（95% CrI）</th><th>エビデンスの質</th><th>SUCRA</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>HFNC_Low</strong></td>
+                <td><span class="mark-green"><strong>−3.11（−5.66〜−0.54）★</strong></span></td>
+                <td>非常に低</td>
+                <td><span class="sucra-best">90.43%（1位）</span></td>
+              </tr>
+              <tr>
+                <td><strong>HFNC_Mod</strong></td>
+                <td><span class="mark-green"><strong>−2.12（−3.47〜−0.77）★</strong></span></td>
+                <td>非常に低</td>
+                <td>73.44%（2位）</td>
+              </tr>
+              <tr>
+                <td><strong>HFNC_High</strong></td>
+                <td>0.05（−1.97〜2.07）NS</td>
+                <td>—</td>
+                <td>18.58%（3位）</td>
+              </tr>
+              <tr>
+                <td>NIV（基準）</td>
+                <td>—</td>
+                <td>—</td>
+                <td>17.55%（4位）</td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="rule-body" style="margin-top:10px;">HFNC_High（&gt;50 L/min）はNIVと差がなかった。HFNC_Low と HFNC_Mod のSUCRA差（90% vs 73%）も明確で、低流量の優位性は一貫している。</p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">NMA 結果 — pH（呼吸性アシドーシス改善）</h3>
+          <p class="rule-body">pH改善においても<span class="mark-green"><strong>HFNC_Low のみが NIV に対して有意な改善</strong></span>を示した。</p>
+          <table class="ie-table" style="margin-top:12px;">
+            <thead>
+              <tr><th>介入</th><th>NIV 比較 MD（95% CrI）</th><th>エビデンスの質</th><th>SUCRA</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>HFNC_Low</strong></td>
+                <td><span class="mark-green"><strong>+0.031（+0.004〜+0.059）★</strong></span></td>
+                <td>低</td>
+                <td><span class="sucra-best">96.15%（1位）</span></td>
+              </tr>
+              <tr>
+                <td><strong>HFNC_Mod</strong></td>
+                <td>NS</td>
+                <td>—</td>
+                <td>36.83%（3位）</td>
+              </tr>
+              <tr>
+                <td><strong>HFNC_High</strong></td>
+                <td>NS</td>
+                <td>—</td>
+                <td>41.81%（2位）</td>
+              </tr>
+              <tr>
+                <td>NIV（基準）</td>
+                <td>—</td>
+                <td>—</td>
+                <td>25.21%（4位）</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="alert-green" style="margin-top:10px;">HFNC_Low のSUCRA 96.15% — pH改善における低流量の優位性は最も確実性が高い。PaCO₂低下との整合性からも、低流量がCO₂貯留・呼吸性アシドーシスの是正に最も効果的と判断される。</div>
+        </div>
+      </div>
+
+      <h3 id="hfnc-injuries" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 4-B</span>
+        鼻顔面損傷・快適性
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">NMA 結果 — 鼻顔面損傷発生率</h3>
+          <p class="rule-body">3種類のHFNC流量はすべて、NIVと比べて鼻顔面損傷を有意に減少させた。HFNC_Low の効果量が最も大きかった。</p>
+          <table class="ie-table" style="margin-top:12px;">
+            <thead>
+              <tr><th>介入</th><th>NIV 比較 OR（95% CrI）</th><th>エビデンスの質</th><th>SUCRA</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>HFNC_Low</strong></td>
+                <td><span class="mark-green"><strong>0.11（0.023〜0.33）★</strong></span></td>
+                <td>非常に低</td>
+                <td><span class="sucra-best">89.36%（1位）</span></td>
+              </tr>
+              <tr>
+                <td><strong>HFNC_Mod</strong></td>
+                <td><span class="mark-green"><strong>0.24（0.014〜0.42）★</strong></span></td>
+                <td>非常に低</td>
+                <td>49.75%（3位）</td>
+              </tr>
+              <tr>
+                <td><strong>HFNC_High</strong></td>
+                <td><span class="mark-green"><strong>0.20（0.072〜0.47）★</strong></span></td>
+                <td>非常に低</td>
+                <td>60.77%（2位）</td>
+              </tr>
+              <tr>
+                <td>NIV（基準）</td>
+                <td>—</td>
+                <td>—</td>
+                <td>0.12%（4位）</td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="rule-body" style="margin-top:10px;">3群間の間接比較に有意差なし。OR 0.11という低値は、HFNC_Lowでは鼻顔面損傷がNIVの約1/9という大きな効果を示す。</p>
+        </div>
+      </div>
+
+      <h3 id="hfnc-los" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 4-C</span>
+        入院期間・PaO₂/FiO₂・死亡率
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">NMA 結果 — 入院期間</h3>
+          <p class="rule-body">入院期間の短縮においては<span class="mark-yellow"><strong>HFNC_Mod（30〜50 L/min）のみ</strong></span>がNIVと比較して有意な短縮を示した。</p>
+          <table class="ie-table" style="margin-top:12px;">
+            <thead>
+              <tr><th>介入</th><th>NIV 比較 MD — 日数（95% CrI）</th><th>エビデンスの質</th><th>SUCRA</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>HFNC_Mod</strong></td>
+                <td><span class="mark-green"><strong>−1.11（−1.94〜−0.36）★</strong></span></td>
+                <td>中</td>
+                <td><span class="sucra-best">70.45%（1位）</span></td>
+              </tr>
+              <tr>
+                <td><strong>HFNC_High</strong></td>
+                <td>NS</td>
+                <td>—</td>
+                <td>63.52%（2位）</td>
+              </tr>
+              <tr>
+                <td><strong>HFNC_Low</strong></td>
+                <td>NS</td>
+                <td>—</td>
+                <td>65.38%（3位）</td>
+              </tr>
+              <tr>
+                <td>NIV（基準）</td>
+                <td>—</td>
+                <td>—</td>
+                <td>2.65%（4位）</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="alert-yellow" style="margin-top:10px;"><strong>注意：</strong>入院期間においてはHFNC_Modが最良成績であったが、これは一側面のみの比較である。PaCO₂・pH・鼻顔面損傷の3指標においてHFNC_Lowが一貫して最優秀であることを踏まえると、入院期間の1点だけでHFNC_Modを推奨することは適切でない。</div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">NMA 結果 — PaO₂/FiO₂ と短期死亡率</h3>
+          <div class="ie-echo-grid">
+            <div class="ie-echo-box">
+              <div class="ie-echo-name">PaO₂/FiO₂（酸素化指標）</div>
+              <div class="ie-echo-body">3群ともNIVとの有意差なし（直接・間接比較ともに）。SUCRA順位：Mod 78.71% → Low 75.24% → High 32.88% → NIV 13.16%。HFNC_Modが数値上やや上位だが統計的優位性なし。</div>
+            </div>
+            <div class="ie-echo-box">
+              <div class="ie-echo-name">短期死亡率</div>
+              <div class="ie-echo-body">3群ともNIVとの有意差なし。SUCRA：Low 91.06% → High 61.94% → NIV 28.76% → Mod 18.25%。低流量がSUCRA最上位であり、死亡率においても低流量の蓋然性は高い。</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════
+           SECTION 5: SUCRA 一覧
+      ══════════════════════════════════════════════ -->
+      <div id="hfnc-sucra" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">SUCRA ランキング一覧</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Summary of SUCRA Rankings Across All Outcomes</div>
+      </div>
+
+      <h3 id="hfnc-sucra-table" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+        <span style="color:#16A34A;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 5</span>
+        アウトカム別 SUCRA 値の比較
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">SUCRA ランキング 全アウトカム比較</h3>
+          <p class="rule-body">SUCRA値は各介入が「最良治療」となる確率を示す（0〜100%、高いほど良い）。太字は各アウトカムで最高値の介入。</p>
+          <table class="sucra-table">
+            <thead>
+              <tr>
+                <th>アウトカム</th>
+                <th>HFNC_Low<br><small>20〜30 L</small></th>
+                <th>HFNC_Mod<br><small>30〜50 L</small></th>
+                <th>HFNC_High<br><small>&gt;50 L</small></th>
+                <th>NIV</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>挿管率（↓良）</td>
+                <td><span class="sucra-best">74.24%</span></td>
+                <td>60.50%</td>
+                <td>48.13%</td>
+                <td>17.14%</td>
+              </tr>
+              <tr>
+                <td>短期死亡率（↓良）</td>
+                <td><span class="sucra-best">91.06%</span></td>
+                <td>18.25%</td>
+                <td>61.94%</td>
+                <td>28.76%</td>
+              </tr>
+              <tr>
+                <td>pH（↑良）</td>
+                <td><span class="sucra-best">96.15%</span></td>
+                <td>36.83%</td>
+                <td>41.81%</td>
+                <td>25.21%</td>
+              </tr>
+              <tr>
+                <td>PaO₂/FiO₂（↑良）</td>
+                <td>75.24%</td>
+                <td><span class="sucra-best">78.71%</span></td>
+                <td>32.88%</td>
+                <td>13.16%</td>
+              </tr>
+              <tr>
+                <td>PaCO₂（↓良）</td>
+                <td><span class="sucra-best">90.43%</span></td>
+                <td>73.44%</td>
+                <td>18.58%</td>
+                <td>17.55%</td>
+              </tr>
+              <tr>
+                <td>入院期間（↓良）</td>
+                <td>65.38%</td>
+                <td><span class="sucra-best">70.45%</span></td>
+                <td>63.52%</td>
+                <td>2.65%</td>
+              </tr>
+              <tr>
+                <td>鼻顔面損傷（↓良）</td>
+                <td><span class="sucra-best">89.36%</span></td>
+                <td>49.75%</td>
+                <td>60.77%</td>
+                <td>0.12%</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="alert-green" style="margin-top:12px;"><strong>総評：</strong>HFNC_Low（20〜30 L/min）は7アウトカム中5つ（挿管率・死亡率・pH・PaCO₂・鼻顔面損傷）でSUCRA最上位。HFNC_Modは入院期間とPaO₂/FiO₂でやや上位。HFNC_Highは全アウトカムで中位〜下位。NIVは全アウトカムで最下位〜下位。</div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════
+           SECTION 6: 機序・考察
+      ══════════════════════════════════════════════ -->
+      <div id="hfnc-mechanism" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">低流量設定が有効な機序</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Physiological Mechanisms: Why Low Flow Is Superior</div>
+      </div>
+
+      <h3 id="hfnc-peep" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 6</span>
+        PEEP・PEEPi と流量の関係
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">AECOPD における内因性PEEP（PEEPi）と臨界PEEP</h3>
+          <p class="rule-body">AECOPDでは呼気流速制限（dynamic pulmonary hyperinflation: DPH）により内因性PEEP（PEEPi）が発生する。PEEPiは典型的に<strong>5〜15 cmH₂O以上</strong>に達する。HFNCは流量依存的なPEEP様効果（flow-generated PEEP）を生じるが、この圧がPEEPiの85%（臨界PEEP）を超えると逆効果となる。</p>
+          <div class="ie-stat-grid" style="margin-top:12px;">
+            <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+              <div class="ie-stat-val" style="color:#DC2626;">6.46</div>
+              <div class="ie-stat-label">cmH₂O<br>流量40 L/min時のPEEP</div>
+            </div>
+            <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+              <div class="ie-stat-val" style="color:#DC2626;">10.13</div>
+              <div class="ie-stat-label">cmH₂O<br>流量60 L/min時のPEEP</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">5〜15</div>
+              <div class="ie-stat-label">cmH₂O<br>AECOPDの典型的PEEPi</div>
+            </div>
+          </div>
+          <p class="rule-body" style="margin-top:12px;">流量が高くなると発生PEEPが増加し、AECOPD患者では<span class="mark-red"><strong>臨界PEEPを容易に超えてしまう</strong></span>。臨界PEEPを超えると：</p>
+          <div class="ie-flow" style="margin-top:10px;">
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">1</div>
+              <div style="flex:1;"><p class="rule-body"><strong>呼気終末肺容量（EELV）が増加</strong>し、DPH（dynamic pulmonary hyperinflation）が悪化する</p></div>
+            </div>
+            <div class="ie-flow-arrow">↓</div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">2</div>
+              <div style="flex:1;"><p class="rule-body"><strong>呼吸筋負荷が増大</strong>し、吸気圧-時間積（pressure-time product; PTPes）が上昇する</p></div>
+            </div>
+            <div class="ie-flow-arrow">↓</div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">3</div>
+              <div style="flex:1;"><p class="rule-body"><strong>換気効率が低下</strong>し、CO₂排出が障害されてPaCO₂がむしろ上昇する</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">低流量が優れる理由：sPTPes と CO₂排出</h3>
+          <p class="rule-body">Rittayamai らは簡便な食道内圧-時間積（sPTPes）を用いて、<strong>低流量HFNC（30 L/min）がAECOPD患者のsPTPesを有意に低下させる</strong>ことを示した。これが換気改善・CO₂排出促進のメカニズムである。低流量設定は：</p>
+          <ul style="font-size:0.85rem;line-height:2;padding-left:1.4em;margin-top:8px;color:var(--text);">
+            <li>PEEPiの85%（臨界PEEP）を超えない範囲でPEEP様効果を発揮する</li>
+            <li>呼吸筋負荷を軽減し、吸気仕事量を減らす</li>
+            <li>解剖学的死腔のCO₂ウォッシュアウト効果を維持する</li>
+            <li>生理的呼吸パターンに沿った流量で患者快適性が高い</li>
+            <li>小気道収縮を促し、気道加湿で痰の粘稠度を低下させ、気道クリアランスを改善する</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">サブグループ解析：AECOPD 重症度の影響</h3>
+          <p class="rule-body">メタ回帰・サブグループ解析では、<strong>AECOPD 重症度が異質性の主要因</strong>であることが示された。</p>
+          <div class="ie-echo-grid">
+            <div class="ie-echo-box">
+              <div class="ie-echo-name">重症〜重症度不明AECOPD</div>
+              <div class="ie-echo-body">HFNCはNIVと比較してPaCO₂低下・pH改善に有効。重症度不明群の多くはII型呼吸不全で、より重篤な状態であったと考えられる。</div>
+            </div>
+            <div class="ie-echo-box">
+              <div class="ie-echo-name">中等症AECOPD</div>
+              <div class="ie-echo-body">Yamane らのRCTおよびSun らのRCTを含む本解析のサブグループでは、中等症AECOPDではHFNCとNIVのPaCO₂・pH改善に有意差なし。</div>
+            </div>
+          </div>
+          <p class="rule-body" style="margin-top:10px;">年齢は入院期間の異質性の主要因。ベースラインpHはPaCO₂・pH後のアウトカムの異質性と相関。</p>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════
+           SECTION 7: 限界・エビデンスの質
+      ══════════════════════════════════════════════ -->
+      <div id="hfnc-limitation" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">限界とエビデンスの質</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Limitations &amp; Evidence Quality</div>
+      </div>
+
+      <h3 id="hfnc-limits" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+        <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 7</span>
+        本NMAの主要な限界
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">エビデンスの質と研究の限界</h3>
+          <p class="rule-body">本NMAのエビデンスの質は GRADE評価によれば<span class="mark-yellow"><strong>全体的に「非常に低〜中程度」</strong></span>にとどまる。主要な限界を以下に示す。</p>
+          <table class="ie-table" style="margin-top:12px;">
+            <thead>
+              <tr><th>限界</th><th>内容</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>異質性</strong></td>
+                <td>AECOPDの合併症（II型呼吸不全の有無）・鼻カニューレ種類・温度設定などの交絡因子が系統的に評価されておらず、研究間ばらつきが大きい</td>
+              </tr>
+              <tr>
+                <td><strong>間接比較のみ</strong></td>
+                <td>異なる流量設定を直接比較したRCTがほとんどなく、多くのアウトカムで間接証拠のみ → 一貫性検定不可、エビデンスが「非常に低」に格下げ</td>
+              </tr>
+              <tr>
+                <td><strong>出版バイアス</strong></td>
+                <td>中国からの研究が多く地理的偏りの可能性。Egger検定で鼻顔面損傷とPaCO₂の2指標に出版バイアスリスクあり（trim-and-fill後も有意性は維持）</td>
+              </tr>
+              <tr>
+                <td><strong>初期流量の代表性</strong></td>
+                <td>初期流量設定は治療全体の流量を代表しない。実際の治療経過中に流量調整が行われており、初期設定の効果のみを評価していることに注意が必要</td>
+              </tr>
+              <tr>
+                <td><strong>盲検化</strong></td>
+                <td>参加者・実施者への盲検化が困難なRCTが多く、パフォーマンスバイアス「中リスク」の研究が多数。10研究では評価者盲検化が未実施で検出バイアス「高リスク」</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════
+           SECTION 8: 結論と臨床的推奨
+      ══════════════════════════════════════════════ -->
+      <div id="hfnc-conclusion" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">結論と臨床的推奨</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Conclusions &amp; Clinical Recommendations</div>
+      </div>
+
+      <h3 id="hfnc-recommend" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 8</span>
+        臨床的推奨
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">推奨：AECOPDのHFNC初期流量は低流量（20〜30 L/min）から開始</h3>
+          <div class="alert-green"><strong>本NMAの結論：</strong>AECOPDに対するHFNCは、<span class="mark-green"><strong>初期流量を低流量（20〜30 L/min）に設定することを推奨する。</strong></span>低流量設定はPaCO₂低下・pH改善・鼻顔面損傷減少において最も優れており、短期死亡率・挿管率においてもSUCRA上位である。中流量（30〜50 L/min）は入院期間短縮にやや利があるが、総合的には低流量の方が優れた治療成績と低い有害事象発生率を示した。</div>
+          <p class="rule-body" style="margin-top:10px;">初期流量設定は固定ではなく、患者の生理学的改善度・忍容性・リスク管理戦略を総合的に考慮して調整が必要である。特にAECOPD患者ではPEEPi・DPHを念頭に置き、高流量への増加が逆効果となりうることを認識する。</p>
+        </div>
+      </div>
+
+      <!-- SUMMARY -->
+      <h3 id="hfnc-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+        キーメッセージ
+      </h3>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+              <span class="rule-body"><strong>低流量（20〜30 L/min）が推奨：</strong>AECOPDへのHFNC初期流量は低流量が最優先。7指標中5指標（挿管率・死亡率・pH・PaCO₂・鼻顔面損傷）でSUCRA最上位。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+              <span class="rule-body"><strong>PaCO₂・pH の有意改善：</strong>HFNC_Low はNIVと比べてPaCO₂を−3.11 mmHg、pHを+0.031 有意に改善した唯一の流量設定。HFNC_High はPaCO₂低下効果なし。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+              <span class="rule-body"><strong>機序は PEEPi の臨界PEEP超過を回避：</strong>AECOPD の PEEPi は5〜15 cmH₂O。流量40→60 L/min で生成PEEPは6.46→10.13 cmH₂O に上昇し、高流量では DPH・呼吸筋負荷を悪化させCO₂貯留が増悪しうる。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+              <span class="rule-body"><strong>HFNC_Mod は入院期間短縮に優位：</strong>HFNC_Mod（30〜50 L/min）はNIVよりも入院期間を−1.11日短縮した唯一の群。ただしPaCO₂・pH・損傷では低流量が優る。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+              <span class="rule-body"><strong>挿管率・死亡率は有意差なし：</strong>すべての流量設定でNIVとの挿管率・死亡率の有意差なし。ただし3群すべてがNIVよりSUCRA上位であり、HFNCが総合的に劣らないことは示されている。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 出典 -->
+      <p style="font-size:0.72rem;color:#9CA3AF;margin-top:16px;line-height:1.7;">
+        出典：Ding L, Wu T, Liu H, He Y, Zhang Z, Ma W, Wu C. Comparison of the efficacy of high-flow nasal cannula with different initial flow settings in patients with acute exacerbations of chronic obstructive pulmonary disease: A systematic review and network meta-analysis. Pulmonology. 2025;31(1):2598913. Published online: 08 Dec 2025.<br>
+        DOI：<a href="https://doi.org/10.1080/25310429.2025.2598913" target="_blank" rel="noopener" style="color:#60A5FA;">https://doi.org/10.1080/25310429.2025.2598913</a><br>
+        本資料は教育目的で作成したサマリーです。診断・治療方針の決定には必ず原典を参照してください。
+      </p>
+      <p style="font-size:0.75rem;color:var(--muted);text-align:right;margin-top:8px;">制作：ICU 関谷</p>
+
+    </div><!-- /main-col -->
+
+    <!-- ===== SIDEBAR ===== -->
+    <aside class="ie-sidebar">
+      <div class="ie-sidebar-card">
+        <div class="ie-sidebar-title">目次</div>
+        <a href="#hfnc-overview" class="ie-toc-chapter">研究概要</a>
+        <a href="#hfnc-background" class="ie-toc-section">S1 — 背景・研究目的</a>
+        <a href="#hfnc-pairwise" class="ie-toc-chapter">HFNC vs NIV 全体比較</a>
+        <a href="#hfnc-pair-result" class="ie-toc-section">S2 — ペアワイズメタ解析</a>
+        <a href="#hfnc-nma-primary" class="ie-toc-chapter">NMA 主要アウトカム</a>
+        <a href="#hfnc-intubation" class="ie-toc-section">S3 — 挿管率</a>
+        <a href="#hfnc-nma-secondary" class="ie-toc-chapter">NMA 副次アウトカム</a>
+        <a href="#hfnc-paco2-ph" class="ie-toc-section">S4-A — PaCO₂・pH</a>
+        <a href="#hfnc-injuries" class="ie-toc-section">S4-B — 鼻顔面損傷</a>
+        <a href="#hfnc-los" class="ie-toc-section">S4-C — 入院期間・死亡率</a>
+        <a href="#hfnc-sucra" class="ie-toc-chapter">SUCRA ランキング</a>
+        <a href="#hfnc-sucra-table" class="ie-toc-section">S5 — 全アウトカム比較</a>
+        <a href="#hfnc-mechanism" class="ie-toc-chapter">機序・考察</a>
+        <a href="#hfnc-peep" class="ie-toc-section">S6 — PEEPi と臨界PEEP</a>
+        <a href="#hfnc-limitation" class="ie-toc-chapter">限界・エビデンスの質</a>
+        <a href="#hfnc-limits" class="ie-toc-section">S7 — 限界</a>
+        <a href="#hfnc-conclusion" class="ie-toc-chapter">結論と推奨</a>
+        <a href="#hfnc-recommend" class="ie-toc-section">S8 — 臨床的推奨</a>
+        <a href="#hfnc-summary" class="ie-toc-section">SUMMARY</a>
+      </div>
+    </aside>
+
+  </div><!-- /content-wrap -->
+
+  <script src="../script.js"></script>
+</body>
+</html>
