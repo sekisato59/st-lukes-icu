@@ -65,10 +65,9 @@
     .dt-source::before { content:"出典：";font-size:0.65rem;color:#BFBFBF; }
 
     /* 略語ツールチップ */
-    abbr[data-tip] { text-decoration:none;border-bottom:1px dotted #9CA3AF;cursor:help;position:relative; }
-    abbr[data-tip]:hover::after,abbr[data-tip]:focus::after { content:attr(data-tip);position:absolute;bottom:calc(100% + 4px);left:50%;transform:translateX(-50%);background:#1F2937;color:#fff;font-size:0.7rem;font-weight:400;padding:4px 10px;border-radius:5px;white-space:nowrap;z-index:100;pointer-events:none;line-height:1.5;box-shadow:0 2px 6px rgba(0,0,0,0.15); }
-    abbr[data-tip]:hover::before,abbr[data-tip]:focus::before { content:"";position:absolute;bottom:calc(100% + 0px);left:50%;transform:translateX(-50%);border:4px solid transparent;border-top-color:#1F2937;z-index:100;pointer-events:none; }
-    @media (max-width:600px) { abbr[data-tip]:hover::after,abbr[data-tip]:focus::after { white-space:normal;max-width:220px;left:0;transform:none; } }
+    abbr[data-tip] { text-decoration:none;border-bottom:1px dotted #9CA3AF;cursor:help; }
+    #abbr-tooltip { position:fixed;z-index:9999;background:#1F2937;color:#fff;font-size:0.72rem;font-weight:400;padding:5px 12px;border-radius:6px;white-space:nowrap;line-height:1.5;box-shadow:0 2px 8px rgba(0,0,0,0.2);pointer-events:none;display:none;max-width:320px; }
+    @media (max-width:600px) { #abbr-tooltip { white-space:normal;max-width:260px; } }
   </style>
 </head>
 <body>
@@ -676,11 +675,38 @@
       if(lastIdx<text.length) frag.appendChild(document.createTextNode(text.slice(lastIdx)));
       node.parentNode.replaceChild(frag,node);
     });
-    // モバイル：タップでフォーカス→ツールチップ表示
+    // ツールチップDOM要素を作成
+    var tip=document.createElement('div');
+    tip.id='abbr-tooltip';
+    document.body.appendChild(tip);
+    function showTip(el){
+      tip.textContent=el.getAttribute('data-tip');
+      tip.style.display='block';
+      var r=el.getBoundingClientRect();
+      var tw=tip.offsetWidth, th=tip.offsetHeight;
+      var left=r.left+r.width/2-tw/2;
+      var top=r.top-th-6;
+      if(left<4) left=4;
+      if(left+tw>window.innerWidth-4) left=window.innerWidth-tw-4;
+      if(top<4){ top=r.bottom+6; }
+      tip.style.left=left+'px';
+      tip.style.top=top+'px';
+    }
+    function hideTip(){ tip.style.display='none'; }
+    // PC: hover
+    document.addEventListener('mouseover',function(e){
+      var el=e.target.closest('abbr[data-tip]');
+      if(el) showTip(el);
+    });
+    document.addEventListener('mouseout',function(e){
+      var el=e.target.closest('abbr[data-tip]');
+      if(el) hideTip();
+    });
+    // モバイル: tap
     document.addEventListener('click',function(e){
-      if(e.target.tagName==='ABBR'&&e.target.hasAttribute('data-tip')){
-        e.target.focus();
-      }
+      var el=e.target.closest('abbr[data-tip]');
+      if(el){ showTip(el); setTimeout(hideTip,2500); }
+      else hideTip();
     });
   })();
   </script>
