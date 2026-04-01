@@ -63,6 +63,12 @@
     .dt-source a { font-size:0.68rem;color:#9CA3AF;text-decoration:none;transition:color 0.15s; }
     .dt-source a:hover { color:#2D7A4F; }
     .dt-source::before { content:"出典：";font-size:0.65rem;color:#BFBFBF; }
+
+    /* 略語ツールチップ */
+    abbr[data-tip] { text-decoration:none;border-bottom:1px dotted #9CA3AF;cursor:help;position:relative; }
+    abbr[data-tip]:hover::after,abbr[data-tip]:focus::after { content:attr(data-tip);position:absolute;bottom:calc(100% + 4px);left:50%;transform:translateX(-50%);background:#1F2937;color:#fff;font-size:0.7rem;font-weight:400;padding:4px 10px;border-radius:5px;white-space:nowrap;z-index:100;pointer-events:none;line-height:1.5;box-shadow:0 2px 6px rgba(0,0,0,0.15); }
+    abbr[data-tip]:hover::before,abbr[data-tip]:focus::before { content:"";position:absolute;bottom:calc(100% + 0px);left:50%;transform:translateX(-50%);border:4px solid transparent;border-top-color:#1F2937;z-index:100;pointer-events:none; }
+    @media (max-width:600px) { abbr[data-tip]:hover::after,abbr[data-tip]:focus::after { white-space:normal;max-width:220px;left:0;transform:none; } }
   </style>
 </head>
 <body>
@@ -90,6 +96,7 @@
   <!-- ===== HERO ===== -->
   <section class="subpage-hero">
     <div class="hero-content" style="max-width:860px;margin:0 auto;padding:36px 20px 32px;">
+      <a href="../disease-topics.html" class="back-link">← 疾患・項目別まとめ一覧へ戻る</a>
       <div style="font-size:0.72rem;color:rgba(255,255,255,0.6);margin-bottom:6px;letter-spacing:0.08em;">NEUROLOGY</div>
       <h1 style="font-size:clamp(1.3rem,3vw,1.75rem);font-weight:900;color:#fff;line-height:1.35;margin-bottom:12px;">
         くも膜下出血（aSAH）の管理
@@ -611,5 +618,71 @@
   </div><!-- /.content-wrap -->
 
   <script src="../../script.js"></script>
+  <script>
+  // 略語ツールチップ自動適用
+  (function(){
+    // 略語一覧テーブルからマッピングを構築
+    var map={};
+    document.querySelectorAll('.rule-title').forEach(function(t){
+      if(t.textContent.indexOf('略語一覧')===-1) return;
+      var tbl=t.closest('.card-inner').querySelector('table');
+      if(!tbl) return;
+      tbl.querySelectorAll('tr').forEach(function(r){
+        var cells=r.querySelectorAll('td');
+        if(cells.length<2) return;
+        var abbr=cells[0].textContent.trim();
+        var desc=cells[1].textContent.trim();
+        if(abbr) map[abbr]=desc;
+      });
+    });
+    if(!Object.keys(map).length) return;
+    // 略語を長い順にソート（部分一致を防ぐ）
+    var keys=Object.keys(map).sort(function(a,b){return b.length-a.length;});
+    // 正規表現を構築（単語境界を考慮）
+    var pattern=new RegExp('(?<![a-zA-Z\u00C0-\u024F])(' + keys.map(function(k){return k.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');}).join('|') + ')(?![a-zA-Z\u00C0-\u024F])','g');
+    // 略語一覧カード・ナビバー・サイドバー・ヒーローを除外してテキストノードを走査
+    var mainCol=document.querySelector('.main-col');
+    if(!mainCol) return;
+    var walker=document.createTreeWalker(mainCol,NodeFilter.SHOW_TEXT,{
+      acceptNode:function(node){
+        var p=node.parentNode;
+        if(!p) return NodeFilter.FILTER_REJECT;
+        var tag=p.tagName;
+        if(tag==='SCRIPT'||tag==='STYLE'||tag==='ABBR'||tag==='A'||tag==='CODE') return NodeFilter.FILTER_REJECT;
+        // 略語一覧カード内はスキップ
+        if(p.closest&&p.closest('.rule-title')) return NodeFilter.FILTER_REJECT;
+        if(p.closest&&p.closest('table')&&p.closest('.card-inner')&&p.closest('.card-inner').querySelector('.rule-title')&&p.closest('.card-inner').querySelector('.rule-title').textContent.indexOf('略語')!==-1) return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+    var nodes=[];
+    while(walker.nextNode()) nodes.push(walker.currentNode);
+    nodes.forEach(function(node){
+      var text=node.textContent;
+      if(!pattern.test(text)){ pattern.lastIndex=0; return; }
+      pattern.lastIndex=0;
+      var frag=document.createDocumentFragment();
+      var lastIdx=0;
+      var m;
+      while((m=pattern.exec(text))!==null){
+        if(m.index>lastIdx) frag.appendChild(document.createTextNode(text.slice(lastIdx,m.index)));
+        var el=document.createElement('abbr');
+        el.setAttribute('data-tip',map[m[1]]);
+        el.setAttribute('tabindex','0');
+        el.textContent=m[1];
+        frag.appendChild(el);
+        lastIdx=pattern.lastIndex;
+      }
+      if(lastIdx<text.length) frag.appendChild(document.createTextNode(text.slice(lastIdx)));
+      node.parentNode.replaceChild(frag,node);
+    });
+    // モバイル：タップでフォーカス→ツールチップ表示
+    document.addEventListener('click',function(e){
+      if(e.target.tagName==='ABBR'&&e.target.hasAttribute('data-tip')){
+        e.target.focus();
+      }
+    });
+  })();
+  </script>
 </body>
 </html>
