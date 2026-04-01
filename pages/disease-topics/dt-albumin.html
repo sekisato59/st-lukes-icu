@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ICUにおけるアルブミン投与 | 聖路加ICU</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../style-v2.css">
+  <script src="../../site-config.js"></script>
+  <style>
+    .subpage-hero { background: linear-gradient(150deg, #3D1F00 0%, #B45309 55%, #D97706 100%) !important; }
+    .ie-badge { display:inline-block;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:20px;padding:4px 12px;font-size:0.72rem;font-weight:500;color:#fff;margin-right:6px;margin-top:8px; }
+
+    .content-wrap { display:flex;gap:32px;align-items:flex-start;max-width:1140px;margin:0 auto;padding:32px 20px 80px; }
+    .main-col { flex:1;min-width:0;max-width:900px; }
+    .ie-sidebar { width:220px;flex-shrink:0; }
+    .ie-sidebar-card { background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:16px;position:sticky;top:80px; }
+    .ie-sidebar-title { font-size:0.72rem;font-weight:800;color:var(--muted);letter-spacing:0.08em;margin-bottom:10px;text-transform:uppercase; }
+    .ie-toc-chapter { display:block;font-size:0.8rem;font-weight:700;color:var(--text);padding:6px 0;border-bottom:1px solid var(--border);text-decoration:none;line-height:1.4; }
+    .ie-toc-chapter:last-child { border-bottom:none;padding-bottom:0; }
+    .ie-toc-chapter:hover { color:#B45309; }
+    .ie-toc-section { display:block;font-size:0.75rem;color:var(--muted);padding:4px 0 4px 10px;text-decoration:none;line-height:1.4;border-left:2px solid var(--border); }
+    .ie-toc-section:hover { color:#B45309;border-left-color:#B45309; }
+    @media (max-width:900px) { .ie-sidebar { display:none; } .content-wrap { max-width:860px; } }
+
+    .ie-table { width:100%;border-collapse:collapse;font-size:0.82rem;margin-top:10px; }
+    .ie-table th { background:#FFFBEB;border:1px solid #FDE68A;padding:8px 12px;font-weight:700;font-size:0.78rem;text-align:left; }
+    .ie-table td { border:1px solid var(--border);padding:8px 12px;vertical-align:top;line-height:1.7; }
+    .ie-table tr:nth-child(even) td { background:#F8FAFC; }
+
+    .ie-flow { display:flex;flex-direction:column;gap:0; }
+    .ie-flow-item { display:flex;align-items:flex-start;gap:14px;background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:14px 16px; }
+    .ie-flow-arrow { text-align:center;color:#B45309;font-size:1.1rem;font-weight:700;padding:4px 0; }
+    .ie-flow-num { width:28px;height:28px;border-radius:50%;background:#B45309;color:#fff;font-size:0.78rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0; }
+
+    .ie-stat-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px; }
+    @media (max-width:520px) { .ie-stat-grid { grid-template-columns:1fr 1fr; } }
+    .ie-stat { background:#FFFBEB;border:1px solid #FDE68A;border-radius:8px;padding:14px 12px;text-align:center; }
+    .ie-stat-val { font-size:1.25rem;font-weight:900;color:#B45309;line-height:1.3; }
+    .ie-stat-label { font-size:0.68rem;color:var(--muted);margin-top:5px;line-height:1.5; }
+
+    .ie-alpha { background:#F5F3FF;border:1px solid #DDD6FE;border-radius:8px;padding:2px;margin-top:10px; }
+    .ie-alpha-inner { padding:14px 16px; }
+    .ie-alpha-header { display:flex;align-items:center;gap:8px;margin-bottom:8px; }
+    .ie-alpha-badge { background:#7C3AED;color:#fff;font-size:0.65rem;font-weight:800;padding:2px 8px;border-radius:20px;letter-spacing:0.05em; }
+    .ie-alpha-title { font-size:0.85rem;font-weight:700;color:#4C1D95; }
+
+    .alert-yellow { background:#FFFBEB;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#92400E;line-height:1.7; }
+    .alert-green  { background:#F0FDF4;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#14532D;line-height:1.7; }
+    .alert-red    { background:#FEF2F2;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#7F1D1D;line-height:1.7; }
+
+    .ie-echo-grid { display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px; }
+    @media (max-width:520px) { .ie-echo-grid { grid-template-columns:1fr; } }
+    .ie-echo-box { background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:12px 14px; }
+    .ie-echo-name { font-size:0.78rem;font-weight:800;color:var(--text);margin-bottom:6px; }
+    .ie-echo-body { font-size:0.82rem;color:var(--text);line-height:1.7; }
+
+    .dt-source { text-align:right;margin-top:-10px;margin-bottom:16px;padding-right:4px; }
+    .dt-source a { font-size:0.68rem;color:#9CA3AF;text-decoration:none;transition:color 0.15s; }
+    .dt-source a:hover { color:#2D7A4F; }
+    .dt-source::before { content:"出典：";font-size:0.65rem;color:#BFBFBF; }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="../../index.html" class="nav-logo">
+        <img src="../../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+        <span class="nav-logo-text">聖路加国際病院ICU</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="../../index.html" class="nav-link">ホーム</a></li>
+        <li><a href="../icu-policy.html" class="nav-link">ICUの方針</a></li>
+        <li><a href="../disease-topics.html" class="nav-link">疾患トピックス</a></li>
+        <li><a href="../articles-guidelines.html" class="nav-link">論文・GL</a></li>
+        <li><a href="../icu-core-conf.html" class="nav-link">コアカン</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="subpage-hero">
+    <div class="hero-content" style="max-width:860px;margin:0 auto;padding:36px 20px 32px;">
+      <div style="font-size:0.72rem;color:rgba(255,255,255,0.6);margin-bottom:6px;letter-spacing:0.08em;">NEPHROLOGY / CRITICAL CARE</div>
+      <h1 style="font-size:clamp(1.3rem,3vw,1.75rem);font-weight:900;color:#fff;line-height:1.35;margin-bottom:12px;">
+        ICUにおけるアルブミン投与
+      </h1>
+      <div>
+        <span class="ie-badge">疾患トピックス</span>
+        <span class="ie-badge">2本の収録論文を統合</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== MAIN LAYOUT ===== -->
+  <div class="content-wrap">
+
+    <div class="main-col">
+
+      <!-- ============================== 章バナー：薬理学 ============================== -->
+      <div id="alb-pharma" style="background:linear-gradient(150deg,#3D1F00 0%,#B45309 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:0;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">アルブミンの薬理学</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Pharmacology of Albumin</div>
+      </div>
+
+      <h3 id="alb-basic" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+        <span style="color:#B45309;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+        基本性質と膠質浸透圧
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">アルブミンの分子特性と生理学的役割</h3>
+          <p class="rule-body">アルブミンは血漿中の主要タンパクであり、585個のアミノ酸からなる負に帯電したポリペプチド鎖で、分子量66 kDaを持つ。血漿の膠質浸透圧（COP）の70〜80%を担い、体内での半減期は2〜3週間である。肝臓で間質COPに応答して合成される。さまざまな内因性・外因性化合物のキャリアとして機能し、活性酸素・窒素種のスカベンジャーとして働き、酸塩基平衡のバッファー分子でもある。多くの薬物・ホルモンがアルブミンに結合するため、血中アルブミン濃度は薬物動態にも影響する。</p>
+          <div class="ie-stat-grid" style="margin-top:12px;">
+            <div class="ie-stat">
+              <div class="ie-stat-val">66 kDa</div>
+              <div class="ie-stat-label">アルブミンの<br>分子量</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">70〜80%</div>
+              <div class="ie-stat-label">血漿COPに占める<br>アルブミンの割合</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">2〜3週</div>
+              <div class="ie-stat-label">体内での<br>半減期</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-albumin20-cc2026.html#alb-history">アルブミン20%レビュー（Crit Care 2026）▸ 基本的性質</a></div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">5%と20%：COPの差が臨床効果を決定する</h3>
+          <p class="rule-body">血漿のCOPは22〜25 mmHgである。アルブミン5%のCOPは19 mmHg（血漿よりわずかに低く、輸注した液量の一部は間質へ漏出する）であるのに対し、<span class="mark-red"><strong>アルブミン20%のCOPは160 mmHg</strong></span>に達する。この極めて高いCOPが間質から血管内への液体動員を可能にする。動員は主にリンパ系経由で起こるため、輸注終了の10〜20分後に最大PVE（血漿量拡張効果）が得られる。</p>
+          <p class="rule-body" style="margin-top:10px;">体積動態研究から、アルブミン20%を1 mL輸注すると間質液を3.4 mL動員し、そのうち約2.5 mLが尿として排泄される。これにより<span class="mark-green"><strong>最終的なPVEは輸注量のほぼ2倍</strong></span>となる。アルブミン5%では同量のアルブミン（タンパク量として同等）を投与すれば数時間後には同等のPVEが得られるが、5%製剤には大量の溶媒液が含まれるため初期は輸注容量分の容量効果を持つ。</p>
+          <div class="ie-stat-grid" style="margin-top:12px;">
+            <div class="ie-stat">
+              <div class="ie-stat-val">22〜25</div>
+              <div class="ie-stat-label">血漿のCOP<br>（mmHg）</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">19</div>
+              <div class="ie-stat-label">アルブミン5%の<br>COP（mmHg）</div>
+            </div>
+            <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+              <div class="ie-stat-val" style="color:#DC2626;">160</div>
+              <div class="ie-stat-label">アルブミン20%の<br>COP（mmHg）</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-albumin20-cc2026.html#alb-cop">アルブミン20%レビュー（Crit Care 2026）▸ 膠質浸透圧</a></div>
+
+      <h3 id="alb-kinetics-glyco" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+        体積動態・利尿作用・グリコカリックス保護・抗酸化作用
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">PVEの半減期と固有の利尿作用</h3>
+          <p class="rule-body">アルブミン20%の標準的な輸注量は6 mL/kg（約200 mL）を30分かけて静注する。PVEの半減期は通常6〜10時間であるが、<span class="mark-yellow"><strong>手術中では21時間に延長する</strong></span>。PVEの1/4は翌日も残存するため、毎日アルブミンを投与すると容量過負荷のリスクがある。</p>
+          <p class="rule-body" style="margin-top:10px;">200 mLのアルブミン20%をボーラス投与した後5時間の尿量は、輸注量の平均3倍に達する。全身麻酔中はクリスタロイドのk<sub>10</sub>（尿路クリアランス速度定数）が覚醒時の10〜15%に減少するが、アルブミン20%では覚醒時と麻酔時でk<sub>10</sub>が変わらない。低MAP（&lt;70 mmHg）でもアルブミン20%は利尿効果を維持できる。</p>
+          <div class="alert-green" style="margin-top:10px;">
+            <strong>臨床的ポイント：</strong>ICU浮腫に対する従来の手法はアルブミン20%にフロセミドを併用することであったが、<span class="mark-green"><strong>フロセミドを追加する前にアルブミンボーラス単独の利尿反応を先に確認する</strong></span>ことが推奨されている。
+          </div>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-albumin20-cc2026.html#alb-kinetics">アルブミン20%レビュー（Crit Care 2026）▸ 体積動態</a> / <a href="../articles-gl-albumin20-cc2026.html#alb-urine">アルブミン20%レビュー（Crit Care 2026）▸ 尿量への効果</a></div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">グリコカリックス保護と抗酸化作用</h3>
+          <p class="rule-body">アルブミンが毛細血管透過性を低下させる機序として、かつては電荷的相互作用が想定されていたが、最新の研究はこれを否定している。現在の理解では、<span class="mark-green"><strong>アルブミンの透過性低下効果はサイズと体積による排除（size and volume exclusion）とS1P（スフィンゴシン-1-リン酸）の輸送</strong></span>による。アルブミンは赤血球と内皮細胞間でS1Pを輸送し、S1Pは内皮S1P受容体を活性化して皮質アクチンを増加させ、バリア機能を強化する。さらにアルブミン依存性のS1P輸送は内皮グリコカリックスを分解から保護するメタロプロテアーゼを阻害する。</p>
+          <p class="rule-body" style="margin-top:10px;">アルブミンは血清の遊離ラジカルトラップ活性の70%超を担う。銅・鉄イオンへの結合能によりFenton反応を制限する間接的作用と、Cys34（還元型システイン残基）を介したヒドロキシルラジカルの直接的スカベンジャー作用の2つの機序がある。</p>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-albumin20-cc2026.html#alb-glycocalyx">アルブミン20%レビュー（Crit Care 2026）▸ グリコカリックス</a> / <a href="../articles-gl-albumin20-cc2026.html#alb-antioxidant">アルブミン20%レビュー（Crit Care 2026）▸ 抗酸化作用</a></div>
+
+      <!-- ============================== 章バナー：重症患者 ============================== -->
+      <div id="alb-critical" style="background:linear-gradient(150deg,#3D1F00 0%,#B45309 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">重症患者におけるアルブミン</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Albumin in Critically Ill Patients</div>
+      </div>
+
+      <h3 id="alb-hypoalb" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+        <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>
+        低アルブミン血症とデエスカレーション
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">重症患者の低アルブミン血症はフルードバランスと密接に関連する</h3>
+          <p class="rule-body">重症患者では、アルブミンの合成・分解速度の変化とリンパ流の変容により低アルブミン血症と分布異常が生じる。ICUでは正のフルードバランスが一般的であり、不良な転帰と関連する。アルブミン20%はCOPを上昇させ、通常の経毛細血管COP勾配を回復させる可能性がある。少量の輸注で強力なPVEが得られるため投与液量を少なく保てるという点がICUでの使用意義のひとつである。</p>
+          <p class="rule-body" style="margin-top:10px;">デエスカレーション（蓄積した過剰な液体の除去）局面では、20%アルブミンが役割を果たしうる。<span class="mark-green"><strong>Cordemansらは、アルブミン20%少量投与＋フロセミドまたは血液濾過による液体除去の組み合わせが、正のフルードバランス・血管外肺水分指数・腹腔内圧を低下させることを示した</strong></span>。またMartinらは、低タンパク血症を伴うALI/ARDS患者40例において、アルブミン20%を100 mL/8時間×3日間＋フロセミドの投与が正のフルードバランスを4分の1に減少させ、酸素化指数を改善させることを示した。</p>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-albumin20-cc2026.html#alb-icu-overview">アルブミン20%レビュー（Crit Care 2026）▸ ICU概論</a></div>
+
+      <h3 id="alb-swipe-albios" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+        <span style="color:#16A34A;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 4</span>
+        SWIPE試験・ALBIOS試験・微小循環改善
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">SWIPE試験：アルブミン20% vs 5%で輸液量減少とICU生存率改善</h3>
+          <p class="rule-body">SWIPE無作為化臨床試験では、アルブミン20%がアルブミン5%と比較して48時間後の全輸液量を有意に減少させた（平均差 −576 mL、95% CI −1030〜−120 mL、p=0.01）。早期の正のフルードバランスを低減しながら害は認めなかった。さらに<span class="mark-red"><strong>ICUを生存退室した割合はアルブミン20%群で97%対5%群で91%（p=0.02）と有意に良好</strong></span>であった。</p>
+          <div class="ie-stat-grid" style="margin-top:12px;">
+            <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+              <div class="ie-stat-val" style="color:#DC2626;">−576 mL</div>
+              <div class="ie-stat-label">48時間での<br>輸液量の差（20% vs 5%）</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">97%</div>
+              <div class="ie-stat-label">アルブミン20%群の<br>ICU生存退室率</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">91%</div>
+              <div class="ie-stat-label">アルブミン5%群の<br>ICU生存退室率（p=0.02）</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-albumin20-cc2026.html#alb-icu-overview">アルブミン20%レビュー（Crit Care 2026）▸ SWIPE試験</a></div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">ALBIOS試験・ARISS試験・メタ解析</h3>
+          <table class="ie-table" style="margin-top:8px;">
+            <thead>
+              <tr><th>試験名</th><th>対象</th><th>主要結果</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>ALBIOS試験</strong><br>（NEJM 2014）</td>
+                <td>非選択的敗血症患者</td>
+                <td>28日・90日生存率に差なし。敗血症性ショックサブグループで生存改善の傾向</td>
+              </tr>
+              <tr>
+                <td><strong>ARISS試験</strong><br>（JAMA Netw Open 2026）</td>
+                <td>敗血症性ショック患者</td>
+                <td>28日死亡率31% vs 39%（有意差なし、早期試験終了）。安全性は同等</td>
+              </tr>
+              <tr>
+                <td><strong>メタ解析</strong><br>（Geng et al. 2023）</td>
+                <td>敗血症・敗血症性ショック</td>
+                <td>20%アルブミンで最善（OR 0.81）。敗血症性ショックで死亡率約20%低下</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-albumin20-cc2026.html#alb-sepsis">アルブミン20%レビュー（Crit Care 2026）▸ 敗血症・主要試験</a></div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">微小循環の改善：毛細血管再充満時間と乳酸</h3>
+          <p class="rule-body">Gabarreらは敗血症・敗血症性ショック患者50例を対象に、アルブミンを生理食塩水と比較した。毛細血管再充満時間（&lt;3秒）の正常化はアルブミン群で63%、生理食塩水群で29%であった（p=0.02）。この回復は心拍出量の変化とは相関しなかった。さらに<span class="mark-green"><strong>アルブミンのみで血中乳酸の減少も示された</strong></span>。Haririらは敗血症性ショック患者35例において、アルブミン20%を100 mLを15分かけてボーラス投与することで内皮機能が改善することを示した。</p>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-albumin20-cc2026.html#alb-microcirculation">アルブミン20%レビュー（Crit Care 2026）▸ 微小循環</a></div>
+
+      <!-- ============================== 章バナー：敗血症性ショック＋AKI ============================== -->
+      <div id="alb-sepsis-aki" style="background:linear-gradient(150deg,#3D1F00 0%,#B45309 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">敗血症性ショック＋AKIでのアルブミン</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Albumin in Septic Shock with Renal Impairment</div>
+      </div>
+
+      <h3 id="alb-cohort" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+        <span style="color:#B45309;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 5</span>
+        コホート研究：アルブミン投与で腎・臨床転帰が悪化
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">米国220病院9,988例の後ろ向きIPTW解析</h3>
+          <p class="rule-body">入院時に腎機能障害（eGFR &lt;60 mL/min/1.73 m²）を有する敗血症性ショック患者において、入院当日のアルブミン投与がRRTまたは院内死亡の複合エンドポイントを低減するかを検討した大規模コホート研究。IPTW解析において、<span class="mark-red"><strong>RRTまたは院内死亡の複合エンドポイントは、非アルブミン群33.8%に対しアルブミン群39.7%と有意に高かった</strong></span>（OR 1.29; 95% CI 1.14〜1.47; P&lt;.001）。</p>
+          <div class="ie-stat-grid" style="margin-top:12px;">
+            <div class="ie-stat">
+              <div class="ie-stat-val">9,988</div>
+              <div class="ie-stat-label">解析対象<br>患者数</div>
+            </div>
+            <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+              <div class="ie-stat-val" style="color:#DC2626;">39.7%</div>
+              <div class="ie-stat-label">アルブミン群<br>RRTまたは院内死亡</div>
+            </div>
+            <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+              <div class="ie-stat-val" style="color:#DC2626;">1.29</div>
+              <div class="ie-stat-label">OR（95% CI<br>1.14〜1.47）</div>
+            </div>
+          </div>
+          <p class="rule-body" style="margin-top:10px;">副次アウトカムでもRRT施行（OR 2.37; 95% CI 1.77〜3.18）、院内死亡（OR 1.21）、MAKE（OR 1.30）、Stage 3 AKI（OR 1.25）、人工呼吸器装着日数・入院期間のすべてでアルブミン群が有意に不良であった。</p>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-albumin-sepsis2025.html#primary-outcome">アルブミンと敗血症性ショック（CHEST 2025）▸ 主要アウトカム</a> / <a href="../articles-gl-albumin-sepsis2025.html#secondary-outcomes">アルブミンと敗血症性ショック（CHEST 2025）▸ 副次アウトカム</a></div>
+
+      <h3 id="alb-5vs25" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 6</span>
+        5%アルブミン vs 25%アルブミン：濃度による差異
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">5%は有意差なし、25%で有意に増悪</h3>
+          <p class="rule-body">アルブミン濃度別のサブグループ解析（交互作用検定 P=.033）において、<strong>5%アルブミン（等張性）はRRT・院内死亡の複合アウトカムと有意な関連を示さなかった</strong>（OR 1.07; 95% CI 0.84〜1.37）。一方、<span class="mark-red"><strong>25%アルブミン（高張性）では複合アウトカムが有意に増加した</strong></span>（OR 1.43; 95% CI 1.16〜1.76）。</p>
+          <div class="ie-echo-grid" style="margin-top:12px;">
+            <div class="ie-echo-box">
+              <div class="ie-echo-name">5%アルブミン（等張性）</div>
+              <div class="ie-echo-body">血清アルブミン濃度と等張。急速な体液移動が少ない。OR 1.07（非有意）。</div>
+            </div>
+            <div class="ie-echo-box" style="border-color:#FECACA;background:#FEF2F2;">
+              <div class="ie-echo-name" style="color:#DC2626;">25%アルブミン（高張性）</div>
+              <div class="ie-echo-body">血管内に水分を引き込む。糸球体内浸透圧上昇・循環過負荷のリスク。OR 1.43（95% CI 1.16〜1.76）。</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-albumin-sepsis2025.html#subgroup">アルブミンと敗血症性ショック（CHEST 2025）▸ サブグループ解析</a></div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">高張性アルブミンが腎機能を悪化させる機序的懸念</h3>
+          <p class="rule-body">25%アルブミンは高張性コロイドであり、糸球体内浸透圧を変化させることで糸球体濾過圧を低下させる可能性が示唆されている。これは腎機能障害を持つ敗血症性ショック患者に特に有害となりうる。また、高張アルブミンの急速投与は体液移動による循環過負荷を引き起こし、特に人工呼吸器を装着していない患者では肺水腫のリスクが高まる。</p>
+          <div class="alert-red" style="margin-top:10px;">
+            <strong>高リスク患者像：</strong>入院時にIMVなし（OR 1.44）・BMI≥30（OR 1.36）・腎疾患の既往あり（OR 1.38）の患者でアルブミンによる悪影響がより顕著（交互作用有意）。IMVなし患者でリスクが高い背景として、アルブミン誘発性の肺水腫が代償できないことが示唆されている。
+          </div>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-albumin-sepsis2025.html#mechanism">アルブミンと敗血症性ショック（CHEST 2025）▸ メカニズム</a> / <a href="../articles-gl-albumin-sepsis2025.html#subgroup">アルブミンと敗血症性ショック（CHEST 2025）▸ サブグループ解析</a></div>
+
+      <!-- ============================== 章バナー：推奨 ============================== -->
+      <div id="alb-recs" style="background:linear-gradient(150deg,#3D1F00 0%,#B45309 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">推奨される使用場面と避けるべき場面</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Recommended and Non-Recommended Settings</div>
+      </div>
+
+      <h3 id="alb-indications" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+        <span style="color:#16A34A;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 7</span>
+        アルブミン20%が有益と考えられる臨床状況
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">アルブミン20%は第一選択輸液ではないが、特定の状況では有益</h3>
+          <p class="rule-body">ハイパーオンコティックアルブミンは術中・ICUの第一選択輸液ではなく、脱水・血行動態不安定な患者や急性炎症の最も重篤な急性期には推奨されない。しかし、以下に示す6つの特定状況では根拠に基づいた臨床的価値が示されている。</p>
+          <div class="ie-flow" style="margin-top:14px;">
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">1</div>
+              <div style="flex:1;"><p class="rule-body"><strong>クリスタロイド大量投与を要する手術：</strong>容量過負荷による有害事象（組織浮腫・腸管浮腫）を回避することを目標とする。</p></div>
+            </div>
+            <div class="ie-flow-arrow">↓</div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">2</div>
+              <div style="flex:1;"><p class="rule-body"><strong>ICUデエスカレーション期：</strong>血行動態に基づく輸液最適化後の蓄積過剰液体の除去局面。低血液量を来さない脱水と微小循環の改善を目標とする。</p></div>
+            </div>
+            <div class="ie-flow-arrow">↓</div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">3</div>
+              <div style="flex:1;"><p class="rule-body"><strong>浮腫患者での血漿量拡張（特に乏尿例）：</strong>間質液を血管内に再分布させることを目標とする。</p></div>
+            </div>
+            <div class="ie-flow-arrow">↓</div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">4</div>
+              <div style="flex:1;"><p class="rule-body"><strong>消化管手術（縫合部位あり）＋大量クリスタロイド：</strong>縫合不全リスクの低減を目標とする。</p></div>
+            </div>
+            <div class="ie-flow-arrow">↓</div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">5</div>
+              <div style="flex:1;"><p class="rule-body"><strong>肺障害・胸水・ARDS：</strong>肺組織からの液体除去（間質脱水）を目標とする。</p></div>
+            </div>
+            <div class="ie-flow-arrow">↓</div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">6</div>
+              <div style="flex:1;"><p class="rule-body"><strong>敗血症性ショック：</strong>生存率の改善（潜在的な可能性）を目標とする。最終的なエビデンスはまだ確定していないが、複数のメタ解析で約20%の死亡率低下が示されている。</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-albumin20-cc2026.html#alb-indications">アルブミン20%レビュー（Crit Care 2026）▸ 6つの適応場面</a></div>
+
+      <h3 id="alb-avoid" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 8</span>
+        推奨されない使用場面
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">避けるべき状況と遅延性浮腫のリスク</h3>
+          <p class="rule-body">ハイパーオンコティックアルブミンは以下の状況では推奨されない。</p>
+          <ul style="font-size:0.85rem;line-height:2;color:var(--text);padding-left:1.2em;margin-top:6px;">
+            <li>術中・ICUの<strong>第一選択輸液</strong>としての使用</li>
+            <li><strong>脱水状態</strong>または<strong>血行動態が不安定</strong>な患者（急性炎症の最も重篤な急性期）</li>
+            <li><strong>低アルブミン血症の補正そのものを目的</strong>とした使用（特定の診断を除く）</li>
+            <li><strong>腎機能障害を有する敗血症性ショック</strong>への高張性アルブミン（25%）の早期投与</li>
+          </ul>
+          <div class="alert-red" style="margin-top:12px;">
+            <strong>遅延性浮腫のリスク：</strong>外因性アルブミンは間質に分布後もCOPを維持するため、体液マルディストリビューションが存在する状況（敗血症・熱傷・全身麻酔中・子癇前症など）では遅延性の組織浮腫を悪化させる可能性がある。状態が安定化した後（デエスカレーション期）に投与することが望ましい。
+          </div>
+          <div class="alert-yellow" style="margin-top:10px;">
+            <strong>腎機能障害を有する敗血症性ショック患者への注意：</strong>Patanwalaらのコホート研究では、入院時に腎機能障害を持つ敗血症性ショック患者への早期アルブミン投与（特に25%アルブミン）はRRTまたは院内死亡のリスクを増加させた。追加のランダム化試験エビデンスが得られるまで、高張性アルブミン投与は慎重に行うべきである。
+          </div>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-albumin20-cc2026.html#alb-indications">アルブミン20%レビュー（Crit Care 2026）▸ 推奨されない使用</a> / <a href="../articles-gl-albumin-sepsis2025.html#mechanism">アルブミンと敗血症性ショック（CHEST 2025）▸ 臨床的考察</a></div>
+
+      <div class="ie-alpha">
+        <div class="ie-alpha-inner">
+          <div class="ie-alpha-header">
+            <span class="ie-alpha-badge">＋α</span>
+            <span class="ie-alpha-title">20%・5%アルブミン・リンゲル液の特性比較</span>
+          </div>
+          <table class="ie-table" style="margin-top:8px;">
+            <thead>
+              <tr><th>特性</th><th>アルブミン20%</th><th>アルブミン5%</th><th>リンゲル液</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>PVE効力</strong></td><td>輸注量の約2倍</td><td>輸注量の70〜100%</td><td>輸注量の20〜30%</td></tr>
+              <tr><td><strong>PVEの半減期</strong></td><td>6〜10時間</td><td>約2.5〜5時間</td><td>約20〜40分</td></tr>
+              <tr><td><strong>体液動員</strong></td><td>リンパ系経由で間質から動員</td><td>わずかな動員のみ</td><td>間質へ漏出（浮腫形成）</td></tr>
+              <tr><td><strong>利尿効果</strong></td><td>低MAP（&lt;70 mmHg）でも持続</td><td>中程度のMAP依存性</td><td>低MAPで急速に消失</td></tr>
+              <tr><td><strong>水分バランス</strong></td><td>体全体・間質とも脱水</td><td>中立〜軽度の正バランス</td><td>正のフルードバランスを促進</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-albumin20-cc2026.html#alb-comparison">アルブミン20%レビュー（Crit Care 2026）▸ 5% vs 20%の比較</a></div>
+
+      <!-- ============================== SUMMARY ============================== -->
+      <h3 id="alb-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+        <span style="color:#B45309;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+        キーメッセージ
+      </h3>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+              <span class="rule-body"><strong>アルブミン20%のCOP 160 mmHgが独自の間質脱水機序を生む：</strong>輸注量の約2倍のPVEをもたらし、固有の利尿作用（5時間で尿量3倍）を持つ。フロセミド併用前にアルブミン単独の利尿を確認することを推奨。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+              <span class="rule-body"><strong>ICUデエスカレーション期と敗血症性ショックで有望：</strong>SWIPE試験で20%は5%と比較しICU生存退室率を改善（97% vs 91%）。メタ解析では敗血症性ショックで死亡率約20%低下のシグナルがあるが、最終エビデンスは未確定。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+              <span class="rule-body"><strong>腎機能障害＋敗血症性ショックでは高張性アルブミンに注意：</strong>9,988例のコホート研究で25%アルブミンはRRT・院内死亡の複合を有意に増加（OR 1.43）。5%アルブミンでは有意差なし（OR 1.07）。濃度の区別が重要。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+              <span class="rule-body"><strong>6つの有益な状況：</strong>大量クリスタロイドを要する手術・ICUデエスカレーション・浮腫＋乏尿・消化管縫合手術・肺障害/ARDS・敗血症性ショック。第一選択輸液としての使用や急性炎症の最重篤期には推奨されない。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+              <span class="rule-body"><strong>遅延性浮腫と容量過負荷に留意：</strong>PVEの1/4が翌日も残存するため毎日投与は容量過負荷リスクがある。体液マルディストリビューション下では遅延性浮腫を悪化させる可能性があり、状態安定化後の投与が望ましい。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 出典注記 -->
+      <p style="font-size:0.72rem;color:#9CA3AF;margin-top:32px;line-height:1.7;">
+        本ページは以下の収録論文の要約ページの内容を統合して作成しています：<br>
+        ・<a href="../articles-gl-albumin20-cc2026.html" style="color:#60A5FA;">アルブミン20%の薬理と臨床応用 包括的レビュー（Critical Care 2026）</a><br>
+        ・<a href="../articles-gl-albumin-sepsis2025.html" style="color:#60A5FA;">アルブミンは敗血症性ショック+腎障害患者に有害か（CHEST 2025）</a><br>
+        本資料は教育目的で作成したサマリーです。診断・治療方針の決定には必ず原典論文を参照してください。
+      </p>
+      <p style="font-size:0.75rem;color:var(--muted);text-align:right;margin-top:8px;">制作：ICU 関谷</p>
+
+    </div><!-- /.main-col -->
+
+    <!-- ── サイドバー目次 ── -->
+    <aside class="ie-sidebar">
+      <div class="ie-sidebar-card">
+        <div class="ie-sidebar-title">目次</div>
+
+        <a href="#alb-pharma" class="ie-toc-chapter">アルブミンの薬理学</a>
+        <a href="#alb-basic" class="ie-toc-section">S1 — 基本性質と膠質浸透圧</a>
+        <a href="#alb-kinetics-glyco" class="ie-toc-section">S2 — 体積動態・グリコカリックス</a>
+
+        <a href="#alb-critical" class="ie-toc-chapter">重症患者におけるアルブミン</a>
+        <a href="#alb-hypoalb" class="ie-toc-section">S3 — 低アルブミン血症・デエスカレーション</a>
+        <a href="#alb-swipe-albios" class="ie-toc-section">S4 — SWIPE・ALBIOS・微小循環</a>
+
+        <a href="#alb-sepsis-aki" class="ie-toc-chapter">敗血症性ショック＋AKI</a>
+        <a href="#alb-cohort" class="ie-toc-section">S5 — コホート研究</a>
+        <a href="#alb-5vs25" class="ie-toc-section">S6 — 5% vs 25%の差異</a>
+
+        <a href="#alb-recs" class="ie-toc-chapter">推奨される使用場面</a>
+        <a href="#alb-indications" class="ie-toc-section">S7 — 6つの有益な状況</a>
+        <a href="#alb-avoid" class="ie-toc-section">S8 — 推奨されない使用場面</a>
+
+        <a href="#alb-summary" class="ie-toc-chapter">SUMMARY</a>
+      </div>
+    </aside>
+
+  </div><!-- /.content-wrap -->
+
+  <script src="../../script.js"></script>
+</body>
+</html>

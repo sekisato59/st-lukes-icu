@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ARDSの呼吸管理と右心不全 | 聖路加ICU</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../style-v2.css">
+  <script src="../../site-config.js"></script>
+  <style>
+    .subpage-hero { background: linear-gradient(150deg, #3D1F00 0%, #B45309 55%, #D97706 100%) !important; }
+    .ie-badge { display:inline-block;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:20px;padding:4px 12px;font-size:0.72rem;font-weight:500;color:#fff;margin-right:6px;margin-top:8px; }
+
+    .content-wrap { display:flex;gap:32px;align-items:flex-start;max-width:1140px;margin:0 auto;padding:32px 20px 80px; }
+    .main-col { flex:1;min-width:0;max-width:900px; }
+    .ie-sidebar { width:220px;flex-shrink:0; }
+    .ie-sidebar-card { background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:16px;position:sticky;top:80px; }
+    .ie-sidebar-title { font-size:0.72rem;font-weight:800;color:var(--muted);letter-spacing:0.08em;margin-bottom:10px;text-transform:uppercase; }
+    .ie-toc-chapter { display:block;font-size:0.8rem;font-weight:700;color:var(--text);padding:6px 0;border-bottom:1px solid var(--border);text-decoration:none;line-height:1.4; }
+    .ie-toc-chapter:last-child { border-bottom:none;padding-bottom:0; }
+    .ie-toc-chapter:hover { color:#B45309; }
+    .ie-toc-section { display:block;font-size:0.75rem;color:var(--muted);padding:4px 0 4px 10px;text-decoration:none;line-height:1.4;border-left:2px solid var(--border); }
+    .ie-toc-section:hover { color:#B45309;border-left-color:#B45309; }
+    @media (max-width:900px) { .ie-sidebar { display:none; } .content-wrap { max-width:860px; } }
+
+    .ie-table { width:100%;border-collapse:collapse;font-size:0.82rem;margin-top:10px; }
+    .ie-table th { background:#FFFBEB;border:1px solid #FDE68A;padding:8px 12px;font-weight:700;font-size:0.78rem;text-align:left; }
+    .ie-table td { border:1px solid var(--border);padding:8px 12px;vertical-align:top;line-height:1.7; }
+    .ie-table tr:nth-child(even) td { background:#F8FAFC; }
+
+    .ie-flow { display:flex;flex-direction:column;gap:0;margin-top:10px; }
+    .ie-flow-item { display:flex;align-items:flex-start;gap:14px;background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:14px 16px; }
+    .ie-flow-arrow { text-align:center;color:#B45309;font-size:1.1rem;font-weight:700;padding:4px 0; }
+    .ie-flow-num { width:28px;height:28px;border-radius:50%;background:#B45309;color:#fff;font-size:0.78rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0; }
+
+    .ie-stat-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px; }
+    @media (max-width:520px) { .ie-stat-grid { grid-template-columns:1fr 1fr; } }
+    .ie-stat { background:#FFFBEB;border:1px solid #FDE68A;border-radius:8px;padding:14px 12px;text-align:center; }
+    .ie-stat-val { font-size:1.25rem;font-weight:900;color:#B45309;line-height:1.3; }
+    .ie-stat-label { font-size:0.68rem;color:var(--muted);margin-top:5px;line-height:1.5; }
+
+    .ie-alpha { background:#F5F3FF;border:1px solid #DDD6FE;border-radius:8px;padding:2px;margin-top:10px; }
+    .ie-alpha-inner { padding:14px 16px; }
+    .ie-alpha-header { display:flex;align-items:center;gap:8px;margin-bottom:8px; }
+    .ie-alpha-badge { background:#7C3AED;color:#fff;font-size:0.65rem;font-weight:800;padding:2px 8px;border-radius:20px;letter-spacing:0.05em; }
+    .ie-alpha-title { font-size:0.85rem;font-weight:700;color:#4C1D95; }
+
+    .ie-echo-grid { display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px; }
+    @media (max-width:520px) { .ie-echo-grid { grid-template-columns:1fr; } }
+    .ie-echo-box { background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:12px 14px; }
+    .ie-echo-name { font-size:0.78rem;font-weight:800;color:var(--text);margin-bottom:6px; }
+    .ie-echo-body { font-size:0.82rem;color:var(--text);line-height:1.7; }
+
+    .alert-yellow { background:#FFFBEB;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#92400E;line-height:1.7; }
+    .alert-green  { background:#F0FDF4;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#14532D;line-height:1.7; }
+    .alert-red    { background:#FEF2F2;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#7F1D1D;line-height:1.7; }
+
+    .dt-source { text-align:right;margin-top:-10px;margin-bottom:16px;padding-right:4px; }
+    .dt-source a { font-size:0.68rem;color:#9CA3AF;text-decoration:none;transition:color 0.15s; }
+    .dt-source a:hover { color:#2D7A4F; }
+    .dt-source::before { content:"出典：";font-size:0.65rem;color:#BFBFBF; }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="../../index.html" class="nav-logo">
+        <img src="../../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+        <span class="nav-logo-text">聖路加国際病院ICU</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="../../index.html" class="nav-link">ホーム</a></li>
+        <li><a href="../icu-policy.html" class="nav-link">ICUの方針</a></li>
+        <li><a href="../disease-topics.html" class="nav-link">疾患トピックス</a></li>
+        <li><a href="../articles-guidelines.html" class="nav-link">論文・GL</a></li>
+        <li><a href="../icu-core-conf.html" class="nav-link">コアカン</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="subpage-hero">
+    <div class="hero-content" style="max-width:860px;margin:0 auto;padding:36px 20px 32px;">
+      <div style="font-size:0.72rem;color:rgba(255,255,255,0.6);margin-bottom:6px;letter-spacing:0.08em;">RESPIRATORY / CRITICAL CARE</div>
+      <h1 style="font-size:clamp(1.3rem,3vw,1.75rem);font-weight:900;color:#fff;line-height:1.35;margin-bottom:12px;">
+        ARDSの呼吸管理と右心不全
+      </h1>
+      <div>
+        <span class="ie-badge">疾患トピックス</span>
+        <span class="ie-badge">2本の収録論文を統合</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== MAIN LAYOUT ===== -->
+  <div class="content-wrap">
+
+    <div class="main-col">
+
+      <!-- ============================== 章バナー：ARDS概要と肺保護換気 ============================== -->
+      <div id="ards-overview" style="background:linear-gradient(150deg,#3D1F00 0%,#B45309 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:0;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">ARDS概要と肺保護換気</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">ARDS Overview &amp; Lung-Protective Ventilation</div>
+      </div>
+
+      <h3 id="ards-def" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+        <span style="color:#B45309;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+        ARDSの定義（2024 Global定義）
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">診断基準</h3>
+          <p class="rule-body">ARDSは急性発症の低酸素血症と非心原性肺水腫を特徴とする生命を脅かす疾患である。2012年のBerlin定義を基盤としつつ、2024年のグローバルARDS定義ではより迅速な診断と資源依存の軽減が目指されている。</p>
+          <table class="ie-table" style="margin-top:10px;">
+            <thead><tr><th>診断項目</th><th>基準</th></tr></thead>
+            <tbody>
+              <tr><td><strong>発症時期</strong></td><td>既知の臨床的侵襲または新規・増悪する呼吸症状から1週間以内</td></tr>
+              <tr><td><strong>画像所見</strong></td><td>胸部X線・CT・肺エコーで両側性浸潤影</td></tr>
+              <tr><td><strong>原因</strong></td><td>心不全・過剰輸液で説明できない肺水腫</td></tr>
+              <tr><td><strong>酸素化</strong></td><td>SpO&#8322;&#8804;97%でSpO&#8322;/FiO&#8322;比が適用可能。非挿管患者（HFNC &#8805;30 L/min、NIV、CPAP）も含む</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-rhd-ards2025.html#s1">RHD in ARDS（Eur Respir Rev 2025）&#9656; ARDSの定義と現在の治療戦略</a></div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">主要治療原則とランドマーク試験</h3>
+          <p class="rule-body">過去数十年にわたるランドマーク試験によりARDS管理の標準治療が確立されている。これらの治療は呼吸機能と生存率を改善してきたが、同時に右心機能に重大な影響を及ぼしうることが認識されてきた。</p>
+          <table class="ie-table" style="margin-top:10px;">
+            <thead><tr><th>治療</th><th>主要試験</th><th>主な知見</th></tr></thead>
+            <tbody>
+              <tr><td><strong>肺保護換気</strong></td><td>ARDSNet</td><td>TV 6 mL/kg（予測体重）で死亡率有意に低下（vs 12 mL/kg）</td></tr>
+              <tr><td><strong>腹臥位</strong></td><td>PROSEVA</td><td>重症ARDS（P/F比&#8804;150）で早期・長時間腹臥位（&#8805;16時間/日）が90日死亡率をほぼ半減</td></tr>
+              <tr><td><strong>輸液管理</strong></td><td>FACTT</td><td>conservative戦略が酸素化・人工呼吸器離脱日数・ICU在室日数を改善（臓器不全リスク増加なし）</td></tr>
+              <tr><td><strong>筋弛緩</strong></td><td>ACURASYS / ROSE</td><td>ACURASYSでcisatracuriumの早期投与が90日死亡率を低下させる可能性。ROSEでは有意差なし</td></tr>
+            </tbody>
+          </table>
+          <div class="alert-yellow" style="margin-top:12px;">
+            <strong>Right heart note：</strong>これらの標準治療はすべて右心機能に影響を与えうる。特にPEEPと駆動圧はRV後負荷に直接関与し、腹臥位はRV機能への影響が不一致である。ARDSにおける右心機能不全（RHD）は死亡率独立予測因子であり、治療戦略の選択において右心を常に意識することが求められる。
+          </div>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-rhd-ards2025.html#s1">RHD in ARDS（Eur Respir Rev 2025）&#9656; ARDSの定義と現在の治療戦略</a></div>
+
+      <!-- ============================== 章バナー：PEEP最適化 ============================== -->
+      <div id="ards-peep" style="background:linear-gradient(150deg,#3D1F00 0%,#B45309 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">PEEP最適化：タイダル肺ヒステレシス</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">PEEP Optimization: Tidal Lung Hysteresis</div>
+      </div>
+
+      <h3 id="ards-bc" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+        Best complianceアプローチの落とし穴
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">コンプライアンス増加が意味するもの</h3>
+          <p class="rule-body">ARDSにおける機械換気のPEEP設定では、しばしば<strong>decremental PEEP trial（漸減PEEP試験）</strong>が実施され、コンプライアンスが最大となるPEEPを選択する「best compliance」アプローチが用いられる。しかしPEEPを下げたときのコンプライアンス増加は、2つの全く異なるメカニズムによって生じうる。</p>
+          <div class="ie-echo-grid" style="margin-top:10px;">
+            <div class="ie-echo-box" style="border-left:4px solid #16A34A;">
+              <div class="ie-echo-name" style="color:#16A34A;">真の改善</div>
+              <div class="ie-echo-body">過膨張肺胞が減少したことによる呼吸器力学の改善。PEEPを下げることが適切である。</div>
+            </div>
+            <div class="ie-echo-box" style="border-left:4px solid #DC2626;">
+              <div class="ie-echo-name" style="color:#DC2626;">誤った解釈</div>
+              <div class="ie-echo-body">PEEPが低すぎて呼息時の肺胞虚脱と吸息時の再開放（タイダルリクルートメント）が生じ、見かけ上コンプライアンスが増加している。VILIの原因となる。</div>
+            </div>
+          </div>
+          <div class="alert-red" style="margin-top:10px;">
+            <strong>ART試験の教訓：</strong>"best compliance" PEEPは臨床アウトカムを改善しないことが示されており、その背景にタイダルリクルートメントによるコンプライアンス偽改善がある可能性がある。コンプライアンスが上がったからPEEPを下げ続けると、タイダルリクルートメントが拡大し続けても気づけない。
+          </div>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-peep-hysteresis-ards2023.html#s1">タイダル肺ヒステレシス（Critical Care 2023）&#9656; 研究の背景</a></div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">タイダル肺ヒステレシス — 概念と測定</h3>
+          <p class="rule-body">現代の人工呼吸器はlow-flow inflation-deflation操作によって、任意のPEEP値からプラトー圧までの「タイダルP-Vループ」を描記できる。このループの面積を駆動圧（&#916;P）で除した値が<strong>タイダル肺ヒステレシス（Hyst）</strong>であり、タイダルリクルートメント量の指標となる。ヒステレシスが大きく増加する場合、そのPEEP値では呼息時の肺胞虚脱を防げなくなっていることを示す。</p>
+          <table class="ie-table" style="margin-top:10px;">
+            <thead><tr><th>指標</th><th>定義</th><th>意味</th></tr></thead>
+            <tbody>
+              <tr><td><strong>タイダルP-Vループ</strong></td><td>PEEPからプラトー圧までのlow-flow送排気操作で得られるP-Vカーブ</td><td>そのPEEP値でのタイダル換気域の肺力学を反映</td></tr>
+              <tr><td><strong>ヒステレシス面積</strong></td><td>送気カーブと排気カーブで囲まれた面積（mL&#215;cmH&#8322;O）</td><td>1呼吸で肺に散逸するエネルギー量に比例</td></tr>
+              <tr><td><strong>Hyst（mL）</strong></td><td>ヒステレシス面積 &#247; &#916;P</td><td>タイダルリクルートメント量の指標</td></tr>
+              <tr><td><strong>&#916;Hyst/&#916;PEEP</strong></td><td>PEEPステップ間のHyst変化量 &#247; PEEP変化量</td><td>&#8805;10 mL/cmH&#8322;Oを「大きな変化」と定義</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-peep-hysteresis-ards2023.html#s1">タイダル肺ヒステレシス（Critical Care 2023）&#9656; 研究の背景</a></div>
+
+      <h3 id="ards-pattern" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+        <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>
+        ヒステレシスパターン分類と&#8805;100 mLの臨床的意義
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">3つのタイダルリクルートメントパターン</h3>
+          <p class="rule-body">COVID-19 ARDS 38名をタイダルヒステレシスの変化パターンに基づいて3群に分類した結果、以下の3パターンが同定された。</p>
+          <div class="ie-echo-grid" style="margin-top:10px;">
+            <div class="ie-echo-box" style="border-left:4px solid #DC2626;">
+              <div class="ie-echo-name" style="color:#DC2626;">High tidal-recruiters（26%、10名）</div>
+              <div class="ie-echo-body">PEEPを下げるたびにヒステレシスが一貫して大幅増加（&#916;Hyst/&#916;PEEP 25.9&#177;10.0 mL/cmH&#8322;O）。高PEEPを維持しないと肺胞虚脱を防げない。</div>
+            </div>
+            <div class="ie-echo-box" style="border-left:4px solid #16A34A;">
+              <div class="ie-echo-name" style="color:#16A34A;">Low tidal-recruiters（32%、12名）</div>
+              <div class="ie-echo-body">PEEPを下げてもヒステレシスが一貫して小さいまま（&#916;Hyst/&#916;PEEP 4.5&#177;1.6 mL/cmH&#8322;O）。コンプライアンスの変化が真の呼吸器力学を反映する。</div>
+            </div>
+          </div>
+          <div class="ie-echo-box" style="border-left:4px solid #EA580C;margin-top:10px;">
+            <div class="ie-echo-name" style="color:#EA580C;">Biphasic pattern（42%、16名）&#8212; 最多</div>
+            <div class="ie-echo-body">高PEEPではヒステレシスの増加が緩やか（slow phase: &#916;Hyst/&#916;PEEP 5.6&#177;2.0）だが、ある閾値PEEP以下で急激に増加に転じる（fast phase: 23.7&#177;7.0）。この転換点がタイダルリクルートメントが顕在化するPEEPを示す。スロー相とファスト相の境目のヒステレシスは95.6&#177;14.4 mLであった。</div>
+          </div>
+          <div class="alert-yellow" style="margin-top:10px;">
+            <strong>臨床的意義：</strong>COVID-19 ARDSの2/3以上でPEEP漸減中に実質的なタイダルリクルートメントが生じていた。Low recruitersでのみコンプライアンスが信頼できる指標となり、High・Biphasic群では最適PEEP判断を誤りやすい。
+          </div>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-peep-hysteresis-ards2023.html#s3">タイダル肺ヒステレシス（Critical Care 2023）&#9656; 3つのリクルートメントパターン</a></div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">Combined approachとHyst &#8805;100 mLの予測価値</h3>
+          <p class="rule-body">コンプライアンス＋ヒステレシスを組み合わせた<strong>Combined approach</strong>は、Best compliance approachに比べタイダルヒステレシスを55%（204.7 &#8594; 92.7 mL）、消散エネルギーを75%（0.4 &#8594; 0.1 J/呼吸）削減した。2アプローチの一致率（Cohen's K）はわずか0.024であり、58%の患者で推奨PEEPが不一致であった。</p>
+          <div class="ie-stat-grid" style="margin-top:10px;">
+            <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+              <div class="ie-stat-val" style="color:#DC2626;">44%</div>
+              <div class="ie-stat-label">コンプライアンス増加のうち<br>ヒステレシス大幅増加を伴う</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">0.97</div>
+              <div class="ie-stat-label">Hyst &#8805;100 mL の<br>AUC（ROC曲線下面積）</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">96.5%</div>
+              <div class="ie-stat-label">Hyst &#8805;100 mL の<br>特異度</div>
+            </div>
+          </div>
+          <div class="alert-green" style="margin-top:10px;">
+            <strong>臨床的閾値：</strong>タイダルヒステレシス &#8805;100 mLは、次のPEEPステップ低下後のタイダルリクルートメント大幅増加を高精度に予測する（AUC 0.97、感度83%、特異度96.5%）。この値は二相性群の転換点ヒステレシス（95.6&#177;14.4 mL）とも一致しており、「Hyst &#8805;100 mLであればそれ以上PEEPを下げるな」という臨床的サインとして使える。
+          </div>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-peep-hysteresis-ards2023.html#s4">タイダル肺ヒステレシス（Critical Care 2023）&#9656; 2アプローチの比較</a> / <a href="../articles-gl-peep-hysteresis-ards2023.html#s5">同 &#9656; Hyst &#8805;100 mLの予測価値</a></div>
+
+      <!-- ============================== 章バナー：ARDSにおける右心不全 ============================== -->
+      <div id="ards-rhd" style="background:linear-gradient(150deg,#3D1F00 0%,#B45309 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">ARDSにおける右心不全（RHD）</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Right Heart Dysfunction in ARDS</div>
+      </div>
+
+      <h3 id="ards-rv-mech" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+        <span style="color:#16A34A;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 4</span>
+        RV後負荷増大の機序と心室相互依存性
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">RHDの定義と疫学</h3>
+          <p class="rule-body">右心不全は一般に「正常充満圧では適切な心拍出量を維持できないRVの能力喪失」と理解される。ARDSにおけるRHDは主に<strong>急性肺性心（ACP）</strong>を中心概念とし、心エコーでRV/LV拡張末期面積比 &gt;0.6かつ中隔奇異性運動を認めることで診断される。</p>
+          <div class="ie-stat-grid" style="margin-top:12px;">
+            <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+              <div class="ie-stat-val" style="color:#DC2626;">20&#8211;50%</div>
+              <div class="ie-stat-label">ARDS患者における<br>RHD合併率</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">&gt;0.6</div>
+              <div class="ie-stat-label">ACPの心エコー基準<br>RV/LV拡張末期面積比</div>
+            </div>
+            <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+              <div class="ie-stat-val" style="color:#DC2626;">有意</div>
+              <div class="ie-stat-label">RV障害と死亡率の関連<br>（メタ解析、9研究・1861例）</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-rhd-ards2025.html#s2">RHD in ARDS（Eur Respir Rev 2025）&#9656; RHDの定義・病態生理</a></div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">RV後負荷増大の5つの機序</h3>
+          <p class="rule-body">ARDSでは以下の複数の機序が相互に作用し、肺血管抵抗（PVR）を増大させてRV後負荷を上昇させる。右心は低圧系として機能するため、後負荷変化に対して極めて脆弱である。</p>
+          <div class="ie-flow" style="margin-top:12px;">
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">1</div>
+              <div style="flex:1;"><p class="rule-body"><strong>低酸素性肺血管収縮（HPV）：</strong>換気不良肺胞への血流を再分布させる適応反応。広範なARDSでは主要なRV後負荷増大因子となる。</p></div>
+            </div>
+            <div class="ie-flow-arrow">&#8595;</div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">2</div>
+              <div style="flex:1;"><p class="rule-body"><strong>高炭酸ガス血症：</strong>カルシウム流入によるPVR上昇・心筋収縮力低下の有害側面がある。重篤な高炭酸ガス血症は転帰不良と関連する。</p></div>
+            </div>
+            <div class="ie-flow-arrow">&#8595;</div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">3</div>
+              <div style="flex:1;"><p class="rule-body"><strong>In situ血栓症：</strong>炎症・内皮傷害・血液凝固活性化による肺微小血管内血栓形成がPVRをさらに上昇させる。</p></div>
+            </div>
+            <div class="ie-flow-arrow">&#8595;</div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">4</div>
+              <div style="flex:1;"><p class="rule-body"><strong>機械換気による圧迫：</strong>PEEP・駆動圧の上昇により経肺圧が増大し、肺胞内血管の圧迫と肺胞外血管の伸展を引き起こす。高プラトー圧はPVRをさらに増大させる。</p></div>
+            </div>
+            <div class="ie-flow-arrow">&#8595;</div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">5</div>
+              <div style="flex:1;"><p class="rule-body"><strong>肺血管収縮薬・拡張薬の不均衡：</strong>炎症による血管作動性メディエーターの産生異常がPVRを持続的に高める。</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-rhd-ards2025.html#s2">RHD in ARDS（Eur Respir Rev 2025）&#9656; RHDの定義・病態生理</a></div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">RHDの全身的影響：悪循環のメカニズム</h3>
+          <p class="rule-body">RV後負荷が増大し右心が拡大すると、以下の悪循環が形成され循環破綻に至る。この経路を理解することが治療介入の根拠となる。</p>
+          <div class="ie-echo-grid" style="margin-top:10px;">
+            <div class="ie-echo-box">
+              <div class="ie-echo-name">心室相互依存性</div>
+              <div class="ie-echo-body">RV拡大 &#8594; 心室中隔の左室側への偏位（septal bowing）&#8594; LV前負荷低下 &#8594; 心拍出量低下。容量負荷の過剰によりこの悪循環が増幅される。</div>
+            </div>
+            <div class="ie-echo-box">
+              <div class="ie-echo-name">三尖弁逆流（TR）</div>
+              <div class="ie-echo-body">容量過剰 &#8594; RV拡大 &#8594; TRが悪化し、前方心拍出量がさらに低下する。機械換気・高PEEPはTRを悪化させうる。TRは死亡率を独立して上昇させる。</div>
+            </div>
+            <div class="ie-echo-box">
+              <div class="ie-echo-name">腎機能障害</div>
+              <div class="ie-echo-body">臓器灌流低下＋静脈うっ血により腎機能障害をきたす。FACTT二次解析では肺血管機能障害が死亡の独立予測因子と確認されている。</div>
+            </div>
+            <div class="ie-echo-box">
+              <div class="ie-echo-name">容量過剰の悪循環</div>
+              <div class="ie-echo-body">容量過剰 &#8594; RV strain増大 &#8594; RV機能悪化 &#8594; 心室中隔偏位 &#8594; LV前負荷低下 &#8594; 循環不全 &#8594; さらなる容量投与 &#8594; 悪循環。</div>
+            </div>
+          </div>
+          <div class="alert-red" style="margin-top:12px;">
+            <strong>臨床的重要性：</strong>RHDを有するARDS患者では、腹臥位・血管作動薬・iNOの必要性が高く、死亡率も高い。メタ解析（9研究・1861例）でRV障害と死亡率の有意な関連が示されている。
+          </div>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-rhd-ards2025.html#s2">RHD in ARDS（Eur Respir Rev 2025）&#9656; RHDの定義・病態生理</a></div>
+
+      <!-- ============================== 章バナー：右心不全の診断と治療 ============================== -->
+      <div id="ards-rhd-tx" style="background:linear-gradient(150deg,#3D1F00 0%,#B45309 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">右心不全の診断と治療</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Diagnosis &amp; Management of RHD</div>
+      </div>
+
+      <h3 id="ards-rhd-diag" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+        <span style="color:#B45309;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 5</span>
+        心エコー指標とRV-PA連関
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">診断：多モーダルアプローチ</h3>
+          <p class="rule-body">RHDの診断と管理には、侵襲的血行動態モニタリング・画像診断・非侵襲的評価を組み合わせた統合アプローチが必要である。</p>
+          <table class="ie-table" style="margin-top:10px;">
+            <thead><tr><th>モダリティ</th><th>主な評価項目</th><th>臨床での位置づけ</th></tr></thead>
+            <tbody>
+              <tr><td><strong>経胸壁心エコー（TTE）</strong></td><td>RV拡張末期径、右房面積、TAPSE、TAPSE/PASP比</td><td>非侵襲的診断の中心。リアルタイムRVサイズ・機能評価が可能</td></tr>
+              <tr><td><strong>右心カテーテル（RHC）</strong></td><td>右房圧、RV圧、PAP、PCWP、PVR</td><td>ルーチン使用は大規模試験で有用性否定。重症例（PH・RV不全二次）では考慮</td></tr>
+              <tr><td><strong>PV loop解析</strong></td><td>Ees（end-systolic elastance）、Ea（arterial elastance）</td><td>RV収縮性・RV-PA連関の最先端評価。現時点では臨床研究レベル</td></tr>
+            </tbody>
+          </table>
+          <div class="alert-green" style="margin-top:10px;">
+            <strong>TAPSE/PASP比：</strong>心エコー由来のRV-PA連関の代替指標であり、侵襲的なelastance ratioとよく相関する。COVID-19・ARDS関連RHDにおいて、TAPSE/PASP比の低下が予後と関連することが示されている。
+          </div>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-rhd-ards2025.html#s3">RHD in ARDS（Eur Respir Rev 2025）&#9656; 疫学と診断アプローチ</a></div>
+
+      <h3 id="ards-rhd-vent" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 6</span>
+        RV保護換気と輸液管理
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">RV保護換気の要点</h3>
+          <p class="rule-body">機械換気設定はRV後負荷の主要規定因子であり、ARDS管理においてRVを意識した換気設定が不可欠である。PEEPのRV機能への影響は複雑で、低すぎても高すぎても肺容量依存的にPVRが上昇するため、最適化が求められる。</p>
+          <div class="alert-green" style="margin-top:10px;">
+            <strong>RV保護換気の4つの柱：</strong><br>
+            &#9312; プラトー圧 &lt;27 cmH&#8322;O &#8212; ACPを予防するための上限値<br>
+            &#9313; 固有PEEP（intrinsic PEEP）の回避<br>
+            &#9314; 重篤な高炭酸ガス血症の制限（PVR上昇・心筋収縮力低下を招く）<br>
+            &#9315; コンプライアンス誘導型またはトランスプルモナリー圧指向型のPEEP設定
+          </div>
+          <p class="rule-body" style="margin-top:10px;">高プラトー圧はRHDと死亡率の増大と関連しており、高PEEPはRV stroke indexを有意に低下させる。一方で、PEEPの低減戦略がRVを保護するという前向きエビデンスは現時点では限定的である。</p>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-rhd-ards2025.html#s4">RHD in ARDS（Eur Respir Rev 2025）&#9656; 治療戦略</a></div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">輸液管理：容量過剰の徹底的な回避</h3>
+          <p class="rule-body">容量不足も容量過剰もRVの心拍出量を障害しうる。心臓の幾何学的変化（RV拡大・心室相互依存性）を介してどちらも循環を悪化させるため、適正容量の維持が重要である。</p>
+          <div class="ie-flow" style="margin-top:12px;">
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">1</div>
+              <div style="flex:1;"><p class="rule-body"><strong>容量反応性評価：</strong>Mini fluid challenge（100 mL晶質液を1分間で投与）が、様々な病態での容量反応性評価として合理的な選択肢。</p></div>
+            </div>
+            <div class="ie-flow-arrow">&#8595;</div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">2</div>
+              <div style="flex:1;"><p class="rule-body"><strong>容量過剰の積極的治療：</strong>容量過剰が確認された場合、利尿療法（薬理学的またはCRRT）を行う。ただし過利尿によるRV underfilling（前負荷不足）に注意。Conservative fluid strategy（FACTT）が推奨の基本。</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-rhd-ards2025.html#s4">RHD in ARDS（Eur Respir Rev 2025）&#9656; 治療戦略</a></div>
+
+      <h3 id="ards-rhd-pharm" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+        <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 7</span>
+        吸入肺血管拡張薬・血管作動薬・ECMO
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">吸入肺血管拡張薬：iNOとプロスタサイクリン</h3>
+          <p class="rule-body">吸入肺血管拡張薬は肺血管選択的に作用するため全身性低血圧のリスクが低い。ただしARDSに特異的に承認された薬理学的治療は現時点では存在しない。</p>
+          <table class="ie-table" style="margin-top:10px;">
+            <thead><tr><th>薬剤</th><th>効果</th><th>注意事項</th></tr></thead>
+            <tbody>
+              <tr><td><strong>iNO</strong></td><td>平均PAP・PVR低下、RV EF・心拍出量改善の報告あり</td><td>効果は一時的。生存改善なし。腎障害リスクあり</td></tr>
+              <tr><td><strong>プロスタサイクリン</strong></td><td>PVR低下、RV afterload軽減</td><td>ARDSの転帰改善エビデンスは限定的</td></tr>
+              <tr><td><strong>iNO + Noradrenaline</strong></td><td>iNO単剤より優れた血行動態効果の可能性</td><td>小規模研究のみ</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-rhd-ards2025.html#s4">RHD in ARDS（Eur Respir Rev 2025）&#9656; 治療戦略</a></div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">血管作動薬：RV機能への影響</h3>
+          <p class="rule-body">一般的な血管作動薬はARDSにおけるRHD治療に使用されるが、各薬剤に利点と副作用がありARDSに特異的な承認はない。</p>
+          <div class="ie-echo-grid" style="margin-top:10px;">
+            <div class="ie-echo-box">
+              <div class="ie-echo-name">Levosimendan</div>
+              <div class="ie-echo-body">カルシウム感受性増強薬・血管拡張薬。RV収縮機能改善・心拍出量増加・平均PAP/PVR低下（小規模パイロット試験）。RV機能改善の最も有望な候補の一つ。</div>
+            </div>
+            <div class="ie-echo-box">
+              <div class="ie-echo-name">Norepinephrine</div>
+              <div class="ie-echo-body">冠動脈灌流圧維持によるRV心筋灌流改善が期待される。iNOとの併用で相乗効果の可能性。</div>
+            </div>
+            <div class="ie-echo-box">
+              <div class="ie-echo-name">Milrinone</div>
+              <div class="ie-echo-body">PDE-3阻害薬。陽性変力・肺血管拡張作用。全身低血圧のリスクあり。RV-PA連関改善の可能性（小規模）。</div>
+            </div>
+            <div class="ie-echo-box">
+              <div class="ie-echo-name">Vasopressin / Epinephrine</div>
+              <div class="ie-echo-body">Vasopressinは肺血管収縮を回避しつつ全身血圧維持が可能。Epinephrineは強力な陽性変力作用。いずれも小規模研究のみ。</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-rhd-ards2025.html#s4">RHD in ARDS（Eur Respir Rev 2025）&#9656; 治療戦略</a></div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">体外式膜型人工肺（ECMO）</h3>
+          <p class="rule-body">重症ARDSにおいてVV-ECMOは標準的な選択肢となりつつあるが、RV機能への影響は複雑であることを認識しておく必要がある。</p>
+          <table class="ie-table" style="margin-top:10px;">
+            <thead><tr><th>種類</th><th>特徴</th><th>RV機能への影響</th></tr></thead>
+            <tbody>
+              <tr><td><strong>VV-ECMO</strong></td><td>重症ARDSの標準。ガス交換を担う</td><td>Ultra-protective換気（TV 4 mL/kg）との組み合わせでRV機能改善の可能性（TAPSE上昇）。ACPを含むRHD予防・管理を従来治療で徹底してからECMOを検討</td></tr>
+              <tr><td><strong>VA-ECMO</strong></td><td>重篤なRV不全・難治性心原性ショックに限定</td><td>VV-ECMOより合併症多く生存率低い。慎重に患者選択を行う</td></tr>
+              <tr><td><strong>ProtekDuo</strong></td><td>右内頸静脈から肺動脈先端に留置する二腔カニューレ</td><td>一時的RVアンローディングによるRHD＋ARDSの血行動態改善の可能性。TR・不整脈リスクあり</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-rhd-ards2025.html#s4">RHD in ARDS（Eur Respir Rev 2025）&#9656; 治療戦略</a></div>
+
+      <!-- ============================== SUMMARY ============================== -->
+      <h3 id="ards-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+        <span style="color:#B45309;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+        キーメッセージ
+      </h3>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&#9312;</span>
+              <span class="rule-body"><strong>Best complianceアプローチは信頼できないことがある：</strong>コンプライアンス増加の44%でタイダルリクルートメントによる偽改善を伴う。コンプライアンス＋タイダルヒステレシスを組み合わせたCombined approachにより、消散エネルギーを75%削減できる。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&#9313;</span>
+              <span class="rule-body"><strong>Hyst &#8805;100 mLは「PEEPを下げるな」のサイン：</strong>AUC 0.97、感度83%、特異度96.5%で次のPEEP低下時のタイダルリクルートメント増大を予測する。ベッドサイドで実施可能な検査であり、PEEP設定の新パラダイムを提示する。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&#9314;</span>
+              <span class="rule-body"><strong>ARDSの20&#8211;50%にRHDが合併し、死亡率の独立予測因子である：</strong>低酸素性肺血管収縮・高炭酸ガス血症・in situ血栓・機械換気が相互にRV後負荷を増大させ、心室相互依存性を介して循環破綻の悪循環を形成する。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&#9315;</span>
+              <span class="rule-body"><strong>RV保護換気と容量管理が治療の柱：</strong>プラトー圧 &lt;27 cmH&#8322;O、容量過剰の積極的除水（利尿/CRRT）、conservative fluid strategyが基本。TAPSE/PASP比は心エコーによるRV-PA連関評価に有用。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&#9316;</span>
+              <span class="rule-body"><strong>薬物・ECMOは限界を認識して使用する：</strong>iNO・プロスタサイクリンは一時的な効果のみ。Levosimendanが最も有望だがデータは小規模。ECMOはRHDの従来治療を尽くしてから検討する。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 出典注記 -->
+      <p style="font-size:0.72rem;color:#9CA3AF;margin-top:32px;line-height:1.7;">
+        本ページは以下の収録論文の要約ページの内容を統合して作成しています：<br>
+        ・<a href="../articles-gl-peep-hysteresis-ards2023.html" style="color:#60A5FA;">タイダル肺ヒステレシスによるARDS PEEP評価（Critical Care 2023）</a><br>
+        ・<a href="../articles-gl-rhd-ards2025.html" style="color:#60A5FA;">ARDSにおける右心不全（Eur Respir Rev 2025）</a><br>
+        本資料は教育目的で作成したサマリーです。診断・治療方針の決定には必ず原典を参照してください。
+      </p>
+      <p style="font-size:0.75rem;color:var(--muted);text-align:right;margin-top:8px;">制作：ICU 関谷</p>
+
+    </div><!-- /.main-col -->
+
+    <!-- ── サイドバー目次 ── -->
+    <aside class="ie-sidebar">
+      <div class="ie-sidebar-card">
+        <div class="ie-sidebar-title">目次</div>
+
+        <a href="#ards-overview" class="ie-toc-chapter">ARDS概要と肺保護換気</a>
+        <a href="#ards-def" class="ie-toc-section">S1 — ARDS定義・主要治療</a>
+
+        <a href="#ards-peep" class="ie-toc-chapter">PEEP最適化：タイダルヒステレシス</a>
+        <a href="#ards-bc" class="ie-toc-section">S2 — Best complianceの落とし穴</a>
+        <a href="#ards-pattern" class="ie-toc-section">S3 — パターン分類・100 mL閾値</a>
+
+        <a href="#ards-rhd" class="ie-toc-chapter">ARDSにおける右心不全</a>
+        <a href="#ards-rv-mech" class="ie-toc-section">S4 — RV後負荷・心室相互依存性</a>
+
+        <a href="#ards-rhd-tx" class="ie-toc-chapter">右心不全の診断と治療</a>
+        <a href="#ards-rhd-diag" class="ie-toc-section">S5 — 心エコー・RV-PA連関</a>
+        <a href="#ards-rhd-vent" class="ie-toc-section">S6 — RV保護換気・輸液管理</a>
+        <a href="#ards-rhd-pharm" class="ie-toc-section">S7 — iNO・血管作動薬・ECMO</a>
+
+        <a href="#ards-summary" class="ie-toc-chapter">SUMMARY</a>
+      </div>
+    </aside>
+
+  </div><!-- /.content-wrap -->
+
+  <script src="../../script.js"></script>
+</body>
+</html>

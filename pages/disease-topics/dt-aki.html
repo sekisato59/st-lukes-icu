@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AKI：診断・管理・敗血症関連 | 聖路加ICU</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../style-v2.css">
+  <script src="../../site-config.js"></script>
+  <style>
+    .subpage-hero { background: linear-gradient(150deg, #3D1F00 0%, #B45309 55%, #D97706 100%) !important; }
+    .ie-badge { display:inline-block;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:20px;padding:4px 12px;font-size:0.72rem;font-weight:500;color:#fff;margin-right:6px;margin-top:8px; }
+
+    .content-wrap { display:flex;gap:32px;align-items:flex-start;max-width:1140px;margin:0 auto;padding:32px 20px 80px; }
+    .main-col { flex:1;min-width:0;max-width:900px; }
+    .ie-sidebar { width:220px;flex-shrink:0; }
+    .ie-sidebar-card { background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:16px;position:sticky;top:80px; }
+    .ie-sidebar-title { font-size:0.72rem;font-weight:800;color:var(--muted);letter-spacing:0.08em;margin-bottom:10px;text-transform:uppercase; }
+    .ie-toc-chapter { display:block;font-size:0.8rem;font-weight:700;color:var(--text);padding:6px 0;border-bottom:1px solid var(--border);text-decoration:none;line-height:1.4; }
+    .ie-toc-chapter:last-child { border-bottom:none;padding-bottom:0; }
+    .ie-toc-chapter:hover { color:#B45309; }
+    .ie-toc-section { display:block;font-size:0.75rem;color:var(--muted);padding:4px 0 4px 10px;text-decoration:none;line-height:1.4;border-left:2px solid var(--border); }
+    .ie-toc-section:hover { color:#B45309;border-left-color:#B45309; }
+    @media (max-width:900px) { .ie-sidebar { display:none; } .content-wrap { max-width:860px; } }
+
+    .ie-table { width:100%;border-collapse:collapse;font-size:0.82rem;margin-top:10px; }
+    .ie-table th { background:#FFFBEB;border:1px solid #FDE68A;padding:8px 12px;font-weight:700;font-size:0.78rem;text-align:left; }
+    .ie-table td { border:1px solid var(--border);padding:8px 12px;vertical-align:top;line-height:1.7; }
+    .ie-table tr:nth-child(even) td { background:#F8FAFC; }
+
+    .ie-flow { display:flex;flex-direction:column;gap:0; }
+    .ie-flow-item { display:flex;align-items:flex-start;gap:14px;background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:14px 16px; }
+    .ie-flow-arrow { text-align:center;color:#B45309;font-size:1.1rem;font-weight:700;padding:4px 0; }
+    .ie-flow-num { width:28px;height:28px;border-radius:50%;background:#B45309;color:#fff;font-size:0.78rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0; }
+
+    .ie-stat-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px; }
+    @media (max-width:520px) { .ie-stat-grid { grid-template-columns:1fr 1fr; } }
+    .ie-stat { background:#FFFBEB;border:1px solid #FDE68A;border-radius:8px;padding:14px 12px;text-align:center; }
+    .ie-stat-val { font-size:1.25rem;font-weight:900;color:#B45309;line-height:1.3; }
+    .ie-stat-label { font-size:0.68rem;color:var(--muted);margin-top:5px;line-height:1.5; }
+
+    .ie-alpha { background:#F5F3FF;border:1px solid #DDD6FE;border-radius:8px;padding:2px;margin-top:10px; }
+    .ie-alpha-inner { padding:14px 16px; }
+    .ie-alpha-header { display:flex;align-items:center;gap:8px;margin-bottom:8px; }
+    .ie-alpha-badge { background:#7C3AED;color:#fff;font-size:0.65rem;font-weight:800;padding:2px 8px;border-radius:20px;letter-spacing:0.05em; }
+    .ie-alpha-title { font-size:0.85rem;font-weight:700;color:#4C1D95; }
+
+    .alert-yellow { background:#FFFBEB;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#92400E;line-height:1.7; }
+    .alert-green  { background:#F0FDF4;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#14532D;line-height:1.7; }
+    .alert-red    { background:#FEF2F2;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#7F1D1D;line-height:1.7; }
+
+    .ie-echo-grid { display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px; }
+    @media (max-width:520px) { .ie-echo-grid { grid-template-columns:1fr; } }
+    .ie-echo-box { background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:12px 14px; }
+    .ie-echo-name { font-size:0.8rem;font-weight:800;color:var(--text);margin-bottom:4px; }
+    .ie-echo-body { font-size:0.78rem;color:var(--muted);line-height:1.6; }
+
+    .dt-source { text-align:right;margin-top:-10px;margin-bottom:16px;padding-right:4px; }
+    .dt-source a { font-size:0.68rem;color:#9CA3AF;text-decoration:none;transition:color 0.15s; }
+    .dt-source a:hover { color:#2D7A4F; }
+    .dt-source::before { content:"出典：";font-size:0.65rem;color:#BFBFBF; }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="../../index.html" class="nav-logo">
+        <img src="../../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+        <span class="nav-logo-text">聖路加国際病院ICU</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="../../index.html" class="nav-link">ホーム</a></li>
+        <li><a href="../icu-policy.html" class="nav-link">ICUの方針</a></li>
+        <li><a href="../disease-topics.html" class="nav-link">疾患トピックス</a></li>
+        <li><a href="../articles-guidelines.html" class="nav-link">論文・GL</a></li>
+        <li><a href="../icu-core-conf.html" class="nav-link">コアカン</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="subpage-hero">
+    <div class="hero-content" style="max-width:860px;margin:0 auto;padding:36px 20px 32px;">
+      <div style="font-size:0.72rem;color:rgba(255,255,255,0.6);margin-bottom:6px;letter-spacing:0.08em;">NEPHROLOGY</div>
+      <h1 style="font-size:clamp(1.3rem,3vw,1.75rem);font-weight:900;color:#fff;line-height:1.35;margin-bottom:12px;">
+        AKI：診断・管理・敗血症関連
+      </h1>
+      <div>
+        <span class="ie-badge">疾患トピックス</span>
+        <span class="ie-badge">2本の収録GL/論文を統合</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== MAIN LAYOUT ===== -->
+  <div class="content-wrap">
+
+    <div class="main-col">
+
+      <!-- ============================== 章1：定義・分類・診断 ============================== -->
+      <div id="aki-def" style="background:linear-gradient(150deg,#3D1F00 0%,#B45309 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:0;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">定義・分類・診断</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Definition, Classification &amp; Diagnosis</div>
+      </div>
+
+      <h3 id="aki-s1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+        <span style="color:#B45309;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+        KDIGO 2026 AKI定義：機能＋構造の2軸
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">2026年版AKI定義（いずれか1つ以上、7日以内の発症）</h3>
+          <p class="rule-body" style="margin-bottom:12px;">2012年版との最大の違いは、<span class="mark-red"><strong>「構造的基準」（バイオマーカー上昇）が診断基準に正式に追加</strong></span>されたことである。クレアチニン・尿量に基づく機能的基準のみでは、AKIの見落としが生じうるため、構造的マーカーとの組み合わせが推奨される。</p>
+          <table class="ie-table">
+            <thead><tr><th style="width:50%;">機能的基準（Functional Criteria）</th><th>構造的基準（Structural Criteria）</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>
+                  <strong>① SCr ≥0.3 mg/dl 上昇</strong>（48時間以内）<br>
+                  <strong>② SCr ≥1.5倍上昇</strong>（7日以内）<br>
+                  <strong>③ 血清シスタチンC ≥1.5倍上昇</strong>（7日以内）<br>
+                  <strong>④ 尿量 &lt;0.5 ml/kg/h（理想体重基準）</strong>が6時間以上
+                </td>
+                <td>
+                  <strong>臨床的に妥当性が承認されたバイオマーカーの上昇</strong>（7日以内）<br><br>
+                  例：尿TIMP-2・IGFBP7、NGAL、KIM-1、L-FABP等
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="alert-yellow" style="margin-top:12px;">
+            <strong>臨床的意義：</strong>シスタチンCは筋肉量・クレアチン摂取・妊娠の影響を受けず、SCrより早期にAKIを検出できる。<span class="mark-yellow">SCrが不正確な状況（筋萎縮、妊娠、肝不全、大量輸液後）では積極的に活用</span>すべき（推奨 2B）。
+          </div>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-kdigo-aki2026.html#aki1-s1">KDIGO 2026 AKI GL ▸ AKI定義の2026年改訂</a></div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">AKIステージング：C・U・Bの3軸評価</h3>
+          <p class="rule-body" style="margin-bottom:10px;">2026年版では、SCr（C軸）・尿量（U軸）に加え、<span class="mark-red"><strong>バイオマーカー（B軸）が第3軸として追加</strong></span>された。3軸の組み合わせにより、AKIの重症度をより精緻に表現する。</p>
+          <table class="ie-table">
+            <thead><tr><th>軸</th><th>Stage</th><th>基準</th></tr></thead>
+            <tbody>
+              <tr><td rowspan="3"><strong>SCr（C軸）</strong></td><td><span class="mark-yellow"><strong>C1</strong></span></td><td>SCr ≥0.3 mg/dl 上昇 または 1.5〜1.9倍上昇</td></tr>
+              <tr><td><span class="mark-orange"><strong>C2</strong></span></td><td>SCr 2〜2.9倍上昇</td></tr>
+              <tr><td><span class="mark-red"><strong>C3</strong></span></td><td>SCr ≥3.0倍上昇、または ≥4.0 mg/dl、またはRRT開始</td></tr>
+              <tr><td rowspan="3"><strong>尿量（U軸）</strong></td><td><span class="mark-yellow"><strong>U1</strong></span></td><td>&lt;0.5 ml/kg/h で6〜12時間</td></tr>
+              <tr><td><span class="mark-orange"><strong>U2</strong></span></td><td>&lt;0.5 ml/kg/h で12時間以上</td></tr>
+              <tr><td><span class="mark-red"><strong>U3</strong></span></td><td>&lt;0.3 ml/kg/h で24時間以上、または12時間以上の無尿</td></tr>
+              <tr><td><strong>バイオマーカー（B軸）</strong></td><td>B0 / <span class="mark-red">B1</span></td><td>腎障害バイオマーカー 陰性 / <span class="mark-red">陽性</span></td></tr>
+            </tbody>
+          </table>
+          <div class="alert-green" style="margin-top:12px;">
+            <strong>臨床的意義：</strong>C1B1（SCr 軽度上昇 + バイオマーカー陽性）の患者は、C1B0（バイオマーカー陰性）より<strong>予後が悪く、より積極的な腎保護戦略の対象となりうる</strong>。
+          </div>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-kdigo-aki2026.html#aki1-s2">KDIGO 2026 AKI GL ▸ AKIステージング（3軸分類）</a></div>
+
+      <h3 id="aki-s2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+        一過性 vs 持続性AKI・AKDの概念
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">一過性AKI vs 持続性AKI</h3>
+          <table class="ie-table">
+            <thead><tr><th>分類</th><th>定義</th><th>臨床的意味</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><strong>一過性AKI</strong></td>
+                <td>SCr・シスタチンC上昇または尿量減少が<span class="mark-green"><strong>≤48時間</strong></span></td>
+                <td>多くは前腎性（補液・昇圧剤で改善）。予後は比較的良好。</td>
+              </tr>
+              <tr>
+                <td><strong>持続性AKI</strong></td>
+                <td>同上が<span class="mark-red"><strong>>48時間〜7日以内</strong></span></td>
+                <td>腎実質障害（ATI等）を示唆。RRT必要性・死亡リスクが高い。</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-kdigo-aki2026.html#aki1-s2">KDIGO 2026 AKI GL ▸ 一過性vs持続性AKI</a></div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">AKD（急性腎疾患）：AKI後3ヶ月までの概念</h3>
+          <p class="rule-body" style="margin-bottom:10px;">AKDはAKIより広い概念であり、AKIの回復期から亜急性腎障害まで包含する（持続期間 ≤3ヶ月）。機能的基準（GFR &lt;60 ml/min/1.73m²、SCrがbaselineから&gt;50%上昇等）または構造的基準（アルブミン尿、血尿等の腎障害マーカー）のいずれかを満たす。</p>
+          <div class="alert-green" style="margin-top:10px;">
+            <strong>AKDの臨床的意義：</strong>「AKIは治った」だけでなく、<strong>AKI後の亜急性期をAKDとして追跡することで、CKD移行リスクを早期に層別化できる</strong>。AKI後3ヶ月で腎機能を必ず再評価する。
+          </div>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-kdigo-aki2026.html#aki1-s3">KDIGO 2026 AKI GL ▸ AKDの定義とAKI解消の定義</a></div>
+
+
+      <!-- ============================== 章2：リスク評価とバイオマーカー ============================== -->
+      <div id="aki-risk" style="background:linear-gradient(150deg,#3D1F00 0%,#B45309 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">リスク評価とバイオマーカー</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Risk Assessment &amp; Biomarkers</div>
+      </div>
+
+      <h3 id="aki-s3" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+        <span style="color:#B45309;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>
+        フロセミドストレステスト（FST）
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">FST：AKI進行リスクの評価（推奨 2C）</h3>
+          <p class="rule-body" style="margin-bottom:10px;">Stage 1〜2 AKIかつ正常〜過剰体液の患者に限定して施行する。低血圧・脱水患者には禁忌。</p>
+          <div class="ie-flow">
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">1</div>
+              <div style="flex:1;"><p class="rule-body"><strong>対象：</strong>Stage 1または2のAKIで、<span class="mark-yellow">正常体液（euvolemic）または体液過剰（hypervolemic）</span>の患者。</p></div>
+            </div>
+            <div class="ie-flow-arrow">↓</div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">2</div>
+              <div style="flex:1;"><p class="rule-body"><strong>投与：</strong>フロセミド <span class="mark-red"><strong>1 mg/kg（ループ系既使用者は1.5 mg/kg）</strong></span>を静注。</p></div>
+            </div>
+            <div class="ie-flow-arrow">↓</div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">3</div>
+              <div style="flex:1;"><p class="rule-body"><strong>判定（成人）：</strong>投与後2時間の尿量が<span class="mark-red"><strong>&lt;200 ml → Stage 3 AKI（RRT含む）への進行リスクが高い</strong></span>（陽性）。</p></div>
+            </div>
+            <div class="ie-flow-arrow">↓</div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">4</div>
+              <div style="flex:1;"><p class="rule-body"><strong>FSTが陽性だったら：</strong>腎保護バンドルの強化、電解質・SCrの頻回モニタリング、腎臓内科コンサルト、RRT準備を早めに開始する。</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-kdigo-aki2026.html#aki2-s2">KDIGO 2026 AKI GL ▸ FSTとKeGFR</a> / <a href="../articles-gl-sa-aki2023.html#sa-aki-s8">SA-AKI ADQI 2023 ▸ 主要マーカー一覧</a></div>
+
+      <h3 id="aki-s4" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+        <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 4</span>
+        Kinetic eGFR・バイオマーカーの臨床的活用
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">Kinetic eGFR（KeGFR）：非定常状態でのGFR推定（推奨 2B）</h3>
+          <p class="rule-body">急速にSCrが変動しているAKI患者では、通常のeGFR式は steady-state を仮定しているため<span class="mark-red"><strong>実際のGFRを過大評価（SCr急上昇時）または過小評価（回復時）する</strong></span>。薬剤投与量の決定・昇圧剤/RRT判断に KeGFR を活用する。2〜3時点のSCrが必要。</p>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-kdigo-aki2026.html#aki2-s2">KDIGO 2026 AKI GL ▸ Kinetic eGFR</a></div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">AKIバイオマーカーの分類と使い分け</h3>
+          <p class="rule-body" style="margin-bottom:10px;">SA-AKIの診断においても、機能的マーカー・ストレスマーカー・組織障害関連バイオマーカーをKDIGO定義（SCr・UO基準）と組み合わせて補完的に使用することが推奨される。</p>
+          <table class="ie-table">
+            <thead><tr><th>分類</th><th>代表的マーカー</th><th>特徴・用途</th><th>承認状況</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><strong>機能的マーカー</strong></td>
+                <td>シスタチンC</td>
+                <td>eGFR推定；SCrより早期に変化、筋肉量の影響なし</td>
+                <td>FDA承認</td>
+              </tr>
+              <tr>
+                <td><strong>腎ストレスマーカー</strong></td>
+                <td>尿TIMP-2・IGFBP7（NephroCheck）</td>
+                <td>G1/G0期細胞周期停止を反映；AKI進行予測；術後4〜5時間で上昇</td>
+                <td>FDA/CE承認</td>
+              </tr>
+              <tr>
+                <td><strong>腎傷害マーカー</strong></td>
+                <td>NGAL（尿・血漿）</td>
+                <td>尿細管傷害を反映；AKI発症4〜6時間で上昇。敗血症・炎症でも上昇するためICUでの単独使用は限定的</td>
+                <td>CE承認（欧州）</td>
+              </tr>
+              <tr>
+                <td><strong>腎傷害マーカー</strong></td>
+                <td>KIM-1（尿）</td>
+                <td>近位尿細管傷害；12〜24時間後に上昇</td>
+                <td>FDA前臨床承認</td>
+              </tr>
+              <tr>
+                <td><strong>持続マーカー</strong></td>
+                <td>CCL14（尿）</td>
+                <td>重症AKIの持続予測（AKI発症36時間内）</td>
+                <td>CE承認（欧州）</td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="rule-body" style="margin-top:12px;">尿NGAL・TIMP-2/IGFBP7は、<span class="mark-green"><strong>SCr陰性・NGAL陽性（サブクリニカルAKI）</strong></span>の患者でも透析必要・院内死亡リスクが高いことが示されている。</p>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-kdigo-aki2026.html#aki2-s3">KDIGO 2026 AKI GL ▸ バイオマーカー</a> / <a href="../articles-gl-sa-aki2023.html#sa-aki-s7">SA-AKI ADQI 2023 ▸ バイオマーカーの役割</a></div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">ベースラインアルブミン尿（UACR）の意義（推奨 1B）</h3>
+          <p class="rule-body">AKI発症リスクが高い患者（ICU入室、術前）では、<span class="mark-yellow"><strong>入院時にアルブミン尿（尿ACR）を評価することを推奨</strong></span>。アルブミン尿高値はAKIの独立した危険因子であり、腎保護戦略強化の根拠となる。</p>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-kdigo-aki2026.html#aki2-s3">KDIGO 2026 AKI GL ▸ ベースラインアルブミン尿</a></div>
+
+
+      <!-- ============================== 章3：急性期管理 ============================== -->
+      <div id="aki-mgmt" style="background:linear-gradient(150deg,#3D1F00 0%,#B45309 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">急性期管理：輸液・血圧・薬剤</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Acute Management: Fluids, Hemodynamics &amp; Medications</div>
+      </div>
+
+      <h3 id="aki-s5" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+        <span style="color:#B45309;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 5</span>
+        輸液の種類と血行動態管理
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">輸液：コロイドよりクリスタロイド（推奨 1B）</h3>
+          <p class="rule-body" style="margin-bottom:10px;"><span class="mark-red"><strong>コロイドよりクリスタロイドを推奨（1B）。</strong></span>ヒドロキシエチルデンプン（HES）は腎毒性のエビデンスが最も強く、AKI患者・リスク患者への使用は禁忌に近い。</p>
+          <table class="ie-table">
+            <thead><tr><th>輸液</th><th>推奨</th><th>根拠</th></tr></thead>
+            <tbody>
+              <tr><td><span class="mark-green"><strong>緩衝液（乳酸リンゲル、酢酸リンゲル等）</strong></span></td><td><span class="mark-green">推奨 1B</span></td><td>代謝性アシドーシスの予防。AKI・RRT・死亡リスク低下。</td></tr>
+              <tr><td><strong>生理食塩水（0.9% NaCl）</strong></td><td><span class="mark-red">ICU・手術患者では避ける</span></td><td>高塩素性アシドーシス、腎血管収縮。AKIリスク上昇。</td></tr>
+              <tr><td><strong>アルブミン</strong></td><td>選択的に使用</td><td>SA-AKIでは有益な可能性あり（grade 1C）。</td></tr>
+              <tr><td><strong>HES・ゼラチン・デキストラン</strong></td><td><span class="mark-red">禁忌に準ずる（grade 1A）</span></td><td>直接的腎毒性。RRT必要率・死亡率上昇。</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-kdigo-aki2026.html#aki3-s1">KDIGO 2026 AKI GL ▸ 輸液管理</a> / <a href="../articles-gl-sa-aki2023.html#sa-aki-s5">SA-AKI ADQI 2023 ▸ 輸液の種類</a></div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">MAP目標と低用量ドパミン禁忌</h3>
+          <p class="rule-body" style="margin-bottom:10px;">AKIリスク患者・AKI患者では<span class="mark-red"><strong>MAP ≥65 mmHg を目標</strong></span>とする（推奨 2B）。慢性高血圧患者ではMAP ≥75〜80 mmHgを考慮。MAP目標だけでなく、組織灌流の指標（乳酸値、尿量、ScvO2等）を組み合わせて評価する。</p>
+          <div class="alert-red" style="margin-top:10px;">
+            <strong>低用量ドパミンは禁忌（推奨 1A）：</strong><span class="mark-red"><strong>腎保護目的での低用量ドパミン（renal dose dopamine）の使用は推奨しない。</strong></span>複数のRCTにより有益性がないことが確立されており、不整脈・腸管虚血などの有害事象のリスクがある。
+          </div>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-kdigo-aki2026.html#aki3-s2">KDIGO 2026 AKI GL ▸ 血行動態管理</a></div>
+
+      <h3 id="aki-s6" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 6</span>
+        利尿薬の位置づけ・薬剤性腎障害予防
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">利尿薬：体液過剰の管理に使用（推奨 2B）</h3>
+          <p class="rule-body" style="margin-bottom:10px;"><span class="mark-green"><strong>臨床的に有意な体液過剰（volume overload）のある患者では利尿薬（主にループ系）の使用を推奨</strong></span>。ただしAKI自体の予防・治療目的での使用には有益性がない。初期はボーラス投与から開始し反応を評価する。体液過剰の初期管理として、RRTより利尿薬を先行することを推奨（1B）。</p>
+          <div class="ie-stat-grid">
+            <div class="ie-stat">
+              <div class="ie-stat-val">0.72x</div>
+              <div class="ie-stat-label">RRT必要率の低下<br>（プロトコル化利尿薬 vs 通常管理）</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">ボーラス</div>
+              <div class="ie-stat-label">初期投与は<br>持続投与より推奨（PP）</div>
+            </div>
+            <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+              <div class="ie-stat-val" style="color:#DC2626;">注意</div>
+              <div class="ie-stat-label">AKI確立後の利尿薬<br>→ 死亡・RRTに差なし</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-kdigo-aki2026.html#aki3-s3">KDIGO 2026 AKI GL ▸ 利尿薬の適正使用</a></div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">薬剤性腎障害予防：腎毒性スチュワードシップ（推奨 1C）</h3>
+          <p class="rule-body" style="margin-bottom:10px;">AKIリスク患者・AKI患者に対し、多面的アプローチによる薬剤スチュワードシップを実施する。</p>
+          <div class="ie-flow">
+            <div class="ie-flow-item"><div class="ie-flow-num">1</div><div style="flex:1;"><p class="rule-body"><strong>腎毒性薬剤の中止・代替：</strong>可能であれば中止。より腎毒性の低い代替薬への変更を検討。</p></div></div>
+            <div class="ie-flow-item"><div class="ie-flow-num">2</div><div style="flex:1;"><p class="rule-body"><strong>投与量減量：</strong>直接的腎毒性で用量依存性の場合、最小有効量へ。</p></div></div>
+            <div class="ie-flow-item"><div class="ie-flow-num">3</div><div style="flex:1;"><p class="rule-body"><strong>TDM（治療薬物モニタリング）：</strong>バンコマイシン・アミノグリコシド・カルシニューリン阻害薬等では必須。</p></div></div>
+            <div class="ie-flow-item"><div class="ie-flow-num">4</div><div style="flex:1;"><p class="rule-body"><strong>シックデイプロトコル（推奨 2D）：</strong>脱水を来しやすい急性疾患時はRASi・SGLT2i・NSAIDs・利尿薬を一時中止。再開時期を計画・記録する。</p></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-kdigo-aki2026.html#aki4-s1">KDIGO 2026 AKI GL ▸ 薬剤スチュワードシップ</a> / <a href="../articles-gl-kdigo-aki2026.html#aki4-s3">KDIGO 2026 AKI GL ▸ シックデイプロトコル</a></div>
+
+
+      <!-- ============================== 章4：SA-AKI ============================== -->
+      <div id="aki-saaki" style="background:linear-gradient(150deg,#3D1F00 0%,#B45309 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">敗血症関連AKI（SA-AKI）</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Sepsis-Associated Acute Kidney Injury</div>
+      </div>
+
+      <h3 id="aki-s7" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+        <span style="color:#B45309;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 7</span>
+        SA-AKIの定義・疫学・早期vs後期
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">SA-AKIの定義</h3>
+          <p class="rule-body"><span class="mark-red"><strong>SA-AKI（敗血症関連急性腎障害）は「Sepsis-3 の敗血症診断基準を満たし、かつ敗血症診断から7日以内にKDIGO基準に合致するAKIが発生した状態」</strong></span>と定義される。SA-AKIは敗血症に直接起因するメカニズムだけでなく、敗血症関連の治療（腎毒性薬、輸液、昇圧薬）に起因する腎障害も含む広い概念である。一方、「敗血症誘発性AKI（SI-AKI）」はSA-AKIのサブフェノタイプであり、敗血症が腎障害の主要ドライバーとなる状態を指す。</p>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-sa-aki2023.html#sa-aki-s1">SA-AKI ADQI 2023 ▸ SA-AKIの定義</a></div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">早期 vs 後期 SA-AKI</h3>
+          <div class="ie-echo-grid">
+            <div class="ie-echo-box">
+              <div class="ie-echo-name">早期 SA-AKI</div>
+              <div class="ie-echo-body">敗血症診断から<strong>48時間以内</strong>に発症するAKI。未治療の敗血症や治療早期段階で多く、SI-AKIの可能性が高い。</div>
+            </div>
+            <div class="ie-echo-box">
+              <div class="ie-echo-name">後期 SA-AKI</div>
+              <div class="ie-echo-body">敗血症診断から<strong>48時間〜7日以内</strong>に発症するAKI。敗血症治療介入後に生じ、治療関連因子（輸液、薬剤等）の関与を念頭に置く。</div>
+            </div>
+          </div>
+          <div class="ie-stat-grid" style="margin-top:12px;">
+            <div class="ie-stat">
+              <div class="ie-stat-val">45〜70%</div>
+              <div class="ie-stat-label">重症患者のAKIのうち<br>敗血症関連の割合</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">14〜87%</div>
+              <div class="ie-stat-label">敗血症患者における<br>SA-AKI発生率の報告範囲</div>
+            </div>
+            <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+              <div class="ie-stat-val" style="color:#DC2626;">11〜77%</div>
+              <div class="ie-stat-label">SA-AKIの<br>死亡率の報告範囲</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-sa-aki2023.html#sa-aki-s1">SA-AKI ADQI 2023 ▸ SA-AKI定義</a> / <a href="../articles-gl-sa-aki2023.html#sa-aki-s2">SA-AKI ADQI 2023 ▸ 疫学</a></div>
+
+      <h3 id="aki-s8" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 8</span>
+        SA-AKIの複合的病態メカニズム
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">SA-AKIの発症機序：多因子・不均質な症候群</h3>
+          <p class="rule-body" style="margin-bottom:10px;">SA-AKIは<span class="mark-red"><strong>複数のメカニズムが複合的に関与する不均質な症候群</strong></span>であり、個々の患者間・敗血症経過中を通じて損傷への相対的寄与度が異なる。主要な病態生理メカニズムには以下が含まれる。</p>
+          <table class="ie-table">
+            <thead><tr><th>メカニズム</th><th>概要</th></tr></thead>
+            <tbody>
+              <tr><td><strong>免疫調節・炎症</strong></td><td>PAMPs・DAMPsによる免疫系の過剰活性化</td></tr>
+              <tr><td><strong>補体活性化</strong></td><td>腎臓の炎症・直接組織障害への補体系の関与</td></tr>
+              <tr><td><strong>RAAS調節異常</strong></td><td>腎血流・糸球体内圧の調節障害</td></tr>
+              <tr><td><strong>ミトコンドリア機能不全</strong></td><td>細胞エネルギー代謝の破綻</td></tr>
+              <tr><td><strong>微小循環障害</strong></td><td>腎微小循環の灌流障害による虚血様変化</td></tr>
+              <tr><td><strong>大循環異常</strong></td><td>心拍出量・腎動脈圧の変動による腎灌流不全</td></tr>
+            </tbody>
+          </table>
+          <p class="rule-body" style="margin-top:10px;">腎組織障害後の転帰は「適応的修復」（尿細管上皮の再分化・GFR回復）と「不適応的修復」（尿細管萎縮・間質線維化・CKD移行）に分かれる。修正可能因子（薬剤・輸液・昇圧薬）への介入がSA-AKI感受性・回復に影響する。</p>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-sa-aki2023.html#sa-aki-s3">SA-AKI ADQI 2023 ▸ SA-AKI発症メカニズム</a></div>
+
+      <h3 id="aki-s9" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+        <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 9</span>
+        SA-AKIの輸液管理・昇圧薬選択
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">SA-AKIの血行動態管理（SSCガイドラインに準拠）</h3>
+          <p class="rule-body" style="margin-bottom:10px;">SA-AKIにおける血行動態管理はSSCガイドラインに準じて行う（grade 2C）。<span class="mark-red"><strong>CVP（中心静脈圧）はSA-AKIにおける体液過剰のマーカーとして不確実であり</strong></span>、輸液必要性の指標としては使用しない（grade 1C）。動的指標（一回拍出量変動・パッシブ・レッグ・レイズ等）を用いるべきである。</p>
+          <p class="rule-body" style="margin-top:8px;">毎日の体液バランスと累積体液バランスの測定（grade 1C）、輸液量を特定のエンドポイントに対してターゲット設定すること（grade 1B）が推奨される。体液過剰は死亡率上昇と関連し、輸液の4フェーズ（蘇生・最適化・安定化・離脱）の概念に沿って管理する。</p>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-sa-aki2023.html#sa-aki-s4">SA-AKI ADQI 2023 ▸ 輸液量・モニタリング</a></div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">昇圧薬の選択</h3>
+          <div class="ie-echo-grid">
+            <div class="ie-echo-box">
+              <div class="ie-echo-name">ノルエピネフリン（第一選択、grade 1A）</div>
+              <div class="ie-echo-body">臓器障害を伴う敗血症の第一選択。昇圧薬と輸液の併用で輸液節約効果が得られる可能性あり（grade 1C）。</div>
+            </div>
+            <div class="ie-echo-box">
+              <div class="ie-echo-name">バソプレシン・アンジオテンシン2（grade 2B）</div>
+              <div class="ie-echo-body">特定のSA-AKIサブタイプ（低アンジオテンシン2型等）で有益な可能性。VASST・ATHOS-3二次解析で示唆。</div>
+            </div>
+          </div>
+          <div class="alert-yellow" style="margin-top:10px;">
+            <strong>利尿薬の使用（grade 1C）：</strong>体液過剰患者への利尿薬使用を推奨。AKI重症度によっては高用量が必要な場合あり。
+          </div>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-sa-aki2023.html#sa-aki-s6">SA-AKI ADQI 2023 ▸ 昇圧薬・利尿薬</a></div>
+
+
+      <!-- ============================== 章5：RRT/KRT ============================== -->
+      <div id="aki-rrt" style="background:linear-gradient(150deg,#3D1F00 0%,#B45309 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">腎代替療法（RRT/KRT）</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Renal Replacement Therapy</div>
+      </div>
+
+      <h3 id="aki-s10" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+        <span style="color:#B45309;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 10</span>
+        RRT開始タイミングとモダリティ選択
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">待機的（deferred）RRT戦略が推奨（推奨 1C）</h3>
+          <p class="rule-body" style="margin-bottom:10px;"><span class="mark-red"><strong>成人AKI患者では、早期（予防的）RRT開始より待機的RRT開始戦略を推奨。</strong></span>AKIKI・IDEAL-ICU・STARRT-AKI等の大規模RCTで早期RRTは予後を改善せず、合併症（感染・低血圧・自発的腎機能回復機会の喪失）が増加する。SA-AKIに特化したIDEAL-ICU試験でも早期vs標準開始で生存ベネフィットに差はなかった。</p>
+          <div class="ie-echo-grid">
+            <div class="ie-echo-box">
+              <div class="ie-echo-name">緊急RRT適応（即座に開始）</div>
+              <div class="ie-echo-body">
+                <strong>薬剤難治性体液過剰</strong>（肺水腫）<br>
+                <strong>高K血症</strong>（K ≥6.5 mEq/L or 心毒性所見）<br>
+                <strong>重症代謝性アシドーシス</strong>（pH &lt;7.1 難治性）<br>
+                <strong>尿毒症症状</strong>（心膜炎・脳症・出血傾向）
+              </div>
+            </div>
+            <div class="ie-echo-box">
+              <div class="ie-echo-name">血行動態不安定時のモダリティ</div>
+              <div class="ie-echo-body">
+                <strong>CRRT（CVVH/CVVHD/CVVHDF）</strong>が第一選択（推奨 2C）<br>
+                <strong>PIRRT（SLED/EDD）</strong>：CRRT代替、コスト中程度<br>
+                <strong>急性PD</strong>：CRRT非利用環境・抗凝固禁忌<br>
+                <strong>IHD</strong>：血行動態安定後・離脱確認時
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-kdigo-aki2026.html#aki5-s1">KDIGO 2026 AKI GL ▸ RRT開始タイミング</a> / <a href="../articles-gl-sa-aki2023.html#sa-aki-s9">SA-AKI ADQI 2023 ▸ KRTの適応</a></div>
+
+      <h3 id="aki-s11" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 11</span>
+        CRRT用量・抗凝固・離脱基準
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">CRRT用量：20〜25 ml/kg/h が標準（推奨 1B）</h3>
+          <p class="rule-body" style="margin-bottom:10px;"><span class="mark-green"><strong>CRRT処方は 20〜25 ml/kg/h（エフルエント量）を標準用量とする。</strong></span>高容量（≥35 ml/kg/h）は有益でなく有害事象（低血圧・低リン血症・不整脈）が増加する。肥満患者（BMI ≥30）では理想体重または調整体重を用いて計算する。</p>
+          <div class="ie-stat-grid">
+            <div class="ie-stat">
+              <div class="ie-stat-val">20〜25</div>
+              <div class="ie-stat-label">CRRT標準用量<br>ml/kg/h（エフルエント量）</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">Kt/V 3.9</div>
+              <div class="ie-stat-label">IRRT/PIRRT 週あたり<br>標準クリアランス目標</div>
+            </div>
+            <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+              <div class="ie-stat-val" style="color:#DC2626;">禁止</div>
+              <div class="ie-stat-label">高容量血液濾過（HVHF）<br>敗血症・敗血症性ショックで</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-kdigo-aki2026.html#aki5-s3">KDIGO 2026 AKI GL ▸ RRT用量</a></div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">CRRT抗凝固：局所クエン酸が第一選択（推奨 1B）</h3>
+          <p class="rule-body" style="margin-bottom:10px;"><span class="mark-green"><strong>クエン酸禁忌でなければ、ヘパリンより局所クエン酸抗凝固を推奨。</strong></span>回路寿命の延長・出血リスク低下で優れている。</p>
+          <table class="ie-table">
+            <thead><tr><th>抗凝固</th><th>適応</th><th>注意</th></tr></thead>
+            <tbody>
+              <tr><td><span class="mark-green"><strong>局所クエン酸（第一選択）</strong></span></td><td>CRRTの標準（禁忌なければ全例）</td><td>肝不全・高乳酸血症・ショックではクエン酸蓄積リスク</td></tr>
+              <tr><td>未分画ヘパリン（UFH）</td><td>クエン酸非利用・禁忌時の代替</td><td>出血リスク。HIT非使用。</td></tr>
+              <tr><td>ナファモスタット</td><td>出血リスク例のクエン酸代替</td><td>高カリウム血症に注意</td></tr>
+              <tr><td>アルガトロバン等</td><td>HIT急性期のRRT</td><td>HIT発症時の第一選択</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-kdigo-aki2026.html#aki5-s4">KDIGO 2026 AKI GL ▸ 抗凝固（クエン酸）</a></div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">RRT離脱の判断基準</h3>
+          <p class="rule-body" style="margin-bottom:10px;">AKIが十分に回復した証拠がある場合、またはゴール・オブ・ケアに沿わなくなった場合にRRTを中止する。</p>
+          <div class="ie-echo-grid">
+            <div class="ie-echo-box">
+              <div class="ie-echo-name">成人の離脱予測指標</div>
+              <div class="ie-echo-body">
+                利尿薬なしで尿量 <strong>&gt;450 ml/24h</strong><br>
+                利尿薬使用で尿量 <strong>&gt;2300 ml/24h</strong><br>
+                2時間クレアチニンクリアランス <strong>≥23 ml/min</strong><br>
+                電解質・酸塩基・代謝廃棄物が安定
+              </div>
+            </div>
+            <div class="ie-echo-box">
+              <div class="ie-echo-name">CRRT→IHD 移行の目安</div>
+              <div class="ie-echo-body">
+                血行動態が安定（昇圧剤減量・中止可能）<br>
+                頭蓋内圧亢進リスクが解消<br>
+                人工呼吸器離脱が進んでいる
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-kdigo-aki2026.html#aki5-s5">KDIGO 2026 AKI GL ▸ RRT離脱</a></div>
+
+      <div class="ie-alpha">
+        <div class="ie-alpha-inner">
+          <div class="ie-alpha-header">
+            <span class="ie-alpha-badge">+α</span>
+            <span class="ie-alpha-title">SA-AKIにおける免疫調節目的の体外血液浄化（EBP）</span>
+          </div>
+          <p class="rule-body" style="color:#4C1D95;">EBPの開始は腎臓サポートの必要性だけでなく、明確な臨床的・生物学的基準（DAMPs/PAMPs高値・全身性炎症のターゲット分子の高濃度）を満たす患者での免疫調節サポートとして考慮してもよい。ポリミキシンBへモアドソープション（2時間x2日間）は安全性は確認されたが生存ベネフィットは未確立であり、エンドトキシン活性アッセイ（EAA）0.6〜0.9の患者では有望な可能性が示唆されている。現時点では確定的推奨はできない。</p>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-sa-aki2023.html#sa-aki-s10">SA-AKI ADQI 2023 ▸ 免疫調節EBP</a></div>
+
+
+      <!-- ============================== SUMMARY ============================== -->
+      <h3 id="aki-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+        <span style="color:#B45309;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+        AKI：診断・管理・敗血症関連のキーメッセージ
+      </h3>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+              <span class="rule-body"><strong>KDIGO 2026の3軸ステージング：</strong>SCr（C）・尿量（U）にバイオマーカー（B）軸が追加された。B1（バイオマーカー陽性）は予後不良のサインとして捉え、腎保護を強化する。シスタチンCはSCrが不正確な状況で積極的に活用する。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+              <span class="rule-body"><strong>輸液は緩衝液、低用量ドパミンは禁忌：</strong>ICU・手術患者では生食より緩衝液を使用（1B）。HES・ゼラチンは禁忌に準ずる（1A）。腎保護目的の低用量ドパミンは使用しない（1A）。MAP ≥65 mmHgを基本とし個別化する。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+              <span class="rule-body"><strong>SA-AKIは多因子性・不均質：</strong>Sepsis-3 + KDIGO基準で定義。48時間以内を早期（SI-AKI主体）、48時間〜7日を後期と分類する。ノルエピネフリンが第一選択昇圧薬（grade 1A）。CVPは輸液指標に使わない。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+              <span class="rule-body"><strong>RRTは待機的戦略を推奨：</strong>早期・予防的RRTは予後を改善しない（1C）。CRRT用量は20〜25 ml/kg/h、抗凝固はクエン酸が第一選択（1B）。高容量血液濾過は敗血症で禁止。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+              <span class="rule-body"><strong>RRT離脱と退院後フォロー：</strong>利尿薬なし尿量 &gt;450 ml/日が離脱予測指標。AKI後3ヶ月でSCr/eGFRとアルブミン尿を必ず再評価し、CKD移行の有無を確認する。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 出典注記 -->
+      <p style="font-size:0.72rem;color:#9CA3AF;margin-top:32px;line-height:1.7;">
+        本ページは以下の収録GL/論文の要約ページの内容を統合して作成しています：<br>
+        ・<a href="../articles-gl-kdigo-aki2026.html" style="color:#60A5FA;">KDIGO 2026 AKI/AKD ガイドライン</a><br>
+        ・<a href="../articles-gl-sa-aki2023.html" style="color:#60A5FA;">SA-AKI コンセンサスレポート ADQI 28th（Nature Reviews Nephrology 2023）</a><br>
+        本資料は教育目的で作成したサマリーです。診断・治療方針の決定には必ず原典ガイドラインを参照してください。
+      </p>
+      <p style="font-size:0.75rem;color:var(--muted);text-align:right;margin-top:8px;">制作：ICU 関谷</p>
+
+    </div><!-- /.main-col -->
+
+    <!-- ── サイドバー目次 ── -->
+    <aside class="ie-sidebar">
+      <div class="ie-sidebar-card">
+        <div class="ie-sidebar-title">目次</div>
+
+        <a href="#aki-def" class="ie-toc-chapter">定義・分類・診断</a>
+        <a href="#aki-s1" class="ie-toc-section">S1 — AKI定義（2026改訂）</a>
+        <a href="#aki-s2" class="ie-toc-section">S2 — 一過性vs持続性・AKD</a>
+
+        <a href="#aki-risk" class="ie-toc-chapter">リスク評価・バイオマーカー</a>
+        <a href="#aki-s3" class="ie-toc-section">S3 — FST</a>
+        <a href="#aki-s4" class="ie-toc-section">S4 — KeGFR・バイオマーカー</a>
+
+        <a href="#aki-mgmt" class="ie-toc-chapter">急性期管理</a>
+        <a href="#aki-s5" class="ie-toc-section">S5 — 輸液・血行動態</a>
+        <a href="#aki-s6" class="ie-toc-section">S6 — 利尿薬・薬剤管理</a>
+
+        <a href="#aki-saaki" class="ie-toc-chapter">SA-AKI</a>
+        <a href="#aki-s7" class="ie-toc-section">S7 — 定義・疫学</a>
+        <a href="#aki-s8" class="ie-toc-section">S8 — 病態メカニズム</a>
+        <a href="#aki-s9" class="ie-toc-section">S9 — 輸液・昇圧薬</a>
+
+        <a href="#aki-rrt" class="ie-toc-chapter">RRT/KRT</a>
+        <a href="#aki-s10" class="ie-toc-section">S10 — 開始・モダリティ</a>
+        <a href="#aki-s11" class="ie-toc-section">S11 — 用量・抗凝固・離脱</a>
+
+        <a href="#aki-summary" class="ie-toc-chapter">SUMMARY</a>
+      </div>
+    </aside>
+
+  </div><!-- /.content-wrap -->
+
+  <script src="../../script.js"></script>
+</body>
+</html>
