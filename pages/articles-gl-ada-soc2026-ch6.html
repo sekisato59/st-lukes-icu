@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ADA SoC 2026 第6章 血糖目標・低血糖・高血糖クリーゼ | 聖路加ICU</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style-v2.css">
+  <script src="../site-config.js"></script>
+  <style>
+    .subpage-hero { background: linear-gradient(150deg, #1A3A2A 0%, #2D7A4F 55%, #3D9B65 100%) !important; }
+    .ie-badge { display:inline-block;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:20px;padding:4px 12px;font-size:0.72rem;font-weight:500;color:#fff;margin-right:6px;margin-top:8px; }
+    .ie-page-flex { display:flex;gap:32px;align-items:flex-start; }
+    .ie-main-col { flex:1;max-width:900px;min-width:0; }
+    .ie-sidebar { width:220px;flex-shrink:0;position:sticky;top:80px;align-self:flex-start;max-height:calc(100vh - 100px);overflow-y:auto; }
+    .ie-sidebar-card { background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:16px; }
+    .ie-sidebar-title { font-size:0.82rem;font-weight:800;margin-bottom:10px;color:var(--text); }
+    .ie-sidebar-card a.ie-toc-chapter { display:block;font-size:0.78rem;font-weight:700;color:var(--text);text-decoration:none;padding:3px 0;line-height:1.5; }
+    .ie-sidebar-card a.ie-toc-section { display:block;font-size:0.72rem;color:var(--muted);text-decoration:none;padding:3px 0;padding-left:12px;line-height:1.5; }
+    .ie-sidebar-card a:hover { color:#2D7A4F; }
+    @media (max-width:900px) { .ie-sidebar { display:none; } .ie-page-flex { display:block; } }
+    .ie-table { width:100%;border-collapse:collapse;font-size:0.82rem;line-height:1.7;margin-top:10px; }
+    .ie-table th { background:#F0FDF4;border:1px solid #BBF7D0;padding:8px 12px;font-weight:700;font-size:0.78rem;text-align:left; }
+    .ie-table td { border:1px solid var(--border);padding:8px 12px;vertical-align:top;line-height:1.7; }
+    .ie-table tr:nth-child(even) td { background:#F8FAFC; }
+    .ie-stat-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px; }
+    @media (max-width:520px) { .ie-stat-grid { grid-template-columns:1fr 1fr; } }
+    .ie-stat { background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;padding:14px 12px;text-align:center; }
+    .ie-stat-val { font-size:1.25rem;font-weight:900;color:#2D7A4F;line-height:1.3; }
+    .ie-stat-label { font-size:0.68rem;color:var(--muted);margin-top:5px;line-height:1.5; }
+    .ie-flow { display:flex;flex-direction:column;gap:0; }
+    .ie-flow-item { display:flex;align-items:flex-start;gap:14px;background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:14px 16px; }
+    .ie-flow-arrow { text-align:center;color:#2D7A4F;font-size:1.1rem;font-weight:700;padding:4px 0; }
+    .ie-flow-num { width:28px;height:28px;border-radius:50%;background:#2D7A4F;color:#fff;font-size:0.78rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0; }
+    .ie-alpha { background:#F5F3FF;border:1px solid #DDD6FE;border-radius:8px;padding:2px;margin-top:10px; }
+    .ie-alpha-inner { padding:14px 16px; }
+    .ie-alpha-header { display:flex;align-items:center;gap:8px;margin-bottom:8px; }
+    .ie-alpha-badge { background:#7C3AED;color:#fff;font-size:0.65rem;font-weight:800;padding:2px 8px;border-radius:20px;letter-spacing:0.05em; }
+    .ie-alpha-title { font-size:0.85rem;font-weight:700;color:#4C1D95; }
+    .ie-echo-grid { display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px; }
+    @media (max-width:520px) { .ie-echo-grid { grid-template-columns:1fr; } }
+    .ie-echo-box { border:1px solid var(--border);border-radius:8px;padding:14px 16px;background:#F8FAFC; }
+    .ie-echo-name { font-size:0.8rem;font-weight:700;color:var(--text);margin-bottom:6px; }
+    .ie-echo-body { font-size:0.78rem;color:var(--muted);line-height:1.8; }
+    .alert-yellow { background:#FFFBEB;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#92400E;line-height:1.7; }
+    .alert-green  { background:#F0FDF4;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#14532D;line-height:1.7; }
+    .alert-red    { background:#FEF2F2;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#7F1D1D;line-height:1.7; }
+    .ie-score-grid { display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px; }
+    @media (max-width:640px) { .ie-score-grid { grid-template-columns:1fr; } }
+    .ie-score-card { background:#F8FAFC;border:1px solid var(--border);border-radius:8px;overflow:hidden; }
+    .ie-score-head { background:#2D7A4F;color:#fff;padding:8px 14px;font-size:0.82rem;font-weight:800;letter-spacing:0.03em; }
+    .ie-score-items { padding:10px 14px; }
+    .ie-score-item { display:flex;align-items:baseline;gap:8px;padding:4px 0;border-bottom:1px solid var(--border);font-size:0.8rem;line-height:1.5; }
+    .ie-score-item:last-child { border-bottom:none; }
+    .ie-score-pt { flex-shrink:0;background:#E0F2E9;color:#2D7A4F;font-size:0.68rem;font-weight:800;padding:1px 6px;border-radius:10px;letter-spacing:0.03em; }
+    .ie-score-foot { background:#F0FDF4;border-top:1px solid #BBF7D0;padding:8px 14px;font-size:0.78rem;color:#14532D;line-height:1.6; }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="../index.html" class="nav-logo">
+        <img src="../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+        <span class="nav-logo-text">聖路加国際病院ICU</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="../index.html#intro" class="nav-link">はじめに</a></li>
+        <li><a href="../index.html#schedule" class="nav-link">スケジュール</a></li>
+        <li><a href="../index.html#rules" class="nav-link">ICUの方針</a></li>
+        <li><a href="../index.html#learning" class="nav-link">学習・評価</a></li>
+        <li><a href="articles-guidelines.html" class="nav-link">論文・GL</a></li>
+        <li><a href="disease-topics.html" class="nav-link">疾患・症候</a></li>
+        <li><a href="../index.html#faq" class="nav-link">FAQ</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <div class="subpage-hero">
+    <div class="container">
+      <p style="font-size:0.78rem;color:rgba(255,255,255,0.6);margin-bottom:8px;">
+        <a href="articles-guidelines.html" style="color:rgba(255,255,255,0.6);text-decoration:none;">論文・GL一覧</a> &rsaquo; 血糖目標・低血糖・高血糖クリーゼ
+      </p>
+      <h1 style="font-size:1.5rem;font-weight:900;color:#fff;line-height:1.4;margin-bottom:12px;">
+        ADA Standards of Care in Diabetes—2026<br>
+        <span style="font-size:1.1rem;font-weight:700;opacity:0.9;">第6章：血糖目標・低血糖・高血糖クリーゼ</span>
+      </h1>
+      <div>
+        <span class="ie-badge">ADA 2026</span>
+        <span class="ie-badge">Diabetes Care</span>
+        <span class="ie-badge">2026年1月</span>
+      </div>
+      <p style="font-size:0.78rem;color:rgba(255,255,255,0.55);margin-top:10px;">Diabetes Care 2026;49(Suppl. 1):S132–S149</p>
+    </div>
+  </div>
+
+  <!-- ===== CONTENT ===== -->
+  <div class="container" style="padding-top:32px;padding-bottom:80px;">
+    <div class="ie-page-flex">
+
+      <!-- ===== MAIN ===== -->
+      <div class="ie-main-col">
+
+        <!-- 略語一覧 -->
+        <div class="card" style="margin-bottom:24px;">
+          <div class="card-inner">
+            <h3 class="rule-title" style="margin-bottom:10px;">本ページで使用する略語一覧</h3>
+            <table style="width:100%;border-collapse:collapse;font-size:0.8rem;line-height:1.6;">
+              <tbody>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">略語</td><td style="padding:4px 8px;">正式名称 — 日本語訳</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">A1C / HbA1c</td><td style="padding:4px 8px;">Glycated Hemoglobin A1c — ヘモグロビンA1c（過去2〜3か月の平均血糖を反映）</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">BGM</td><td style="padding:4px 8px;">Blood Glucose Monitoring — 血糖自己測定（指先穿刺）</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CGM</td><td style="padding:4px 8px;">Continuous Glucose Monitoring — 持続血糖モニタリング</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">TIR</td><td style="padding:4px 8px;">Time in Range — 目標範囲内時間（70〜180 mg/dL）</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">TBR</td><td style="padding:4px 8px;">Time Below Range — 目標範囲下時間（低血糖時間）</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">TAR</td><td style="padding:4px 8px;">Time Above Range — 目標範囲上時間（高血糖時間）</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">GMI</td><td style="padding:4px 8px;">Glucose Management Indicator — 血糖管理指標（CGMデータからA1Cを近似算出）</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CV</td><td style="padding:4px 8px;">Coefficient of Variation — 変動係数（血糖変動の指標）</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">eAG</td><td style="padding:4px 8px;">Estimated Average Glucose — 推定平均血糖値（mg/dL）</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">DKA</td><td style="padding:4px 8px;">Diabetic Ketoacidosis — 糖尿病性ケトアシドーシス</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">HHS</td><td style="padding:4px 8px;">Hyperglycemic Hyperosmolar State — 高浸透圧高血糖状態</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">GLP-1 RA</td><td style="padding:4px 8px;">Glucagon-Like Peptide-1 Receptor Agonist — GLP-1受容体作動薬</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">SGLT2i</td><td style="padding:4px 8px;">Sodium-Glucose Cotransporter-2 Inhibitor — SGLT2阻害薬</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">DCCT</td><td style="padding:4px 8px;">Diabetes Control and Complications Trial — 糖尿病コントロールと合併症試験（T1DM、強化療法 vs 従来療法）</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">EDIC</td><td style="padding:4px 8px;">Epidemiology of Diabetes Interventions and Complications — DCCTコホートの長期追跡研究</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">UKPDS</td><td style="padding:4px 8px;">UK Prospective Diabetes Study — T2DMにおける長期血糖管理RCT</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">ACCORD</td><td style="padding:4px 8px;">Action to Control Cardiovascular Risk in Diabetes — T2DM強化血糖管理とCV転帰RCT（3.5年で中断）</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">ADVANCE</td><td style="padding:4px 8px;">Action in Diabetes and Vascular Disease: Preterax and Diamicron MR Controlled Evaluation</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">VADT</td><td style="padding:4px 8px;">Veterans Affairs Diabetes Trial</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">AID</td><td style="padding:4px 8px;">Automated Insulin Delivery — 自動インスリン投与システム（クローズドループ）</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CVD</td><td style="padding:4px 8px;">Cardiovascular Disease — 心血管疾患</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CKD</td><td style="padding:4px 8px;">Chronic Kidney Disease — 慢性腎臓病</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">eGFR</td><td style="padding:4px 8px;">estimated Glomerular Filtration Rate — 推定糸球体濾過量</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">ADAG</td><td style="padding:4px 8px;">A1C-Derived Average Glucose study — A1C-平均血糖相関を検証した国際研究（n=507）</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">T1DM</td><td style="padding:4px 8px;">Type 1 Diabetes Mellitus — 1型糖尿病</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">T2DM</td><td style="padding:4px 8px;">Type 2 Diabetes Mellitus — 2型糖尿病</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">DSMES</td><td style="padding:4px 8px;">Diabetes Self-Management Education and Support — 糖尿病自己管理教育・支援</td></tr>
+                <tr><td style="padding:4px 8px;font-weight:700;color:var(--blue);">AWP / NADAC</td><td style="padding:4px 8px;">Average Wholesale Price / National Average Drug Acquisition Cost — 薬価の指標（米国）</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ===== CHAPTER 1 ===== -->
+        <div id="ch1" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:0;margin-bottom:0;">
+          <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+          <div style="font-size:1.3rem;font-weight:900;position:relative;">第1章 血糖評価</div>
+          <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Assessment of Glycemic Status</div>
+        </div>
+
+        <h3 id="ch1-a1c" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+          <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+          A1Cによる血糖評価
+        </h3>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">A1C：最重要の血糖評価ツール</h3>
+            <p class="rule-body">A1Cは臨床および臨床試験において血糖状態を評価する主要ツールであり、糖尿病合併症と強く関連する。A1Cは過去約2〜3か月間の平均血糖を反映する。NGSP（National Glycohemoglobin Standardization Program）認定アッセイの測定精度は全般的に高く、すべての糖尿病患者において初診時および継続ケアの一環として定期的に測定すべきである。</p>
+            <p class="rule-body" style="margin-top:8px;">測定頻度の目安：目標範囲内で安定している患者では年2回で十分。血糖コントロールが不安定、集中的な治療計画中、または目標未達の患者は3か月ごと（必要に応じてより頻繁に）の測定が推奨される。ポイントオブケアA1C測定は受診中にタイムリーな治療調整を可能にするが、検査室測定より精度が劣る場合がある。</p>
+            <div class="alert-yellow" style="margin-top:10px;"><strong>A1C精度に影響する病態：</strong>溶血性貧血・G6PD欠損・輸血後・エリスロポエチン製剤・腎不全・妊娠などでA1Cの解釈が困難になる。鎌状赤血球症（HbSS）や他のホモ接合型ヘモグロビン変異ではHbAが存在しないためA1Cは測定不可。</div>
+            <p class="rule-body" style="margin-top:8px;">A1Cは血糖変動・リアルタイム血糖・低血糖を直接反映しない。T1DMやインスリン欠乏型T2DMでは、BGMまたはCGMとA1Cを組み合わせた評価が最適。A1Cと血糖モニタリング結果の乖離は、高い血糖変動、不正確な測定、またはA1Cに影響する因子に起因する可能性がある。</p>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">フルクトサミン・グリコアルブミン — A1C代替測定法</h3>
+            <p class="rule-body">フルクトサミン（総グリコシル化血清タンパク質）とグリコアルブミンは、A1Cの解釈が困難な場合に使用できる血糖評価の代替指標として承認されている。血清タンパクのターンオーバー速度により、どちらも過去2〜4週間の血糖を反映する（A1Cの2〜3か月より短期間）。両者は疫学的コホート研究で長期合併症との関連が示されているが、臨床試験は少なく、A1Cに比べてエビデンス基盤は弱い。A1Cの解釈が問題となる病態やA1Cが測定不可の患者（例：ホモ接合型Hbバリアント）に有用な選択肢となる。</p>
+          </div>
+        </div>
+
+        <h3 id="ch1-adag" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+          <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+          A1C–推定平均血糖換算（ADAG試験）
+        </h3>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">A1Cと推定平均血糖（eAG）の対応表</h3>
+            <p class="rule-body">ADAG（A1C-Derived Average Glucose）試験（n=507名、T1DM・T2DM・非糖尿病、3か月間に約2,700回の血糖測定）でA1Cと平均血糖の相関（r=0.92）が確認され、A1C検査時にeAGを併記することが推奨されている。</p>
+            <table class="ie-table" style="margin-top:10px;">
+              <thead><tr><th>A1C（%）</th><th>A1C（mmol/mol）</th><th>eAG（mg/dL）</th></tr></thead>
+              <tbody>
+                <tr><td><strong>5%</strong></td><td>31</td><td>97（76〜120）</td></tr>
+                <tr><td><strong>6%</strong></td><td>42</td><td>126（100〜152）</td></tr>
+                <tr><td><strong>7%</strong></td><td>53</td><td>154（123〜185）</td></tr>
+                <tr><td><strong>8%</strong></td><td>64</td><td>183（147〜217）</td></tr>
+                <tr><td><strong>9%</strong></td><td>75</td><td>212（170〜249）</td></tr>
+                <tr><td><strong>10%</strong></td><td>86</td><td>240（193〜282）</td></tr>
+                <tr><td><strong>11%</strong></td><td>97</td><td>269（217〜314）</td></tr>
+                <tr><td><strong>12%</strong></td><td>108</td><td>298（240〜347）</td></tr>
+              </tbody>
+            </table>
+            <p style="font-size:0.72rem;color:var(--muted);margin-top:6px;">括弧内は95%CI。Adapted from Nathan et al.</p>
+          </div>
+        </div>
+
+        <h3 id="ch1-cgm" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+          <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>
+          CGM指標と臨床目標値
+        </h3>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">CGM指標：非妊娠T1DM・T2DM成人の臨床目標</h3>
+            <p class="rule-body">CGMは低血糖リスクのある患者、特にT1DMで有用性が高い。10〜14日間のCGMアセスメント（装着率70%以上）により血糖状態を評価できる。TIRはA1Cと強く相関し（TIR &gt;70% ≒ A1C〜7%）、実臨床での治療判断に活用される。</p>
+            <div class="ie-stat-grid">
+              <div class="ie-stat">
+                <div class="ie-stat-val">&gt;70%</div>
+                <div class="ie-stat-label">TIR 70〜180 mg/dL<br>目標（多くの成人）</div>
+              </div>
+              <div class="ie-stat">
+                <div class="ie-stat-val">&lt;4%</div>
+                <div class="ie-stat-label">TBR &lt;70 mg/dL<br>目標（多くの成人）</div>
+              </div>
+              <div class="ie-stat">
+                <div class="ie-stat-val">&lt;1%</div>
+                <div class="ie-stat-label">TBR &lt;54 mg/dL<br>目標（全成人）</div>
+              </div>
+            </div>
+            <table class="ie-table" style="margin-top:14px;">
+              <thead><tr><th>指標</th><th>目標（多くの成人）</th><th>目標（高齢・複合的健康状態）</th></tr></thead>
+              <tbody>
+                <tr><td>装着日数</td><td>≥14日間</td><td>≥14日間</td></tr>
+                <tr><td>アクティブ率</td><td>14日中70%以上</td><td>14日中70%以上</td></tr>
+                <tr><td>CV（変動係数）</td><td>≤36%</td><td>≤36%</td></tr>
+                <tr><td>TAR &gt;250 mg/dL（Level 2高血糖）</td><td>&lt;5%</td><td>&lt;10%</td></tr>
+                <tr><td>TAR &gt;180 mg/dL（Level 1高血糖）</td><td>&lt;25%</td><td>&lt;50%（L1+L2合計）</td></tr>
+                <tr><td>TIR 70〜180 mg/dL</td><td>&gt;70%</td><td>&gt;50%</td></tr>
+                <tr><td>TBR &lt;70 mg/dL（Level 1低血糖）</td><td>&lt;4%</td><td>&lt;1%（L1+L2合計）</td></tr>
+                <tr><td>TBR &lt;54 mg/dL（Level 2低血糖）</td><td>&lt;1%</td><td>&lt;1%</td></tr>
+              </tbody>
+            </table>
+            <p style="font-size:0.72rem;color:var(--muted);margin-top:6px;">Adapted from Battelino et al. 国際CGMコンセンサス。CV&lt;33%でインスリン・スルホニルウレア使用患者の低血糖追加予防が示唆されている。</p>
+          </div>
+        </div>
+
+        <!-- SUMMARY ch1 -->
+        <h3 id="ch1-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+          <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+          第1章のキーメッセージ
+        </h3>
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+                <span class="rule-body"><strong>A1Cが主要指標：</strong>すべての糖尿病患者で定期測定（安定時は年2回、目標未達・治療変更時は3か月ごと）。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+                <span class="rule-body"><strong>A1C代替：</strong>溶血性貧血・腎不全・鎌状赤血球症など解釈が困難な場合はフルクトサミンまたはCGMを使用する。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+                <span class="rule-body"><strong>eAG換算：</strong>A1C 7%≒eAG 154 mg/dL、A1C 8%≒183 mg/dL（ADAG試験、r=0.92）。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+                <span class="rule-body"><strong>CGM目標（多くの成人）：</strong>TIR &gt;70%、TBR &lt;70 mg/dL は&lt;4%、TBR &lt;54 mg/dL は&lt;1%、CV≤36%。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+                <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+                <span class="rule-body"><strong>高齢者・複合的健康状態：</strong>TIR目標を&gt;50%に緩和、TBR &lt;70 mg/dL は&lt;1%（低血糖予防優先）。</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== CHAPTER 2 ===== -->
+        <div id="ch2" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+          <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+          <div style="font-size:1.3rem;font-weight:900;position:relative;">第2章 血糖目標値</div>
+          <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Glycemic Goals</div>
+        </div>
+
+        <h3 id="ch2-targets" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+          <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+          非妊娠成人の血糖目標（標準値）
+        </h3>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">Table 6.3 — 非妊娠成人の血糖目標サマリー</h3>
+            <div class="ie-stat-grid">
+              <div class="ie-stat">
+                <div class="ie-stat-val">&lt;7.0%</div>
+                <div class="ie-stat-label">A1C目標<br>（多くの非妊娠成人）</div>
+              </div>
+              <div class="ie-stat">
+                <div class="ie-stat-val">80〜130</div>
+                <div class="ie-stat-label">前食事時血漿血糖<br>mg/dL</div>
+              </div>
+              <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+                <div class="ie-stat-val" style="color:#DC2626;">&lt;180</div>
+                <div class="ie-stat-label">食後最高血漿血糖<br>mg/dL（食事開始1〜2時間後）</div>
+              </div>
+            </div>
+            <p class="rule-body" style="margin-top:12px;">これらの目標値は個人の糖尿病罹患期間・年齢・余命・併存疾患・既知のCVDや微小血管合併症・低血糖無自覚・個別の状況を考慮して調整する（下記 Fig. 6.1 参照）。食後血糖は食事前目標を達成しているにもかかわらずA1C目標が達成できない場合に特別な注意を要する。</p>
+          </div>
+        </div>
+
+        <h3 id="ch2-individualize" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+          <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+          血糖目標の個別化（Figure 6.1）
+        </h3>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">個別化の枠組み：健康状態による層別化</h3>
+            <p class="rule-body">血糖目標はすべての個人において個別化された人中心の戦略に組み込む必要がある。以下の3層に大きく分けて目標を設定し、修正因子（下表）に応じてさらに調整する。</p>
+            <table class="ie-table" style="margin-top:10px;">
+              <thead><tr><th>患者群</th><th>A1C目標</th><th>TIR目標</th></tr></thead>
+              <tbody>
+                <tr><td>良好な健康状態・低治療リスク・低治療負担</td><td>&lt;6.5%</td><td>—</td></tr>
+                <tr><td>多くの成人（標準）</td><td>&lt;7.0%</td><td>&gt;70%</td></tr>
+                <tr><td>高齢者（健康）</td><td>&lt;7.0〜7.5%</td><td>&gt;70%</td></tr>
+                <tr><td>高齢者（複合的/中等度健康状態）</td><td>&lt;8.0%</td><td>&gt;50%</td></tr>
+                <tr><td>高齢者（非常に複雑/不良健康状態）・余命限定</td><td>A1C目標なし（症状回避）</td><td>—</td></tr>
+              </tbody>
+            </table>
+            <p class="rule-body" style="margin-top:12px;"><strong>修正因子：</strong>より厳格な目標を支持する因子（糖尿病罹患期間が短い・低低血糖リスク・CVD合併なし・少数の軽微な併存疾患・CVや腎や体重への薬効）、より緩やかな目標を支持する因子（罹患期間が長い・高い低血糖リスク・高治療負担・非glycemic効果のない薬剤・確立したCVD・重篤な生命を制限する併存疾患）。</p>
+            <div class="alert-red" style="margin-top:10px;"><strong>重要：</strong>重篤または頻繁な低血糖はインスリンまたはインスリン分泌促進剤を含む治療計画の修正（より高い血糖目標の設定を含む）の絶対的適応となる。</div>
+          </div>
+        </div>
+
+        <h3 id="ch2-evidence" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+          <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>
+          エビデンス：血糖管理と合併症リスク
+        </h3>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">微小血管合併症：DCCT / UKPDS</h3>
+            <p class="rule-body">DCCTはT1DM患者において強化療法（平均A1C〜7%）対従来療法（平均A1C〜9%）を比較し、微小血管合併症（網膜症・神経障害・慢性腎臓病）の発症・進行が50〜76%抑制されることを示した。DCCTコホートのEDIC追跡では、治療グループ間の血糖差が消失した後も2年以上にわたり微小血管への有益効果が持続した（レガシー効果／代謝記憶）。KumamotoおよびUKPDS試験はT2DMにおける早期血糖管理の長期的な微小血管合併症低減効果を示し、UKPDSの20年追跡では心筋梗塞・全死亡率の低下も確認された。</p>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">心血管アウトカム：ACCORD / ADVANCE / VADT と後続研究</h3>
+            <p class="rule-body">ACCORD・ADVANCE・VADTはT2DM患者（平均罹患8〜11年、CVDまたは高リスク）において、血糖正常化に近い強化管理が心血管アウトカムを改善するかを検討した。いずれも複合CV転帰の有意な改善は示されず、<span class="mark-red"><strong>ACCORDは3.5年でインターベンション群の死亡率増加（特に突然心臓死）により早期中断された。</strong></span></p>
+            <p class="rule-body" style="margin-top:8px;">これらの試験の個人データメタ解析では、強化管理対非強化管理で心筋梗塞と主要CVイベントの有意な減少が示されたが、脳卒中・心不全・死亡率に差はなかった。DCCT/EDICの30年追跡では、過去の強化治療割付けグループで主要CVイベントが32%減少した。</p>
+            <div class="alert-yellow" style="margin-top:10px;"><strong>重要な注意点：</strong>これらのランドマーク試験はGLP-1 RA・SGLT2iが登場する前に実施され、強化管理はインスリンや他の薬剤の多用で達成された。低血糖リスクの高い薬剤を用いて血糖を正常域に近づけることへの過度な試みは避けるべきである。</div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">GLP-1 RA / SGLT2i：血糖目標と独立した心腎保護</h3>
+            <p class="rule-body">GLP-1 RA・dual GIP/GLP-1 RA・SGLT2iは低血糖を起こさず血糖を下げることができるため、多くの患者でより低い血糖目標を低い低血糖リスクで達成可能にした。これらの薬剤の心腎保護効果は体重減少・血行動態効果・血圧降下・抗炎症作用など、血糖降下以外のメカニズムによる可能性がある。したがって確立したCVD・CKD・心不全・肥満を有するT2DM患者には、現在のA1CやA1C目標・メトホルミン使用状況とは独立してこれらの薬剤の導入を検討する。</p>
+          </div>
+        </div>
+
+        <!-- SUMMARY ch2 -->
+        <h3 id="ch2-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+          <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+          第2章のキーメッセージ
+        </h3>
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+                <span class="rule-body"><strong>標準目標：</strong>多くの非妊娠成人でA1C &lt;7%、食前血糖80〜130 mg/dL、食後最高 &lt;180 mg/dL。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+                <span class="rule-body"><strong>目標の個別化：</strong>健康状態・低血糖リスク・治療負担・余命・患者希望に応じて A1C 6.5〜「目標なし」まで幅広く設定する。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+                <span class="rule-body"><strong>微小血管：</strong>DCCT（50〜76%減少）・UKPDSが強化血糖管理の微小血管合併症予防効果を証明。レガシー効果も確認。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+                <span class="rule-body"><strong>心血管：</strong>ACCORDはインスリン多用による強化管理で死亡率増加→低血糖リスク薬使用時の過剰な血糖正常化は避ける。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+                <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+                <span class="rule-body"><strong>GLP-1 RA・SGLT2i：</strong>心腎保護はA1C改善とは独立している→CVD/CKD/心不全合併T2DMでは現在のA1Cに関わらず導入を検討。</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== CHAPTER 3 ===== -->
+        <div id="ch3" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+          <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+          <div style="font-size:1.3rem;font-weight:900;position:relative;">第3章 低血糖の評価・予防・治療</div>
+          <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Hypoglycemia Assessment, Prevention, and Treatment</div>
+        </div>
+
+        <h3 id="ch3-class" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+          <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+          低血糖の分類（Level 1 / 2 / 3）
+        </h3>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">低血糖分類（Table 6.4）</h3>
+            <p class="rule-body">低血糖はT1DMおよびT2DMの血糖管理において主要な制限因子である。臨床的に重要な血糖値として70 mg/dLが閾値とされ、症状の有無によらずLevel 1として対応する。</p>
+            <table class="ie-table" style="margin-top:10px;">
+              <thead><tr><th>分類</th><th>血糖基準</th><th>臨床的特徴</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><strong>Level 1</strong><br><span style="font-size:0.75rem;color:var(--muted);">警戒値</span></td>
+                  <td>&lt;70 mg/dL<br>かつ ≥54 mg/dL</td>
+                  <td>70 mg/dLは非糖尿病者でアドレナリン反応が始まる閾値。CGM低血糖アラート値。症状（振戦・不機嫌・混乱・頻脈・発汗・空腹感）があれば対処、症状がなくても臨床的に重要。</td>
+                </tr>
+                <tr>
+                  <td><strong>Level 2</strong><br><span style="font-size:0.75rem;color:var(--muted);">要即時対応</span></td>
+                  <td>&lt;54 mg/dL</td>
+                  <td>神経糖不足症状が始まる閾値。症状がなければ低血糖無自覚の疑いがある→治療計画の見直し必要。</td>
+                </tr>
+                <tr>
+                  <td><strong>Level 3</strong><br><span style="font-size:0.75rem;color:var(--muted);">重篤</span></td>
+                  <td>血糖値不問</td>
+                  <td>精神的および/または身体的機能の変化を伴い、回復に他者の援助が必要な重篤なイベント。意識消失・痙攣・昏睡・死亡へと進行しうる。</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="alert-red" style="margin-top:10px;"><strong>Level 2 / 3 低血糖の影響：</strong>ACCORDおよびADVANCE試験でLevel 3低血糖と死亡率の関連が確認されている。転倒・交通事故など急性外傷のリスクもある。Level 2/3の繰り返しは緊急の医学的問題であり、治療計画の修正が必要。</div>
+          </div>
+        </div>
+
+        <h3 id="ch3-risk" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+          <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+          低血糖リスク評価（Table 6.5）
+        </h3>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">低血糖リスク因子の層別化</h3>
+            <p class="rule-body">低血糖リスクのある個人とは、インスリン・スルホニルウレア（SU）・メグリチニドで治療中の患者。このうち「高リスク」は1つ以上の主要リスク因子、または複数の他のリスク因子を持つ患者。</p>
+            <div class="ie-score-grid">
+              <div class="ie-score-card">
+                <div class="ie-score-head">臨床的・生物学的 主要リスク因子</div>
+                <div class="ie-score-items">
+                  <div class="ie-score-item"><span class="ie-score-pt">主</span>最近（3〜6か月以内）のLevel 2/3低血糖</div>
+                  <div class="ie-score-item"><span class="ie-score-pt">主</span>強化インスリン療法（MDI・CSII・AID）</div>
+                  <div class="ie-score-item"><span class="ie-score-pt">主</span>低血糖無自覚（hypoglycemia unawareness）</div>
+                  <div class="ie-score-item"><span class="ie-score-pt">主</span>腎不全</div>
+                  <div class="ie-score-item"><span class="ie-score-pt">主</span>認知機能障害・認知症</div>
+                  <div class="ie-score-item"><span class="ie-score-pt">主</span>代謝手術の既往</div>
+                  <div class="ie-score-item"><span class="ie-score-pt">他</span>Level 1低血糖の多発</div>
+                  <div class="ie-score-item"><span class="ie-score-pt">他</span>基礎インスリン療法</div>
+                  <div class="ie-score-item"><span class="ie-score-pt">他</span>75歳以上</div>
+                  <div class="ie-score-item"><span class="ie-score-pt">他</span>女性</div>
+                  <div class="ie-score-item"><span class="ie-score-pt">他</span>高い血糖変動性</div>
+                  <div class="ie-score-item"><span class="ie-score-pt">他</span>多剤併用・CVD・CKD（eGFR &lt;60）</div>
+                  <div class="ie-score-item"><span class="ie-score-pt">他</span>神経障害・網膜症・うつ・重篤な精神疾患</div>
+                  <div class="ie-score-item"><span class="ie-score-pt">他</span>胃不全麻痺・β遮断薬使用</div>
+                </div>
+              </div>
+              <div class="ie-score-card">
+                <div class="ie-score-head">社会的・文化的・経済的リスク因子</div>
+                <div class="ie-score-items">
+                  <div class="ie-score-item"><span class="ie-score-pt">主</span>食料不安定（Food insecurity）</div>
+                  <div class="ie-score-item"><span class="ie-score-pt">主</span>低所得（または社会経済的剥奪地域に居住）</div>
+                  <div class="ie-score-item"><span class="ie-score-pt">主</span>住居不安定</div>
+                  <div class="ie-score-item"><span class="ie-score-pt">主</span>宗教的・文化的理由による絶食（断食）</div>
+                  <div class="ie-score-item"><span class="ie-score-pt">主</span>医療保険の不備（underinsurance）</div>
+                  <div class="ie-score-item"><span class="ie-score-pt">他</span>健康リテラシーの低さ</div>
+                  <div class="ie-score-item"><span class="ie-score-pt">他</span>アルコール・薬物乱用</div>
+                </div>
+                <div class="ie-score-foot">食料不安定は低血糖関連ER受診・入院の増加と関連。連邦栄養補助プログラムの強化で軽減が示されている。</div>
+              </div>
+            </div>
+            <p class="rule-body" style="margin-top:12px;"><strong>低血糖無自覚のスクリーニング：</strong>リスク患者には少なくとも年1回スクリーニングを実施。「血糖が低い時、いつでも感じることができますか？」のような単一質問で効率的に評価できる（Clarke・HypoA-Q等の詳細ツールも利用可能）。低血糖無自覚はLevel 3低血糖リスクを劇的に増大させる。</p>
+            <div class="alert-yellow" style="margin-top:10px;"><strong>SU＋抗菌薬の相互作用：</strong>フルオロキノロン・クラリスロマイシン・ST合剤・メトロニダゾール・フルコナゾールはSUの実効用量を著しく増加させ低血糖を誘発しうる。これらの投与時はSUの一時的な減量・休薬を検討する。</div>
+          </div>
+        </div>
+
+        <h3 id="ch3-treatment" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+          <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>
+          低血糖治療（15-15ルール）
+        </h3>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">低血糖治療の原則</h3>
+            <p class="rule-body">血糖≤70 mg/dL（低血糖アラート値）の意識のある患者には速効性炭水化物を摂取させる。15分後に血糖を再測定し、低血糖が持続していれば再度炭水化物を摂取する。意識がない・経口摂取不能な場合は救急要請。</p>
+            <div class="ie-flow">
+              <div class="ie-flow-item">
+                <div class="ie-flow-num">1</div>
+                <div style="flex:1;"><p class="rule-body"><strong>15gの速効性炭水化物を摂取</strong>（多くの患者）。AIDシステム使用者は通常5〜10gで十分（運動時や過剰ボーラス時を除く）。純粋なグルコースが最も速い効果。スクロース含有食品はアカルボース使用患者では効果が遅延するため使用不可（アカルボースはスクロース分解を阻害）。脂肪・タンパク質は初期治療に用いない（脂肪は吸収を遅延・延長、タンパク質はインスリン分泌促進）。</p></div>
+              </div>
+              <div class="ie-flow-arrow">↓</div>
+              <div class="ie-flow-item">
+                <div class="ie-flow-num">2</div>
+                <div style="flex:1;"><p class="rule-body"><strong>15分後に血糖再測定。</strong>低血糖持続 → 同量の炭水化物を再投与。</p></div>
+              </div>
+              <div class="ie-flow-arrow">↓</div>
+              <div class="ie-flow-item">
+                <div class="ie-flow-num">3</div>
+                <div style="flex:1;"><p class="rule-body"><strong>回復後も追加食事を検討。</strong>インスリンの継続効果やSUによる低血糖再発リスクがあるため。</p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">グルカゴン処方</h3>
+            <p class="rule-body">すべてのインスリン使用患者または低血糖高リスク患者にはグルカゴンを処方する。適切なグルカゴン処方率は現在の実臨床では非常に低く、積極的な処方が求められる。患者に近い者（家族・同居者・学校関係者・コーチ・介護者・職場の同僚等）はグルカゴンの保管場所・投与タイミング・方法について教育を受けるべきで、<span class="mark-red"><strong>低血糖患者に絶対にインスリンを投与してはならないことを明示する。</strong></span></p>
+            <p class="rule-body" style="margin-top:8px;">従来の粉末型（溶解が必要）に加え、鼻腔内投与型および注射済み型グルカゴン製剤が広く利用可能になり、より速い低血糖補正を実現するためこれらが推奨される。米国における代表的製品の価格（2025年7月時点）：</p>
+            <table class="ie-table" style="margin-top:8px;">
+              <thead><tr><th>製品</th><th>投与形式</th><th>用量</th><th>AWP（中央値）</th><th>NADAC（中央値）</th></tr></thead>
+              <tbody>
+                <tr><td>グルカゴン注射</td><td>粉末（溶解必要）</td><td>1 mg</td><td>$303</td><td>$242</td></tr>
+                <tr><td>グルカゴン鼻腔内</td><td>鼻腔内粉末</td><td>3 mg</td><td>$357</td><td>$285</td></tr>
+                <tr><td>グルカゴン注射</td><td>プレフィルドペン/シリンジ</td><td>0.5〜1 mg</td><td>$391</td><td>$303</td></tr>
+                <tr><td>ダシグルカゴン</td><td>プレフィルドペン/シリンジ</td><td>0.6 mg</td><td>$371</td><td>$298</td></tr>
+              </tbody>
+            </table>
+            <p style="font-size:0.72rem;color:var(--muted);margin-top:6px;">AWP=平均卸売価格、NADAC=国家平均薬剤取得コスト（30日分）。保険適用製品を優先的に処方すること。</p>
+          </div>
+        </div>
+
+        <h3 id="ch3-prevention" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+          <span style="color:#16A34A;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 4</span>
+          低血糖予防計画
+        </h3>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">多成分の低血糖予防計画（Table 6.7）</h3>
+            <p class="rule-body">低血糖予防は個人の低血糖歴とリスク因子の評価から始まる。以下のコンポーネントを初診・毎回の定期診察・年次診察に組み込む。</p>
+            <table class="ie-table" style="margin-top:10px;">
+              <thead><tr><th>予防アクション</th><th>初診</th><th>毎回フォロー</th><th>年次</th></tr></thead>
+              <tbody>
+                <tr><td>低血糖歴のアセスメント</td><td>✓</td><td>✓</td><td>✓</td></tr>
+                <tr><td>低血糖無自覚のスクリーニング</td><td>✓</td><td>—</td><td>✓</td></tr>
+                <tr><td>認知機能・他リスク因子評価</td><td>✓</td><td>—</td><td>✓</td></tr>
+                <tr><td>構造的な低血糖予防・治療教育*</td><td>✓</td><td>✓</td><td>✓</td></tr>
+                <tr><td>糖尿病テクノロジーのニーズ評価</td><td>✓</td><td>✓</td><td>✓</td></tr>
+                <tr><td>治療計画の再評価（減薬・薬剤変更）†</td><td>✓</td><td>✓</td><td>✓</td></tr>
+                <tr><td>インスリン使用者・高リスク者へのグルカゴン処方と訓練</td><td>✓</td><td>—</td><td>✓</td></tr>
+                <tr><td>低血糖無自覚改善トレーニング‡</td><td>✓</td><td>—</td><td>✓</td></tr>
+              </tbody>
+            </table>
+            <p style="font-size:0.72rem;color:var(--muted);margin-top:6px;">*繰り返し低血糖または低血糖リスク高い薬剤開始時に実施。†Level 2/3低血糖・急性疾患・相互作用薬開始時。‡低血糖無自覚検出時。</p>
+            <p class="rule-body" style="margin-top:10px;"><strong>CGMによる低血糖予防：</strong>CGMは無症状低血糖の検出・低血糖パターンの特定・下降アラートによる早期介入を可能にし、高リスク患者の低血糖率を臨床試験で低下させることが示されている。代謝手術後の低血糖軽減にも有効。</p>
+            <p class="rule-body" style="margin-top:8px;"><strong>低血糖無自覚の改善：</strong>数週間の低血糖完全回避（血糖目標の一時的緩和）により多くの患者で反調節ホルモン応答と低血糖自覚が改善する。エビデンスに基づいたトレーニングプログラムが存在し、T1DMでの低血糖率低下と生活の質改善が示されている。</p>
+          </div>
+        </div>
+
+        <!-- SUMMARY ch3 -->
+        <h3 id="ch3-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+          <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+          第3章のキーメッセージ
+        </h3>
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+                <span class="rule-body"><strong>分類：</strong>Level 1（&lt;70 mg/dL）・Level 2（&lt;54 mg/dL・要即時対応）・Level 3（他者援助が必要な重篤イベント）。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+                <span class="rule-body"><strong>高リスク因子：</strong>直近のLevel 2/3低血糖・強化インスリン療法・低血糖無自覚・腎不全・認知機能障害・食料不安定が主要因子。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+                <span class="rule-body"><strong>治療：</strong>15gの速効性炭水化物→15分後に再測定（15-15ルール）。脂肪・タンパク質は使わない。アカルボース使用者は純グルコースのみ。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+                <span class="rule-body"><strong>グルカゴン：</strong>すべてのインスリン使用者に処方必須。鼻腔内・プレフィルド型が従来粉末型より簡便で推奨。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+                <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+                <span class="rule-body"><strong>予防：</strong>CGMでパターン検出・SU+抗菌薬（FQ/クラリスロ/ST合剤等）の相互作用に注意。Level 2/3 → 治療計画の即時見直し。</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== CHAPTER 4 ===== -->
+        <div id="ch4" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+          <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+          <div style="font-size:1.3rem;font-weight:900;position:relative;">第4章 急性体調不良時（Intercurrent Illness）の管理</div>
+          <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Sick-Day Rules</div>
+        </div>
+
+        <h3 id="ch4-sickday" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+          <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+          急性疾患・外科手術・ストレス時の対処
+        </h3>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">急性体調不良時の原則</h3>
+            <p class="rule-body">急性疾患・外傷・手術などのストレスイベントは、特に基礎的な臨床的複雑性と多剤処方がある場合に、糖尿病患者の高血糖および低血糖リスクを高める。重篤な場合には高血糖クリーゼ（DKA・HHS）を誘発しうる。</p>
+            <div class="ie-echo-grid">
+              <div class="ie-echo-box">
+                <div class="ie-echo-name">休薬を検討する薬剤</div>
+                <div class="ie-echo-body">
+                  <strong>メトホルミン：</strong>経口摂取が維持できない場合、または急性腎障害（AKI）が懸念される場合は休薬<br>
+                  <strong>SGLT2阻害薬：</strong>同上（DKAリスクもあり）<br>
+                  <strong>GLP-1 RA：</strong>著しいGI症状を伴う急性疾患では休薬を検討<br>
+                  <strong>チアゾリジン：</strong>心不全増悪または体液過剰の病態では休薬（再開は個別に判断）
+                </div>
+              </div>
+              <div class="ie-echo-box">
+                <div class="ie-echo-name">継続・強化すること</div>
+                <div class="ie-echo-body">
+                  <strong>血糖モニタリング：</strong>より頻繁な測定<br>
+                  <strong>ケトン測定：</strong>ケトーシス傾向患者（T1DM等）は尿中または血中ケトン<br>
+                  <strong>基礎インスリン：</strong>食事をしていても中断しない（DKA予防に必須）<br>
+                  <strong>水分摂取：</strong>非カロリー水分を適切に補給
+                </div>
+              </div>
+            </div>
+            <div class="alert-yellow" style="margin-top:10px;"><strong>SU＋抗菌薬の組み合わせに再度注意：</strong>フルオロキノロン・クラリスロマイシン・ST合剤・メトロニダゾール・フルコナゾールはSUの効果を著しく増強し低血糖を誘発。体調不良でこれらの薬剤を処方する際はSUの一時的減量・休薬を検討する。</div>
+          </div>
+        </div>
+
+        <!-- SUMMARY ch4 -->
+        <h3 id="ch4-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+          <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+          第4章のキーメッセージ
+        </h3>
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+                <span class="rule-body"><strong>休薬：</strong>経口摂取不可・AKI懸念時はメトホルミン・SGLT2iを休薬。GI症状著しい場合はGLP-1 RAも検討。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+                <span class="rule-body"><strong>基礎インスリン継続：</strong>食事摂取がなくても基礎インスリンを中断しない（DKA予防の基本）。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+                <span class="rule-body"><strong>SU＋抗菌薬：</strong>FQ・クラリスロマイシン・ST合剤・メトロニダゾール・フルコナゾール処方時はSU減量・休薬を検討。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+                <span class="rule-body"><strong>モニタリング強化：</strong>より頻繁な血糖測定。T1DMなどケトーシス傾向患者はケトン測定を追加。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+                <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+                <span class="rule-body"><strong>チアゾリジン：</strong>心不全増悪や体液過剰病態では休薬し、再開は個別に判断する。</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== CHAPTER 5 ===== -->
+        <div id="ch5" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+          <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+          <div style="font-size:1.3rem;font-weight:900;position:relative;">第5章 高血糖クリーゼ — DKA・HHS</div>
+          <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Hyperglycemic Crises: Diagnosis, Management, and Prevention</div>
+        </div>
+
+        <h3 id="ch5-risk" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+          <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+          高血糖クリーゼのリスク因子（Table 6.8）
+        </h3>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">DKA・HHSの主要リスク因子</h3>
+            <p class="rule-body">DKAとHHSは重篤・急性・生命を脅かす高血糖緊急症であり、過去10年間でT1DM・T2DM双方で発症率が増加している。入院管理の詳細は第16章「病院での糖尿病ケア」で扱う。本章は外来管理・予防に焦点を当てる。</p>
+            <div class="ie-echo-grid">
+              <div class="ie-echo-box">
+                <div class="ie-echo-name">患者側リスク因子</div>
+                <div class="ie-echo-body">
+                  T1DM / 絶対的インスリン欠乏<br>
+                  若年齢<br>
+                  高血糖クリーゼの既往<br>
+                  低血糖クリーゼの既往<br>
+                  他の糖尿病合併症の存在<br>
+                  他の慢性疾患（特にT2DM）<br>
+                  精神・行動健康疾患（うつ・双極性障害・摂食障害）<br>
+                  アルコール・薬物乱用<br>
+                  高A1C<br>
+                  インスリン節約（Insulin rationing）<br>
+                  SGLT2阻害薬の使用<br>
+                  社会的決定要因（食料・住居・保険の不安定）
+                </div>
+              </div>
+              <div class="ie-echo-box">
+                <div class="ie-echo-name">DKAを誘発する薬剤</div>
+                <div class="ie-echo-body">
+                  グルココルチコイド<br>
+                  抗精神病薬<br>
+                  免疫チェックポイント阻害薬<br>
+                  <strong>SGLT2阻害薬</strong>（特にT1DM）<br><br>
+                  <strong>COVID-19感染：</strong>新規T1DM発症時にDKAが報告されている。機序は複雑で複数の相互作用メカニズムが関与。<br><br>
+                  <strong>妊娠：</strong>前妊娠糖尿病（主にT1DM）の最大2%がDKA合併。血糖200 mg/dL未満の正常血糖DKAも起こりうる。
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h3 id="ch5-sglt2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+          <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+          SGLT2阻害薬とDKAリスク
+        </h3>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">T1DMにおけるSGLT2i使用とDKAリスク</h3>
+            <p class="rule-body">T1DM患者でSGLT2iを使用する場合、DKAリスクは非使用者の<span class="mark-red"><strong>5〜17倍</strong></span>に上昇する。T1DMのSGLT2i臨床試験では、空腹時β-ヒドロキシ酪酸値が<strong>0.8 mmol/L以上</strong>の患者でその後1か月以内のDKAリスクが3.2倍増加することが示された。T1DMにおけるSGLT2i使用に際しては、DKA予防と早期介入のための患者教育が不可欠である。</p>
+            <div class="ie-stat-grid">
+              <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+                <div class="ie-stat-val" style="color:#DC2626;">5〜17倍</div>
+                <div class="ie-stat-label">T1DMでのSGLT2i使用時<br>DKAリスク増加</div>
+              </div>
+              <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+                <div class="ie-stat-val" style="color:#DC2626;">3.2倍</div>
+                <div class="ie-stat-label">β-OHB ≥0.8 mmol/Lで<br>翌月DKAリスク増加</div>
+              </div>
+              <div class="ie-stat">
+                <div class="ie-stat-val">0.6〜4.9</div>
+                <div class="ie-stat-label">T2DM+SGLT2iでの<br>DKA発症率（/1,000患者年）</div>
+              </div>
+            </div>
+            <p class="rule-body" style="margin-top:12px;"><strong>T2DMでのDKAリスク：</strong>観察研究とRCTのメタ解析では、T2DM患者でのSGLT2i使用は低いがゼロではないDKAリスクがある。4つのRCTメタ解析：プラセボまたは active comparator 対比でDKA相対リスク 2.46（95% CI 1.16〜5.21）；5つの観察研究メタ解析：相対リスク 1.74（95% CI 1.07〜2.83）。T2DMでのDKA誘発因子：超低炭水化物食・長期絶食・脱水・過度の飲酒・自己免疫の存在など。</p>
+          </div>
+        </div>
+
+        <h3 id="ch5-management" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+          <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>
+          外来でのDKA予防・軽症管理
+        </h3>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">外来・自己管理でのDKA予防</h3>
+            <p class="rule-body">DKAリスク患者には：早期の症状・徴候（多尿・多渇・体重減少・嘔吐・脱水・意識変化）の認識と、ケトン測定ツール（尿中または血中）の提供、「sick day advice」（下記）の教育を行う。定期受診ごとにDKA予防策とケトン測定ツールの入手状況を確認する。</p>
+            <div class="ie-flow">
+              <div class="ie-flow-item">
+                <div class="ie-flow-num">1</div>
+                <div style="flex:1;"><p class="rule-body"><strong>ケトン測定のタイミング：</strong>症状出現時・誘発因子がある場合（急性疾患・インスリン打ち忘れ・摂食障害）・特に血糖200 mg/dL超の時に測定。</p></div>
+              </div>
+              <div class="ie-flow-arrow">↓</div>
+              <div class="ie-flow-item">
+                <div class="ie-flow-num">2</div>
+                <div style="flex:1;"><p class="rule-body"><strong>血中ケトン vs 尿中ケトン：</strong>1つのRCT（6か月間）において、血中ケトン測定は尿中ケトン測定に比べて入院・ER対応を約50%削減した。</p></div>
+              </div>
+              <div class="ie-flow-arrow">↓</div>
+              <div class="ie-flow-item">
+                <div class="ie-flow-num">3</div>
+                <div style="flex:1;"><p class="rule-body"><strong>軽症DKAの外来管理可能条件：</strong>血行動態・認知機能が保たれている、経口水分摂取可能、皮下インスリン投与可能な場合→頻回の血糖・ケトン測定・非カロリー水分補給・皮下インスリン投与で管理できる可能性がある。ただし以下がある場合は即時医療機関受診：経口摂取不可・持続嘔吐・インスリン投与後も改善しない血糖/ケトン・意識変容・病態悪化の徴候。</p></div>
+              </div>
+              <div class="ie-flow-arrow">↓</div>
+              <div class="ie-flow-item">
+                <div class="ie-flow-num">4</div>
+                <div style="flex:1;"><p class="rule-body"><strong>HHSは必ず入院：</strong>HHSは著明な脱水と急性疾患を背景に発症するため、疑われる場合はすべて入院での評価・治療が必要。</p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">DKA再発予防と患者支援</h3>
+            <p class="rule-body">入院した患者の相当数がDKAを繰り返す。これは確立した糖尿病患者でのDKAの大部分がインスリン打ち忘れや節約などの自己管理の困難から発生していることを示している。再発予防には：</p>
+            <ul style="font-size:0.85rem;line-height:2;color:var(--text);padding-left:1.2em;margin-top:6px;">
+              <li>構造的なDSMES（問題解決を含む）— DKA入院を減少させることが示されている</li>
+              <li>心理的介入・ピアサポート・個別コーチング・行動的家族システム療法</li>
+              <li>社会的決定要因（インスリンアクセス・血糖測定機器・保険）のスクリーニングと対応</li>
+              <li>CGMへのアクセス提供（DKA再発リスクの低減に有効）</li>
+            </ul>
+            <p class="rule-body" style="margin-top:8px;">若年者（特に思春期）の既存T1DM患者はDKA発症率が高く、摂食障害・心理社会的問題・小児科から成人科への移行期（外来ケアに空白が生じやすい）が関与する。女性・高A1C・高インスリン単位/kg/日は独立したDKA関連因子として確認されている。</p>
+          </div>
+        </div>
+
+        <!-- SUMMARY ch5 -->
+        <h3 id="ch5-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+          <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+          第5章のキーメッセージ
+        </h3>
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+                <span class="rule-body"><strong>DKAリスク因子：</strong>T1DM・高A1C・インスリン節約・SGLT2i使用・精神疾患・社会的脆弱性が主要因子。DKA・HHSは過去10年で増加している。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+                <span class="rule-body"><strong>T1DM＋SGLT2i：</strong>DKAリスク5〜17倍増加。β-OHB ≥0.8 mmol/Lで翌月3.2倍リスク増加→患者教育が不可欠。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+                <span class="rule-body"><strong>血中ケトン測定：</strong>尿中ケトン測定比で入院・ER対応を約50%削減（RCT）。ケトン測定ツール提供と使い方教育を徹底する。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+                <span class="rule-body"><strong>軽症DKAの外来管理：</strong>意識・血行動態が保たれ経口補水・皮下インスリン可能なら外来対応可能。HHSは必ず入院。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+                <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+                <span class="rule-body"><strong>再発予防：</strong>構造的自己管理教育・心理的支援・社会的決定要因へのアクセス改善・CGM提供がDKA再入院を低減する。</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 出典 -->
+        <p style="font-size:0.72rem;color:#9CA3AF;margin-top:32px;line-height:1.7;">
+          出典：American Diabetes Association Professional Practice Committee for Diabetes. 6. Glycemic goals, hypoglycemia, and hyperglycemic crises: Standards of Care in Diabetes—2026. Diabetes Care 2026;49(Suppl. 1):S132–S149<br>
+          DOI：<a href="https://doi.org/10.2337/dc26-S006" target="_blank" rel="noopener" style="color:#60A5FA;">https://doi.org/10.2337/dc26-S006</a><br>
+          本資料は教育目的で作成したサマリーです。診断・治療方針の決定には必ず原典ガイドラインを参照してください。
+        </p>
+        <p style="font-size:0.75rem;color:var(--muted);text-align:right;margin-top:8px;">制作：ICU 関谷</p>
+
+      </div><!-- /main-col -->
+
+      <!-- ===== SIDEBAR ===== -->
+      <aside class="ie-sidebar">
+        <div class="ie-sidebar-card">
+          <div class="ie-sidebar-title">目次</div>
+          <a href="#ch1" class="ie-toc-chapter">第1章 血糖評価</a>
+          <a href="#ch1-a1c" class="ie-toc-section">A1CによるHbA1c評価</a>
+          <a href="#ch1-adag" class="ie-toc-section">A1C–eAG換算（ADAG）</a>
+          <a href="#ch1-cgm" class="ie-toc-section">CGM指標と目標値</a>
+          <a href="#ch1-summary" class="ie-toc-section">SUMMARY</a>
+          <a href="#ch2" class="ie-toc-chapter">第2章 血糖目標値</a>
+          <a href="#ch2-targets" class="ie-toc-section">非妊娠成人の標準目標</a>
+          <a href="#ch2-individualize" class="ie-toc-section">目標の個別化</a>
+          <a href="#ch2-evidence" class="ie-toc-section">エビデンスと合併症</a>
+          <a href="#ch2-summary" class="ie-toc-section">SUMMARY</a>
+          <a href="#ch3" class="ie-toc-chapter">第3章 低血糖の管理</a>
+          <a href="#ch3-class" class="ie-toc-section">低血糖分類（Level 1/2/3）</a>
+          <a href="#ch3-risk" class="ie-toc-section">リスク評価</a>
+          <a href="#ch3-treatment" class="ie-toc-section">治療（15-15ルール）</a>
+          <a href="#ch3-prevention" class="ie-toc-section">予防計画</a>
+          <a href="#ch3-summary" class="ie-toc-section">SUMMARY</a>
+          <a href="#ch4" class="ie-toc-chapter">第4章 急性体調不良時</a>
+          <a href="#ch4-sickday" class="ie-toc-section">Sick-Day Rules</a>
+          <a href="#ch4-summary" class="ie-toc-section">SUMMARY</a>
+          <a href="#ch5" class="ie-toc-chapter">第5章 高血糖クリーゼ</a>
+          <a href="#ch5-risk" class="ie-toc-section">リスク因子</a>
+          <a href="#ch5-sglt2" class="ie-toc-section">SGLT2iとDKAリスク</a>
+          <a href="#ch5-management" class="ie-toc-section">外来予防・軽症管理</a>
+          <a href="#ch5-summary" class="ie-toc-section">SUMMARY</a>
+        </div>
+      </aside>
+
+    </div><!-- /ie-page-flex -->
+  </div><!-- /container -->
+
+  <script src="../script.js"></script>
+  <script src="../abbr-tooltip.js"></script>
+</body>
+</html>
