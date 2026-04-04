@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>心エコー図による血行動態評価 — Forrester分類・左室充満圧推定（Heart View 2020） | 聖路加ICU</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style-v2.css">
+  <script src="../site-config.js"></script>
+  <style>
+    .subpage-hero { background: linear-gradient(150deg, #1A3A2A 0%, #2D7A4F 55%, #3D9B65 100%) !important; }
+    .ie-badge { display:inline-block;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:20px;padding:4px 12px;font-size:0.72rem;font-weight:500;color:#fff;margin-right:6px;margin-top:8px; }
+
+    /* Layout */
+    .content-wrap { display:flex;gap:32px;align-items:flex-start;max-width:1140px;margin:0 auto;padding:32px 20px 80px; }
+    .main-col { flex:1;min-width:0;max-width:900px; }
+    .ie-sidebar { width:220px;flex-shrink:0; }
+    .ie-sidebar-card { background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:16px;position:sticky;top:80px; }
+    .ie-sidebar-title { font-size:0.72rem;font-weight:800;color:var(--muted);letter-spacing:0.08em;margin-bottom:10px;text-transform:uppercase; }
+    .ie-toc-chapter { display:block;font-size:0.8rem;font-weight:700;color:var(--text);padding:6px 0;border-bottom:1px solid var(--border);text-decoration:none;line-height:1.4; }
+    .ie-toc-chapter:last-child { border-bottom:none;padding-bottom:0; }
+    .ie-toc-chapter:hover { color:#2D7A4F; }
+    .ie-toc-section { display:block;font-size:0.75rem;color:var(--muted);padding:4px 0 4px 10px;text-decoration:none;line-height:1.4;border-left:2px solid var(--border); }
+    .ie-toc-section:hover { color:#2D7A4F;border-left-color:#2D7A4F; }
+    @media (max-width:900px) { .ie-sidebar { display:none; } .content-wrap { max-width:860px; } }
+
+    /* Tables */
+    .ie-table { width:100%;border-collapse:collapse;font-size:0.82rem;margin-top:10px; }
+    .ie-table th { background:#F0FDF4;border:1px solid #BBF7D0;padding:8px 12px;font-weight:700;font-size:0.78rem;text-align:left; }
+    .ie-table td { border:1px solid var(--border);padding:8px 12px;vertical-align:top;line-height:1.7; }
+    .ie-table tr:nth-child(even) td { background:#F8FAFC; }
+
+    /* Flow */
+    .ie-flow { display:flex;flex-direction:column;gap:0; }
+    .ie-flow-item { display:flex;align-items:flex-start;gap:14px;background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:14px 16px; }
+    .ie-flow-arrow { text-align:center;color:#2D7A4F;font-size:1.1rem;font-weight:700;padding:4px 0; }
+    .ie-flow-num { width:28px;height:28px;border-radius:50%;background:#2D7A4F;color:#fff;font-size:0.78rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px; }
+
+    /* Stat grid */
+    .ie-stat-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px; }
+    @media (max-width:520px) { .ie-stat-grid { grid-template-columns:1fr 1fr; } }
+    .ie-stat { background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;padding:14px 12px;text-align:center; }
+    .ie-stat-val { font-size:1.25rem;font-weight:900;color:#2D7A4F;line-height:1.3; }
+    .ie-stat-label { font-size:0.68rem;color:var(--muted);margin-top:5px;line-height:1.5; }
+
+    /* Alpha card */
+    .ie-alpha { background:#F5F3FF;border:1px solid #DDD6FE;border-radius:8px;padding:2px;margin-top:10px; }
+    .ie-alpha-inner { padding:14px 16px; }
+    .ie-alpha-header { display:flex;align-items:center;gap:8px;margin-bottom:8px; }
+    .ie-alpha-badge { background:#7C3AED;color:#fff;font-size:0.65rem;font-weight:800;padding:2px 8px;border-radius:20px;letter-spacing:0.05em; }
+    .ie-alpha-title { font-size:0.85rem;font-weight:700;color:#4C1D95; }
+
+    /* Alerts */
+    .alert-yellow { background:#FFFBEB;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#92400E;line-height:1.7; }
+    .alert-green  { background:#F0FDF4;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#14532D;line-height:1.7; }
+    .alert-red    { background:#FEF2F2;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#7F1D1D;line-height:1.7; }
+
+    /* Subset grid */
+    .subset-grid { display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px; }
+    @media (max-width:520px) { .subset-grid { grid-template-columns:1fr; } }
+    .subset-box { border-radius:8px;padding:14px 16px;font-size:0.82rem;line-height:1.7; }
+    .subset-head { font-size:0.85rem;font-weight:800;margin-bottom:6px; }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="../index.html" class="nav-logo">
+        <img src="../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+        <span class="nav-logo-text">聖路加国際病院ICU</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="メニュー">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="articles-guidelines.html" class="active">注目論文</a></li>
+        <li><a href="disease-topics.html">疾患トピックス</a></li>
+        <li><a href="icu-guide.html">ICUガイド</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <div class="subpage-hero">
+    <div class="subpage-hero-content">
+      <a href="articles-guidelines.html#art-cardio" class="back-link">← 注目論文・ガイドラインまとめへ戻る</a>
+      <div style="margin-bottom:10px;">
+        <span class="ie-badge">Heart View 2020</span>
+        <span class="ie-badge">心エコー図</span>
+      </div>
+      <h1 class="subpage-hero-title" style="font-size:clamp(1.15rem,3vw,1.55rem);font-weight:900;line-height:1.4;">
+        心エコー図による血行動態評価<br>
+        <span style="font-size:0.75em;font-weight:700;opacity:0.9;">— Forrester分類・左室充満圧・拡張機能の評価法</span>
+      </h1>
+      <p style="font-size:0.8rem;color:rgba(255,255,255,0.65);margin-top:8px;">綱本浩志，大西哲存（兵庫県立姫路循環器病センター）Heart View Vol.24 No.9, 2020</p>
+    </div>
+  </div>
+
+  <!-- ===== CONTENT ===== -->
+  <div class="content-wrap">
+
+    <!-- Main -->
+    <div class="main-col">
+
+      <!-- ════════════════════════════════════════════
+           第1章: Forrester分類 — 血行動態評価の枠組み
+      ════════════════════════════════════════════ -->
+      <div id="ch1" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:0;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">第1章 Forrester分類 — 血行動態評価の枠組み</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Forrester Classification &amp; Hemodynamic Framework</div>
+      </div>
+
+      <!-- S1: 心不全の基本病態 -->
+      <h3 id="s1-hf-pathophysiology" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+        心不全の基本病態 — うっ血と末梢循環不全
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">心不全の定義と救急外来での課題</h3>
+          <p class="rule-body">心不全は「なんらかの心臓機能障害，すなわち，心臓に器質的および／あるいは機能的異常が生じて心ポンプ機能の代償機転が破綻した結果，呼吸困難・倦怠感や浮腫が出現し，それに伴い運動耐容能が低下する臨床症候群」と定義される。</p>
+          <p class="rule-body" style="margin-top:8px;">救急外来で心エコー図を施行した際，<span class="mark-red"><strong>はっきりとした左室壁運動異常やLVEFの低下がある場合</strong></span>はすぐに心疾患を疑えるが，<span class="mark-yellow"><strong>左室壁運動異常なくLVEFが保たれている場合に心不全を指摘するのは初学者には難しい。</strong></span>そのような場合にも心不全増悪を診断するには，その根拠となる血行動態の評価が必要となる。</p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">心不全の2つの基本病態</h3>
+          <p class="rule-body">心不全の基本病態は「<strong>うっ血</strong>」と「<strong>末梢循環不全</strong>」の2つに大別される。臨床現場でこの2つを明確に評価することが，利尿薬・強心薬・補液などの治療方針決定の根拠となる。</p>
+          <table class="ie-table" style="margin-top:10px;">
+            <thead>
+              <tr><th>病態</th><th>内容</th><th>症状・所見</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>うっ血</strong></td>
+                <td>右心系うっ血：静脈系（下腿浮腫・肝うっ血など）<br>左心系うっ血：肺循環（肺うっ血）</td>
+                <td>浮腫・呼吸困難・起座呼吸</td>
+              </tr>
+              <tr>
+                <td><strong>末梢循環不全</strong></td>
+                <td>低心拍出による臓器低灌流</td>
+                <td>四肢冷感・他臓器機能障害・倦怠感・息切れ</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- S2: Forrester分類 -->
+      <h3 id="s2-forrester" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+        Forrester分類 — 4群の病態と治療方針
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">Forrester分類の仕組み</h3>
+          <p class="rule-body">Forrester分類はSwan-Ganzカテーテルで得られる指標を用いた血行動態の分類法である。本来は急性心筋梗塞に対して用いられたが，その他の急性心不全・慢性心不全の増悪期にも広く適用される。縦軸に心係数（cardiac index: CI），横軸に肺動脈楔入圧（左室充満圧の代用）をとり，以下のカットオフ値で4群に分類する。</p>
+          <div class="ie-stat-grid" style="margin-top:12px;">
+            <div class="ie-stat">
+              <div class="ie-stat-val">18 mmHg</div>
+              <div class="ie-stat-label">肺うっ血の<br>カットオフ（横軸）</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">2.2 L/min/m²</div>
+              <div class="ie-stat-label">末梢循環不全の<br>カットオフ（縦軸）</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">4群</div>
+              <div class="ie-stat-label">Subset Ⅰ〜Ⅳ<br>に分類</div>
+            </div>
+          </div>
+          <p class="rule-body" style="margin-top:12px;">カテーテル検査は侵襲的であり，心不全が疑われる全例に対して行うことは現実的ではない。<span class="mark-green"><strong>非侵襲的で繰り返し行える心エコー図は，この分類の代用として有用であり，心係数や左室充満圧を推定することができる。</strong></span></p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">Forrester分類の4つのSubsetと治療方針</h3>
+          <div class="subset-grid" style="margin-top:8px;">
+            <div class="subset-box" style="background:#F0FDF4;border:1px solid #BBF7D0;">
+              <div class="subset-head" style="color:#2D7A4F;">Subset Ⅰ — 正常</div>
+              肺うっ血（−）・組織低還流（−）<br>
+              <strong>治療：</strong>経過観察
+            </div>
+            <div class="subset-box" style="background:#FEF2F2;border:1px solid #FECACA;">
+              <div class="subset-head" style="color:#DC2626;">Subset Ⅱ — うっ血型</div>
+              肺うっ血（＋）・組織低還流（−）<br>
+              <strong>治療：</strong>利尿薬，血管拡張薬
+            </div>
+            <div class="subset-box" style="background:#FFF7ED;border:1px solid #FED7AA;">
+              <div class="subset-head" style="color:#EA580C;">Subset Ⅲ — 低灌流型</div>
+              肺うっ血（−）・組織低還流（＋）<br>
+              <strong>治療：</strong>補液，強心薬
+            </div>
+            <div class="subset-box" style="background:#F5F3FF;border:1px solid #DDD6FE;">
+              <div class="subset-head" style="color:#7C3AED;">Subset Ⅳ — 混合型（最重症）</div>
+              肺うっ血（＋）・組織低還流（＋）<br>
+              <strong>治療：</strong>強心薬，利尿薬，血管拡張薬，補助循環
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SUMMARY Ch1 -->
+      <h3 id="s1-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+        第1章のキーメッセージ
+      </h3>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+              <span class="rule-body"><strong>LVEFが保たれていても心不全増悪を否定できない：</strong>拡張機能障害があれば左室充満圧が上昇し呼吸困難を呈しうる。LVEFの正常だけで心不全を否定しない。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+              <span class="rule-body"><strong>心不全の基本病態は「うっ血」と「末梢循環不全」の2つ：</strong>この2軸を評価することが治療方針（利尿薬・強心薬・補液）の決定に直結する。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+              <span class="rule-body"><strong>Forrester分類は心エコー図で代用できる：</strong>CI（縦軸）は心拍出量を，左室充満圧（横軸）は複数の拡張能指標で推定する。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+              <span class="rule-body"><strong>カットオフ値の基準：</strong>肺動脈楔入圧18 mmHg（うっ血の目安）・心係数2.2 L/min/m²（末梢循環不全の目安）で4群に分類する。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+              <span class="rule-body"><strong>治療反応の評価にも有用：</strong>難治例では治療開始後も心エコー図による血行動態評価を繰り返すことで，治療を見直し，より洗練された診療が可能となる。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ════════════════════════════════════════════
+           第2章: 心拍出量・心係数の推定
+      ════════════════════════════════════════════ -->
+      <div id="ch2" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">第2章 心拍出量・心係数の推定</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Estimation of Cardiac Output &amp; Cardiac Index</div>
+      </div>
+
+      <!-- S3: SV計算式 -->
+      <h3 id="s3-sv-formula" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>
+        一回拍出量から心係数を求める計算式
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">心係数（CI）の計算ステップ</h3>
+          <p class="rule-body">一回拍出量（SV）に心拍数（HR）を乗じれば心拍出量（CO）が得られ，これを体表面積（BSA）で補正すれば心係数（CI）が求められる。</p>
+          <div class="ie-flow" style="margin-top:12px;">
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">1</div>
+              <div style="flex:1;">
+                <p class="rule-body"><strong>SVの計測：</strong>SV = 左室流出路面積 × 時間速度積分値（TVI）<br>= π × (D/2)² × TVI<br>（Dは左室流出路径，TVIはパルスドプラ法で計測）</p>
+              </div>
+            </div>
+            <div class="ie-flow-arrow">↓</div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">2</div>
+              <div style="flex:1;">
+                <p class="rule-body"><strong>心拍出量（CO）の計算：</strong>CO = SV × HR</p>
+              </div>
+            </div>
+            <div class="ie-flow-arrow">↓</div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">3</div>
+              <div style="flex:1;">
+                <p class="rule-body"><strong>心係数（CI）への変換：</strong>CI = CO ÷ BSA<br>（正常 ＞ 2.2 L/min/m²）</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- S4: LVOT径の計測 -->
+      <h3 id="s4-lvot" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 4</span>
+        左室流出路径（LVOT径）の正確な計測
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">LVOT径計測のポイント</h3>
+          <p class="rule-body">左室流出路径（D）の計測誤差は面積計算に大きく影響するため，正確な計測が求められる。誤差が大きくなると SV の推定値が著しく乖離するため，以下の要点を守ること。</p>
+          <table class="ie-table" style="margin-top:10px;">
+            <thead>
+              <tr><th>計測条件</th><th>詳細</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>使用断面</strong></td>
+                <td>傍胸骨左縁長軸像（左室流出路を拡大表示）</td>
+              </tr>
+              <tr>
+                <td><strong>計測位置</strong></td>
+                <td>大動脈弁付着部位もしくは大動脈弁輪から5〜10 mm左室側</td>
+              </tr>
+              <tr>
+                <td><strong>計測時相</strong></td>
+                <td>収縮中期の最も弁が開いた時相</td>
+              </tr>
+              <tr>
+                <td><strong>治療経過の追跡</strong></td>
+                <td>左室流出路面積は基本的に変化しないため，初回計測後はTVIのみを繰り返し計測すればよい</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="alert-yellow" style="margin-top:10px;">
+            <strong>注意：</strong>LVOT径の誤差は面積に2乗で影響する（例：径を1 mm過大評価すると面積が大幅に過大評価される）。拡大像で慎重に計測すること。
+          </div>
+        </div>
+      </div>
+
+      <!-- S5: TVI計測 -->
+      <h3 id="s5-tvi" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+        <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 5</span>
+        時間速度積分値（TVI）の計測
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">パルスドプラ法によるTVI計測</h3>
+          <p class="rule-body">心尖部アプローチ三腔像もしくは五腔像で左室流出路にサンプルボリュームを置き，パルスドプラ法（PWD）を用いて左室流出路の血流速度波形を描出する。</p>
+          <table class="ie-table" style="margin-top:10px;">
+            <thead>
+              <tr><th>計測のポイント</th><th>詳細</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>ドプラビームの角度</strong></td>
+                <td>血流と可能な限り平行に設定する。入射角20°以内であれば誤差は6%以内</td>
+              </tr>
+              <tr>
+                <td><strong>計測回数</strong></td>
+                <td>サンプルボリュームの位置により値が異なるため，明瞭な波形が得られる位置で3回以上計測して平均をとる</td>
+              </tr>
+              <tr>
+                <td><strong>経過観察時</strong></td>
+                <td>LVOT面積は変化しないため，TVIのみ繰り返し計測することで心拍出量の変化をモニタリングできる</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- SUMMARY Ch2 -->
+      <h3 id="s2-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+        第2章のキーメッセージ
+      </h3>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+              <span class="rule-body"><strong>CI = SV × HR ÷ BSA：</strong>SVはLVOT面積（π(D/2)²）×TVIで計算する。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+              <span class="rule-body"><strong>LVOT径の誤差が最大の問題：</strong>面積は径の2乗に影響されるため，傍胸骨長軸像の拡大像で収縮中期に慎重に計測する。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+              <span class="rule-body"><strong>TVIは心尖部アプローチで計測：</strong>パルスドプラ法で血流と平行（入射角≤20°）になるよう設定し，3回以上の平均をとる。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+              <span class="rule-body"><strong>経過観察ではTVIのみ再計測すればよい：</strong>LVOT面積は変化しないため，TVIの変化を追うことで心拍出量の推移をモニタリングできる。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+              <span class="rule-body"><strong>末梢循環不全の判断基準：</strong>心係数2.2 L/min/m²未満がForrester分類における組織低還流のカットオフ値である。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ════════════════════════════════════════════
+           第3章: 左室充満圧の推定
+      ════════════════════════════════════════════ -->
+      <div id="ch3" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">第3章 左室充満圧の推定</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Estimation of Left Ventricular Filling Pressure</div>
+      </div>
+
+      <!-- S6: 左室充満圧の概念 -->
+      <h3 id="s6-lvfp-concept" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 6</span>
+        左室充満圧の概念と評価の意義
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">左室充満圧とは何か</h3>
+          <p class="rule-body">左室充満圧とは，左室に血液を充満させるために必要な圧力であり，<strong>平均左房圧もしくは左室拡張末期圧と同義</strong>である。肺静脈狭窄がない限り，右心カテーテル検査の肺動脈楔入圧と同等である。</p>
+          <div class="alert-green" style="margin-top:10px;">
+            <strong>重要な関係式：</strong>左室充満圧 ≒ 平均左房圧（左室拡張末期圧）≒ 肺動脈楔入圧
+          </div>
+          <p class="rule-body" style="margin-top:10px;">左室拡張機能障害により左室充満圧は上昇する。同時に左房圧や肺静脈圧も上昇し，<span class="mark-red"><strong>肺うっ血を惹起して呼吸困難が生じる。</strong></span>よって左室充満圧を評価できれば，呼吸困難の原因を心臓に絞り，治療方針を立てることができる。</p>
+        </div>
+      </div>
+
+      <!-- S7: TMF（E/A） -->
+      <h3 id="s7-tmf" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 7</span>
+        僧帽弁流入血流波形（TMF）とE/A比
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">E波・A波の生理学的意味</h3>
+          <p class="rule-body">僧帽弁流入血流波形（transmitral flow: TMF）は，僧帽弁を通過する血流速度を表し，E波（拡張早期波）とA波（心房収縮波）に分けられる。左房−左室圧較差により血流速度が決定される。</p>
+          <table class="ie-table" style="margin-top:10px;">
+            <thead>
+              <tr><th>波形</th><th>生理学的メカニズム</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>E波</strong></td>
+                <td>拡張期に左室圧が左房圧を下回ると僧帽弁が開放し，左房→左室へ血液が流入する。左房−左室圧較差によって規定される。</td>
+              </tr>
+              <tr>
+                <td><strong>A波</strong></td>
+                <td>左房収縮により左房圧が一時的に左室圧を上回り形成される波形。</td>
+              </tr>
+              <tr>
+                <td><strong>減衰時間（DcT）</strong></td>
+                <td>E波の峰から基線に戻るまでの時間。左室弛緩障害で延長し，充満圧上昇で短縮する。</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">E/A比による拡張機能分類</h3>
+          <p class="rule-body">E/A比と波形パターンから，左室拡張機能障害を4段階に分類できる。ただし，<span class="mark-yellow"><strong>偽正常型はE/A比だけでは正常型と区別できないため，バルサルバ負荷の追加やE/e'の評価が必要である。</strong></span></p>
+          <table class="ie-table" style="margin-top:10px;">
+            <thead>
+              <tr><th>パターン</th><th>E/A比</th><th>DcT</th><th>病態</th><th>左房圧</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>正常型</strong></td>
+                <td>E/A &gt; 1</td>
+                <td>正常</td>
+                <td>左室弛緩能正常</td>
+                <td>正常</td>
+              </tr>
+              <tr>
+                <td><strong>弛緩障害型</strong></td>
+                <td>E/A &lt; 1</td>
+                <td>延長</td>
+                <td>左室弛緩能低下，左房代償収縮増大</td>
+                <td>正常または軽度上昇</td>
+              </tr>
+              <tr>
+                <td><strong>偽正常型</strong></td>
+                <td>E/A &gt; 1（みかけ上）</td>
+                <td>短縮傾向</td>
+                <td>弛緩障害に左房圧上昇が加わりE波増高</td>
+                <td>上昇</td>
+              </tr>
+              <tr>
+                <td><strong>拘束型</strong></td>
+                <td>E/A ≥ 2</td>
+                <td>著明に短縮</td>
+                <td>左室拡張末期圧/左房圧が高度に上昇</td>
+                <td>高度上昇</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="alert-yellow" style="margin-top:10px;">
+            <strong>高齢者への注意：</strong>高齢者では生理的に左室弛緩能が低下してE/A＜1となるが，病的意義はない。年齢を考慮した解釈が必要。
+          </div>
+        </div>
+      </div>
+
+      <!-- S8: E/e' -->
+      <h3 id="s8-e-e-prime" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+        <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 8</span>
+        E/e'（組織ドプラ法）による左房圧推定
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">E/e'の原理と解釈</h3>
+          <p class="rule-body">E波は左室弛緩と左房圧の両方の影響を受けて2相性に変化するため，単独では左房圧推定が困難である。一方，拡張早期僧帽弁輪後退速度（e'）は<strong>左室弛緩能の低下につれて減少する</strong>。E波をe'で割ることで得られるE/e'は，左房圧（左室充満圧）を推定しうる指標として用いられる。</p>
+          <div class="ie-stat-grid" style="margin-top:12px;">
+            <div class="ie-stat">
+              <div class="ie-stat-val">&lt; 8</div>
+              <div class="ie-stat-label">平均E/e'<br>左房圧上昇なし</div>
+            </div>
+            <div class="ie-stat" style="background:#FFFBEB;border-color:#FDE68A;">
+              <div class="ie-stat-val" style="color:#B45309;">8〜15</div>
+              <div class="ie-stat-label">平均E/e'<br>断定できない領域</div>
+            </div>
+            <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+              <div class="ie-stat-val" style="color:#DC2626;">&gt; 15</div>
+              <div class="ie-stat-label">平均E/e'<br>左房圧上昇あり</div>
+            </div>
+          </div>
+          <p class="rule-body" style="margin-top:10px;">E/e'＜8は左房圧の上昇なし，8＜E/e'＜15は左房圧の上昇がないとは断定できない，15＜E/e'は左房圧上昇を示唆するとされている。</p>
+        </div>
+      </div>
+
+      <!-- S9: 肺動脈収縮期圧 -->
+      <h3 id="s9-tr-velocity" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+        <span style="color:#16A34A;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 9</span>
+        三尖弁逆流速度（peak TR velocity）による肺動脈圧推定
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">肺動脈収縮期圧の推定法</h3>
+          <p class="rule-body">肺動脈収縮期圧の上昇は，肺実質や肺血管疾患の存在が明らかな場合を除き，<span class="mark-green"><strong>左室充満圧上昇を示唆する。</strong></span>三尖弁逆流最大速度（peak TR velocity）に簡易ベルヌーイの式を用いることで，収縮期右室−右房圧較差を求め，推定右房圧を加えることで右室収縮期圧（≒肺動脈収縮期圧）が算出できる。</p>
+          <div class="alert-green" style="margin-top:10px;">
+            <strong>計算式：</strong>肺動脈収縮期圧 = 右室収縮期圧 = 4 × (peak TR velocity)² + 推定右房圧
+          </div>
+          <div class="alert-yellow" style="margin-top:10px;">
+            <strong>注意点：</strong>三尖弁が離開している重度の三尖弁逆流がある場合，この方法は適用できない。また肺動脈弁狭窄や右室流出路狭窄がある場合は右室収縮期圧≠肺動脈収縮期圧となる。
+          </div>
+        </div>
+      </div>
+
+      <!-- S10: LAVI -->
+      <h3 id="s10-lavi" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 10</span>
+        左房容積係数（LAVI）
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">LAVIと左室充満圧の関係</h3>
+          <p class="rule-body">洞調律で僧帽弁疾患がない場合，左房容積は左室充満圧を反映する。BSAで補正することで左房容積係数（left atrial volume index: LAVI）が得られ，<span class="mark-red"><strong>正常上限は34 mL/m²</strong></span>とされている。</p>
+          <table class="ie-table" style="margin-top:10px;">
+            <thead>
+              <tr><th>計測のポイント</th><th>詳細</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>推奨計測法</strong></td>
+                <td>心尖部四腔像と二腔像を用いたbi-plane area-length法またはbiplane disk summation法</td>
+              </tr>
+              <tr>
+                <td><strong>計測タイミング</strong></td>
+                <td>左房が最大容積となる断面（収縮期末）で計測する</td>
+              </tr>
+              <tr>
+                <td><strong>トレース範囲</strong></td>
+                <td>左心耳・肺静脈は含まない。房室接合部は僧帽弁輪を結ぶ面とする</td>
+              </tr>
+              <tr>
+                <td><strong>正常上限</strong></td>
+                <td>LAVI &gt; 34 mL/m² で左室充満圧上昇を示唆</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="ie-alpha" style="margin-top:12px;">
+            <div class="ie-alpha-inner">
+              <div class="ie-alpha-header">
+                <span class="ie-alpha-badge">＋α</span>
+                <span class="ie-alpha-title">3D心エコー図によるLAVI計測</span>
+              </div>
+              <p class="rule-body" style="color:#4C1D95;">左房は複雑な形態をしており，2D心エコー図による容積計測には限界がある。3D心エコー図はより正確に左房容積を計測しうる方法であり，今後の臨床的発展が期待される。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- S11: PVF -->
+      <h3 id="s11-pvf" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 11</span>
+        肺静脈血流波形（PVF）の評価
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">PVFの波形成分と活用場面</h3>
+          <p class="rule-body">EF低下例で，E/e'・peak TR velocity・LAVIのうちいずれか1つが適用できない場合に，PVF（S/D比）を追加指標として用いる。PVFは2つの収縮期陽性波（PVS1，PVS2），拡張期陽性波（PVD），心房収縮期陰性波（PVA）から構成される。</p>
+          <table class="ie-table" style="margin-top:10px;">
+            <thead>
+              <tr><th>成分</th><th>意味</th><th>充満圧上昇時の変化</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>PVS1</strong></td>
+                <td>左房収縮後の能動的弛緩による肺静脈→左房の流入</td>
+                <td>—</td>
+              </tr>
+              <tr>
+                <td><strong>PVS2</strong></td>
+                <td>左室収縮による僧帽弁輪下行で左房が受動的充満</td>
+                <td>左房圧上昇でPVS2が減高し，<strong>S/D ＜ 1</strong>となる</td>
+              </tr>
+              <tr>
+                <td><strong>PVD</strong></td>
+                <td>拡張期の肺静脈→左室への流入（TMF E波と連動）</td>
+                <td>弛緩障害で低下，充満圧上昇で増高</td>
+              </tr>
+              <tr>
+                <td><strong>PVA</strong></td>
+                <td>心房収縮時の肺静脈への逆流波</td>
+                <td>充満圧上昇でPVA増高・延長。PVAd−Ad ≥ 30 msec で充満圧上昇を示唆</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="alert-yellow" style="margin-top:10px;">
+            <strong>MRへの注意：</strong>PVS2は僧帽弁閉鎖不全症（MR）の影響も強く受け，高度MRの場合はPVS2が陰転化する。MRがある場合の解釈に注意が必要。
+          </div>
+        </div>
+      </div>
+
+      <!-- SUMMARY Ch3 -->
+      <h3 id="s3-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+        第3章のキーメッセージ
+      </h3>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+              <span class="rule-body"><strong>左室充満圧 ≒ 平均左房圧 ≒ 肺動脈楔入圧：</strong>この等価関係を理解することで，心エコー図指標が何を反映しているかを把握できる。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+              <span class="rule-body"><strong>E/A比は2相性変化に注意：</strong>弛緩障害が進行すると「弛緩障害型→偽正常型→拘束型」と変化する。偽正常型では正常型と外見が似るため，E/e'やバルサルバ負荷で確認する。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+              <span class="rule-body"><strong>E/e'のカットオフ：</strong>平均E/e'＞15が左房圧上昇の目安。8〜15はグレーゾーン。他の指標と組み合わせて判断する。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+              <span class="rule-body"><strong>LAVIは慢性的な充満圧上昇を反映：</strong>正常上限34 mL/m²を超える場合は慢性的な左房圧上昇の痕跡。急性期変化はE/e'やTR velocityで評価する。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+              <span class="rule-body"><strong>肺静脈血流波形S/D＜1が肺うっ血の目安：</strong>EF低下例で他の指標が使えない場合に追加する。PVAd−Ad≥30 msecも充満圧上昇を示唆する。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ════════════════════════════════════════════
+           第4章: 拡張機能障害の診断アルゴリズムと中心静脈圧
+      ════════════════════════════════════════════ -->
+      <div id="ch4" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">第4章 拡張機能障害の診断アルゴリズムと中心静脈圧の推定</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Diagnostic Algorithm for Diastolic Dysfunction &amp; CVP Estimation</div>
+      </div>
+
+      <!-- S12: LVEFが正常な場合のアルゴリズム -->
+      <h3 id="s12-normal-ef-algo" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 12</span>
+        LVEFが正常（＞50%）な場合の拡張機能障害の診断アルゴリズム
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">ASEガイドライン（2016年改訂<sup><a href="https://doi.org/10.1016/j.echo.2016.01.011" target="_blank" rel="noopener" style="color:#60A5FA;font-size:0.7rem;text-decoration:none;font-weight:700;">DOI</a></sup>）の診断アルゴリズム</h3>
+          <p class="rule-body">2016年にアメリカ心エコー図学会（ASE）から改訂されたガイドラインでは，簡便な心エコー図指標を用いて左室充満圧の評価を行うことが提唱されている。LVEFが正常（＞50%）な症例では，以下の4指標のうち何個が陽性かで判断する。</p>
+          <table class="ie-table" style="margin-top:10px;">
+            <thead>
+              <tr><th>#</th><th>指標</th><th>異常（陽性）基準</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>1</td><td>平均 E/e'</td><td>＞ 14</td></tr>
+              <tr><td>2</td><td>中隔 e'速度（または側壁 e'速度）</td><td>中隔 e' ＜ 7 cm/秒（または側壁 e' ＜ 10 cm/秒）</td></tr>
+              <tr><td>3</td><td>三尖弁逆流の速度</td><td>＞ 2.8 m/秒</td></tr>
+              <tr><td>4</td><td>左房容積係数（LAVI）</td><td>＞ 34 mL/m²</td></tr>
+            </tbody>
+          </table>
+          <div class="ie-flow" style="margin-top:14px;">
+            <div class="ie-flow-item">
+              <div class="ie-flow-num" style="background:#2D7A4F;">A</div>
+              <div style="flex:1;"><p class="rule-body"><strong>陽性が50%未満（4指標中1個以下）：</strong>拡張機能 正常</p></div>
+            </div>
+            <div class="ie-flow-arrow">|</div>
+            <div class="ie-flow-item" style="background:#FFFBEB;border-color:#FDE68A;">
+              <div class="ie-flow-num" style="background:#B45309;">B</div>
+              <div style="flex:1;"><p class="rule-body"><strong>陽性がちょうど50%（4指標中2個）：</strong>不確定（結論出せず）</p></div>
+            </div>
+            <div class="ie-flow-arrow">|</div>
+            <div class="ie-flow-item" style="background:#FEF2F2;border-color:#FECACA;">
+              <div class="ie-flow-num" style="background:#DC2626;">C</div>
+              <div style="flex:1;"><p class="rule-body"><strong>陽性が50%超（4指標中3個以上）：</strong>拡張機能障害</p></div>
+            </div>
+          </div>
+          <div class="alert-yellow" style="margin-top:10px;">
+            <strong>このアルゴリズムの適用除外：</strong>心房細動（または除細動後3か月以内），有意な僧帽弁疾患，LVAD，左脚ブロック，心室ペーシングがある症例では，このアルゴリズムは適用できない。
+          </div>
+        </div>
+      </div>
+
+      <!-- S13: LVEFが低下した場合のアルゴリズム -->
+      <h3 id="s13-reduced-ef-algo" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 13</span>
+        LVEFが低下した症例における充満圧推定と重症度判定
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">拡張機能障害のGrade分類（LVEFが低下した場合）</h3>
+          <p class="rule-body">LVEFが低下した症例，および心筋異常を有するLVEF正常症例では，まず僧帽弁流入パターン（E/A比とE速度）で初期評価を行い，次に3つの追加指標（平均E/e'＞14，TR速度＞2.8 m/秒，LA容積係数＞34 mL/m²）の陽性数で充満圧とGradeを判定する。</p>
+          <table class="ie-table" style="margin-top:10px;">
+            <thead>
+              <tr><th>僧帽弁流入パターン</th><th>追加3指標の結果</th><th>判定</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>E/A ≤ 0.8 かつ E ≤ 50 cm/秒</td>
+                <td>（評価不要）</td>
+                <td><strong>左房圧は正常，Grade Ⅰ</strong></td>
+              </tr>
+              <tr>
+                <td>E/A ≤ 0.8 かつ E ＞ 50 cm/秒，<br>または E/A ＞ 0.8 かつ ＜ 2</td>
+                <td>3指標中2つ以上が陰性</td>
+                <td>左房圧および重症度評価不能</td>
+              </tr>
+              <tr>
+                <td>同上</td>
+                <td>1つ陽性・1つ陰性（2指標しか得られない場合）</td>
+                <td>左房圧および重症度評価不能</td>
+              </tr>
+              <tr>
+                <td>同上</td>
+                <td>3指標中2つ以上が陽性</td>
+                <td><strong>Grade Ⅱ（左房圧上昇）</strong></td>
+              </tr>
+              <tr>
+                <td>E/A ≥ 2</td>
+                <td>（評価不要）</td>
+                <td><strong>Grade Ⅲ（左房圧高度上昇）</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- S14: 特殊病態 -->
+      <h3 id="s14-special-conditions" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+        <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 14</span>
+        特殊病態における左室充満圧上昇の評価指標
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">通常のアルゴリズムが適用できない病態と代替指標</h3>
+          <p class="rule-body">心房細動・洞性頻脈・肥大型心筋症・拘束型心筋症・非心原性肺高血圧症・僧帽弁狭窄症・僧帽弁閉鎖不全症など，通常の左室充満圧評価が困難な特殊病態に対しては，複数の拡張能指標による包括的な評価が推奨されている。</p>
+          <table class="ie-table" style="margin-top:10px;">
+            <thead>
+              <tr><th>病態</th><th>左室充満圧上昇を示唆する代替指標</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>心房細動</strong></td>
+                <td>E速度の最高加速度（≥1,900 cm/sec²）/ IVRT（≤65 msec）/ 肺静脈DcT（≤220 msec）/ E/Vp比（≥1.4）/ 中隔E/e'（≥11）</td>
+              </tr>
+              <tr>
+                <td><strong>洞性頻脈</strong></td>
+                <td>EF＜50%の患者では拡張早期LV流入が主な僧帽弁流入パターン / IVRT≤70 msec（特異度79%）/ 肺静脈収縮期充満分画≤40%（特異度88%）/ 平均E/e'＞14</td>
+              </tr>
+              <tr>
+                <td><strong>肥大型心筋症</strong></td>
+                <td>平均E/e'＞14 / Ar-A（≥30 msec）/ TR最高速度（＞2.8 m/sec）/ LA容積（＞34 mL/m²）</td>
+              </tr>
+              <tr>
+                <td><strong>拘束型心筋症</strong></td>
+                <td>DcT（＜140 msec）/ 僧帽弁E/A（＞2.5）/ IVRT（＜50 msec，特異度が最も高い）/ 平均E/e'（＞14）</td>
+              </tr>
+              <tr>
+                <td><strong>非心原性肺高血圧症</strong></td>
+                <td>側壁E/e'比が適用可能。心原性の場合は側壁E/e'＞13，非心原性の場合は＜8</td>
+              </tr>
+              <tr>
+                <td><strong>僧帽弁狭窄症</strong></td>
+                <td>IVRT（＜60 msec）/ IVRT/TE-e'（＜4.2）/ 僧帽弁A速度（＞1.5 m/sec）</td>
+              </tr>
+              <tr>
+                <td><strong>僧帽弁閉鎖不全症（MR）</strong></td>
+                <td>Ar-A（≥30 msec）/ IVRT（＜60 msec）/ IVRT/TE-e'（＜5.6，MR＋正常EF）/ 平均E/e'＞14（EF低下例のみ）</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- S15: 中心静脈圧（IVC） -->
+      <h3 id="s15-cvp-ivc" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+        <span style="color:#16A34A;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 15</span>
+        中心静脈圧の推定 — 下大静脈径と呼吸性変動
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">IVCによる右房圧（中心静脈圧）の推定</h3>
+          <p class="rule-body">中心静脈圧（CVP）は，循環血液量や体うっ血の評価に有用である。CVPの上昇は右心不全だけでなく，左心不全でも左房圧上昇→肺動脈圧上昇に引き続いて生じることがある。最も簡便な指標として，<strong>下大静脈（IVC）径と呼吸性変動</strong>から平均右房圧を推定できる。</p>
+          <table class="ie-table" style="margin-top:10px;">
+            <thead>
+              <tr><th>IVC径</th><th>呼吸性変動</th><th>推定中心静脈圧</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>≤ 21 mm</td>
+                <td>＞ 50%（虚脱あり）</td>
+                <td>0〜8 mmHg（正常）</td>
+              </tr>
+              <tr>
+                <td>≤ 21 mm</td>
+                <td>≤ 50%</td>
+                <td>5〜12 mmHg</td>
+              </tr>
+              <tr>
+                <td>＞ 21 mm</td>
+                <td>＞ 50%</td>
+                <td>（中等度上昇の可能性）</td>
+              </tr>
+              <tr>
+                <td>＞ 21 mm</td>
+                <td>≤ 50%（虚脱なし）</td>
+                <td>10〜20 mmHg（上昇）</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="alert-green" style="margin-top:10px;">
+            <strong>臨床での使い方：</strong>IVCが拡大し呼吸性変動が低下している（＞21 mm かつ虚脱≤50%）場合，CVP高値すなわち右心系うっ血の存在を強く示唆する。利尿薬投与後の改善を経時的にモニタリングできる。
+          </div>
+        </div>
+      </div>
+
+      <!-- SUMMARY Ch4 -->
+      <h3 id="s4-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+        第4章のキーメッセージ
+      </h3>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+              <span class="rule-body"><strong>LVEFが正常な場合：4指標のうち陽性数が50%超で拡張機能障害と診断：</strong>平均E/e'＞14，e'低下，TR速度＞2.8 m/秒，LAVI＞34 mL/m²の4指標を評価する。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+              <span class="rule-body"><strong>LVEFが低下した場合：E/A比とE速度で初期評価し，追加3指標で重症度判定：</strong>Grade Ⅰ（充満圧正常）〜Grade Ⅲ（高度上昇）に分類する。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+              <span class="rule-body"><strong>心房細動・肥大型心筋症・MR等では標準アルゴリズムは使えない：</strong>特殊病態ごとに代替指標（IVRT・E/Vp・Ar-A等）を組み合わせた包括的評価が必要。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+              <span class="rule-body"><strong>IVC径＞21 mm かつ呼吸性変動≤50%はCVP上昇（10〜20 mmHg）を示唆：</strong>体うっ血の評価と治療効果の経過観察に有用。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+              <span class="rule-body"><strong>心エコー図による血行動態評価は反復して行える点が最大の強み：</strong>治療開始後も繰り返し評価することで，治療反応を確認し方針を最適化できる。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 出典注記 -->
+      <p style="font-size:0.72rem;color:#9CA3AF;margin-top:32px;line-height:1.7;">
+        出典：綱本浩志，大西哲存「これって心不全ですか？〜心エコー図で血行動態を評価する〜」Heart View Vol.24 No.9, pp.19–27（2020年）<br>
+        本資料は教育目的で作成したサマリーです。診断・治療方針の決定には必ず原典を参照してください。
+      </p>
+      <p style="font-size:0.75rem;color:var(--muted);text-align:right;margin-top:8px;">制作：ICU 関谷</p>
+
+    </div><!-- /.main-col -->
+
+    <!-- ===== SIDEBAR ===== -->
+    <aside class="ie-sidebar">
+      <div class="ie-sidebar-card">
+        <div class="ie-sidebar-title">目次</div>
+        <a href="#ch1" class="ie-toc-chapter">第1章 Forrester分類</a>
+        <a href="#s1-hf-pathophysiology" class="ie-toc-section">S1 — 心不全の基本病態</a>
+        <a href="#s2-forrester" class="ie-toc-section">S2 — Forrester分類 4群と治療</a>
+        <a href="#s1-summary" class="ie-toc-section">SUMMARY</a>
+        <a href="#ch2" class="ie-toc-chapter">第2章 心拍出量・心係数の推定</a>
+        <a href="#s3-sv-formula" class="ie-toc-section">S3 — SV・CI計算式</a>
+        <a href="#s4-lvot" class="ie-toc-section">S4 — LVOT径の計測</a>
+        <a href="#s5-tvi" class="ie-toc-section">S5 — TVI（パルスドプラ）</a>
+        <a href="#s2-summary" class="ie-toc-section">SUMMARY</a>
+        <a href="#ch3" class="ie-toc-chapter">第3章 左室充満圧の推定</a>
+        <a href="#s6-lvfp-concept" class="ie-toc-section">S6 — 左室充満圧の概念</a>
+        <a href="#s7-tmf" class="ie-toc-section">S7 — TMF（E/A・DcT）</a>
+        <a href="#s8-e-e-prime" class="ie-toc-section">S8 — E/e'による左房圧推定</a>
+        <a href="#s9-tr-velocity" class="ie-toc-section">S9 — TR velocity・肺動脈圧</a>
+        <a href="#s10-lavi" class="ie-toc-section">S10 — 左房容積係数（LAVI）</a>
+        <a href="#s11-pvf" class="ie-toc-section">S11 — 肺静脈血流波形（PVF）</a>
+        <a href="#s3-summary" class="ie-toc-section">SUMMARY</a>
+        <a href="#ch4" class="ie-toc-chapter">第4章 拡張機能障害のアルゴリズム</a>
+        <a href="#s12-normal-ef-algo" class="ie-toc-section">S12 — LVEF正常のアルゴリズム</a>
+        <a href="#s13-reduced-ef-algo" class="ie-toc-section">S13 — LVEF低下のアルゴリズム</a>
+        <a href="#s14-special-conditions" class="ie-toc-section">S14 — 特殊病態の評価指標</a>
+        <a href="#s15-cvp-ivc" class="ie-toc-section">S15 — IVCによるCVP推定</a>
+        <a href="#s4-summary" class="ie-toc-section">SUMMARY</a>
+      </div>
+    </aside>
+
+  </div><!-- /.content-wrap -->
+
+  <script src="../script.js"></script>
+</body>
+</html>

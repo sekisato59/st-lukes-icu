@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>移植・臓器提供・ドナー管理 | 集中治療専門医試験 勉強ノート | 聖路加ICU</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style-v2.css">
+  <script src="../site-config.js"></script>
+  <style>
+    /* ── インディゴテーマ（試験ノート共通） ── */
+    .exam-hero { background: linear-gradient(150deg, #1E1B4B 0%, #3730A3 55%, #4F46E5 100%); padding: 40px 20px 32px; color: #fff; }
+    .exam-hero .back-link { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 0.8rem; }
+    .exam-hero .back-link:hover { color: #fff; }
+    .exam-hero h1 { font-size: 1.6rem; font-weight: 900; margin: 10px 0 6px; line-height: 1.3; }
+    .exam-hero .subtitle { font-size: 0.78rem; color: rgba(255,255,255,0.65); letter-spacing: 0.08em; }
+    .exam-hero .badge-row { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+    .exam-badge { background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.3); border-radius: 20px; padding: 3px 12px; font-size: 0.72rem; color: #fff; }
+    .ie-layout { display: flex; gap: 28px; align-items: flex-start; max-width: 1140px; margin: 0 auto; padding: 32px 20px 60px; }
+    .ie-main { flex: 1; min-width: 0; max-width: 900px; }
+    .ie-sidebar { width: 220px; flex-shrink: 0; position: sticky; top: 72px; }
+    @media (max-width: 900px) { .ie-sidebar { display: none; } .ie-layout { max-width: 900px; } }
+    .ie-sidebar-card { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+    .ie-sidebar-title { font-size: 0.65rem; font-weight: 800; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px; }
+    a.ie-toc-chapter { display: block; font-size: 0.78rem; font-weight: 700; color: var(--text); text-decoration: none; padding: 5px 8px; border-radius: 4px; margin-top: 6px; line-height: 1.4; transition: background 0.12s; }
+    a.ie-toc-chapter:hover { background: #EEF2FF; color: #4F46E5; }
+    a.ie-toc-section { display: block; font-size: 0.72rem; color: var(--muted); text-decoration: none; padding: 3px 8px 3px 16px; border-radius: 4px; line-height: 1.5; transition: background 0.12s; }
+    a.ie-toc-section:hover { background: #EEF2FF; color: #4F46E5; }
+    .ch-banner { background: linear-gradient(150deg, #1E1B4B 0%, #3730A3 100%); border-radius: 10px; padding: 18px 22px; color: #fff; position: relative; overflow: hidden; margin-top: 48px; margin-bottom: 0; }
+    .ch-banner::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px); background-size: 20px 20px; }
+    .ch-banner-title { font-size: 1.3rem; font-weight: 900; position: relative; }
+    .ch-banner-sub { font-size: 0.78rem; color: rgba(255,255,255,0.6); position: relative; margin-top: 2px; }
+    .ie-stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 12px 0; }
+    @media (max-width: 640px) { .ie-stat-grid { grid-template-columns: repeat(2, 1fr); } }
+    .ie-stat { background: #EEF2FF; border: 1px solid #C7D2FE; border-radius: 8px; padding: 10px 12px; text-align: center; }
+    .ie-stat-val { font-size: 1.4rem; font-weight: 900; color: #4F46E5; line-height: 1.2; }
+    .ie-stat-label { font-size: 0.72rem; color: var(--muted); margin-top: 4px; line-height: 1.5; }
+    .ie-stat.red { background: #FEF2F2; border-color: #FECACA; }
+    .ie-stat.red .ie-stat-val { color: #DC2626; }
+    .ie-stat.orange { background: #FFF7ED; border-color: #FED7AA; }
+    .ie-stat.orange .ie-stat-val { color: #EA580C; }
+    .ie-stat.green { background: #F0FDF4; border-color: #BBF7D0; }
+    .ie-stat.green .ie-stat-val { color: #16A34A; }
+    .ie-flow { margin: 12px 0; }
+    .ie-flow-item { display: flex; gap: 12px; align-items: flex-start; background: #F8FAFC; border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; }
+    .ie-flow-num { background: #4F46E5; color: #fff; font-size: 0.75rem; font-weight: 800; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+    .ie-flow-arrow { text-align: center; color: var(--muted); font-size: 1.1rem; padding: 4px 0; }
+    .ie-score-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 10px; }
+    @media (max-width: 640px) { .ie-score-grid { grid-template-columns: 1fr; } }
+    .ie-score-card { background: #F8FAFC; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+    .ie-score-head { background: #4F46E5; color: #fff; padding: 8px 14px; font-size: 0.82rem; font-weight: 800; letter-spacing: 0.03em; }
+    .ie-score-items { padding: 10px 14px; }
+    .ie-score-item { display: flex; align-items: baseline; gap: 8px; padding: 4px 0; border-bottom: 1px solid var(--border); font-size: 0.8rem; line-height: 1.5; }
+    .ie-score-item:last-child { border-bottom: none; }
+    .ie-score-pt { flex-shrink: 0; background: #E0E7FF; color: #4F46E5; font-size: 0.68rem; font-weight: 800; padding: 1px 6px; border-radius: 10px; letter-spacing: 0.03em; }
+    .ie-score-foot { background: #EEF2FF; border-top: 1px solid #C7D2FE; padding: 8px 14px; font-size: 0.78rem; color: #312E81; line-height: 1.6; }
+    .ie-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; line-height: 1.7; margin: 10px 0; }
+    .ie-table th { padding: 8px 12px; font-weight: 700; font-size: 0.75rem; color: var(--muted); border-bottom: 2px solid var(--border); text-align: left; }
+    .ie-table td { padding: 8px 12px; border-bottom: 1px solid var(--border); }
+    .ie-table tr:last-child td { border-bottom: none; }
+    .ie-table thead tr { background: #F8FAFC; }
+    .ie-alpha { background: #FAF5FF; border: 1px solid #DDD6FE; border-radius: 8px; margin-bottom: 16px; overflow: hidden; }
+    .ie-alpha-inner { padding: 14px 16px; }
+    .ie-alpha-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+    .ie-alpha-badge { background: #7C3AED; color: #fff; font-size: 0.68rem; font-weight: 800; padding: 2px 8px; border-radius: 10px; }
+    .ie-alpha-title { font-size: 0.88rem; font-weight: 800; color: #4C1D95; }
+    .alert-indigo { background: #EEF2FF; border: 1px solid #C7D2FE; border-radius: 8px; padding: 12px 16px; margin-bottom: 16px; }
+    .alert-yellow { background: #FFFBEB; border: 1px solid #FDE68A; border-radius: 8px; padding: 12px 16px; margin-bottom: 16px; }
+    .alert-red { background: #FEF2F2; border: 1px solid #FECACA; border-radius: 8px; padding: 12px 16px; margin-bottom: 16px; }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="../index.html" class="nav-logo">
+        <img src="../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+        <span class="nav-logo-text">聖路加国際病院ICU</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="../index.html#intro" class="nav-link">はじめに</a></li>
+        <li><a href="../index.html#schedule" class="nav-link">スケジュール</a></li>
+        <li><a href="../index.html#rules" class="nav-link">ICUの方針</a></li>
+        <li><a href="../index.html#learning" class="nav-link">学習・評価</a></li>
+        <li><a href="articles-guidelines.html" class="nav-link">論文・GL</a></li>
+        <li><a href="disease-topics.html" class="nav-link">疾患・症候</a></li>
+        <li><a href="../index.html#faq" class="nav-link">FAQ</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <div class="exam-hero">
+    <div class="container">
+      <a href="exam-icu-board.html" class="back-link">← 集中治療専門医試験 勉強ノートへ戻る</a>
+      <h1>移植・臓器提供・ドナー管理</h1>
+      <p class="subtitle">ORGAN DONATION, BRAIN DEATH DETERMINATION &amp; DONOR MANAGEMENT</p>
+      <div class="badge-row">
+        <span class="exam-badge">専門医テキスト 第4版</span>
+        <span class="exam-badge">#10 周術期・鎮静・倫理</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== CONTENT ===== -->
+  <div class="ie-layout">
+    <div class="ie-main">
+
+      <!-- ═══════════════════════════════════════
+           第1章 終末期医療と臓器提供
+      ═══════════════════════════════════════ -->
+      <div id="ch1" class="ch-banner">
+        <div class="ch-banner-title">第1章 終末期医療と臓器提供</div>
+        <div class="ch-banner-sub">End-of-Life Care &amp; Organ Donation</div>
+      </div>
+
+      <!-- S1 終末期の定義 -->
+      <h3 id="s1-eol" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #4F46E5;line-height:1.4;">
+        <span style="color:#4F46E5;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+        救急・集中治療における終末期の定義
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">終末期の4類型（3学会合同ガイドライン 2014）</h3>
+          <p class="rule-body">救急・集中治療における終末期として、以下の4状況が例示されている。この定義に照らして多職種で終末期の判断を行い、治療・ケアのゴールを設定する。</p>
+          <div class="ie-flow">
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">①</div>
+              <div style="flex:1;"><p class="rule-body"><strong>不可逆的な全脳機能不全：</strong>脳死診断後や脳血流停止の確認後など、十分な時間をかけて診断された場合</p></div>
+            </div>
+            <div class="ie-flow-arrow">↓</div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">②</div>
+              <div style="flex:1;"><p class="rule-body"><strong>生命が人工的な装置に依存：</strong>生命維持に必須な複数の臓器が不可逆的機能不全となり、移植等の代替手段もない場合</p></div>
+            </div>
+            <div class="ie-flow-arrow">↓</div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">③</div>
+              <div style="flex:1;"><p class="rule-body"><strong>さらなる治療方法がない：</strong>現状の治療を継続しても近いうちに死亡することが予測される場合</p></div>
+            </div>
+            <div class="ie-flow-arrow">↓</div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">④</div>
+              <div style="flex:1;"><p class="rule-body"><strong>回復不可能な疾患の末期：</strong>悪性腫瘍の末期などであることが積極的治療開始後に判明した場合</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- S2 臓器提供の適応 -->
+      <h3 id="s2-donation" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #4F46E5;line-height:1.4;">
+        <span style="color:#4F46E5;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+        臓器提供の適応と提供可能臓器
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">脳死下臓器提供 vs 心停止後臓器提供</h3>
+          <p class="rule-body">臓器提供には2種類があり、終末期と判断した際にどちらに該当するかを検討する。</p>
+          <table class="ie-table" style="margin-top:10px;">
+            <thead><tr><th>区分</th><th>対象</th><th>提供可能臓器</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><strong>脳死下</strong></td>
+                <td>終末期定義①（不可逆的全脳機能不全）に該当<br>原疾患：脳血行障害が最多、低酸素脳症（心肺停止蘇生後等）、頭部外傷でほぼ9割</td>
+                <td>心肺・肝・膵・腎・小腸・眼球・皮膚・骨・血管・心臓弁・膵島など</td>
+              </tr>
+              <tr>
+                <td><strong>心停止後</strong></td>
+                <td>終末期定義②〜④に該当する症例<br>腎提供：年齢70歳以下が目安、心停止前から入念な準備が必要</td>
+                <td>腎・眼球・膵臓・皮膚・血管・心臓弁など<br><span style="font-size:0.78rem;color:var(--muted);">眼球は年齢制限なし・心停止後12時間以内に摘出で移植可能</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- S3 除外例・禁忌 -->
+      <h3 id="s3-exclusion" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #4F46E5;line-height:1.4;">
+        <span style="color:#4F46E5;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>
+        法的脳死判定の除外例と臓器提供の禁忌
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">法的脳死判定の除外例</h3>
+          <p class="rule-body">以下に該当する場合、法的脳死判定の対象外となる（臓器提供も不可）。</p>
+          <table class="ie-table" style="margin-top:10px;">
+            <thead><tr><th>除外理由</th><th>具体的内容</th></tr></thead>
+            <tbody>
+              <tr><td><strong>脳死類似状態</strong></td><td>急性薬物中毒による深昏睡・無呼吸、代謝性・内分泌性障害（肝性昏睡・糖尿病性昏睡・尿毒症性昏睡）</td></tr>
+              <tr><td><strong>低体温</strong></td><td>直腸温・食道温等の深部温が32℃未満（6歳未満は35℃未満）</td></tr>
+              <tr><td><strong>年齢不相応の低血圧</strong></td><td>1歳未満: 収縮期BP &lt;65 mmHg、1歳以上13歳未満: &lt;(年齢×2)+65 mmHg、13歳以上: &lt;90 mmHg</td></tr>
+              <tr><td><strong>年齢制限</strong></td><td>生後12週未満（修正在胎40週未満であった場合は出産予定日から起算して12週未満）</td></tr>
+              <tr><td><strong>知的障害等</strong></td><td>15歳以上で有効な意思表示が困難な障害を有する者（2024年以降は症例ごとの慎重な対応が必要）</td></tr>
+              <tr><td><strong>被虐待</strong></td><td>虐待として通告する患者（18歳未満）。院内倫理委員会等で虐待の可能性がないと判断されれば児童相談所への連絡は必須でない（2022年改正）</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">臓器提供の禁忌</h3>
+          <table class="ie-table">
+            <thead><tr><th>禁忌条件</th><th>備考</th></tr></thead>
+            <tbody>
+              <tr><td>HIV抗体 陽性</td><td>提供不可</td></tr>
+              <tr><td>HTLV-1抗体 陽性</td><td>提供不可</td></tr>
+              <tr><td>HBs抗原 陽性</td><td>提供不可</td></tr>
+              <tr><td>HCV抗体 陽性</td><td>肝・腎・小腸は提供可能</td></tr>
+              <tr><td>全身性・活動性感染症</td><td>提供不可（わが国のドナー除外条件）</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- S4 脳死とされうる状態の判断 -->
+      <h3 id="s4-presumed" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #4F46E5;line-height:1.4;">
+        <span style="color:#4F46E5;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 4</span>
+        脳死とされうる状態の判断
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">判断の基準と確認事項</h3>
+          <p class="rule-body">法的脳死判定を行う前提として、まず「脳死とされうる状態」にあるかを判断する。以下の①〜④のすべてが確認された場合に「脳死とされうる状態」と判断する。</p>
+          <div class="ie-score-grid">
+            <div class="ie-score-card">
+              <div class="ie-score-head">脳死とされうる状態（4項目すべて必要）</div>
+              <div class="ie-score-items">
+                <div class="ie-score-item"><span class="ie-score-pt">①</span>深昏睡（JCS 300 または GCS 3）</div>
+                <div class="ie-score-item"><span class="ie-score-pt">②</span>瞳孔が固定し、瞳孔径が両側とも4mm以上</div>
+                <div class="ie-score-item"><span class="ie-score-pt">③</span>脳幹反射7項目すべての消失（対光・角膜・毛様脊髄・眼球頭・前庭・咽頭・咳）</div>
+                <div class="ie-score-item"><span class="ie-score-pt">④</span>平坦脳波</div>
+              </div>
+              <div class="ie-score-foot">ただし上記の除外例に該当するものは判断しない</div>
+            </div>
+            <div class="ie-score-card">
+              <div class="ie-score-head">判断前の確認（前24時間）</div>
+              <div class="ie-score-items">
+                <div class="ie-score-item"><span class="ie-score-pt">確</span>判断前24時間に鎮静薬・筋弛緩薬・抗痙攣薬が使用されていないこと</div>
+                <div class="ie-score-item"><span class="ie-score-pt">確</span>原疾患が確実に診断され、適切な治療を行っても回復の見込みのない状態であること</div>
+                <div class="ie-score-item"><span class="ie-score-pt">確</span>脳波は高感度脳波である必要はなく、一般的な脳死判定と同様の手法でよい</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- S5 家族への説明 -->
+      <h3 id="s5-family" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #4F46E5;line-height:1.4;">
+        <span style="color:#4F46E5;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 5</span>
+        家族への説明の要点
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">臓器提供を話す際の2つのポイント</h3>
+          <p class="rule-body">臓器提供について家族に話す際には、以下の2点が特に重要である。</p>
+          <div class="alert-indigo">
+            <p class="rule-body" style="margin:0;"><strong>ポイント1：</strong>家族に説明する前に、臓器提供できない状況ではないことを確認する。家族が悩んだ末に提供を選択したにもかかわらず、提供できなくなると二重の悲しみを与えてしまう。</p>
+          </div>
+          <div class="alert-indigo">
+            <p class="rule-body" style="margin:0;"><strong>ポイント2：</strong>家族や被験者がどうしたいかではなく、<strong>患者自身がどのように思うかを、患者家族とともに考える</strong>ことが大切。臓器提供の承諾を得ることが目的ではなく、臓器提供ができるという事実を伝えることが大切である。</p>
+          </div>
+          <p class="rule-body">臓器提供の方針となったら、院内のマニュアルに則り、都道府県コーディネーターや日本臓器移植ネットワークのコーディネーターとともに、患者管理・法的脳死判定・臓器評価・摘出術の一連の流れを進める。</p>
+        </div>
+      </div>
+
+      <!-- SUMMARY ch1 -->
+      <h3 id="summary-ch1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #4F46E5;line-height:1.4;">
+        <span style="color:#4F46E5;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+        第1章のキーメッセージ
+      </h3>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#4F46E5;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+              <span class="rule-body"><strong>終末期の4定義を覚える：</strong>①不可逆的全脳機能不全、②生命維持に必須な複数臓器の不可逆的不全、③これ以上の治療なく近い死が予測、④回復不可能疾患の末期</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#4F46E5;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+              <span class="rule-body"><strong>脳死下 vs 心停止後：</strong>脳死下は多臓器提供可能、心停止後は腎・眼球・膵臓等に限定。眼球のみ年齢制限なし・心停止後12時間以内</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#4F46E5;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+              <span class="rule-body"><strong>除外例6類型：</strong>薬物中毒・代謝内分泌障害・低体温（&lt;32℃）・年齢不相応低血圧・生後12週未満・知的障害者等・被虐待児</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#4F46E5;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+              <span class="rule-body"><strong>HCV抗体陽性：</strong>原則禁忌だが、肝・腎・小腸は提供可能（他の血清学的マーカーと異なる）</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+              <span style="color:#4F46E5;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+              <span class="rule-body"><strong>家族説明の核心：</strong>提供の承諾を得るのが目的ではない。患者自身の意思を患者家族とともに考えることが目的</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ═══════════════════════════════════════
+           第2章 法的脳死判定基準
+      ═══════════════════════════════════════ -->
+      <div id="ch2" class="ch-banner">
+        <div class="ch-banner-title">第2章 法的脳死判定基準</div>
+        <div class="ch-banner-sub">Legal Brain Death Determination</div>
+      </div>
+
+      <!-- S1 施設基準・判定医要件 -->
+      <h3 id="s1-facility" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #4F46E5;line-height:1.4;">
+        <span style="color:#4F46E5;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+        施設基準・判定医要件・判定手順
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">脳死臓器提供が可能な施設（5類型）</h3>
+          <p class="rule-body">心停止後臓器提供は手術室があり体制が整備されていれば可能だが、脳死臓器提供は高度医療を提供可能な以下の施設に限定される。</p>
+          <table class="ie-table">
+            <tbody>
+              <tr><td>① 大学附属病院</td></tr>
+              <tr><td>② 日本救急医学会の指導医指定施設</td></tr>
+              <tr><td>③ 日本脳神経外科学会の専門医研修施設</td></tr>
+              <tr><td>④ 救命救急センターとして認定された施設</td></tr>
+              <tr><td>⑤ 日本小児総合医療施設協議会の会員施設</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">判定医の要件（4条件すべて必要）</h3>
+          <div class="ie-score-grid">
+            <div class="ie-score-card">
+              <div class="ie-score-head">判定医要件</div>
+              <div class="ie-score-items">
+                <div class="ie-score-item"><span class="ie-score-pt">a</span>当該施設に所属する者</div>
+                <div class="ie-score-item"><span class="ie-score-pt">b</span>脳神経外科・神経内科・救急科・麻酔蘇生科・集中治療科または小児科医で学会専門医または学会認定医の資格を持つ者</div>
+                <div class="ie-score-item"><span class="ie-score-pt">c</span>脳死判定に関し相当な経験を有する者</div>
+                <div class="ie-score-item"><span class="ie-score-pt">d</span>臓器摘出術に関わらない者</div>
+              </div>
+              <div class="ie-score-foot">臓器摘出術に直接的な関与がなければ、主治医が判定医を兼任することは容認される</div>
+            </div>
+            <div class="ie-score-card">
+              <div class="ie-score-head">判定実施の要件</div>
+              <div class="ie-score-items">
+                <div class="ie-score-item"><span class="ie-score-pt">人数</span>2名以上で行う。少なくとも1名は第1回・第2回の判定を継続して行う</div>
+                <div class="ie-score-item"><span class="ie-score-pt">間隔</span><strong>成人：6時間以上</strong>、小児（6歳未満）：24時間以上</div>
+                <div class="ie-score-item"><span class="ie-score-pt">死亡</span>第2回目の法的脳死判定終了時刻が患者の死亡時刻となる</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- S2 前提条件・除外例 -->
+      <h3 id="s2-prerequisites" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #4F46E5;line-height:1.4;">
+        <span style="color:#4F46E5;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+        法的脳死判定前の確認事項
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">前提条件の確認</h3>
+          <p class="rule-body">法的脳死判定を実施する前に以下を確認する。</p>
+          <table class="ie-table">
+            <thead><tr><th>確認項目</th><th>内容</th></tr></thead>
+            <tbody>
+              <tr><td>意思表示カード等</td><td>脳死の判定に従い、かつ臓器を提供する意思を示している本人の書面（存在する場合）</td></tr>
+              <tr><td>18歳未満の虐待</td><td>虐待の疑いがないこと（18歳未満の場合）</td></tr>
+              <tr><td>有効な意思表示</td><td>15歳以上で知的障害等の有効な意思表示が困難となる障害を有する者でないこと</td></tr>
+              <tr><td>提供しない意思</td><td>臓器を提供しない意思および脳死判定に従わない意思がないこと</td></tr>
+              <tr><td>脳死判定承諾書</td><td>家族がいない場合を除く</td></tr>
+              <tr><td>臓器摘出承諾書</td><td>家族がいない場合を除く</td></tr>
+              <tr><td>小児の年齢</td><td>生後12週以上であること（修正在胎40週未満であった者は出産予定日から起算して12週以上）</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- S3 深昏睡・瞳孔 -->
+      <h3 id="s3-coma" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #4F46E5;line-height:1.4;">
+        <span style="color:#4F46E5;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>
+        深昏睡・瞳孔散大固定の確認
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">深昏睡の確認</h3>
+          <p class="rule-body">滅菌針・滅菌した安全ピン等による疼痛刺激、または眼窩切痕部への指による強い圧迫刺激を<strong>顔面に</strong>加える。全く顔をしかめない場合、JCS 300・GCS 3で深昏睡と判定する。</p>
+          <div class="alert-yellow">
+            <p class="rule-body" style="margin:0;"><strong>注意：</strong>頭部以下の刺激では脊髄反射による反応を示すことがあるので、刺激部位は顔面に限る。除脳硬直・除皮質硬直・四肢痙攣・ミオクローヌスが認められた場合は脳死判定を行わない（脊髄自動反射とは異なる）。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">瞳孔散大・固定の確認</h3>
+          <p class="rule-body">室内の通常の明るさの下で測定し、左右瞳孔の最小径が<strong>4mm以上</strong>であること（正円でない場合は最小径）。経過中に瞳孔径が変化しても差し支えない（固定の確認）。</p>
+        </div>
+      </div>
+
+      <!-- S4 脳幹反射7項目 -->
+      <h3 id="s4-brainstem" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #4F46E5;line-height:1.4;">
+        <span style="color:#4F46E5;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 4</span>
+        脳幹反射7項目の消失確認
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">脳幹反射7項目（2名の判定医で全消失を確認）</h3>
+          <table class="ie-table">
+            <thead><tr><th>反射</th><th>確認方法のポイント</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><strong>① 対光反射</strong></td>
+                <td>両側上眼瞼を挙上して両眼を観察。光を一側瞳孔に照射し直接反射・間接反射を確認。両側で直接・間接とも瞳孔の動きがないこと。縮瞳のみならず拡大や不安定な動きがあっても「反射あり」と判定する。</td>
+              </tr>
+              <tr>
+                <td><strong>② 角膜反射</strong></td>
+                <td>綿棒または綿球の先端をこより状にして角膜を刺激。両側とも瞬目が認められないこと。明らかな瞬目でなくても、上下の眼瞼など眼周囲の動き（筋収縮）があれば「反射あり」。</td>
+              </tr>
+              <tr>
+                <td><strong>③ 毛様脊髄反射</strong></td>
+                <td>両側上眼瞼を同時に挙上し、顔面に疼痛刺激を与えて両側瞳孔散大の有無を確認。両側とも散大が認められないこと。明らかな散大でなくても瞳孔の動きがあれば「反射あり」。</td>
+              </tr>
+              <tr>
+                <td><strong>④ 眼球頭反射</strong></td>
+                <td>頭部を約30°挙上し、正中位から急速に一側に回転させ、眼球が頭部の運動と逆方向に偏位するか観察（左右両方向）。両方向とも眼球が固定し逆方向偏位が認められないときのみ「消失」と判定。</td>
+              </tr>
+              <tr>
+                <td><strong>⑤ 前庭反射</strong></td>
+                <td>頭部30°挙上。氷水（滅菌生理食塩水）50mLを20〜30秒かけて外耳道内に注入（小児は25mL）。眼球が注入側に偏位するか観察。両側で偏位が認められないときのみ「消失」と判定。注：温度刺激は通常の温水・冷水検査とは異なる。エアーカロリックテストは使用しない。</td>
+              </tr>
+              <tr>
+                <td><strong>⑥ 咽頭反射</strong></td>
+                <td>喉頭鏡で十分に開口させ、吸引用カテーテルで咽頭後壁を刺激。繰り返しても咽頭筋の収縮が認められない場合に「消失」。</td>
+              </tr>
+              <tr>
+                <td><strong>⑦ 咳反射</strong></td>
+                <td>十分長い吸引用カテーテルを気管チューブを越えて気管分岐部直前まで挿入し、気管支粘膜に機械的刺激を与える。繰り返し刺激しても咳が認められない場合に「消失」。明らかな咳でなくても、胸郭などの動きがあれば「反射あり」。</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="alert-indigo" style="margin-top:12px;">
+            <p class="rule-body" style="margin:0;"><strong>補足（2023年12月改正）：</strong>眼球損傷等により7項目の観察を完遂できない場合、補助検査（脳血流消失の確認）での代替が可能となった。また、義眼・人工内耳使用患者やECMO装着患者も対象外から除外された。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- S5 脳波検査 -->
+      <h3 id="s5-eeg" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #4F46E5;line-height:1.4;">
+        <span style="color:#4F46E5;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 5</span>
+        脳波検査（平坦脳波の確認）
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">脳波検査の基本条件</h3>
+          <div class="ie-stat-grid">
+            <div class="ie-stat">
+              <div class="ie-stat-val">4誘導</div>
+              <div class="ie-stat-label">以上の同時記録<br>（単極・双極誘導）</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">10/20法</div>
+              <div class="ie-stat-label">電極配置<br>各電極間≥7cm（乳児5cm）</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">30分</div>
+              <div class="ie-stat-label">以上の連続記録<br>（全体で）</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">10μV/mm</div>
+              <div class="ie-stat-label">標準感度<br>（高感度2.5μV/mmも必須）</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">心電図</div>
+              <div class="ie-stat-label">脳波と同時記録<br>（アーチファクト除外）</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">聴性脳幹</div>
+              <div class="ie-stat-label">誘発反応検査で<br>II波以降の消失確認が望ましい</div>
+            </div>
+          </div>
+          <p class="rule-body" style="margin-top:10px;">検査中に呼名（左右の耳に大声で3回ずつ）と顔面への疼痛刺激を行い、明らかな脳活動が認められた場合は脳死判定を中止する。</p>
+        </div>
+      </div>
+
+      <!-- S6 無呼吸テスト -->
+      <h3 id="s6-apnea" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #4F46E5;line-height:1.4;">
+        <span style="color:#4F46E5;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 6</span>
+        無呼吸テスト
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">無呼吸テストの手順と判定基準</h3>
+          <p class="rule-body">高度の高CO₂血症アシデミアに曝されても延髄の呼吸中枢が刺激されない（脳幹機能廃絶）ことを確認する検査。他の判定項目をすべて行った後に実施する。</p>
+          <table class="ie-table">
+            <thead><tr><th>確認項目</th><th>基準値</th></tr></thead>
+            <tbody>
+              <tr><td>開始前 PaCO₂</td><td>35〜45 mmHg（望ましい）</td></tr>
+              <tr><td>体温（開始前）</td><td>深部体温≥35℃</td></tr>
+              <tr><td>収縮期血圧</td><td>1歳未満≥65mmHg、1〜13歳未満≥(年齢×2)+65mmHg、13歳以上≥90mmHg</td></tr>
+              <tr><td>判定基準</td><td><strong>PaCO₂≥60 mmHg</strong>まで上昇したことを確認（上限80mmHg超えないことが望ましい）</td></tr>
+              <tr><td>観察方法</td><td>胸部・腹部に手掌をあてるなどして慎重に判断。6歳未満は視診による観察と胸部聴診も行う</td></tr>
+              <tr><td>動脈血ガス</td><td>2〜3分ごとに採血（6歳未満は開始から3〜5分後に初回採血）</td></tr>
+            </tbody>
+          </table>
+          <div class="alert-red" style="margin-top:12px;">
+            <p class="rule-body" style="margin:0;"><strong>中止条件：</strong>低酸素・低血圧・著しい不整脈によりテストの継続が危険な場合は中止する。中止時の動脈血ガスでPaCO₂≥60mmHgを超えていれば、テストの評価は可能。</p>
+          </div>
+          <div class="ie-alpha" style="margin-top:12px;">
+            <div class="ie-alpha-inner">
+              <div class="ie-alpha-header"><span class="ie-alpha-badge">＋α</span><span class="ie-alpha-title">肺保護戦略とPEEP下無呼吸テスト</span></div>
+              <p class="rule-body" style="color:#4C1D95;">スペインのRCTでは、脳死ドナーを対象に肺保護戦略群（1回換気量6〜8mL/kg、PEEP 8〜10cmH₂O、PEEP下での無呼吸テスト）と従来管理群を比較し、肺保護戦略群で肺移植率が向上したと報告された。臓器提供を見据えた管理においては、無呼吸テストはPEEP下で実施することが望ましい。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SUMMARY ch2 -->
+      <h3 id="summary-ch2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #4F46E5;line-height:1.4;">
+        <span style="color:#4F46E5;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+        第2章のキーメッセージ
+      </h3>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#4F46E5;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+              <span class="rule-body"><strong>施設基準5類型：</strong>大学病院・救急指導医施設・脳外科専門医研修施設・救命救急センター・小児総合医療施設のいずれかであること</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#4F46E5;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+              <span class="rule-body"><strong>2回判定の間隔：</strong>成人は6時間以上、小児（6歳未満）は24時間以上。第2回判定終了時刻が死亡時刻</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#4F46E5;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+              <span class="rule-body"><strong>瞳孔の基準：</strong>左右最小径が4mm以上かつ固定（正円でない場合は最小径を測定）</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#4F46E5;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+              <span class="rule-body"><strong>脳幹反射7項目：</strong>対光・角膜・毛様脊髄・眼球頭・前庭・咽頭・咳の消失。前庭反射は氷水50mL注入（小児25mL）</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+              <span style="color:#4F46E5;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+              <span class="rule-body"><strong>無呼吸テスト判定：</strong>PaCO₂≥60mmHgへの上昇かつ自発呼吸なしを確認。開始前PaCO₂は35〜45mmHgが望ましい</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ═══════════════════════════════════════
+           第3章 ドナー管理
+      ═══════════════════════════════════════ -->
+      <div id="ch3" class="ch-banner">
+        <div class="ch-banner-title">第3章 ドナー管理</div>
+        <div class="ch-banner-sub">Brain-Dead Donor Management</div>
+      </div>
+
+      <!-- S1 生理学的変化 -->
+      <h3 id="s1-physiology" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #4F46E5;line-height:1.4;">
+        <span style="color:#4F46E5;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+        脳死後の生理学的変化
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">脳死ドナーで起こる病態変化</h3>
+          <p class="rule-body">集中治療医は脳死後の特徴的な生理学的変化を理解し、臓器保護を目的とした積極的な管理に切り替える必要がある。</p>
+          <table class="ie-table">
+            <thead><tr><th>臓器・系統</th><th>変化と病態</th></tr></thead>
+            <tbody>
+              <tr><td><strong>循環</strong></td><td>自律神経反射の消失・血管拡張による低血圧。超急性期に頭蓋内圧上昇による高血圧（交感神経ストーム）が生じることもある</td></tr>
+              <tr><td><strong>呼吸</strong></td><td>咳反射消失→喀痰貯留→無気肺・肺炎が高頻度。神経原性肺水腫・急性肺損傷/ARDSを合併し低酸素血症が進行することがある</td></tr>
+              <tr><td><strong>内分泌（ADH）</strong></td><td>下垂体後葉障害により<strong>半数以上でADH分泌低下</strong>→尿崩症・循環血液量低下・血管収縮能低下</td></tr>
+              <tr><td><strong>体温</strong></td><td>視床下部体温調節中枢の機能消失・代謝低下→低体温傾向。低体温は心収縮力低下・不整脈・凝固異常の要因</td></tr>
+              <tr><td><strong>甲状腺・副腎</strong></td><td>甲状腺刺激ホルモン・副腎皮質刺激ホルモンは比較的保たれやすい</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- S2 全身管理目標値 -->
+      <h3 id="s2-targets" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #4F46E5;line-height:1.4;">
+        <span style="color:#4F46E5;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+        全身管理の目標値（目安）
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">脳死ドナー管理目標値</h3>
+          <div class="ie-stat-grid">
+            <div class="ie-stat">
+              <div class="ie-stat-val">≥90</div>
+              <div class="ie-stat-label">収縮期血圧<br>mmHg（成人13歳以上）</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">36±0.5</div>
+              <div class="ie-stat-label">体温<br>℃</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">0.5〜1.0</div>
+              <div class="ie-stat-label">尿量<br>mL/kg/hr（乳幼児0.5〜2.0）</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">≥93%</div>
+              <div class="ie-stat-label">動脈血酸素飽和度<br>SpO₂</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">120〜180</div>
+              <div class="ie-stat-label">血糖値<br>mg/dL</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">≥7</div>
+              <div class="ie-stat-label">ヘモグロビン<br>g/dL（ヘマトクリット≥21%）</div>
+            </div>
+          </div>
+          <table class="ie-table" style="margin-top:12px;">
+            <thead><tr><th>項目</th><th>目標値</th></tr></thead>
+            <tbody>
+              <tr><td>血液ガス pH</td><td>7.35〜7.45</td></tr>
+              <tr><td>PaCO₂</td><td>35〜45 mmHg</td></tr>
+              <tr><td>PaO₂</td><td>70〜100 mmHg（あるいはSpO₂≥93%）</td></tr>
+              <tr><td>血漿Na</td><td>脳死判定前: &lt;155 mmol/L → 管理目標: 135〜150 mmol/L</td></tr>
+              <tr><td>PT-INR</td><td>&lt;1.5（臓器摘出可能な状態のために）</td></tr>
+              <tr><td>血小板数</td><td>&gt;5万/μL</td></tr>
+              <tr><td>心臓超音波 LVEF</td><td>≥45%</td></tr>
+              <tr><td>心係数（CI）</td><td>≥2.4 L/min/m²</td></tr>
+              <tr><td>SVV（Stroke Volume Variation）</td><td>&lt;10〜15%</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- S3 循環・ADH管理 -->
+      <h3 id="s3-circulation" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #4F46E5;line-height:1.4;">
+        <span style="color:#4F46E5;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>
+        循環管理・ADH（バソプレシン）投与
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">ADH（バソプレシン）の投与適応と方法</h3>
+          <p class="rule-body">ADHの主な作用は腎集合管での水分再吸収促進および血管収縮による血圧上昇作用。以下の場合にバソプレシンの投与を行う。</p>
+          <div class="ie-score-card" style="margin-bottom:12px;">
+            <div class="ie-score-head">ADH（バソプレシン）投与適応</div>
+            <div class="ie-score-items">
+              <div class="ie-score-item"><span class="ie-score-pt">①</span>十分な輸液を行っても低血圧が持続する場合</div>
+              <div class="ie-score-item"><span class="ie-score-pt">②</span>中枢性尿崩症を発症した場合</div>
+              <div class="ie-score-item"><span class="ie-score-pt">③</span>中枢性尿崩症の有無にかかわらず、以下の基準A〜Dを満たした場合</div>
+            </div>
+            <div class="ie-score-foot">
+              A) 多尿（3〜4L/day以上、2.5〜3.0mL/kg/hr以上）<br>
+              B) 血漿浸透圧が正常以上に上昇<br>
+              C) 尿比重&lt;1.005 または 尿浸透圧&lt;200 mOsm/kgH₂O<br>
+              D) 高Na血症（血漿Na≥145 mmol/L）
+            </div>
+          </div>
+          <table class="ie-table">
+            <thead><tr><th>薬剤</th><th>投与方法</th><th>備考</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><strong>バソプレシン</strong></td>
+                <td>0.02単位/kgを静脈内にボーラス投与後、0.01〜0.02単位/kg/hrで持続静脈投与。上限は成人1.8〜2.4単位/hr</td>
+                <td>V₁・V₂受容体に作用。血管抵抗維持・昇圧薬の減量に有用</td>
+              </tr>
+              <tr>
+                <td><strong>デスモプレシン</strong></td>
+                <td>初回1〜4μg静脈内投与後、尿量をモニタリングしながら6時間おきに1〜2μg静脈内投与</td>
+                <td>V₂受容体に高い親和性（抗利尿作用あり、外科的作用は弱い）。血行動態が安定している中枢性尿崩症単独の症状に使用。わが国では静脈注射用製剤は適応外</td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="rule-body" style="margin-top:10px;">ADH以外の昇圧薬：ノルアドレナリンが主体。心機能低下がある場合はドパミン・ドブタミン・アドレナリンを考慮。超急性期の交感神経ストーム時は短時間作用性の降圧薬またはβブロッカーを使用。</p>
+          <p class="rule-body">輸液：まず等張晶質液を使用。ヒドロキシエチルデンプン（HES）の使用は避ける。高ナトリウム血症に注意しながら輸液補充する。</p>
+        </div>
+      </div>
+
+      <!-- S4 呼吸器管理 -->
+      <h3 id="s4-respiratory" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #4F46E5;line-height:1.4;">
+        <span style="color:#4F46E5;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 4</span>
+        呼吸器管理・肺保護戦略
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">肺保護戦略による移植率の向上</h3>
+          <p class="rule-body">臓器提供では肺の状態を移植可能な状態に維持するのが最も難しい。P/F比300以上が原則として肺移植が可能な条件。脳死ドナーにも通常の重症呼吸不全患者と同様に肺保護戦略を行うことが有利とされる。</p>
+          <div class="ie-stat-grid">
+            <div class="ie-stat">
+              <div class="ie-stat-val">6 mL/kg</div>
+              <div class="ie-stat-label">1回換気量の制限<br>（肺保護戦略）</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">&lt;30</div>
+              <div class="ie-stat-label">最大吸気圧<br>cmH₂O以下</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">≥93%</div>
+              <div class="ie-stat-label">動脈血酸素飽和度<br>SpO₂目標</div>
+            </div>
+          </div>
+          <p class="rule-body" style="margin-top:10px;">無気肺防止のため体位変換を行い、必要に応じて気管支鏡による吸痰・リクルートメントを実施する。適切なモニタリング下に過剰輸液を制限することで移植できる肺を増やせる可能性がある。</p>
+        </div>
+      </div>
+
+      <!-- S5 内分泌管理 -->
+      <h3 id="s5-endocrine" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #4F46E5;line-height:1.4;">
+        <span style="color:#4F46E5;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 5</span>
+        コルチコステロイド・甲状腺ホルモン
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">コルチコステロイド補充療法</h3>
+          <p class="rule-body">副腎皮質刺激ホルモン欠乏によるコルチコステロイド不足、炎症反応抑制を目的に補充療法を行う。意義として、ショックの離脱・肺損傷改善・炎症反応抑制が挙げられる。ただし有効性は限定的との報告もある。</p>
+          <table class="ie-table">
+            <thead><tr><th>投与方法</th><th>内容</th></tr></thead>
+            <tbody>
+              <tr><td><strong>高用量（米国ステートメント推奨）</strong></td><td>① メチルプレドニゾロン1,000mg静脈注射（24時間おき）<br>② 15mg/kg（24時間おき）<br>③ 250mgボーラス投与後100mg/hrで持続投与</td></tr>
+              <tr><td><strong>低用量（わが国マニュアル）</strong></td><td>輸液療法や心血管作動薬に反応しないショック時に、<strong>ハイドロコルチゾン 300mg/day</strong>の投与を検討する（高用量と同等のショック改善効果が報告されている）</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">甲状腺ホルモン投与</h3>
+          <p class="rule-body">十分な輸液・ADH・昇圧薬投与にもかかわらず循環動態が不安定な場合や、左心駆出率が低下した心臓ドナーで考慮する。</p>
+          <table class="ie-table">
+            <thead><tr><th>薬剤</th><th>投与方法</th></tr></thead>
+            <tbody>
+              <tr><td><strong>チロキシン（T₄）</strong></td><td>20μgボーラス投与後、10μg/hrで持続投与</td></tr>
+              <tr><td><strong>トリヨードサイロニン（T₃）</strong></td><td>4.0μgボーラス投与後、3μg/hrで持続投与</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- S6 その他の管理 -->
+      <h3 id="s6-others" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #4F46E5;line-height:1.4;">
+        <span style="color:#4F46E5;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 6</span>
+        血糖・体温・感染管理
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">その他の管理ポイント</h3>
+          <table class="ie-table">
+            <thead><tr><th>管理項目</th><th>内容</th></tr></thead>
+            <tbody>
+              <tr><td><strong>血糖管理</strong></td><td>脳死後はインスリン抵抗性増大・分泌低下→高血糖が起こりやすい。高血糖は提供臓器数減少・移植後臓器生着悪化に関与。<strong>120〜180 mg/dL</strong>を目安にインスリン投与。</td></tr>
+              <tr><td><strong>体温管理</strong></td><td>体温中枢の障害で低体温になりやすい。積極的に保温し<strong>36±0.5℃</strong>を維持。低体温は心収縮力低下・不整脈・凝固系異常の要因。高体温では感染症の可能性を考慮。</td></tr>
+              <tr><td><strong>感染管理</strong></td><td>ICU滞在期間の延長とともに感染症発症率増加。呼吸器感染・カテーテル感染・創部感染に注意。感染疑い時は早期から各種培養提出・カテーテル交換・適切な抗菌薬治療を行う。「全身性・活動性感染症」はドナーの除外条件。</td></tr>
+              <tr><td><strong>栄養管理</strong></td><td>脳死ドナーの最適な栄養管理に関するエビデンスは乏しい。脳死判定前に行われていた栄養管理を継続するよう推奨されている。小腸移植を行う可能性がある場合は経腸栄養を考慮する。</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- SUMMARY ch3 -->
+      <h3 id="summary-ch3" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #4F46E5;line-height:1.4;">
+        <span style="color:#4F46E5;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+        第3章のキーメッセージ
+      </h3>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#4F46E5;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+              <span class="rule-body"><strong>脳死後の3大変化：</strong>自律神経消失→低血圧、咳反射消失→無気肺・肺炎、ADH分泌低下（半数以上）→尿崩症</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#4F46E5;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+              <span class="rule-body"><strong>バソプレシン投与量：</strong>0.02単位/kgボーラス→0.01〜0.02単位/kg/hrで持続。上限成人1.8〜2.4単位/hr。HESは禁忌</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#4F46E5;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+              <span class="rule-body"><strong>肺保護戦略：</strong>P/F≥300が肺移植の条件。1回換気量6mL/kg・最大吸気圧&lt;30cmH₂O・SpO₂≥93%を目標</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#4F46E5;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+              <span class="rule-body"><strong>コルチコステロイド：</strong>わが国のマニュアルでは低用量ハイドロコルチゾン300mg/dayを使用。高用量と同等のショック改善効果</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+              <span style="color:#4F46E5;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+              <span class="rule-body"><strong>血糖・体温管理：</strong>血糖120〜180mg/dL（高血糖は臓器機能悪化）、体温36±0.5℃維持（低体温→不整脈・凝固異常）</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 出典 -->
+      <p style="font-size:0.72rem;color:#9CA3AF;margin-top:24px;line-height:1.7;">
+        出典：日本集中医療医学会専門医テキスト 第4版（日本集中医療医学会編）<br>
+        第30章「移植」— 終末期医療と臓器提供（渥美生弘）・法的脳死判定基準（中村健太郎）・ドナー管理（内藤宏道）<br>
+        本資料は教育目的で作成したサマリーです。実際の判定・管理には必ず法的脳死判定マニュアル等の原典を参照してください。
+      </p>
+      <p style="font-size:0.75rem;color:var(--muted);text-align:right;margin-top:8px;">制作：ICU 関谷</p>
+
+    </div><!-- /ie-main -->
+
+    <!-- ===== SIDEBAR ===== -->
+    <aside class="ie-sidebar">
+      <div class="ie-sidebar-card">
+        <div class="ie-sidebar-title">目次</div>
+        <a href="#ch1" class="ie-toc-chapter">第1章 終末期医療と臓器提供</a>
+        <a href="#s1-eol" class="ie-toc-section">S1 — 終末期の定義</a>
+        <a href="#s2-donation" class="ie-toc-section">S2 — 提供の適応と提供可能臓器</a>
+        <a href="#s3-exclusion" class="ie-toc-section">S3 — 除外例・禁忌</a>
+        <a href="#s4-presumed" class="ie-toc-section">S4 — 脳死とされうる状態</a>
+        <a href="#s5-family" class="ie-toc-section">S5 — 家族への説明</a>
+        <a href="#summary-ch1" class="ie-toc-section">SUMMARY</a>
+        <a href="#ch2" class="ie-toc-chapter">第2章 法的脳死判定基準</a>
+        <a href="#s1-facility" class="ie-toc-section">S1 — 施設基準・判定医要件</a>
+        <a href="#s2-prerequisites" class="ie-toc-section">S2 — 前提条件確認</a>
+        <a href="#s3-coma" class="ie-toc-section">S3 — 深昏睡・瞳孔</a>
+        <a href="#s4-brainstem" class="ie-toc-section">S4 — 脳幹反射7項目</a>
+        <a href="#s5-eeg" class="ie-toc-section">S5 — 脳波検査</a>
+        <a href="#s6-apnea" class="ie-toc-section">S6 — 無呼吸テスト</a>
+        <a href="#summary-ch2" class="ie-toc-section">SUMMARY</a>
+        <a href="#ch3" class="ie-toc-chapter">第3章 ドナー管理</a>
+        <a href="#s1-physiology" class="ie-toc-section">S1 — 脳死後の生理学的変化</a>
+        <a href="#s2-targets" class="ie-toc-section">S2 — 全身管理目標値</a>
+        <a href="#s3-circulation" class="ie-toc-section">S3 — 循環・ADH管理</a>
+        <a href="#s4-respiratory" class="ie-toc-section">S4 — 呼吸器管理</a>
+        <a href="#s5-endocrine" class="ie-toc-section">S5 — コルチコステロイド・甲状腺ホルモン</a>
+        <a href="#s6-others" class="ie-toc-section">S6 — 血糖・体温・感染</a>
+        <a href="#summary-ch3" class="ie-toc-section">SUMMARY</a>
+      </div>
+    </aside>
+  </div><!-- /ie-layout -->
+
+  <script src="../script.js"></script>
+</body>
+</html>
