@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>人工呼吸管理 Level 1 — 基礎 | 聖路加ICU</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../style-v2.css">
+  <script src="../../site-config.js"></script>
+  <style>
+    .subpage-hero { background: linear-gradient(150deg, #3D1F00 0%, #B45309 55%, #D97706 100%) !important; }
+    .ie-badge { display:inline-block;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:20px;padding:4px 12px;font-size:0.72rem;font-weight:500;color:#fff;margin-right:6px;margin-top:8px; }
+
+    .content-wrap { display:flex;gap:32px;align-items:flex-start;max-width:1140px;margin:0 auto;padding:32px 20px 80px; }
+    .main-col { flex:1;min-width:0;max-width:900px; }
+
+    .ie-table { width:100%;border-collapse:collapse;font-size:0.82rem;margin-top:10px; }
+    .ie-table th { background:#FFFBEB;border:1px solid #FDE68A;padding:8px 12px;font-weight:700;font-size:0.78rem;text-align:left; }
+    .ie-table td { border:1px solid var(--border);padding:8px 12px;vertical-align:top;line-height:1.7; }
+    .ie-table tr:nth-child(even) td { background:#F8FAFC; }
+
+    .ie-flow { display:flex;flex-direction:column;gap:0; }
+    .ie-flow-item { display:flex;align-items:flex-start;gap:14px;background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:14px 16px; }
+    .ie-flow-arrow { text-align:center;color:#B45309;font-size:1.1rem;font-weight:700;padding:4px 0; }
+    .ie-flow-num { width:28px;height:28px;border-radius:50%;background:#B45309;color:#fff;font-size:0.78rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0; }
+
+    .ie-stat-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px; }
+    @media (max-width:520px) { .ie-stat-grid { grid-template-columns:1fr 1fr; } }
+    .ie-stat { background:#FFFBEB;border:1px solid #FDE68A;border-radius:8px;padding:14px 12px;text-align:center; }
+    .ie-stat-val { font-size:1.25rem;font-weight:900;color:#B45309;line-height:1.3; }
+    .ie-stat-label { font-size:0.68rem;color:var(--muted);margin-top:5px;line-height:1.5; }
+
+    .ie-alpha { background:#F5F3FF;border:1px solid #DDD6FE;border-radius:8px;padding:2px;margin-top:10px; }
+    .ie-alpha-inner { padding:14px 16px; }
+    .ie-alpha-header { display:flex;align-items:center;gap:8px;margin-bottom:8px; }
+    .ie-alpha-badge { background:#7C3AED;color:#fff;font-size:0.65rem;font-weight:800;padding:2px 8px;border-radius:20px;letter-spacing:0.05em; }
+    .ie-alpha-title { font-size:0.85rem;font-weight:700;color:#4C1D95; }
+
+    .alert-yellow { background:#FFFBEB;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#92400E;line-height:1.7; }
+    .alert-green  { background:#F0FDF4;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#14532D;line-height:1.7; }
+    .alert-red    { background:#FEF2F2;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#7F1D1D;line-height:1.7; }
+
+    .ie-echo-grid { display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px; }
+    @media (max-width:520px) { .ie-echo-grid { grid-template-columns:1fr; } }
+    .ie-echo-box { background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:12px 14px; }
+    .ie-echo-name { font-size:0.78rem;font-weight:800;color:var(--text);margin-bottom:6px; }
+    .ie-echo-body { font-size:0.82rem;color:var(--text);line-height:1.7; }
+
+    .dt-source { text-align:right;margin-top:-10px;margin-bottom:16px;padding-right:4px; }
+    .dt-source a { font-size:0.68rem;color:#9CA3AF;text-decoration:none;transition:color 0.15s; }
+    .dt-source a:hover { color:#2D7A4F; }
+    .dt-source::before { content:"出典：";font-size:0.65rem;color:#BFBFBF; }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="../../index.html" class="nav-logo">
+        <img src="../../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+        <span class="nav-logo-text">聖路加国際病院ICU</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="../../index.html" class="nav-link">ホーム</a></li>
+        <li><a href="../icu-policy.html" class="nav-link">ICUの方針</a></li>
+        <li><a href="../disease-topics.html" class="nav-link">疾患トピックス</a></li>
+        <li><a href="../articles-guidelines.html" class="nav-link">論文・GL</a></li>
+        <li><a href="../icu-core-conf.html" class="nav-link">コアカン</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="subpage-hero">
+    <div class="hero-content" style="max-width:860px;margin:0 auto;padding:36px 20px 32px;">
+      <a href="../disease-topics.html" class="back-link">← 疾患・項目別まとめ一覧へ戻る</a>
+      <div style="font-size:0.72rem;color:rgba(255,255,255,0.6);margin-bottom:6px;letter-spacing:0.08em;">RESPIRATORY SYSTEM</div>
+      <h1 style="font-size:clamp(1.3rem,3vw,1.75rem);font-weight:900;color:#fff;line-height:1.35;margin-bottom:12px;">
+        人工呼吸管理 Level 1 — 基礎
+      </h1>
+      <div>
+        <span class="ie-badge">疾患トピックス</span>
+        <span class="ie-badge">3本の収録論文を統合</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== MAIN LAYOUT ===== -->
+  <div class="content-wrap">
+
+    <div class="main-col">
+
+      <div class="card" style="margin-bottom:24px;">
+        <div class="card-inner">
+          <h3 class="rule-title" style="margin-bottom:10px;">本ページで使用する略語一覧</h3>
+          <table style="width:100%;border-collapse:collapse;font-size:0.8rem;line-height:1.6;">
+            <tbody>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">ARDS</td><td style="padding:4px 8px;">Acute Respiratory Distress Syndrome — 急性呼吸窮迫症候群</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">TV</td><td style="padding:4px 8px;">Tidal Volume — 一回換気量</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">IBW / PBW</td><td style="padding:4px 8px;">Ideal / Predicted Body Weight — 理想体重 / 予測体重</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">Pplat</td><td style="padding:4px 8px;">Plateau Pressure — プラトー圧</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">PEEP</td><td style="padding:4px 8px;">Positive End-Expiratory Pressure — 呼気終末陽圧</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">P/F比</td><td style="padding:4px 8px;">PaO2/FiO2 ratio — 酸素化の指標</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">S/F比</td><td style="padding:4px 8px;">SpO2/FiO2 ratio — P/F比の非侵襲的代替</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">HFNC</td><td style="padding:4px 8px;">High Flow Nasal Cannula — 高流量鼻カニューレ</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">NIV</td><td style="padding:4px 8px;">Non-Invasive Ventilation — 非侵襲的陽圧換気</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">IMV</td><td style="padding:4px 8px;">Invasive Mechanical Ventilation — 侵襲的人工呼吸</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">VILI</td><td style="padding:4px 8px;">Ventilator-Induced Lung Injury — 人工呼吸器関連肺損傷</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">ROX</td><td style="padding:4px 8px;">Respiratory rate-OXygenation index — 呼吸数・酸素化指数</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">HACOR</td><td style="padding:4px 8px;">Heart rate, Acidosis, Consciousness, Oxygenation, Respiratory rate — NIV失敗予測スコア</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">OR</td><td style="padding:4px 8px;">Odds Ratio — オッズ比</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">RR</td><td style="padding:4px 8px;">Risk Ratio / Relative Risk — リスク比</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CI</td><td style="padding:4px 8px;">Confidence Interval — 信頼区間</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CrI</td><td style="padding:4px 8px;">Credible Interval — 信用区間（ベイズ統計）</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">RV</td><td style="padding:4px 8px;">Right Ventricle — 右心室</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">ACP</td><td style="padding:4px 8px;">Acute Cor Pulmonale — 急性肺性心</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">NMBA</td><td style="padding:4px 8px;">Neuromuscular Blocking Agent — 筋弛緩薬</td></tr>
+              <tr><td style="padding:4px 8px;font-weight:700;color:var(--blue);">VV-ECMO</td><td style="padding:4px 8px;">Veno-Venous Extracorporeal Membrane Oxygenation — 静脈静脈体外式膜型人工肺</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ============================== 第1章：気管挿管の適応 ============================== -->
+      <div id="vent-ch1" style="background:linear-gradient(150deg,#3D1F00 0%,#B45309 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:0;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">第1章 気管挿管の適応</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Intubation Thresholds</div>
+      </div>
+
+      <h3 id="vent-s1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+        <span style="color:#B45309;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+        17の挿管閾値と実臨床での挿管率
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">生理学的閾値は挿管の「トリガー」ではなく「意思決定補助」</h3>
+          <p class="rule-body">急性低酸素性呼吸不全はICU入室の約10%を占め、死亡率は20〜40%に達する。気管挿管は生命維持に不可欠だが、心停止・人工呼吸器関連肺炎・せん妄・ICU後後遺症など重大な合併症リスクを伴う。臨床試験では「侵襲的人工呼吸の生理学的閾値」がランダム化基準として広く用いられているが、<span class="mark-red"><strong>これらの閾値が実臨床での挿管タイミングを規定しているかどうかは不明</strong></span>であった。</p>
+          <p class="rule-body" style="margin-top:8px;">Yarnell らは2施設の大規模コホート（MIMIC-IV N=3,365 + AmsterdamUMCdb N=1,361、合計4,726例）を用いて17種類の挿管閾値を体系的に評価した。その結果、<span class="mark-red"><strong>すべての閾値において、到達後3時間以内の気管挿管率は6〜34%と低値</strong></span>であり、いずれの閾値も実臨床での挿管決定を十分に規定していないことが示された。</p>
+          <div class="ie-stat-grid" style="margin-top:12px;">
+            <div class="ie-stat">
+              <div class="ie-stat-val">4,726例</div>
+              <div class="ie-stat-label">2施設の研究対象<br>総患者数</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">17種類</div>
+              <div class="ie-stat-label">評価した気管挿管の<br>生理学的閾値</div>
+            </div>
+            <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+              <div class="ie-stat-val" style="color:#DC2626;">6〜34%</div>
+              <div class="ie-stat-label">閾値到達後3時間以内の<br>挿管率（全閾値）</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-yarnell-imv2023.html#imv-s1">Yarnell（AJRCCM 2023）▸ 研究背景</a> / <a href="../articles-gl-yarnell-imv2023.html#imv-s5">Yarnell（AJRCCM 2023）▸ 主要アウトカム</a></div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">主要な閾値と3時間以内挿管率</h3>
+          <p class="rule-body">閾値は4カテゴリーに分類される：検証済み臨床スコア（P:F比・S:F比・ROX・HACOR）、臨床試験基準（FLORALI）、観察研究基準（de Montmollin-Bauer・Darreau）、非呼吸器系（昇圧薬・GCS）。以下にMIMICコホートおよびAmsterdamUMCdbコホートの結果を示す。</p>
+          <table class="ie-table" style="margin-top:12px;">
+            <thead>
+              <tr><th>閾値</th><th>MIMIC 3h以内IMV (%)</th><th>Amsterdam 3h以内IMV (%)</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>P:F &lt;80</td><td>19</td><td>18</td></tr>
+              <tr><td>P:F &lt;100</td><td>18</td><td>17</td></tr>
+              <tr><td>P:F &lt;150</td><td>16</td><td>13</td></tr>
+              <tr><td>S:F &lt;90</td><td>13</td><td>25</td></tr>
+              <tr><td>S:F &lt;120</td><td>12</td><td>23</td></tr>
+              <tr><td>S:F &lt;180</td><td>6</td><td>13</td></tr>
+              <tr><td>ROX &lt;3</td><td>12</td><td>17</td></tr>
+              <tr><td>ROX &lt;4</td><td>10</td><td>11</td></tr>
+              <tr><td>ROX &lt;5</td><td>8</td><td>13</td></tr>
+              <tr><td>HACOR &gt;10</td><td>13</td><td>14</td></tr>
+              <tr><td>HACOR &gt;5</td><td>11</td><td>12</td></tr>
+              <tr><td>FLORALI基準</td><td>9</td><td>13</td></tr>
+              <tr><td>Darreau基準</td><td>20</td><td>—</td></tr>
+              <tr><td>昇圧薬開始</td><td>14</td><td>34</td></tr>
+              <tr><td>GCS &lt;9</td><td>11</td><td>11</td></tr>
+              <tr><td>GCS &lt;12</td><td>9</td><td>11</td></tr>
+            </tbody>
+          </table>
+          <div class="alert-yellow" style="margin-top:12px;">
+            <strong>臨床的ポイント：</strong>ランダム化試験で広く使われるFLORALI基準でも、閾値到達後3時間以内に挿管されたのはMIMICでは9%、AmsterdamUMCdbでは13%のみ。試験プロトコルと実臨床の乖離が大きい。
+          </div>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-yarnell-imv2023.html#imv-s3">Yarnell（AJRCCM 2023）▸ 17種類の閾値</a> / <a href="../articles-gl-yarnell-imv2023.html#imv-s5">Yarnell（AJRCCM 2023）▸ 3時間以内挿管率</a></div>
+
+      <h3 id="vent-s2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+        挿管率を変動させる因子
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">挿管を増加させる因子と減少させる因子</h3>
+          <p class="rule-body">ベイズ多変量多項ロジスティック回帰（MIMICコホート）では、閾値到達時・到達後の臨床状況が挿管率と強く関連していた。<span class="mark-red"><strong>異常な呼吸仕事量（OR 3.11）</strong></span>および<span class="mark-red"><strong>NIV使用（OR 2.41）</strong></span>は、いずれも閾値到達後3時間以内の挿管率と有意に正の相関を示した。昼間以外の時間帯も一貫して挿管率が高かった（OR 2.21〜2.61）。</p>
+          <div class="ie-echo-grid" style="margin-top:10px;">
+            <div class="ie-echo-box">
+              <div class="ie-echo-name">挿管を増加させる因子</div>
+              <div class="ie-echo-body">
+                異常な呼吸仕事量（OR 3.11、95% CrI 2.47〜3.88）<br>
+                NIV使用（OR 2.41、95% CrI 1.89〜3.01）<br>
+                夜間帯（午前0〜6時 OR 2.43、午前6〜12時 OR 2.61）
+              </div>
+            </div>
+            <div class="ie-echo-box">
+              <div class="ie-echo-name">挿管を減少させる因子</div>
+              <div class="ie-echo-body">
+                高齢（10歳増加ごと OR 0.81）<br>
+                COPD（OR 0.67、95% CrI 0.55〜0.81）<br>
+                CHF（OR 0.74、95% CrI 0.62〜0.87）
+              </div>
+            </div>
+          </div>
+          <div class="alert-yellow" style="margin-top:10px;">
+            <strong>生理学的閾値だけでは挿管決定を説明できない：</strong>非生理学的因子（人種・時間帯）が独立した関連因子であることは、挿管決定が多因子に規定されることを意味する。閾値は「自動トリガー」ではなく、臨床的文脈を統合した意思決定の補助ツールとして活用すべきである。
+          </div>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-yarnell-imv2023.html#imv-s7">Yarnell（AJRCCM 2023）▸ 挿管率を増加させる因子</a> / <a href="../articles-gl-yarnell-imv2023.html#imv-s8">Yarnell（AJRCCM 2023）▸ 挿管率を低下させる因子</a></div>
+
+      <!-- SUMMARY Ch1 -->
+      <h3 id="vent-sum1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:36px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+        <span style="color:#B45309;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>第1章のキーメッセージ
+      </h3>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+              <span class="rule-body"><strong>全閾値で挿管率は低い：</strong>17種類のすべての閾値において、到達後3時間以内の気管挿管率は6〜34%と低値。閾値は「自動トリガー」ではない。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+              <span class="rule-body"><strong>FLORALI基準でも9〜13%：</strong>試験で広く使われる基準でも実臨床での挿管率は低く、プロトコルと実臨床の乖離が示唆された。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+              <span class="rule-body"><strong>異常な呼吸仕事量（OR 3.11）とNIV使用（OR 2.41）が挿管率を最も上げる：</strong>これらの因子は独立して挿管率と正の相関を示した。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+              <span class="rule-body"><strong>夜間帯で挿管率が高い：</strong>昼間以外の時間帯は一貫して挿管率が高かった（OR 2.21〜2.61）。監視体制や意思決定プロセスの違いが影響している可能性がある。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+              <span class="rule-body"><strong>高齢・COPD・CHFでは挿管率が低い：</strong>ケアゴール設定（緩和方針）や挿管への慎重な判断が影響している可能性がある。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ============================== 第2章：肺保護換気 ============================== -->
+      <div id="vent-ch2" style="background:linear-gradient(150deg,#3D1F00 0%,#B45309 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">第2章 肺保護換気</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Lung-Protective Ventilation</div>
+      </div>
+
+      <h3 id="vent-s3" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+        <span style="color:#B45309;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>
+        低一回換気量（ARDSNet プロトコル）
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">ARDS患者には低一回換気量 6 mL/kg IBW（強い推奨・高確実性）</h3>
+          <p class="rule-body">ARDSと診断された患者の人工呼吸管理において、<span class="mark-green"><strong>一回換気量（TV）を6 mL/kg（理想体重IBW基準）</strong></span>に設定することは、ARDSNet試験以来の確立された推奨であり、SSC 2026でも強い推奨・高確実性として継続されている（Statement 71）。高一回換気量は人工呼吸器関連肺損傷（VILI）を惹起し死亡率を悪化させる。</p>
+          <p class="rule-body" style="margin-top:8px;">ARDSNet試験では、TV 6 mL/kg（予測体重）がTV 12 mL/kgと比較して死亡率を有意に低下させた。この推奨は実臨床で徹底されるべき最重要の原則の一つである。</p>
+          <div class="ie-stat-grid" style="margin-top:12px;">
+            <div class="ie-stat" style="background:#F0FDF4;border-color:#BBF7D0;">
+              <div class="ie-stat-val" style="color:#16A34A;">6 mL/kg</div>
+              <div class="ie-stat-label">ARDS患者の<br>目標TV（IBW基準）</div>
+            </div>
+            <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+              <div class="ie-stat-val" style="color:#DC2626;">12 mL/kg</div>
+              <div class="ie-stat-label">ARDSNet対照群<br>（死亡率が有意に高い）</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">強い推奨</div>
+              <div class="ie-stat-label">SSC 2026<br>推奨の強さ</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-ssc2026.html#ssc-s4-5">SSC 2026 ▸ 人工呼吸管理（ARDS）</a> / <a href="../articles-gl-rhd-ards2025.html#s1">RHD-ARDS（Eur Respir Rev 2025）▸ ARDSNet試験</a></div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">ARDS以外の急性低酸素性呼吸不全：6〜8 mL/kg IBW（条件付き推奨・低確実性）</h3>
+          <p class="rule-body">ARDS以外の急性低酸素性呼吸不全患者に対しては、<span class="mark-yellow"><strong>6〜8 mL/kg IBW</strong></span>の一回換気量が条件付きで推奨される（SSC 2026 Statement 72、新しい推奨）。2件のRCTメタ解析では、低TV群（4〜6 mL/kg）と中等度TV群（8〜10 mL/kg）の比較で90日死亡率に有意差はなかった（RR 1.04、差なし）。</p>
+          <p class="rule-body" style="margin-top:8px;">しかし、<span class="mark-red"><strong>ARDSの見逃し率（mislabeling rate）は臨床試験では48〜52%と非常に高い</strong></span>。ARDS診断の不確実性を踏まえると、非ARDSと判断されている患者にも6〜8 mL/kgの低め設定が安全と考えられる。</p>
+          <div class="alert-yellow" style="margin-top:10px;">
+            <strong>ARDS見逃しに注意：</strong>ICUで管理される急性低酸素性呼吸不全患者の約半数は、後になってARDSの診断基準を満たすことが明らかになる。「非ARDS」と判断した患者でも、低TV管理を継続することがより安全である。
+          </div>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-ssc2026.html#ssc-s4-5">SSC 2026 ▸ 人工呼吸管理（非ARDS）</a></div>
+
+      <h3 id="vent-s4" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 4</span>
+        プラトー圧と駆動圧
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">プラトー圧 ≤30 cmH2O（強い推奨・高確実性）</h3>
+          <p class="rule-body">プラトー圧（Pplat）≤30 cmH2Oの維持はSSC以前から確立している人工呼吸管理の原則であり、SSC 2026でも強い推奨・高確実性として継続されている（Statement 73）。高プラトー圧は肺胞を過伸展させ、VILIを惹起する。</p>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-ssc2026.html#ssc-s4-5">SSC 2026 ▸ プラトー圧</a></div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">RV保護換気：プラトー圧 &lt;27 cmH2Oの提唱</h3>
+          <p class="rule-body">ARDSにおける右心不全（RHD）の文脈では、機械換気設定がRV後負荷の主要規定因子として認識されている。PEEP・駆動圧の上昇により経肺圧が増大し、肺胞内血管の圧迫と肺胞外血管の伸展を引き起こしてPVRを変化させる。高プラトー圧はRHDと死亡率の増大と関連している。</p>
+          <div class="alert-green" style="margin-top:10px;">
+            <strong>RV保護換気の要点：</strong><br>
+            (1) プラトー圧 &lt;27 cmH2O — ACPを予防するための上限値<br>
+            (2) 固有PEEP（intrinsic PEEP）の回避<br>
+            (3) 重篤な高炭酸ガス血症の制限（hypercapnia → PVR上昇・心筋収縮力低下）<br>
+            (4) コンプライアンス誘導型またはトランスプルモナリー圧指向型のPEEP設定が優れる可能性
+          </div>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-rhd-ards2025.html#s4">RHD-ARDS（Eur Respir Rev 2025）▸ RV保護換気</a></div>
+
+      <div class="ie-alpha">
+        <div class="ie-alpha-inner">
+          <div class="ie-alpha-header">
+            <span class="ie-alpha-badge">＋α</span>
+            <span class="ie-alpha-title">ARDS重症度分類と人工呼吸設定の目安</span>
+          </div>
+          <p class="rule-body" style="color:#4C1D95;">ARDSの重症度はP/F比（またはS/F比）で軽症（P/F 201〜300）・中等度（P/F 101〜200）・重症（P/F ≤100）に分類される（Berlin定義、PEEP ≥5 cmH2O下）。高PEEPや腹臥位換気の適応は中等度〜重症（P/F ≤200）に限定される。軽症ARDSへの高PEEP戦略は有害となる可能性があり、過剰な適用を避ける。S/F比で代替できる場合があり（S/F &lt;235 が P/F &lt;200 に対応）、ABGが困難な場面で活用する。</p>
+        </div>
+      </div>
+      <div class="dt-source" style="margin-top:6px;"><a href="../articles-gl-ssc2026.html#ssc-s4-5">SSC 2026 ▸ ARDS重症度分類</a></div>
+
+      <!-- SUMMARY Ch2 -->
+      <h3 id="vent-sum2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:36px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+        <span style="color:#B45309;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>第2章のキーメッセージ
+      </h3>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+              <span class="rule-body"><strong>ARDSにはTV 6 mL/kg IBW（強い推奨）：</strong>ARDSNet試験以来の確立された推奨。高TVはVILIを惹起し死亡率を悪化させる。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+              <span class="rule-body"><strong>非ARDSにもTV 6〜8 mL/kg IBW（SSC 2026新推奨）：</strong>ARDS見逃し率が48〜52%と高いため、非ARDS患者でも低め設定が安全。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+              <span class="rule-body"><strong>プラトー圧 ≤30 cmH2O：</strong>SSC 2026で強い推奨・高確実性として継続。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+              <span class="rule-body"><strong>RV保護換気ではPplat &lt;27 cmH2Oを推奨：</strong>高プラトー圧はRHDと死亡率の増大と関連。ACPを予防するための上限値として提唱されている。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+              <span class="rule-body"><strong>ARDSNet試験のデータ：</strong>TV 6 mL/kg（予測体重）がTV 12 mL/kgと比較して死亡率を有意に低下。肺保護換気はARDS管理の柱。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ============================== 第3章：PEEP設定 ============================== -->
+      <div id="vent-ch3" style="background:linear-gradient(150deg,#3D1F00 0%,#B45309 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">第3章 PEEP設定</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">PEEP Management</div>
+      </div>
+
+      <h3 id="vent-s5" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+        <span style="color:#B45309;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 5</span>
+        SSC 2026のPEEP推奨
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">中等度〜重症ARDSには高PEEP戦略（条件付き推奨・中等度確実性）</h3>
+          <p class="rule-body">SSC 2026のStatements 73〜76はPEEPと腹臥位換気に関する確立された推奨を整理している。中等度〜重症ARDS（P/F ≤200）に対して高PEEP戦略を推奨する一方、漸増的PEEP滴定戦略は推奨しないと明記されている。</p>
+          <table class="ie-table" style="margin-top:12px;">
+            <thead>
+              <tr><th>Statement</th><th>推奨内容</th><th>推奨の強さ</th><th>確実性</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>St. 73</td><td>プラトー圧 ≤30 cmH2O を維持する</td><td>強い推奨</td><td>高確実性</td></tr>
+              <tr><td>St. 74</td><td>中等度〜重症ARDSには高PEEP戦略を行う</td><td>条件付き推奨</td><td>中等度確実性</td></tr>
+              <tr><td>St. 75</td><td>漸増的PEEP滴定戦略（incremental PEEP titration）は推奨しない</td><td>強い推奨</td><td>中等度確実性</td></tr>
+              <tr><td>St. 76</td><td>中等度〜重症ARDSには腹臥位換気 &gt;12時間/日を行う</td><td>条件付き推奨</td><td>中等度確実性</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-ssc2026.html#ssc-s4-5">SSC 2026 ▸ プラトー圧・高PEEP・腹臥位</a></div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">漸増的PEEP滴定はなぜ推奨されないのか</h3>
+          <p class="rule-body">漸増的PEEP滴定とは、PEEP値を段階的に増加させながら肺リクルートメント（recruitment maneuver）を行い、最適なPEEPを見つけようとする手法である。ART試験（2017年、1,010名）では、この戦略が通常のPEEP管理と比較して死亡率を増加させる結果となり（RR 1.20）、以来有害な可能性があるとして推奨されていない。SSC 2026でも「推奨しない」（強い推奨）として継続されている。</p>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-ssc2026.html#ssc-s4-5">SSC 2026 ▸ 漸増的PEEP滴定</a></div>
+
+      <h3 id="vent-s6" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 6</span>
+        PEEPとRV機能への影響
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">PEEPのRV機能への複雑な影響</h3>
+          <p class="rule-body">PEEPのRV機能への影響は複雑で、低すぎても高すぎても肺容量依存的にPVRが上昇する。高PEEPはRV stroke indexを有意に低下させることが報告されている。一方で、PEEPの低減戦略がRVを保護するという前向きエビデンスは現時点では限定的であり、多施設試験が必要である。</p>
+          <p class="rule-body" style="margin-top:8px;">中程度の機能的残気量（FRC）でPVRが最小化されるため、PEEPの設定においてはRV後負荷への影響を意識する必要がある。コンプライアンス誘導型またはトランスプルモナリー圧指向型のPEEP設定が、FiO2/PEEPテーブルよりも優れる可能性が示唆されている。</p>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-rhd-ards2025.html#s4">RHD-ARDS（Eur Respir Rev 2025）▸ RV保護換気</a></div>
+
+      <div class="ie-alpha">
+        <div class="ie-alpha-inner">
+          <div class="ie-alpha-header">
+            <span class="ie-alpha-badge">＋α</span>
+            <span class="ie-alpha-title">筋弛緩薬（NMBA）の使い方</span>
+          </div>
+          <p class="rule-body" style="color:#4C1D95;">中等度〜重症ARDSに対して筋弛緩薬（NMBA）を使用する場合、持続投与よりも間欠的ボーラス投与を条件付きで推奨する（SSC 2026 Statement 77）。持続NMBAは筋力低下・ICU-acquired weakness・長期機能予後の悪化リスクがあり、間欠的ボーラスは必要時のみ使用して、早期離床・覚醒・呼吸リハビリテーションへの移行を妨げない。</p>
+        </div>
+      </div>
+      <div class="dt-source" style="margin-top:6px;"><a href="../articles-gl-ssc2026.html#ssc-s4-5">SSC 2026 ▸ NMBA</a></div>
+
+      <!-- SUMMARY Ch3 -->
+      <h3 id="vent-sum3" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:36px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+        <span style="color:#B45309;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>第3章のキーメッセージ
+      </h3>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+              <span class="rule-body"><strong>中等度〜重症ARDSには高PEEP戦略：</strong>条件付き推奨・中等度確実性。軽症ARDSへの高PEEP戦略は有害となる可能性がある。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+              <span class="rule-body"><strong>漸増的PEEP滴定は有害：</strong>ART試験で死亡率増加（RR 1.20）。SSC 2026で「推奨しない」（強い推奨）。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+              <span class="rule-body"><strong>腹臥位換気 &gt;12時間/日（中等度〜重症ARDS）：</strong>条件付き推奨・中等度確実性。PROSEVA試験で重症ARDS（P/F≤150）の90日死亡率をほぼ半減。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+              <span class="rule-body"><strong>PEEPとRV機能は複雑な関係：</strong>低すぎても高すぎてもPVRが上昇。中程度のFRCでPVR最小化。RV後負荷を意識した設定が重要。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+              <span class="rule-body"><strong>NMBAは間欠的ボーラスで：</strong>持続投与は筋力低下・ICU-AW リスクがあり推奨しない。必要時のみ使用し早期離床を妨げない。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ============================== 第4章：酸素目標 ============================== -->
+      <div id="vent-ch4" style="background:linear-gradient(150deg,#3D1F00 0%,#B45309 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">第4章 酸素目標</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Oxygen Targets</div>
+      </div>
+
+      <h3 id="vent-s7" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+        <span style="color:#B45309;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 7</span>
+        酸素化モニタリング
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">SpO2またはSaO2で酸素化をモニタリングする（条件付き推奨・超低確実性）</h3>
+          <p class="rule-body">動脈血ガス（ABG）はPaO2を直接測定できるという点で酸素化評価のgold standardである。しかし、ABGは侵襲的であり継続的モニタリングには向かない。SSC 2026ではパルスオキシメトリー（SpO2）または動脈血酸素飽和度（SaO2）による非侵襲的モニタリングを条件付きで推奨している（Statement 65）。</p>
+          <p class="rule-body" style="margin-top:8px;">ただし、パルスオキシメトリーの精度には重要な限界がある。<span class="mark-red"><strong>循環不全（ショック）・末梢循環不良・暗色肌・マニキュア・SpO2が低値（&lt;90%）あるいは高値（&gt;97%）の範囲</strong></span>では測定精度が著しく低下する。このような状況ではABGによる確認が必要である。</p>
+          <p class="rule-body" style="margin-top:8px;">ARDSの重症度分類に用いるP/F比の代替として、S/F比を使用することができる。S/F比はベッドサイドでの非侵襲的評価に有用だが、P/F比との相関は高い領域では一定でなく精度的な劣りがある点を認識しておく必要がある。</p>
+          <div class="alert-yellow">
+            <strong>人種的公平性の問題：</strong>暗色肌の患者ではSpO2がSaO2を<strong>過大評価</strong>する（隠れた低酸素血症：occult hypoxemia）ことが複数の研究で示されている。モニタリング精度の人種差を認識し、臨床状態と乖離があれば積極的にABGを採取する。
+          </div>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-ssc2026.html#ssc-s4-1">SSC 2026 ▸ 酸素化モニタリング</a></div>
+
+      <h3 id="vent-s8" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 8</span>
+        酸素目標値
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">高め（liberal）または低め（conservative）の酸素目標のいずれかに滴定する（条件付き推奨・低確実性）</h3>
+          <p class="rule-body">成人ICU患者における最適な酸素目標値については、10件のRCT（計24,022名）のメタ解析で評価された（SSC 2026 Statement 66）。その結果、低め酸素目標群（conservative O2）と高め目標群（liberal O2）の間で死亡率に有意差はなく（<span class="mark-yellow"><strong>RR 1.02、差なし</strong></span>）、目標値の選択は低確実性のエビデンスに基づく条件付き推奨にとどまった。</p>
+          <p class="rule-body" style="margin-top:8px;">SSCパネルの実際の診療では、<span class="mark-green"><strong>SpO2 90%（IQR 90〜92%）から96%（IQR 94〜98%）</strong></span>の範囲を目標としている。患者の病態・基礎疾患・臨床状況に応じて個別に設定することが推奨される。</p>
+          <div class="ie-echo-grid" style="margin-top:10px;">
+            <div class="ie-echo-box">
+              <div class="ie-echo-name">Conservative（低め）目標</div>
+              <div class="ie-echo-body">
+                SpO2 目標：90〜93%<br>
+                酸素消費量を抑制できる<br>
+                高酸素血症を回避できる<br>
+                低値域ではSpO2精度低下に注意
+              </div>
+            </div>
+            <div class="ie-echo-box">
+              <div class="ie-echo-name">Liberal（高め）目標</div>
+              <div class="ie-echo-body">
+                SpO2 目標：≥96%<br>
+                モニタリングが容易<br>
+                ショック・貧血患者では有利な場面も<br>
+                酸素毒性・吸収性無気肺のリスク
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-ssc2026.html#ssc-s4-2">SSC 2026 ▸ 酸素目標値</a></div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">LOCO2試験：conservative O2（PaO2 55〜70 mmHg）は死亡率増加傾向</h3>
+          <p class="rule-body">ARDS患者における酸素目標の主要エビデンスとして、LOCO2試験がある。この試験ではPaO2 55〜70 mmHg（低目標）がPaO2 90〜105 mmHgと比較して死亡率増加傾向を示した。また、メタ解析ではPaO2 &gt;150 mmHgも死亡率増加と関連した。すなわち、低すぎる目標も高すぎる目標も有害である可能性があり、中間域での管理が合理的である。</p>
+          <div class="alert-green" style="margin-top:10px;">
+            <strong>今後の更新予定：</strong>MEGA-ROX試験（目標登録40,000名）が進行中であり、酸素目標値に関するより大規模かつ高確実性のエビデンスが近い将来提供される見込みである。
+          </div>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-rhd-ards2025.html#s1">RHD-ARDS（Eur Respir Rev 2025）▸ LOCO2試験</a> / <a href="../articles-gl-ssc2026.html#ssc-s4-2">SSC 2026 ▸ 酸素目標値</a></div>
+
+      <!-- SUMMARY Ch4 -->
+      <h3 id="vent-sum4" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:36px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+        <span style="color:#B45309;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>第4章のキーメッセージ
+      </h3>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+              <span class="rule-body"><strong>SpO2/SaO2モニタリングの限界を認識：</strong>ショック・暗色肌・高/低SpO2域ではパルスオキシメトリーの精度が低下。人種的公平性の問題にも注意。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+              <span class="rule-body"><strong>酸素目標はSpO2 90〜96%の範囲で個別設定：</strong>conservative/liberal いずれも死亡率に有意差なし（10 RCT、24,022名）。病態に応じた個別設定が推奨される。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+              <span class="rule-body"><strong>LOCO2：PaO2 55〜70 mmHgの低目標は死亡率増加傾向：</strong>低すぎる目標も高すぎる目標（PaO2 &gt;150 mmHg）も有害。中間域での管理が合理的。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+              <span class="rule-body"><strong>S/F比はP/F比の非侵襲的代替：</strong>ABGが困難な場面で活用可能。S/F &lt;235 が P/F &lt;200 に対応。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+              <span class="rule-body"><strong>MEGA-ROX試験が進行中：</strong>目標登録40,000名の大規模試験で、酸素目標値に関するより高確実性のエビデンスが期待される。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- 出典注記 -->
+      <p style="font-size:0.72rem;color:#9CA3AF;margin-top:32px;line-height:1.7;">
+        本ページは以下の収録論文の要約ページの内容を統合して作成しています：<br>
+        ・<a href="../articles-gl-ssc2026.html" style="color:#60A5FA;">SSC 2026 敗血症・敗血症性ショック管理ガイドライン 第4章 呼吸管理</a><br>
+        ・<a href="../articles-gl-yarnell-imv2023.html" style="color:#60A5FA;">低酸素性呼吸不全における気管挿管の閾値（AJRCCM 2023）</a><br>
+        ・<a href="../articles-gl-rhd-ards2025.html" style="color:#60A5FA;">ARDSにおける右心不全（Eur Respir Rev 2025）</a><br>
+        本資料は教育目的で作成したサマリーです。診断・治療方針の決定には必ず原典を参照してください。
+      </p>
+      <p style="font-size:0.75rem;color:var(--muted);text-align:right;margin-top:8px;">制作：ICU 関谷</p>
+
+    </div><!-- /.main-col -->
+
+    <!-- ── サイドバー目次 ── -->
+    <aside class="ie-sidebar">
+      <div class="ie-sidebar-card">
+        <div class="ie-sidebar-title">目次</div>
+
+        <a href="#vent-ch1" class="ie-toc-chapter">第1章 気管挿管の適応</a>
+        <a href="#vent-s1" class="ie-toc-section">S1 — 17の挿管閾値と挿管率</a>
+        <a href="#vent-s2" class="ie-toc-section">S2 — 挿管率を変動させる因子</a>
+
+        <a href="#vent-ch2" class="ie-toc-chapter">第2章 肺保護換気</a>
+        <a href="#vent-s3" class="ie-toc-section">S3 — 低一回換気量</a>
+        <a href="#vent-s4" class="ie-toc-section">S4 — プラトー圧と駆動圧</a>
+
+        <a href="#vent-ch3" class="ie-toc-chapter">第3章 PEEP設定</a>
+        <a href="#vent-s5" class="ie-toc-section">S5 — SSC 2026のPEEP推奨</a>
+        <a href="#vent-s6" class="ie-toc-section">S6 — PEEPとRV機能</a>
+
+        <a href="#vent-ch4" class="ie-toc-chapter">第4章 酸素目標</a>
+        <a href="#vent-s7" class="ie-toc-section">S7 — 酸素化モニタリング</a>
+        <a href="#vent-s8" class="ie-toc-section">S8 — 酸素目標値</a>
+      </div>
+    </aside>
+
+  </div><!-- /.content-wrap -->
+
+  <script src="../../script.js"></script>
+  <script src="../../mob-toc.js"></script>
+  <script src="../../abbr-tooltip.js"></script>
+</body>
+</html>

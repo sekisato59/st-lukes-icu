@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>人工呼吸管理 Level 4 — 特殊病態・ECMO | 聖路加ICU</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../style-v2.css">
+  <script src="../../site-config.js"></script>
+  <style>
+    .subpage-hero { background: linear-gradient(150deg, #3D1F00 0%, #B45309 55%, #D97706 100%) !important; }
+    .ie-badge { display:inline-block;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:20px;padding:4px 12px;font-size:0.72rem;font-weight:500;color:#fff;margin-right:6px;margin-top:8px; }
+
+    .content-wrap { display:flex;gap:32px;align-items:flex-start;max-width:1140px;margin:0 auto;padding:32px 20px 80px; }
+    .main-col { flex:1;min-width:0;max-width:900px; }
+
+    .ie-table { width:100%;border-collapse:collapse;font-size:0.82rem;margin-top:10px; }
+    .ie-table th { background:#FFFBEB;border:1px solid #FDE68A;padding:8px 12px;font-weight:700;font-size:0.78rem;text-align:left; }
+    .ie-table td { border:1px solid var(--border);padding:8px 12px;vertical-align:top;line-height:1.7; }
+    .ie-table tr:nth-child(even) td { background:#F8FAFC; }
+
+    .ie-flow { display:flex;flex-direction:column;gap:0; }
+    .ie-flow-item { display:flex;align-items:flex-start;gap:14px;background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:14px 16px; }
+    .ie-flow-arrow { text-align:center;color:#B45309;font-size:1.1rem;font-weight:700;padding:4px 0; }
+    .ie-flow-num { width:28px;height:28px;border-radius:50%;background:#B45309;color:#fff;font-size:0.78rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0; }
+
+    .ie-stat-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px; }
+    @media (max-width:520px) { .ie-stat-grid { grid-template-columns:1fr 1fr; } }
+    .ie-stat { background:#FFFBEB;border:1px solid #FDE68A;border-radius:8px;padding:14px 12px;text-align:center; }
+    .ie-stat-val { font-size:1.25rem;font-weight:900;color:#B45309;line-height:1.3; }
+    .ie-stat-label { font-size:0.68rem;color:var(--muted);margin-top:5px;line-height:1.5; }
+
+    .ie-alpha { background:#F5F3FF;border:1px solid #DDD6FE;border-radius:8px;padding:2px;margin-top:10px; }
+    .ie-alpha-inner { padding:14px 16px; }
+    .ie-alpha-header { display:flex;align-items:center;gap:8px;margin-bottom:8px; }
+    .ie-alpha-badge { background:#7C3AED;color:#fff;font-size:0.65rem;font-weight:800;padding:2px 8px;border-radius:20px;letter-spacing:0.05em; }
+    .ie-alpha-title { font-size:0.85rem;font-weight:700;color:#4C1D95; }
+
+    .alert-yellow { background:#FFFBEB;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#92400E;line-height:1.7; }
+    .alert-green  { background:#F0FDF4;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#14532D;line-height:1.7; }
+    .alert-red    { background:#FEF2F2;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#7F1D1D;line-height:1.7; }
+
+    .ie-echo-grid { display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px; }
+    @media (max-width:520px) { .ie-echo-grid { grid-template-columns:1fr; } }
+    .ie-echo-box { background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:12px 14px; }
+    .ie-echo-name { font-size:0.8rem;font-weight:800;color:var(--text);margin-bottom:4px; }
+    .ie-echo-body { font-size:0.78rem;color:var(--muted);line-height:1.6; }
+
+    .dt-source { text-align:right;margin-top:-10px;margin-bottom:16px;padding-right:4px; }
+    .dt-source a { font-size:0.68rem;color:#9CA3AF;text-decoration:none;transition:color 0.15s; }
+    .dt-source a:hover { color:#2D7A4F; }
+    .dt-source::before { content:"出典：";font-size:0.65rem;color:#BFBFBF; }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="../../index.html" class="nav-logo">
+        <img src="../../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+        <span class="nav-logo-text">聖路加国際病院ICU</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="../../index.html" class="nav-link">ホーム</a></li>
+        <li><a href="../icu-policy.html" class="nav-link">ICUの方針</a></li>
+        <li><a href="../disease-topics.html" class="nav-link">疾患トピックス</a></li>
+        <li><a href="../articles-guidelines.html" class="nav-link">論文・GL</a></li>
+        <li><a href="../icu-core-conf.html" class="nav-link">コアカン</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="subpage-hero">
+    <div class="hero-content" style="max-width:860px;margin:0 auto;padding:36px 20px 32px;">
+      <a href="../disease-topics.html" class="back-link">&larr; 疾患・項目別まとめ一覧へ戻る</a>
+      <div style="font-size:0.72rem;color:rgba(255,255,255,0.6);margin-bottom:6px;letter-spacing:0.08em;">RESPIRATORY SYSTEM</div>
+      <h1 style="font-size:clamp(1.3rem,3vw,1.75rem);font-weight:900;color:#fff;line-height:1.35;margin-bottom:12px;">
+        人工呼吸管理 Level 4 &mdash; 特殊病態・ECMO
+      </h1>
+      <div>
+        <span class="ie-badge">疾患トピックス</span>
+        <span class="ie-badge">3本の収録論文を統合</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== MAIN LAYOUT ===== -->
+  <div class="content-wrap">
+
+    <div class="main-col">
+
+      <div class="card" style="margin-bottom:24px;">
+        <div class="card-inner">
+          <h3 class="rule-title" style="margin-bottom:10px;">本ページで使用する略語一覧</h3>
+          <table style="width:100%;border-collapse:collapse;font-size:0.8rem;line-height:1.6;">
+            <tbody>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">ABI</td><td style="padding:4px 8px;">Acute Brain Injury &mdash; 急性脳障害</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">TBI</td><td style="padding:4px 8px;">Traumatic Brain Injury &mdash; 外傷性脳損傷</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">SAH</td><td style="padding:4px 8px;">Subarachnoid Hemorrhage &mdash; くも膜下出血</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">ICH</td><td style="padding:4px 8px;">Intracerebral Hemorrhage &mdash; 頭蓋内出血</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">VV-ECMO</td><td style="padding:4px 8px;">Veno-Venous Extracorporeal Membrane Oxygenation &mdash; 静脈静脈体外式膜型人工肺</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">VA-ECMO</td><td style="padding:4px 8px;">Veno-Arterial ECMO &mdash; 静脈動脈体外式膜型人工肺</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">RV</td><td style="padding:4px 8px;">Right Ventricle &mdash; 右心室</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">RHD</td><td style="padding:4px 8px;">Right Heart Dysfunction &mdash; 右心機能不全</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">PVR</td><td style="padding:4px 8px;">Pulmonary Vascular Resistance &mdash; 肺血管抵抗</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">iNO</td><td style="padding:4px 8px;">inhaled Nitric Oxide &mdash; 吸入一酸化窒素</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">PGI2</td><td style="padding:4px 8px;">Prostacyclin &mdash; プロスタサイクリン</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">Pplat</td><td style="padding:4px 8px;">Plateau Pressure &mdash; プラトー圧</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">TAPSE</td><td style="padding:4px 8px;">Tricuspid Annular Plane Systolic Excursion &mdash; 三尖弁輪収縮期移動距離</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">ACP</td><td style="padding:4px 8px;">Acute Cor Pulmonale &mdash; 急性肺性心</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">SBT</td><td style="padding:4px 8px;">Spontaneous Breathing Trial &mdash; 自発呼吸トライアル</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">IPTW</td><td style="padding:4px 8px;">Inverse Probability of Treatment Weighting &mdash; 逆確率重み付き解析</td></tr>
+              <tr><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">ProtekDuo</td><td style="padding:4px 8px;">右内頸静脈から挿入し肺動脈先端に留置する二腔カニューレ（RVアンローディング用デバイス）</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ============================== 第1章：脳障害患者の人工呼吸管理 ============================== -->
+      <div id="vent-ch1" style="background:linear-gradient(150deg,#3D1F00 0%,#B45309 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:0;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">第1章 脳障害患者の人工呼吸管理</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Ventilation &amp; Extubation in Acute Brain Injury</div>
+      </div>
+
+      <h3 id="vent-s1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+        <span style="color:#B45309;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+        ABI患者の抜管における特有の課題
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">ABI患者の抜管失敗は「気道保護不全」が主因</h3>
+          <p class="rule-body">一般ICU患者の抜管失敗は呼吸筋疲労・ガス交換不全が主因であるが、ABI患者では<span class="mark-yellow"><strong>上気道閉塞・分泌物貯留・無効な保護反射（咳嗽・嚥下不全）といった気道保護機能の障害</strong></span>が主因である。これらは脳幹・延髄機能の回復度を反映する。ABI患者における抜管失敗は高率（最大15〜25%）であり、再挿管・気管切開率の増加、ICU滞在延長、死亡率上昇と関連する。</p>
+          <p class="rule-body" style="margin-top:8px;">ENIO研究（多施設国際前向きコホート、n=839）では抜管失敗率は21.1%（177例）であり、<span class="mark-red"><strong>ICU死亡率9.2% vs 2.0%、院内死亡率18.1% vs 5.7%、VAP 65.9% vs 35.3%</strong></span>と、抜管失敗は重篤な転帰と関連していた。</p>
+          <div class="ie-stat-grid" style="margin-top:12px;">
+            <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+              <div class="ie-stat-val" style="color:#DC2626;">21.1%</div>
+              <div class="ie-stat-label">ABI患者の<br>抜管失敗率</div>
+            </div>
+            <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+              <div class="ie-stat-val" style="color:#DC2626;">9.2%</div>
+              <div class="ie-stat-label">抜管失敗群の<br>ICU死亡率</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">839例</div>
+              <div class="ie-stat-label">ENIO研究<br>解析対象</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-enio-sbt2025.html#enio-discussion">ENIO研究（ICM 2025）▸ 考察</a> / <a href="../articles-gl-enio-sbt2025.html#enio-failure-outcomes">ENIO研究 ▸ 抜管失敗の転帰</a></div>
+
+      <h3 id="vent-s2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+        TBI：活発な咳嗽とSBT時間
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">活発な咳嗽（vigorous cough）が唯一の独立予測因子</h3>
+          <p class="rule-body">非重み付き・IPTW重み付き双方のモデルで一貫して、<span class="mark-green"><strong>活発な咳嗽が抜管成功の唯一の独立予測因子</strong></span>であった（IPTW解析 OR 0.52、95% CI 0.32〜0.83; p=0.007）。咳嗽強度は脳幹・延髄機能の統合を反映しており、分泌物クリアランスと上気道保護の両方に必要な機能を代表する指標である。</p>
+          <p class="rule-body" style="margin-top:8px;">TBIサブグループでは、活発な咳嗽（OR 0.48、95% CI 0.25〜0.92; p=0.03）とSBT時間延長（p=0.009）が抜管失敗リスク低下と関連していた。一方でSBT様式（T-ピース・PSV・CPAP）は全ABI病型で抜管アウトカムと有意な関連を示さなかった。</p>
+          <div class="alert-green" style="margin-top:10px;">
+            <strong>臨床応用：</strong>ABI患者の抜管判断では「どのSBTを選ぶか」より、<strong>「抜管前に咳嗽強度・嚥下機能・分泌物量を系統的に評価できているか」</strong>が重要である。
+          </div>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-enio-sbt2025.html#enio-discussion">ENIO研究（ICM 2025）▸ 活発な咳嗽</a> / <a href="../articles-gl-enio-sbt2025.html#enio-subgroup">ENIO研究 ▸ サブグループ解析</a></div>
+
+      <h3 id="vent-s3" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+        <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>
+        SAH・ICH：高PEEPと抜管失敗
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">出血性疾患では高い抜管時PEEPが失敗と関連</h3>
+          <p class="rule-body">SAH・ICHサブグループでは、高い抜管時PEEPが抜管失敗と関連していた。</p>
+          <table class="ie-table" style="margin-top:10px;">
+            <thead>
+              <tr><th>ABI病型</th><th>主な知見</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>SAH</strong></td>
+                <td>高い抜管時PEEPが失敗と関連（OR 2.17、95% CI 1.46〜3.43; p&lt;0.001）</td>
+              </tr>
+              <tr>
+                <td><strong>ICH</strong></td>
+                <td>高い抜管時PEEPが失敗と関連（OR 1.44、95% CI 1.14〜1.86; p=0.004）</td>
+              </tr>
+              <tr>
+                <td><strong>虚血性脳卒中</strong></td>
+                <td>独立した予測因子なし</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="alert-yellow" style="margin-top:10px;">
+            <strong>解釈の注意：</strong>PEEP高値そのものが原因というよりも、残存肺障害や不完全なウィーニングの<strong>マーカー</strong>として解釈すべきであると著者らは指摘している（IPTW解析では有意差消失）。
+          </div>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-enio-sbt2025.html#enio-subgroup">ENIO研究（ICM 2025）▸ ABI病型別サブグループ解析</a></div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">ABI患者には神経集中治療特化型の統合的抜管プロトコルが必要</h3>
+          <p class="rule-body">著者らは、ABI患者の抜管管理において一般ICUから引き継がれた「SBT中心」パラダイムには限界があると結論付けている。今後の課題として、以下の要素を統合した神経集中治療特化型抜管プロトコルの開発・検証が求められる。</p>
+          <div class="ie-flow" style="margin-top:12px;">
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">1</div>
+              <div style="flex:1;"><p class="rule-body"><strong>神経学的評価の標準化：</strong>意識水準（GCS）・従命動作・視覚追視・嚥下機能の体系的評価</p></div>
+            </div>
+            <div class="ie-flow-arrow">&darr;</div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">2</div>
+              <div style="flex:1;"><p class="rule-body"><strong>気道保護能力の評価：</strong>咳嗽強度の定量評価（咳嗽ピークフロー等）・内気管吸引頻度・ガグ反射</p></div>
+            </div>
+            <div class="ie-flow-arrow">&darr;</div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">3</div>
+              <div style="flex:1;"><p class="rule-body"><strong>呼吸機能の確認（SBTによる）：</strong>換気・ガス交換の確認はSBTで行うが、SBT様式・時間の選択は施設の習慣・利便性に委ねてよい</p></div>
+            </div>
+            <div class="ie-flow-arrow">&darr;</div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">4</div>
+              <div style="flex:1;"><p class="rule-body"><strong>合併症リスクの評価：</strong>肺疾患・肥満・年齢・ABI病型（出血性 vs 虚血性）を考慮した個別化</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-enio-sbt2025.html#enio-discussion">ENIO研究（ICM 2025）▸ 今後の方向性</a></div>
+
+      <!-- ============================== 第2章：VV-ECMO ============================== -->
+      <div id="vent-ch2" style="background:linear-gradient(150deg,#3D1F00 0%,#B45309 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">第2章 VV-ECMO</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Veno-Venous ECMO for Respiratory Failure</div>
+      </div>
+
+      <h3 id="vent-s4" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+        <span style="color:#B45309;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 4</span>
+        SSC 2026 推奨：重症ARDSに対するVV-ECMO
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">通常の人工呼吸管理が不十分な重症ARDSにはVV-ECMOを考慮する（条件付き推奨）</h3>
+          <p class="rule-body">SSC 2026ガイドラインでは、最適な人工呼吸管理（低TV・高PEEP・腹臥位換気を含む）を行っても酸素化・換気が不十分な重症ARDS患者において、<span class="mark-yellow"><strong>VV-ECMOを条件付きで推奨</strong></span>している（Statement 78、低確実性エビデンス）。VV-ECMOは肺を「休ませながら」（lung rest）血液の酸素化・CO2除去を体外で行うことで、救命できる可能性がある。</p>
+          <p class="rule-body" style="margin-top:8px;">EOLIA試験（2018年）ではVV-ECMO群の90日死亡率は有意差に達しなかったが（p=0.09）、救済治療としてのECMO使用も含めた解析では有意な生存改善が示された。</p>
+          <div class="alert-red" style="margin-top:10px;">
+            <strong>施設・チームの経験が前提：</strong>VV-ECMOは経験豊富なECMOセンターでのみ実施する。適切なトレーニング・管理体制が整っていない施設での実施は患者に害をもたらす可能性がある。必要に応じて経験豊富なセンターへの転院を検討する。
+          </div>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-ssc2026.html#ssc-s4-6">SSC 2026 GL ▸ VV-ECMO</a></div>
+
+      <div class="ie-alpha">
+        <div class="ie-alpha-inner">
+          <div class="ie-alpha-header">
+            <span class="ie-alpha-badge">+&alpha;</span>
+            <span class="ie-alpha-title">VV-ECMO の適応基準と禁忌（参考）</span>
+          </div>
+          <p class="rule-body" style="color:#4C1D95;">一般的にVV-ECMOの適応を検討する目安は：P/F比 &lt;80（最適な人工呼吸管理下）、または Murray score &ge;3.0、または高二酸化炭素血症による難治性アシドーシス（pH &lt;7.15）などである。禁忌（相対的）としては：不可逆的な非呼吸器疾患、重篤な多臓器不全、抗凝固療法が不可能な場合、長期間（&gt;7日）の高圧換気（プラトー圧 &gt;30 cmH2O）による不可逆的な肺損傷などが挙げられる。</p>
+        </div>
+      </div>
+      <div class="dt-source" style="margin-top:6px;"><a href="../articles-gl-ssc2026.html#ssc-s4-6">SSC 2026 GL ▸ VV-ECMO適応・禁忌</a></div>
+
+      <h3 id="vent-s5" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 5</span>
+        VV-ECMOのRV機能への影響
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">RV機能への影響は複雑（variable effects）</h3>
+          <p class="rule-body">重症ARDSにおいてVV-ECMOは標準的な選択肢となりつつあるが、RV機能への影響は複雑であることを認識しておく必要がある。CVP・平均PAP低下が報告されている一方、cardiac indexの臨床的有意な改善は同研究では認められなかった。Ultra-protective換気（TV 4 mL/kg）との組み合わせでRV機能改善の可能性（TAPSE上昇）が示されている。</p>
+          <div class="alert-yellow" style="margin-top:10px;">
+            <strong>臨床的ポイント：</strong>ACPを含むRHDの予防・管理を従来治療で徹底してからECMOを検討する。ECMOのRV機能への影響は個々の患者で異なる。
+          </div>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-rhd-ards2025.html#s4">RHD in ARDS（Eur Respir Rev 2025）▸ ECMO</a></div>
+
+      <!-- ============================== 第3章：VA-ECMO・RV支援 ============================== -->
+      <div id="vent-ch3" style="background:linear-gradient(150deg,#3D1F00 0%,#B45309 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">第3章 VA-ECMO・RV支援</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Mechanical Circulatory Support for Refractory RV Failure</div>
+      </div>
+
+      <h3 id="vent-s6" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+        <span style="color:#B45309;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 6</span>
+        VA-ECMOとProtekDuo
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">難治性RV不全に対する機械的循環補助</h3>
+          <p class="rule-body">VV-ECMOはガス交換を改善するが、重篤なRV不全・難治性心原性ショックには直接的な循環補助は行わない。そのような症例ではVA-ECMOやProtekDuoが選択肢となる。</p>
+          <table class="ie-table" style="margin-top:10px;">
+            <thead><tr><th>デバイス</th><th>特徴</th><th>注意点</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><strong>VA-ECMO</strong></td>
+                <td>重篤なRV不全・難治性心原性ショックに限定</td>
+                <td>VV-ECMOより合併症多く生存率低い。慎重に患者選択を行う。</td>
+              </tr>
+              <tr>
+                <td><strong>ProtekDuo</strong></td>
+                <td>右内頸静脈から挿入、肺動脈先端に留置する二腔カニューレ。一時的RVアンローディングによるRHD+ARDSの血行動態改善の可能性。</td>
+                <td>TR・不整脈リスクあり。VV-ECMOの追加・代替として一部症例で考慮。</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-rhd-ards2025.html#s4">RHD in ARDS（Eur Respir Rev 2025）▸ ECMO</a></div>
+
+      <!-- ============================== 第4章：特殊状況での人工呼吸 ============================== -->
+      <div id="vent-ch4" style="background:linear-gradient(150deg,#3D1F00 0%,#B45309 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">第4章 特殊状況での人工呼吸</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">ARDS + RV Dysfunction: Special Considerations</div>
+      </div>
+
+      <h3 id="vent-s7" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+        <span style="color:#B45309;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 7</span>
+        RV保護換気
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">ARDS + RV dysfunction：RV保護換気の要点</h3>
+          <p class="rule-body">機械換気設定はRV後負荷の主要規定因子であり、ARDS管理においてRVを意識した換気設定が不可欠である。PEEPのRV機能への影響は複雑で、低すぎても高すぎても肺容量依存的にPVRが上昇するため、最適化が求められる。</p>
+          <div class="alert-green" style="margin-top:10px;">
+            <strong>RV保護換気の要点：</strong><br>
+            &nbsp;&nbsp;&nbsp;① プラトー圧 &lt;27 cmH2O &mdash; ACPを予防するための上限値<br>
+            &nbsp;&nbsp;&nbsp;② 固有PEEP（intrinsic PEEP）の回避<br>
+            &nbsp;&nbsp;&nbsp;③ 重篤な高炭酸ガス血症の制限（hypercapnia &rarr; PVR上昇・心筋収縮力低下）<br>
+            &nbsp;&nbsp;&nbsp;④ コンプライアンス誘導型またはトランスプルモナリー圧指向型のPEEP設定が優れる可能性
+          </div>
+          <p class="rule-body" style="margin-top:10px;">高プラトー圧はRHDと死亡率の増大と関連しており、高PEEPはRV stroke indexを有意に低下させる。一方で、PEEPの低減戦略がRVを保護するという前向きエビデンスは現時点では限定的であり、多施設試験が必要である。</p>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-rhd-ards2025.html#s4">RHD in ARDS（Eur Respir Rev 2025）▸ RV保護換気</a></div>
+
+      <h3 id="vent-s8" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 8</span>
+        腹臥位のRVへの効果
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">腹臥位：RV機能への影響は不一致</h3>
+          <p class="rule-body">腹臥位は中等症〜重症ARDSにおいて確立された介入であり、RV拡張軽減・心拍出量増加が報告されている。しかし、<span class="mark-yellow"><strong>RV機能への影響は一貫しておらず、一部の研究ではstroke volumeとRV ejection fractionの低下が報告されている。</strong></span></p>
+          <div class="alert-yellow" style="margin-top:10px;">
+            <strong>現時点のスタンス：</strong>腹臥位はARDS全体として死亡率を改善する（PROSEVA）が、RV機能への影響は個々の患者で異なる。RHDを有する患者でどのサブグループが最も恩恵を受けるかは未解明であり、今後の課題である。
+          </div>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-rhd-ards2025.html#s4">RHD in ARDS（Eur Respir Rev 2025）▸ 腹臥位</a></div>
+
+      <h3 id="vent-s9" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+        <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 9</span>
+        吸入肺血管拡張薬
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">iNO・プロスタサイクリン：一時的な効果、生存改善エビデンスなし</h3>
+          <p class="rule-body">吸入肺血管拡張薬（iNO・プロスタサイクリン）は、ARDSにおける肺血管トーン調節のために一般的に使用されている。肺血管選択的に作用するため全身性低血圧のリスクが低い。</p>
+          <table class="ie-table" style="margin-top:10px;">
+            <thead><tr><th>薬剤</th><th>効果</th><th>注意事項</th></tr></thead>
+            <tbody>
+              <tr><td><strong>iNO</strong></td><td>平均PAP・PVR低下、RV EF・心拍出量改善の報告あり</td><td>効果は一時的（中止で悪化）。生存改善なし。腎障害リスクあり。一時的酸素化補助が主な適応。</td></tr>
+              <tr><td><strong>プロスタサイクリン</strong></td><td>PVR低下、RV afterload軽減</td><td>ARDSの転帰改善エビデンスは限定的。稀な適応（PH合併など）。</td></tr>
+              <tr><td><strong>iNO + Noradrenaline</strong></td><td>iNO単剤より優れた血行動態効果の可能性</td><td>小規模研究のみ。大規模試験が必要。</td></tr>
+            </tbody>
+          </table>
+          <p class="rule-body" style="margin-top:10px;">ARDSに特異的に承認された薬理学的治療は現時点では存在しない。シルデナフィル・タダラフィル（PDE-5阻害薬）やエポプロステノール・トレプロスチニル（プロスタサイクリン誘導体）はPVR低下目的で使用されることがある（PH合併症例）。</p>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-rhd-ards2025.html#s4">RHD in ARDS（Eur Respir Rev 2025）▸ 吸入肺血管拡張薬</a></div>
+
+      <!-- ============================== SUMMARY ============================== -->
+      <h3 id="vent-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:48px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+        <span style="color:#B45309;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+        キーメッセージ
+      </h3>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&#9312;</span>
+              <span class="rule-body"><strong>ABI患者の抜管失敗は気道保護不全が主因：</strong>SBT様式より咳嗽強度・嚥下機能・分泌物量の評価が重要。活発な咳嗽が唯一の独立予測因子（OR 0.52）。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&#9313;</span>
+              <span class="rule-body"><strong>VV-ECMOは重症ARDS（従来治療不応）で条件付き推奨：</strong>経験豊富なECMOセンターでのみ実施。肺を休ませながらガス交換を代替する。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&#9314;</span>
+              <span class="rule-body"><strong>VA-ECMO・ProtekDuoは難治性RV不全に限定：</strong>VV-ECMOのRV機能への影響はvariableであり、重篤なRV不全にはVA-ECMOまたはProtekDuoによるRVアンローディングを考慮する。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&#9315;</span>
+              <span class="rule-body"><strong>RV保護換気はPplat &lt;27 cmH2Oが柱：</strong>固有PEEP回避・重篤な高炭酸ガス血症の制限を行う。腹臥位のRV機能への影響は不一致であり個別評価が必要。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&#9316;</span>
+              <span class="rule-body"><strong>吸入肺血管拡張薬は一時的効果のみ：</strong>iNO・プロスタサイクリンはPVR低下・RV afterload軽減に有用だが生存改善エビデンスなし。ARDSに特異的に承認された薬理学的治療は存在しない。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 出典注記 -->
+      <p style="font-size:0.72rem;color:#9CA3AF;margin-top:32px;line-height:1.7;">
+        本ページは以下の収録論文の要約ページの内容を統合して作成しています：<br>
+        &middot;<a href="../articles-gl-enio-sbt2025.html" style="color:#60A5FA;">ENIO研究：急性脳障害患者におけるSBT様式と抜管アウトカム（ICM 2025）</a><br>
+        &middot;<a href="../articles-gl-rhd-ards2025.html" style="color:#60A5FA;">ARDSにおける右心不全（Eur Respir Rev 2025）</a><br>
+        &middot;<a href="../articles-gl-ssc2026.html" style="color:#60A5FA;">SSC 2026 敗血症・敗血症性ショック管理ガイドライン</a><br>
+        本資料は教育目的で作成したサマリーです。診断・治療方針の決定には必ず原典を参照してください。
+      </p>
+      <p style="font-size:0.75rem;color:var(--muted);text-align:right;margin-top:8px;">制作：ICU 関谷</p>
+
+    </div><!-- /.main-col -->
+
+    <!-- ── サイドバー目次 ── -->
+    <aside class="ie-sidebar">
+      <div class="ie-sidebar-card">
+        <div class="ie-sidebar-title">目次</div>
+
+        <a href="#vent-ch1" class="ie-toc-chapter">第1章 脳障害患者の呼吸管理</a>
+        <a href="#vent-s1" class="ie-toc-section">S1 &mdash; ABI抜管の課題</a>
+        <a href="#vent-s2" class="ie-toc-section">S2 &mdash; TBI：咳嗽とSBT時間</a>
+        <a href="#vent-s3" class="ie-toc-section">S3 &mdash; SAH・ICH：高PEEP</a>
+
+        <a href="#vent-ch2" class="ie-toc-chapter">第2章 VV-ECMO</a>
+        <a href="#vent-s4" class="ie-toc-section">S4 &mdash; SSC 2026推奨</a>
+        <a href="#vent-s5" class="ie-toc-section">S5 &mdash; RV機能への影響</a>
+
+        <a href="#vent-ch3" class="ie-toc-chapter">第3章 VA-ECMO・RV支援</a>
+        <a href="#vent-s6" class="ie-toc-section">S6 &mdash; VA-ECMO・ProtekDuo</a>
+
+        <a href="#vent-ch4" class="ie-toc-chapter">第4章 特殊状況での人工呼吸</a>
+        <a href="#vent-s7" class="ie-toc-section">S7 &mdash; RV保護換気</a>
+        <a href="#vent-s8" class="ie-toc-section">S8 &mdash; 腹臥位とRV</a>
+        <a href="#vent-s9" class="ie-toc-section">S9 &mdash; 吸入肺血管拡張薬</a>
+
+        <a href="#vent-summary" class="ie-toc-chapter">SUMMARY</a>
+      </div>
+    </aside>
+
+  </div><!-- /.content-wrap -->
+
+  <script src="../../script.js"></script>
+  <script src="../../mob-toc.js"></script>
+  <script src="../../abbr-tooltip.js"></script>
+</body>
+</html>

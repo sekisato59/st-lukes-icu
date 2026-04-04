@@ -50,17 +50,30 @@
 
     inp.addEventListener('input', function() {
       var q = this.value.trim().toLowerCase();
-      if (q.length < 1) { res.innerHTML = ''; return; }
+      if (q.length < 2) { res.innerHTML = ''; return; }
       var tokens = q.split(/\s+/);
-      var matches = SEARCH_INDEX.filter(function(item) {
-        var h = (item.title + ' ' + item.desc + ' ' + item.keywords).toLowerCase();
-        return tokens.every(function(t) { return h.indexOf(t) !== -1; });
+      var scored = [];
+      SEARCH_INDEX.forEach(function(item) {
+        var title = (item.title || '').toLowerCase();
+        var desc = (item.desc || '').toLowerCase();
+        var kw = (item.keywords || '').toLowerCase();
+        var h = title + ' ' + desc + ' ' + kw;
+        if (!tokens.every(function(t) { return h.indexOf(t) !== -1; })) return;
+        var score = 0;
+        tokens.forEach(function(t) {
+          if (title.indexOf(t) !== -1) score += 10;
+          if (desc.indexOf(t) !== -1) score += 5;
+          if (kw.indexOf(t) !== -1) score += 1;
+        });
+        scored.push({ item: item, score: score });
       });
+      scored.sort(function(a, b) { return b.score - a.score; });
+      var matches = scored.slice(0, 20);
       if (matches.length === 0) {
         res.innerHTML = '<div class="search-overlay-noresult">該当するページが見つかりません</div>';
       } else {
         res.innerHTML = matches.map(function(m) {
-          return '<a href="' + urlPrefix + m.url + '" class="search-overlay-result"><div class="search-overlay-result-title">' + m.title + '</div><div class="search-overlay-result-desc">' + m.desc + '</div></a>';
+          return '<a href="' + urlPrefix + m.item.url + '" class="search-overlay-result"><div class="search-overlay-result-title">' + m.item.title + '</div><div class="search-overlay-result-desc">' + m.item.desc + '</div></a>';
         }).join('');
       }
     });

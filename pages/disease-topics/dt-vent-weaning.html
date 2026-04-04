@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>人工呼吸管理 Level 2 — ウィーニング・抜管 | 聖路加ICU</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../style-v2.css">
+  <script src="../../site-config.js"></script>
+  <style>
+    .subpage-hero { background: linear-gradient(150deg, #3D1F00 0%, #B45309 55%, #D97706 100%) !important; }
+    .ie-badge { display:inline-block;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:20px;padding:4px 12px;font-size:0.72rem;font-weight:500;color:#fff;margin-right:6px;margin-top:8px; }
+
+    .content-wrap { display:flex;gap:32px;align-items:flex-start;max-width:1140px;margin:0 auto;padding:32px 20px 80px; }
+    .main-col { flex:1;min-width:0;max-width:900px; }
+
+    .ie-table { width:100%;border-collapse:collapse;font-size:0.82rem;margin-top:10px; }
+    .ie-table th { background:#FFFBEB;border:1px solid #FDE68A;padding:8px 12px;font-weight:700;font-size:0.78rem;text-align:left; }
+    .ie-table td { border:1px solid var(--border);padding:8px 12px;vertical-align:top;line-height:1.7; }
+    .ie-table tr:nth-child(even) td { background:#F8FAFC; }
+
+    .ie-flow { display:flex;flex-direction:column;gap:0; }
+    .ie-flow-item { display:flex;align-items:flex-start;gap:14px;background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:14px 16px; }
+    .ie-flow-arrow { text-align:center;color:#B45309;font-size:1.1rem;font-weight:700;padding:4px 0; }
+    .ie-flow-num { width:28px;height:28px;border-radius:50%;background:#B45309;color:#fff;font-size:0.78rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0; }
+
+    .ie-stat-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px; }
+    @media (max-width:520px) { .ie-stat-grid { grid-template-columns:1fr 1fr; } }
+    .ie-stat { background:#FFFBEB;border:1px solid #FDE68A;border-radius:8px;padding:14px 12px;text-align:center; }
+    .ie-stat-val { font-size:1.25rem;font-weight:900;color:#B45309;line-height:1.3; }
+    .ie-stat-label { font-size:0.68rem;color:var(--muted);margin-top:5px;line-height:1.5; }
+
+    .ie-alpha { background:#F5F3FF;border:1px solid #DDD6FE;border-radius:8px;padding:2px;margin-top:10px; }
+    .ie-alpha-inner { padding:14px 16px; }
+    .ie-alpha-header { display:flex;align-items:center;gap:8px;margin-bottom:8px; }
+    .ie-alpha-badge { background:#7C3AED;color:#fff;font-size:0.65rem;font-weight:800;padding:2px 8px;border-radius:20px;letter-spacing:0.05em; }
+    .ie-alpha-title { font-size:0.85rem;font-weight:700;color:#4C1D95; }
+
+    .alert-yellow { background:#FFFBEB;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#92400E;line-height:1.7; }
+    .alert-green  { background:#F0FDF4;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#14532D;line-height:1.7; }
+    .alert-red    { background:#FEF2F2;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#7F1D1D;line-height:1.7; }
+
+    .ie-echo-grid { display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px; }
+    @media (max-width:520px) { .ie-echo-grid { grid-template-columns:1fr; } }
+    .ie-echo-box { background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:12px 14px; }
+    .ie-echo-name { font-size:0.8rem;font-weight:800;color:var(--text);margin-bottom:4px; }
+    .ie-echo-body { font-size:0.78rem;color:var(--muted);line-height:1.6; }
+
+    .dt-source { text-align:right;margin-top:-10px;margin-bottom:16px;padding-right:4px; }
+    .dt-source a { font-size:0.68rem;color:#9CA3AF;text-decoration:none;transition:color 0.15s; }
+    .dt-source a:hover { color:#2D7A4F; }
+    .dt-source::before { content:"出典：";font-size:0.65rem;color:#BFBFBF; }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="../../index.html" class="nav-logo">
+        <img src="../../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+        <span class="nav-logo-text">聖路加国際病院ICU</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="../../index.html" class="nav-link">ホーム</a></li>
+        <li><a href="../icu-policy.html" class="nav-link">ICUの方針</a></li>
+        <li><a href="../disease-topics.html" class="nav-link">疾患トピックス</a></li>
+        <li><a href="../articles-guidelines.html" class="nav-link">論文・GL</a></li>
+        <li><a href="../icu-core-conf.html" class="nav-link">コアカン</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="subpage-hero">
+    <div class="hero-content" style="max-width:860px;margin:0 auto;padding:36px 20px 32px;">
+      <a href="../disease-topics.html" class="back-link">← 疾患・項目別まとめ一覧へ戻る</a>
+      <div style="font-size:0.72rem;color:rgba(255,255,255,0.6);margin-bottom:6px;letter-spacing:0.08em;">RESPIRATORY SYSTEM</div>
+      <h1 style="font-size:clamp(1.3rem,3vw,1.75rem);font-weight:900;color:#fff;line-height:1.35;margin-bottom:12px;">
+        人工呼吸管理 Level 2 — ウィーニング・抜管
+      </h1>
+      <div>
+        <span class="ie-badge">疾患トピックス</span>
+        <span class="ie-badge">2本の収録論文を統合</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== MAIN LAYOUT ===== -->
+  <div class="content-wrap">
+
+    <div class="main-col">
+
+      <!-- 略語一覧 -->
+      <div class="card" style="margin-bottom:24px;">
+        <div class="card-inner">
+          <h3 class="rule-title" style="margin-bottom:10px;">本ページで使用する略語一覧</h3>
+          <table style="width:100%;border-collapse:collapse;font-size:0.8rem;line-height:1.6;">
+            <tbody>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">SBT</td><td style="padding:4px 8px;">Spontaneous Breathing Trial — 自発呼吸トライアル</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">PSV</td><td style="padding:4px 8px;">Pressure Support Ventilation — プレッシャーサポート換気</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">CPAP</td><td style="padding:4px 8px;">Continuous Positive Airway Pressure — 持続陽圧呼吸</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">ABI</td><td style="padding:4px 8px;">Acute Brain Injury — 急性脳障害</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">TBI</td><td style="padding:4px 8px;">Traumatic Brain Injury — 外傷性脳損傷</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">SAH</td><td style="padding:4px 8px;">Subarachnoid Hemorrhage — くも膜下出血</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">ICH</td><td style="padding:4px 8px;">Intracerebral Hemorrhage — 脳内出血</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">IPTW</td><td style="padding:4px 8px;">Inverse Probability of Treatment Weighting — 逆確率治療重み付け</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">OR</td><td style="padding:4px 8px;">Odds Ratio — オッズ比</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">CI</td><td style="padding:4px 8px;">Confidence Interval — 信頼区間</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">RSBI</td><td style="padding:4px 8px;">Rapid Shallow Breathing Index — 浅速呼吸指数</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">VAP</td><td style="padding:4px 8px;">Ventilator-Associated Pneumonia — 人工呼吸器関連肺炎</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">GCS</td><td style="padding:4px 8px;">Glasgow Coma Scale — グラスゴー昏睡尺度</td></tr>
+              <tr><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">ENIO</td><td style="padding:4px 8px;">Enhanced Neuro-ICU Outcomes — 国際多施設前向きコホート研究名</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ============================== 第1章 ウィーニングの概要 ============================== -->
+      <div id="vw-ch1" style="background:linear-gradient(150deg,#3D1F00 0%,#B45309 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:0;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">第1章 ウィーニングの概要</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Weaning Overview &amp; the ENIO Study</div>
+      </div>
+
+      <h3 id="vw-s1-sbt" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+        <span style="color:#B45309;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+        SBTの定義と目的
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">自発呼吸トライアル（SBT）とは</h3>
+          <p class="rule-body">SBTはウィーニング準備を評価する最も広く用いられる手法であり、T-ピース・PSV（圧支持換気）・CPAPの3様式が臨床で使用される。一般ICU患者では呼吸力学とガス交換の評価が抜管準備を判断する主軸となるが、<span class="mark-yellow"><strong>急性脳障害（ABI）患者では意識水準・嚥下機能・咳嗽反射・気道保護能力といった神経学的因子が抜管アウトカムを強く規定する。</strong></span></p>
+          <p class="rule-body" style="margin-top:8px;">ABI患者における抜管失敗は高率（15〜25%）であり、再挿管・気管切開率の増加、ICU滞在延長、死亡率上昇と関連する。ABI患者においてどのSBT様式が最も抜管予後と関連するかは従来未解明であり、実施時間（30〜120分）についても施設・文化間でばらつきが大きかった。</p>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-enio-sbt2025.html#enio-background">ENIO SBT様式（ICM 2025）▸ 研究背景</a> / <a href="../articles-gl-enio-extubation2025.html#s1-background">ENIO 抜管編（ICM 2025）▸ ABI患者の抜管の困難さ</a></div>
+
+      <h3 id="vw-s2-enio" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+        ENIO研究の概要
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">ENIO国際前向きコホート研究</h3>
+          <p class="rule-body">ENIO研究（NCT03400904）はABI患者における抜管失敗の予測因子を評価した多施設・国際前向き観察研究である。そのpost-hoc解析として、SBT様式・実施時間と抜管アウトカムの関連が検討された。対象は18歳以上、侵襲的人工呼吸管理24時間以上、挿管前GCS 12以下、計画的抜管を予定されたABI患者であり、SBT実施データが完全な患者のみが解析対象となった。</p>
+          <div class="ie-stat-grid" style="margin-top:12px;">
+            <div class="ie-stat">
+              <div class="ie-stat-val">1,512</div>
+              <div class="ie-stat-label">ENIOコホート<br>全登録患者数</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">839</div>
+              <div class="ie-stat-label">最終解析対象<br>（55.5%）</div>
+            </div>
+            <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+              <div class="ie-stat-val" style="color:#DC2626;">177</div>
+              <div class="ie-stat-label">抜管失敗例<br>（21.1%）</div>
+            </div>
+          </div>
+          <p class="rule-body" style="margin-top:12px;">中央値年齢55歳（IQR 38〜66歳）、女性32.2%。脳障害の原因としてTBIが最多（396例・47.2%）で、ICH 280例（33.4%）、SAH 151例（18.0%）、虚血性脳卒中72例（8.6%）と続く。挿管前GCS中央値は5点（IQR 3〜7）と重症群が多かった。</p>
+          <div class="alert-yellow" style="margin-top:10px;">
+            <strong>注意：</strong>一次的気管切開例（320例・21.2%）は除外されているため、本結果は「計画的抜管を試みた」ABI患者に限定して解釈する必要がある。
+          </div>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-enio-sbt2025.html#enio-design">ENIO SBT様式（ICM 2025）▸ 研究デザイン</a> / <a href="../articles-gl-enio-extubation2025.html#s2-design">ENIO 抜管編（ICM 2025）▸ デザインと対象</a></div>
+
+      <!-- ============================== 第2章 SBT様式の比較 ============================== -->
+      <div id="vw-ch2" style="background:linear-gradient(150deg,#3D1F00 0%,#B45309 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">第2章 SBT様式の比較</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">PSV vs T-piece vs CPAP</div>
+      </div>
+
+      <h3 id="vw-s3-modes" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+        <span style="color:#B45309;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>
+        3群の使用割合と実施時間
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">SBT様式の分類と使用状況</h3>
+          <p class="rule-body">SBTは以下の3群に分類された。PSVが最も多く使用され、半数を超えた。CPAPは少数であり、施行時間の中央値が他の2群より長かった。</p>
+          <table class="ie-table" style="margin-top:8px;">
+            <thead>
+              <tr><th>SBT様式</th><th>定義</th><th>n（%）</th><th>中央値時間</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>PSV</strong></td><td>圧支持換気（PEEP有無を問わない）</td><td>430（51.3%）</td><td>60 min（IQR 30〜180）</td></tr>
+              <tr><td><strong>T-ピース</strong></td><td>T-ピース回路（PEEP有無を問わない）</td><td>329（39.2%）</td><td>60 min（IQR 30〜120）</td></tr>
+              <tr><td><strong>CPAP</strong></td><td>持続気道陽圧</td><td>80（9.5%）</td><td>120 min（IQR 60〜360）</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-enio-sbt2025.html#enio-design">ENIO SBT様式（ICM 2025）▸ SBT様式の定義</a> / <a href="../articles-gl-enio-extubation2025.html#s2-design">ENIO 抜管編（ICM 2025）▸ SBTの定義</a></div>
+
+      <h3 id="vw-s4-result" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 4</span>
+        主要結果：SBT様式は抜管失敗率に影響しない
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">多変量解析・IPTW解析：SBT様式・時間は抜管失敗と無関連</h3>
+          <p class="rule-body">多変量ロジスティック回帰において、SBT様式（PSV vs T-ピース、CPAP vs T-ピース）のいずれの比較でも抜管失敗との有意な関連は認められなかった。SBT実施時間も抜管アウトカムと独立した関連を示さなかった。</p>
+          <table class="ie-table" style="margin-top:10px;">
+            <thead>
+              <tr><th>比較</th><th>OR（95% CI）</th><th>p値</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>PSV vs T-ピース</td><td>0.95（0.54〜1.74）</td><td>0.852</td></tr>
+              <tr><td>CPAP vs T-ピース</td><td>1.65（0.83〜3.44）</td><td>0.177</td></tr>
+              <tr><td>PSV vs CPAP</td><td>0.23〜1.43</td><td>0.326</td></tr>
+            </tbody>
+          </table>
+          <p class="rule-body" style="margin-top:12px;">傾向スコアを用いたIPTW解析（n=797）でも結果は一致した。T-ピース vs PSV: OR 1.11（95% CI 0.73〜1.70、p=0.63）であり、地域を交絡因子として含めても結果は変わらなかった。二次的気管切開率もモード間で差がなかった（PSV 7.5% / T-ピース 6.1% / CPAP 6.8%、p=0.87）。</p>
+          <div class="ie-stat-grid" style="margin-top:12px;">
+            <div class="ie-stat" style="background:#F8FAFC;border-color:var(--border);">
+              <div class="ie-stat-val" style="color:var(--muted);">n.s.</div>
+              <div class="ie-stat-label">SBT様式（全比較）<br>有意差なし</div>
+            </div>
+            <div class="ie-stat" style="background:#F0FDF4;border-color:#BBF7D0;">
+              <div class="ie-stat-val" style="color:#16A34A;">0.52</div>
+              <div class="ie-stat-label">活発な咳嗽のOR<br>（IPTW; p=0.007）</div>
+            </div>
+            <div class="ie-stat" style="background:#F8FAFC;border-color:var(--border);">
+              <div class="ie-stat-val" style="color:var(--muted);">n.s.</div>
+              <div class="ie-stat-label">SBT実施時間<br>有意差なし</div>
+            </div>
+          </div>
+          <div class="alert-green" style="margin-top:10px;">
+            <strong>Key finding：</strong>非重み付き・IPTW重み付き双方のモデルで一貫して、<span style="font-weight:900;">活発な咳嗽（vigorous cough）</span>が抜管成功の唯一の独立予測因子であった。SBT様式・時間はいずれも有意な関連を示さなかった。
+          </div>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-enio-sbt2025.html#enio-multivar">ENIO SBT様式（ICM 2025）▸ 多変量解析</a> / <a href="../articles-gl-enio-sbt2025.html#enio-iptw">ENIO SBT様式（ICM 2025）▸ IPTW解析</a> / <a href="../articles-gl-enio-extubation2025.html#s4-predictors">ENIO 抜管編（ICM 2025）▸ 予測因子</a></div>
+
+      <!-- ============================== 第3章 抜管失敗の予測因子 ============================== -->
+      <div id="vw-ch3" style="background:linear-gradient(150deg,#3D1F00 0%,#B45309 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">第3章 抜管失敗の予測因子</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Predictors of Extubation Failure</div>
+      </div>
+
+      <h3 id="vw-s5-rate" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+        <span style="color:#B45309;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 5</span>
+        抜管失敗率と臨床転帰への影響
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">抜管失敗 21.1%：重篤な転帰と関連</h3>
+          <p class="rule-body">全839例中177例（21.1%）が抜管後5日以内に再挿管を要した。抜管失敗は<span class="mark-red"><strong>ICU滞在・院内合併症・死亡率のすべてにわたって重大な影響</strong></span>をもたらした。</p>
+          <div class="ie-stat-grid" style="margin-top:12px;">
+            <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+              <div class="ie-stat-val" style="color:#DC2626;">21日</div>
+              <div class="ie-stat-label">ICU滞在中央値<br>（成功群：12日）</div>
+            </div>
+            <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+              <div class="ie-stat-val" style="color:#DC2626;">65.9%</div>
+              <div class="ie-stat-label">VAP発症率<br>（成功群：35.3%）</div>
+            </div>
+            <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+              <div class="ie-stat-val" style="color:#DC2626;">9.2%</div>
+              <div class="ie-stat-label">ICU死亡率<br>（成功群：2.0%）</div>
+            </div>
+          </div>
+          <div class="ie-stat-grid" style="margin-top:8px;">
+            <div class="ie-stat" style="background:#FFF7ED;border-color:#FED7AA;">
+              <div class="ie-stat-val" style="color:#EA580C;">15.9%</div>
+              <div class="ie-stat-label">ARDS発症率<br>（成功群：7.0%）</div>
+            </div>
+            <div class="ie-stat" style="background:#FFF7ED;border-color:#FED7AA;">
+              <div class="ie-stat-val" style="color:#EA580C;">18.1%</div>
+              <div class="ie-stat-label">院内死亡率<br>（成功群：5.7%）</div>
+            </div>
+            <div class="ie-stat" style="background:#FFF7ED;border-color:#FED7AA;">
+              <div class="ie-stat-val" style="color:#EA580C;">13日</div>
+              <div class="ie-stat-label">侵襲的MV中央値<br>（成功群：6日）</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-enio-sbt2025.html#enio-failure-outcomes">ENIO SBT様式（ICM 2025）▸ 抜管失敗率・臨床転帰</a></div>
+
+      <h3 id="vw-s6-cough" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 6</span>
+        唯一の有意な予測因子：vigorous cough
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">活発な咳嗽（vigorous cough）が唯一の独立予測因子</h3>
+          <p class="rule-body">非重み付き・IPTW重み付き双方のモデルで一貫して、<span class="mark-green"><strong>活発な咳嗽が抜管成功の唯一の独立予測因子</strong></span>であった。咳嗽強度は脳幹・延髄機能の統合を反映しており、分泌物クリアランスと上気道保護の両方に必要な機能を代表する指標である。</p>
+          <table class="ie-table" style="margin-top:10px;">
+            <thead>
+              <tr><th>予測因子</th><th>OR</th><th>95% CI</th><th>p値</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>活発な咳嗽（vigorous cough）</strong>非加重</td><td>0.57</td><td>0.34〜0.95</td><td>0.023</td></tr>
+              <tr><td><strong>活発な咳嗽（vigorous cough）</strong>IPTW</td><td>0.52</td><td>0.32〜0.83</td><td>0.007</td></tr>
+              <tr><td>TBI診断（vs 他のABI）非加重</td><td>0.56</td><td>0.32〜0.97</td><td>0.036</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-enio-sbt2025.html#enio-multivar">ENIO SBT様式（ICM 2025）▸ 多変量解析</a> / <a href="../articles-gl-enio-extubation2025.html#s4-predictors">ENIO 抜管編（ICM 2025）▸ 予測因子</a></div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">抜管失敗群の特徴</h3>
+          <p class="rule-body">抜管失敗群は成功群と比較して以下の特徴を有していた。神経学的回復と気道保護能力の低下がABI患者の抜管アウトカムを規定する中心的因子であることが示されている。</p>
+          <table class="ie-table" style="margin-top:10px;">
+            <thead>
+              <tr><th>特徴</th><th>失敗群 vs 成功群</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>年齢</strong></td><td>高齢（p=0.023）</td></tr>
+              <tr><td><strong>入室時GCS</strong></td><td>低値（p=0.018）</td></tr>
+              <tr><td><strong>嚥下の試み</strong></td><td>76.3% vs 85.8%（p=0.003）</td></tr>
+              <tr><td><strong>視覚追視</strong></td><td>75.7% vs 83.0%（p=0.029）</td></tr>
+              <tr><td><strong>咽頭反射存在率</strong></td><td>低値（p=0.006）</td></tr>
+              <tr><td><strong>肺疾患合併率</strong></td><td>高値（p=0.018）</td></tr>
+            </tbody>
+          </table>
+          <div class="alert-red" style="margin-top:10px;">
+            <strong>臨床的ポイント：</strong>ABI患者の抜管判断では「どのSBTを選ぶか」より、<span class="mark-red"><strong>抜管前に咳嗽強度・嚥下機能・分泌物量を系統的に評価できているか</strong></span>が重要である。RSBIや呼吸力学指標はABIコホートでは予測力を持ちにくい。
+          </div>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-enio-sbt2025.html#enio-demographics">ENIO SBT様式（ICM 2025）▸ 患者背景</a> / <a href="../articles-gl-enio-extubation2025.html#s3-cohort">ENIO 抜管編（ICM 2025）▸ コホート特性</a></div>
+
+      <!-- ============================== 第4章 ABI病型別サブグループ解析 ============================== -->
+      <div id="vw-ch4" style="background:linear-gradient(150deg,#3D1F00 0%,#B45309 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">第4章 ABI病型別サブグループ解析</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Subgroup Analysis by ABI Etiology</div>
+      </div>
+
+      <h3 id="vw-s7-subgroup" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+        <span style="color:#B45309;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 7</span>
+        TBI・SAH・ICH・虚血性脳卒中
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">全病型でSBT様式の差なし。病型ごとに特徴的なリスク因子</h3>
+          <p class="rule-body">TBI・SAH・ICH・虚血性脳卒中の4サブグループすべてにおいて、SBT様式と抜管失敗の間に有意な関連は認められなかった。一方で病型ごとの特徴的な知見が得られた。</p>
+          <table class="ie-table" style="margin-top:10px;">
+            <thead>
+              <tr><th>ABI病型</th><th>主な知見</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>TBI</strong></td>
+                <td>活発な咳嗽が保護的（OR 0.48、95% CI 0.25〜0.92; p=0.03）。SBT時間が長いほど失敗リスクわずかに上昇（OR 1.44/min; p=0.009）</td>
+              </tr>
+              <tr>
+                <td><strong>SAH</strong></td>
+                <td>高い抜管時PEEPが失敗と関連（OR 2.17、95% CI 1.46〜3.43; p&lt;0.001）</td>
+              </tr>
+              <tr>
+                <td><strong>ICH</strong></td>
+                <td>高い抜管時PEEPが失敗と関連（OR 1.44、95% CI 1.14〜1.86; p=0.004）</td>
+              </tr>
+              <tr>
+                <td><strong>虚血性脳卒中</strong></td>
+                <td>有意な独立予測因子なし</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="alert-yellow" style="margin-top:10px;">
+            <strong>出血性疾患におけるPEEP：</strong>SAH・ICHでは抜管時の高PEEPが失敗と関連していた。これはPEEP高値そのものが原因というよりも、残存肺障害や不完全なウィーニングの<strong>マーカー</strong>として解釈すべきであると著者らは指摘している（IPTW解析では有意差消失）。
+          </div>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-enio-sbt2025.html#enio-subgroup">ENIO SBT様式（ICM 2025）▸ サブグループ解析</a> / <a href="../articles-gl-enio-extubation2025.html#s5-subgroup">ENIO 抜管編（ICM 2025）▸ サブグループ解析</a></div>
+
+      <div class="ie-alpha">
+        <div class="ie-alpha-inner">
+          <div class="ie-alpha-header">
+            <span class="ie-alpha-badge">＋α</span>
+            <span class="ie-alpha-title">ENIO研究の限界</span>
+          </div>
+          <p class="rule-body" style="color:#4C1D95;">post-hoc観察研究のため残存交絡が排除できない。SBT終了基準や呼吸努力の連続測定が標準化されていない。一次的気管切開例の除外により外的妥当性が制限される（特に重篤な意識障害・大量分泌物の患者）。CPAPグループは症例数が少なく（n=80, 9.5%）、解析の検出力が低い可能性がある。主として欧州施設のデータであり、アジア・低・中所得国への一般化には注意が必要。</p>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-enio-sbt2025.html#enio-discussion">ENIO SBT様式（ICM 2025）▸ 考察</a> / <a href="../articles-gl-enio-extubation2025.html#s6-takehome">ENIO 抜管編（ICM 2025）▸ Take-home</a></div>
+
+      <!-- ============================== SUMMARY ============================== -->
+      <h3 id="vw-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:48px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+        <span style="color:#B45309;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+        キーメッセージ
+      </h3>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+              <span class="rule-body"><strong>SBT様式・時間はABI患者の抜管アウトカムと無関連：</strong>PSV・T-ピース・CPAPのいずれの様式も、また実施時間も、抜管失敗リスクに有意差なし。非重み付き・IPTW重み付き双方で一貫した結果。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+              <span class="rule-body"><strong>活発な咳嗽が唯一の独立予測因子：</strong>IPTW解析でOR 0.52（95% CI 0.32〜0.83; p=0.007）。咳嗽強度は脳幹・延髄機能の回復を反映し、分泌物クリアランスと上気道保護の両方に必要。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+              <span class="rule-body"><strong>抜管失敗は重篤な転帰と関連：</strong>ICU死亡率9.2% vs 2.0%、院内死亡率18.1% vs 5.7%、VAP 65.9% vs 35.3%。ABI患者の抜管管理の精度向上は予後改善に直結する。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+              <span class="rule-body"><strong>ABI病型によりリスク因子が異なる：</strong>TBIでは咳嗽強度が保護的（OR 0.48）。出血性疾患（SAH・ICH）では高い抜管時PEEPが失敗と関連（残存肺障害のマーカー）。虚血性脳卒中では有意な予測因子なし。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+              <span class="rule-body"><strong>ABI患者には統合的抜管プロトコルが必要：</strong>SBT様式の選択より、神経学的評価（意識・嚥下・視覚追視）・気道保護能力（咳嗽強度・分泌物量）・合併症リスクを統合したプロトコルの開発が今後の課題。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 出典注記 -->
+      <p style="font-size:0.72rem;color:#9CA3AF;margin-top:32px;line-height:1.7;">
+        本ページは以下の収録論文の要約ページの内容を統合して作成しています：<br>
+        ・<a href="../articles-gl-enio-sbt2025.html" style="color:#60A5FA;">ENIO研究：SBT様式と抜管アウトカム（ICM 2025）</a><br>
+        ・<a href="../articles-gl-enio-extubation2025.html" style="color:#60A5FA;">ENIO研究：ABI患者のSBTモードと抜管予後（ICM 2025）</a><br>
+        本資料は教育目的で作成したサマリーです。診断・治療方針の決定には必ず原典論文を参照してください。
+      </p>
+      <p style="font-size:0.75rem;color:var(--muted);text-align:right;margin-top:8px;">制作：ICU 関谷</p>
+
+    </div><!-- /.main-col -->
+
+    <!-- ── サイドバー目次 ── -->
+    <aside class="ie-sidebar">
+      <div class="ie-sidebar-card">
+        <div class="ie-sidebar-title">目次</div>
+
+        <a href="#vw-ch1" class="ie-toc-chapter">第1章 ウィーニングの概要</a>
+        <a href="#vw-s1-sbt" class="ie-toc-section">S1 — SBTの定義と目的</a>
+        <a href="#vw-s2-enio" class="ie-toc-section">S2 — ENIO研究の概要</a>
+
+        <a href="#vw-ch2" class="ie-toc-chapter">第2章 SBT様式の比較</a>
+        <a href="#vw-s3-modes" class="ie-toc-section">S3 — 3群の使用割合と実施時間</a>
+        <a href="#vw-s4-result" class="ie-toc-section">S4 — 主要結果</a>
+
+        <a href="#vw-ch3" class="ie-toc-chapter">第3章 抜管失敗の予測因子</a>
+        <a href="#vw-s5-rate" class="ie-toc-section">S5 — 抜管失敗率と転帰</a>
+        <a href="#vw-s6-cough" class="ie-toc-section">S6 — vigorous cough</a>
+
+        <a href="#vw-ch4" class="ie-toc-chapter">第4章 サブグループ解析</a>
+        <a href="#vw-s7-subgroup" class="ie-toc-section">S7 — TBI・SAH・ICH・脳梗塞</a>
+
+        <a href="#vw-summary" class="ie-toc-chapter">SUMMARY</a>
+      </div>
+    </aside>
+
+  </div><!-- /.content-wrap -->
+
+  <script src="../../script.js"></script>
+  <script src="../../mob-toc.js"></script>
+  <script src="../../abbr-tooltip.js"></script>
+</body>
+</html>

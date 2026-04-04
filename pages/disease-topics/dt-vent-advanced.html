@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>人工呼吸管理 Level 3 — HFNC・NIV・酸素療法 | 聖路加ICU</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../style-v2.css">
+  <script src="../../site-config.js"></script>
+  <style>
+    .subpage-hero { background: linear-gradient(150deg, #3D1F00 0%, #B45309 55%, #D97706 100%) !important; }
+    .ie-badge { display:inline-block;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:20px;padding:4px 12px;font-size:0.72rem;font-weight:500;color:#fff;margin-right:6px;margin-top:8px; }
+
+    .content-wrap { display:flex;gap:32px;align-items:flex-start;max-width:1140px;margin:0 auto;padding:32px 20px 80px; }
+    .main-col { flex:1;min-width:0;max-width:900px; }
+
+    .ie-table { width:100%;border-collapse:collapse;font-size:0.82rem;margin-top:10px; }
+    .ie-table th { background:#FFFBEB;border:1px solid #FDE68A;padding:8px 12px;font-weight:700;font-size:0.78rem;text-align:left; }
+    .ie-table td { border:1px solid var(--border);padding:8px 12px;vertical-align:top;line-height:1.7; }
+    .ie-table tr:nth-child(even) td { background:#F8FAFC; }
+
+    .ie-flow { display:flex;flex-direction:column;gap:0; }
+    .ie-flow-item { display:flex;align-items:flex-start;gap:14px;background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:14px 16px; }
+    .ie-flow-arrow { text-align:center;color:#B45309;font-size:1.1rem;font-weight:700;padding:4px 0; }
+    .ie-flow-num { width:28px;height:28px;border-radius:50%;background:#B45309;color:#fff;font-size:0.78rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0; }
+
+    .ie-stat-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px; }
+    @media (max-width:520px) { .ie-stat-grid { grid-template-columns:1fr 1fr; } }
+    .ie-stat { background:#FFFBEB;border:1px solid #FDE68A;border-radius:8px;padding:14px 12px;text-align:center; }
+    .ie-stat-val { font-size:1.25rem;font-weight:900;color:#B45309;line-height:1.3; }
+    .ie-stat-label { font-size:0.68rem;color:var(--muted);margin-top:5px;line-height:1.5; }
+
+    .ie-alpha { background:#F5F3FF;border:1px solid #DDD6FE;border-radius:8px;padding:2px;margin-top:10px; }
+    .ie-alpha-inner { padding:14px 16px; }
+    .ie-alpha-header { display:flex;align-items:center;gap:8px;margin-bottom:8px; }
+    .ie-alpha-badge { background:#7C3AED;color:#fff;font-size:0.65rem;font-weight:800;padding:2px 8px;border-radius:20px;letter-spacing:0.05em; }
+    .ie-alpha-title { font-size:0.85rem;font-weight:700;color:#4C1D95; }
+
+    .alert-yellow { background:#FFFBEB;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#92400E;line-height:1.7; }
+    .alert-green  { background:#F0FDF4;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#14532D;line-height:1.7; }
+    .alert-red    { background:#FEF2F2;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#7F1D1D;line-height:1.7; }
+
+    .ie-echo-grid { display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px; }
+    @media (max-width:520px) { .ie-echo-grid { grid-template-columns:1fr; } }
+    .ie-echo-box { background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:12px 14px; }
+    .ie-echo-name { font-size:0.8rem;font-weight:800;color:var(--text);margin-bottom:4px; }
+    .ie-echo-body { font-size:0.78rem;color:var(--muted);line-height:1.6; }
+
+    .dt-source { text-align:right;margin-top:-10px;margin-bottom:16px;padding-right:4px; }
+    .dt-source a { font-size:0.68rem;color:#9CA3AF;text-decoration:none;transition:color 0.15s; }
+    .dt-source a:hover { color:#2D7A4F; }
+    .dt-source::before { content:"出典：";font-size:0.65rem;color:#BFBFBF; }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="../../index.html" class="nav-logo">
+        <img src="../../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+        <span class="nav-logo-text">聖路加国際病院ICU</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="../../index.html" class="nav-link">ホーム</a></li>
+        <li><a href="../icu-policy.html" class="nav-link">ICUの方針</a></li>
+        <li><a href="../disease-topics.html" class="nav-link">疾患トピックス</a></li>
+        <li><a href="../articles-guidelines.html" class="nav-link">論文・GL</a></li>
+        <li><a href="../icu-core-conf.html" class="nav-link">コアカン</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="subpage-hero">
+    <div class="hero-content" style="max-width:860px;margin:0 auto;padding:36px 20px 32px;">
+      <a href="../disease-topics.html" class="back-link">&larr; 疾患・項目別まとめ一覧へ戻る</a>
+      <div style="font-size:0.72rem;color:rgba(255,255,255,0.6);margin-bottom:6px;letter-spacing:0.08em;">RESPIRATORY SYSTEM</div>
+      <h1 style="font-size:clamp(1.3rem,3vw,1.75rem);font-weight:900;color:#fff;line-height:1.35;margin-bottom:12px;">
+        人工呼吸管理 Level 3 &mdash; HFNC・NIV・酸素療法
+      </h1>
+      <div>
+        <span class="ie-badge">疾患トピックス</span>
+        <span class="ie-badge">4本の収録論文を統合</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== MAIN LAYOUT ===== -->
+  <div class="content-wrap">
+
+    <div class="main-col">
+
+      <!-- 略語一覧 -->
+      <div class="card" style="margin-bottom:24px;">
+        <div class="card-inner">
+          <h3 class="rule-title" style="margin-bottom:10px;">本ページで使用する略語一覧</h3>
+          <table style="width:100%;border-collapse:collapse;font-size:0.8rem;line-height:1.6;">
+            <tbody>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">HFNC</td><td style="padding:4px 8px;">High Flow Nasal Cannula &mdash; 高流量鼻カニューレ</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">NIV</td><td style="padding:4px 8px;">Non-Invasive Ventilation &mdash; 非侵襲的陽圧換気</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">AECOPD</td><td style="padding:4px 8px;">Acute Exacerbation of COPD &mdash; COPD急性増悪</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">NMA</td><td style="padding:4px 8px;">Network Meta-Analysis &mdash; ネットワークメタ解析</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">SUCRA</td><td style="padding:4px 8px;">Surface Under the Cumulative Ranking Curve &mdash; 累積順位曲線下面積</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">PEEPi</td><td style="padding:4px 8px;">intrinsic PEEP &mdash; 内因性PEEP（呼気終末陽圧）</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">DPH</td><td style="padding:4px 8px;">Dynamic Pulmonary Hyperinflation &mdash; 動的肺過膨張</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">FiO2</td><td style="padding:4px 8px;">Fraction of Inspired Oxygen &mdash; 吸入酸素濃度</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">PaCO2</td><td style="padding:4px 8px;">Partial Pressure of Arterial CO2 &mdash; 動脈血二酸化炭素分圧</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">SpO2</td><td style="padding:4px 8px;">Percutaneous Oxygen Saturation &mdash; 経皮的酸素飽和度</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">CPAP</td><td style="padding:4px 8px;">Continuous Positive Airway Pressure &mdash; 持続陽圧呼吸</td></tr>
+              <tr><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">BiPAP</td><td style="padding:4px 8px;">Bilevel Positive Airway Pressure &mdash; 二相性陽圧呼吸</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ============================== 第1章：HFNC ============================== -->
+      <div id="vent-ch1" style="background:linear-gradient(150deg,#3D1F00 0%,#B45309 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:0;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">第1章 HFNC（高流量鼻カニューレ）</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">High Flow Nasal Cannula: Principles &amp; Evidence</div>
+      </div>
+
+      <!-- S1: HFNC機序 -->
+      <h3 id="vent-hfnc-mechanism" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+        <span style="color:#B45309;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+        HFNCの作用機序
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">HFNCの3つの主要な生理学的効果</h3>
+          <p class="rule-body">HFNCは加温加湿した高流量酸素を経鼻カニューレで供給する呼吸補助法であり、以下の3つの機序を通じて呼吸不全患者に作用する。</p>
+          <div class="ie-flow" style="margin-top:12px;">
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">1</div>
+              <div style="flex:1;"><p class="rule-body"><strong>解剖学的死腔のCO2ウォッシュアウト：</strong>高流量ガスが鼻咽頭腔のCO2を洗い流し、PaCO2を低下させる。AECOPDにおけるNMAでは、HFNC_Low（20〜30 L/min）がNIVよりPaCO2を有意に低下させた（MD &minus;3.11 mmHg）。</p></div>
+            </div>
+            <div class="ie-flow-arrow">&darr;</div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">2</div>
+              <div style="flex:1;"><p class="rule-body"><strong>流量依存的PEEP様効果：</strong>流量に比例してPEEP様の陽圧が発生する。流量40 L/minで約6.46 cmH2O、60 L/minで約10.13 cmH2Oの圧が生成される。SSC 2026では最大60 L/minでの使用が記載されている。</p></div>
+            </div>
+            <div class="ie-flow-arrow">&darr;</div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">3</div>
+              <div style="flex:1;"><p class="rule-body"><strong>加温加湿による気道保護：</strong>37&#8451;・相対湿度100%（絶対湿度44 mg/L）に近い状態で吸入ガスを供給し、気道粘膜の乾燥を防ぎ、痰の粘稠度を低下させて気道クリアランスを改善する。</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-hfnc-copd-nma2025.html#hfnc-peep">HFNC NMA（Pulmonology 2025）&#9659; PEEP・機序</a> / <a href="../articles-gl-inspiron2008.html#s5">インスピロン（看護学雑誌 2008）&#9659; 加温加湿</a></div>
+
+      <!-- S2: SSC2026推奨 -->
+      <h3 id="vent-hfnc-ssc" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+        SSC 2026のHFNC推奨
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">急性低酸素性呼吸不全にはHFNCが第1選択</h3>
+          <p class="rule-body">SSC 2026は、PaO2/FiO2 &lt;200（またはSpO2/FiO2 &lt;235）を示す急性低酸素性呼吸不全患者に対して、通常の鼻カヌラ・フェイスマスクによる酸素療法よりも<span class="mark-green"><strong>HFNCを推奨</strong></span>する（Statement 67、条件付き推奨・超低確実性）。</p>
+          <p class="rule-body" style="margin-top:8px;">11件のRCT（計3,546名）のメタ解析では、通常酸素療法と比較してHFNCは挿管率を低下させる傾向を示した（RR 0.88、95%CI 0.77〜1.00）。さらにNIVよりもHFNCを初期治療として優先することが条件付きで推奨されている（Statement 68）。7件のRCT（計2,465名）では、HFNCはNIVと比較して死亡率低下傾向（RR 0.89）と人工呼吸期間の有意な短縮を示した。</p>
+          <div class="ie-stat-grid" style="margin-top:12px;">
+            <div class="ie-stat">
+              <div class="ie-stat-val">RR 0.88</div>
+              <div class="ie-stat-label">HFNC vs 通常酸素<br>挿管リスク比（11 RCT）</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">3,546名</div>
+              <div class="ie-stat-label">メタ解析対象<br>患者数</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">60 L/min</div>
+              <div class="ie-stat-label">HFNCの最大<br>流量設定</div>
+            </div>
+          </div>
+          <div class="alert-yellow" style="margin-top:10px;">
+            <strong>注意：</strong>この推奨は<strong>低酸素性呼吸不全</strong>（type I）に限定される。急性心原性肺水腫や高CO2血症型（type II）呼吸不全ではNIVの適応が上回る場面があり、一律にHFNCを選択しないよう注意する。
+          </div>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-ssc2026.html#ssc-s4-3">SSC 2026 &#9659; HFNC・NIV</a></div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">HFNC単独 vs HFNC＋NIV交互使用</h3>
+          <p class="rule-body">SSC 2026はHFNCとNIVを交互に使用する戦略よりも、<span class="mark-green"><strong>HFNC単独での管理</strong></span>を条件付きで推奨する（Statement 69）。2件のRCT（計515名）のメタ解析では、HFNC単独群でventilator-free days（VFD）が約4日多く（低確実性）、交互使用戦略の有益性を示すエビデンスは乏しい。</p>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-ssc2026.html#ssc-s4-3">SSC 2026 &#9659; HFNC・NIV</a></div>
+
+      <!-- S3: AECOPD NMA -->
+      <h3 id="vent-hfnc-aecopd" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+        <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>
+        AECOPDにおけるHFNC流量設定 &mdash; NMA（40 RCTs, 3,597例）
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">低流量（20〜30 L/min）が7指標中5つでSUCRA 1位</h3>
+          <p class="rule-body">AECOPDに対するHFNC初期流量設定を比較した40 RCTs（3,597例）のNMAでは、HFNC_Low（20〜30 L/min）・HFNC_Mod（30〜50 L/min）・HFNC_High（&gt;50 L/min）・NIVの4群が比較された。SUCRAランキングで<span class="mark-green"><strong>HFNC_Lowが7指標中5指標で最上位</strong></span>であった。</p>
+          <table class="ie-table" style="margin-top:12px;">
+            <thead>
+              <tr><th>アウトカム</th><th>HFNC_Low<br><small>20〜30 L</small></th><th>HFNC_Mod<br><small>30〜50 L</small></th><th>HFNC_High<br><small>&gt;50 L</small></th><th>NIV</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>挿管率</strong></td><td><strong style="color:#B45309;">74.24%</strong></td><td>60.50%</td><td>48.13%</td><td>17.14%</td></tr>
+              <tr><td><strong>短期死亡率</strong></td><td><strong style="color:#B45309;">91.06%</strong></td><td>18.25%</td><td>61.94%</td><td>28.76%</td></tr>
+              <tr><td><strong>pH改善</strong></td><td><strong style="color:#B45309;">96.15%</strong></td><td>36.83%</td><td>41.81%</td><td>25.21%</td></tr>
+              <tr><td>PaO2/FiO2</td><td>75.24%</td><td><strong style="color:#B45309;">78.71%</strong></td><td>32.88%</td><td>13.16%</td></tr>
+              <tr><td><strong>PaCO2低下</strong></td><td><strong style="color:#B45309;">90.43%</strong></td><td>73.44%</td><td>18.58%</td><td>17.55%</td></tr>
+              <tr><td>入院期間</td><td>65.38%</td><td><strong style="color:#B45309;">70.45%</strong></td><td>63.52%</td><td>2.65%</td></tr>
+              <tr><td><strong>鼻顔面損傷</strong></td><td><strong style="color:#B45309;">89.36%</strong></td><td>49.75%</td><td>60.77%</td><td>0.12%</td></tr>
+            </tbody>
+          </table>
+          <div class="alert-green" style="margin-top:10px;"><strong>結論：</strong>AECOPDへのHFNC初期流量は低流量（20〜30 L/min）を推奨。低流量はPaCO2低下・pH改善・鼻顔面損傷減少において最も優れ、短期死亡率・挿管率でもSUCRA上位。</div>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-hfnc-copd-nma2025.html#hfnc-sucra-table">HFNC NMA（Pulmonology 2025）&#9659; SUCRA一覧</a></div>
+
+      <!-- S4: PaCO2・鼻顔面損傷 -->
+      <h3 id="vent-hfnc-paco2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+        <span style="color:#16A34A;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 4</span>
+        PaCO2・鼻顔面損傷の詳細
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">PaCO2：Low flowのみNIVに対して有意差あり</h3>
+          <p class="rule-body">NMAにおいて、HFNC_Low（20〜30 L/min）はNIVと比較してPaCO2を<span class="mark-green"><strong>MD &minus;3.11（95%CrI &minus;5.66〜&minus;0.54）</strong></span>と有意に低下させた唯一の群である。HFNC_Mod も有意な低下を示した（MD &minus;2.12）が、HFNC_High（&gt;50 L/min）はNIVと差がなかった（MD 0.05, NS）。</p>
+          <p class="rule-body" style="margin-top:8px;">pH改善においてもHFNC_Lowのみが有意な改善を示し（MD +0.031、SUCRA 96.15%で最上位）、PaCO2低下との整合性からも低流量がCO2貯留・呼吸性アシドーシスの是正に最も効果的と判断される。</p>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-hfnc-copd-nma2025.html#hfnc-paco2-ph">HFNC NMA（Pulmonology 2025）&#9659; PaCO2・pH</a></div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">鼻顔面損傷：HFNC全群でNIVより有意に少ない</h3>
+          <p class="rule-body">3種類のHFNC流量はすべて、NIVと比べて鼻顔面損傷を有意に減少させた。HFNC_Lowの効果量が最も大きかった（OR 0.11）。</p>
+          <div class="ie-stat-grid" style="margin-top:12px;">
+            <div class="ie-stat" style="background:#F0FDF4;border-color:#BBF7D0;">
+              <div class="ie-stat-val" style="color:#16A34A;">OR 0.11</div>
+              <div class="ie-stat-label">HFNC_Low vs NIV<br>鼻顔面損傷</div>
+            </div>
+            <div class="ie-stat" style="background:#F0FDF4;border-color:#BBF7D0;">
+              <div class="ie-stat-val" style="color:#16A34A;">OR 0.24</div>
+              <div class="ie-stat-label">HFNC_Mod vs NIV<br>鼻顔面損傷</div>
+            </div>
+            <div class="ie-stat" style="background:#F0FDF4;border-color:#BBF7D0;">
+              <div class="ie-stat-val" style="color:#16A34A;">OR 0.20</div>
+              <div class="ie-stat-label">HFNC_High vs NIV<br>鼻顔面損傷</div>
+            </div>
+          </div>
+          <p class="rule-body" style="margin-top:10px;">OR 0.11は、HFNC_Lowでは鼻顔面損傷がNIVの約1/9であることを示す。NIVのクラストロフォビア・顔面皮膚損傷・エアリークなどの副作用により約15%の患者が不耐容で中断する問題と対照的である。</p>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-hfnc-copd-nma2025.html#hfnc-injuries">HFNC NMA（Pulmonology 2025）&#9659; 鼻顔面損傷</a></div>
+
+      <!-- S5: AECOPD機序 -->
+      <h3 id="vent-hfnc-peep" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+        <span style="color:#B45309;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 5</span>
+        AECOPDで高流量が逆効果となる機序
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">PEEPi・臨界PEEP超過とDPH悪化</h3>
+          <p class="rule-body">AECOPDでは呼気流速制限によりDPH（動的肺過膨張）が起こり、内因性PEEP（PEEPi）が<strong>典型的に5〜15 cmH2O以上</strong>に達する。HFNCは流量依存的にPEEP様圧を生成するが、この圧がPEEPiの85%（臨界PEEP）を超えると逆効果となる。</p>
+          <div class="ie-stat-grid" style="margin-top:12px;">
+            <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+              <div class="ie-stat-val" style="color:#DC2626;">6.46</div>
+              <div class="ie-stat-label">cmH2O<br>流量40 L/min時のPEEP</div>
+            </div>
+            <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+              <div class="ie-stat-val" style="color:#DC2626;">10.13</div>
+              <div class="ie-stat-label">cmH2O<br>流量60 L/min時のPEEP</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">5〜15</div>
+              <div class="ie-stat-label">cmH2O<br>AECOPDの典型的PEEPi</div>
+            </div>
+          </div>
+          <p class="rule-body" style="margin-top:12px;"><span class="mark-red"><strong>臨界PEEPを超えると</strong></span>呼気終末肺容量（EELV）が増加してDPHが悪化し、呼吸筋負荷の増大から換気効率が低下、CO2排出が障害されてPaCO2がむしろ上昇する。低流量設定は臨界PEEPを超えない範囲でPEEP様効果を発揮しつつ、呼吸筋負荷を軽減し、死腔CO2ウォッシュアウト効果を維持する。</p>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-hfnc-copd-nma2025.html#hfnc-peep">HFNC NMA（Pulmonology 2025）&#9659; PEEPi・臨界PEEP</a></div>
+
+      <!-- SUMMARY Ch1 -->
+      <h3 id="vent-sum1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+        <span style="color:#B45309;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+        第1章のキーメッセージ
+      </h3>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&oplus;</span>
+              <span class="rule-body"><strong>SSC 2026：</strong>急性低酸素性呼吸不全（P/F &lt;200）にはHFNCが第1選択。NIVより優先（条件付き推奨）。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&oplus;</span>
+              <span class="rule-body"><strong>AECOPD流量：</strong>低流量（20〜30 L/min）推奨。7指標中5つでSUCRA 1位。PaCO2 &minus;3.11, pH +0.031 と有意改善。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&oplus;</span>
+              <span class="rule-body"><strong>鼻顔面損傷：</strong>HFNC全群でNIVより有意に少ない（OR 0.11〜0.24）。患者快適性も高い。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&oplus;</span>
+              <span class="rule-body"><strong>機序：</strong>死腔CO2ウォッシュアウト・流量依存的PEEP・加温加湿の3つが主要効果。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&oplus;</span>
+              <span class="rule-body"><strong>AECOPD注意：</strong>高流量はPEEPi臨界PEEP超過 &rarr; DPH悪化 &rarr; CO2貯留増悪のリスクがある。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================== 第2章：NIV ============================== -->
+      <div id="vent-ch2" style="background:linear-gradient(150deg,#3D1F00 0%,#B45309 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">第2章 NIV（非侵襲的人工呼吸）</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Non-Invasive Ventilation: Indications &amp; Evidence</div>
+      </div>
+
+      <!-- S6: SSC2026 NIV -->
+      <h3 id="vent-niv-ssc" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+        <span style="color:#B45309;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 6</span>
+        SSC 2026におけるNIVの位置づけ
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">低酸素性呼吸不全ではHFNCを優先、NIVは特定病態で考慮</h3>
+          <p class="rule-body">SSC 2026はtype I（低酸素性）呼吸不全に対してはNIVよりもHFNCを初期治療として推奨している（Statement 68）。ただし、<span class="mark-yellow"><strong>急性心原性肺水腫や高CO2血症型（type II）呼吸不全ではNIVが有効</strong></span>であることが明記されており、病態に応じた判断が必要である。</p>
+          <p class="rule-body" style="margin-top:8px;">NIV特有のリスクとして胃膨満・誤嚥・顔面皮膚障害・動脈性低血圧が挙げられており、これらがHFNCを初期治療として優先する根拠の一つとなっている。</p>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-ssc2026.html#ssc-s4-3">SSC 2026 &#9659; HFNC・NIV</a></div>
+
+      <!-- S7: sCAP NIV -->
+      <h3 id="vent-niv-scap" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 7</span>
+        sCAP（重症市中肺炎）におけるNIVの位置づけ
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">sCAP の呼吸管理：HFNT &rarr; NIV &rarr; IMV の段階的評価</h3>
+          <p class="rule-body">sCAP ICM 2025では、急性呼吸不全の支持療法としてHFNT（高流量鼻カニュラ酸素）を大多数の患者で最初に試みるべき非侵襲的アプローチと位置づけている。NIVは以下の場合に考慮される：</p>
+          <ul style="font-size:0.85rem;line-height:2;padding-left:1.4em;margin-top:8px;color:var(--text);">
+            <li>呼吸仕事量の増大・重篤な呼吸困難・呼吸筋疲労のある患者</li>
+            <li>うっ血性心不全（陽圧が循環動態に有益）のある患者</li>
+          </ul>
+          <p class="rule-body" style="margin-top:8px;">NIVの禁忌として、過剰な分泌物・顔面毛/構造異常によるエアリーク・コンプライアンス不良が挙げられている。フェイスマスクとヘルメットの優劣は確立されていない。</p>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-scap-icm2025.html#scap-resp-support">sCAP（ICM 2025）&#9659; 呼吸管理</a></div>
+
+      <!-- S8: AECOPD使い分け -->
+      <h3 id="vent-niv-aecopd" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+        <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 8</span>
+        AECOPDにおけるHFNCとNIVの使い分け
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">AECOPD：NIVが標準治療、HFNCは同等以上の代替手段</h3>
+          <p class="rule-body">NIVはAECOPDの標準治療として確立されているが、約15%の患者がクラストロフォビア・顔面皮膚損傷・エアリーク・胃膨満などの副作用により不耐容で中断する。HFNCはNIVよりも患者快適性が高く、2022年ERS臨床実践ガイドラインでもNIV不耐容患者に対してHFNCが推奨されている。</p>
+          <p class="rule-body" style="margin-top:8px;">NMA（40 RCTs, 3,597例）ではペアワイズメタ解析でHFNC全体とNIVを比較した結果、HFNCはPaCO2低下（MD &minus;1.63）・入院期間短縮（MD &minus;1.08日）・鼻顔面損傷減少（OR 0.22）でNIVに有意に優れていた。挿管率は境界的有意差（OR 0.75、p=0.05）、死亡率に差はなかった。</p>
+          <div class="alert-green" style="margin-top:10px;">
+            <strong>臨床的使い分け：</strong>AECOPDでは低流量HFNC（20〜30 L/min）を第1選択として検討可能。NIV不耐容・顔面損傷リスク・CO2貯留が問題の場合はHFNCの優位性が高い。一方、type II呼吸不全で重篤な呼吸困難・呼吸筋疲労がある場合はNIVの陽圧効果が有益な場面がある。
+          </div>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-hfnc-copd-nma2025.html#hfnc-pair-result">HFNC NMA（Pulmonology 2025）&#9659; ペアワイズ結果</a> / <a href="../articles-gl-ssc2026.html#ssc-s4-3">SSC 2026 &#9659; HFNC・NIV</a></div>
+
+      <!-- SUMMARY Ch2 -->
+      <h3 id="vent-sum2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+        <span style="color:#B45309;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+        第2章のキーメッセージ
+      </h3>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&oplus;</span>
+              <span class="rule-body"><strong>SSC 2026：</strong>type I呼吸不全ではNIVよりHFNCを優先。心原性肺水腫・type IIではNIVの適応が上回る場面がある。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&oplus;</span>
+              <span class="rule-body"><strong>sCAP：</strong>呼吸仕事量増大・呼吸筋疲労・うっ血性心不全がある場合にNIVを考慮。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&oplus;</span>
+              <span class="rule-body"><strong>AECOPD：</strong>NIVが標準治療だがHFNCは同等以上。不耐容率約15%のNIVに対し、HFNCの鼻顔面損傷はOR 0.22。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&oplus;</span>
+              <span class="rule-body"><strong>NIVリスク：</strong>胃膨満・誤嚥・顔面皮膚障害・動脈性低血圧がHFNCより多い。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&oplus;</span>
+              <span class="rule-body"><strong>NIV禁忌：</strong>過剰な分泌物・顔面構造異常・コンプライアンス不良。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================== 第3章：インスピロン ============================== -->
+      <div id="vent-ch3" style="background:linear-gradient(150deg,#3D1F00 0%,#B45309 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">第3章 インスピロン（ベンチュリーシステム）</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Inspiron Nebulizer: Venturi Principle &amp; Oxygen Therapy Hierarchy</div>
+      </div>
+
+      <!-- S9: ベンチュリー原理 -->
+      <h3 id="vent-venturi" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+        <span style="color:#B45309;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 9</span>
+        ベンチュリー原理とインスピロンの構造
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">ベルヌーイの定理とベンチュリ管</h3>
+          <p class="rule-body">流体は流れる経路が狭まると流速が速くなり、流速の速くなった部分で圧力が下がる（ベルヌーイの定理）。この原理を利用して狭窄部を意図的に設け、2つの気体を混合するメカニズムがベンチュリ管である。<strong>インスピロンネブライザーはベンチュリ管の原理を利用し、100%O2と室内気（O2濃度21%）を混合することで任意の酸素濃度を作り出している。</strong></p>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-inspiron2008.html#s1">インスピロン（看護学雑誌 2008）&#9659; ベルヌーイ・ベンチュリ管</a></div>
+
+      <!-- S10: 使い方・設定 -->
+      <h3 id="vent-inspiron-settings" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 10</span>
+        インスピロンの使い方と流量の限界
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">流量計の設定と使用可能なO2濃度の限界</h3>
+          <p class="rule-body">安静時の換気量は毎分30Lであり、マスクだけで呼吸を供給するには<span class="mark-yellow"><strong>毎分30Lの総流量が必要</strong></span>になる。O2流量計の上限（10〜15 L/分）の制約のもとでは、O2濃度に上限が生じる。</p>
+          <div class="ie-echo-grid">
+            <div class="ie-echo-box" style="border-color:#FDE68A;background:#FFFBEB;">
+              <div class="ie-echo-name" style="color:#B45309;">流量計上限 10 L/分</div>
+              <div class="ie-echo-body"><strong>O2濃度 50% が上限。</strong>混合比1:1で10L+10L=20L/分だが30L/分に足りない。45%相当が現実的な上限。</div>
+            </div>
+            <div class="ie-echo-box" style="border-color:#FDE68A;background:#FFFBEB;">
+              <div class="ie-echo-name" style="color:#B45309;">流量計上限 15 L/分</div>
+              <div class="ie-echo-body"><strong>O2濃度 60% が上限。</strong>それ以上では流量不足となり、マスク排気ポートから室内気が吸い込まれてO2濃度が低下する。</div>
+            </div>
+          </div>
+          <div class="alert-red" style="margin-top:12px;">
+            <strong>O2濃度70%超の設定は無効：</strong>70%で取り入れ口が完全に閉鎖してしまうため、それ以上の目盛り設定は全て純酸素投与（100%O2）になる。また排気ポート閉塞やPEEP弁装着でベンチュリ管の陰圧が失われると、O2濃度の目盛りに関係なく純酸素投与になり、PaO2が見かけ上著明に改善する（誤解の原因）。
+          </div>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-inspiron2008.html#s4">インスピロン（看護学雑誌 2008）&#9659; 流量計と総流量</a></div>
+
+      <!-- S11: 酸素療法の階層 -->
+      <h3 id="vent-o2-hierarchy" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+        <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 11</span>
+        酸素療法の階層
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">呼吸サポートのステップアップ</h3>
+          <p class="rule-body">酸素療法・呼吸サポートは病態の重症度に応じて段階的にステップアップする。SSC 2026とsCAP ICM 2025のエビデンスに基づく階層を以下に示す。</p>
+          <div class="ie-flow" style="margin-top:12px;">
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">1</div>
+              <div style="flex:1;"><p class="rule-body"><strong>経鼻カニューレ（NC）：</strong>低流量酸素（1〜6 L/min）。軽症の低酸素血症に使用。FiO2 24〜44%程度。</p></div>
+            </div>
+            <div class="ie-flow-arrow">&darr;</div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">2</div>
+              <div style="flex:1;"><p class="rule-body"><strong>ベンチュリーマスク（インスピロン）：</strong>正確なFiO2設定が可能（24〜50%）。総流量30 L/分以上の確保が必要。COPD等のCO2貯留リスク患者で正確な酸素投与が求められる場合に有用。</p></div>
+            </div>
+            <div class="ie-flow-arrow">&darr;</div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">3</div>
+              <div style="flex:1;"><p class="rule-body"><strong>HFNC：</strong>加温加湿高流量（最大60 L/min）。SSC 2026で急性低酸素性呼吸不全の第1選択として推奨。AECOPDでは低流量（20〜30 L/min）から開始。</p></div>
+            </div>
+            <div class="ie-flow-arrow">&darr;</div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">4</div>
+              <div style="flex:1;"><p class="rule-body"><strong>NIV（CPAP/BiPAP）：</strong>心原性肺水腫・type II呼吸不全・呼吸筋疲労で考慮。顔面損傷・不耐容のリスクあり。</p></div>
+            </div>
+            <div class="ie-flow-arrow">&darr;</div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">5</div>
+              <div style="flex:1;"><p class="rule-body"><strong>IMV（侵襲的人工呼吸管理）：</strong>HFNC・NIVで改善しない場合。早期挿管が重要。sCAP ICM 2025ではECMO基準（P/F &lt;50 for 3h等）も明記。</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-ssc2026.html#ssc-s4-3">SSC 2026 &#9659; 呼吸サポートアルゴリズム</a> / <a href="../articles-gl-scap-icm2025.html#scap-resp-support">sCAP（ICM 2025）&#9659; 呼吸管理</a> / <a href="../articles-gl-inspiron2008.html#s4">インスピロン（看護学雑誌 2008）&#9659; 流量と総流量</a></div>
+
+      <!-- SUMMARY Ch3 -->
+      <h3 id="vent-sum3" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+        <span style="color:#B45309;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+        第3章のキーメッセージ
+      </h3>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&oplus;</span>
+              <span class="rule-body"><strong>ベンチュリー原理：</strong>狭窄部の圧力低下で室内気を引き込み、100%O2と混合。ダイヤルで取り入れ口サイズを変えてFiO2調節。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&oplus;</span>
+              <span class="rule-body"><strong>総流量30 L/分が必要：</strong>流量計上限10 L/分ではFiO2 50%、15 L/分では60%が実質的上限。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&oplus;</span>
+              <span class="rule-body"><strong>FiO2 70%超は無効：</strong>取り入れ口閉鎖で純O2投与に。排気障害でも同様に見かけ上PaO2が改善する。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&oplus;</span>
+              <span class="rule-body"><strong>加温加湿：</strong>気道目標は37&#8451;・湿度100%（44 mg/L）。医療用O2はほぼ湿度0%で長期使用では加湿が必須。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&oplus;</span>
+              <span class="rule-body"><strong>酸素療法の階層：</strong>NC &rarr; ベンチュリー &rarr; HFNC &rarr; NIV &rarr; IMV。病態と重症度に応じて段階的にステップアップ。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================== 第4章：覚醒下腹臥位 ============================== -->
+      <div id="vent-ch4" style="background:linear-gradient(150deg,#3D1F00 0%,#B45309 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">第4章 覚醒下腹臥位</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Awake Prone Positioning</div>
+      </div>
+
+      <!-- S12: 覚醒下腹臥位 -->
+      <h3 id="vent-prone" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+        <span style="color:#B45309;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 12</span>
+        SSC 2026の覚醒下腹臥位推奨
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">非挿管の急性低酸素性呼吸不全患者に覚醒下腹臥位を試みる</h3>
+          <p class="rule-body">SSC 2026は、非挿管の急性低酸素性呼吸不全患者に対して<span class="mark-green"><strong>覚醒下腹臥位（awake prone positioning）</strong></span>を試みることを条件付きで推奨する（Statement 70、超低確実性）。17件のRCT（計3,537名）のメタ解析では、覚醒下腹臥位によって挿管率が有意に低下することが示された。</p>
+          <div class="ie-stat-grid" style="margin-top:12px;">
+            <div class="ie-stat" style="background:#F0FDF4;border-color:#BBF7D0;">
+              <div class="ie-stat-val" style="color:#16A34A;">RR 0.82</div>
+              <div class="ie-stat-label">覚醒下腹臥位による<br>挿管リスク比</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">17 RCT</div>
+              <div class="ie-stat-label">メタ解析<br>採用試験数</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">3,537名</div>
+              <div class="ie-stat-label">メタ解析<br>総対象患者数</div>
+            </div>
+          </div>
+          <p class="rule-body" style="margin-top:12px;">ただし、採用されたRCTのほぼ全てがCOVID-19肺炎患者を対象としており、一般的な急性低酸素性呼吸不全への外挿には間接性の問題が残る。覚醒下腹臥位は<span class="mark-yellow"><strong>患者の忍容性に強く依存</strong></span>しており、腹臥位を維持できる患者を適切に選定することが重要である。腹臥位のために鎮静薬を使用することは推奨されない。</p>
+          <div class="alert-green" style="margin-top:10px;">
+            <strong>低資源環境での利点：</strong>覚醒下腹臥位は特殊な機器を必要とせず、低コストで実施可能。患者自身が体位変換できる場合は自力で行ってもらうことができる。
+          </div>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-ssc2026.html#ssc-s4-4">SSC 2026 &#9659; 覚醒下腹臥位</a></div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">SSC 2026の呼吸サポートアルゴリズムにおける位置づけ</h3>
+          <p class="rule-body">SSC 2026は急性低酸素性呼吸不全に対して以下のアルゴリズムを提示している：</p>
+          <div class="ie-flow" style="margin-top:12px;">
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">1</div>
+              <div style="flex:1;"><p class="rule-body"><strong>急性低酸素性呼吸不全の認識：</strong>PaO2/FiO2 &lt;200（またはSpO2/FiO2 &lt;235）</p></div>
+            </div>
+            <div class="ie-flow-arrow">&darr;</div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">2</div>
+              <div style="flex:1;"><p class="rule-body"><strong>HFNCを開始：</strong>高流量（最大60 L/min）・高濃度（FiO2 0.8〜0.9）で開始</p></div>
+            </div>
+            <div class="ie-flow-arrow">&darr;</div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">3</div>
+              <div style="flex:1;"><p class="rule-body"><strong>覚醒下腹臥位を試みる：</strong>忍容可能なら積極的に実施（RR 0.82）</p></div>
+            </div>
+            <div class="ie-flow-arrow">&darr;</div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">4</div>
+              <div style="flex:1;"><p class="rule-body"><strong>改善しない場合は挿管を検討：</strong>遅延した挿管は予後を悪化させる可能性がある</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-ssc2026.html#ssc-s4-3">SSC 2026 &#9659; 呼吸サポートアルゴリズム</a></div>
+
+      <!-- SUMMARY Ch4 -->
+      <h3 id="vent-sum4" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+        <span style="color:#B45309;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+        第4章のキーメッセージ
+      </h3>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&oplus;</span>
+              <span class="rule-body"><strong>SSC 2026推奨：</strong>非挿管の急性低酸素性呼吸不全に覚醒下腹臥位を条件付きで推奨（RR 0.82で挿管率低下）。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&oplus;</span>
+              <span class="rule-body"><strong>適応：</strong>HFNC使用中の低酸素血症患者で忍容可能な場合。鎮静薬の使用は推奨しない。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&oplus;</span>
+              <span class="rule-body"><strong>エビデンスの限界：</strong>RCTのほぼ全てがCOVID-19肺炎患者対象。一般化の間接性に注意。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&oplus;</span>
+              <span class="rule-body"><strong>低コスト：</strong>特殊な機器不要。低資源環境でも実施可能。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================== 総合SUMMARY ============================== -->
+      <h3 id="vent-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:48px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+        <span style="color:#B45309;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+        人工呼吸管理 Level 3 総合キーメッセージ
+      </h3>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&cir;</span>
+              <span class="rule-body"><strong>急性低酸素性呼吸不全にはHFNCが第1選択：</strong>SSC 2026は通常酸素・NIVよりHFNCを優先（条件付き推奨）。P/F &lt;200が適応目安。急性心原性肺水腫・高CO2血症型ではNIVを考慮する。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&cir;</span>
+              <span class="rule-body"><strong>AECOPDのHFNC流量は低流量（20〜30 L/min）から開始：</strong>NMA（40 RCTs, 3,597例）で7指標中5つのSUCRA 1位。高流量はPEEPi超過でDPH悪化・CO2貯留増悪のリスクがある。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&cir;</span>
+              <span class="rule-body"><strong>インスピロンの正しい理解：</strong>ベンチュリー原理でFiO2を調節。流量計上限10 L/分ではFiO2 50%が上限。70%超の設定は無効（純O2投与）。安静時でも総流量30 L/分が必要。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&cir;</span>
+              <span class="rule-body"><strong>覚醒下腹臥位はHFNCとの併用で挿管回避効果あり：</strong>17 RCT（3,537名）でRR 0.82。患者忍容性が条件。特殊機器不要で低コスト。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&cir;</span>
+              <span class="rule-body"><strong>酸素療法の階層を意識する：</strong>NC &rarr; ベンチュリー &rarr; HFNC &rarr; NIV &rarr; IMV。病態・重症度に応じて段階的にステップアップし、改善しない場合は早期挿管を検討する。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 出典注記 -->
+      <p style="font-size:0.72rem;color:#9CA3AF;margin-top:32px;line-height:1.7;">
+        本ページは以下の収録論文の要約ページの内容を統合して作成しています：<br>
+        &middot;<a href="../articles-gl-hfnc-copd-nma2025.html" style="color:#60A5FA;">AECOPD HFNC流量NMA（Pulmonology 2025）</a><br>
+        &middot;<a href="../articles-gl-inspiron2008.html" style="color:#60A5FA;">インスピロンネブライザー完全ガイド（看護学雑誌 2008）</a><br>
+        &middot;<a href="../articles-gl-ssc2026.html" style="color:#60A5FA;">Surviving Sepsis Campaign 2026</a><br>
+        &middot;<a href="../articles-gl-scap-icm2025.html" style="color:#60A5FA;">sCAP 重症市中肺炎（ICM 2025）</a><br>
+        本資料は教育目的で作成したサマリーです。診断・治療方針の決定には必ず原典を参照してください。
+      </p>
+      <p style="font-size:0.75rem;color:var(--muted);text-align:right;margin-top:8px;">制作：ICU 関谷</p>
+
+    </div><!-- /.main-col -->
+
+    <!-- ── サイドバー目次 ── -->
+    <aside class="ie-sidebar">
+      <div class="ie-sidebar-card">
+        <div class="ie-sidebar-title">目次</div>
+
+        <a href="#vent-ch1" class="ie-toc-chapter">第1章 HFNC</a>
+        <a href="#vent-hfnc-mechanism" class="ie-toc-section">S1 &mdash; 作用機序</a>
+        <a href="#vent-hfnc-ssc" class="ie-toc-section">S2 &mdash; SSC 2026推奨</a>
+        <a href="#vent-hfnc-aecopd" class="ie-toc-section">S3 &mdash; AECOPD NMA</a>
+        <a href="#vent-hfnc-paco2" class="ie-toc-section">S4 &mdash; PaCO2・損傷</a>
+        <a href="#vent-hfnc-peep" class="ie-toc-section">S5 &mdash; PEEPi・DPH機序</a>
+        <a href="#vent-sum1" class="ie-toc-section">SUMMARY</a>
+
+        <a href="#vent-ch2" class="ie-toc-chapter">第2章 NIV</a>
+        <a href="#vent-niv-ssc" class="ie-toc-section">S6 &mdash; SSC 2026</a>
+        <a href="#vent-niv-scap" class="ie-toc-section">S7 &mdash; sCAP</a>
+        <a href="#vent-niv-aecopd" class="ie-toc-section">S8 &mdash; AECOPD使い分け</a>
+        <a href="#vent-sum2" class="ie-toc-section">SUMMARY</a>
+
+        <a href="#vent-ch3" class="ie-toc-chapter">第3章 インスピロン</a>
+        <a href="#vent-venturi" class="ie-toc-section">S9 &mdash; ベンチュリー原理</a>
+        <a href="#vent-inspiron-settings" class="ie-toc-section">S10 &mdash; 使い方・限界</a>
+        <a href="#vent-o2-hierarchy" class="ie-toc-section">S11 &mdash; 酸素療法の階層</a>
+        <a href="#vent-sum3" class="ie-toc-section">SUMMARY</a>
+
+        <a href="#vent-ch4" class="ie-toc-chapter">第4章 覚醒下腹臥位</a>
+        <a href="#vent-prone" class="ie-toc-section">S12 &mdash; SSC 2026推奨</a>
+        <a href="#vent-sum4" class="ie-toc-section">SUMMARY</a>
+
+        <a href="#vent-summary" class="ie-toc-chapter">総合SUMMARY</a>
+      </div>
+    </aside>
+
+  </div><!-- /.content-wrap -->
+
+  <script src="../../script.js"></script>
+  <script src="../../mob-toc.js"></script>
+  <script src="../../abbr-tooltip.js"></script>
+</body>
+</html>
