@@ -27,11 +27,17 @@
     /* System sidebar */
     .sys-layout { display:flex;gap:24px;align-items:flex-start;max-width:1140px;margin:0 auto;padding:32px 20px 60px; }
     .sys-main { flex:1;min-width:0;max-width:900px; }
-    .sys-sidebar { width:160px;flex-shrink:0;position:sticky;top:72px; }
-    .sys-sidebar-card { background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:12px;box-shadow:0 1px 3px rgba(0,0,0,0.04); }
-    .sys-sidebar-title { font-size:0.65rem;font-weight:800;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:8px; }
-    .sys-sidebar a { display:block;font-size:0.72rem;color:var(--muted);text-decoration:none;padding:4px 8px;border-radius:4px;line-height:1.5;transition:background 0.12s,color 0.12s; }
-    .sys-sidebar a:hover { background:#FFFBEB;color:#B45309; }
+    .sys-sidebar { width:180px;flex-shrink:0;position:sticky;top:72px; }
+    .sys-sidebar-card { background:#fff;border:1px solid var(--border);border-radius:10px;padding:16px 14px;box-shadow:0 2px 8px rgba(0,0,0,0.06); }
+    .sys-sidebar-title { font-size:0.6rem;font-weight:800;color:#B45309;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid #FDE68A; }
+    .sys-sidebar a { display:flex;align-items:center;justify-content:space-between;font-size:0.73rem;color:var(--text);text-decoration:none;padding:7px 10px;border-radius:6px;line-height:1.4;transition:all 0.15s;border-left:3px solid transparent;margin-bottom:2px; }
+    .sys-sidebar a:hover { background:#FFFBEB;color:#B45309;border-left-color:#FDE68A; }
+    .sys-sidebar a.active { background:#FFFBEB;color:#B45309;font-weight:700;border-left-color:#B45309; }
+    .sys-sidebar .sys-count { font-size:0.6rem;font-weight:700;color:#9CA3AF;background:#F1F5F9;padding:1px 6px;border-radius:8px;min-width:18px;text-align:center;transition:all 0.15s; }
+    .sys-sidebar a.active .sys-count { background:#FEF3C7;color:#B45309; }
+    .sys-sidebar a:hover .sys-count { background:#FEF3C7;color:#B45309; }
+    .sys-sidebar-footer { margin-top:12px;padding-top:10px;border-top:1px solid var(--border);font-size:0.62rem;color:var(--muted);text-align:center;line-height:1.5; }
+    .sys-sidebar-footer strong { color:#B45309;font-size:0.72rem; }
     @media (max-width:900px) { .sys-sidebar { display:none; } .sys-layout { max-width:900px; } }
   </style>
 </head>
@@ -172,6 +178,8 @@
             <tr><td colspan="2"><a href="disease-topics/dt-pa-infection.html" class="art-row"><span class="art-date">2026/03/30</span><span class="art-title">緑膿菌感染症</span></a></td></tr>
             <tr class="art-subcat"><td colspan="2">▸ 中枢神経系感染症</td></tr>
             <tr><td colspan="2"><a href="disease-topics/dt-meningitis.html" class="art-row"><span class="art-date">2026/04/01</span><span class="art-title">院内髄膜炎・脳室炎</span></a></td></tr>
+            <tr class="art-subcat"><td colspan="2">▸ 日和見感染症</td></tr>
+            <tr><td colspan="2"><a href="disease-topics/dt-pcp.html" class="art-row"><span class="art-date">2026/04/04</span><span class="art-title">ニューモシスチス肺炎（PCP）</span></a></td></tr>
           </tbody>
         </table>
       </div>
@@ -219,13 +227,14 @@
     <aside class="sys-sidebar">
       <div class="sys-sidebar-card">
         <div class="sys-sidebar-title">By System</div>
-        <a href="#dt-neuro">#1 神経系</a>
-        <a href="#dt-cardio">#2 循環器系</a>
-        <a href="#dt-resp">#3 呼吸器系</a>
-        <a href="#dt-renal">#4 腎・電解質</a>
-        <a href="#dt-id">#7 感染症</a>
-        <a href="#dt-nutrition">#8 栄養・代謝</a>
-        <a href="#dt-heme">#6 血液系</a>
+        <a href="#dt-neuro" data-section="dt-neuro">神経系<span class="sys-count"></span></a>
+        <a href="#dt-cardio" data-section="dt-cardio">循環器系<span class="sys-count"></span></a>
+        <a href="#dt-resp" data-section="dt-resp">呼吸器系<span class="sys-count"></span></a>
+        <a href="#dt-renal" data-section="dt-renal">腎・電解質<span class="sys-count"></span></a>
+        <a href="#dt-heme" data-section="dt-heme">血液系<span class="sys-count"></span></a>
+        <a href="#dt-id" data-section="dt-id">感染症<span class="sys-count"></span></a>
+        <a href="#dt-nutrition" data-section="dt-nutrition">栄養・代謝<span class="sys-count"></span></a>
+        <div class="sys-sidebar-footer">全 <strong id="sys-total">—</strong> テーマ</div>
       </div>
     </aside>
 
@@ -251,6 +260,41 @@
         }
       }
     });
+
+    // サイドバー：セクション別記事数カウント + スクロール追従ハイライト
+    (function(){
+      var sections = ['dt-neuro','dt-cardio','dt-resp','dt-renal','dt-heme','dt-id','dt-nutrition'];
+      var total = 0;
+      sections.forEach(function(id){
+        var el = document.getElementById(id);
+        if(!el) return;
+        var card = el.nextElementSibling;
+        if(!card) return;
+        var rows = card.querySelectorAll('.art-row');
+        var count = rows.length;
+        total += count;
+        var link = document.querySelector('.sys-sidebar a[data-section="'+id+'"]');
+        if(link){ var badge = link.querySelector('.sys-count'); if(badge) badge.textContent = count; }
+      });
+      var totalEl = document.getElementById('sys-total');
+      if(totalEl) totalEl.textContent = total;
+
+      var sidebarLinks = document.querySelectorAll('.sys-sidebar a[data-section]');
+      if(!sidebarLinks.length) return;
+      var sectionEls = sections.map(function(id){ return document.getElementById(id); }).filter(Boolean);
+      function updateActive(){
+        var scrollY = window.scrollY + 120;
+        var current = '';
+        sectionEls.forEach(function(el){
+          if(el.getBoundingClientRect().top + window.scrollY <= scrollY) current = el.id;
+        });
+        sidebarLinks.forEach(function(a){
+          a.classList.toggle('active', a.getAttribute('data-section') === current);
+        });
+      }
+      window.addEventListener('scroll', updateActive, {passive:true});
+      updateActive();
+    })();
   </script>
 </body>
 </html>
