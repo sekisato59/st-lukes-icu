@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>肝不全患者のアンモニア管理（J Crit Care 2024） | 聖路加ICU</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style-v2.css">
+  <script src="../site-config.js"></script>
+  <style>
+    .subpage-hero { background: linear-gradient(150deg, #1A3A2A 0%, #2D7A4F 55%, #3D9B65 100%) !important; }
+    .ie-badge { display:inline-block;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:20px;padding:4px 12px;font-size:0.72rem;font-weight:500;color:#fff;margin-right:6px;margin-top:8px; }
+
+    /* Layout */
+    .content-wrap { display:flex;gap:32px;align-items:flex-start;max-width:1140px;margin:0 auto;padding:32px 20px 80px; }
+    .main-col { flex:1;min-width:0;max-width:900px; }
+    .ie-toc-chapter { display:block;font-size:0.8rem;font-weight:700;color:var(--text);padding:6px 0;border-bottom:1px solid var(--border);text-decoration:none;line-height:1.4; }
+    .ie-toc-section { display:block;font-size:0.75rem;color:var(--muted);padding:4px 0 4px 10px;text-decoration:none;line-height:1.4;border-left:2px solid var(--border); }
+
+    /* Tables */
+    .ie-table { width:100%;border-collapse:collapse;font-size:0.82rem;margin-top:10px; }
+    .ie-table th { background:#F0FDF4;border:1px solid #BBF7D0;padding:8px 12px;font-weight:700;font-size:0.78rem;text-align:left; }
+    .ie-table td { border:1px solid var(--border);padding:8px 12px;vertical-align:top;line-height:1.7; }
+    .ie-table tr:nth-child(even) td { background:#F8FAFC; }
+
+    /* Stat grid */
+    .ie-stat-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px; }
+    @media (max-width:520px) { .ie-stat-grid { grid-template-columns:1fr 1fr; } }
+    .ie-stat { background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;padding:14px 12px;text-align:center; }
+    .ie-stat-val { font-size:1.25rem;font-weight:900;color:#2D7A4F;line-height:1.3; }
+    .ie-stat-label { font-size:0.68rem;color:var(--muted);margin-top:5px;line-height:1.5; }
+
+    /* Alpha card */
+    .ie-alpha { background:#F5F3FF;border:1px solid #DDD6FE;border-radius:8px;padding:2px;margin-top:10px; }
+    .ie-alpha-inner { padding:14px 16px; }
+    .ie-alpha-header { display:flex;align-items:center;gap:8px;margin-bottom:8px; }
+    .ie-alpha-badge { background:#7C3AED;color:#fff;font-size:0.65rem;font-weight:800;padding:2px 8px;border-radius:20px;letter-spacing:0.05em; }
+    .ie-alpha-title { font-size:0.85rem;font-weight:700;color:#4C1D95; }
+
+    /* Alerts */
+    .alert-yellow { background:#FFFBEB;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#92400E;line-height:1.7; }
+    .alert-green  { background:#F0FDF4;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#14532D;line-height:1.7; }
+    .alert-red    { background:#FEF2F2;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#7F1D1D;line-height:1.7; }
+
+    /* 2col grid */
+    .ie-echo-grid { display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px; }
+    @media (max-width:520px) { .ie-echo-grid { grid-template-columns:1fr; } }
+    .ie-echo-box { background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:12px 14px; }
+    .ie-echo-name { font-size:0.78rem;font-weight:800;color:var(--text);margin-bottom:6px; }
+    .ie-echo-body { font-size:0.82rem;color:var(--text);line-height:1.7; }
+
+    /* Sidebar */
+    .ie-sidebar { width:220px;flex-shrink:0;position:sticky;top:80px; }
+    .ie-sidebar-card { background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px; }
+    .ie-sidebar-title { font-size:0.72rem;font-weight:900;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:10px; }
+    @media (max-width:900px) { .ie-sidebar { display:none; } }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="../index.html" class="nav-logo">
+        <img src="../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+        <span class="nav-logo-text">聖路加国際病院ICU</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="../index.html#intro" class="nav-link">はじめに</a></li>
+        <li><a href="../index.html#schedule" class="nav-link">スケジュール</a></li>
+        <li><a href="../index.html#rules" class="nav-link">ICUの方針</a></li>
+        <li><a href="../index.html#learning" class="nav-link">学習・評価</a></li>
+        <li><a href="articles-guidelines.html" class="nav-link">論文・GL</a></li>
+        <li><a href="disease-topics.html" class="nav-link">疾患・症候</a></li>
+        <li><a href="../index.html#faq" class="nav-link">FAQ</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <div class="subpage-hero">
+    <div class="container">
+      <a href="articles-guidelines.html#art-gi" class="back-link">← 注目論文・ガイドラインまとめへ戻る</a>
+      <h1 class="subpage-title">肝不全患者のアンモニア管理<br>ICU医が知るべき7つの疑問</h1>
+      <p class="subpage-subtitle">#5 GASTROINTESTINAL / HEPATOBILIARY SYSTEM / 消化器・肝胆道系</p>
+      <div>
+        <span class="ie-badge">Duarte T, et al.</span>
+        <span class="ie-badge">J Crit Care 2024</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== CONTENT ===== -->
+  <div class="content-wrap">
+
+    <div class="main-col">
+
+      <!-- 略語一覧 -->
+      <div class="card" style="margin-bottom:24px;">
+        <div class="card-inner">
+          <h3 class="rule-title" style="margin-bottom:10px;">本ページで使用する略語一覧</h3>
+          <table style="width:100%;border-collapse:collapse;font-size:0.8rem;line-height:1.6;">
+            <tbody>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">略語</td><td style="padding:4px 8px;">正式名称 — 日本語訳</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">ALF</td><td style="padding:4px 8px;">Acute Liver Failure — 急性肝不全</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">ACLF</td><td style="padding:4px 8px;">Acute-on-Chronic Liver Failure — 急性慢性肝不全（慢性肝疾患への急性増悪）</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">HE</td><td style="padding:4px 8px;">Hepatic Encephalopathy — 肝性脳症</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CRRT</td><td style="padding:4px 8px;">Continuous Renal Replacement Therapy — 持続的腎代替療法</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">IHD</td><td style="padding:4px 8px;">Intermittent Hemodialysis — 間欠的血液透析</td></tr>
+              <tr><td style="padding:4px 8px;font-weight:700;color:var(--blue);">LOLA</td><td style="padding:4px 8px;">L-Ornithine L-Aspartate — L-オルニチン-L-アスパラギン酸</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ===== CHAPTER BANNER ===== -->
+      <div id="ammonia-ch1" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:0;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">アンモニアと肝不全 — 病態生理から治療戦略まで</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Ammonia in Liver Failure: Pathophysiology to Therapeutic Strategies</div>
+      </div>
+
+      <!-- SECTION 1 -->
+      <h3 id="ammonia-s1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+        なぜ肝不全でアンモニアが増加するか
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">アンモニアの臓器間代謝</h3>
+          <p class="rule-body">正常な恒常性維持において、肝臓はアンモニア代謝の中心的役割を担う。アンモニア（NH₄⁺/NH₃）は主に門脈を経て肝臓に到達する。その産生源は2つあり、50%はエンテロサイトにおける内因性グルタミン変換、残り50%は食事や腸内細菌による窒素基質分解を通じた腸管腔由来である。肝細胞内でアンモニアは尿素またはグルタミンへと変換される。</p>
+          <p class="rule-body" style="margin-top:8px;">アンモニア代謝には肝臓以外の臓器も関与する。脳・腎臓・筋肉はいずれもアンモニア代謝に参加する。腎臓は内因性グルタミンからアンモニアを産生するとともに、尿中へのアンモニア排泄も行う。</p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">肝不全における高アンモニア血症の機序</h3>
+          <p class="rule-body">肝不全に伴う機能的肝細胞の喪失により、アンモニア代謝が障害される。その結果、これらの患者はしばしば高アンモニア血症を呈するようになる。</p>
+        </div>
+      </div>
+
+      <!-- SECTION 2 -->
+      <h3 id="ammonia-s2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+        高アンモニア血症が患者に与える影響
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">神経毒性：肝性脳症・脳浮腫・脳幹ヘルニア</h3>
+          <p class="rule-body">高アンモニア血症はHEの主要な駆動因子である。アストロサイトへのアンモニア蓄積（他の分子とともに）が脳浮腫・頭蓋内圧亢進・脳幹ヘルニアを引き起こしうる。</p>
+          <div class="alert-red" style="margin-top:10px;">
+            <strong>脳以外の影響：</strong>神経毒性に加え、高アンモニア血症は免疫機能障害と感染リスク増大にも関与する。感染はこれらの患者において多臓器障害の一般的なトリガーとなる。
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 3 -->
+      <h3 id="ammonia-s3" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+        <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>
+        ALF と ACLF のアンモニア代謝の違い
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">ALF vs ACLF：臨床像の違い</h3>
+          <p class="rule-body">ALFでは肝細胞死がACLFより大きく・速い。そのためALFではACLFより血清アンモニアが高値に達することが多い。また脳の浸透圧代償機構はACLFのほうがALFより発達している。腎機能障害はALF・ACLFいずれにも多く、サルコペニアはACLFのほうがALFより多い。いずれも高アンモニア血症に寄与する。</p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">ALF vs ACLF 比較（Table 1）</h3>
+          <p class="rule-body" style="font-size:0.75rem;color:var(--muted);margin-bottom:8px;">※以下は北米・ヨーロッパ・オーストラリアを想定した平均的な患者像。地域によって疫学は異なる。</p>
+          <table class="ie-table">
+            <thead><tr><th>項目</th><th>ALF（急性肝不全）</th><th>ACLF（急性慢性肝不全）</th></tr></thead>
+            <tbody>
+              <tr><td><strong>年齢（歳）</strong></td><td>40〜45</td><td>55〜60</td></tr>
+              <tr><td><strong>合併症</strong></td><td>少ない</td><td>多い</td></tr>
+              <tr><td><strong>肝硬変</strong></td><td>なし</td><td>あり</td></tr>
+              <tr><td><strong>門脈圧亢進</strong></td><td>なし〜少ない</td><td>多い</td></tr>
+              <tr><td><strong>血清アンモニア</strong></td><td>高値</td><td>高値〜中等度</td></tr>
+              <tr><td><strong>脳浮腫</strong></td><td>少ない</td><td>少ない</td></tr>
+              <tr><td><strong>頭蓋内圧亢進</strong></td><td>少ない</td><td>なし</td></tr>
+              <tr><td><strong>腎機能障害</strong></td><td>多い</td><td>多い</td></tr>
+              <tr><td><strong>サルコペニア</strong></td><td>少ない</td><td>多い</td></tr>
+              <tr><td><strong>肝移植率</strong></td><td>25〜50%</td><td>&lt;25%</td></tr>
+              <tr><td><strong>院内死亡率</strong></td><td>20〜40%</td><td>40〜60%</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="ie-stat-grid">
+        <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+          <div class="ie-stat-val" style="color:#DC2626;">40〜60%</div>
+          <div class="ie-stat-label">ACLF<br>院内死亡率</div>
+        </div>
+        <div class="ie-stat" style="background:#FFF7ED;border-color:#FED7AA;">
+          <div class="ie-stat-val" style="color:#EA580C;">20〜40%</div>
+          <div class="ie-stat-label">ALF<br>院内死亡率</div>
+        </div>
+        <div class="ie-stat">
+          <div class="ie-stat-val">25〜50%</div>
+          <div class="ie-stat-label">ALFの<br>肝移植率</div>
+        </div>
+      </div>
+
+      <!-- SECTION 4 -->
+      <h3 id="ammonia-s4" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+        <span style="color:#16A34A;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 4</span>
+        血清アンモニアの診断・予後的価値
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">ALFにおける予後予測</h3>
+          <p class="rule-body">ALF患者では、<span class="mark-red"><strong>動脈血アンモニア値 &gt;150 μmol/L</strong></span> が大脳合併症（HE・脳浮腫・頭蓋内圧亢進）および死亡リスクの増加と関連する。</p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">ACLFにおける予後予測</h3>
+          <p class="rule-body">ACLF患者では脳浮腫リスクはALF患者より低い。しかし高アンモニア血症は肝外臓器不全のリスク増加および死亡と関連している。</p>
+        </div>
+      </div>
+
+      <!-- SECTION 5 -->
+      <h3 id="ammonia-s5" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 5</span>
+        ICUでの血清アンモニア測定法
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">測定に影響する因子と測定上の注意</h3>
+          <p class="rule-body">血清アンモニア値はタンパク摂取量・脳や筋肉（サルコペニア）の取り込み・腎機能障害・感染・消化管出血により変動する。</p>
+          <table class="ie-table" style="margin-top:10px;">
+            <thead><tr><th>ポイント</th><th>内容</th></tr></thead>
+            <tbody>
+              <tr><td><strong>動脈血 vs 静脈血</strong></td><td>動脈血アンモニアは静脈血より急性窒素代謝変化をよく反映する</td></tr>
+              <tr><td><strong>基準値の上限</strong></td><td>50〜70 μmol/L（施設間で異なる）</td></tr>
+              <tr><td><strong>検体の扱い</strong></td><td>新鮮検体が推奨（凍結検体より）</td></tr>
+              <tr><td><strong>測定方法</strong></td><td>経時的連続測定は一時点測定より情報量が多い</td></tr>
+              <tr><td><strong>正常値の意義</strong></td><td>正常血清アンモニア値はHEに対して高い陰性的中率を示す</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- SECTION 6 -->
+      <h3 id="ammonia-s6" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 6</span>
+        アンモニア低下のための治療戦略
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">治療効果のエビデンス概要（ALF vs ACLF）</h3>
+          <table class="ie-table">
+            <thead><tr><th>治療</th><th>ALF</th><th>ACLF</th></tr></thead>
+            <tbody>
+              <tr><td>ラクツロース・ラクチトール・ポリエチレングリコール</td><td>不明</td><td>有効（臨床試験）</td></tr>
+              <tr><td>リファキシミン</td><td>不明</td><td>有効（臨床試験）</td></tr>
+              <tr><td>L-オルニチン-L-アスパラギン酸（LOLA）</td><td>不明</td><td>有効（臨床試験）</td></tr>
+              <tr><td>L-オルニチン-L-フェニルアセテート</td><td>不明</td><td>不明</td></tr>
+              <tr><td>腎代替療法（RRT）</td><td><strong>有効（多施設観察研究）</strong></td><td>不明</td></tr>
+              <tr><td>肝補助透析</td><td>不明</td><td>不明</td></tr>
+              <tr><td>血漿交換</td><td>有効（臨床試験）</td><td>不明</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 6-1 下剤 -->
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">① 下剤（Laxatives）</h3>
+          <p class="rule-body">非吸収性二糖類（ラクツロース・ラクチトール）は肝硬変患者のHE治療・予防における第一選択である。ALF患者への治療効果は不明である。ポリエチレングリコールもHEを改善した。</p>
+          <div class="ie-alpha">
+            <div class="ie-alpha-inner">
+              <div class="ie-alpha-header">
+                <span class="ie-alpha-badge">＋α</span>
+                <span class="ie-alpha-title">ラクツロースの作用機序（4つ）</span>
+              </div>
+              <p class="rule-body" style="color:#4C1D95;">（1）腸内酸性化によるNH₃から非吸収性NH₄⁺への変換、（2）アンモニア産生菌の増殖抑制、（3）腸管グルタミン吸収の抑制、（4）アンモニア吸収時間の短縮と糞便中窒素排泄の増加</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6-2 リファキシミン -->
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">② リファキシミン（Rifaximin）</h3>
+          <p class="rule-body">リファキシミンは非吸収性・腸管選択性の経口抗菌薬であり、肝硬変患者のHE補助治療として推奨される。ALF患者への効果は不明である。</p>
+          <div class="ie-alpha">
+            <div class="ie-alpha-inner">
+              <div class="ie-alpha-header">
+                <span class="ie-alpha-badge">＋α</span>
+                <span class="ie-alpha-title">リファキシミンの作用機序（3つ）</span>
+              </div>
+              <p class="rule-body" style="color:#4C1D95;">（1）腸内細菌叢の口腔化とムチン分解菌の抑制、（2）病原性細菌への免疫応答増強と腸管バリア修復の促進、（3）血清前炎症性サイトカイン濃度と感染リスクの低下</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6-3 代謝スカベンジャー -->
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">③ 代謝スカベンジャー</h3>
+          <p class="rule-body"><strong>LOLA（L-オルニチン-L-アスパラギン酸）：</strong>肝臓での尿素変換促進によりアンモニアを低下させる可能性がある。さらにアンモニアは肝臓または骨格筋でグルタミンに変換されうる。肝硬変患者のHE治療・予防において安全かつ有効とされる。ただしALF患者では血清アンモニアやHEを改善しなかった。</p>
+          <p class="rule-body" style="margin-top:8px;"><strong>L-オルニチン-L-フェニルアセテート：</strong>フェニルアセチルグルタミンとして腎排泄を促進しアンモニアを低下させる可能性がある。肝硬変とALFの両患者で安全性が確認されているが、HEへの効果は不明である。</p>
+        </div>
+      </div>
+
+      <!-- 6-4 体外循環全般 -->
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">④ 体外循環によるアンモニア除去：原理</h3>
+          <p class="rule-body">アンモニアは分子量17 Daの水溶性小分子であり、分布容積が小さくタンパク結合もほとんどない。構造的に尿素に類似するが、<span class="mark-yellow">透析によるアンモニアのクリアランスは尿素の30〜50%にとどまる</span>。</p>
+        </div>
+      </div>
+
+      <!-- 6-5 RRT -->
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">⑤ 腎代替療法（RRT）— ALFでは最も有力な選択肢</h3>
+          <p class="rule-body"><strong>IHD（間欠的血液透析）：</strong>より高い血流量・透析液流量・ダイアライザー表面積がアンモニア・グルタミン・尿素クリアランスの増加と関連する。</p>
+          <p class="rule-body" style="margin-top:8px;"><strong>CRRT：</strong>ALF患者では高いエフルエント流量・より大きな累積投与量がアンモニアクリアランスの増加と関連する。CRRT施行様式間のアンモニアクリアランスに差はなかった。</p>
+          <div class="alert-red" style="margin-top:10px;">
+            <strong>吸着フィルターについて：</strong>Cytosorb®・Oxiris®などの吸着フィルターは有効なアンモニアクリアランスをもたらさなかった。
+          </div>
+          <div class="alert-green" style="margin-top:10px;">
+            <strong>CRRT vs IHD：</strong>CRRTは24時間継続して施行されるため、全体としてIHDよりアンモニアクリアランスが大きい。ALF患者においてCRRTは生存率改善と関連したが、IHDは生存率悪化と関連した（IHDが血行動態障害を引き起こしやすい可能性がある）。
+          </div>
+          <p class="rule-body" style="margin-top:10px;">早期かつ長時間のCRRT施行はALF患者での高アンモニア血症への有用な補助治療となりうるが、ACLF患者においては不明である。</p>
+        </div>
+      </div>
+
+      <!-- 6-6 肝補助透析 -->
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">⑥ 肝補助透析（Liver Support Dialysis）</h3>
+          <p class="rule-body">Prometheus®（分画血漿吸着）とMARS®（アルブミン透析＋吸着）が最も研究されている。しかしALF・ACLF患者の転帰への影響はいずれも不明である。Prometheus®はMARS®より高い尿素クリアランスを示したが、アンモニアについては有意差がなかった。</p>
+        </div>
+      </div>
+
+      <!-- 6-7 血漿交換 -->
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">⑦ 血漿交換（Plasma Exchange）</h3>
+          <p class="rule-body">ALF患者において、大量（8〜12 L）・標準量（血漿量の1.5〜2倍）いずれの血漿交換も、CRRTと同等以上に効率的に血清アンモニアを低下させた。ACLF患者での類似データは存在しない。</p>
+          <div class="ie-stat-grid">
+            <div class="ie-stat" style="background:#FFF7ED;border-color:#FED7AA;">
+              <div class="ie-stat-val" style="color:#EA580C;">8〜12 L</div>
+              <div class="ie-stat-label">大量血漿交換<br>（高容量）</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">1.5〜2倍</div>
+              <div class="ie-stat-label">標準量血漿交換<br>（血漿量比）</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">≒CRRT</div>
+              <div class="ie-stat-label">アンモニア<br>低下効率</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 7 -->
+      <h3 id="ammonia-s7" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+        <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 7</span>
+        実践的示唆と今後の方向性
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">ICU実践への応用</h3>
+          <p class="rule-body">鎮静中など意識評価が困難な肝不全患者において、血清アンモニアのモニタリングは脳合併症リスクを先読みするうえで有用である。下剤やリファキシミンは腸管麻痺（イレウス）により投与が妨げられることがある。そのような状況では<span class="mark-green"><strong>CRRTが安全かつ有効なアンモニアコントロール手段となる</strong></span>（特にALF患者）。</p>
+          <div class="ie-alpha">
+            <div class="ie-alpha-inner">
+              <div class="ie-alpha-header">
+                <span class="ie-alpha-badge">＋α</span>
+                <span class="ie-alpha-title">今後の研究課題</span>
+              </div>
+              <p class="rule-body" style="color:#4C1D95;">ALF・ACLF両患者において、高アンモニア血症をCRRT開始の独立した適応とすることの検討が期待される。また便微生物叢移植など新規のアンモニア低下療法については、さらなる検証が必要である。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SUMMARY -->
+      <h3 id="ammonia-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+        キーメッセージ
+      </h3>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+              <span class="rule-body"><strong>産生と機序：</strong>アンモニア（NH₄⁺/NH₃）は腸管からの門脈経由で肝臓に到達し（50%はエンテロサイト内因性グルタミン変換、50%は腸管腔由来）、肝細胞喪失によりアンモニア代謝が破綻して高アンモニア血症が生じる。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+              <span class="rule-body"><strong>神経毒性と免疫：</strong>高アンモニア血症はHEの主要な駆動因子であり、アストロサイトへの蓄積が脳浮腫・頭蓋内圧亢進・脳幹ヘルニアをもたらす。神経毒性に加え免疫機能障害と感染促進にも関与し、多臓器障害を引き起こす。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+              <span class="rule-body"><strong>予後的価値：</strong>ALFでは動脈血アンモニア &gt;150 μmol/L が大脳合併症（HE・脳浮腫・頭蓋内圧亢進）と死亡リスクの増加と関連する。ACLFでは肝外臓器不全と死亡リスク増加と関連する。正常値はHEに対して高い陰性的中率を持つ。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+              <span class="rule-body"><strong>測定の実際：</strong>動脈血アンモニアが急性窒素代謝変化をより反映する。正常範囲は50〜70 μmol/Lが多く、新鮮検体が推奨される。経時的連続測定が単回測定より有益である。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+              <span class="rule-body"><strong>治療戦略：</strong>肝硬変（ACLF）ではラクツロース・リファキシミン・LOLAが有効（臨床試験エビデンス）。ALFでは特にRRTが有効（多施設観察研究）、血漿交換も有効（臨床試験）。腸管麻痺でアクセスが困難な場合、CRRTが安全・有効なアンモニアコントロール手段となる。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 出典 -->
+      <p style="font-size:0.72rem;color:#9CA3AF;margin-top:16px;line-height:1.7;">
+        出典：Duarte T, Fidalgo P, Karvellas CJ, Cardoso FS. What every Intensivist should know about... Ammonia in liver failure. J Crit Care. 2024;81:154456. Published online 7 November 2023.<br>
+        DOI：<a href="https://doi.org/10.1016/j.jcrc.2023.154456" target="_blank" rel="noopener" style="color:#60A5FA;">https://doi.org/10.1016/j.jcrc.2023.154456</a><br>
+        本資料は教育目的で作成したサマリーです。診断・治療方針の決定には必ず原典を参照してください。
+      </p>
+      <p style="font-size:0.75rem;color:var(--muted);text-align:right;margin-top:8px;">制作：ICU 関谷</p>
+
+    </div><!-- /main-col -->
+
+    <!-- ===== SIDEBAR ===== -->
+    <aside class="ie-sidebar">
+      <div class="ie-sidebar-card">
+        <div class="ie-sidebar-title">目次</div>
+        <a href="#ammonia-ch1" class="ie-toc-chapter">アンモニアと肝不全</a>
+        <a href="#ammonia-s1" class="ie-toc-section">S1 — アンモニア代謝と肝不全</a>
+        <a href="#ammonia-s2" class="ie-toc-section">S2 — 高アンモニア血症の影響</a>
+        <a href="#ammonia-s3" class="ie-toc-section">S3 — ALF vs ACLF の違い</a>
+        <a href="#ammonia-s4" class="ie-toc-section">S4 — 診断・予後的価値</a>
+        <a href="#ammonia-s5" class="ie-toc-section">S5 — ICUでの測定法</a>
+        <a href="#ammonia-s6" class="ie-toc-section">S6 — アンモニア低下治療戦略</a>
+        <a href="#ammonia-s7" class="ie-toc-section">S7 — 実践的示唆と今後の方向性</a>
+        <a href="#ammonia-summary" class="ie-toc-section">SUMMARY</a>
+      </div>
+    </aside>
+
+  </div><!-- /content-wrap -->
+
+  <script src="../script.js"></script>
+  <script src="../abbr-tooltip.js"></script>
+</body>
+</html>

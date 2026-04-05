@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NICE-SUGAR試験 — 重症患者の強化vs通常血糖管理（NEJM 2009） | 聖路加ICU</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style-v2.css">
+  <script src="../site-config.js"></script>
+  <style>
+    .subpage-hero { background: linear-gradient(150deg, #1A3A2A 0%, #2D7A4F 55%, #3D9B65 100%) !important; }
+    .ie-badge { display:inline-block;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:20px;padding:4px 12px;font-size:0.72rem;font-weight:500;color:#fff;margin-right:6px;margin-top:8px; }
+
+    .content-wrap { display:flex;gap:32px;align-items:flex-start;max-width:1140px;margin:0 auto;padding:32px 20px 80px; }
+    .main-col { flex:1;min-width:0;max-width:900px; }
+    .ie-sidebar { width:220px;flex-shrink:0; }
+    .ie-sidebar-card { background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:16px;position:sticky;top:80px; }
+    .ie-sidebar-title { font-size:0.72rem;font-weight:800;color:var(--muted);letter-spacing:0.08em;margin-bottom:10px;text-transform:uppercase; }
+    .ie-toc-chapter { display:block;font-size:0.8rem;font-weight:700;color:var(--text);padding:6px 0;border-bottom:1px solid var(--border);text-decoration:none;line-height:1.4; }
+    .ie-toc-chapter:last-child { border-bottom:none;padding-bottom:0; }
+    .ie-toc-chapter:hover { color:#2D7A4F; }
+    .ie-toc-section { display:block;font-size:0.75rem;color:var(--muted);padding:4px 0 4px 10px;text-decoration:none;line-height:1.4;border-left:2px solid var(--border); }
+    .ie-toc-section:hover { color:#2D7A4F;border-left-color:#2D7A4F; }
+    @media (max-width:900px) { .ie-sidebar { display:none; } .content-wrap { max-width:860px; } }
+
+    .ie-table { width:100%;border-collapse:collapse;font-size:0.82rem;margin-top:10px; }
+    .ie-table th { background:#F0FDF4;border:1px solid #BBF7D0;padding:8px 12px;font-weight:700;font-size:0.78rem;text-align:left; }
+    .ie-table td { border:1px solid var(--border);padding:8px 12px;vertical-align:top;line-height:1.7; }
+    .ie-table tr:nth-child(even) td { background:#F8FAFC; }
+
+    .ie-stat-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px; }
+    @media (max-width:600px) { .ie-stat-grid { grid-template-columns:1fr 1fr; } }
+    .ie-stat { background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;padding:10px 12px;text-align:center; }
+    .ie-stat-val { font-size:1.3rem;font-weight:900;color:#2D7A4F;line-height:1.2;letter-spacing:-0.02em; }
+    .ie-stat-label { font-size:0.72rem;color:var(--muted);margin-top:4px;line-height:1.5; }
+
+    .ie-flow { display:flex;flex-direction:column;gap:0; }
+    .ie-flow-item { display:flex;align-items:flex-start;gap:14px;background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:14px 16px; }
+    .ie-flow-arrow { text-align:center;color:#2D7A4F;font-size:1.1rem;font-weight:700;padding:4px 0; }
+    .ie-flow-num { width:28px;height:28px;border-radius:50%;background:#2D7A4F;color:#fff;font-size:0.78rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px; }
+
+    .ie-alpha { background:#F5F3FF;border:1px solid #DDD6FE;border-radius:8px;margin-bottom:16px; }
+    .ie-alpha-inner { padding:14px 16px; }
+    .ie-alpha-header { display:flex;align-items:center;gap:8px;margin-bottom:8px; }
+    .ie-alpha-badge { background:#7C3AED;color:#fff;font-size:0.68rem;font-weight:800;padding:2px 8px;border-radius:10px;letter-spacing:0.05em;flex-shrink:0; }
+    .ie-alpha-title { font-size:0.88rem;font-weight:800;color:#4C1D95; }
+
+    .alert-yellow { background:#FFFBEB;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#92400E;line-height:1.7; }
+    .alert-green  { background:#F0FDF4;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#14532D;line-height:1.7; }
+    .alert-red    { background:#FEF2F2;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#7F1D1D;line-height:1.7; }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="../index.html" class="nav-logo">
+        <img src="../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+        <span class="nav-logo-text">聖路加国際病院ICU</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="../index.html#intro" class="nav-link">はじめに</a></li>
+        <li><a href="../index.html#schedule" class="nav-link">スケジュール</a></li>
+        <li><a href="../index.html#rules" class="nav-link">ICUの方針</a></li>
+        <li><a href="../index.html#learning" class="nav-link">学習・評価</a></li>
+        <li><a href="articles-guidelines.html" class="nav-link">論文・GL</a></li>
+        <li><a href="disease-topics.html" class="nav-link">疾患・症候</a></li>
+        <li><a href="../index.html#faq" class="nav-link">FAQ</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="subpage-hero">
+    <div class="container">
+      <a href="articles-guidelines.html" class="back-link">← 注目論文・ガイドラインまとめへ戻る</a>
+      <h1 class="subpage-title">NICE-SUGAR試験<br>— 重症ICU患者における強化 vs 通常血糖管理</h1>
+      <p class="subpage-subtitle">#8 NUTRITIONAL / METABOLIC SYSTEM</p>
+      <div>
+        <span class="ie-badge">N Engl J Med 2009</span>
+        <span class="ie-badge">2009年3月</span>
+        <span class="ie-badge">多施設RCT</span>
+        <span class="ie-badge">n=6,104</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-wrap">
+    <div class="main-col">
+
+      <!-- 略語一覧 -->
+      <div class="card" style="margin-bottom:24px;">
+        <div class="card-inner">
+          <h3 class="rule-title" style="margin-bottom:10px;">本ページで使用する略語一覧</h3>
+          <table style="width:100%;border-collapse:collapse;font-size:0.8rem;line-height:1.6;">
+            <tbody>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:150px;color:var(--blue);">略語</td><td style="padding:4px 8px;">正式名称 — 日本語訳</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">NICE-SUGAR</td><td style="padding:4px 8px;">Normoglycemia in Intensive Care Evaluation–Survival Using Glucose Algorithm Regulation — 試験名</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">ICU</td><td style="padding:4px 8px;">Intensive Care Unit — 集中治療室</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">RCT</td><td style="padding:4px 8px;">Randomized Controlled Trial — ランダム化比較試験</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">BG</td><td style="padding:4px 8px;">Blood Glucose — 血糖値</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">INT（強化群）</td><td style="padding:4px 8px;">Intensive Glucose Control — 強化血糖管理（目標 81–108 mg/dL）</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CONV（通常群）</td><td style="padding:4px 8px;">Conventional Glucose Control — 通常血糖管理（BG >180 mg/dL でインスリン開始、目標 ≤180 mg/dL）</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">OR</td><td style="padding:4px 8px;">Odds Ratio — オッズ比</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">HR</td><td style="padding:4px 8px;">Hazard Ratio — ハザード比</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CI</td><td style="padding:4px 8px;">Confidence Interval — 信頼区間</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">NNH</td><td style="padding:4px 8px;">Number Needed to Harm — 害を生じるのに必要な治療数</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">APACHE II</td><td style="padding:4px 8px;">Acute Physiology and Chronic Health Evaluation II — 重症度スコア（高値ほど重篤）</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">SOFA</td><td style="padding:4px 8px;">Sequential Organ Failure Assessment — 臓器不全スコア（各臓器0–4点）</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">MV</td><td style="padding:4px 8px;">Mechanical Ventilation — 人工呼吸管理</td></tr>
+              <tr><td style="padding:4px 8px;font-weight:700;color:var(--blue);">RRT</td><td style="padding:4px 8px;">Renal Replacement Therapy — 腎代替療法（血液透析・持続濾過など）</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ===== 第1章 ===== -->
+      <div id="ch1" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:0;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">第1章 研究背景と方法</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Background &amp; Methods</div>
+      </div>
+
+      <!-- S1: 研究背景 -->
+      <h3 id="ch1-bg" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+        研究背景 — 「強化インスリン療法論争」の決着へ
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">ICU高血糖と強化インスリン療法をめぐる状況</h3>
+          <p class="rule-body">重症患者では糖尿病の有無にかかわらず高血糖が頻発し、死亡率・罹患率との関連が複数の観察研究で示されていた。2001年のVan den Berghe外科系ICU試験<a href="articles-gl-vandenberghe-nejm2001.html" target="_blank" rel="noopener" style="color:#60A5FA;font-size:0.72rem;vertical-align:super;font-weight:500;text-decoration:none;margin-left:1px;">[Van den Berghe 2001]</a>では、強化インスリン療法（目標80–110 mg/dL）が通常管理に比べて死亡率を有意に低下させ、多くの専門学会ガイドラインがICUでの厳格な血糖管理を推奨するようになった。</p>
+          <p class="rule-body" style="margin-top:8px;">しかしその後に実施された複数の試験では相反する結果が続出し、系統的レビューやメタ解析も結論が割れていた。実臨床への普及を妨げた要因としては、重症低血糖リスクの増大、一部試験の外部妥当性への疑問、正常血糖達成の困難さ、必要資源の増大などが挙げられた。NICE-SUGAR試験は「強化血糖管理が90日死亡率を低下させる」という仮説を検証すべく設計された大規模国際RCTである。</p>
+          <div class="alert-yellow" style="margin-top:10px;">
+            <strong>臨床的文脈：</strong>NICE-SUGAR試験開始時点（2004年）、多くの施設でICU強化血糖管理が導入されつつあったが、外科系単施設の結果を混合ICUに外挿してよいかという疑念も根強かった。本試験はその問いに多施設・大規模で答えることを目指した。
+          </div>
+        </div>
+      </div>
+
+      <!-- S2: デザイン -->
+      <h3 id="ch1-design" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+        研究デザインと対象患者
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">42施設・国際多施設RCTの概要</h3>
+          <p class="rule-body">2004年12月から2008年11月にかけて、学術三次病院38施設・地域病院4施設（計42施設）において実施された並行群RCT。適格患者はICUへの入室から24時間以内に、3日以上の継続的ICU治療が見込まれる成人。ランダム化は入院区分（手術/非手術）と地域（豪州・NZ/北米）で層別化されたミニマイゼーション法により行われた。</p>
+          <div class="ie-stat-grid" style="margin-top:14px;">
+            <div class="ie-stat">
+              <div class="ie-stat-val">6,104</div>
+              <div class="ie-stat-label">ランダム化<br>総患者数</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">3,054</div>
+              <div class="ie-stat-label">強化群（INT）<br>目標 81–108 mg/dL</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">3,050</div>
+              <div class="ie-stat-label">通常群（CONV）<br>目標 ≤180 mg/dL</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">患者背景（両群均衡）</h3>
+          <table class="ie-table" style="margin-top:8px;">
+            <thead>
+              <tr><th>項目</th><th>強化群（INT）</th><th>通常群（CONV）</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>平均年齢（歳）</td><td>60.4±17.2</td><td>59.9±17.1</td></tr>
+              <tr><td>男性（%）</td><td>62.6%</td><td>64.2%</td></tr>
+              <tr><td>平均 APACHE II スコア</td><td>21.1±7.9</td><td>21.1±8.3</td></tr>
+              <tr><td>手術入院（%）</td><td>36.9%</td><td>37.2%</td></tr>
+              <tr><td>糖尿病既往（%）</td><td>20.4%</td><td>19.8%</td></tr>
+              <tr><td>入室時平均 BG（mg/dL）</td><td>146±52.3</td><td>144±49.1</td></tr>
+              <tr><td>人工呼吸管理（%）</td><td>93.7%</td><td>92.7%</td></tr>
+              <tr><td>重症敗血症合併（%）</td><td>22.4%</td><td>20.8%</td></tr>
+              <tr><td>外傷（%）</td><td>14.0%</td><td>15.5%</td></tr>
+            </tbody>
+          </table>
+          <p class="rule-body" style="margin-top:10px;">患者の87.5%はオーストラリアまたはニュージーランドでリクルートされた。入院直前のコルチコステロイド投与歴を持つ患者は両群ともに約13%であった。</p>
+        </div>
+      </div>
+
+      <!-- S3: プロトコール -->
+      <h3 id="ch1-protocol" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+        <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>
+        介入プロトコールと達成された血糖コントロール
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">血糖管理アルゴリズム</h3>
+          <p class="rule-body">両群ともに集中治療スタッフが通常業務の一環として実施し、セキュアなWebサイト上の治療アルゴリズムに従った。インスリンは生理食塩水に溶解した静脈内持続投与として使用した。</p>
+          <table class="ie-table" style="margin-top:10px;">
+            <thead><tr><th>項目</th><th>強化群（INT）</th><th>通常群（CONV）</th></tr></thead>
+            <tbody>
+              <tr><td>目標血糖範囲</td><td>81–108 mg/dL<br>（4.5–6.0 mmol/L）</td><td>≤180 mg/dL<br>（≤10.0 mmol/L）</td></tr>
+              <tr><td>インスリン開始基準</td><td>全例でアルゴリズム開始</td><td>BG >180 mg/dL で開始</td></tr>
+              <tr><td>インスリン減量・中止基準</td><td>アルゴリズムに従い漸減</td><td>BG &lt;144 mg/dL で減量・中止</td></tr>
+              <tr><td>血糖測定</td><td colspan="2">可能な限り動脈カテーテルから採血（毛細管血は推奨しない）</td></tr>
+              <tr><td>介入中止基準</td><td colspan="2">食事摂取再開または ICU 退室（90日以内の再入室時は再開）</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">実際に達成された血糖コントロールと栄養管理</h3>
+          <p class="rule-body">治療アルゴリズムは6030人中5997人（99.5%）に投与された。両群で治療期間中央値はともに約4日（INT: 4.2日、CONV: 4.3日; P=0.69）と均衡していた。</p>
+          <div class="ie-stat-grid" style="margin-top:10px;">
+            <div class="ie-stat">
+              <div class="ie-stat-val">115 mg/dL</div>
+              <div class="ie-stat-label">INT群 時間加重<br>平均 BG（±18）</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">144 mg/dL</div>
+              <div class="ie-stat-label">CONV群 時間加重<br>平均 BG（±23）</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">P&lt;0.001</div>
+              <div class="ie-stat-label">群間差<br>（−29 mg/dL）</div>
+            </div>
+          </div>
+          <p class="rule-body" style="margin-top:10px;">インスリン投与率はINT群97.2% vs CONV群69.0%（P&lt;0.001）、平均投与量はINT群50.2±38.1単位/日 vs CONV群16.9±29.0単位/日（P&lt;0.001）。栄養管理は担当医裁量で、非タンパクカロリーの約70%は経腸栄養として投与された（両群で差なし; P=0.14）。</p>
+        </div>
+      </div>
+
+      <!-- SUMMARY 第1章 -->
+      <h3 id="ch1-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+        第1章のキーメッセージ
+      </h3>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+              <span class="rule-body"><strong>規模と対象：</strong>NICE-SUGAR試験は42施設・6,104例を登録した大規模国際RCTであり、Van den Bergheの単施設外科系ICU研究とは異なり内科・外科混合ICUを対象とした。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+              <span class="rule-body"><strong>血糖目標：</strong>強化群（INT）は81–108 mg/dL、通常群（CONV）は≤180 mg/dLをそれぞれ目標とし、いずれもWebベースのアルゴリズムで管理した。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+              <span class="rule-body"><strong>患者背景：</strong>両群の患者背景（APACHE II スコア21、手術入院37%、糖尿病既往20%）は均衡しており、試験の内的妥当性は高い。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+              <span class="rule-body"><strong>血糖コントロール達成：</strong>実際の時間加重平均BGはINT群115 mg/dL vs CONV群144 mg/dLと有意差があり（P&lt;0.001）、両群で明確に分離されていた。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+              <span class="rule-body"><strong>栄養：</strong>両群ともに経腸栄養が主体（非タンパクカロリーの約70%）で栄養管理に差はなく、栄養投与方法の差による交絡は最小限であった。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== 第2章 ===== -->
+      <div id="ch2" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">第2章 主要結果</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Primary Results</div>
+      </div>
+
+      <!-- S1: 90日死亡率 -->
+      <h3 id="ch2-mortality" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+        90日死亡率 — 主要アウトカム
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">強化血糖管理は90日死亡率を有意に増加させた</h3>
+          <p class="rule-body">主要アウトカムである90日全死因死亡率は、強化群27.5%（829/3010例）対通常群24.9%（751/3012例）であった。強化群における死亡のオッズ比は1.14（95% CI, 1.02–1.28; P=0.02）と有意に高く、絶対リスク差は2.6%ポイント（95% CI, 0.4–4.8）であった。これは <span class="mark-red"><strong>NNH = 38</strong></span>（38例を強化管理すると1例の追加死亡）に相当する。</p>
+          <div class="ie-stat-grid" style="margin-top:12px;">
+            <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+              <div class="ie-stat-val" style="color:#DC2626;">27.5%</div>
+              <div class="ie-stat-label">強化群（INT）<br>90日死亡率</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">24.9%</div>
+              <div class="ie-stat-label">通常群（CONV）<br>90日死亡率</div>
+            </div>
+            <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+              <div class="ie-stat-val" style="color:#DC2626;">OR 1.14</div>
+              <div class="ie-stat-label">95% CI 1.02–1.28<br>P=0.02</div>
+            </div>
+          </div>
+          <div class="alert-red" style="margin-top:12px;">
+            <strong>結論：</strong>強化血糖管理（目標81–108 mg/dL）は通常管理（目標≤180 mg/dL）と比較して、ICU重症患者の90日死亡率を有意に増加させた。NNH=38。
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">死亡の詳細：心血管死が強化群で有意に多い</h3>
+          <p class="rule-body">生存時間解析でも強化群のハザード比は1.11（95% CI, 1.01–1.23; P=0.03）と有意で、交絡因子（入院区分・地域・年齢・入室前場所・APACHE IIスコア・MV使用）を調整した後もOR 1.14（95% CI, 1.01–1.29; P=0.04）と有意差は維持された。28日死亡率はINT 22.3% vs CONV 20.8%（OR 1.09; 95% CI, 0.96–1.23; P=0.17）と有意差を認めなかった。</p>
+          <table class="ie-table" style="margin-top:10px;">
+            <thead><tr><th>死因分類</th><th>強化群 INT（n=829）</th><th>通常群 CONV（n=751）</th></tr></thead>
+            <tbody>
+              <tr><td><strong>心血管死（合計）</strong></td><td><span class="mark-red"><strong>41.6%（345例）</strong></span></td><td>35.8%（269例）</td></tr>
+              <tr><td>　うち心血管-分布性ショック</td><td>20.3%（168例）</td><td>18.6%（140例）</td></tr>
+              <tr><td>　うちその他心血管</td><td>21.4%（177例）</td><td>17.2%（129例）</td></tr>
+              <tr><td>神経系</td><td>21.7%（180例）</td><td>25.8%（194例）</td></tr>
+              <tr><td>呼吸器系</td><td>23.0%（191例）</td><td>23.6%（177例）</td></tr>
+              <tr><td>その他</td><td>13.6%（113例）</td><td>14.8%（111例）</td></tr>
+            </tbody>
+          </table>
+          <p class="rule-body" style="margin-top:8px;">全死亡の死因分布全体のP値は0.12（有意差なし）だが、心血管死の割合は強化群で有意に多かった（P=0.02）。死亡場所はICU内が両群ともに約66%、入院中ICU外が26%と同等であった。</p>
+        </div>
+      </div>
+
+      <!-- S2: 重症低血糖 -->
+      <h3 id="ch2-hypoglycemia" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+        重症低血糖（BG ≤40 mg/dL）
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">強化群では重症低血糖が14倍以上頻発</h3>
+          <p class="rule-body">重症低血糖（BG ≤40 mg/dL、重大有害事象として定義）は強化群の6.8%（206/3016例）に生じたのに対し、通常群では0.5%（15/3014例）であった。オッズ比14.7（95% CI, 9.0–25.9; P&lt;0.001）と圧倒的に強化群に多く、低血糖エピソード数は強化群272件 vs 通常群16件であった。</p>
+          <div class="ie-stat-grid" style="margin-top:12px;">
+            <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+              <div class="ie-stat-val" style="color:#DC2626;">6.8%</div>
+              <div class="ie-stat-label">強化群（INT）<br>重症低血糖発生率</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">0.5%</div>
+              <div class="ie-stat-label">通常群（CONV）<br>重症低血糖発生率</div>
+            </div>
+            <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+              <div class="ie-stat-val" style="color:#DC2626;">OR 14.7</div>
+              <div class="ie-stat-label">95% CI 9.0–25.9<br>P&lt;0.001</div>
+            </div>
+          </div>
+          <p class="rule-body" style="margin-top:10px;">全288エピソードのうち60.1%は検査室測定で確認、38.9%はベッドサイドPOC測定のみ、1.0%は確認状況不明であった。重症低血糖の長期後遺症は報告されなかった（一時的な神経系後遺症はINT群1例・CONV群1例、心血管系はINT群6例・CONV群1例）。</p>
+        </div>
+      </div>
+
+      <!-- S3: 二次アウトカム -->
+      <h3 id="ch2-secondary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+        <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>
+        二次アウトカム — 臓器不全・ICU滞在・輸血
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">ICU/病院滞在・臓器不全・感染に有意差なし</h3>
+          <p class="rule-body">死亡率以外の二次アウトカムはいずれも両群間に有意差を認めなかった。強化血糖管理による「死亡率以外のベネフィット」は本試験では示されなかった。</p>
+          <table class="ie-table" style="margin-top:10px;">
+            <thead><tr><th>アウトカム</th><th>強化群（INT）</th><th>通常群（CONV）</th><th>P値</th></tr></thead>
+            <tbody>
+              <tr><td>ICU入室期間中央値（日）</td><td>6（IQR 2–11）</td><td>6（IQR 2–11）</td><td>0.84</td></tr>
+              <tr><td>入院期間中央値（日）</td><td>17（IQR 8–35）</td><td>17（IQR 8–35）</td><td>0.86</td></tr>
+              <tr><td>人工呼吸日数（平均）</td><td>6.6±6.6日</td><td>6.6±6.5日</td><td>0.56</td></tr>
+              <tr><td>腎代替療法日数（平均）</td><td>0.8±2.6日</td><td>0.8±2.8日</td><td>0.39</td></tr>
+              <tr><td>新規臓器不全あり</td><td>41.4%（1111/2682）</td><td>42.7%（1143/2679）</td><td>0.11</td></tr>
+              <tr><td>陽性血液培養</td><td>12.8%（387/3014）</td><td>12.4%（372/3011）</td><td>0.57</td></tr>
+              <tr><td>赤血球輸血</td><td>42.1%（1268/3013）</td><td>41.3%（1246/3014）</td><td>0.56</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- S4: サブグループ -->
+      <h3 id="ch2-subgroup" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+        <span style="color:#16A34A;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 4</span>
+        サブグループ解析（6対の事前定義）
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">全サブグループで交互作用は有意差なし（傾向のみ）</h3>
+          <p class="rule-body">6対の事前定義サブグループにおいて、強化血糖管理の効果（死亡率への影響）に有意な交互作用は認められなかった。結果の一貫性から、特定の患者集団で強化管理が有益であるという証拠は得られなかった。</p>
+          <table class="ie-table" style="margin-top:10px;">
+            <thead>
+              <tr><th>サブグループ比較</th><th>INT群 OR</th><th>交互作用 P値</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>手術入院 vs 非手術入院</td><td>1.31 vs 1.07</td><td>0.10</td></tr>
+              <tr><td>糖尿病あり vs なし</td><td>—</td><td>0.60</td></tr>
+              <tr><td>重症敗血症あり vs なし</td><td>—</td><td>0.93</td></tr>
+              <tr><td>外傷あり vs なし</td><td>—</td><td>0.07（傾向）</td></tr>
+              <tr><td>APACHE II ≥25 vs &lt;25</td><td>—</td><td>0.84</td></tr>
+              <tr><td>コルチコステロイドあり vs なし</td><td>—</td><td>0.06（傾向）</td></tr>
+            </tbody>
+          </table>
+          <p class="rule-body" style="margin-top:8px;">外傷患者（P=0.07）とコルチコステロイド投与患者（P=0.06）では傾向を認めたが、多重比較を考慮すれば有意差には至らず仮説生成に留まる。手術患者ではINT群のORが1.31とやや高い点は、外科系ICU単独で有益性を示したVan den Berghe 2001との差異として注目される。</p>
+          <div class="alert-yellow" style="margin-top:10px;">
+            <strong>解釈の注意：</strong>「糖尿病があれば強化管理が有益」「手術患者には有益では？」などの解釈はいずれも交互作用検定非有意（P≥0.07）であり、根拠不十分。本試験の結論は全体集団に適用される。
+          </div>
+        </div>
+      </div>
+
+      <!-- SUMMARY 第2章 -->
+      <h3 id="ch2-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+        第2章のキーメッセージ
+      </h3>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+              <span class="rule-body"><strong>主要アウトカム（有害）：</strong>強化管理（目標81–108 mg/dL）は通常管理（目標≤180 mg/dL）と比較して90日死亡率をOR 1.14（P=0.02）、絶対差2.6%ポイントで有意に増加させた（NNH=38）。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+              <span class="rule-body"><strong>心血管死の増加：</strong>強化群の死亡では心血管死が占める割合が高く（41.6% vs 35.8%; P=0.02）、強化血糖管理がインスリン大量投与等を介して心血管系に有害に働いた可能性が示唆される。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+              <span class="rule-body"><strong>重症低血糖：</strong>強化群では重症低血糖（BG ≤40 mg/dL）が6.8%と通常群の0.5%に比べて14.7倍多発した（P&lt;0.001）。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+              <span class="rule-body"><strong>二次アウトカムに差なし：</strong>ICU/病院滞在日数・人工呼吸日数・RRT日数・臓器不全・感染・輸血のいずれにも有意差はなく、強化管理による「副次的ベネフィット」は認められなかった。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+              <span class="rule-body"><strong>サブグループ：</strong>6対のサブグループ解析で交互作用は有意差なし。強化管理が有益な特定の患者層を示す証拠は得られなかった。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== 第3章 ===== -->
+      <div id="ch3" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">第3章 考察と臨床的意義</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Discussion &amp; Clinical Implications</div>
+      </div>
+
+      <!-- S1: 結果の解釈 -->
+      <h3 id="ch3-discussion" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+        結果の解釈 — なぜ従来と逆の結論が出たか
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">Van den Berghe試験との比較：患者集団・栄養・死亡メカニズム</h3>
+          <p class="rule-body">著者らは、NICE-SUGAR試験の結果がVan den Berghe試験と異なる理由として複数の可能性を挙げている。最も重要な違いの一つは栄養管理で、Van den Berghe試験では静脈栄養が主体であったのに対し、NICE-SUGAR試験では経腸栄養が主体（70%）であった。静脈栄養ではカロリー負荷が多く血糖が上昇しやすいため、その文脈では強化血糖管理のベネフィットが出やすかった可能性がある。</p>
+          <p class="rule-body" style="margin-top:8px;">また、本試験での強化群の過剰死亡の多くは心血管死であり、インスリン大量投与による心血管への悪影響が疑われる。さらに、強化群ではコルチコステロイド投与患者が通常群よりわずかに多く（34.6% vs 31.7%; P=0.02）、この差が部分的に寄与した可能性も完全には除外できない。ただし著者はこれらの機序を本試験のデータから直接証明することはできないとしている。</p>
+          <div class="alert-yellow" style="margin-top:10px;">
+            <strong>著者の結論：</strong>正常血糖域を目標とした血糖管理は重症患者に有益とは言えず、有害である可能性がある。ICU重症患者には血糖≤180 mg/dLという目標のほうが、81–108 mg/dLという目標より死亡率が低い。著者らは重症患者への後者の目標の使用を推奨しないと明言している。
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">「危険因子を標的とする治療」の落とし穴</h3>
+          <p class="rule-body">著者は、高血糖という知覚されたリスク因子を標的とする臨床試験は、血糖値そのものへの効果を超えた複雑な影響（介入による有害効果を含む）を伴うことを示している。これは他の医学分野でも繰り返し見られるパターンであり（例：冠動脈疾患に対するβ遮断薬・ACE阻害薬→有益; HDL上昇介入→予想外に有害の事例など）、観察研究で「関連」が認められた因子を介入ターゲットにしても必ずしもベネフィットが得られるとは限らない。</p>
+        </div>
+      </div>
+
+      <!-- S2: 限界と強み -->
+      <h3 id="ch3-limitations" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+        試験の強みと限界
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">強みと内的妥当性</h3>
+          <p class="rule-body">本試験の強みは、ランダム化前の治療割付け隠蔽、長期アウトカム（90日死亡）、事前定義された統計解析計画、ITT解析、99.5%という高い治療アドヒアランス、1.4%という低い追跡不能率、両群間で明確に分離された血糖値などにある。試験の統計的検出力は高く（設計時に90日死亡率の絶対差3.8%ポイントを検出するよう設計、検出力90%）、アウトカム評価は客観的（生死）であるため非盲検による情報バイアスの影響は限定的である。</p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">限界と留意事項</h3>
+          <p class="rule-body">著者が挙げた主な限界は以下の通りである。第一に、「3日以上のICU滞在が見込まれる」という包含基準が主観的であること。第二に、医療スタッフへの治療割付け非盲検化が避けられないため、糖尿病管理以外の部分で微妙な交絡が生じた可能性を完全に除外できないこと。第三に、強化群の相当数がtarget range（81–108 mg/dL）を上回る血糖で推移しており、「真の」正常血糖管理の効果ではなく「目標81–108 mg/dL への試み」の効果を評価した試験である点。第四に、機序解明のためのデータ（生物学的バイオマーカー、コスト等）は収集されなかった。</p>
+          <div class="ie-alpha">
+            <div class="ie-alpha-inner">
+              <div class="ie-alpha-header">
+                <span class="ie-alpha-badge">＋α</span>
+                <span class="ie-alpha-title">「強化群でもtarget rangeを外れた患者が多い」問題</span>
+              </div>
+              <p class="rule-body" style="color:#4C1D95;">強化群の時間加重平均BG（115 mg/dL）は目標範囲上限（108 mg/dL）をわずかに上回っており、厳格な目標血糖達成は実臨床でも困難であることを示している。この「目標未達」が結果をどう修飾するかは不明であるが、少なくとも本試験が「完全な正常血糖管理（80–108 mg/dL厳守）」を評価しているわけではない点に留意が必要である。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SUMMARY 第3章 -->
+      <h3 id="ch3-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+        第3章のキーメッセージ
+      </h3>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+              <span class="rule-body"><strong>逆転の要因：</strong>栄養管理の違い（経腸栄養主体 vs 静脈栄養主体）・患者集団の差（混合ICU vs 外科系ICU単施設）・インスリン大量投与による心血管への悪影響などが、Van den Berghe試験との逆の結果の原因として考察されている。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+              <span class="rule-body"><strong>機序は不明：</strong>低血糖そのものか、インスリン大量投与効果か、コルチコステロイドの交絡か、その他の要因かは本試験からは判断できない。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+              <span class="rule-body"><strong>臨床的結論：</strong>著者は重症ICU成人患者に対し血糖目標81–108 mg/dLを用いることを推奨しないと明言し、≤180 mg/dLの通常管理が支持される。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+              <span class="rule-body"><strong>試験の強み：</strong>大規模・国際・ITT・長期追跡・高アドヒアランス・事前定義解析という高い内的妥当性を持つランドマーク試験であり、以降のICU血糖管理の世界標準を変えた。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+              <span class="rule-body"><strong>現在の位置づけ：</strong>NICE-SUGAR試験の結果は2024年SCCMガイドラインにも反映されており、現在のICU血糖管理コンセンサス（目標140–180 mg/dL前後）の基盤となっている。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 出典注記 -->
+      <p style="font-size:0.72rem;color:#9CA3AF;margin-top:16px;line-height:1.7;">
+        出典：NICE-SUGAR Study Investigators. Intensive versus Conventional Glucose Control in Critically Ill Patients. N Engl J Med 2009;360:1283-97.（2009年3月26日）<br>
+        DOI：<a href="https://doi.org/10.1056/NEJMoa0810625" target="_blank" rel="noopener" style="color:#60A5FA;">https://doi.org/10.1056/NEJMoa0810625</a><br>
+        本資料は教育目的で作成したサマリーです。診断・治療方針の決定には必ず原典ガイドラインを参照してください。
+      </p>
+      <p style="font-size:0.75rem;color:var(--muted);text-align:right;margin-top:8px;">制作：ICU 関谷</p>
+
+    </div><!-- /main-col -->
+
+    <!-- サイドバー目次 -->
+    <aside class="ie-sidebar">
+      <div class="ie-sidebar-card">
+        <div class="ie-sidebar-title">目次</div>
+        <a href="#ch1" class="ie-toc-chapter">第1章 研究背景と方法</a>
+        <a href="#ch1-bg" class="ie-toc-section">S1 — 研究背景・論争の経緯</a>
+        <a href="#ch1-design" class="ie-toc-section">S2 — デザインと対象患者</a>
+        <a href="#ch1-protocol" class="ie-toc-section">S3 — 介入と達成血糖値</a>
+        <a href="#ch1-summary" class="ie-toc-section">SUMMARY</a>
+        <a href="#ch2" class="ie-toc-chapter">第2章 主要結果</a>
+        <a href="#ch2-mortality" class="ie-toc-section">S1 — 90日死亡率</a>
+        <a href="#ch2-hypoglycemia" class="ie-toc-section">S2 — 重症低血糖</a>
+        <a href="#ch2-secondary" class="ie-toc-section">S3 — 二次アウトカム</a>
+        <a href="#ch2-subgroup" class="ie-toc-section">S4 — サブグループ解析</a>
+        <a href="#ch2-summary" class="ie-toc-section">SUMMARY</a>
+        <a href="#ch3" class="ie-toc-chapter">第3章 考察と臨床的意義</a>
+        <a href="#ch3-discussion" class="ie-toc-section">S1 — 結果の解釈</a>
+        <a href="#ch3-limitations" class="ie-toc-section">S2 — 強みと限界</a>
+        <a href="#ch3-summary" class="ie-toc-section">SUMMARY</a>
+      </div>
+    </aside>
+
+  </div><!-- /content-wrap -->
+
+  <script src="../script.js"></script>
+  <script src="../abbr-tooltip.js"></script>
+</body>
+</html>
