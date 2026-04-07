@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>カードデザイン v2 — 20種 | 聖路加ICU</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style-v2.css">
+  <style>
+    body { background:#F1F5F9; }
+    .demo-grid { display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:960px;margin:0 auto; }
+    @media (max-width:767px) { .demo-grid { grid-template-columns:1fr; } }
+    .demo-cell { position:relative; }
+    .demo-num { position:absolute;top:-10px;left:12px;background:#1E293B;color:#fff;font-size:0.6rem;font-weight:800;padding:2px 8px;border-radius:10px;z-index:2;letter-spacing:0.1em; }
+
+    /* reset for card links */
+    a.card-demo { display:block;text-decoration:none;color:inherit;cursor:pointer; }
+
+    /* ── #1 Frosted Glass + Glow ── */
+    .c1 { position:relative;background:rgba(255,255,255,0.55);backdrop-filter:blur(16px) saturate(1.8);border:1px solid rgba(255,255,255,0.6);border-radius:16px;padding:28px 26px;overflow:hidden;transition:transform .25s,box-shadow .25s; }
+    .c1::before { content:'';position:absolute;top:-40%;right:-30%;width:200px;height:200px;background:radial-gradient(circle,rgba(99,102,241,0.15),transparent 70%);border-radius:50%; }
+    .c1:hover { transform:translateY(-3px);box-shadow:0 12px 40px rgba(99,102,241,0.12); }
+    .c1 h3 { font-size:1rem;font-weight:800;color:#1E293B;margin-bottom:6px;position:relative; }
+    .c1 p { font-size:0.82rem;color:#64748B;line-height:1.7;position:relative; }
+
+    /* ── #2 Gradient Border (conic) ── */
+    .c2-wrap { padding:2px;border-radius:16px;background:conic-gradient(from 180deg,#3B82F6,#8B5CF6,#EC4899,#F59E0B,#3B82F6);transition:transform .25s; }
+    .c2-wrap:hover { transform:translateY(-3px); }
+    .c2 { background:#fff;border-radius:14px;padding:26px 24px; }
+    .c2 h3 { font-size:1rem;font-weight:800;color:#1E293B;margin-bottom:6px; }
+    .c2 p { font-size:0.82rem;color:#64748B;line-height:1.7; }
+
+    /* ── #3 Neon Glow (dark) ── */
+    .c3 { background:#0F172A;border:1px solid rgba(56,189,248,0.25);border-radius:16px;padding:28px 26px;position:relative;overflow:hidden;transition:border-color .3s,box-shadow .3s; }
+    .c3::after { content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,#38BDF8,transparent); }
+    .c3:hover { border-color:rgba(56,189,248,0.5);box-shadow:0 0 30px rgba(56,189,248,0.1); }
+    .c3 h3 { font-size:1rem;font-weight:800;color:#F0F9FF;margin-bottom:6px; }
+    .c3 p { font-size:0.82rem;color:#7DD3FC;line-height:1.7; }
+
+    /* ── #4 Mesh Gradient ── */
+    .c4 { background:linear-gradient(135deg,#667EEA 0%,#764BA2 50%,#F093FB 100%);border-radius:16px;padding:28px 26px;position:relative;overflow:hidden;transition:transform .25s; }
+    .c4::before { content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 30% 0%,rgba(255,255,255,0.2),transparent 60%); }
+    .c4:hover { transform:translateY(-3px); }
+    .c4 h3 { font-size:1rem;font-weight:800;color:#fff;margin-bottom:6px;position:relative; }
+    .c4 p { font-size:0.82rem;color:rgba(255,255,255,0.75);line-height:1.7;position:relative; }
+
+    /* ── #5 Layered Paper ── */
+    .c5-wrap { position:relative;padding-bottom:8px;padding-right:8px; }
+    .c5-wrap::before { content:'';position:absolute;bottom:0;right:0;left:8px;top:8px;background:#E2E8F0;border-radius:14px; }
+    .c5-wrap::after { content:'';position:absolute;bottom:4px;right:4px;left:4px;top:4px;background:#EEF2F7;border-radius:14px; }
+    .c5 { position:relative;z-index:1;background:#fff;border:1px solid #E2E8F0;border-radius:14px;padding:26px 24px;transition:transform .2s; }
+    .c5:hover { transform:translate(-2px,-2px); }
+    .c5 h3 { font-size:1rem;font-weight:800;color:#1E293B;margin-bottom:6px; }
+    .c5 p { font-size:0.82rem;color:#64748B;line-height:1.7; }
+
+    /* ── #6 Diagonal Split ── */
+    .c6 { border-radius:16px;overflow:hidden;position:relative;min-height:120px;transition:transform .25s; }
+    .c6::before { content:'';position:absolute;inset:0;background:linear-gradient(135deg,#1E3A5F 55%,#3B82F6 55%); }
+    .c6:hover { transform:translateY(-3px); }
+    .c6-inner { position:relative;z-index:1;padding:26px 24px; }
+    .c6 h3 { font-size:1rem;font-weight:800;color:#fff;margin-bottom:6px; }
+    .c6 p { font-size:0.82rem;color:rgba(255,255,255,0.7);line-height:1.7;max-width:65%; }
+
+    /* ── #7 Floating Label ── */
+    .c7 { background:#fff;border:1px solid #E2E8F0;border-radius:16px;padding:32px 24px 24px;position:relative;transition:box-shadow .25s; }
+    .c7:hover { box-shadow:0 8px 30px rgba(0,0,0,0.08); }
+    .c7-label { position:absolute;top:-12px;left:20px;background:linear-gradient(135deg,#3B82F6,#6366F1);color:#fff;font-size:0.65rem;font-weight:800;padding:4px 14px;border-radius:20px;letter-spacing:0.08em; }
+    .c7 h3 { font-size:1rem;font-weight:800;color:#1E293B;margin-bottom:6px; }
+    .c7 p { font-size:0.82rem;color:#64748B;line-height:1.7; }
+
+    /* ── #8 Brutalist ── */
+    .c8 { background:#FFFBEB;border:3px solid #1E293B;border-radius:0;padding:24px 22px;position:relative;transition:transform .15s; }
+    .c8::after { content:'';position:absolute;top:6px;left:6px;right:-6px;bottom:-6px;border:3px solid #1E293B;z-index:-1; }
+    .c8:hover { transform:translate(-3px,-3px); }
+    .c8 h3 { font-size:1.05rem;font-weight:900;color:#1E293B;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.04em; }
+    .c8 p { font-size:0.82rem;color:#78716C;line-height:1.7; }
+
+    /* ── #9 Aurora ── */
+    .c9 { background:#0F172A;border-radius:16px;padding:28px 26px;position:relative;overflow:hidden;transition:transform .25s; }
+    .c9::before { content:'';position:absolute;top:-50%;left:-20%;width:140%;height:140%;background:conic-gradient(from 220deg,rgba(16,185,129,0.3),rgba(59,130,246,0.2),rgba(139,92,246,0.3),rgba(236,72,153,0.15),transparent 60%);animation:c9spin 8s linear infinite; }
+    @keyframes c9spin { to { transform:rotate(360deg); } }
+    .c9:hover { transform:translateY(-3px); }
+    .c9 h3 { font-size:1rem;font-weight:800;color:#F0FDF4;margin-bottom:6px;position:relative; }
+    .c9 p { font-size:0.82rem;color:rgba(255,255,255,0.6);line-height:1.7;position:relative; }
+
+    /* ── #10 Outlined + Hover Fill ── */
+    .c10 { background:transparent;border:2px solid #3B82F6;border-radius:16px;padding:26px 24px;transition:background .3s,color .3s; }
+    .c10:hover { background:#3B82F6; }
+    .c10 h3 { font-size:1rem;font-weight:800;color:#3B82F6;margin-bottom:6px;transition:color .3s; }
+    .c10:hover h3 { color:#fff; }
+    .c10 p { font-size:0.82rem;color:#64748B;line-height:1.7;transition:color .3s; }
+    .c10:hover p { color:rgba(255,255,255,0.8); }
+
+    /* ── #11 Notch Corner ── */
+    .c11 { background:#fff;border:1px solid #E2E8F0;clip-path:polygon(0 0,calc(100% - 28px) 0,100% 28px,100% 100%,0 100%);padding:26px 24px;position:relative;transition:box-shadow .25s; }
+    .c11::after { content:'';position:absolute;top:0;right:0;width:28px;height:28px;background:linear-gradient(135deg,transparent 50%,#3B82F6 50%); }
+    .c11:hover { box-shadow:0 8px 24px rgba(0,0,0,0.08); }
+    .c11 h3 { font-size:1rem;font-weight:800;color:#1E293B;margin-bottom:6px; }
+    .c11 p { font-size:0.82rem;color:#64748B;line-height:1.7; }
+
+    /* ── #12 Spotlight Hover ── */
+    .c12 { background:#1E293B;border-radius:16px;padding:28px 26px;position:relative;overflow:hidden;transition:transform .25s; }
+    .c12::before { content:'';position:absolute;width:200px;height:200px;background:radial-gradient(circle,rgba(255,255,255,0.08),transparent 70%);top:var(--y,-50%);left:var(--x,-50%);transform:translate(-50%,-50%);pointer-events:none;transition:opacity .3s;opacity:0; }
+    .c12:hover::before { opacity:1; }
+    .c12:hover { transform:translateY(-2px); }
+    .c12 h3 { font-size:1rem;font-weight:800;color:#fff;margin-bottom:6px;position:relative; }
+    .c12 p { font-size:0.82rem;color:#94A3B8;line-height:1.7;position:relative; }
+
+    /* ── #13 Wave Bottom ── */
+    .c13 { background:linear-gradient(135deg,#0EA5E9,#2563EB);border-radius:16px;padding:26px 24px 40px;position:relative;overflow:hidden;transition:transform .25s; }
+    .c13::after { content:'';position:absolute;bottom:-2px;left:0;right:0;height:30px;background:#F1F5F9;clip-path:ellipse(55% 100% at 50% 100%); }
+    .c13:hover { transform:translateY(-3px); }
+    .c13 h3 { font-size:1rem;font-weight:800;color:#fff;margin-bottom:6px;position:relative; }
+    .c13 p { font-size:0.82rem;color:rgba(255,255,255,0.75);line-height:1.7;position:relative; }
+
+    /* ── #14 Pill + Icon Row ── */
+    .c14 { background:#fff;border:1px solid #E2E8F0;border-radius:16px;padding:24px;transition:box-shadow .25s; }
+    .c14:hover { box-shadow:0 8px 30px rgba(0,0,0,0.08); }
+    .c14-top { display:flex;align-items:center;gap:10px;margin-bottom:12px; }
+    .c14-icon { width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#6366F1,#A78BFA);display:flex;align-items:center;justify-content:center; }
+    .c14-icon svg { width:18px;height:18px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round; }
+    .c14 h3 { font-size:1rem;font-weight:800;color:#1E293B; }
+    .c14 p { font-size:0.82rem;color:#64748B;line-height:1.7; }
+    .c14-arrow { margin-top:12px;font-size:0.78rem;font-weight:700;color:#6366F1; }
+
+    /* ── #15 Animated Gradient Border ── */
+    .c15-wrap { padding:2px;border-radius:16px;background:linear-gradient(90deg,#3B82F6,#8B5CF6,#EC4899,#F59E0B);background-size:300% 300%;animation:c15grad 4s ease infinite; }
+    @keyframes c15grad { 0%,100%{background-position:0% 50%} 50%{background-position:100% 50%} }
+    .c15 { background:#fff;border-radius:14px;padding:26px 24px; }
+    .c15 h3 { font-size:1rem;font-weight:800;color:#1E293B;margin-bottom:6px; }
+    .c15 p { font-size:0.82rem;color:#64748B;line-height:1.7; }
+
+    /* ── #16 Isometric Shadow ── */
+    .c16 { background:#fff;border:1px solid #E2E8F0;border-radius:14px;padding:26px 24px;box-shadow:8px 8px 0 #CBD5E1;transition:box-shadow .2s,transform .2s; }
+    .c16:hover { transform:translate(-2px,-2px);box-shadow:10px 10px 0 #94A3B8; }
+    .c16 h3 { font-size:1rem;font-weight:800;color:#1E293B;margin-bottom:6px; }
+    .c16 p { font-size:0.82rem;color:#64748B;line-height:1.7; }
+
+    /* ── #17 Tinted Photo BG ── */
+    .c17 { border-radius:16px;padding:28px 26px;position:relative;overflow:hidden;min-height:110px;transition:transform .25s; }
+    .c17::before { content:'';position:absolute;inset:0;background:url('../images/icu-study.jpg') center/cover;filter:brightness(0.3) saturate(0.5); }
+    .c17::after { content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(30,58,95,0.85),rgba(59,130,246,0.7)); }
+    .c17:hover { transform:translateY(-3px); }
+    .c17 h3 { font-size:1rem;font-weight:800;color:#fff;margin-bottom:6px;position:relative;z-index:1; }
+    .c17 p { font-size:0.82rem;color:rgba(255,255,255,0.8);line-height:1.7;position:relative;z-index:1; }
+
+    /* ── #18 Side Accent Bar ── */
+    .c18 { display:flex;border-radius:16px;overflow:hidden;background:#fff;border:1px solid #E2E8F0;transition:box-shadow .25s; }
+    .c18:hover { box-shadow:0 8px 24px rgba(0,0,0,0.08); }
+    .c18-bar { width:6px;background:linear-gradient(180deg,#3B82F6,#8B5CF6,#EC4899);flex-shrink:0; }
+    .c18-body { padding:22px 20px; }
+    .c18 h3 { font-size:1rem;font-weight:800;color:#1E293B;margin-bottom:6px; }
+    .c18 p { font-size:0.82rem;color:#64748B;line-height:1.7; }
+
+    /* ── #19 Floating Badge + Gradient ── */
+    .c19 { background:linear-gradient(150deg,#1A1A2E 0%,#16213E 50%,#0F3460 100%);border-radius:16px;padding:28px 26px;position:relative;overflow:hidden;transition:transform .25s; }
+    .c19::before { content:'';position:absolute;top:20px;right:20px;width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,#E94560,#F59E0B);opacity:0.15; }
+    .c19:hover { transform:translateY(-3px); }
+    .c19-badge { display:inline-block;background:linear-gradient(135deg,#E94560,#F59E0B);color:#fff;font-size:0.6rem;font-weight:800;padding:3px 10px;border-radius:20px;margin-bottom:10px;letter-spacing:0.08em;position:relative; }
+    .c19 h3 { font-size:1rem;font-weight:800;color:#fff;margin-bottom:6px;position:relative; }
+    .c19 p { font-size:0.82rem;color:rgba(255,255,255,0.55);line-height:1.7;position:relative; }
+
+    /* ── #20 Glassmorphism Dark ── */
+    .c20-bg { background:linear-gradient(135deg,#0F172A,#1E293B,#334155);border-radius:16px;padding:3px; }
+    .c20 { background:rgba(255,255,255,0.05);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:26px 24px;position:relative;overflow:hidden;transition:border-color .3s; }
+    .c20:hover { border-color:rgba(255,255,255,0.25); }
+    .c20::before { content:'';position:absolute;top:-50%;right:-30%;width:160px;height:160px;background:radial-gradient(circle,rgba(56,189,248,0.12),transparent 70%);border-radius:50%; }
+    .c20 h3 { font-size:1rem;font-weight:800;color:#E2E8F0;margin-bottom:6px;position:relative; }
+    .c20 p { font-size:0.82rem;color:#94A3B8;line-height:1.7;position:relative; }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="../index.html" class="nav-logo">
+        <img src="../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+        <span class="nav-logo-text">聖路加国際病院ICU</span>
+      </a>
+    </div>
+  </nav>
+
+  <div class="subpage-hero">
+    <div class="container">
+      <a href="../index.html" class="back-link">← メインページへ戻る</a>
+      <h1 class="subpage-title">テキストボックス デザイン v2</h1>
+      <p class="subpage-subtitle">20 PREMIUM CARD DESIGNS</p>
+    </div>
+  </div>
+
+  <div style="padding:40px 20px 80px;">
+    <div class="demo-grid">
+
+      <!-- #1 -->
+      <div class="demo-cell">
+        <span class="demo-num">#1 Frosted Glass</span>
+        <div class="c1">
+          <h3>スタッフ紹介・チーム編成</h3>
+          <p>ICUスタッフの紹介・チーム構成・役割分担についてまとめています。</p>
+        </div>
+      </div>
+
+      <!-- #2 -->
+      <div class="demo-cell">
+        <span class="demo-num">#2 Rainbow Border</span>
+        <div class="c2-wrap">
+          <div class="c2">
+            <h3>スタッフ紹介・チーム編成</h3>
+            <p>ICUスタッフの紹介・チーム構成・役割分担についてまとめています。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- #3 -->
+      <div class="demo-cell">
+        <span class="demo-num">#3 Neon Glow</span>
+        <div class="c3">
+          <h3>スタッフ紹介・チーム編成</h3>
+          <p>ICUスタッフの紹介・チーム構成・役割分担についてまとめています。</p>
+        </div>
+      </div>
+
+      <!-- #4 -->
+      <div class="demo-cell">
+        <span class="demo-num">#4 Mesh Gradient</span>
+        <div class="c4">
+          <h3>スタッフ紹介・チーム編成</h3>
+          <p>ICUスタッフの紹介・チーム構成・役割分担についてまとめています。</p>
+        </div>
+      </div>
+
+      <!-- #5 -->
+      <div class="demo-cell">
+        <span class="demo-num">#5 Layered Paper</span>
+        <div class="c5-wrap">
+          <div class="c5">
+            <h3>スタッフ紹介・チーム編成</h3>
+            <p>ICUスタッフの紹介・チーム構成・役割分担についてまとめています。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- #6 -->
+      <div class="demo-cell">
+        <span class="demo-num">#6 Diagonal Split</span>
+        <div class="c6">
+          <div class="c6-inner">
+            <h3>スタッフ紹介・チーム編成</h3>
+            <p>ICUスタッフの紹介・チーム構成についてまとめています。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- #7 -->
+      <div class="demo-cell">
+        <span class="demo-num">#7 Floating Label</span>
+        <div class="c7">
+          <span class="c7-label">TEAM</span>
+          <h3>スタッフ紹介・チーム編成</h3>
+          <p>ICUスタッフの紹介・チーム構成・役割分担についてまとめています。</p>
+        </div>
+      </div>
+
+      <!-- #8 -->
+      <div class="demo-cell">
+        <span class="demo-num">#8 Brutalist</span>
+        <div class="c8">
+          <h3>Staff &amp; Team</h3>
+          <p>ICUスタッフの紹介・チーム構成・役割分担についてまとめています。</p>
+        </div>
+      </div>
+
+      <!-- #9 -->
+      <div class="demo-cell">
+        <span class="demo-num">#9 Aurora</span>
+        <div class="c9">
+          <h3>スタッフ紹介・チーム編成</h3>
+          <p>ICUスタッフの紹介・チーム構成・役割分担についてまとめています。</p>
+        </div>
+      </div>
+
+      <!-- #10 -->
+      <div class="demo-cell">
+        <span class="demo-num">#10 Outlined → Fill</span>
+        <div class="c10">
+          <h3>スタッフ紹介・チーム編成</h3>
+          <p>ICUスタッフの紹介・チーム構成・役割分担についてまとめています。</p>
+        </div>
+      </div>
+
+      <!-- #11 -->
+      <div class="demo-cell">
+        <span class="demo-num">#11 Notch Corner</span>
+        <div class="c11">
+          <h3>スタッフ紹介・チーム編成</h3>
+          <p>ICUスタッフの紹介・チーム構成・役割分担についてまとめています。</p>
+        </div>
+      </div>
+
+      <!-- #12 -->
+      <div class="demo-cell">
+        <span class="demo-num">#12 Spotlight</span>
+        <div class="c12" onmousemove="this.style.setProperty('--x',event.offsetX+'px');this.style.setProperty('--y',event.offsetY+'px')">
+          <h3>スタッフ紹介・チーム編成</h3>
+          <p>ICUスタッフの紹介・チーム構成・役割分担についてまとめています。</p>
+        </div>
+      </div>
+
+      <!-- #13 -->
+      <div class="demo-cell">
+        <span class="demo-num">#13 Wave Bottom</span>
+        <div class="c13">
+          <h3>スタッフ紹介・チーム編成</h3>
+          <p>ICUスタッフの紹介・チーム構成・役割分担についてまとめています。</p>
+        </div>
+      </div>
+
+      <!-- #14 -->
+      <div class="demo-cell">
+        <span class="demo-num">#14 Icon + Arrow</span>
+        <div class="c14">
+          <div class="c14-top">
+            <div class="c14-icon">
+              <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <h3>スタッフ紹介・チーム編成</h3>
+          </div>
+          <p>ICUスタッフの紹介・チーム構成・役割分担についてまとめています。</p>
+          <div class="c14-arrow">詳しくみる →</div>
+        </div>
+      </div>
+
+      <!-- #15 -->
+      <div class="demo-cell">
+        <span class="demo-num">#15 Animated Border</span>
+        <div class="c15-wrap">
+          <div class="c15">
+            <h3>スタッフ紹介・チーム編成</h3>
+            <p>ICUスタッフの紹介・チーム構成・役割分担についてまとめています。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- #16 -->
+      <div class="demo-cell">
+        <span class="demo-num">#16 Isometric Shadow</span>
+        <div class="c16">
+          <h3>スタッフ紹介・チーム編成</h3>
+          <p>ICUスタッフの紹介・チーム構成・役割分担についてまとめています。</p>
+        </div>
+      </div>
+
+      <!-- #17 -->
+      <div class="demo-cell">
+        <span class="demo-num">#17 Photo Tint</span>
+        <div class="c17">
+          <h3>スタッフ紹介・チーム編成</h3>
+          <p>ICUスタッフの紹介・チーム構成・役割分担についてまとめています。</p>
+        </div>
+      </div>
+
+      <!-- #18 -->
+      <div class="demo-cell">
+        <span class="demo-num">#18 Gradient Side Bar</span>
+        <div class="c18">
+          <div class="c18-bar"></div>
+          <div class="c18-body">
+            <h3>スタッフ紹介・チーム編成</h3>
+            <p>ICUスタッフの紹介・チーム構成・役割分担についてまとめています。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- #19 -->
+      <div class="demo-cell">
+        <span class="demo-num">#19 Dark + Badge</span>
+        <div class="c19">
+          <span class="c19-badge">INTRODUCTION</span>
+          <h3>スタッフ紹介・チーム編成</h3>
+          <p>ICUスタッフの紹介・チーム構成・役割分担についてまとめています。</p>
+        </div>
+      </div>
+
+      <!-- #20 -->
+      <div class="demo-cell">
+        <span class="demo-num">#20 Dark Glass</span>
+        <div class="c20-bg">
+          <div class="c20">
+            <h3>スタッフ紹介・チーム編成</h3>
+            <p>ICUスタッフの紹介・チーム構成・役割分担についてまとめています。</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="../script.js"></script>
+</body>
+</html>
