@@ -306,5 +306,79 @@
       updateActive();
     })();
   </script>
+
+  <!-- ===== Mobile System Nav FAB (900px以下で表示) ===== -->
+  <style>
+    .gl-mob-fab{display:none;position:fixed;bottom:24px;right:20px;z-index:900;width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#3D1F00,#B45309);color:#fff;border:none;box-shadow:0 4px 16px rgba(0,0,0,0.25);cursor:pointer;align-items:center;justify-content:center;transition:transform .2s;}
+    .gl-mob-fab:active{transform:scale(0.92);}
+    .gl-mob-fab svg{width:22px;height:22px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+    .gl-mob-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:910;opacity:0;transition:opacity .25s;}
+    .gl-mob-overlay.open{opacity:1;}
+    .gl-mob-drawer{position:fixed;bottom:0;left:0;right:0;z-index:920;background:#fff;border-radius:16px 16px 0 0;box-shadow:0 -4px 24px rgba(0,0,0,0.12);transform:translateY(100%);transition:transform .3s cubic-bezier(.22,1,.36,1);max-height:70vh;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+    .gl-mob-drawer.open{transform:translateY(0);}
+    .gl-mob-drawer-handle{width:36px;height:4px;background:#CBD5E1;border-radius:2px;margin:10px auto 6px;}
+    .gl-mob-drawer-title{font-size:0.7rem;font-weight:800;color:#B45309;letter-spacing:0.12em;text-transform:uppercase;padding:4px 20px 10px;border-bottom:1px solid var(--border);}
+    .gl-mob-drawer a{display:flex;align-items:center;justify-content:space-between;padding:13px 20px;font-size:0.88rem;font-weight:600;color:var(--text);text-decoration:none;border-bottom:1px solid #F1F5F9;transition:background .15s;}
+    .gl-mob-drawer a:active{background:#FFFBEB;}
+    .gl-mob-drawer .gm-count{font-size:0.65rem;font-weight:700;color:#9CA3AF;background:#F1F5F9;padding:2px 8px;border-radius:10px;}
+    @media (max-width:900px){.gl-mob-fab{display:flex;}}
+  </style>
+
+  <button class="gl-mob-fab" id="glMobFab" aria-label="システム別ナビ">
+    <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </button>
+  <div class="gl-mob-overlay" id="glMobOverlay"></div>
+  <div class="gl-mob-drawer" id="glMobDrawer">
+    <div class="gl-mob-drawer-handle"></div>
+    <div class="gl-mob-drawer-title">By System</div>
+  </div>
+
+  <script>
+  (function(){
+    var fab = document.getElementById('glMobFab');
+    var overlay = document.getElementById('glMobOverlay');
+    var drawer = document.getElementById('glMobDrawer');
+    if(!fab || !drawer) return;
+
+    var sidebarLinks = document.querySelectorAll('.sys-sidebar a[data-section]');
+    sidebarLinks.forEach(function(a){
+      var clone = document.createElement('a');
+      clone.href = a.href;
+      clone.textContent = a.firstChild.textContent.trim();
+      var badge = a.querySelector('.sys-count');
+      if(badge && badge.textContent){
+        var span = document.createElement('span');
+        span.className = 'gm-count';
+        span.textContent = badge.textContent;
+        clone.appendChild(span);
+      }
+      clone.addEventListener('click', function(){ close(); });
+      drawer.appendChild(clone);
+    });
+
+    function open(){
+      overlay.style.display = 'block';
+      drawer.style.display = 'block';
+      requestAnimationFrame(function(){
+        overlay.classList.add('open');
+        drawer.classList.add('open');
+      });
+    }
+    function close(){
+      overlay.classList.remove('open');
+      drawer.classList.remove('open');
+      setTimeout(function(){ overlay.style.display='none'; drawer.style.display='none'; }, 300);
+    }
+
+    fab.addEventListener('click', open);
+    overlay.addEventListener('click', close);
+
+    var startY = 0;
+    drawer.addEventListener('touchstart', function(e){ startY = e.touches[0].clientY; }, {passive:true});
+    drawer.addEventListener('touchmove', function(e){
+      if(e.touches[0].clientY - startY > 60) close();
+    }, {passive:true});
+  })();
+  </script>
 </body>
 </html>
