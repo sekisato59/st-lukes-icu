@@ -363,7 +363,7 @@ const SEARCH_INDEX = [
   {"title":"画像","url":"pages/video-lectures.html#vid-imaging","desc":"動画講座集 › カテゴリ","keywords":"画像 胸部X線 読影 石井"},
 
   // ── 疾患・項目別まとめ ──
-  {"title":"【秘伝】研修医疾患/症候マニュアル","url":"pages/disease-topics.html","desc":"研修医向け疾患/症候マニュアル（by system形式）","keywords":"疾患 トピック 総説 まとめ by system"},
+  {"title":"【研修医向け】疾患/症候マニュアル","url":"pages/disease-topics.html","desc":"研修医向け疾患/症候マニュアル（by system形式）","keywords":"疾患 トピック 総説 まとめ by system"},
   {"title":"低ナトリウム血症（総説）","url":"pages/disease-topics/dt-hyponatremia.html","desc":"低Na血症の診断・治療の総説","keywords":"低ナトリウム 低Na SIADH 補正速度 ODS 尿浸透圧 尿Na 3%食塩水 SIAD ADH RAAS UOsm UNa NaCl SGLT2 RIB SCI TBW eGFR"},
   {"title":"高ナトリウム血症（総説）","url":"pages/disease-topics/dt-hypernatremia.html","desc":"ICU獲得性高Na血症の疫学・補正速度と死亡率・治療戦略・安全性の総説","keywords":"高ナトリウム 高Na血症 hypernatremia 補正速度 フリーウォーター D5W ヒドロクロロチアジド 脳浮腫 ICU獲得性 メタ解析 死亡率 CVVH CI ICU GEE FW"},
   {"title":"酸塩基平衡障害（総説）","url":"pages/disease-topics/dt-acidbase.html","desc":"代謝性アシドーシスの病態・診断・治療、混合性酸塩基障害、EDKA","keywords":"酸塩基 アシドーシス アルカローシス AG アニオンギャップ HAGMA NAGMA 乳酸 代償 Winters 重炭酸ナトリウム BICAR-ICU KRT EDKA SGLT2 正常血糖DKA 混合性 代償公式 Delta ABG VBG DKA RTA"},
