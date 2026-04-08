@@ -55,7 +55,8 @@ const SEARCH_INDEX = [
 
   // ── ICUコアカン ──
   {"title":"ICUコアカン","url":"pages/icu-core-conf.html","desc":"ICUコアカンファレンス一覧","keywords":"コアカン カンファレンス 学習 プレゼンテーション By System 透析"},
-  {"title":"注目論文・最新ガイドラインまとめ","url":"pages/articles-guidelines.html","desc":"ICU関連の注目論文や最新ガイドラインの要約","keywords":"論文 ガイドライン エビデンス 文献 レビュー 最新"},
+  {"title":"【ICU】注目論文・最新ガイドラインまとめ","url":"pages/articles-guidelines.html","desc":"ICU関連の注目論文や最新ガイドラインの要約","keywords":"論文 ガイドライン エビデンス 文献 レビュー 最新 ICU"},
+  {"title":"【内科外来】注目論文・最新ガイドラインまとめ","url":"pages/articles-outpatient.html","desc":"内科外来関連の注目論文や最新ガイドラインの要約","keywords":"内科外来 外来 ガイドライン 糖尿病 高血圧 脂質 骨粗鬆症 CKD GLP-1"},
   {"title":"論文まとめ：神経系","url":"pages/articles-guidelines.html#art-neuro","desc":"神経系の注目論文・ガイドライン","keywords":"神経 脳 意識障害 TTM 心停止"},
   {"title":"aSAH後合併症の病態生理と管理戦略レビュー（Critical Care 2025）","url":"pages/articles-gl-asah-cc2025.html","desc":"動脈瘤性くも膜下出血後合併症の包括的レビュー — 早期脳損傷・DCI・頭蓋内合併症・大血管スパスム・全身合併症・長期転帰","keywords":"aSAH くも膜下出血 subarachnoid hemorrhage 動脈瘤 DCI delayed cerebral ischemia 遅発性脳虚血 早期脳損傷 EBI early brain injury vasospasm スパスム ニモジピン nimodipine EARLYDRAIN 腰椎ドレナージ lumbar drain LD 再出血 rebleeding トラネキサム酸 ICP 頭蓋内圧 EVD 脳室ドレーン 痙攣 seizure ASM 抗てんかん薬 神経原性心筋障害 neurogenic cardiomyopathy Takotsubo たこつぼ 左室機能障害 神経原性肺水腫 NPE ARDS VAP 発熱 fever INTREPID 貧血 transfusion SAHARA TRAIN 低ナトリウム CSWS SIADH 低マグネシウム マグネシウム MASH-2 IMASH clazosentan REACT CSD cortical spreading depolarization post-SAH syndrome 認知障害 長期転帰 Critical Care 2025 Busl Citerio"},
   {"title":"aSAH後合併症 — 遅発性脳虚血（DCI）診断・治療","url":"pages/articles-gl-asah-cc2025.html#asah-s3","desc":"DCI定義（GCS 2点以上低下または持続神経症状）・検出モダリティ比較・ニモジピン・EARLYDRAIN試験（LD群 mRS 3-6: 33% vs 45%、NNT 8.3）","keywords":"DCI delayed cerebral ischemia ニモジピン nimodipine 腰椎ドレナージ EARLYDRAIN NNT 8.3 mRS TCD CTA CTP cEEG DSA vasospasm スパスム"},
