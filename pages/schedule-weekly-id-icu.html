@@ -300,9 +300,10 @@
         <span class="id-cat-banner-label">Category</span>
         <div class="id-cat-banner-title">臓器別感染症</div>
         <div class="id-cat-banner-sub">感染巣によって戦い方は変わる。</div>
-        <span class="id-cat-banner-count">4本</span>
+        <span class="id-cat-banner-count">5本</span>
       </div>
       <div class="id-cat-body">
+        <a href="https://lukemcmi-my.sharepoint.com/:v:/g/personal/sekisato_luke_ac_jp/IQAoV0--qBOkR7VbnG8_Hs1wAUzr3MCswfmXwLN6TzYwejs?e=it6xi1&nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJTdHJlYW1XZWJBcHAiLCJyZWZlcnJhbFZpZXciOiJTaGFyZURpYWxvZy1MaW5rIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXcifX0%3D" target="_blank" rel="noopener" class="id-row" data-added="2026-04-10"><span class="id-microbe"></span>感染性心内膜炎<span class="vid-row-arrow">→</span></a>
         <a href="https://lukemcmi-my.sharepoint.com/:v:/g/personal/sekisato_luke_ac_jp/IQBNMq3TTDtNRof6oYX_ApebAdVcbvLy3OD0utmHGuus4vI?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=PFu49z" target="_blank" rel="noopener" class="id-row"><span class="id-microbe"></span>VAP（人工呼吸器関連肺炎）<span class="vid-row-arrow">→</span></a>
         <a href="https://lukemcmi-my.sharepoint.com/:v:/g/personal/sekisato_luke_ac_jp/IQBtUH8s8tkdTrVIJAvNgyzbAf4t4lGvBTvqXoT4Eomw5JY?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=JerTrm" target="_blank" rel="noopener" class="id-row">
           <span class="id-microbe"></span>
@@ -317,5 +318,21 @@
   </div>
 
   <script src="../script.js"></script>
+  <script>
+    // 追加日から3日間NEWバッジを自動表示
+    document.querySelectorAll('.id-row[data-added]').forEach(function(row) {
+      var added = new Date(row.getAttribute('data-added'));
+      var diff = (new Date() - added) / (1000 * 60 * 60 * 24);
+      if (diff <= 3) {
+        var badge = document.createElement('span');
+        badge.style.cssText = 'display:inline-block;background:#DC2626;color:#fff;font-size:0.6rem;font-weight:800;padding:1px 6px;border-radius:3px;margin-right:6px;vertical-align:middle;letter-spacing:0.05em;';
+        badge.textContent = 'NEW';
+        var microbe = row.querySelector('.id-microbe');
+        if (microbe && microbe.nextSibling) {
+          row.insertBefore(badge, microbe.nextSibling);
+        }
+      }
+    });
+  </script>
 </body>
 </html>
