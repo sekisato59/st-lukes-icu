@@ -158,6 +158,7 @@ document.querySelectorAll('.nav-link').forEach(link => {
   });
 });
 
+
 // ===== Navbar shadow on scroll =====
 const navbar = document.getElementById('navbar');
 window.addEventListener('scroll', () => {
