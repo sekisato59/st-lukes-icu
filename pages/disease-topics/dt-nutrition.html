@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ICUにおける経腸栄養戦略 | 聖路加ICU</title>
+  <title>ICUにおける栄養戦略 | 聖路加ICU</title>
   <meta name="robots" content="noindex, nofollow">
   <link rel="icon" type="image/png" href="../../images/logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -48,6 +48,15 @@
     .dt-source a { font-size:0.68rem;color:#9CA3AF;text-decoration:none;transition:color 0.15s; }
     .dt-source a:hover { color:#2D7A4F; }
     .dt-source::before { content:"出典：";font-size:0.65rem;color:#BFBFBF; }
+
+    .ie-sidebar { width:220px;flex-shrink:0; }
+    @media (max-width:900px) { .ie-sidebar { display:none; } }
+    .ie-sidebar-card { background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:16px;position:sticky;top:80px;max-height:calc(100vh - 100px);overflow-y:auto; }
+    .ie-sidebar-title { font-size:0.7rem;font-weight:800;color:var(--muted);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--border); }
+    .ie-toc-chapter { display:block;font-size:0.78rem;font-weight:700;color:var(--text);padding:5px 0;border-bottom:1px solid var(--border);margin-bottom:2px;text-decoration:none; }
+    .ie-toc-chapter:hover { color:#B45309; }
+    .ie-toc-section { display:block;font-size:0.72rem;color:var(--muted);padding:3px 0 3px 10px;text-decoration:none;line-height:1.4; }
+    .ie-toc-section:hover { color:#B45309; }
   </style>
 </head>
 <body>
@@ -78,14 +87,14 @@
   <!-- ===== HERO ===== -->
   <section class="subpage-hero">
     <div class="hero-content" style="max-width:860px;margin:0 auto;padding:36px 20px 32px;">
-      <a href="../disease-topics.html" class="back-link">← 【研修医向け】マニュアル一覧へ戻る</a>
+      <a href="../disease-topics.html" class="back-link">&larr; 【研修医向け】マニュアル一覧へ戻る</a>
       <div style="font-size:0.72rem;color:rgba(255,255,255,0.6);margin-bottom:6px;letter-spacing:0.08em;">NUTRITION / METABOLISM</div>
       <h1 style="font-size:clamp(1.3rem,3vw,1.75rem);font-weight:900;color:#fff;line-height:1.35;margin-bottom:12px;">
-        ICUにおける経腸栄養戦略
+        ICUにおける栄養戦略
       </h1>
       <div>
         <span class="ie-badge">疾患トピックス</span>
-        <span class="ie-badge">3本の収録論文を統合</span>
+        <span class="ie-badge">8本の収録論文・GLを統合</span>
       </div>
     </div>
   </section>
@@ -95,525 +104,856 @@
 
     <div class="main-col">
 
+    <!-- ===== 略語一覧 ===== -->
     <div class="card" style="margin-bottom:24px;">
       <div class="card-inner">
         <h3 class="rule-title" style="margin-bottom:10px;">本ページで使用する略語一覧</h3>
         <table style="width:100%;border-collapse:collapse;font-size:0.8rem;line-height:1.6;">
           <tbody>
-            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">EN</td><td style="padding:4px 8px;">Enteral Nutrition — 経腸栄養</td></tr>
-            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">PN</td><td style="padding:4px 8px;">Parenteral Nutrition — 静脈栄養</td></tr>
-            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">SPN</td><td style="padding:4px 8px;">Supplemental PN — 補助的静脈栄養</td></tr>
-            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">GRV</td><td style="padding:4px 8px;">Gastric Residual Volume — 胃残量</td></tr>
-            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">RCT</td><td style="padding:4px 8px;">Randomized Controlled Trial</td></tr>
-            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">ICU</td><td style="padding:4px 8px;">Intensive Care Unit — 集中治療室</td></tr>
-            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">REE</td><td style="padding:4px 8px;">Resting Energy Expenditure — 安静時エネルギー消費量</td></tr>
-            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">QOL</td><td style="padding:4px 8px;">Quality of Life — 生活の質</td></tr>
-            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">AKI</td><td style="padding:4px 8px;">Acute Kidney Injury — 急性腎障害</td></tr>
-            <tr><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">PEG</td><td style="padding:4px 8px;">Percutaneous Endoscopic Gastrostomy — 経皮内視鏡的胃瘻造設術</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">EN</td><td style="padding:4px 8px;">Enteral Nutrition &mdash; 経腸栄養</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">PN</td><td style="padding:4px 8px;">Parenteral Nutrition &mdash; 経静脈栄養</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">SPN</td><td style="padding:4px 8px;">Supplemental Parenteral Nutrition &mdash; 補足的経静脈栄養</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">ILE</td><td style="padding:4px 8px;">Injectable Lipid Emulsion &mdash; 脂肪乳剤</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">GRV</td><td style="padding:4px 8px;">Gastric Residual Volume &mdash; 胃内残留量</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">IC</td><td style="padding:4px 8px;">Indirect Calorimetry &mdash; 間接熱量測定（最も正確なエネルギー測定法）</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">REE</td><td style="padding:4px 8px;">Resting Energy Expenditure &mdash; 安静時エネルギー消費量</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">TDD</td><td style="padding:4px 8px;">Total Daily Dose &mdash; 1日インスリン総投与量</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">IBW</td><td style="padding:4px 8px;">Ideal Body Weight &mdash; 標準体重</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">NUTRIC</td><td style="padding:4px 8px;">NUTrition Risk in the Critically ill &mdash; ICU専用栄養リスクスコア（&ge;5で高リスク）</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">NRS</td><td style="padding:4px 8px;">Nutritional Risk Screening &mdash; 栄養リスクスクリーニング（NRS 2002: &ge;3で栄養リスク高）</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">GLIM</td><td style="padding:4px 8px;">Global Leadership Initiative on Malnutrition &mdash; 低栄養の国際的診断基準</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CRRT</td><td style="padding:4px 8px;">Continuous Renal Replacement Therapy &mdash; 持続的腎代替療法</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">AKI</td><td style="padding:4px 8px;">Acute Kidney Injury &mdash; 急性腎障害</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">IIT</td><td style="padding:4px 8px;">Intensive Insulin Therapy &mdash; 強化インスリン療法（目標80&ndash;110 mg/dL）</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CONV</td><td style="padding:4px 8px;">Conventional glucose control &mdash; 通常血糖管理（目標140&ndash;200 mg/dL）</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">PEG</td><td style="padding:4px 8px;">Percutaneous Endoscopic Gastrostomy &mdash; 経皮内視鏡的胃瘻造設術</td></tr>
+            <tr><td style="padding:4px 8px;font-weight:700;color:var(--blue);">BCAA</td><td style="padding:4px 8px;">Branched-Chain Amino Acids &mdash; 分枝鎖アミノ酸（バリン・ロイシン・イソロイシン）</td></tr>
           </tbody>
         </table>
       </div>
     </div>
 
-      <!-- ============================== 章バナー：ICU栄養管理の基本原則 ============================== -->
-      <div id="nut-principles" style="background:linear-gradient(150deg,#3D1F00 0%,#B45309 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:0;margin-bottom:0;">
-        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
-        <div style="font-size:1.3rem;font-weight:900;position:relative;">ICU栄養管理の基本原則</div>
-        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Fundamentals of ICU Nutrition Care</div>
-      </div>
+    <!-- ══════════════════════════════════════════════
+         第1章 ICU栄養管理の基本原則
+    ══════════════════════════════════════════════ -->
+    <div id="nut-ch1" style="background:linear-gradient(150deg,#3D1F00 0%,#B45309 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:0;margin-bottom:0;">
+      <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+      <div style="font-size:1.3rem;font-weight:900;position:relative;">第1章 ICU栄養管理の基本原則</div>
+      <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Fundamentals of ICU Nutrition</div>
+    </div>
 
-      <h3 id="nut-malnutrition" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
-        <span style="color:#B45309;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
-        疾患関連栄養不良の機序と疫学
-      </h3>
+    <!-- S1 疫学 -->
+    <h3 id="nut-s1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+      <span style="color:#B45309;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+      疾患関連栄養不良の疫学と病態
+    </h3>
 
-      <div class="card" style="margin-bottom:16px;">
-        <div class="card-inner">
-          <h3 class="rule-title">疾患関連栄養不良（Disease-related Malnutrition）</h3>
-          <p class="rule-body">疾患関連栄養不良は、栄養摂取の不十分さ・利用不全・疾患関連全身炎症が複合した症候群であり、体組成の変化と身体機能の低下をもたらす。入院時に栄養不良状態にある入院患者は<span class="mark-yellow"><strong>30〜45%</strong></span>にのぼり、放置すると死亡・入院延長・再入院・高い医療コストに直結する。</p>
-          <p class="rule-body" style="margin-top:8px;">疾患関連栄養不良の発症は多因子性であり、食欲・摂取量の低下、内分泌障害、不動による筋萎縮、高齢、疾患治療の有害効果、多剤併用、疾患関連炎症が複合して生じる。急性疾患は、通常筋肉量を温存し消費エネルギーを減少させる飢餓への適応反応を覆す。</p>
-          <div class="ie-stat-grid" style="margin-top:12px;">
-            <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
-              <div class="ie-stat-val" style="color:#DC2626;">30–45%</div>
-              <div class="ie-stat-label">入院患者のうち<br>入院時に栄養不良</div>
-            </div>
-            <div class="ie-stat">
-              <div class="ie-stat-val">5.2%</div>
-              <div class="ie-stat-label">米国の栄養不良入院患者での<br>経腸栄養使用率</div>
-            </div>
-            <div class="ie-stat">
-              <div class="ie-stat-val">14%</div>
-              <div class="ie-stat-label">米国病院においてICUが<br>占めるベッド割合</div>
-            </div>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">疾患関連栄養不良（Disease-related Malnutrition）</h3>
+        <p class="rule-body">疾患関連栄養不良は、栄養摂取の不十分さ・利用不全・疾患関連全身炎症が複合した症候群であり、体組成の変化と身体機能の低下をもたらす。入院時に栄養不良状態にある入院患者は<span class="mark-yellow"><strong>30〜45%</strong></span>にのぼるが、経腸栄養は米国では栄養不良入院患者の5.2%、欧州では4.9%にしか使用されていない。</p>
+        <p class="rule-body" style="margin-top:8px;">急性重症疾患では、炎症性サイトカイン（TNF-&alpha;・IL-6・IL-1&beta;）の増加により代謝が根本的に変化する。急性期の過小投与（&lt;70%）はケトン産生・血糖上昇回避・細胞傷害の自食的除去を促す適応代謝反応を支持するとする仮説がある一方、目標量を完全に充足させると「過剰栄養」が生じ、尿素産生亢進・高血糖・高トリグリセリド血症などの代謝的負担が加わる可能性がある。</p>
+        <div class="ie-stat-grid" style="margin-top:14px;">
+          <div class="ie-stat">
+            <div class="ie-stat-val">30&ndash;45%</div>
+            <div class="ie-stat-label">入院患者のうち<br>入院時に栄養不良</div>
+          </div>
+          <div class="ie-stat">
+            <div class="ie-stat-val">5.2%</div>
+            <div class="ie-stat-label">米国の栄養不良入院患者での<br>経腸栄養使用率</div>
+          </div>
+          <div class="ie-stat">
+            <div class="ie-stat-val">14%</div>
+            <div class="ie-stat-label">米国病院においてICUが<br>占めるベッド割合</div>
           </div>
         </div>
       </div>
-      <div class="dt-source"><a href="../articles-gl-en-nejm2025.html#en-s1">経腸栄養（NEJM 2025）▸ 栄養不良の疫学と定義</a></div>
+    </div>
+    <div class="dt-source"><a href="../articles-gl-en-nejm2025.html#en-s1">NEJM EN Review (2025) &#9659; S1 栄養不良の疫学</a></div>
 
-      <h3 id="nut-acute-metabolism" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
-        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
-        急性期の代謝変化とautophagy抑制リスク
-      </h3>
+    <!-- S2 栄養スクリーニング -->
+    <h3 id="nut-s2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+      <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+      栄養スクリーニングと評価 &mdash; NRS2002/NUTRIC/GLIM
+    </h3>
 
-      <div class="card" style="margin-bottom:16px;">
-        <div class="card-inner">
-          <h3 class="rule-title">ICUにおける急性期代謝変化</h3>
-          <p class="rule-body">急性重症疾患では、エネルギー消費が低下し、マクロ栄養素代謝が変化して心臓・脳・赤血球等の重要臓器にグルコースを供給する。内因性グルコース産生は亢進し、過剰なタンパク分解がユビキチン・プロテアソーム経路の過活性化によって生じる。筋萎縮は最初の1週間で急速に進行し、単臓器不全より多臓器不全患者でより重篤である。</p>
-          <p class="rule-body" style="margin-top:8px;">炎症はTNF-α・IL-6・IL-1βなどの炎症性サイトカインの増加と高CRP値によって代謝に影響を及ぼし、視床下部-下垂体-副腎軸の活性化によりコルチゾールとカテコラミンが放出され、糖原分解・肝糖新生・末梢インスリン抵抗性が亢進する。</p>
-          <div class="alert-yellow" style="margin-top:10px;">
-            <strong>過小投与の生理学的根拠：</strong>急性期（概ね数日間）の過小投与（&lt;70%）は、ケトン産生・血糖上昇回避・細胞傷害の自食的除去（autophagy）を促す適応代謝反応を支持するとする仮説がある。一方、急性期に目標エネルギー・タンパク量が充足されると「過剰栄養」が生じ、尿素産生亢進・高血糖・高トリグリセリド血症などの代謝的負担が加わる可能性がある。
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">ICU入室48時間以内に全患者の栄養リスクを評価する</h3>
+        <p class="rule-body">ASPEN 2016ガイドラインでは、ICU入室48時間以内にすべての重症患者に対して栄養リスクスクリーニングを実施することが推奨されている。<span class="mark-green"><strong>NRS 2002 &ge;3、またはNUTRICスコア &ge;5（IL-6なしのNUTRIC &ge;4）を高栄養リスク</strong></span>と判定し、積極的な栄養療法を行う。</p>
+        <p class="rule-body" style="margin-top:8px;">NEJM 2025のレビューでは、入院時に検証済みスクリーニングツール（Malnutrition Screening Tool / Malnutrition Universal Screening Tool / NRS 2002など）を用い、24時間以内に実測身長・体重を取得し、陽性所見をチームに共有するパスウェイが推奨されている。栄養不良が疑われる患者はGLIM基準またはAAIM基準で診断する。</p>
+        <div class="alert-green" style="margin-top:12px;">
+          <strong>経腸栄養の開始基準（NEJM 2025）：</strong>経口摂取が5日以上にわたって必要量の75%未満しか満たせず、明らかな禁忌がない場合に経腸栄養を開始する。
+        </div>
+      </div>
+    </div>
+    <div class="dt-source"><a href="../articles-gl-sccm-aspen-nutrition2016.html#s-assessment">ASPEN 2016 &#9659; 栄養スクリーニング</a> / <a href="../articles-gl-en-nejm2025.html#en-s2">NEJM 2025 &#9659; S2 パスウェイ</a></div>
+
+    <!-- S3 早期EN -->
+    <h3 id="nut-s3" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+      <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>
+      早期EN開始 &mdash; 24-48h、GL比較、昇圧薬使用中
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">入室24〜48時間以内に早期ENを開始する</h3>
+        <p class="rule-body">ASPEN 2016では、口腔から摂食できない重症患者に対して<span class="mark-green"><strong>ICU入室後24〜48時間以内にENを開始する</strong></span>ことが推奨される。早期ENの臨床的意義は、消化管粘膜の完全性維持、腸管関連免疫応答の調節、透過性亢進の防止にある。21のRCTsのメタ解析では、早期ENは遅延ENと比較し院内死亡率RR 0.70（95% CI 0.49-1.00）、感染性合併症RR 0.74（95% CI 0.58-0.93）と低減する。</p>
+        <p class="rule-body" style="margin-top:8px;">昇圧薬使用中であっても、蘇生に反応し血行動態が安定傾向であればENを開始できる。ただし腸管虚血の徴候（腹部膨満・腸蠕動欠如・乳酸アシドーシス）に厳重に注意する。</p>
+        <div class="ie-stat-grid" style="margin-top:14px;">
+          <div class="ie-stat">
+            <div class="ie-stat-val">RR 0.70</div>
+            <div class="ie-stat-label">早期EN vs 遅延EN<br>院内死亡率（21 RCTs）</div>
+          </div>
+          <div class="ie-stat">
+            <div class="ie-stat-val">RR 0.74</div>
+            <div class="ie-stat-label">早期EN vs 遅延EN<br>感染性合併症</div>
+          </div>
+          <div class="ie-stat">
+            <div class="ie-stat-val">24〜48h</div>
+            <div class="ie-stat-label">EN開始推奨時間<br>ICU入室後</div>
           </div>
         </div>
       </div>
-      <div class="dt-source"><a href="../articles-gl-en-nejm2025.html#en-s5">経腸栄養（NEJM 2025）▸ 栄養不良の病態生理</a> / <a href="../articles-gl-stoppe-nutrition2024.html#stoppe-s5">栄養再考（ICM 2024）▸ 急性期に高栄養を避ける理由</a></div>
+    </div>
+    <div class="dt-source"><a href="../articles-gl-sccm-aspen-nutrition2016.html#s-early-en">ASPEN 2016 &#9659; 早期EN</a> / <a href="../articles-gl-en-nejm2025.html#en-s6">NEJM 2025 &#9659; GL比較</a></div>
 
-      <div class="card" style="margin-bottom:16px;">
-        <div class="card-inner">
-          <h3 class="rule-title">早期経腸栄養の推奨 — ガイドライン間の共通点</h3>
-          <p class="rule-body">各ガイドラインは、経口摂取が不十分な重症患者に対して<span class="mark-green"><strong>24〜48時間以内の経腸栄養開始</strong></span>を推奨している。ESPEN は48時間以内、ASPEN/SCCM は24〜48時間以内としている。ただし、コントロール不良なショック患者・腸閉塞・腸管虚血・重篤な腸管出血・高産出瘻孔は経腸栄養の禁忌であり、これらが解除されるまで開始しない（<a href="../articles-gl-ssc2026.html#ssc-s5-5" style="color:var(--blue);font-weight:700;">敗血症における栄養戦略</a>も参照）。</p>
-          <table class="ie-table" style="margin-top:12px;">
-            <thead><tr><th>経腸栄養の適応</th><th>経腸栄養の禁忌</th></tr></thead>
-            <tbody>
-              <tr><td>重症疾患（ICU患者）</td><td>腸閉塞またはイレウス</td></tr>
-              <tr><td>嚥下障害（脳卒中・神経疾患）</td><td>重篤なショック</td></tr>
-              <tr><td>頭頸部・食道癌</td><td>腸管虚血</td></tr>
-              <tr><td>消化器・肝疾患</td><td>高産出瘻孔</td></tr>
-              <tr><td>嚢胞性線維症・COPD・慢性腎臓病</td><td>重篤な腸管出血</td></tr>
-            </tbody>
-          </table>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">ガイドライン比較テーブル（NEJM 2025 Table 1より）</h3>
+        <table class="ie-table" style="margin-top:10px;">
+          <thead><tr><th style="width:120px;">患者集団</th><th>タイミング</th><th>エネルギー</th><th>タンパク</th></tr></thead>
+          <tbody>
+            <tr><td><strong>重症患者<br>(ASPEN/SCCM)</strong></td><td>24&ndash;48時間以内</td><td>12&ndash;25 kcal/kg/日</td><td>1.2&ndash;2.0 g/kg/日</td></tr>
+            <tr><td><strong>重症患者<br>(ESPEN)</strong></td><td>48時間以内</td><td>Day 1-3: &le;70%<br>Day 3-7: 20&ndash;25 kcal/kg/日</td><td>1.3 g/kg/日</td></tr>
+            <tr><td><strong>内科患者<br>(複数合併症)</strong></td><td>48時間以内</td><td>27&ndash;30 kcal/kg/日</td><td>1.2&ndash;1.5 g/kg/日</td></tr>
+            <tr><td><strong>外科患者</strong></td><td>術後48時間以内</td><td>25&ndash;30 kcal/kg/日</td><td>1.5 g/kg/日</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="dt-source"><a href="../articles-gl-en-nejm2025.html#en-s6">NEJM 2025 &#9659; S6 GL比較テーブル</a></div>
+
+    <!-- SUMMARY Ch1 -->
+    <h3 id="nut-sum1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+      <span style="color:#B45309;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>第1章のキーメッセージ
+    </h3>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&oplus;</span><span class="rule-body"><strong>栄養不良は高率：</strong>入院患者の30〜45%が入院時に栄養不良。死亡・入院延長・再入院に直結する。</span></div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&oplus;</span><span class="rule-body"><strong>栄養リスク評価：</strong>NRS 2002 &ge;3またはNUTRIC &ge;5の高リスク患者を特定し積極的に栄養介入を行う。</span></div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&oplus;</span><span class="rule-body"><strong>早期EN：</strong>ICU入室24〜48時間以内に開始。死亡率RR 0.70、感染RR 0.74と低減（21 RCTs）。</span></div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&oplus;</span><span class="rule-body"><strong>昇圧薬使用中も可：</strong>血行動態安定傾向であれば開始できるが、腸管虚血の徴候に厳重注意。</span></div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;"><span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&oplus;</span><span class="rule-body"><strong>急性期代謝：</strong>急性期の過剰栄養は代謝的負担を増大させうる。ICU日数と重症度に応じた段階的投与が重要。</span></div>
         </div>
       </div>
-      <div class="dt-source"><a href="../articles-gl-en-nejm2025.html#en-s4">経腸栄養（NEJM 2025）▸ 経腸栄養の適応疾患と禁忌</a> / <a href="../articles-gl-en-nejm2025.html#en-s6">経腸栄養（NEJM 2025）▸ ガイドライン推奨（Table 1）</a></div>
+    </div>
 
-      <!-- ============================== 章バナー：エネルギー投与量 ============================== -->
-      <div id="nut-energy" style="background:linear-gradient(150deg,#3D1F00 0%,#B45309 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
-        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
-        <div style="font-size:1.3rem;font-weight:900;position:relative;">エネルギー投与量：過剰も不足も有害</div>
-        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Energy Dose: Both Overfeeding and Underfeeding Are Harmful</div>
-      </div>
+    <!-- ══════════════════════════════════════════════
+         第2章 エネルギー投与量
+    ══════════════════════════════════════════════ -->
+    <div id="nut-ch2" style="background:linear-gradient(150deg,#3D1F00 0%,#B45309 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+      <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+      <div style="font-size:1.3rem;font-weight:900;position:relative;">第2章 エネルギー投与量</div>
+      <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Energy Dose</div>
+    </div>
 
-      <h3 id="nut-rct-energy" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
-        <span style="color:#B45309;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>
-        9つのRCTの結論 — 高カロリー群で有害アウトカム多
-      </h3>
+    <!-- S4 -->
+    <h3 id="nut-s4" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+      <span style="color:#B45309;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 4</span>
+      エビデンス &mdash; ASPEN 2021メタ解析 + Stoppe 9 RCT
+    </h3>
 
-      <div class="card" style="margin-bottom:16px;">
-        <div class="card-inner">
-          <h3 class="rule-title">ICUでの高カロリー投与 — 複数のRCTが有害性を示唆</h3>
-          <p class="rule-body">ICU患者のエネルギー投与量について、9件のランドマーク/高品質RCTを集約した検討では、大多数は一次エンドポイントにおいてエネルギー量の高低で有意差を認めなかった。しかし2件の研究では、<span class="mark-red"><strong>高エネルギー群で回復が遅く、ICU退室準備完了までの期間が長かった</strong></span>ことが示された。高エネルギー投与は臓器機能障害の遷延・消化管不耐（逆流・嘔吐・便秘・下痢）・腸管虚血・代謝不耐（血糖値上昇・インスリン必要量増加・低リン酸血症）・新規感染症の発症率増加など、複数の二次アウトカムを悪化させた。</p>
-          <div class="ie-stat-grid" style="margin-top:12px;">
-            <div class="ie-stat">
-              <div class="ie-stat-val">9件</div>
-              <div class="ie-stat-label">ランドマーク/高品質RCT<br>エネルギー投与量を検討</div>
-            </div>
-            <div class="ie-stat">
-              <div class="ie-stat-val">199〜3036例</div>
-              <div class="ie-stat-label">各試験の対象患者数<br>（重症患者）</div>
-            </div>
-            <div class="ie-stat">
-              <div class="ie-stat-val">中央値7日</div>
-              <div class="ie-stat-label">ICU内での介入期間<br>（範囲：4〜28日）</div>
-            </div>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">ASPEN 2021：13試験8,690例のメタ解析 &mdash; 高 vs 低エネルギー投与に有意差なし</h3>
+        <p class="rule-body">ASPEN 2021では、高エネルギー投与群（17〜30 kcal/kg/日）と低エネルギー投与群（5〜21 kcal/kg/日）を比較した13試験8,690例のメタ解析を実施した。菌血症（RD 0.01; P=0.58）、肺炎（RD 0.01; P=0.48）、ICU死亡率（RD 0.00; P=0.98）、28日死亡率（RD -0.00; P=0.51）、90日死亡率（RD 0.02; P=0.27）のすべてのアウトカムで有意差を認めなかった。</p>
+        <p class="rule-body" style="margin-top:8px;">安全性解析では、<span class="mark-red"><strong>高エネルギー群で一貫して死亡率増加傾向</strong></span>が示された。この結果が「12〜25 kcal/kg/日」という控えめな推奨範囲の根拠となっている。</p>
+        <div class="ie-stat-grid" style="margin-top:14px;">
+          <div class="ie-stat">
+            <div class="ie-stat-val">13試験</div>
+            <div class="ie-stat-label">メタ解析対象<br>8,690例</div>
+          </div>
+          <div class="ie-stat">
+            <div class="ie-stat-val">全NS</div>
+            <div class="ie-stat-label">死亡・感染の<br>すべてで有意差なし</div>
+          </div>
+          <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+            <div class="ie-stat-val" style="color:#DC2626;">有害傾向</div>
+            <div class="ie-stat-label">安全性解析で<br>高エネルギー群に正の傾き</div>
           </div>
         </div>
       </div>
-      <div class="dt-source"><a href="../articles-gl-stoppe-nutrition2024.html#stoppe-s1">栄養再考（ICM 2024）▸ 9つのランドマークRCT</a> / <a href="../articles-gl-stoppe-nutrition2024.html#stoppe-s2">栄養再考（ICM 2024）▸ 高エネルギーの有害アウトカム</a></div>
+    </div>
+    <div class="dt-source"><a href="../articles-gl-aspen-nutrition2021.html#aspen-q1-rec">ASPEN 2021 &#9659; 推奨1 エネルギー</a></div>
 
-      <div class="card" style="margin-bottom:16px;">
-        <div class="card-inner">
-          <h3 class="rule-title">主要試験のハイライト — NUTRIREA-3・TARGET・CALORIES</h3>
-          <p class="rule-body">代表的な試験の結果を以下に示す。いずれもICU重症患者において、高カロリー投与の有益性を示せなかったか、有害性を示した。</p>
-          <div class="ie-stat-grid" style="margin-top:12px;">
-            <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
-              <div class="ie-stat-val" style="font-size:1.1rem;color:#DC2626;">NUTRIREA-3</div>
-              <div class="ie-stat-label">3044例 ショック+MV患者<br>高用量栄養群: ICU滞在延長・合併症増加（有害）</div>
-            </div>
-            <div class="ie-stat">
-              <div class="ie-stat-val" style="font-size:1.1rem;">CALORIES</div>
-              <div class="ie-stat-label">2400例 ICU患者<br>等カロリーEN vs PN: 30日死亡率に有意差なし</div>
-            </div>
-            <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
-              <div class="ie-stat-val" style="font-size:1.1rem;color:#DC2626;">NUTRIREA-2</div>
-              <div class="ie-stat-label">2410例 ショック+MV患者<br>早期高用量EN: 消化器合併症がPNより多い</div>
-            </div>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">Stoppe 2024：9件のランドマークRCT &mdash; 高エネルギー群で複数の有害アウトカム</h3>
+        <p class="rule-body">Stoppe 2024のエディトリアルでは、9件のランドマーク/高品質RCT（対象199〜3036例、介入期間中央値7日間）を集約し、大多数の試験で一次エンドポイントに高低エネルギー群間で有意差を認めなかったが、2件の研究では高エネルギー群でICU退室準備完了までの期間が延長した。高エネルギー投与は臓器機能障害の遷延、消化管不耐、腸管虚血、血糖値上昇・インスリン必要量増加、新規感染症発症率増加を悪化させることが確認されている。</p>
+      </div>
+    </div>
+    <div class="dt-source"><a href="../articles-gl-stoppe-nutrition2024.html#stoppe-s2">Stoppe 2024 &#9659; S2 有害アウトカム</a></div>
+
+    <!-- S5 推奨量 -->
+    <h3 id="nut-s5" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+      <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 5</span>
+      推奨量12-25 kcal/kg/日 + Stoppe段階的アルゴリズム
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">ASPEN 2021推奨：ICU入室後7〜10日間は12〜25 kcal/kg/日</h3>
+        <p class="rule-body">ASPEN 2021はICU入室後7〜10日間は<span class="mark-green"><strong>12〜25 kcal/kg/日</strong></span>の投与を提案する（Weak recommendation、Moderate evidence）。この幅広い推奨は試験間のエネルギー投与量の異質性を反映しており、過剰栄養の回避が最も重要なメッセージである。</p>
+      </div>
+    </div>
+    <div class="dt-source"><a href="../articles-gl-aspen-nutrition2021.html#aspen-q1-rec">ASPEN 2021 &#9659; 推奨1</a></div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">Stoppe段階的栄養投与アルゴリズム（ICU日数と重症度に基づく）</h3>
+        <p class="rule-body">Stoppe 2024は、まず「患者は重篤または悪化しているか？」を確認し、Yesなら低用量維持栄養（最大5〜10 kcal/kg/日、タンパク質0.2〜0.6 g/kg/日）、Noなら以下の段階的目標で栄養を増量することを提案している。</p>
+        <table class="ie-table" style="margin-top:10px;">
+          <thead><tr><th>ICU日数</th><th>エネルギー（kcal/kg）</th><th>タンパク質（g/kg）</th><th>IC使用時</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Day 1〜4</strong></td><td>最大 5〜10</td><td>最大 0.2〜0.6</td><td>最大 20〜40%</td></tr>
+            <tr><td><strong>Day 5〜7</strong></td><td>最大 15〜20</td><td>最大 0.8〜1.0</td><td>最大 60〜80%</td></tr>
+            <tr><td><strong>Day 7超</strong></td><td>20〜25</td><td>1.0〜1.2</td><td>80〜100%</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="dt-source"><a href="../articles-gl-stoppe-nutrition2024.html#stoppe-s6">Stoppe 2024 &#9659; S6 段階的アルゴリズム</a></div>
+
+    <!-- S6 減量トリガー -->
+    <h3 id="nut-s6" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+      <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 6</span>
+      減量トリガー P/G/T
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">エネルギーを維持量に減量すべき3つのトリガー</h3>
+        <div class="ie-flow" style="margin-top:10px;">
+          <div class="ie-flow-item">
+            <div class="ie-flow-num" style="background:#DC2626;">P</div>
+            <div style="flex:1;"><p class="rule-body"><strong>リン酸低下：</strong>栄養サポート開始後72時間以内に、リン酸値が0.16 mmol/L以上低下して0.65 mmol/L未満となった場合</p></div>
           </div>
-          <div class="alert-red" style="margin-top:12px;">
-            <strong>NUTRIREA-3の詳細：</strong>ショックで人工呼吸器を装着した3044例をICU入室後第1週に高用量栄養（25 kcal/kg/日、タンパク1.0〜1.3 g/kg/日）vs 低用量栄養（6 kcal/kg/日、タンパク0.2〜0.4 g/kg/日）にランダム割付。高用量栄養群ではICU滞在が延長し合併症が増加することが示された。
+          <div class="ie-flow-arrow">&darr;</div>
+          <div class="ie-flow-item">
+            <div class="ie-flow-num" style="background:#DC2626;">G</div>
+            <div style="flex:1;"><p class="rule-body"><strong>血糖上昇：</strong>適切なインスリン治療下でも血糖値が10 mmol/L（180 mg/dL）を超えた場合</p></div>
           </div>
-        </div>
-      </div>
-      <div class="dt-source"><a href="../articles-gl-en-nejm2025.html#en-s7">経腸栄養（NEJM 2025）▸ ICU主要RCT</a></div>
-
-      <h3 id="nut-aspen-energy" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
-        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 4</span>
-        ASPEN 2021 のエネルギー推奨と段階的投与の概念
-      </h3>
-
-      <div class="card" style="margin-bottom:16px;">
-        <div class="card-inner">
-          <h3 class="rule-title">ASPEN 2021：12〜25 kcal/kg/日（Weak推奨）</h3>
-          <p class="rule-body">ASPEN 2021ガイドラインは13試験・8,690例のメタ解析に基づき、高 vs 低エネルギー投与で臨床転帰に有意差は認めなかったとして、ICU入室後7〜10日間は<span class="mark-yellow"><strong>12〜25 kcal/kg/日</strong></span>の投与を提案した。安全性解析では高エネルギー群に死亡率増加傾向が示されており、過剰栄養（overfeeding）の回避が最も重要なメッセージである。</p>
-          <p class="rule-body" style="margin-top:8px;">また、ICU入室第1週にENに対して補足的PN（SPN）を付加しても、6 RCT（6,731例）で死亡率・感染症に改善は認められなかった。<span class="mark-red"><strong>ICU入室7日目より前にSPNを開始しないことが推奨（Strong）</strong></span>されている。</p>
-        </div>
-      </div>
-      <div class="dt-source"><a href="../articles-gl-aspen-nutrition2021.html#aspen-q1-rec">ASPEN 2021 GL ▸ エネルギー投与量</a> / <a href="../articles-gl-aspen-nutrition2021.html#aspen-q4-rec">ASPEN 2021 GL ▸ SPN開始時期</a></div>
-
-      <div class="card" style="margin-bottom:16px;">
-        <div class="card-inner">
-          <h3 class="rule-title">Stoppe 2024 による段階的栄養投与アルゴリズム</h3>
-          <p class="rule-body">Stoppe らは ICU 日数と患者の臨床的重症度に基づく段階的栄養投与を提案している。安定している/回復中の患者に対しては、以下の段階的目標で栄養を増量する。</p>
-          <table class="ie-table" style="margin-top:10px;">
-            <thead>
-              <tr>
-                <th>ICU日数</th>
-                <th>エネルギー（kcal/kg）</th>
-                <th>タンパク質（g/kg）</th>
-                <th>エネルギー（IC使用時）</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td><strong>Day 1〜4</strong></td><td>最大 5〜10</td><td>最大 0.2〜0.6</td><td>最大 20〜40%</td></tr>
-              <tr><td><strong>Day 5〜7</strong></td><td>最大 15〜20</td><td>最大 0.8〜1.0</td><td>最大 60〜80%</td></tr>
-              <tr><td><strong>Day 7超</strong></td><td>20〜25</td><td>1.0〜1.2</td><td>80〜100%</td></tr>
-            </tbody>
-          </table>
-          <p class="rule-body" style="margin-top:10px;">重篤または悪化中の患者（高用量/増量中の昇圧剤使用、または高レベルの臓器サポート）には、ICU在室日数に関わらず低用量維持栄養（最大5〜10 kcal/kg/日、タンパク質最大0.2〜0.6 g/kg/日）を維持する。</p>
-        </div>
-      </div>
-      <div class="dt-source"><a href="../articles-gl-stoppe-nutrition2024.html#stoppe-s6">栄養再考（ICM 2024）▸ 段階的栄養投与の目標値</a></div>
-
-      <!-- ============================== 章バナー：タンパク質投与量 ============================== -->
-      <div id="nut-protein" style="background:linear-gradient(150deg,#3D1F00 0%,#B45309 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
-        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
-        <div style="font-size:1.3rem;font-weight:900;position:relative;">タンパク質投与量</div>
-        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Protein Dose</div>
-      </div>
-
-      <h3 id="nut-effort-protein" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
-        <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 5</span>
-        EFFORT Protein試験 — 高タンパクで有害なし、しかし有益性も不明
-      </h3>
-
-      <div class="card" style="margin-bottom:16px;">
-        <div class="card-inner">
-          <h3 class="rule-title">EFFORT Protein試験（1301例）</h3>
-          <p class="rule-body">人工呼吸器装着の重症患者1301例において、高用量タンパク（≥2.2 g/kg/日）vs 通常用量（≤1.2 g/kg/日）を比較した。高タンパク投与は退院までの時間を短縮せず（HR 0.91; 95%CI 0.77〜1.07; P=0.27）、死亡率も改善しなかった（RR 1.08; 95%CI 0.92〜1.26）。急性腎障害や高臓器不全スコアを有する患者では有害であった。</p>
-          <p class="rule-body" style="margin-top:8px;">2012〜2022年の29試験を対象としたメタ解析でも、1日1.2 g/kgを超えるタンパク投与量による死亡率の低下はほとんどなく、有害性もなかったとされている。</p>
-          <div class="ie-stat-grid" style="margin-top:12px;">
-            <div class="ie-stat">
-              <div class="ie-stat-val">1301例</div>
-              <div class="ie-stat-label">EFFORT Protein<br>対象患者数</div>
-            </div>
-            <div class="ie-stat">
-              <div class="ie-stat-val">HR 0.91</div>
-              <div class="ie-stat-label">退院までの時間<br>（95%CI 0.77〜1.07; NS）</div>
-            </div>
-            <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
-              <div class="ie-stat-val" style="color:#DC2626;">RR 1.08</div>
-              <div class="ie-stat-label">死亡率<br>（95%CI 0.92〜1.26; NS）</div>
-            </div>
+          <div class="ie-flow-arrow">&darr;</div>
+          <div class="ie-flow-item">
+            <div class="ie-flow-num" style="background:#DC2626;">T</div>
+            <div style="flex:1;"><p class="rule-body"><strong>高TG血症：</strong>トリグリセリドが4.5 mmol/L（約400 mg/dL）を超えた場合</p></div>
           </div>
         </div>
-      </div>
-      <div class="dt-source"><a href="../articles-gl-en-nejm2025.html#en-s7">経腸栄養（NEJM 2025）▸ 高タンパク投与 EFFORT Protein</a></div>
-
-      <h3 id="nut-precise" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
-        <span style="color:#16A34A;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 6</span>
-        PRECISe試験・メタ解析・ASPEN推奨
-      </h3>
-
-      <div class="card" style="margin-bottom:16px;">
-        <div class="card-inner">
-          <h3 class="rule-title">PRECISe試験 — 高タンパク群でQOLが有意に低下</h3>
-          <p class="rule-body">PRECISe試験では、高タンパク質投与（目標値：2 g/kg/日、実際の平均：1.48±0.7 g/kg/日）を標準投与（目標値：1.3 g/kg/日、実際の平均：0.95±0.44 g/kg/日）と比較したところ、高タンパク群ではday 180まで<span class="mark-orange"><strong>EQ-5D-5Lスコアが有意に低下した</strong></span>。すなわち、高タンパク投与は機能的回復の観点からも有害である可能性が示された。</p>
-          <div class="ie-stat-grid" style="margin-top:12px;">
-            <div class="ie-stat" style="background:#FFF7ED;border-color:#FED7AA;">
-              <div class="ie-stat-val" style="color:#EA580C;">2.0 g/kg/日</div>
-              <div class="ie-stat-label">高タンパク群の目標値<br>（実際：1.48±0.7 g/kg/日）</div>
-            </div>
-            <div class="ie-stat" style="background:#FFF7ED;border-color:#FED7AA;">
-              <div class="ie-stat-val" style="color:#EA580C;">1.3 g/kg/日</div>
-              <div class="ie-stat-label">標準群の目標値<br>（実際：0.95±0.44 g/kg/日）</div>
-            </div>
-            <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
-              <div class="ie-stat-val" style="color:#DC2626;">EQ-5D↓</div>
-              <div class="ie-stat-label">高タンパク群でday 180まで<br>QOLが有意に低下</div>
-            </div>
-          </div>
+        <div class="alert-red" style="margin-top:12px;">
+          <strong>急性悪化時：</strong>ICU在室日数に関わらず、新たな急性悪化（昇圧剤の増量・臓器不全の悪化）が生じた場合は、エネルギーおよびタンパク質をともに最大5〜10 kcal/kg/日、0.2〜0.6 g/kg/日まで減量する。
         </div>
       </div>
-      <div class="dt-source"><a href="../articles-gl-stoppe-nutrition2024.html#stoppe-s4">栄養再考（ICM 2024）▸ PRECISe試験の結果</a></div>
+    </div>
+    <div class="dt-source"><a href="../articles-gl-stoppe-nutrition2024.html#stoppe-s7">Stoppe 2024 &#9659; S7 減量トリガー</a></div>
 
-      <div class="card" style="margin-bottom:16px;">
-        <div class="card-inner">
-          <h3 class="rule-title">メタ解析（23 RCT・3303例）とASPEN推奨の整理</h3>
-          <p class="rule-body">最近のシステマティックレビューとメタ解析（23 RCT、3303例）では、高タンパク質投与（平均1.49 g/kg/日）と低タンパク質投与（平均0.92 g/kg/日）の比較で、高タンパク質投与は臨床アウトカムを有意に改善しなかった。<span class="mark-red"><strong>AKIサブグループでは高タンパク投与が死亡率を有意に増加させた。</strong></span></p>
-          <p class="rule-body" style="margin-top:8px;">ASPEN 2021は、高品質のエビデンスが不足しているため2016年ガイドラインの提案値（<strong>1.2〜2.0 g/kg/日</strong>）を超える新たな推奨は行えないとし、臨床医による個別化を推奨している。</p>
-          <div class="alert-red" style="margin-top:10px;">
-            <strong>AKI患者への注意：</strong>AKIで腎代替療法を予定しない場合はタンパク質を0.8 g/kg/日以下に制限する。尿素がベースラインから二倍上昇しクレアチニンが安定している場合もタンパク質を維持量に減量する。
+    <!-- SUMMARY Ch2 -->
+    <h3 id="nut-sum2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+      <span style="color:#B45309;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>第2章のキーメッセージ
+    </h3>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&oplus;</span><span class="rule-body"><strong>高エネルギーに利点なし：</strong>13試験8,690例で高 vs 低エネルギー投与に死亡・感染の差なし。</span></div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&oplus;</span><span class="rule-body"><strong>過剰栄養は有害：</strong>安全性解析で高エネルギー群に死亡率増加傾向。急性期の過剰投与は臓器障害を遷延させる。</span></div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&oplus;</span><span class="rule-body"><strong>推奨量：</strong>ASPEN 2021は12〜25 kcal/kg/日。Stoppeは重症度に応じDay 1-4は5〜10 kcal/kg/日から段階的に増量。</span></div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&oplus;</span><span class="rule-body"><strong>減量トリガーP/G/T：</strong>低リン酸・高血糖（&gt;180 mg/dL）・高TG（&gt;400 mg/dL）で維持量に減量。</span></div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;"><span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&oplus;</span><span class="rule-body"><strong>非栄養エネルギー：</strong>プロポフォール・デキストロース・クエン酸抗凝固剤のエネルギーを総エネルギーに算入する。</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════
+         第3章 タンパク質投与量
+    ══════════════════════════════════════════════ -->
+    <div id="nut-ch3" style="background:linear-gradient(150deg,#3D1F00 0%,#B45309 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+      <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+      <div style="font-size:1.3rem;font-weight:900;position:relative;">第3章 タンパク質投与量</div>
+      <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Protein Dose</div>
+    </div>
+
+    <!-- S7 -->
+    <h3 id="nut-s7" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+      <span style="color:#B45309;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 7</span>
+      エビデンス &mdash; ASPEN 2021 4試験 + Stoppe 23RCT + EFFORT Protein + PRECISe
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">ASPEN 2021：4試験697例 &mdash; 高 vs 低タンパクに差なし</h3>
+        <p class="rule-body">ASPEN 2021では4試験697例を対象にメタ解析を実施（エビデンスの質Low）。高タンパク群の実際の投与量は1.1〜1.3 g/kg/日、対照群は0.7〜0.9 g/kg/日であった。ICU死亡率（RD &minus;0.01; P=0.81）・院内死亡率（RD &minus;0.02）のいずれも有意差なし。2016年ガイドラインの提案値（1.2〜2.0 g/kg/日）を超える新たな推奨は行えないとされた。</p>
+      </div>
+    </div>
+    <div class="dt-source"><a href="../articles-gl-aspen-nutrition2021.html#aspen-q2-rec">ASPEN 2021 &#9659; 推奨2 タンパク質</a></div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">Stoppe 2024：23 RCT・3303例のメタ解析 + EFFORT Protein + PRECISe</h3>
+        <p class="rule-body">Stoppe 2024が引用する最新メタ解析（23 RCT、3303例）では、高タンパク（1.49&plusmn;0.48 g/kg/日）vs 低タンパク（0.92&plusmn;0.30 g/kg/日）で臨床アウトカムに有意差なし。<span class="mark-red"><strong>AKIサブグループでは高タンパク投与が死亡率を有意に増加</strong></span>させた。</p>
+        <p class="rule-body" style="margin-top:8px;">EFFORT Protein試験（1301例）では、高用量タンパク（&ge;2.2 g/kg/日）vs 通常用量（&le;1.2 g/kg/日）を比較し、退院までの時間に差なく（HR 0.91; P=0.27）、AKI・高臓器不全スコア患者では有害であった。PRECISe試験では高タンパク群（目標2 g/kg/日）でday 180までEQ-5D-5LスコアがQOL有意に低下した。</p>
+        <div class="ie-stat-grid" style="margin-top:14px;">
+          <div class="ie-stat">
+            <div class="ie-stat-val">23 RCT</div>
+            <div class="ie-stat-label">メタ解析<br>3303例</div>
+          </div>
+          <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+            <div class="ie-stat-val" style="color:#DC2626;">AKIで有害</div>
+            <div class="ie-stat-label">高タンパク投与で<br>死亡率増加</div>
+          </div>
+          <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+            <div class="ie-stat-val" style="color:#DC2626;">EQ-5D&darr;</div>
+            <div class="ie-stat-label">PRECISe：高タンパク群で<br>QOL有意低下</div>
           </div>
         </div>
       </div>
-      <div class="dt-source"><a href="../articles-gl-stoppe-nutrition2024.html#stoppe-s3">栄養再考（ICM 2024）▸ 23RCTメタ解析</a> / <a href="../articles-gl-aspen-nutrition2021.html#aspen-q2-rec">ASPEN 2021 GL ▸ タンパク質投与量</a></div>
+    </div>
+    <div class="dt-source"><a href="../articles-gl-stoppe-nutrition2024.html#stoppe-s3">Stoppe 2024 &#9659; S3 タンパク質</a> / <a href="../articles-gl-en-nejm2025.html#en-s7">NEJM 2025 &#9659; S7 EFFORT Protein</a></div>
 
-      <!-- ============================== 章バナー：段階的栄養投与プロトコル ============================== -->
-      <div id="nut-protocol" style="background:linear-gradient(150deg,#3D1F00 0%,#B45309 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
-        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
-        <div style="font-size:1.3rem;font-weight:900;position:relative;">段階的栄養投与プロトコル</div>
-        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Stepwise Nutrition Protocol</div>
+    <!-- S8 推奨量 -->
+    <h3 id="nut-s8" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+      <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 8</span>
+      推奨量1.2-2.0 g/kg/日 + 特殊集団テーブル + AKI減量
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">病態別タンパク質推奨量（ASPEN 2016）</h3>
+        <table class="ie-table" style="margin-top:10px;">
+          <thead><tr><th>病態</th><th>推奨タンパク量</th></tr></thead>
+          <tbody>
+            <tr><td>標準的重症患者</td><td>1.2〜2.0 g/kg/日</td></tr>
+            <tr><td>熱傷・多発外傷</td><td>2.0〜2.5 g/kg/日</td></tr>
+            <tr><td>CRRT施行中</td><td>最大2.5 g/kg/日（アミノ酸喪失10〜15 g/日考慮）</td></tr>
+            <tr><td>肥満（BMI 30〜40）</td><td>&ge;2.0 g/kg IBW/日</td></tr>
+            <tr><td>高度肥満（BMI &gt;40）</td><td>&ge;2.5 g/kg IBW/日</td></tr>
+          </tbody>
+        </table>
+        <div class="alert-red" style="margin-top:12px;">
+          <strong>AKI（腎代替療法を予定していない場合）：</strong>Stoppe 2024では、AKI患者ではタンパク質を維持量に減量し、0.8 g/kg/日以下に調整することを提案している。尿素がベースラインから倍増しクレアチニンが安定している場合も減量する。
+        </div>
       </div>
+    </div>
+    <div class="dt-source"><a href="../articles-gl-sccm-aspen-nutrition2016.html#s-dosing">ASPEN 2016 &#9659; タンパク質投与量</a> / <a href="../articles-gl-stoppe-nutrition2024.html#stoppe-s7">Stoppe 2024 &#9659; S7 減量トリガー</a></div>
 
-      <h3 id="nut-stepwise" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
-        <span style="color:#B45309;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 7</span>
-        急性期は低用量維持 → 回復期に増量
-      </h3>
+    <!-- SUMMARY Ch3 -->
+    <h3 id="nut-sum3" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+      <span style="color:#B45309;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>第3章のキーメッセージ
+    </h3>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&oplus;</span><span class="rule-body"><strong>高タンパクに利点なし：</strong>ASPEN 2021（4試験）・Stoppe（23 RCT）のいずれでも高 vs 低タンパクに臨床的差なし。</span></div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&oplus;</span><span class="rule-body"><strong>AKIでは有害：</strong>AKIサブグループで高タンパク投与は死亡率増加。EFFORT ProteinでもAKI患者に有害。</span></div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&oplus;</span><span class="rule-body"><strong>推奨量：</strong>標準1.2〜2.0 g/kg/日。Stoppeは急性期Day 1-4で0.2〜0.6 g/kg/日から開始。</span></div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&oplus;</span><span class="rule-body"><strong>特殊集団：</strong>熱傷・外傷は2.0〜2.5、CRRT施行中は最大2.5 g/kg/日（喪失10〜15 g/日を加味）。</span></div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;"><span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&oplus;</span><span class="rule-body"><strong>PRECISe：</strong>高タンパク群（目標2 g/kg/日）でday 180のQOLが有意に低下。2 g/kg/日超の投与は推奨されない。</span></div>
+        </div>
+      </div>
+    </div>
 
-      <div class="card" style="margin-bottom:16px;">
-        <div class="card-inner">
-          <h3 class="rule-title">まず確認する：患者は今日、重篤または悪化しているか？</h3>
-          <p class="rule-body">Stoppe らの栄養投与アルゴリズムでは、最初のステップとして「患者は重篤または悪化しているか（高用量/増量中の昇圧剤使用、または高レベルの臓器サポートを要している状態）」を確認する。</p>
-          <div class="ie-flow" style="margin-top:12px;">
-            <div class="ie-flow-item">
-              <div class="ie-flow-num">1</div>
-              <div style="flex:1;"><p class="rule-body" style="margin:0;"><strong>重篤・悪化中（Yes）：</strong>ICU日数に関わらず低用量維持栄養を継続。エネルギー最大5〜10 kcal/kg/日、タンパク質最大0.2〜0.6 g/kg/日。</p></div>
-            </div>
-            <div class="ie-flow-arrow">↓</div>
-            <div class="ie-flow-item">
-              <div class="ie-flow-num">2</div>
-              <div style="flex:1;"><p class="rule-body" style="margin:0;"><strong>安定・回復中（No）：</strong>Day 1〜4は最大5〜10 kcal/kg → Day 5〜7は最大15〜20 kcal/kg → Day 7超は20〜25 kcal/kgへ段階的に増量。</p></div>
-            </div>
-            <div class="ie-flow-arrow">↓</div>
-            <div class="ie-flow-item">
-              <div class="ie-flow-num">3</div>
-              <div style="flex:1;"><p class="rule-body" style="margin:0;"><strong>新たな急性悪化時：</strong>ICU在室日数に関わらず、直ちに低用量維持栄養（最大5〜10 kcal/kg、0.2〜0.6 g/kg）に減量する。</p></div>
-            </div>
+    <!-- ══════════════════════════════════════════════
+         第4章 経腸栄養の実践
+    ══════════════════════════════════════════════ -->
+    <div id="nut-ch4" style="background:linear-gradient(150deg,#3D1F00 0%,#B45309 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+      <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+      <div style="font-size:1.3rem;font-weight:900;position:relative;">第4章 経腸栄養の実践</div>
+      <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Practical EN Management</div>
+    </div>
+
+    <!-- S9 経腸アクセス -->
+    <h3 id="nut-s9" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+      <span style="color:#16A34A;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 9</span>
+      経腸アクセス &mdash; 4ルート比較テーブル + 幽門後
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">経腸アクセスの選択（NEJM 2025 Figure 2より）</h3>
+        <table class="ie-table" style="margin-top:10px;">
+          <thead><tr><th>ルート</th><th>期間</th><th>チップ位置</th><th>挿入方法</th></tr></thead>
+          <tbody>
+            <tr><td>経鼻胃管/経口胃管</td><td>短期（&le;6週）</td><td>胃</td><td>ベッドサイド（X線確認）</td></tr>
+            <tr><td>経鼻空腸管</td><td>短期</td><td>空腸</td><td>ベッドサイド/電磁ガイド/内視鏡</td></tr>
+            <tr><td>PEG</td><td>長期（&gt;4〜6週）</td><td>胃</td><td>内視鏡/X線透視/外科的</td></tr>
+            <tr><td>PEG-J / PEJ</td><td>長期</td><td>空腸</td><td>内視鏡/X線透視/外科的</td></tr>
+          </tbody>
+        </table>
+        <p class="rule-body" style="margin-top:10px;">41試験3248例のメタ解析では、幽門後投与は胃投与に比べて誤嚥性肺炎・胃食道逆流・肺炎の発生率が低く（いずれもP&lt;0.001）、消化器合併症も少なかった。ASPEN 2016でも、誤嚥高リスク患者では小腸投与への変更で肺炎RR 0.75（95% CI 0.60-0.93）と低減が示されている。</p>
+      </div>
+    </div>
+    <div class="dt-source"><a href="../articles-gl-en-nejm2025.html#en-s9">NEJM 2025 &#9659; S9 経腸アクセス</a> / <a href="../articles-gl-sccm-aspen-nutrition2016.html#s-monitoring">ASPEN 2016 &#9659; 投与経路</a></div>
+
+    <!-- S10 GRV -->
+    <h3 id="nut-s10" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+      <span style="color:#B45309;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 10</span>
+      GRV廃止
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">GRVモニタリング：不必要な中断を避ける</h3>
+        <p class="rule-body">ASPEN 2016ではGRV &gt;500 mLを一応の中断基準としているが、GRV 200〜500 mLの範囲では中断の証拠が乏しい。GRVのみで中断を判断するのではなく、腹部所見・腸蠕動・腹部膨満感など臨床所見を総合的に判断する。NEJM 2025のレビューでは、GRVモニタリングの有用性は限定的であり、ルーチンの使用は推奨されなくなりつつあると述べている。</p>
+      </div>
+    </div>
+    <div class="dt-source"><a href="../articles-gl-sccm-aspen-nutrition2016.html#s-monitoring">ASPEN 2016 &#9659; GRV管理</a> / <a href="../articles-gl-en-nejm2025.html#en-s10">NEJM 2025 &#9659; S10 投与方法</a></div>
+
+    <!-- S11 合併症 -->
+    <h3 id="nut-s11" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+      <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 11</span>
+      合併症 &mdash; 誤嚥/下痢/リフィーディング
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">EN施行中の主要合併症への対策</h3>
+        <p class="rule-body">EN施行中はベッドヘッドを30〜45&deg;に挙上し、誤嚥性肺炎リスクを低減する（ASPEN 2016：院内肺炎が23%から5%へ減少）。</p>
+        <p class="rule-body" style="margin-top:8px;"><span class="mark-red"><strong>再栄養症候群（Refeeding Syndrome）：</strong></span>長期絶食患者にEN/PNを開始する際、低カリウム・低リン・低マグネシウムが生じる。Stoppe 2024の減量トリガーP（リン酸低下）はこの早期検出を目的としている。チアミン補充・電解質モニタリングが必須。</p>
+        <p class="rule-body" style="margin-top:8px;">NUTRIREA-2試験（2410例）では、ショック+人工呼吸中の患者に対する早期高用量ENがPNより消化器合併症を増加させ、NUTRIREA-3（3044例）では高用量栄養群（25 kcal/kg/日）でICU滞在延長・合併症増加が示された。</p>
+      </div>
+    </div>
+    <div class="dt-source"><a href="../articles-gl-en-nejm2025.html#en-s7">NEJM 2025 &#9659; S7 ICU RCT</a> / <a href="../articles-gl-stoppe-nutrition2024.html#stoppe-s7">Stoppe 2024 &#9659; S7 減量トリガー</a></div>
+
+    <!-- S12 栄養剤選択 -->
+    <h3 id="nut-s12" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+      <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 12</span>
+      栄養剤選択 &mdash; 標準 vs 免疫強化
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">ほとんどの重症患者には標準ポリメリック製剤を使用する</h3>
+        <p class="rule-body">ASPEN 2016では、一般的な重症患者には標準ポリメリック製剤が推奨される。術後外科ICU患者（上部消化管癌・頭頸部癌等）ではアルギニン+魚油+ヌクレオチドを含む免疫強化製剤が感染RR 0.78（95% CI 0.64-0.95）・院内在院日数&minus;2.23日と改善（35試験）。ただし内科系ICU患者（特に敗血症）では免疫強化製剤の恩恵は未確認。ARDSにはEDEN-OMEGA試験で&omega;-3 FO単独投与が有害傾向を示したため、標準製剤を使用する。</p>
+      </div>
+    </div>
+    <div class="dt-source"><a href="../articles-gl-sccm-aspen-nutrition2016.html#s-formula">ASPEN 2016 &#9659; 栄養剤の選択</a></div>
+
+    <!-- SUMMARY Ch4 -->
+    <h3 id="nut-sum4" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+      <span style="color:#B45309;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>第4章のキーメッセージ
+    </h3>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&oplus;</span><span class="rule-body"><strong>経腸アクセス：</strong>短期は経鼻胃管、長期は経皮的チューブ。誤嚥高リスクでは幽門後投与で肺炎RR 0.75。</span></div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&oplus;</span><span class="rule-body"><strong>GRV：</strong>&gt;500 mLを中断基準とするが臨床所見も総合評価。ルーチンのGRVモニタリングは推奨されなくなりつつある。</span></div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&oplus;</span><span class="rule-body"><strong>体位管理：</strong>EN施行中はベッドヘッド30〜45&deg;。誤嚥性肺炎23%→5%へ低減。</span></div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&oplus;</span><span class="rule-body"><strong>リフィーディング：</strong>長期絶食後の栄養開始時にチアミン・電解質（K/P/Mg）モニタリング必須。</span></div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;"><span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&oplus;</span><span class="rule-body"><strong>栄養剤：</strong>標準ポリメリック製剤が基本。術後外科ICUのみ免疫強化製剤（感染RR 0.78）。ARDSにFO不要。</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════
+         第5章 静脈栄養の管理
+    ══════════════════════════════════════════════ -->
+    <div id="nut-ch5" style="background:linear-gradient(150deg,#3D1F00 0%,#B45309 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+      <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+      <div style="font-size:1.3rem;font-weight:900;position:relative;">第5章 静脈栄養の管理</div>
+      <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Parenteral Nutrition</div>
+    </div>
+
+    <!-- S13 EN vs PN -->
+    <h3 id="nut-s13" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+      <span style="color:#B45309;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 13</span>
+      EN vs PN &mdash; ASPEN 2016→2021の転換
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">2016年：ENをPNに優先 → 2021年：PNもENも許容可能</h3>
+        <p class="rule-body">ASPEN 2016ではENをPNに優先する立場であった（EN vs PNのメタ解析で感染RR 0.56、ICU在室日数&minus;0.82日）。しかしASPEN 2021では2大規模試験（Harvey 2014: 2388例、Reignier 2017 NUTRIREA-2: 2410例）に基づき「ルート選択は臨床転帰の差をほとんどもたらさない」と結論付け、<span class="mark-green"><strong>PNまたはENのいずれも許容可能</strong></span>（Strong recommendation、High evidence）とした。</p>
+        <p class="rule-body" style="margin-top:8px;">PNが感染を増やすとの従来の懸念は、現代的な栄養管理では当てはまらないことが示された。ただしこの推奨は第1週（5〜7日間）の短期PN使用に限定される。</p>
+      </div>
+    </div>
+    <div class="dt-source"><a href="../articles-gl-sccm-aspen-nutrition2016.html#s-early-en">ASPEN 2016 &#9659; EN優先</a> / <a href="../articles-gl-aspen-nutrition2021.html#aspen-q3-rec">ASPEN 2021 &#9659; 推奨3 EN vs PN</a></div>
+
+    <!-- S14 SPN -->
+    <h3 id="nut-s14" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+      <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 14</span>
+      SPN &mdash; 7日前不開始 + EPaNIC
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">ICU入室7日目より前にSPNを開始しない（Strong、High）</h3>
+        <p class="rule-body">ASPEN 2021では6 RCT（6,731例）のメタ解析に基づき、<span class="mark-red"><strong>ICU入室第1週にSPNを開始しない</strong></span>ことを強く推奨する。EPaNIC試験（4,640例）では早期SPN群で感染性合併症が増加（26.2% vs 22.8%、P=.008）、ICU在室日数も増加（中央値4 vs 3日）した。SPN群でエネルギー・タンパク質摂取量は増加したが、死亡率の改善は認められなかった。</p>
+        <div class="ie-stat-grid" style="margin-top:14px;">
+          <div class="ie-stat">
+            <div class="ie-stat-val">22.8%</div>
+            <div class="ie-stat-label">後期SPN群<br>感染性合併症</div>
+          </div>
+          <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+            <div class="ie-stat-val" style="color:#DC2626;">26.2%</div>
+            <div class="ie-stat-label">早期SPN群<br>感染性合併症（P=.008）</div>
+          </div>
+          <div class="ie-stat">
+            <div class="ie-stat-val">7日目</div>
+            <div class="ie-stat-label">SPN追加を検討<br>すべき最早時期</div>
           </div>
         </div>
       </div>
-      <div class="dt-source"><a href="../articles-gl-stoppe-nutrition2024.html#stoppe-s6">栄養再考（ICM 2024）▸ 段階的栄養投与の目標値</a></div>
+    </div>
+    <div class="dt-source"><a href="../articles-gl-aspen-nutrition2021.html#aspen-q4-rec">ASPEN 2021 &#9659; 推奨4 SPN</a></div>
 
-      <h3 id="nut-trigger" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
-        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 8</span>
-        減量すべき状況 — 代謝的トリガー
-      </h3>
+    <!-- S15 ILE -->
+    <h3 id="nut-s15" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+      <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 15</span>
+      ILE選択 &mdash; Q5A/Q5B
+    </h3>
 
-      <div class="card" style="margin-bottom:16px;">
-        <div class="card-inner">
-          <h3 class="rule-title">エネルギーを維持量に減量する3つのトリガー</h3>
-          <p class="rule-body">以下のいずれかが生じた場合は、エネルギー投与量を維持量まで減量する。</p>
-          <div class="ie-flow" style="margin-top:10px;">
-            <div class="ie-flow-item">
-              <div class="ie-flow-num" style="background:#DC2626;">P</div>
-              <div style="flex:1;"><p class="rule-body" style="margin:0;"><strong>リン酸低下：</strong>栄養サポート開始後72時間以内に、リン酸値が少なくとも0.16 mmol/L低下して0.65 mmol/L未満となった場合</p></div>
-            </div>
-            <div class="ie-flow-arrow">　</div>
-            <div class="ie-flow-item">
-              <div class="ie-flow-num" style="background:#DC2626;">G</div>
-              <div style="flex:1;"><p class="rule-body" style="margin:0;"><strong>血糖上昇：</strong>適切なインスリン治療下でも血糖値が10 mmol/L（180 mg/dL）を超えた場合</p></div>
-            </div>
-            <div class="ie-flow-arrow">　</div>
-            <div class="ie-flow-item">
-              <div class="ie-flow-num" style="background:#DC2626;">T</div>
-              <div style="flex:1;"><p class="rule-body" style="margin:0;"><strong>高トリグリセリド血症：</strong>トリグリセリドが4.5 mmol/L（約400 mg/dL）を超えた場合</p></div>
-            </div>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">脂肪乳剤の選択（ASPEN 2021 Q5A/Q5B）</h3>
+        <p class="rule-body">ASPEN 2021ではPN施行中の重症患者において、混合油脂ILE（MCT・オリーブ油・魚油の混合）vs 100%大豆油ILE、および魚油含有ILE vs 非魚油ILEをそれぞれ検討した。現時点では特定のILE製剤を他の製剤に対して推奨するための十分なエビデンスはないが、大豆油単独よりも混合油脂製剤の方が免疫・炎症プロファイルに理論的優位性がある可能性が示唆されている。</p>
+      </div>
+    </div>
+    <div class="dt-source"><a href="../articles-gl-aspen-nutrition2021.html#aspen-q5a">ASPEN 2021 &#9659; 推奨5 ILE</a></div>
+
+    <!-- S16 PN注意点 -->
+    <h3 id="nut-s16" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+      <span style="color:#16A34A;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 16</span>
+      PN注意点 &mdash; 血糖/TG/非栄養エネルギー/グルタミン禁忌
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">PN施行時の管理ポイント</h3>
+        <p class="rule-body">PN施行中は高血糖・過剰栄養・再栄養症候群のリスクが高まる。<span class="mark-green"><strong>血糖値140〜180 mg/dLを目標</strong></span>とし、インスリン持続静注で管理する。炭水化物過剰投与はRQ &gt;1.0 → CO&sup2;産生増加 → 人工呼吸器離脱困難につながる。</p>
+        <p class="rule-body" style="margin-top:8px;">REDOX試験では経静脈グルタミン大量投与が多臓器不全患者で28日死亡率37.2% vs 31.0%（P=.02）と有意に増加。<span class="mark-red"><strong>多臓器不全・腎不全患者への経静脈グルタミンは禁忌。</strong></span></p>
+        <p class="rule-body" style="margin-top:8px;">非栄養エネルギー源（プロポフォール1 kcal/mL、デキストロース、クエン酸抗凝固剤）を総エネルギーに算入すること。ENが目標60%以上達成できている場合、PNオフを検討する。</p>
+      </div>
+    </div>
+    <div class="dt-source"><a href="../articles-gl-sccm-aspen-nutrition2016.html#s-pn-manage">ASPEN 2016 &#9659; PN管理</a> / <a href="../articles-gl-stoppe-nutrition2024.html#stoppe-s7">Stoppe 2024 &#9659; 非栄養エネルギー</a></div>
+
+    <!-- SUMMARY Ch5 -->
+    <h3 id="nut-sum5" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+      <span style="color:#B45309;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>第5章のキーメッセージ
+    </h3>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&oplus;</span><span class="rule-body"><strong>EN vs PN転換：</strong>ASPEN 2021ではPNもENも許容可能。PNが感染を増やすとの懸念は現代的管理では当てはまらない。</span></div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&oplus;</span><span class="rule-body"><strong>SPN 7日前禁止：</strong>EPaNIC試験で早期SPN群は感染26.2% vs 22.8%、ICU在室日数も増加。</span></div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&oplus;</span><span class="rule-body"><strong>血糖管理：</strong>PN施行中は目標140〜180 mg/dL。過剰炭水化物はRQ上昇→換気量増加。</span></div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&oplus;</span><span class="rule-body"><strong>グルタミン禁忌：</strong>REDOX試験で経静脈グルタミンは多臓器不全患者で死亡率増加（37.2% vs 31.0%）。</span></div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;"><span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&oplus;</span><span class="rule-body"><strong>非栄養エネルギー：</strong>プロポフォール・デキストロース・クエン酸のエネルギーを算入し過剰栄養を防ぐ。</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════
+         第6章 血糖管理
+    ══════════════════════════════════════════════ -->
+    <div id="nut-ch6" style="background:linear-gradient(150deg,#3D1F00 0%,#B45309 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+      <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+      <div style="font-size:1.3rem;font-weight:900;position:relative;">第6章 血糖管理</div>
+      <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Glycemic Control</div>
+    </div>
+
+    <!-- S17 VdB vs NICE-SUGAR -->
+    <h3 id="nut-s17" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+      <span style="color:#B45309;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 17</span>
+      Van den Berghe 2001 → NICE-SUGAR 2009 比較テーブル
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">ICU血糖管理の歴史的転換：IITの興隆と否定</h3>
+        <table class="ie-table" style="margin-top:10px;">
+          <thead><tr><th style="width:140px;">項目</th><th>Van den Berghe 2001</th><th>NICE-SUGAR 2009</th></tr></thead>
+          <tbody>
+            <tr><td><strong>対象</strong></td><td>外科系ICU 1,548例（単施設）</td><td>内科・外科混合ICU 6,104例（42施設国際RCT）</td></tr>
+            <tr><td><strong>IIT目標</strong></td><td>80&ndash;110 mg/dL</td><td>81&ndash;108 mg/dL</td></tr>
+            <tr><td><strong>CONV目標</strong></td><td>180&ndash;200 mg/dL</td><td>&le;180 mg/dL</td></tr>
+            <tr><td><strong>ICU死亡率</strong></td><td>IIT 4.6% vs CT 8.0%（<span class="mark-green"><strong>IIT優位</strong></span>）</td><td>&mdash;</td></tr>
+            <tr><td><strong>90日死亡率</strong></td><td>&mdash;</td><td>INT 27.5% vs CONV 24.9%（<span class="mark-red"><strong>INT有害</strong></span>、OR 1.14）</td></tr>
+            <tr><td><strong>重症低血糖</strong></td><td>IIT 5.1% vs CT 0.8%</td><td>INT 6.8% vs CONV 0.5%（OR 14.7）</td></tr>
+            <tr><td><strong>結論</strong></td><td>IITでICU死亡率42%低下</td><td><span class="mark-red"><strong>強化管理は死亡率を有意に増加</strong></span>（NNH=38）</td></tr>
+          </tbody>
+        </table>
+        <p class="rule-body" style="margin-top:10px;">VdB 2001の生存改善はICU滞在5日超の患者のみに認められ、59%が冠動脈バイパス術後であった。NICE-SUGARの結果は全サブグループで一貫しており、特定の集団で強化管理が有益であるというエビデンスは得られなかった。NICE-SUGARでは心血管死が強化群で有意に多かった（41.6% vs 35.8%、P=0.02）。</p>
+      </div>
+    </div>
+    <div class="dt-source"><a href="../articles-gl-vandenberghe-nejm2001.html#ch2-primary">VdB 2001 &#9659; ICU死亡率</a> / <a href="../articles-gl-nice-sugar-nejm2009.html#ch2-mortality">NICE-SUGAR &#9659; 90日死亡率</a></div>
+
+    <!-- S18 SCCM 2024 -->
+    <h3 id="nut-s18" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+      <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 18</span>
+      SCCM 2024推奨 &mdash; 目標140-200 mg/dL、トリガー180
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">SCCM 2024：通常血糖管理（CONV 140&ndash;200 mg/dL）を推奨</h3>
+        <p class="rule-body">SCCM 2024ガイドラインでは、成人重症患者において強化血糖管理（INT: 80&ndash;139 mg/dL）を推奨しない（Conditional、中等度エビデンス）。44 RCTsのメタ解析で、INTはICU死亡率に差なく（RR 0.97）、院内死亡率もわずかな傾向のみ（RR 0.91; CI 0.80&ndash;1.02）だが、<span class="mark-red"><strong>重篤低血糖を3.75倍に増加</strong></span>させる（RR 3.75; CI 2.38&ndash;5.9）。</p>
+        <p class="rule-body" style="margin-top:8px;">インスリン管理開始トリガーはBG &ge;180 mg/dLが持続（2回連続）した場合とする（GPS）。低血糖（BG &lt;80 mg/dL）は即時治療する（GPS）。</p>
+        <div class="ie-stat-grid" style="margin-top:14px;">
+          <div class="ie-stat">
+            <div class="ie-stat-val">140&ndash;200</div>
+            <div class="ie-stat-label">推奨目標（mg/dL）<br>CONV</div>
+          </div>
+          <div class="ie-stat">
+            <div class="ie-stat-val">&ge;180</div>
+            <div class="ie-stat-label">インスリン開始<br>トリガー（mg/dL）</div>
+          </div>
+          <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+            <div class="ie-stat-val" style="color:#DC2626;">RR 3.75</div>
+            <div class="ie-stat-label">INT群での<br>重篤低血糖リスク</div>
           </div>
         </div>
       </div>
-      <div class="dt-source"><a href="../articles-gl-stoppe-nutrition2024.html#stoppe-s7">栄養再考（ICM 2024）▸ 減量トリガー・モニタリング</a></div>
+    </div>
+    <div class="dt-source"><a href="../articles-gl-sccm-glycemic2024.html#ch2-target">SCCM 2024 &#9659; 血糖目標</a></div>
 
-      <div class="card" style="margin-bottom:16px;">
-        <div class="card-inner">
-          <h3 class="rule-title">タンパク質を減量すべき状況と非栄養エネルギー源</h3>
-          <table class="ie-table" style="margin-top:8px;">
-            <thead><tr><th>状況</th><th>対応</th></tr></thead>
-            <tbody>
-              <tr><td><strong>AKI（腎代替療法を予定しない）</strong></td><td>タンパク質を維持量に減量。さらに0.8 g/kg/日以下に調整</td></tr>
-              <tr><td><strong>尿素の二倍上昇（Cr安定）</strong></td><td>タンパク質を維持量に減量</td></tr>
-              <tr><td><strong>肝不全</strong></td><td>タンパク質投与を個別に調整</td></tr>
-            </tbody>
-          </table>
-          <div class="alert-yellow" style="margin-top:10px;">
-            <strong>非栄養エネルギー源を忘れない：</strong>プロポフォール（1 kcal/ml）・デキストロース・クエン酸抗凝固剤などの非栄養エネルギーを総エネルギー量に組み入れて管理する。
+    <!-- S19 IV vs SC -->
+    <h3 id="nut-s19" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+      <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 19</span>
+      IV vs SC投与
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">急性期はIV持続投与を提案（SCCM 2024 Conditional）</h3>
+        <p class="rule-body">SCCM 2024ではICU急性期の高血糖管理において、間欠的SC注射よりも持続IVインスリン投与を使用することを提案する（Conditional、エビデンス非常に低い）。IV投与は目標血糖域への到達頻度が高いが低血糖エピソードも増加する。パネルがIV持続を支持した主な理由は、血管収縮薬使用・浮腫・循環不全時のSC吸収の不安定性である。</p>
+      </div>
+    </div>
+    <div class="dt-source"><a href="../articles-gl-sccm-glycemic2024.html#ch2-route">SCCM 2024 &#9659; IV vs SC</a></div>
+
+    <!-- S20 IV→SC移行 -->
+    <h3 id="nut-s20" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+      <span style="color:#16A34A;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 20</span>
+      IV→SC移行プロトコール
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">インスリン持続静注→皮下注射への移行手順</h3>
+        <p class="rule-body">経腸栄養開始時または経口摂取再開時に皮下注射への移行を検討する。TDD（Total Daily Dose）は前日IV量の80%として計算する（TDD = 前日IV量 &times; 0.8）。TF持続投与の場合は持効型（グラルギン）単独で管理し、TF間欠投与の場合は持効型（TDD&times;30-50%）+ 超速効型（ヒューマログ、TDD&times;50-70%を朝-昼-夕に分割）で管理する。</p>
+        <p class="rule-body" style="margin-top:8px;">移行後は毎日のTDDを再確認し、スライディングスケールを見直す。血糖コントロール不良の場合はスケールのランクアップを検討する。</p>
+      </div>
+    </div>
+    <div class="dt-source"><a href="../articles-gl-insulin-iv2sc2020.html#step1">IV→SC移行プロトコール &#9659; STEP 1-4</a></div>
+
+    <!-- SUMMARY Ch6 -->
+    <h3 id="nut-sum6" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+      <span style="color:#B45309;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>第6章のキーメッセージ
+    </h3>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&oplus;</span><span class="rule-body"><strong>IIT否定：</strong>VdB 2001の結果はNICE-SUGAR 2009（6104例）で覆された。強化管理は90日死亡率を増加させた（OR 1.14）。</span></div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&oplus;</span><span class="rule-body"><strong>SCCM 2024目標：</strong>CONV 140〜200 mg/dL。INTは重篤低血糖RR 3.75と著明に増加。</span></div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&oplus;</span><span class="rule-body"><strong>トリガー：</strong>BG &ge;180 mg/dLが2回連続で持続したらインスリン管理開始。低血糖は即時治療。</span></div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&oplus;</span><span class="rule-body"><strong>IV持続優先：</strong>急性期はIV持続インスリンを提案。SC吸収の不安定性を考慮。</span></div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;"><span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&oplus;</span><span class="rule-body"><strong>IV→SC移行：</strong>TDD = 前日IV量&times;0.8。TF持続→グラルギン、TF間欠→持効型+超速効型。</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════
+         第7章 特殊集団
+    ══════════════════════════════════════════════ -->
+    <div id="nut-ch7" style="background:linear-gradient(150deg,#3D1F00 0%,#B45309 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+      <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+      <div style="font-size:1.3rem;font-weight:900;position:relative;">第7章 特殊集団</div>
+      <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Special Populations</div>
+    </div>
+
+    <!-- S21 AKI/CRRT -->
+    <h3 id="nut-s21" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+      <span style="color:#B45309;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 21</span>
+      AKI/CRRT
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">AKI患者の蛋白制限は不要。CRRT施行中は増量する</h3>
+        <p class="rule-body">ASPEN 2016では、AKI患者でも標準量（1.2〜2.0 g/kg/日）の蛋白投与を行う。蛋白制限は腎機能を改善せず、むしろアウトカムを悪化させる。CRRT施行中はアミノ酸喪失量が1日あたり10〜15 gに達するため、蛋白投与量は最大2.5 g/kg/日まで増量が必要。</p>
+        <div class="ie-stat-grid" style="margin-top:14px;">
+          <div class="ie-stat">
+            <div class="ie-stat-val">10〜15 g/日</div>
+            <div class="ie-stat-label">CRRTによる<br>アミノ酸喪失量</div>
+          </div>
+          <div class="ie-stat">
+            <div class="ie-stat-val">最大2.5</div>
+            <div class="ie-stat-label">CRRT施行中<br>蛋白目標 g/kg/日</div>
+          </div>
+          <div class="ie-stat">
+            <div class="ie-stat-val">制限不要</div>
+            <div class="ie-stat-label">AKIでの<br>蛋白制限</div>
           </div>
         </div>
       </div>
-      <div class="dt-source"><a href="../articles-gl-stoppe-nutrition2024.html#stoppe-s7">栄養再考（ICM 2024）▸ 減量トリガー・モニタリング</a> / <a href="../articles-gl-aspen-nutrition2021.html#aspen-q1-rec">ASPEN 2021 GL ▸ 臨床応用のポイント</a></div>
+    </div>
+    <div class="dt-source"><a href="../articles-gl-sccm-aspen-nutrition2016.html#s-renal">ASPEN 2016 &#9659; AKI/CRRT</a></div>
 
-      <!-- ============================== 章バナー：経腸栄養の実践 ============================== -->
-      <div id="nut-practice" style="background:linear-gradient(150deg,#3D1F00 0%,#B45309 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
-        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
-        <div style="font-size:1.3rem;font-weight:900;position:relative;">経腸栄養の実践</div>
-        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Practical Aspects of Enteral Nutrition</div>
+    <!-- S22 肝不全 -->
+    <h3 id="nut-s22" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+      <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 22</span>
+      肝不全
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">肝性脳症でも蛋白制限は不要</h3>
+        <p class="rule-body">肝不全・肝硬変患者では蛋白制限が従来行われてきたが、<span class="mark-red"><strong>蛋白制限は筋肉分解を促進しむしろ肝性脳症を悪化させる</strong></span>。標準量の蛋白投与を継続する。BCAA強化製剤はルーチンには推奨されない。ビタミンB群（特にチアミン）・亜鉛の欠乏が多いため微量栄養素の補充を行う。</p>
       </div>
+    </div>
+    <div class="dt-source"><a href="../articles-gl-sccm-aspen-nutrition2016.html#s-hepatic">ASPEN 2016 &#9659; 肝不全</a></div>
 
-      <h3 id="nut-tube" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
-        <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 9</span>
-        チューブ選択と幽門後投与
-      </h3>
+    <!-- S23 ARDS -->
+    <h3 id="nut-s23" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+      <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 23</span>
+      ARDS
+    </h3>
 
-      <div class="card" style="margin-bottom:16px;">
-        <div class="card-inner">
-          <h3 class="rule-title">経腸アクセスの選択</h3>
-          <p class="rule-body">経腸アクセスの選択は疾患・消化管の解剖と機能・予定投与期間に依存する。短期（6週間まで）は経鼻チューブ、長期（4〜6週間超）は経皮的チューブ（PEG等）が適応となる。</p>
-          <table class="ie-table" style="margin-top:12px;">
-            <thead>
-              <tr><th>ルート</th><th>予定期間</th><th>チップ位置</th><th>挿入方法</th></tr>
-            </thead>
-            <tbody>
-              <tr><td>経鼻胃管 / 経口胃管</td><td>短期</td><td>胃</td><td>ベッドサイド留置（X線確認）</td></tr>
-              <tr><td>経鼻十二指腸管 / 経鼻空腸管</td><td>短期</td><td>空腸</td><td>ベッドサイド / 電磁ガイド / 内視鏡</td></tr>
-              <tr><td>経皮的胃瘻（PEG）</td><td>長期</td><td>胃</td><td>内視鏡 / X線透視 / 外科的</td></tr>
-              <tr><td>経皮的胃空腸瘻（PEG-J）/ PEJ</td><td>長期</td><td>空腸</td><td>内視鏡 / X線透視 / 外科的</td></tr>
-            </tbody>
-          </table>
-        </div>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">ARDSには標準ポリメリック製剤を使用する</h3>
+        <p class="rule-body">EDEN-OMEGA試験で&omega;-3 FO単独投与が標準製剤と比較して改善を示さず、むしろ悪影響の傾向があった。ARDS・肺疾患に特殊製剤は推奨されない。高脂肪低炭水化物製剤によるRQ低下の試みも臨床的意義が乏しい。EDEN試験では初期1週間のトロフィックEN（約400 kcal/日）と目標カロリーEN（約1300 kcal/日）で60日死亡率・人工呼吸器日数に差がなかった。</p>
       </div>
-      <div class="dt-source"><a href="../articles-gl-en-nejm2025.html#en-s9">経腸栄養（NEJM 2025）▸ 経腸アクセスの選択</a></div>
+    </div>
+    <div class="dt-source"><a href="../articles-gl-sccm-aspen-nutrition2016.html#s-pulm">ASPEN 2016 &#9659; ARDS</a></div>
 
-      <div class="card" style="margin-bottom:16px;">
-        <div class="card-inner">
-          <h3 class="rule-title">幽門後投与（Postpyloric Feeding）の利点</h3>
-          <p class="rule-body">胃からの栄養投与速度で目標量を投与できない患者には幽門後投与が有益となる可能性がある。41試験（3248例）のメタ解析では、幽門後投与は胃投与に比べて<span class="mark-green"><strong>誤嚥性肺炎・胃食道逆流・肺炎の発生率が低く</strong></span>（いずれもP&lt;0.001）、消化器合併症も少なく（P&lt;0.05）、栄養目標達成までの時間が短かった（P&lt;0.05）。</p>
-        </div>
-      </div>
-      <div class="dt-source"><a href="../articles-gl-en-nejm2025.html#en-s9">経腸栄養（NEJM 2025）▸ 幽門後投与の利点</a></div>
+    <!-- S24 急性膵炎 -->
+    <h3 id="nut-s24" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+      <span style="color:#16A34A;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 24</span>
+      急性膵炎
+    </h3>
 
-      <h3 id="nut-grv" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
-        <span style="color:#16A34A;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 10</span>
-        GRV測定廃止の根拠と合併症対策
-      </h3>
-
-      <div class="card" style="margin-bottom:16px;">
-        <div class="card-inner">
-          <h3 class="rule-title">GRV（胃残量）測定廃止と安全性</h3>
-          <p class="rule-body">胃残量（GRV）測定を廃止することで経腸栄養投与量が増加することが示されている。GRV測定を行わなかった患者は行った患者よりもカロリー目標の100%を達成しやすく、人工呼吸器関連肺炎リスクの有意な増加はなかった。ICU関連感染・人工呼吸器装着期間・ICU滞在期間・死亡率にも有意差はなかった。</p>
-          <div class="alert-green" style="margin-top:10px;">
-            <strong>実践的ポイント：</strong>GRV測定を廃止することで栄養充足率が向上する。引き続きGRVを測定する施設においては、GRVが500 mlを超える場合にのみ投与を一時中断することが推奨されている。
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">急性膵炎：ENはPNより優れる</h3>
+        <p class="rule-body">急性膵炎患者において、ENはPNと比較して死亡率（PN vs EN: RR 2.17; 95% CI 1.13-4.17）・感染性合併症（RR 2.45; 95% CI 1.61-3.74）を有意に低減する。重症急性膵炎では早期ENを優先。経鼻胃管 vs 経鼻空腸で明確な差はなく、より留置容易な経鼻胃管での開始が合理的。</p>
+        <div class="ie-stat-grid" style="margin-top:14px;">
+          <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+            <div class="ie-stat-val" style="color:#DC2626;">RR 2.17</div>
+            <div class="ie-stat-label">PN vs EN<br>死亡率</div>
+          </div>
+          <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+            <div class="ie-stat-val" style="color:#DC2626;">RR 2.45</div>
+            <div class="ie-stat-label">PN vs EN<br>感染性合併症</div>
+          </div>
+          <div class="ie-stat">
+            <div class="ie-stat-val">EN優先</div>
+            <div class="ie-stat-label">重症急性膵炎<br>での第1選択</div>
           </div>
         </div>
       </div>
-      <div class="dt-source"><a href="../articles-gl-en-nejm2025.html#en-s11">経腸栄養（NEJM 2025）▸ GRV測定廃止とENFit</a></div>
+    </div>
+    <div class="dt-source"><a href="../articles-gl-sccm-aspen-nutrition2016.html#s-pancreatitis">ASPEN 2016 &#9659; 急性膵炎</a></div>
 
-      <div class="card" style="margin-bottom:16px;">
-        <div class="card-inner">
-          <h3 class="rule-title">合併症対策 — 下痢・誤嚥・リフィーディング症候群</h3>
-          <table class="ie-table" style="margin-top:8px;">
-            <thead><tr><th style="width:160px;">合併症</th><th>対策</th></tr></thead>
-            <tbody>
-              <tr>
-                <td><strong>リフィーディング症候群</strong></td>
-                <td>K・P・Mgを定期的に補充 / チアミン 100 mg/日以上を7〜10日間投与 / 初期は最大500 kcal/日に制限してから徐々に増量</td>
-              </tr>
-              <tr>
-                <td><strong>誤嚥性肺炎</strong></td>
-                <td>ベッドヘッド挙上 30〜45度 / 消化管促進薬の使用 / 幽門後投与の検討</td>
-              </tr>
-              <tr>
-                <td><strong>下痢</strong></td>
-                <td>下痢を引き起こす薬剤を中止・減量 / 感染症（C. difficile等）を除外 / 外分泌膵不全などの他原因を除外</td>
-              </tr>
-              <tr>
-                <td><strong>悪心・嘔吐</strong></td>
-                <td>定時制吐薬の投与 / 消化管促進戦略 / 血糖管理の優先 / 幽門後アクセスの取得</td>
-              </tr>
-              <tr>
-                <td><strong>血糖コントロール不良</strong></td>
-                <td>経腸栄養をインスリンプロトコルに組み込む / 炭水化物負荷を減らす / 糖尿病対応製剤の使用を考慮</td>
-              </tr>
-            </tbody>
-          </table>
+    <!-- S25 肥満/術後/熱傷 -->
+    <h3 id="nut-s25" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+      <span style="color:#B45309;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 25</span>
+      肥満/術後/熱傷
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">特殊集団の栄養管理ポイント</h3>
+        <table class="ie-table" style="margin-top:10px;">
+          <thead><tr><th>集団</th><th>エネルギー</th><th>タンパク質</th><th>注意点</th></tr></thead>
+          <tbody>
+            <tr><td><strong>肥満（BMI 30-40）</strong></td><td>11〜14 kcal/kg 実体重/日</td><td>&ge;2.0 g/kg IBW/日</td><td>高蛋白低カロリー法。脂肪動員+筋肉温存。</td></tr>
+            <tr><td><strong>高度肥満（BMI &gt;40）</strong></td><td>22〜25 kcal/kg IBW/日</td><td>&ge;2.5 g/kg IBW/日</td><td>IBW基準でエネルギー・蛋白算出。</td></tr>
+            <tr><td><strong>術後外科ICU</strong></td><td>25〜30 kcal/kg/日</td><td>1.5 g/kg/日</td><td>24h以内にEN開始。免疫強化製剤考慮。</td></tr>
+            <tr><td><strong>熱傷</strong></td><td>25〜30 kcal/kg/日</td><td>2.0〜2.5 g/kg/日</td><td>代謝亢進率最大2倍。銅・亜鉛・セレン高用量補充。</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="dt-source"><a href="../articles-gl-sccm-aspen-nutrition2016.html#s-obesity">ASPEN 2016 &#9659; 肥満</a> / <a href="../articles-gl-sccm-aspen-nutrition2016.html#s-surgical">ASPEN 2016 &#9659; 術後/熱傷</a></div>
+
+    <!-- SUMMARY Ch7 -->
+    <h3 id="nut-sum7" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+      <span style="color:#B45309;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>第7章のキーメッセージ
+    </h3>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&oplus;</span><span class="rule-body"><strong>AKI蛋白制限不要：</strong>標準量投与。CRRT施行中は喪失分（10〜15 g/日）考慮し最大2.5 g/kg/日。</span></div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&oplus;</span><span class="rule-body"><strong>肝性脳症の蛋白制限禁止：</strong>蛋白制限は筋肉分解を促進し脳症を悪化させる。</span></div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&oplus;</span><span class="rule-body"><strong>ARDS標準製剤：</strong>特殊肺疾患用製剤不要。&omega;-3 FO単独投与はEDEN-OMEGAで有害傾向。</span></div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&oplus;</span><span class="rule-body"><strong>急性膵炎はEN：</strong>PNはENより死亡RR 2.17・感染RR 2.45と大幅に劣る。経鼻胃管での開始が可。</span></div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;"><span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">&oplus;</span><span class="rule-body"><strong>肥満：</strong>高蛋白低カロリー法。BMI 30-40は11-14 kcal/kg実体重 + &ge;2.0 g/kg IBW。</span></div>
         </div>
       </div>
-      <div class="dt-source"><a href="../articles-gl-en-nejm2025.html#en-s11">経腸栄養（NEJM 2025）▸ 有害事象と安全管理（Table 2）</a></div>
-
-      <div class="ie-alpha">
-        <div class="ie-alpha-inner">
-          <div class="ie-alpha-header">
-            <span class="ie-alpha-badge">＋α</span>
-            <span class="ie-alpha-title">間接熱量測定（Indirect Calorimetry）による個別化</span>
-          </div>
-          <p class="rule-body" style="color:#4C1D95;">ICU患者のエネルギー必要量を測定できる間接熱量計が使用可能であるが、417例のICU患者を対象としたRCTでは、予測式と比較して間接熱量測定による栄養投与の指導は感染症発生率に有意差をもたらさなかった（P=0.17）。エネルギー必要量個別化の利点は現時点では確立されていない。</p>
-        </div>
-      </div>
-      <div class="dt-source"><a href="../articles-gl-en-nejm2025.html#en-s7">経腸栄養（NEJM 2025）▸ 間接熱量測定</a></div>
-
-      <!-- ============================== SUMMARY ============================== -->
-      <h3 id="nut-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:48px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
-        <span style="color:#B45309;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
-        キーメッセージ
-      </h3>
-      <div class="card" style="margin-bottom:16px;">
-        <div class="card-inner">
-          <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
-            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
-              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
-              <span class="rule-body"><strong>急性期の過剰栄養は有害：</strong>9件のランドマークRCTおよびASPEN 2021の安全性解析で、急性期の高カロリー投与はICU滞在延長・臓器障害遷延・消化管不耐・代謝不耐・感染症増加と関連した。急性期は低用量（5〜10 kcal/kg/日）から開始し、回復に伴い段階的に増量する。</span>
-            </div>
-            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
-              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
-              <span class="rule-body"><strong>高タンパク投与の有益性は証明されていない：</strong>EFFORT Protein試験（1301例）とPRECISe試験で高タンパク投与は死亡率改善もQOL改善ももたらさず、AKI患者では有害であった。ASPEN推奨の1.2〜2.0 g/kg/日を目安に、AKI時は0.8 g/kg/日以下に制限する。</span>
-            </div>
-            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
-              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
-              <span class="rule-body"><strong>3つの代謝的減量トリガーを把握する：</strong>リフィーディング関連のリン酸低下（72時間以内に≥0.16 mmol/L低下して&lt;0.65 mmol/L）、インスリン治療下でも血糖&gt;180 mg/dL、トリグリセリド&gt;400 mg/dLのいずれかで栄養投与量を減量する。</span>
-            </div>
-            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
-              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
-              <span class="rule-body"><strong>GRV測定廃止で栄養充足率が向上：</strong>GRV測定を廃止してもVAP・ICU感染・死亡率に有意差はなかった。測定を続ける場合はGRV &gt;500 mLでのみ中断する。幽門後投与は誤嚥・肺炎・消化器合併症を減少させる。</span>
-            </div>
-            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
-              <span style="color:#B45309;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
-              <span class="rule-body"><strong>リフィーディング症候群の予防を忘れない：</strong>電解質（K・P・Mg）のモニタリングとチアミン補充（100 mg/日×7〜10日）を行い、初期カロリーは最大500 kcal/日から徐々に増量する。</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 出典注記 -->
-      <p style="font-size:0.72rem;color:#9CA3AF;margin-top:32px;line-height:1.7;">
-        本ページは以下の収録論文の要約ページの内容を統合して作成しています：<br>
-        ・<a href="../articles-gl-en-nejm2025.html" style="color:#60A5FA;">Enteral Nutrition in Hospitalized Adults（NEJM 2025）</a><br>
-        ・<a href="../articles-gl-aspen-nutrition2021.html" style="color:#60A5FA;">ASPEN 2021 重症患者栄養サポートガイドライン</a><br>
-        ・<a href="../articles-gl-stoppe-nutrition2024.html" style="color:#60A5FA;">重症患者の栄養再考 — エネルギー・タンパク質投与の再考（ICM 2024）</a><br>
-        本資料は教育目的で作成したサマリーです。診断・治療方針の決定には必ず原典を参照してください。
-      </p>
-      <p style="font-size:0.75rem;color:var(--muted);text-align:right;margin-top:8px;">制作：ICU 関谷</p>
+    </div>
 
     </div><!-- /.main-col -->
 
-    <!-- ── サイドバー目次 ── -->
+    <!-- ===== SIDEBAR ===== -->
     <aside class="ie-sidebar">
       <div class="ie-sidebar-card">
         <div class="ie-sidebar-title">目次</div>
-
-        <a href="#nut-principles" class="ie-toc-chapter">ICU栄養管理の基本原則</a>
-        <a href="#nut-malnutrition" class="ie-toc-section">S1 — 疾患関連栄養不良</a>
-        <a href="#nut-acute-metabolism" class="ie-toc-section">S2 — 急性期の代謝変化</a>
-
-        <a href="#nut-energy" class="ie-toc-chapter">エネルギー投与量</a>
-        <a href="#nut-rct-energy" class="ie-toc-section">S3 — 9つのRCTの結論</a>
-        <a href="#nut-aspen-energy" class="ie-toc-section">S4 — ASPEN推奨と段階的投与</a>
-
-        <a href="#nut-protein" class="ie-toc-chapter">タンパク質投与量</a>
-        <a href="#nut-effort-protein" class="ie-toc-section">S5 — EFFORT Protein試験</a>
-        <a href="#nut-precise" class="ie-toc-section">S6 — PRECISe・メタ解析・ASPEN</a>
-
-        <a href="#nut-protocol" class="ie-toc-chapter">段階的栄養投与プロトコル</a>
-        <a href="#nut-stepwise" class="ie-toc-section">S7 — 急性期→回復期の投与</a>
-        <a href="#nut-trigger" class="ie-toc-section">S8 — 減量トリガー</a>
-
-        <a href="#nut-practice" class="ie-toc-chapter">経腸栄養の実践</a>
-        <a href="#nut-tube" class="ie-toc-section">S9 — チューブ選択・幽門後投与</a>
-        <a href="#nut-grv" class="ie-toc-section">S10 — GRV廃止・合併症対策</a>
-
-        <a href="#nut-summary" class="ie-toc-chapter">SUMMARY</a>
+        <a href="#nut-ch1" class="ie-toc-chapter">第1章 ICU栄養管理の基本原則</a>
+        <a href="#nut-s1" class="ie-toc-section">S1 &mdash; 疾患関連栄養不良の疫学と病態</a>
+        <a href="#nut-s2" class="ie-toc-section">S2 &mdash; 栄養スクリーニングと評価</a>
+        <a href="#nut-s3" class="ie-toc-section">S3 &mdash; 早期EN開始</a>
+        <a href="#nut-ch2" class="ie-toc-chapter">第2章 エネルギー投与量</a>
+        <a href="#nut-s4" class="ie-toc-section">S4 &mdash; エビデンス（メタ解析+9 RCT）</a>
+        <a href="#nut-s5" class="ie-toc-section">S5 &mdash; 推奨量+段階的アルゴリズム</a>
+        <a href="#nut-s6" class="ie-toc-section">S6 &mdash; 減量トリガー P/G/T</a>
+        <a href="#nut-ch3" class="ie-toc-chapter">第3章 タンパク質投与量</a>
+        <a href="#nut-s7" class="ie-toc-section">S7 &mdash; エビデンス+EFFORT+PRECISe</a>
+        <a href="#nut-s8" class="ie-toc-section">S8 &mdash; 推奨量+特殊集団+AKI</a>
+        <a href="#nut-ch4" class="ie-toc-chapter">第4章 経腸栄養の実践</a>
+        <a href="#nut-s9" class="ie-toc-section">S9 &mdash; 経腸アクセス</a>
+        <a href="#nut-s10" class="ie-toc-section">S10 &mdash; GRV廃止</a>
+        <a href="#nut-s11" class="ie-toc-section">S11 &mdash; 合併症</a>
+        <a href="#nut-s12" class="ie-toc-section">S12 &mdash; 栄養剤選択</a>
+        <a href="#nut-ch5" class="ie-toc-chapter">第5章 静脈栄養の管理</a>
+        <a href="#nut-s13" class="ie-toc-section">S13 &mdash; EN vs PN転換</a>
+        <a href="#nut-s14" class="ie-toc-section">S14 &mdash; SPN 7日前不開始</a>
+        <a href="#nut-s15" class="ie-toc-section">S15 &mdash; ILE選択</a>
+        <a href="#nut-s16" class="ie-toc-section">S16 &mdash; PN注意点</a>
+        <a href="#nut-ch6" class="ie-toc-chapter">第6章 血糖管理</a>
+        <a href="#nut-s17" class="ie-toc-section">S17 &mdash; VdB→NICE-SUGAR比較</a>
+        <a href="#nut-s18" class="ie-toc-section">S18 &mdash; SCCM 2024推奨</a>
+        <a href="#nut-s19" class="ie-toc-section">S19 &mdash; IV vs SC投与</a>
+        <a href="#nut-s20" class="ie-toc-section">S20 &mdash; IV→SC移行</a>
+        <a href="#nut-ch7" class="ie-toc-chapter">第7章 特殊集団</a>
+        <a href="#nut-s21" class="ie-toc-section">S21 &mdash; AKI/CRRT</a>
+        <a href="#nut-s22" class="ie-toc-section">S22 &mdash; 肝不全</a>
+        <a href="#nut-s23" class="ie-toc-section">S23 &mdash; ARDS</a>
+        <a href="#nut-s24" class="ie-toc-section">S24 &mdash; 急性膵炎</a>
+        <a href="#nut-s25" class="ie-toc-section">S25 &mdash; 肥満/術後/熱傷</a>
       </div>
     </aside>
 
   </div><!-- /.content-wrap -->
 
+  <!-- ===== 出典 ===== -->
+  <div style="max-width:1140px;margin:0 auto;padding:0 20px 40px;">
+    <p style="font-size:0.72rem;color:#9CA3AF;margin-top:16px;line-height:1.7;">
+      本ページは以下の8本の収録論文・ガイドラインの要約ページの内容を統合して作成しました。<br>
+      1. SCCM/ASPEN 重症患者栄養サポートガイドライン 2016（JPEN 2016年2月）<br>
+      2. ASPEN 2021 重症患者栄養サポートガイドライン（JPEN 2022年1月）<br>
+      3. 重症患者の栄養を再考する &mdash; Stoppe C, Ridley EJ, Lee ZY（Intensive Care Med 2024年11月）<br>
+      4. Enteral Nutrition in Hospitalized Adults（N Engl J Med 2025年4月）<br>
+      5. NICE-SUGAR試験（N Engl J Med 2009年3月）<br>
+      6. Van den Berghe et al. 強化インスリン療法（N Engl J Med 2001年11月）<br>
+      7. SCCM 2024 ICU血糖管理ガイドライン（Critical Care Medicine 2024年1月）<br>
+      8. インスリン持続静脈注射→皮下注 移行プロトコール（院内プロトコール 2020年8月）<br><br>
+      本資料は教育目的で作成したサマリーです。診断・治療方針の決定には必ず原典ガイドラインを参照してください。
+    </p>
+    <p style="font-size:0.75rem;color:var(--muted);text-align:right;margin-top:8px;">制作：ICU 関谷</p>
+  </div>
+
   <script src="../../script.js"></script>
-<script src="../../mob-toc.js"></script>
+  <script src="../../mob-toc.js"></script>
   <script src="../../abbr-tooltip.js"></script>
 </body>
 </html>
