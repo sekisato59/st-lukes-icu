@@ -212,7 +212,7 @@ grep -c 'ie-table\|ie-score-card\|ie-stat-grid' pages/articles-gl-xxxx.html
 ## デザインルール（全ページ共通）
 
 ### 禁止事項
-- カードに `border-left` の太い帯を使わない
+- カードに `border-left` の太い帯を使わない（セクション見出しh3の`border-left:4px`は許可。それ以外のカード・div・ボックスに`border-left`で色帯を付けることは一切禁止。ie-echo-box等のグリッドアイテムも含む）
 - 多色のサマリーカード（色違いボーダーで並べるデザイン）を使わない
 - 凡例（白カード/紫カードの説明）を入れない
 - バッジ形式のデザインは使わない（ダサい）
