@@ -326,6 +326,19 @@ grep -c 'ie-table\|ie-score-card\|ie-stat-grid' pages/articles-gl-xxxx.html
 </table>
 ```
 
+**テーブル視認性ルール（必須）：**
+- 疾患名・薬剤名・スコア名・項目ラベルなどの**ラベル列**には `style="white-space:nowrap;"` を付ける（中途半端な折り返しを防止）
+- ラベルが長い場合は**略語を主表示、正式名を小さく下に添える**形式にする：
+  ```html
+  <td style="white-space:nowrap;"><strong>APAP</strong><br><span style="font-size:0.72rem;color:var(--muted);">アセトアミノフェン</span></td>
+  ```
+- 予後・結果列も同様に、**結論を1語で主表示、詳細を小さく下に添える**：
+  ```html
+  <td style="white-space:nowrap;">良好<br><span style="font-size:0.72rem;color:var(--muted);">死亡率28%、1/3がLT</span></td>
+  ```
+- 4列以上のテーブルでは `<colgroup>` で列幅比率を明示する
+- 説明列（自由テキスト）にはnowrapを付けない（自然な折り返しを許容）
+
 #### フローチャート（ステップ）
 ```html
 <div class="ie-flow">
