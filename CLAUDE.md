@@ -269,6 +269,26 @@ grep -c 'ie-table\|ie-score-card\|ie-stat-grid' pages/articles-gl-xxxx.html
 - サマリー番号: `color:#2D7A4F`
 - 統計ボックスデフォルト: `background:#F0FDF4; border:#BBF7D0; color:#2D7A4F`
 
+### ヒーローバナー（必須テンプレート）
+
+**サブページのヒーローは必ず以下の構造を使用する。`subpage-hero-content` や `hero-content` は使用禁止（CSSにmax-widthが異なるため左寄れになる）。**
+
+```html
+<div class="subpage-hero">
+  <div class="container">
+    <a href="articles-guidelines.html#art-xxx" class="back-link">← 一覧へ戻る</a>
+    <h1 class="subpage-title">タイトル</h1>
+    <p class="subpage-subtitle">#N SYSTEM NAME</p>
+    <div>
+      <span class="ie-badge">出典名</span>
+      <span class="ie-badge">発行年月</span>
+    </div>
+  </div>
+</div>
+```
+
+**禁止：** `<div class="subpage-hero-content">` / `<div class="hero-content">` / `<div class="">` / `<div style="...">` をヒーロー直下に使うこと。必ず `<div class="container">` を使用する。
+
 ### ページ構造（個別記事）
 
 ```
