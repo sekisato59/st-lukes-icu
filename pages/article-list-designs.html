@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Article List UI Designs (20 Variations)</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Noto Sans JP',sans-serif;background:#F3F4F6;padding:20px;color:#1A202C;}
+h1{font-size:1.2rem;font-weight:900;margin-bottom:24px;}
+.design{background:#fff;border-radius:16px;padding:24px;margin-bottom:32px;box-shadow:0 1px 4px rgba(0,0,0,0.08);}
+.design h2{font-size:0.85rem;font-weight:800;color:#6366F1;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid #E0E7FF;}
+a{text-decoration:none;color:inherit;}
+
+/* Sample data */
+.sample-items{max-width:800px;}
+
+/* ===== #1 Current (Baseline) ===== */
+.d1 .cat{background:#F0FDF4;padding:6px 14px;font-size:0.73rem;font-weight:700;color:#166534;border-bottom:1px solid #D1FAE5;}
+.d1 .item{display:flex;align-items:center;padding:10px 12px;border-bottom:1px solid #E5E7EB;}
+.d1 .item:hover{background:#DBEAFE;}
+.d1 .date{width:90px;flex-shrink:0;font-size:0.75rem;color:#9CA3AF;}
+.d1 .title{flex:1;font-size:0.82rem;font-weight:500;}
+
+/* ===== #2 Card List ===== */
+.d2 .cat{font-size:0.72rem;font-weight:800;color:#2D7A4F;letter-spacing:0.08em;padding:12px 0 6px;margin-top:8px;}
+.d2 .item{display:flex;align-items:center;gap:12px;background:#F8FAFC;border:1px solid #E2E8F0;border-radius:10px;padding:12px 16px;margin-bottom:6px;transition:all 0.15s;}
+.d2 .item:hover{border-color:#93C5FD;background:#EFF6FF;transform:translateX(4px);}
+.d2 .date{font-size:0.68rem;color:#9CA3AF;white-space:nowrap;background:#F1F5F9;padding:2px 8px;border-radius:4px;}
+.d2 .title{flex:1;font-size:0.82rem;font-weight:600;}
+
+/* ===== #3 Minimal Dot ===== */
+.d3 .cat{font-size:0.72rem;font-weight:800;color:#2D7A4F;padding:16px 0 4px;}
+.d3 .item{display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid #F1F5F9;}
+.d3 .dot{width:6px;height:6px;border-radius:50%;background:#2D7A4F;flex-shrink:0;margin-top:5px;}
+.d3 .date{font-size:0.68rem;color:#9CA3AF;white-space:nowrap;}
+.d3 .title{flex:1;font-size:0.82rem;font-weight:500;}
+.d3 .item:hover .title{color:#2D7A4F;}
+
+/* ===== #4 Tag + Badge ===== */
+.d4 .cat-tag{display:inline-block;background:#D1FAE5;color:#166534;font-size:0.65rem;font-weight:800;padding:3px 10px;border-radius:12px;margin:12px 0 8px;}
+.d4 .item{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #F1F5F9;}
+.d4 .date-badge{font-size:0.62rem;color:#fff;background:#2D7A4F;padding:2px 8px;border-radius:4px;white-space:nowrap;}
+.d4 .title{flex:1;font-size:0.82rem;font-weight:500;}
+.d4 .item:hover{background:#F0FDF4;}
+
+/* ===== #5 Timeline ===== */
+.d5 .cat{font-size:0.72rem;font-weight:800;color:#2D7A4F;padding:14px 0 6px 24px;}
+.d5 .item{display:flex;align-items:flex-start;gap:12px;padding:8px 0 8px 24px;position:relative;}
+.d5 .item::before{content:'';position:absolute;left:8px;top:0;bottom:0;width:2px;background:#D1FAE5;}
+.d5 .item::after{content:'';position:absolute;left:4px;top:14px;width:10px;height:10px;border-radius:50%;background:#fff;border:2px solid #2D7A4F;}
+.d5 .meta{display:flex;flex-direction:column;min-width:70px;}
+.d5 .date{font-size:0.68rem;color:#9CA3AF;}
+.d5 .title{flex:1;font-size:0.82rem;font-weight:500;}
+.d5 .item:hover .title{color:#2D7A4F;}
+
+/* ===== #6 Stripe Rows ===== */
+.d6 .cat{background:#1A3A2A;color:#fff;padding:8px 14px;font-size:0.72rem;font-weight:700;border-radius:6px 6px 0 0;margin-top:12px;}
+.d6 .item{display:flex;align-items:center;padding:10px 14px;}
+.d6 .item:nth-child(odd){background:#F8FAFC;}
+.d6 .item:nth-child(even){background:#fff;}
+.d6 .item:hover{background:#DBEAFE;}
+.d6 .date{width:85px;flex-shrink:0;font-size:0.72rem;color:#9CA3AF;}
+.d6 .title{flex:1;font-size:0.82rem;font-weight:500;}
+.d6 .arrow{color:#CBD5E1;font-size:0.7rem;}
+
+/* ===== #7 Compact Grid ===== */
+.d7 .cat{font-size:0.72rem;font-weight:800;color:#2D7A4F;padding:14px 0 6px;border-bottom:2px solid #D1FAE5;}
+.d7 .grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:6px 0;}
+@media(max-width:600px){.d7 .grid{grid-template-columns:1fr;}}
+.d7 .item{background:#F8FAFC;border:1px solid #E2E8F0;border-radius:8px;padding:10px 12px;transition:all 0.15s;}
+.d7 .item:hover{border-color:#2D7A4F;background:#F0FDF4;}
+.d7 .date{font-size:0.62rem;color:#9CA3AF;display:block;margin-bottom:2px;}
+.d7 .title{font-size:0.78rem;font-weight:600;line-height:1.4;}
+
+/* ===== #8 Notion-style ===== */
+.d8 .cat{font-size:0.72rem;font-weight:700;color:#9CA3AF;padding:16px 0 4px;text-transform:uppercase;letter-spacing:0.1em;}
+.d8 .item{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:4px;margin:1px 0;transition:background 0.1s;}
+.d8 .item:hover{background:#F1F5F9;}
+.d8 .icon{font-size:0.85rem;}
+.d8 .title{flex:1;font-size:0.82rem;font-weight:400;}
+.d8 .date{font-size:0.68rem;color:#CBD5E1;}
+
+/* ===== #9 Glassmorphism ===== */
+.d9{background:linear-gradient(135deg,#1A3A2A,#2D7A4F);padding:24px;border-radius:16px;}
+.d9 h2{color:#fff !important;border-bottom-color:rgba(255,255,255,0.2) !important;}
+.d9 .cat{font-size:0.72rem;font-weight:700;color:rgba(255,255,255,0.7);padding:12px 0 4px;}
+.d9 .item{display:flex;align-items:center;gap:10px;padding:10px 14px;background:rgba(255,255,255,0.08);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.12);border-radius:8px;margin-bottom:4px;transition:all 0.15s;}
+.d9 .item:hover{background:rgba(255,255,255,0.15);transform:translateX(4px);}
+.d9 .date{font-size:0.68rem;color:rgba(255,255,255,0.5);white-space:nowrap;}
+.d9 .title{flex:1;font-size:0.82rem;font-weight:500;color:#fff;}
+
+/* ===== #10 Left Date Column ===== */
+.d10 .cat{font-size:0.72rem;font-weight:800;color:#2D7A4F;padding:14px 0 6px;}
+.d10 .item{display:grid;grid-template-columns:80px 1fr;gap:0;border-bottom:1px solid #F1F5F9;transition:background 0.15s;}
+.d10 .item:hover{background:#F0FDF4;}
+.d10 .date-col{padding:10px 0;font-size:0.68rem;color:#9CA3AF;border-right:2px solid #D1FAE5;text-align:right;padding-right:12px;}
+.d10 .title-col{padding:10px 0 10px 14px;font-size:0.82rem;font-weight:500;}
+
+/* ===== #11 Pill Category ===== */
+.d11 .section{margin-bottom:16px;}
+.d11 .cat-pill{display:inline-flex;align-items:center;gap:4px;background:#2D7A4F;color:#fff;font-size:0.68rem;font-weight:700;padding:4px 12px;border-radius:16px;margin-bottom:8px;}
+.d11 .cat-count{background:rgba(255,255,255,0.25);padding:0 6px;border-radius:8px;font-size:0.6rem;}
+.d11 .item{padding:7px 0 7px 16px;border-left:2px solid #D1FAE5;margin-bottom:2px;transition:all 0.15s;font-size:0.82rem;font-weight:500;}
+.d11 .item:hover{border-left-color:#2D7A4F;background:#F0FDF4;padding-left:20px;}
+.d11 .date{font-size:0.65rem;color:#9CA3AF;margin-left:8px;}
+
+/* ===== #12 Material Expansion ===== */
+.d12 .cat{display:flex;align-items:center;justify-content:space-between;background:#F0FDF4;padding:10px 14px;border-radius:8px;cursor:pointer;margin-top:6px;font-size:0.78rem;font-weight:700;color:#166534;}
+.d12 .cat:hover{background:#D1FAE5;}
+.d12 .cat-arrow{font-size:0.65rem;color:#9CA3AF;}
+.d12 .items{padding:4px 0 4px 14px;}
+.d12 .item{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:6px;transition:background 0.15s;font-size:0.82rem;}
+.d12 .item:hover{background:#F1F5F9;}
+.d12 .date{font-size:0.68rem;color:#9CA3AF;white-space:nowrap;}
+.d12 .title{flex:1;font-weight:500;}
+
+/* ===== #13 Side Accent ===== */
+.d13 .cat{font-size:0.72rem;font-weight:800;color:#2D7A4F;padding:14px 0 6px;}
+.d13 .item{display:flex;align-items:stretch;margin-bottom:4px;border-radius:8px;overflow:hidden;transition:transform 0.15s;}
+.d13 .item:hover{transform:translateX(4px);}
+.d13 .accent{width:4px;background:#2D7A4F;flex-shrink:0;}
+.d13 .content{flex:1;display:flex;align-items:center;gap:10px;padding:10px 14px;background:#F8FAFC;}
+.d13 .date{font-size:0.68rem;color:#9CA3AF;white-space:nowrap;}
+.d13 .title{flex:1;font-size:0.82rem;font-weight:500;}
+
+/* ===== #14 Icon Category ===== */
+.d14 .cat{display:flex;align-items:center;gap:8px;font-size:0.75rem;font-weight:700;color:#2D7A4F;padding:14px 0 6px;}
+.d14 .cat-icon{width:20px;height:20px;background:#D1FAE5;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:0.6rem;}
+.d14 .item{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:8px;margin-bottom:2px;transition:background 0.15s;}
+.d14 .item:hover{background:#F0FDF4;}
+.d14 .date{font-size:0.68rem;color:#9CA3AF;white-space:nowrap;}
+.d14 .title{flex:1;font-size:0.82rem;font-weight:500;}
+
+/* ===== #15 Flat Chip ===== */
+.d15 .cat{padding:12px 0 6px;}
+.d15 .cat-chip{display:inline-block;font-size:0.68rem;font-weight:700;color:#2D7A4F;background:#E0F2E9;padding:3px 10px;border-radius:4px;}
+.d15 .item{display:flex;align-items:center;padding:8px 0;gap:8px;font-size:0.82rem;}
+.d15 .title{flex:1;font-weight:500;}
+.d15 .date{font-size:0.65rem;color:#CBD5E1;white-space:nowrap;}
+.d15 .item+.item{border-top:1px solid #F8FAFC;}
+.d15 .item:hover .title{color:#2D7A4F;}
+
+/* ===== #16 Number Badge ===== */
+.d16 .cat{font-size:0.72rem;font-weight:800;color:#2D7A4F;padding:14px 0 6px;}
+.d16 .item{display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid #F8FAFC;}
+.d16 .num{width:24px;height:24px;background:#2D7A4F;color:#fff;font-size:0.62rem;font-weight:800;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.d16 .title{flex:1;font-size:0.82rem;font-weight:500;}
+.d16 .date{font-size:0.65rem;color:#CBD5E1;white-space:nowrap;}
+
+/* ===== #17 Underline Hover ===== */
+.d17 .cat{font-size:0.72rem;font-weight:800;color:#2D7A4F;padding:16px 0 8px;border-bottom:1px solid #E2E8F0;}
+.d17 .item{display:flex;align-items:center;padding:10px 0;border-bottom:1px solid transparent;transition:all 0.2s;}
+.d17 .item:hover{border-bottom-color:#2D7A4F;}
+.d17 .date{width:80px;flex-shrink:0;font-size:0.68rem;color:#9CA3AF;}
+.d17 .title{flex:1;font-size:0.82rem;font-weight:500;}
+.d17 .item:hover .title{color:#2D7A4F;font-weight:600;}
+
+/* ===== #18 Kanban Card ===== */
+.d18 .cat{font-size:0.72rem;font-weight:800;color:#2D7A4F;padding:14px 0 8px;}
+.d18 .item{background:#fff;border:1px solid #E2E8F0;border-radius:10px;padding:12px 16px;margin-bottom:6px;box-shadow:0 1px 3px rgba(0,0,0,0.04);transition:all 0.15s;}
+.d18 .item:hover{box-shadow:0 4px 12px rgba(0,0,0,0.08);transform:translateY(-2px);}
+.d18 .title{font-size:0.82rem;font-weight:600;margin-bottom:4px;line-height:1.4;}
+.d18 .meta{display:flex;align-items:center;gap:8px;}
+.d18 .date{font-size:0.65rem;color:#9CA3AF;}
+.d18 .tag{font-size:0.6rem;background:#F0FDF4;color:#2D7A4F;padding:1px 6px;border-radius:3px;}
+
+/* ===== #19 Divider Date ===== */
+.d19 .cat{font-size:0.72rem;font-weight:800;color:#2D7A4F;padding:14px 0 6px;}
+.d19 .date-divider{display:flex;align-items:center;gap:8px;padding:6px 0;font-size:0.65rem;color:#9CA3AF;}
+.d19 .date-divider::after{content:'';flex:1;height:1px;background:#E2E8F0;}
+.d19 .item{padding:6px 0 6px 12px;font-size:0.82rem;font-weight:500;transition:all 0.15s;}
+.d19 .item:hover{color:#2D7A4F;padding-left:16px;}
+
+/* ===== #20 Dense Table (Redesigned) ===== */
+.d20 .cat{background:linear-gradient(90deg,#2D7A4F,#3D9B65);color:#fff;padding:6px 12px;font-size:0.7rem;font-weight:700;border-radius:4px;margin-top:10px;}
+.d20 table{width:100%;border-collapse:collapse;}
+.d20 td{padding:8px 10px;font-size:0.8rem;border-bottom:1px solid #F1F5F9;vertical-align:middle;}
+.d20 td:first-child{width:80px;font-size:0.68rem;color:#9CA3AF;font-variant-numeric:tabular-nums;}
+.d20 tr:hover td{background:#F0FDF4;}
+.d20 .title{font-weight:600;}
+</style>
+</head>
+<body>
+<h1>Article List UI Designs — 20 Variations</h1>
+
+<script>
+const cats = ['脳梗塞・脳卒中', 'くも膜下出血'];
+const items = [
+  ['脳梗塞・脳卒中', [
+    {date:'2026/04/01', title:'脳卒中治療ガイドライン 2021〔改訂2025〕（日本脳卒中学会 2025）'},
+  ]],
+  ['くも膜下出血', [
+    {date:'2026/03/30', title:'AHA/ASA 2023 くも膜下出血（aSAH）管理ガイドライン'},
+    {date:'2026/03/31', title:'aSAH後合併症の管理戦略レビュー（Critical Care 2025）'},
+  ]],
+  ['アルコール離脱', [
+    {date:'2026/03/31', title:'アルコール離脱症候群（AWS）神経集中治療における評価と治療（Neurocrit Care 2021）'},
+  ]],
+];
+
+function renderDesign(id, label, renderFn) {
+  let html = `<div class="design ${id}"><h2>${label}</h2><div class="sample-items">`;
+  html += renderFn(items);
+  html += '</div></div>';
+  return html;
+}
+
+let out = '';
+
+// #1
+out += renderDesign('d1','#1 Current (Baseline) — テーブル行', items => {
+  let h='';
+  items.forEach(([cat,rows])=>{
+    h+=`<div class="cat">▸ ${cat}</div>`;
+    rows.forEach(r=>h+=`<a class="item" href="#"><span class="date">${r.date}</span><span class="title">${r.title}</span></a>`);
+  });
+  return h;
+});
+
+// #2
+out += renderDesign('d2','#2 Card List — 角丸カードにホバーアニメ', items => {
+  let h='';
+  items.forEach(([cat,rows])=>{
+    h+=`<div class="cat">▸ ${cat}</div>`;
+    rows.forEach(r=>h+=`<a class="item" href="#"><span class="date">${r.date}</span><span class="title">${r.title}</span></a>`);
+  });
+  return h;
+});
+
+// #3
+out += renderDesign('d3','#3 Minimal Dot — ドット+日付+タイトル', items => {
+  let h='';
+  items.forEach(([cat,rows])=>{
+    h+=`<div class="cat">▸ ${cat}</div>`;
+    rows.forEach(r=>h+=`<a class="item" href="#"><span class="dot"></span><span class="date">${r.date}</span><span class="title">${r.title}</span></a>`);
+  });
+  return h;
+});
+
+// #4
+out += renderDesign('d4','#4 Tag + Badge — カテゴリピル+日付バッジ', items => {
+  let h='';
+  items.forEach(([cat,rows])=>{
+    h+=`<span class="cat-tag">${cat}</span>`;
+    rows.forEach(r=>h+=`<a class="item" href="#"><span class="date-badge">${r.date}</span><span class="title">${r.title}</span></a>`);
+  });
+  return h;
+});
+
+// #5
+out += renderDesign('d5','#5 Timeline — 縦タイムライン', items => {
+  let h='';
+  items.forEach(([cat,rows])=>{
+    h+=`<div class="cat">${cat}</div>`;
+    rows.forEach(r=>h+=`<a class="item" href="#"><div class="meta"><span class="date">${r.date}</span></div><span class="title">${r.title}</span></a>`);
+  });
+  return h;
+});
+
+// #6
+out += renderDesign('d6','#6 Stripe Rows — 濃色ヘッダ+交互背景', items => {
+  let h='';
+  items.forEach(([cat,rows])=>{
+    h+=`<div class="cat">${cat}</div>`;
+    rows.forEach(r=>h+=`<a class="item" href="#"><span class="date">${r.date}</span><span class="title">${r.title}</span><span class="arrow">›</span></a>`);
+  });
+  return h;
+});
+
+// #7
+out += renderDesign('d7','#7 Compact Grid — 2列グリッド', items => {
+  let h='';
+  items.forEach(([cat,rows])=>{
+    h+=`<div class="cat">${cat}</div><div class="grid">`;
+    rows.forEach(r=>h+=`<a class="item" href="#"><span class="date">${r.date}</span><span class="title">${r.title}</span></a>`);
+    h+='</div>';
+  });
+  return h;
+});
+
+// #8
+out += renderDesign('d8','#8 Notion-style — シンプル+アイコン', items => {
+  let h='';
+  items.forEach(([cat,rows])=>{
+    h+=`<div class="cat">${cat}</div>`;
+    rows.forEach(r=>h+=`<a class="item" href="#"><span class="icon">📄</span><span class="title">${r.title}</span><span class="date">${r.date}</span></a>`);
+  });
+  return h;
+});
+
+// #9
+out += renderDesign('d9','#9 Glassmorphism — ダーク+すりガラス', items => {
+  let h='';
+  items.forEach(([cat,rows])=>{
+    h+=`<div class="cat">${cat}</div>`;
+    rows.forEach(r=>h+=`<a class="item" href="#"><span class="date">${r.date}</span><span class="title">${r.title}</span></a>`);
+  });
+  return h;
+});
+
+// #10
+out += renderDesign('d10','#10 Left Date Column — 日付左カラム+緑ライン', items => {
+  let h='';
+  items.forEach(([cat,rows])=>{
+    h+=`<div class="cat">${cat}</div>`;
+    rows.forEach(r=>h+=`<a class="item" href="#"><div class="date-col">${r.date}</div><div class="title-col">${r.title}</div></a>`);
+  });
+  return h;
+});
+
+// #11
+out += renderDesign('d11','#11 Pill Category — カテゴリピル+左ボーダー', items => {
+  let h='';
+  items.forEach(([cat,rows])=>{
+    h+=`<div class="section"><span class="cat-pill">${cat}<span class="cat-count">${rows.length}</span></span>`;
+    rows.forEach(r=>h+=`<a class="item" href="#">${r.title}<span class="date">${r.date}</span></a>`);
+    h+='</div>';
+  });
+  return h;
+});
+
+// #12
+out += renderDesign('d12','#12 Material Expansion — アコーディオン風', items => {
+  let h='';
+  items.forEach(([cat,rows])=>{
+    h+=`<div class="cat"><span>${cat}</span><span class="cat-arrow">▾</span></div><div class="items">`;
+    rows.forEach(r=>h+=`<a class="item" href="#"><span class="date">${r.date}</span><span class="title">${r.title}</span></a>`);
+    h+='</div>';
+  });
+  return h;
+});
+
+// #13 - Skip (uses border-left accent which is prohibited)
+out += renderDesign('d13','#13 Side Accent — 左アクセント帯（※禁止デザインの参考）', items => {
+  let h='<p style="color:#DC2626;font-size:0.75rem;font-weight:700;margin-bottom:8px;">CLAUDE.mdで禁止されているborder-leftデザイン。参考表示のみ。</p>';
+  items.forEach(([cat,rows])=>{
+    h+=`<div class="cat">${cat}</div>`;
+    rows.forEach(r=>h+=`<a class="item" href="#"><div class="accent"></div><div class="content"><span class="date">${r.date}</span><span class="title">${r.title}</span></div></a>`);
+  });
+  return h;
+});
+
+// #14
+out += renderDesign('d14','#14 Icon Category — カテゴリアイコン付き', items => {
+  let h='';
+  const icons = ['🧠','🩸','🍷','⚡'];
+  items.forEach(([cat,rows],i)=>{
+    h+=`<div class="cat"><span class="cat-icon">${icons[i]||'📋'}</span>${cat}</div>`;
+    rows.forEach(r=>h+=`<a class="item" href="#"><span class="date">${r.date}</span><span class="title">${r.title}</span></a>`);
+  });
+  return h;
+});
+
+// #15
+out += renderDesign('d15','#15 Flat Chip — カテゴリチップ+日付右寄せ', items => {
+  let h='';
+  items.forEach(([cat,rows])=>{
+    h+=`<div class="cat"><span class="cat-chip">${cat}</span></div>`;
+    rows.forEach(r=>h+=`<a class="item" href="#"><span class="title">${r.title}</span><span class="date">${r.date}</span></a>`);
+  });
+  return h;
+});
+
+// #16
+out += renderDesign('d16','#16 Number Badge — 連番バッジ', items => {
+  let h='', n=1;
+  items.forEach(([cat,rows])=>{
+    h+=`<div class="cat">${cat}</div>`;
+    rows.forEach(r=>{h+=`<a class="item" href="#"><span class="num">${n++}</span><span class="title">${r.title}</span><span class="date">${r.date}</span></a>`;});
+  });
+  return h;
+});
+
+// #17
+out += renderDesign('d17','#17 Underline Hover — ホバーで下線出現', items => {
+  let h='';
+  items.forEach(([cat,rows])=>{
+    h+=`<div class="cat">${cat}</div>`;
+    rows.forEach(r=>h+=`<a class="item" href="#"><span class="date">${r.date}</span><span class="title">${r.title}</span></a>`);
+  });
+  return h;
+});
+
+// #18
+out += renderDesign('d18','#18 Kanban Card — フローティングカード', items => {
+  let h='';
+  items.forEach(([cat,rows])=>{
+    h+=`<div class="cat">${cat}</div>`;
+    rows.forEach(r=>h+=`<a class="item" href="#"><div class="title">${r.title}</div><div class="meta"><span class="date">${r.date}</span><span class="tag">${cat}</span></div></a>`);
+  });
+  return h;
+});
+
+// #19
+out += renderDesign('d19','#19 Divider Date — 日付セパレーター', items => {
+  let h='';
+  items.forEach(([cat,rows])=>{
+    h+=`<div class="cat">${cat}</div>`;
+    let lastDate='';
+    rows.forEach(r=>{
+      if(r.date!==lastDate){h+=`<div class="date-divider">${r.date}</div>`;lastDate=r.date;}
+      h+=`<a class="item" href="#">${r.title}</a>`;
+    });
+  });
+  return h;
+});
+
+// #20
+out += renderDesign('d20','#20 Dense Table (Redesigned) — グラデヘッダ+密テーブル', items => {
+  let h='';
+  items.forEach(([cat,rows])=>{
+    h+=`<div class="cat">${cat}</div><table>`;
+    rows.forEach(r=>h+=`<tr><td>${r.date}</td><td><a href="#" class="title">${r.title}</a></td></tr>`);
+    h+='</table>';
+  });
+  return h;
+});
+
+document.querySelector('.sample-items')?.remove();
+document.body.insertAdjacentHTML('beforeend', out);
+</script>
+
+</body>
+</html>
