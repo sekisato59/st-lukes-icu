@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Article List UI v3 — Dense Table Variations（20種）</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Noto Sans JP',sans-serif;background:#F3F4F6;padding:20px;color:#1A202C;}
+h1{font-size:1.2rem;font-weight:900;margin-bottom:8px;}
+p.desc{font-size:0.78rem;color:#6B7280;margin-bottom:24px;}
+.design{background:#fff;border-radius:16px;padding:24px;margin-bottom:32px;box-shadow:0 1px 4px rgba(0,0,0,0.08);}
+.design h2{font-size:0.85rem;font-weight:800;color:#6366F1;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid #E0E7FF;}
+a{text-decoration:none;color:inherit;}
+.sample{max-width:820px;display:flex;flex-direction:column;gap:14px;}
+
+/* Common table base */
+.sample table{width:100%;border-collapse:collapse;}
+.sample td{vertical-align:middle;}
+.sample tr:hover td{cursor:pointer;}
+
+/* ===== #1 Original Dense ===== */
+.d1 .bx{border-radius:8px;overflow:hidden;border:1px solid #E2E8F0;}
+.d1 .hd{background:#2D7A4F;padding:6px 12px;font-size:0.72rem;font-weight:700;color:#fff;}
+.d1 td{padding:7px 12px;font-size:0.8rem;border-bottom:1px solid #E2E8F0;}
+.d1 td:first-child{width:70px;font-size:0.65rem;color:#9CA3AF;font-variant-numeric:tabular-nums;}
+.d1 tr:hover td{background:#F0FDF4;}
+.d1 .tt{font-weight:600;}
+
+/* ===== #2 Rounded + Softer Green ===== */
+.d2 .bx{border-radius:10px;overflow:hidden;border:1px solid #D1FAE5;}
+.d2 .hd{background:#E0F2E9;padding:8px 14px;font-size:0.74rem;font-weight:800;color:#166534;}
+.d2 td{padding:8px 14px;font-size:0.82rem;border-bottom:1px solid #F0FDF4;}
+.d2 td:first-child{width:75px;font-size:0.67rem;color:#9CA3AF;font-variant-numeric:tabular-nums;}
+.d2 tr:hover td{background:#F0FDF4;}
+.d2 .tt{font-weight:500;}
+
+/* ===== #3 Gradient Header Dark ===== */
+.d3 .bx{border-radius:10px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,0.06);}
+.d3 .hd{background:linear-gradient(135deg,#1A3A2A,#2D7A4F);padding:8px 14px;font-size:0.74rem;font-weight:700;color:#fff;}
+.d3 td{padding:8px 14px;font-size:0.82rem;border-bottom:1px solid #F1F5F9;}
+.d3 td:first-child{width:75px;font-size:0.67rem;color:#9CA3AF;}
+.d3 tr:hover td{background:#DBEAFE;}
+.d3 .tt{font-weight:600;}
+
+/* ===== #4 Pill Header + Dense ===== */
+.d4 .bx{border-radius:10px;overflow:hidden;border:1px solid #E2E8F0;}
+.d4 .hd{display:inline-block;background:#2D7A4F;color:#fff;font-size:0.68rem;font-weight:800;padding:3px 14px;border-radius:0 0 10px 0;}
+.d4 td{padding:7px 12px;font-size:0.82rem;border-bottom:1px solid #F1F5F9;}
+.d4 td:first-child{width:70px;font-size:0.65rem;color:#9CA3AF;}
+.d4 tr:hover td{background:#F0FDF4;}
+.d4 .tt{font-weight:500;}
+
+/* ===== #5 Top Accent Line ===== */
+.d5 .bx{border-radius:10px;overflow:hidden;border:1px solid #E2E8F0;}
+.d5 .accent{height:3px;background:linear-gradient(90deg,#2D7A4F,#60A5FA);}
+.d5 .hd{padding:8px 14px;font-size:0.74rem;font-weight:800;color:#1A202C;background:#FAFAFA;}
+.d5 td{padding:7px 14px;font-size:0.82rem;border-bottom:1px solid #F1F5F9;}
+.d5 td:first-child{width:75px;font-size:0.67rem;color:#9CA3AF;}
+.d5 tr:hover td{background:#EFF6FF;}
+.d5 .tt{font-weight:500;}
+
+/* ===== #6 Header + Count Badge ===== */
+.d6 .bx{border-radius:10px;overflow:hidden;border:1px solid #E2E8F0;}
+.d6 .hd{display:flex;align-items:center;justify-content:space-between;background:#2D7A4F;padding:7px 14px;}
+.d6 .hd-label{font-size:0.72rem;font-weight:700;color:#fff;}
+.d6 .hd-count{font-size:0.58rem;font-weight:800;background:rgba(255,255,255,0.25);color:#fff;padding:1px 8px;border-radius:8px;}
+.d6 td{padding:7px 14px;font-size:0.82rem;border-bottom:1px solid #F1F5F9;}
+.d6 td:first-child{width:75px;font-size:0.67rem;color:#9CA3AF;}
+.d6 tr:hover td{background:#F0FDF4;}
+.d6 .tt{font-weight:500;}
+
+/* ===== #7 Two-tone Header ===== */
+.d7 .bx{border-radius:10px;overflow:hidden;border:1px solid #E2E8F0;}
+.d7 .hd{display:flex;align-items:stretch;}
+.d7 .hd-num{background:#1A3A2A;color:#fff;font-size:0.65rem;font-weight:900;padding:6px 10px;display:flex;align-items:center;}
+.d7 .hd-label{background:#2D7A4F;color:#fff;font-size:0.72rem;font-weight:700;padding:6px 12px;flex:1;}
+.d7 td{padding:7px 14px;font-size:0.82rem;border-bottom:1px solid #F1F5F9;}
+.d7 td:first-child{width:75px;font-size:0.67rem;color:#9CA3AF;}
+.d7 tr:hover td{background:#F0FDF4;}
+.d7 .tt{font-weight:500;}
+
+/* ===== #8 Compact + Arrow ===== */
+.d8 .bx{border-radius:8px;overflow:hidden;border:1px solid #E2E8F0;}
+.d8 .hd{background:#2D7A4F;padding:5px 12px;font-size:0.7rem;font-weight:700;color:#fff;}
+.d8 td{padding:6px 12px;font-size:0.78rem;border-bottom:1px solid #F1F5F9;}
+.d8 td:first-child{width:65px;font-size:0.63rem;color:#9CA3AF;}
+.d8 td:last-child{width:20px;color:#CBD5E1;font-size:0.7rem;text-align:right;}
+.d8 tr:hover td{background:#F0FDF4;}
+.d8 .tt{font-weight:500;}
+
+/* ===== #9 Stripe Rows ===== */
+.d9 .bx{border-radius:10px;overflow:hidden;border:1px solid #E2E8F0;}
+.d9 .hd{background:#2D7A4F;padding:7px 14px;font-size:0.72rem;font-weight:700;color:#fff;}
+.d9 tr:nth-child(odd) td{background:#F8FAFC;}
+.d9 tr:nth-child(even) td{background:#fff;}
+.d9 td{padding:8px 14px;font-size:0.82rem;border-bottom:1px solid #E2E8F0;}
+.d9 td:first-child{width:75px;font-size:0.67rem;color:#9CA3AF;}
+.d9 tr:hover td{background:#DBEAFE !important;}
+.d9 .tt{font-weight:500;}
+
+/* ===== #10 Left Color Band ===== */
+.d10 .bx{border-radius:10px;overflow:hidden;display:flex;border:1px solid #E2E8F0;}
+.d10 .band{width:5px;background:#2D7A4F;flex-shrink:0;}
+.d10 .inner{flex:1;}
+.d10 .hd{padding:7px 14px;font-size:0.74rem;font-weight:800;color:#2D7A4F;background:#FAFAFA;border-bottom:1px solid #E2E8F0;}
+.d10 td{padding:7px 14px;font-size:0.82rem;border-bottom:1px solid #F1F5F9;}
+.d10 td:first-child{width:75px;font-size:0.67rem;color:#9CA3AF;}
+.d10 tr:hover td{background:#F0FDF4;}
+.d10 .tt{font-weight:500;}
+
+/* ===== #11 Date Chip ===== */
+.d11 .bx{border-radius:10px;overflow:hidden;border:1px solid #E2E8F0;}
+.d11 .hd{background:#2D7A4F;padding:7px 14px;font-size:0.72rem;font-weight:700;color:#fff;}
+.d11 td{padding:8px 14px;font-size:0.82rem;border-bottom:1px solid #F1F5F9;}
+.d11 .dt-chip{display:inline-block;font-size:0.62rem;background:#E0F2E9;color:#166534;padding:2px 8px;border-radius:4px;font-weight:600;font-variant-numeric:tabular-nums;}
+.d11 td:first-child{width:85px;}
+.d11 tr:hover td{background:#F0FDF4;}
+.d11 .tt{font-weight:500;}
+
+/* ===== #12 Outlined Header ===== */
+.d12 .bx{border-radius:10px;overflow:hidden;border:2px solid #2D7A4F;}
+.d12 .hd{padding:7px 14px;font-size:0.74rem;font-weight:800;color:#2D7A4F;background:#fff;}
+.d12 td{padding:7px 14px;font-size:0.82rem;border-bottom:1px solid #F1F5F9;}
+.d12 td:first-child{width:75px;font-size:0.67rem;color:#9CA3AF;}
+.d12 tr:hover td{background:#F0FDF4;}
+.d12 .tt{font-weight:500;}
+
+/* ===== #13 Bottom Border Accent ===== */
+.d13 .bx{border-radius:10px;overflow:hidden;border:1px solid #E2E8F0;}
+.d13 .hd{padding:8px 14px;font-size:0.74rem;font-weight:800;color:#1A202C;border-bottom:3px solid #2D7A4F;}
+.d13 td{padding:7px 14px;font-size:0.82rem;border-bottom:1px solid #F1F5F9;}
+.d13 td:first-child{width:75px;font-size:0.67rem;color:#9CA3AF;}
+.d13 tr:hover td{background:#F0FDF4;}
+.d13 .tt{font-weight:500;}
+
+/* ===== #14 Flat Minimal ===== */
+.d14 .bx{border-radius:8px;overflow:hidden;}
+.d14 .hd{padding:6px 0;font-size:0.72rem;font-weight:800;color:#2D7A4F;letter-spacing:0.06em;border-bottom:2px solid #D1FAE5;}
+.d14 td{padding:7px 0;font-size:0.82rem;border-bottom:1px solid #F1F5F9;}
+.d14 td:first-child{width:75px;font-size:0.67rem;color:#9CA3AF;}
+.d14 tr:hover td{background:transparent;}
+.d14 tr:hover .tt{color:#2D7A4F;font-weight:600;}
+.d14 .tt{font-weight:400;transition:all 0.15s;}
+
+/* ===== #15 Shadow Elevation ===== */
+.d15 .bx{border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.06);border:none;}
+.d15 .hd{background:linear-gradient(90deg,#2D7A4F,#3D9B65);padding:8px 16px;font-size:0.74rem;font-weight:700;color:#fff;}
+.d15 td{padding:9px 16px;font-size:0.82rem;border-bottom:1px solid #F1F5F9;}
+.d15 td:first-child{width:75px;font-size:0.67rem;color:#9CA3AF;}
+.d15 tr:hover td{background:#F0FDF4;}
+.d15 .tt{font-weight:600;}
+
+/* ===== #16 Icon + Header ===== */
+.d16 .bx{border-radius:10px;overflow:hidden;border:1px solid #E2E8F0;}
+.d16 .hd{display:flex;align-items:center;gap:8px;background:#2D7A4F;padding:7px 14px;font-size:0.72rem;font-weight:700;color:#fff;}
+.d16 .hd-ico{width:18px;height:18px;background:rgba(255,255,255,0.2);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:0.6rem;}
+.d16 td{padding:7px 14px;font-size:0.82rem;border-bottom:1px solid #F1F5F9;}
+.d16 td:first-child{width:75px;font-size:0.67rem;color:#9CA3AF;}
+.d16 tr:hover td{background:#F0FDF4;}
+.d16 .tt{font-weight:500;}
+
+/* ===== #17 Pastel Header ===== */
+.d17 .bx{border-radius:10px;overflow:hidden;}
+.d17 .bx:nth-child(1){border:1px solid #BBF7D0;}
+.d17 .bx:nth-child(1) .hd{background:#D1FAE5;color:#166534;}
+.d17 .bx:nth-child(2){border:1px solid #BFDBFE;}
+.d17 .bx:nth-child(2) .hd{background:#DBEAFE;color:#1E40AF;}
+.d17 .bx:nth-child(3){border:1px solid #FDE68A;}
+.d17 .bx:nth-child(3) .hd{background:#FEF3C7;color:#92400E;}
+.d17 .hd{padding:8px 14px;font-size:0.74rem;font-weight:800;}
+.d17 td{padding:7px 14px;font-size:0.82rem;border-bottom:1px solid #F1F5F9;}
+.d17 td:first-child{width:75px;font-size:0.67rem;color:#9CA3AF;}
+.d17 tr:hover td{background:rgba(255,255,255,0.7);}
+.d17 .tt{font-weight:500;}
+
+/* ===== #18 Header with Subtitle ===== */
+.d18 .bx{border-radius:10px;overflow:hidden;border:1px solid #E2E8F0;}
+.d18 .hd{background:#2D7A4F;padding:8px 14px;}
+.d18 .hd-main{font-size:0.76rem;font-weight:700;color:#fff;}
+.d18 .hd-sub{font-size:0.6rem;color:rgba(255,255,255,0.6);margin-top:1px;}
+.d18 td{padding:7px 14px;font-size:0.82rem;border-bottom:1px solid #F1F5F9;}
+.d18 td:first-child{width:75px;font-size:0.67rem;color:#9CA3AF;}
+.d18 tr:hover td{background:#F0FDF4;}
+.d18 .tt{font-weight:500;}
+
+/* ===== #19 Inset Header ===== */
+.d19 .bx{border-radius:10px;overflow:hidden;border:1px solid #E2E8F0;background:#FAFAFA;}
+.d19 .hd{margin:8px 8px 0;background:#2D7A4F;padding:7px 12px;font-size:0.72rem;font-weight:700;color:#fff;border-radius:6px;}
+.d19 table{margin:4px 0;}
+.d19 td{padding:6px 14px;font-size:0.82rem;border-bottom:1px solid #E8E8E8;}
+.d19 td:first-child{width:75px;font-size:0.67rem;color:#9CA3AF;}
+.d19 tr:hover td{background:#E0F2E9;}
+.d19 .tt{font-weight:500;}
+
+/* ===== #20 Minimal Line ===== */
+.d20 .bx{border-radius:10px;overflow:hidden;border:1px solid #E2E8F0;}
+.d20 .hd{padding:8px 14px;font-size:0.72rem;font-weight:800;color:#fff;background:#1A3A2A;letter-spacing:0.04em;}
+.d20 td{padding:8px 14px;font-size:0.82rem;}
+.d20 td:first-child{width:75px;font-size:0.67rem;color:#9CA3AF;}
+.d20 tr{border-bottom:1px solid #F1F5F9;}
+.d20 tr:last-child{border-bottom:none;}
+.d20 tr:hover td{background:#F0FDF4;}
+.d20 .tt{font-weight:500;}
+.d20 .new{display:inline-block;background:#DC2626;color:#fff;font-size:0.55rem;font-weight:800;padding:1px 5px;border-radius:3px;margin-right:4px;vertical-align:middle;}
+</style>
+</head>
+<body>
+<h1>Article List UI v3 — Dense Table Variations（20種）</h1>
+<p class="desc">#16 Dense Table をベースに、ヘッダデザイン・行スタイル・アクセント・インタラクションのバリエーション20種。</p>
+
+<script>
+const data = [
+  ['脳梗塞・脳卒中', 'Stroke', [
+    {date:'04/01', title:'脳卒中治療ガイドライン 2021〔改訂2025〕（日本脳卒中学会）', isNew:true},
+  ]],
+  ['くも膜下出血', 'SAH', [
+    {date:'03/30', title:'AHA/ASA 2023 くも膜下出血（aSAH）管理ガイドライン'},
+    {date:'03/31', title:'aSAH後合併症の管理戦略レビュー（Critical Care 2025）'},
+  ]],
+  ['アルコール離脱', 'AWS', [
+    {date:'03/31', title:'AWS 神経集中治療における評価と治療（Neurocrit Care 2021）'},
+  ]],
+];
+
+function R(cls,label,fn){
+  return `<div class="design ${cls}"><h2>${label}</h2><div class="sample">${fn(data)}</div></div>`;
+}
+
+function trs(items,extra){
+  return items.map(r=>{
+    const nw = r.isNew ? '<span class="new">NEW</span>' : '';
+    return extra ? extra(r,nw) : `<tr><td>${r.date}</td><td><span class="tt">${nw}${r.title}</span></td></tr>`;
+  }).join('');
+}
+
+let o='';
+
+o+=R('d1','#1 Original Dense — ベースデザイン',d=>d.map(([c,,items])=>
+  `<div class="bx"><div class="hd">${c}</div><table>${trs(items)}</table></div>`).join(''));
+
+o+=R('d2','#2 Soft Green — 薄緑ヘッダ+薄緑ボーダー',d=>d.map(([c,,items])=>
+  `<div class="bx"><div class="hd">▸ ${c}</div><table>${trs(items)}</table></div>`).join(''));
+
+o+=R('d3','#3 Dark Gradient — 暗めグラデヘッダ+青ホバー',d=>d.map(([c,,items])=>
+  `<div class="bx"><div class="hd">${c}</div><table>${trs(items)}</table></div>`).join(''));
+
+o+=R('d4','#4 Pill Corner — 角丸ピルヘッダ',d=>d.map(([c,,items])=>
+  `<div class="bx"><div class="hd">${c}</div><table>${trs(items)}</table></div>`).join(''));
+
+o+=R('d5','#5 Top Accent — 上部グラデライン+グレーヘッダ',d=>d.map(([c,,items])=>
+  `<div class="bx"><div class="accent"></div><div class="hd">${c}</div><table>${trs(items)}</table></div>`).join(''));
+
+o+=R('d6','#6 Count Badge — ヘッダに件数バッジ',d=>d.map(([c,,items])=>
+  `<div class="bx"><div class="hd"><span class="hd-label">${c}</span><span class="hd-count">${items.length}</span></div><table>${trs(items)}</table></div>`).join(''));
+
+o+=R('d7','#7 Two-tone — 濃色番号+緑ラベル',d=>{let n=1;return d.map(([c,,items])=>
+  `<div class="bx"><div class="hd"><span class="hd-num">#${n++}</span><span class="hd-label">${c}</span></div><table>${trs(items)}</table></div>`).join('');});
+
+o+=R('d8','#8 Compact Arrow — 極小+行末矢印',d=>d.map(([c,,items])=>
+  `<div class="bx"><div class="hd">${c}</div><table>${items.map(r=>`<tr><td>${r.date}</td><td><span class="tt">${r.title}</span></td><td>›</td></tr>`).join('')}</table></div>`).join(''));
+
+o+=R('d9','#9 Stripe Rows — 交互背景色',d=>d.map(([c,,items])=>
+  `<div class="bx"><div class="hd">${c}</div><table>${trs(items)}</table></div>`).join(''));
+
+o+=R('d10','#10 Left Band — カード左に緑帯',d=>d.map(([c,,items])=>
+  `<div class="bx"><div class="band"></div><div class="inner"><div class="hd">${c}</div><table>${trs(items)}</table></div></div>`).join(''));
+
+o+=R('d11','#11 Date Chip — 日付をチップ表示',d=>d.map(([c,,items])=>
+  `<div class="bx"><div class="hd">${c}</div><table>${items.map(r=>`<tr><td><span class="dt-chip">${r.date}</span></td><td><span class="tt">${r.title}</span></td></tr>`).join('')}</table></div>`).join(''));
+
+o+=R('d12','#12 Green Outline — 緑枠+白ヘッダ',d=>d.map(([c,,items])=>
+  `<div class="bx"><div class="hd">▸ ${c}</div><table>${trs(items)}</table></div>`).join(''));
+
+o+=R('d13','#13 Bottom Border — ヘッダ下に太線アクセント',d=>d.map(([c,,items])=>
+  `<div class="bx"><div class="hd">${c}</div><table>${trs(items)}</table></div>`).join(''));
+
+o+=R('d14','#14 Flat Minimal — 枠なし+緑下線+テキストホバー',d=>d.map(([c,,items])=>
+  `<div class="bx"><div class="hd">${c}</div><table>${trs(items)}</table></div>`).join(''));
+
+o+=R('d15','#15 Shadow Elevation — シャドウ+横グラデヘッダ',d=>d.map(([c,,items])=>
+  `<div class="bx"><div class="hd">${c}</div><table>${trs(items)}</table></div>`).join(''));
+
+o+=R('d16','#16 Icon Header — ヘッダにミニアイコン',d=>{
+  const icos=['🧠','🩸','🍷'];
+  return d.map(([c,,items],i)=>
+  `<div class="bx"><div class="hd"><span class="hd-ico">${icos[i]||'📋'}</span>${c}</div><table>${trs(items)}</table></div>`).join('');});
+
+o+=R('d17','#17 Pastel Headers — テーマ別パステル色ヘッダ',d=>d.map(([c,,items])=>
+  `<div class="bx"><div class="hd">${c}</div><table>${trs(items)}</table></div>`).join(''));
+
+o+=R('d18','#18 Header + Subtitle — 英語サブタイトル付き',d=>d.map(([c,sub,items])=>
+  `<div class="bx"><div class="hd"><div class="hd-main">${c}</div><div class="hd-sub">${sub}</div></div><table>${trs(items)}</table></div>`).join(''));
+
+o+=R('d19','#19 Inset Header — 内側に浮くヘッダ',d=>d.map(([c,,items])=>
+  `<div class="bx"><div class="hd">${c}</div><table>${trs(items)}</table></div>`).join(''));
+
+o+=R('d20','#20 Dark Header + NEW — 最暗ヘッダ+NEWバッジ対応',d=>d.map(([c,,items])=>
+  `<div class="bx"><div class="hd">${c}</div><table>${trs(items)}</table></div>`).join(''));
+
+document.body.insertAdjacentHTML('beforeend', o);
+</script>
+</body>
+</html>
