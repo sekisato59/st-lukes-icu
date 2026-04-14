@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sidebar Index Designs（20種）</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Noto Sans JP',sans-serif;background:#F3F4F6;padding:16px;color:#1A202C;}
+h1{font-size:1.1rem;font-weight:900;margin-bottom:20px;}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+@media(max-width:700px){.grid{grid-template-columns:1fr;}}
+.design{background:#fff;border-radius:14px;padding:16px;box-shadow:0 1px 4px rgba(0,0,0,0.06);}
+.design h2{font-size:0.72rem;font-weight:800;color:#6366F1;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid #E0E7FF;}
+a{text-decoration:none;color:inherit;display:flex;align-items:center;}
+
+/* Data */
+:root{--g:#2D7A4F;--gl:#D1FAE5;--gg:#166534;}
+</style>
+</head>
+<body>
+<h1>Sidebar Index — 20 Designs</h1>
+<div class="grid" id="out"></div>
+
+<script>
+const items=[
+  {jp:'神経系',n:6,ico:'🧠'},
+  {jp:'循環器系',n:12,ico:'❤️'},
+  {jp:'呼吸器系',n:8,ico:'🫁'},
+  {jp:'腎・電解質',n:5,ico:'💧'},
+  {jp:'消化器',n:3,ico:'🔥'},
+  {jp:'血液系',n:9,ico:'🩸'},
+  {jp:'感染症',n:11,ico:'🦠'},
+  {jp:'栄養・代謝',n:7,ico:'🍽'},
+  {jp:'筋骨格系',n:2,ico:'🦴'},
+  {jp:'予防',n:1,ico:'🛡'},
+];
+const total=items.reduce((s,i)=>s+i.n,0);
+
+function D(id,label,fn){
+  return `<div class="design"><h2>${id}. ${label}</h2>${fn(items,total)}</div>`;
+}
+
+let o='';
+
+// #1 Current
+o+=D(1,'Current（現行）',(_,t)=>{
+  let s=`<div style="background:#fff;border:1px solid #E2E8F0;border-radius:10px;padding:14px;">`;
+  s+=`<div style="font-size:0.6rem;font-weight:800;color:#2D7A4F;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:10px;padding-bottom:6px;border-bottom:2px solid #D1FAE5;">BY SYSTEM</div>`;
+  items.forEach(i=>{s+=`<a href="#" style="justify-content:space-between;padding:6px 8px;font-size:0.72rem;border-radius:5px;margin-bottom:1px;transition:background 0.15s;"><span>${i.jp}</span><span style="font-size:0.6rem;font-weight:700;color:#9CA3AF;background:#F1F5F9;padding:1px 6px;border-radius:8px;">${i.n}</span></a>`;});
+  s+=`<div style="margin-top:10px;padding-top:8px;border-top:1px solid #E2E8F0;font-size:0.6rem;color:#9CA3AF;text-align:center;">全 <strong style="color:#2D7A4F;">${t}</strong> 記事</div></div>`;
+  return s;
+});
+
+// #2 Pill badges
+o+=D(2,'Pill Badges — 件数ピル',(_,t)=>{
+  let s=`<div style="padding:8px 0;">`;
+  s+=`<div style="font-size:0.65rem;font-weight:800;color:#6B7280;letter-spacing:0.1em;margin-bottom:8px;">BY SYSTEM</div>`;
+  items.forEach(i=>{s+=`<a href="#" style="justify-content:space-between;padding:5px 0;font-size:0.73rem;font-weight:500;"><span>${i.jp}</span><span style="font-size:0.58rem;font-weight:800;color:#fff;background:#2D7A4F;padding:1px 7px;border-radius:10px;min-width:20px;text-align:center;">${i.n}</span></a>`;});
+  s+=`</div>`;
+  return s;
+});
+
+// #3 Progress bars
+o+=D(3,'Progress Bars — 件数バー',(_,t)=>{
+  const mx=Math.max(...items.map(i=>i.n));
+  let s=`<div style="padding:4px 0;">`;
+  s+=`<div style="font-size:0.65rem;font-weight:800;color:#2D7A4F;letter-spacing:0.08em;margin-bottom:10px;">BY SYSTEM</div>`;
+  items.forEach(i=>{
+    const pct=Math.round(i.n/mx*100);
+    s+=`<a href="#" style="display:block;padding:4px 0;font-size:0.72rem;font-weight:500;"><div style="display:flex;justify-content:space-between;margin-bottom:2px;"><span>${i.jp}</span><span style="font-size:0.6rem;color:#9CA3AF;">${i.n}</span></div><div style="height:3px;background:#F1F5F9;border-radius:2px;"><div style="height:100%;width:${pct}%;background:#2D7A4F;border-radius:2px;"></div></div></a>`;
+  });
+  s+=`</div>`;
+  return s;
+});
+
+// #4 Icon + count
+o+=D(4,'Icon Grid — アイコン+件数',(_,t)=>{
+  let s=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;">`;
+  items.forEach(i=>{s+=`<a href="#" style="flex-direction:column;gap:2px;background:#F8FAFC;border-radius:8px;padding:8px 6px;text-align:center;font-size:0.65rem;font-weight:600;transition:background 0.15s;"><span style="font-size:1rem;">${i.ico}</span><span>${i.jp}</span><span style="font-size:0.55rem;color:#9CA3AF;">${i.n}件</span></a>`;});
+  s+=`</div>`;
+  return s;
+});
+
+// #5 Minimal dots
+o+=D(5,'Minimal Dots — ドットリスト',(_,t)=>{
+  let s=`<div style="padding:4px 0;">`;
+  items.forEach(i=>{s+=`<a href="#" style="gap:8px;padding:5px 0;font-size:0.72rem;font-weight:500;border-bottom:1px solid #F8FAFC;"><span style="width:5px;height:5px;border-radius:50%;background:#2D7A4F;flex-shrink:0;"></span><span style="flex:1;">${i.jp}</span><span style="font-size:0.6rem;color:#CBD5E1;">${i.n}</span></a>`;});
+  s+=`</div>`;
+  return s;
+});
+
+// #6 Numbered list
+o+=D(6,'Numbered — 番号付き',(_,t)=>{
+  let s=`<div style="padding:4px 0;">`;
+  items.forEach((i,idx)=>{s+=`<a href="#" style="gap:8px;padding:5px 0;font-size:0.72rem;font-weight:500;"><span style="width:18px;height:18px;border-radius:50%;background:#E0F2E9;color:#2D7A4F;font-size:0.55rem;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0;">${idx+1}</span><span style="flex:1;">${i.jp}</span><span style="font-size:0.6rem;color:#CBD5E1;">${i.n}</span></a>`;});
+  s+=`</div>`;
+  return s;
+});
+
+// #7 Tag cloud
+o+=D(7,'Tag Cloud — タグ雲',(_,t)=>{
+  let s=`<div style="display:flex;flex-wrap:wrap;gap:4px;padding:4px 0;">`;
+  items.forEach(i=>{
+    const sz=Math.max(0.6,0.55+i.n*0.025);
+    s+=`<a href="#" style="background:#F0FDF4;border:1px solid #D1FAE5;border-radius:6px;padding:4px 8px;font-size:${sz}rem;font-weight:600;color:#166534;white-space:nowrap;">${i.jp}<sup style="font-size:0.5rem;color:#9CA3AF;margin-left:2px;">${i.n}</sup></a>`;
+  });
+  s+=`</div>`;
+  return s;
+});
+
+// #8 Accordion preview
+o+=D(8,'Accordion — 開閉式',(_,t)=>{
+  let s=`<div style="padding:2px 0;">`;
+  items.forEach((i,idx)=>{
+    const open=idx===1;
+    s+=`<div style="border-bottom:1px solid #F1F5F9;"><a href="#" style="justify-content:space-between;padding:6px 0;font-size:0.72rem;font-weight:600;"><span>${i.jp}</span><span style="font-size:0.6rem;color:#CBD5E1;">${open?'▾':'›'}</span></a>`;
+    if(open) s+=`<div style="padding:0 0 6px 12px;font-size:0.65rem;color:#6B7280;line-height:1.6;">脳梗塞・脳卒中<br>くも膜下出血<br>アルコール離脱</div>`;
+    s+=`</div>`;
+  });
+  s+=`</div>`;
+  return s;
+});
+
+// #9 Chips row
+o+=D(9,'Chip Row — 横並びチップ',(_,t)=>{
+  let s=`<div style="display:flex;flex-wrap:wrap;gap:4px;">`;
+  items.forEach(i=>{s+=`<a href="#" style="background:#2D7A4F;color:#fff;font-size:0.6rem;font-weight:700;padding:3px 10px;border-radius:14px;white-space:nowrap;">${i.jp} ${i.n}</a>`;});
+  s+=`</div>`;
+  return s;
+});
+
+// #10 Dark sidebar
+o+=D(10,'Dark — ダークテーマ',(_,t)=>{
+  let s=`<div style="background:#1A202C;border-radius:10px;padding:12px;">`;
+  s+=`<div style="font-size:0.6rem;font-weight:800;color:#4B5563;letter-spacing:0.12em;margin-bottom:8px;">BY SYSTEM</div>`;
+  items.forEach(i=>{s+=`<a href="#" style="justify-content:space-between;padding:5px 8px;font-size:0.72rem;font-weight:500;color:#D1D5DB;border-radius:5px;transition:background 0.15s;"><span>${i.jp}</span><span style="font-size:0.58rem;font-weight:700;color:#6B7280;">${i.n}</span></a>`;});
+  s+=`<div style="margin-top:8px;padding-top:6px;border-top:1px solid #374151;font-size:0.58rem;color:#6B7280;text-align:center;">全 ${t} 記事</div></div>`;
+  return s;
+});
+
+// #11 Left accent active
+o+=D(11,'Left Active — 選択時左アクセント',(_,t)=>{
+  let s=`<div style="padding:4px 0;">`;
+  items.forEach((i,idx)=>{
+    const active=idx===1;
+    const bg=active?'background:#F0FDF4;':'';
+    const bl=active?'border-left:3px solid #2D7A4F;padding-left:9px;':'border-left:3px solid transparent;padding-left:9px;';
+    const fw=active?'font-weight:700;color:#2D7A4F;':'font-weight:500;';
+    s+=`<a href="#" style="${bg}${bl}${fw}justify-content:space-between;padding-top:6px;padding-bottom:6px;padding-right:8px;font-size:0.72rem;border-radius:0 5px 5px 0;margin-bottom:1px;"><span>${i.jp}</span><span style="font-size:0.6rem;font-weight:700;color:#9CA3AF;background:#F1F5F9;padding:1px 6px;border-radius:8px;">${i.n}</span></a>`;
+  });
+  s+=`</div>`;
+  return s;
+});
+
+// #12 Segmented control
+o+=D(12,'Segmented — セグメント切替',(_,t)=>{
+  let s=`<div style="display:flex;flex-wrap:wrap;gap:2px;background:#F1F5F9;border-radius:8px;padding:3px;">`;
+  items.forEach((i,idx)=>{
+    const active=idx===0;
+    const bg=active?'background:#fff;box-shadow:0 1px 3px rgba(0,0,0,0.08);':'';
+    s+=`<a href="#" style="${bg}border-radius:6px;padding:5px 8px;font-size:0.62rem;font-weight:${active?700:500};color:${active?'#2D7A4F':'#6B7280'};white-space:nowrap;text-align:center;flex:1;min-width:0;justify-content:center;">${i.jp}</a>`;
+  });
+  s+=`</div>`;
+  return s;
+});
+
+// #13 Vertical tabs
+o+=D(13,'V-Tabs — 縦タブ',(_,t)=>{
+  let s=`<div style="padding:2px 0;">`;
+  items.forEach((i,idx)=>{
+    const active=idx===0;
+    s+=`<a href="#" style="justify-content:space-between;padding:7px 10px;font-size:0.72rem;font-weight:${active?700:500};color:${active?'#2D7A4F':'#1A202C'};background:${active?'#F0FDF4':'transparent'};border-radius:6px;margin-bottom:2px;transition:all 0.15s;"><span>${i.jp}</span><span style="font-size:0.58rem;font-weight:700;color:${active?'#2D7A4F':'#CBD5E1'};">${i.n}</span></a>`;
+  });
+  s+=`</div>`;
+  return s;
+});
+
+// #14 Emoji prominent
+o+=D(14,'Emoji Sidebar — 大きめアイコン',(_,t)=>{
+  let s=`<div style="padding:2px 0;">`;
+  items.forEach(i=>{s+=`<a href="#" style="gap:8px;padding:5px 4px;font-size:0.72rem;font-weight:500;border-bottom:1px solid #F8FAFC;"><span style="font-size:0.9rem;width:24px;text-align:center;">${i.ico}</span><span style="flex:1;">${i.jp}</span><span style="font-size:0.58rem;color:#CBD5E1;font-weight:700;">${i.n}</span></a>`;});
+  s+=`</div>`;
+  return s;
+});
+
+// #15 Compact 2-col
+o+=D(15,'Compact 2-Col — 2列コンパクト',(_,t)=>{
+  let s=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;">`;
+  items.forEach(i=>{s+=`<a href="#" style="justify-content:space-between;background:#F8FAFC;border-radius:5px;padding:5px 8px;font-size:0.65rem;font-weight:600;"><span>${i.jp}</span><span style="color:#9CA3AF;font-size:0.55rem;">${i.n}</span></a>`;});
+  s+=`</div>`;
+  return s;
+});
+
+// #16 Underline hover
+o+=D(16,'Underline — ホバー下線',(_,t)=>{
+  let s=`<style>.ul16 a:hover{border-bottom-color:#2D7A4F !important;color:#2D7A4F !important;}</style><div class="ul16" style="padding:4px 0;">`;
+  items.forEach(i=>{s+=`<a href="#" style="justify-content:space-between;padding:6px 0;font-size:0.72rem;font-weight:500;border-bottom:2px solid transparent;transition:all 0.2s;"><span>${i.jp}</span><span style="font-size:0.6rem;color:#CBD5E1;">${i.n}</span></a>`;});
+  s+=`</div>`;
+  return s;
+});
+
+// #17 Glass card
+o+=D(17,'Glass — すりガラス',(_,t)=>{
+  let s=`<div style="background:rgba(45,122,79,0.05);backdrop-filter:blur(6px);border:1px solid rgba(45,122,79,0.12);border-radius:12px;padding:12px;">`;
+  s+=`<div style="font-size:0.62rem;font-weight:800;color:#2D7A4F;letter-spacing:0.1em;margin-bottom:8px;">CATEGORIES</div>`;
+  items.forEach(i=>{s+=`<a href="#" style="justify-content:space-between;padding:5px 6px;font-size:0.72rem;font-weight:500;border-radius:5px;transition:background 0.15s;"><span>${i.jp}</span><span style="font-size:0.58rem;color:#9CA3AF;">${i.n}</span></a>`;});
+  s+=`</div>`;
+  return s;
+});
+
+// #18 Outline cards
+o+=D(18,'Outline Cards — 枠カード',(_,t)=>{
+  let s=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;">`;
+  items.forEach(i=>{s+=`<a href="#" style="flex-direction:column;align-items:flex-start;gap:2px;border:1px solid #E2E8F0;border-radius:8px;padding:8px 10px;font-size:0.68rem;font-weight:600;transition:all 0.15s;"><span>${i.jp}</span><span style="font-size:0.55rem;color:#9CA3AF;">${i.n} 記事</span></a>`;});
+  s+=`</div>`;
+  return s;
+});
+
+// #19 Stepper
+o+=D(19,'Stepper — ステッパー',(_,t)=>{
+  let s=`<div style="padding:4px 0;">`;
+  items.forEach((i,idx)=>{
+    const last=idx===items.length-1;
+    s+=`<div style="display:flex;gap:10px;padding-bottom:${last?0:4}px;">`;
+    s+=`<div style="display:flex;flex-direction:column;align-items:center;"><div style="width:8px;height:8px;border-radius:50%;background:#2D7A4F;flex-shrink:0;margin-top:4px;"></div>${last?'':'<div style="width:1px;flex:1;background:#D1FAE5;margin-top:2px;"></div>'}</div>`;
+    s+=`<a href="#" style="flex:1;justify-content:space-between;font-size:0.72rem;font-weight:500;padding-bottom:6px;"><span>${i.jp}</span><span style="font-size:0.58rem;color:#CBD5E1;">${i.n}</span></a>`;
+    s+=`</div>`;
+  });
+  s+=`</div>`;
+  return s;
+});
+
+// #20 Flat minimal
+o+=D(20,'Flat Minimal — 超フラット',(_,t)=>{
+  let s=`<div style="padding:2px 0;">`;
+  s+=`<div style="font-size:0.58rem;font-weight:700;color:#CBD5E1;letter-spacing:0.12em;margin-bottom:6px;">SYSTEM</div>`;
+  items.forEach(i=>{s+=`<a href="#" style="padding:4px 0;font-size:0.72rem;font-weight:400;color:#6B7280;transition:color 0.15s;gap:6px;"><span style="flex:1;">${i.jp}</span><span style="font-size:0.55rem;color:#D1D5DB;">${i.n}</span></a>`;});
+  s+=`<div style="margin-top:6px;font-size:0.55rem;color:#D1D5DB;">${t} articles</div></div>`;
+  return s;
+});
+
+document.getElementById('out').innerHTML=o;
+</script>
+</body>
+</html>
