@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Article List UI v2 — カテゴリ別カード（20種）</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Noto Sans JP',sans-serif;background:#F3F4F6;padding:20px;color:#1A202C;}
+h1{font-size:1.2rem;font-weight:900;margin-bottom:8px;}
+p.desc{font-size:0.78rem;color:#6B7280;margin-bottom:24px;}
+.design{background:#fff;border-radius:16px;padding:24px;margin-bottom:32px;box-shadow:0 1px 4px rgba(0,0,0,0.08);}
+.design h2{font-size:0.85rem;font-weight:800;color:#6366F1;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid #E0E7FF;}
+a{text-decoration:none;color:inherit;}
+.sample{max-width:820px;display:flex;flex-direction:column;gap:16px;}
+
+/* ===== #1 Clean Card ===== */
+.d1 .box{background:#fff;border:1px solid #E2E8F0;border-radius:12px;overflow:hidden;}
+.d1 .box-head{background:#F0FDF4;padding:10px 16px;font-size:0.78rem;font-weight:800;color:#166534;}
+.d1 .row{display:flex;align-items:center;gap:10px;padding:10px 16px;border-top:1px solid #F1F5F9;transition:background 0.15s;}
+.d1 .row:hover{background:#F8FAFC;}
+.d1 .dt{font-size:0.68rem;color:#9CA3AF;white-space:nowrap;min-width:72px;}
+.d1 .tt{flex:1;font-size:0.82rem;font-weight:500;}
+
+/* ===== #2 Gradient Header ===== */
+.d2 .box{border-radius:12px;overflow:hidden;border:1px solid #E2E8F0;}
+.d2 .box-head{background:linear-gradient(135deg,#1A3A2A,#2D7A4F);padding:10px 16px;font-size:0.78rem;font-weight:800;color:#fff;}
+.d2 .row{display:flex;align-items:center;gap:10px;padding:10px 16px;border-top:1px solid #F1F5F9;transition:background 0.15s;}
+.d2 .row:hover{background:#F0FDF4;}
+.d2 .dt{font-size:0.68rem;color:#9CA3AF;white-space:nowrap;min-width:72px;}
+.d2 .tt{flex:1;font-size:0.82rem;font-weight:500;}
+
+/* ===== #3 Pill Header + Dotted ===== */
+.d3 .box{padding:4px 0;}
+.d3 .box-head{display:inline-block;background:#2D7A4F;color:#fff;font-size:0.68rem;font-weight:800;padding:4px 14px;border-radius:16px;margin-bottom:8px;}
+.d3 .row{display:flex;align-items:baseline;gap:8px;padding:6px 0;border-bottom:1px dashed #E2E8F0;transition:all 0.15s;}
+.d3 .row:last-child{border-bottom:none;}
+.d3 .row:hover{padding-left:6px;}
+.d3 .dt{font-size:0.68rem;color:#9CA3AF;white-space:nowrap;}
+.d3 .tt{flex:1;font-size:0.82rem;font-weight:500;}
+.d3 .row:hover .tt{color:#2D7A4F;}
+
+/* ===== #4 Shadow Card ===== */
+.d4 .box{background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.06);overflow:hidden;}
+.d4 .box-head{padding:12px 18px;font-size:0.8rem;font-weight:800;color:#1A202C;border-bottom:2px solid #D1FAE5;}
+.d4 .row{display:flex;align-items:center;gap:12px;padding:10px 18px;transition:background 0.15s;}
+.d4 .row:not(:last-child){border-bottom:1px solid #F8FAFC;}
+.d4 .row:hover{background:#F0FDF4;}
+.d4 .chip{font-size:0.62rem;color:#fff;background:#2D7A4F;padding:2px 8px;border-radius:4px;white-space:nowrap;}
+.d4 .tt{flex:1;font-size:0.82rem;font-weight:500;}
+
+/* ===== #5 Left Accent ===== */
+.d5 .box{border-radius:10px;overflow:hidden;border:1px solid #E2E8F0;border-left:4px solid #2D7A4F;}
+.d5 .box-head{padding:10px 16px;font-size:0.78rem;font-weight:800;color:#2D7A4F;background:#FAFAFA;}
+.d5 .row{display:flex;align-items:center;gap:10px;padding:8px 16px;transition:background 0.15s;}
+.d5 .row:not(:last-child){border-bottom:1px solid #F1F5F9;}
+.d5 .row:hover{background:#F0FDF4;}
+.d5 .dt{font-size:0.68rem;color:#9CA3AF;white-space:nowrap;min-width:72px;}
+.d5 .tt{flex:1;font-size:0.82rem;font-weight:500;}
+
+/* ===== #6 Top Accent Line ===== */
+.d6 .box{border-radius:10px;overflow:hidden;border:1px solid #E2E8F0;}
+.d6 .box-accent{height:3px;background:linear-gradient(90deg,#2D7A4F,#3D9B65);}
+.d6 .box-head{padding:10px 16px;font-size:0.78rem;font-weight:800;color:#1A202C;}
+.d6 .row{display:flex;align-items:center;gap:10px;padding:8px 16px;transition:background 0.15s;}
+.d6 .row:not(:last-child){border-bottom:1px solid #F1F5F9;}
+.d6 .row:hover{background:#EFF6FF;}
+.d6 .dt{font-size:0.68rem;color:#9CA3AF;white-space:nowrap;min-width:72px;}
+.d6 .tt{flex:1;font-size:0.82rem;font-weight:500;}
+.d6 .arr{color:#CBD5E1;font-size:0.7rem;}
+
+/* ===== #7 Neumorphism ===== */
+.d7 .box{background:#F1F5F9;border-radius:14px;box-shadow:4px 4px 10px #d1d5db,-4px -4px 10px #ffffff;padding:2px;overflow:hidden;}
+.d7 .box-head{padding:10px 16px;font-size:0.78rem;font-weight:800;color:#2D7A4F;}
+.d7 .row{display:flex;align-items:center;gap:10px;padding:8px 16px;transition:all 0.15s;border-radius:8px;margin:2px 6px;}
+.d7 .row:hover{background:#fff;box-shadow:2px 2px 6px #d1d5db;}
+.d7 .dt{font-size:0.68rem;color:#9CA3AF;white-space:nowrap;min-width:72px;}
+.d7 .tt{flex:1;font-size:0.82rem;font-weight:500;}
+
+/* ===== #8 Glass Dark ===== */
+.d8{background:linear-gradient(135deg,#0F172A,#1E293B);padding:24px;border-radius:16px;}
+.d8 h2{color:#94A3B8 !important;border-bottom-color:#334155 !important;}
+.d8 .box{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;overflow:hidden;backdrop-filter:blur(8px);}
+.d8 .box-head{padding:10px 16px;font-size:0.78rem;font-weight:800;color:#67E8F9;border-bottom:1px solid rgba(255,255,255,0.08);}
+.d8 .row{display:flex;align-items:center;gap:10px;padding:8px 16px;transition:background 0.15s;}
+.d8 .row:hover{background:rgba(255,255,255,0.06);}
+.d8 .dt{font-size:0.68rem;color:#64748B;white-space:nowrap;min-width:72px;}
+.d8 .tt{flex:1;font-size:0.82rem;font-weight:500;color:#E2E8F0;}
+
+/* ===== #9 Rounded + Count Badge ===== */
+.d9 .box{background:#fff;border:1px solid #E2E8F0;border-radius:14px;overflow:hidden;}
+.d9 .box-head{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:#F8FAFC;}
+.d9 .box-label{font-size:0.78rem;font-weight:800;color:#1A202C;}
+.d9 .box-count{font-size:0.6rem;font-weight:800;background:#D1FAE5;color:#166534;padding:2px 8px;border-radius:10px;}
+.d9 .row{display:flex;align-items:center;gap:10px;padding:10px 16px;border-top:1px solid #F1F5F9;transition:background 0.15s;}
+.d9 .row:hover{background:#F0FDF4;}
+.d9 .dt{font-size:0.68rem;color:#9CA3AF;white-space:nowrap;min-width:72px;}
+.d9 .tt{flex:1;font-size:0.82rem;font-weight:500;}
+
+/* ===== #10 Inline Tag ===== */
+.d10 .box{background:#fff;border:1px solid #E2E8F0;border-radius:10px;padding:14px 16px;}
+.d10 .box-head{font-size:0.72rem;font-weight:800;color:#2D7A4F;letter-spacing:0.06em;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid #E2E8F0;}
+.d10 .row{display:flex;align-items:center;gap:8px;padding:7px 0;transition:all 0.15s;}
+.d10 .row:hover{padding-left:4px;}
+.d10 .row:not(:last-child){border-bottom:1px solid #F8FAFC;}
+.d10 .dot{width:5px;height:5px;border-radius:50%;background:#2D7A4F;flex-shrink:0;}
+.d10 .tt{flex:1;font-size:0.82rem;font-weight:500;}
+.d10 .dt{font-size:0.62rem;color:#CBD5E1;white-space:nowrap;}
+
+/* ===== #11 Alternating Color Headers ===== */
+.d11 .box{border-radius:10px;overflow:hidden;border:1px solid #E2E8F0;}
+.d11 .box:nth-child(1) .box-head{background:#2D7A4F;}
+.d11 .box:nth-child(2) .box-head{background:#1D4ED8;}
+.d11 .box:nth-child(3) .box-head{background:#B45309;}
+.d11 .box-head{padding:8px 16px;font-size:0.75rem;font-weight:700;color:#fff;}
+.d11 .row{display:flex;align-items:center;gap:10px;padding:9px 16px;transition:background 0.15s;}
+.d11 .row:not(:last-child){border-bottom:1px solid #F1F5F9;}
+.d11 .row:hover{background:#F8FAFC;}
+.d11 .dt{font-size:0.68rem;color:#9CA3AF;white-space:nowrap;min-width:72px;}
+.d11 .tt{flex:1;font-size:0.82rem;font-weight:500;}
+
+/* ===== #12 Floating Card + Hover Lift ===== */
+.d12 .box{background:#fff;border-radius:14px;box-shadow:0 1px 4px rgba(0,0,0,0.06);overflow:hidden;transition:box-shadow 0.2s;}
+.d12 .box:hover{box-shadow:0 4px 16px rgba(0,0,0,0.1);}
+.d12 .box-head{padding:12px 18px;font-size:0.8rem;font-weight:800;color:#166534;background:linear-gradient(180deg,#F0FDF4,#fff);}
+.d12 .row{display:flex;align-items:center;gap:10px;padding:10px 18px;transition:background 0.15s;}
+.d12 .row:not(:last-child){border-bottom:1px solid #F1F5F9;}
+.d12 .row:hover{background:#DBEAFE;}
+.d12 .dt{font-size:0.68rem;color:#9CA3AF;white-space:nowrap;min-width:72px;}
+.d12 .tt{flex:1;font-size:0.82rem;font-weight:500;}
+
+/* ===== #13 Minimal Outline ===== */
+.d13 .box{border:1.5px solid #D1FAE5;border-radius:10px;overflow:hidden;}
+.d13 .box-head{padding:8px 14px;font-size:0.72rem;font-weight:800;color:#2D7A4F;background:transparent;letter-spacing:0.04em;}
+.d13 .row{display:flex;align-items:center;gap:10px;padding:8px 14px;transition:background 0.15s;}
+.d13 .row:not(:last-child){border-bottom:1px solid #F0FDF4;}
+.d13 .row:hover{background:#F0FDF4;}
+.d13 .dt{font-size:0.68rem;color:#9CA3AF;white-space:nowrap;min-width:72px;}
+.d13 .tt{flex:1;font-size:0.82rem;font-weight:500;}
+
+/* ===== #14 Stacked Title ===== */
+.d14 .box{background:#fff;border:1px solid #E2E8F0;border-radius:12px;overflow:hidden;}
+.d14 .box-head{padding:10px 16px;font-size:0.78rem;font-weight:800;color:#1A202C;background:#FAFAFA;border-bottom:1px solid #E2E8F0;}
+.d14 .row{padding:10px 16px;transition:background 0.15s;}
+.d14 .row:not(:last-child){border-bottom:1px solid #F1F5F9;}
+.d14 .row:hover{background:#F0FDF4;}
+.d14 .tt{font-size:0.82rem;font-weight:600;line-height:1.4;margin-bottom:2px;}
+.d14 .dt{font-size:0.65rem;color:#9CA3AF;}
+
+/* ===== #15 iOS Settings ===== */
+.d15 .box{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.04);}
+.d15 .box-head{padding:6px 16px;font-size:0.68rem;font-weight:600;color:#6B7280;text-transform:uppercase;letter-spacing:0.08em;}
+.d15 .row{display:flex;align-items:center;gap:10px;padding:12px 16px;transition:background 0.15s;}
+.d15 .row:not(:last-child){border-bottom:1px solid #F1F5F9;margin-left:16px;}
+.d15 .ico{width:28px;height:28px;background:#D1FAE5;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:0.75rem;}
+.d15 .tt{flex:1;font-size:0.85rem;font-weight:400;}
+.d15 .arr{color:#C7D2FE;font-size:0.8rem;}
+
+/* ===== #16 Compact Dense ===== */
+.d16 .box{background:#FAFAFA;border:1px solid #E2E8F0;border-radius:8px;overflow:hidden;}
+.d16 .box-head{background:#2D7A4F;padding:6px 12px;font-size:0.7rem;font-weight:700;color:#fff;}
+.d16 table{width:100%;border-collapse:collapse;}
+.d16 td{padding:7px 12px;font-size:0.8rem;border-bottom:1px solid #E2E8F0;vertical-align:middle;}
+.d16 td:first-child{width:70px;font-size:0.65rem;color:#9CA3AF;font-variant-numeric:tabular-nums;}
+.d16 tr:hover td{background:#F0FDF4;}
+
+/* ===== #17 Pastel Category ===== */
+.d17 .box{border-radius:12px;overflow:hidden;}
+.d17 .box:nth-child(1){background:#F0FDF4;border:1px solid #BBF7D0;}
+.d17 .box:nth-child(2){background:#EFF6FF;border:1px solid #BFDBFE;}
+.d17 .box:nth-child(3){background:#FFFBEB;border:1px solid #FDE68A;}
+.d17 .box-head{padding:10px 16px;font-size:0.78rem;font-weight:800;}
+.d17 .box:nth-child(1) .box-head{color:#166534;}
+.d17 .box:nth-child(2) .box-head{color:#1E40AF;}
+.d17 .box:nth-child(3) .box-head{color:#92400E;}
+.d17 .row{display:flex;align-items:center;gap:10px;padding:8px 16px;transition:all 0.15s;background:rgba(255,255,255,0.5);}
+.d17 .row:not(:last-child){border-bottom:1px solid rgba(0,0,0,0.04);}
+.d17 .row:hover{background:rgba(255,255,255,0.85);}
+.d17 .dt{font-size:0.68rem;color:#6B7280;white-space:nowrap;min-width:72px;}
+.d17 .tt{flex:1;font-size:0.82rem;font-weight:500;}
+
+/* ===== #18 Magazine ===== */
+.d18 .box{background:#fff;border-radius:12px;border:1px solid #E2E8F0;overflow:hidden;}
+.d18 .box-head{display:flex;align-items:center;gap:8px;padding:12px 18px;border-bottom:2px solid #E2E8F0;}
+.d18 .box-icon{width:28px;height:28px;background:#2D7A4F;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.7rem;font-weight:900;flex-shrink:0;}
+.d18 .box-label{font-size:0.82rem;font-weight:800;color:#1A202C;}
+.d18 .row{padding:10px 18px;transition:background 0.15s;}
+.d18 .row:not(:last-child){border-bottom:1px solid #F1F5F9;}
+.d18 .row:hover{background:#F0FDF4;}
+.d18 .tt{font-size:0.84rem;font-weight:600;line-height:1.4;}
+.d18 .meta{display:flex;gap:8px;margin-top:3px;}
+.d18 .dt{font-size:0.65rem;color:#9CA3AF;}
+.d18 .src{font-size:0.62rem;color:#2D7A4F;background:#E0F2E9;padding:1px 6px;border-radius:3px;}
+
+/* ===== #19 Kanban Columns ===== */
+.d19 .cols{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
+@media(max-width:700px){.d19 .cols{grid-template-columns:1fr;}}
+.d19 .box{background:#F8FAFC;border:1px solid #E2E8F0;border-radius:10px;overflow:hidden;}
+.d19 .box-head{padding:8px 12px;font-size:0.72rem;font-weight:800;color:#2D7A4F;background:#F0FDF4;border-bottom:1px solid #D1FAE5;}
+.d19 .row{padding:8px 12px;border-bottom:1px solid #F1F5F9;transition:background 0.15s;}
+.d19 .row:hover{background:#fff;}
+.d19 .tt{font-size:0.78rem;font-weight:500;line-height:1.4;}
+.d19 .dt{font-size:0.6rem;color:#9CA3AF;margin-top:2px;}
+
+/* ===== #20 Accordion Card ===== */
+.d20 .box{background:#fff;border:1px solid #E2E8F0;border-radius:12px;overflow:hidden;}
+.d20 .box-head{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;cursor:pointer;transition:background 0.15s;}
+.d20 .box-head:hover{background:#F8FAFC;}
+.d20 .box-label{font-size:0.8rem;font-weight:800;color:#1A202C;}
+.d20 .box-meta{display:flex;align-items:center;gap:8px;}
+.d20 .box-count{font-size:0.6rem;font-weight:700;background:#E0F2E9;color:#2D7A4F;padding:2px 8px;border-radius:8px;}
+.d20 .box-arrow{font-size:0.7rem;color:#9CA3AF;transition:transform 0.2s;}
+.d20 .box.open .box-arrow{transform:rotate(180deg);}
+.d20 .rows{border-top:1px solid #E2E8F0;}
+.d20 .row{display:flex;align-items:center;gap:10px;padding:10px 16px;transition:background 0.15s;}
+.d20 .row:not(:last-child){border-bottom:1px solid #F1F5F9;}
+.d20 .row:hover{background:#F0FDF4;}
+.d20 .dt{font-size:0.68rem;color:#9CA3AF;white-space:nowrap;min-width:72px;}
+.d20 .tt{flex:1;font-size:0.82rem;font-weight:500;}
+</style>
+</head>
+<body>
+<h1>Article List UI v2 — テーマ別カード（20種）</h1>
+<p class="desc">各テーマ（サブカテゴリ）を個別のカード/ボックスに分離。スクロール時にテーマの区切りが明確。</p>
+
+<script>
+const data = [
+  ['脳梗塞・脳卒中', [
+    {date:'2026/04/01', title:'脳卒中治療GL 2021〔改訂2025〕（日本脳卒中学会）', src:'日本脳卒中学会'},
+  ]],
+  ['くも膜下出血', [
+    {date:'2026/03/30', title:'AHA/ASA 2023 くも膜下出血（aSAH）管理GL', src:'AHA/ASA'},
+    {date:'2026/03/31', title:'aSAH後合併症の管理戦略レビュー（Critical Care 2025）', src:'Critical Care'},
+  ]],
+  ['アルコール離脱', [
+    {date:'2026/03/31', title:'AWS 神経集中治療における評価と治療（Neurocrit Care 2021）', src:'Neurocrit Care'},
+  ]],
+];
+
+function R(id, label, fn){
+  let h=`<div class="design ${id}"><h2>${label}</h2><div class="sample">${fn(data)}</div></div>`;
+  return h;
+}
+function rows(items, cls){
+  return items.map(r=>`<a class="row" href="#"><span class="dt">${r.date}</span><span class="tt">${r.title}</span></a>`).join('');
+}
+
+let o='';
+
+o+=R('d1','#1 Clean Card — 薄緑ヘッダ+白ボディ',d=>d.map(([c,items])=>`<div class="box"><div class="box-head">▸ ${c}</div>${rows(items)}</div>`).join(''));
+
+o+=R('d2','#2 Gradient Header — 緑グラデヘッダ',d=>d.map(([c,items])=>`<div class="box"><div class="box-head">${c}</div>${rows(items)}</div>`).join(''));
+
+o+=R('d3','#3 Pill Header — 丸ピルヘッダ+点線区切り',d=>d.map(([c,items])=>`<div class="box"><span class="box-head">${c}</span>${rows(items)}</div>`).join(''));
+
+o+=R('d4','#4 Shadow Card — シャドウ+日付チップ',d=>d.map(([c,items])=>`<div class="box"><div class="box-head">${c}</div>${items.map(r=>`<a class="row" href="#"><span class="chip">${r.date}</span><span class="tt">${r.title}</span></a>`).join('')}</div>`).join(''));
+
+o+=R('d5','#5 Left Accent — 左4px緑ボーダー',d=>d.map(([c,items])=>`<div class="box"><div class="box-head">${c}</div>${rows(items)}</div>`).join(''));
+
+o+=R('d6','#6 Top Accent Line — 上部3pxグラデライン',d=>d.map(([c,items])=>`<div class="box"><div class="box-accent"></div><div class="box-head">${c}</div>${items.map(r=>`<a class="row" href="#"><span class="dt">${r.date}</span><span class="tt">${r.title}</span><span class="arr">›</span></a>`).join('')}</div>`).join(''));
+
+o+=R('d7','#7 Neumorphism — 凹凸シャドウ',d=>d.map(([c,items])=>`<div class="box"><div class="box-head">${c}</div>${rows(items)}</div>`).join(''));
+
+o+=R('d8','#8 Glass Dark — ダーク+すりガラス',d=>d.map(([c,items])=>`<div class="box"><div class="box-head">${c}</div>${rows(items)}</div>`).join(''));
+
+o+=R('d9','#9 Count Badge — ヘッダに件数バッジ',d=>d.map(([c,items])=>`<div class="box"><div class="box-head"><span class="box-label">▸ ${c}</span><span class="box-count">${items.length}件</span></div>${rows(items)}</div>`).join(''));
+
+o+=R('d10','#10 Dot + Right Date — ドットマーカー+日付右寄せ',d=>d.map(([c,items])=>`<div class="box"><div class="box-head">${c}</div>${items.map(r=>`<a class="row" href="#"><span class="dot"></span><span class="tt">${r.title}</span><span class="dt">${r.date}</span></a>`).join('')}</div>`).join(''));
+
+o+=R('d11','#11 Alternating Colors — テーマ色ヘッダローテーション',d=>d.map(([c,items])=>`<div class="box"><div class="box-head">${c}</div>${rows(items)}</div>`).join(''));
+
+o+=R('d12','#12 Floating + Hover Lift — ホバーで浮き上がり',d=>d.map(([c,items])=>`<div class="box"><div class="box-head">${c}</div>${rows(items)}</div>`).join(''));
+
+o+=R('d13','#13 Minimal Outline — 薄緑アウトライン',d=>d.map(([c,items])=>`<div class="box"><div class="box-head">▸ ${c}</div>${rows(items)}</div>`).join(''));
+
+o+=R('d14','#14 Stacked Title — タイトル上/日付下',d=>d.map(([c,items])=>`<div class="box"><div class="box-head">${c}</div>${items.map(r=>`<a class="row" href="#"><div class="tt">${r.title}</div><div class="dt">${r.date}</div></a>`).join('')}</div>`).join(''));
+
+o+=R('d15','#15 iOS Settings — 丸アイコン+矢印',d=>d.map(([c,items])=>`<div class="box"><div class="box-head">${c}</div>${items.map(r=>`<a class="row" href="#"><span class="ico">📄</span><span class="tt">${r.title}</span><span class="arr">›</span></a>`).join('')}</div>`).join(''));
+
+o+=R('d16','#16 Dense Table — グラデヘッダ+密テーブル',d=>d.map(([c,items])=>`<div class="box"><div class="box-head">${c}</div><table>${items.map(r=>`<tr><td>${r.date}</td><td class="tt">${r.title}</td></tr>`).join('')}</table></div>`).join(''));
+
+o+=R('d17','#17 Pastel Category — テーマ別パステル背景',d=>d.map(([c,items])=>`<div class="box"><div class="box-head">${c}</div>${rows(items)}</div>`).join(''));
+
+o+=R('d18','#18 Magazine — アイコンヘッダ+出典タグ',d=>{
+  const icons=['N','S','A'];
+  return d.map(([c,items],i)=>`<div class="box"><div class="box-head"><span class="box-icon">${icons[i]||'#'}</span><span class="box-label">${c}</span></div>${items.map(r=>`<a class="row" href="#"><div><div class="tt">${r.title}</div><div class="meta"><span class="dt">${r.date}</span><span class="src">${r.src}</span></div></div></a>`).join('')}</div>`).join('');
+});
+
+o+=R('d19','#19 Kanban Columns — 3列カラム',d=>`<div class="cols">${d.map(([c,items])=>`<div class="box"><div class="box-head">${c}</div>${items.map(r=>`<div class="row"><div class="tt">${r.title}</div><div class="dt">${r.date}</div></div>`).join('')}</div>`).join('')}</div>`);
+
+o+=R('d20','#20 Accordion Card — 開閉式',d=>d.map(([c,items])=>`<div class="box open"><div class="box-head" onclick="this.parentElement.classList.toggle('open')"><span class="box-label">${c}</span><div class="box-meta"><span class="box-count">${items.length}件</span><span class="box-arrow">▾</span></div></div><div class="rows">${rows(items)}</div></div>`).join(''));
+
+document.body.insertAdjacentHTML('beforeend', o);
+</script>
+</body>
+</html>
