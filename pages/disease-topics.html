@@ -13,8 +13,12 @@
   <script src="../site-config.js"></script>
   <style>
     /* ── Article list: Dense Table #9 Stripe ── */
-    .art-box { border-radius:10px;overflow:hidden;border:1px solid #E2E8F0;margin-bottom:10px; }
-    .art-box-head { background:#FEF3C7;padding:7px 14px;font-size:0.72rem;font-weight:800;color:#92400E;border-bottom:1px solid #FDE68A; }
+    .art-box { border-radius:10px;overflow:hidden;border:1px solid #E2E8F0;margin-bottom:10px;box-shadow:0 2px 8px rgba(0,0,0,0.07); }
+    .art-box-head { background:#FEF3C7;padding:7px 14px;font-size:0.72rem;font-weight:800;color:#92400E;border-bottom:1px solid #FDE68A;cursor:pointer;display:flex;align-items:center;justify-content:space-between;user-select:none;transition:background 0.15s; }
+    .art-box-head:hover { background:#FDE68A; }
+    .art-box-head::after { content:"▾";font-size:0.65rem;color:#9CA3AF;transition:transform 0.2s; }
+    .art-box.collapsed .art-box-head::after { transform:rotate(-90deg); }
+    .art-box.collapsed table { display:none; }
     .art-box table { width:100%;border-collapse:collapse; }
     .art-box tr:nth-child(odd) td { background:#F8FAFC; }
     .art-box tr:nth-child(even) td { background:#fff; }
@@ -40,9 +44,9 @@
     .sys-sidebar { width:180px;flex-shrink:0;position:sticky;top:72px; }
     .sys-sidebar-card { background:#fff;border:1px solid var(--border);border-radius:10px;padding:16px 14px;box-shadow:0 2px 8px rgba(0,0,0,0.06); }
     .sys-sidebar-title { font-size:0.6rem;font-weight:800;color:#B45309;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid #FDE68A; }
-    .sys-sidebar a { display:flex;align-items:center;justify-content:space-between;font-size:0.73rem;color:var(--text);text-decoration:none;padding:7px 10px;border-radius:6px;line-height:1.4;transition:all 0.15s;border-left:3px solid transparent;margin-bottom:2px; }
-    .sys-sidebar a:hover { background:#FFFBEB;color:#B45309;border-left-color:#FDE68A; }
-    .sys-sidebar a.active { background:#FFFBEB;color:#B45309;font-weight:700;border-left-color:#B45309; }
+    .sys-sidebar a { display:flex;align-items:center;justify-content:space-between;font-size:0.73rem;color:var(--text);text-decoration:none;padding:7px 10px;border-radius:6px;line-height:1.4;transition:all 0.15s;margin-bottom:2px; }
+    .sys-sidebar a:hover { background:#FFFBEB;color:#B45309; }
+    .sys-sidebar a.active { background:#FFFBEB;color:#B45309;font-weight:700; }
     .sys-sidebar .sys-count { font-size:0.6rem;font-weight:700;color:#9CA3AF;background:#F1F5F9;padding:1px 6px;border-radius:8px;min-width:18px;text-align:center;transition:all 0.15s; }
     .sys-sidebar a.active .sys-count { background:#FEF3C7;color:#B45309; }
     .sys-sidebar a:hover .sys-count { background:#FEF3C7;color:#B45309; }
@@ -97,7 +101,7 @@
 
     <!-- #1 神経系 -->
     <div id="dt-neuro" style="display:flex;border-radius:var(--radius);overflow:hidden;margin-top:28px;margin-bottom:0;">
-      <div style="background:linear-gradient(135deg,#3D1F00,#7A4106);color:#fff;padding:5px 10px;display:flex;align-items:center;justify-content:center;"><span style="font-size:0.9rem;font-weight:900;opacity:0.6;">#1</span></div>
+      <div style="background:linear-gradient(135deg,#3D1F00,#7A4106);color:#fff;padding:5px 10px;display:flex;align-items:center;justify-content:center;"><span style="font-size:0.9rem;font-weight:900;opacity:0.85;">#1</span></div>
       <div style="background:linear-gradient(135deg,#B45309,#D97706);color:#fff;padding:7px 14px;flex:1;"><div style="font-size:0.9rem;font-weight:700;">Neurological System</div><div style="font-size:0.68rem;color:rgba(255,255,255,0.7);">神経系</div></div>
     </div>
     <div style="margin-bottom:8px;padding:8px 0;">
@@ -112,7 +116,7 @@
 
     <!-- #2 循環器系 -->
     <div id="dt-cardio" style="display:flex;border-radius:var(--radius);overflow:hidden;margin-top:28px;margin-bottom:0;">
-      <div style="background:linear-gradient(135deg,#3D1F00,#7A4106);color:#fff;padding:5px 10px;display:flex;align-items:center;justify-content:center;"><span style="font-size:0.9rem;font-weight:900;opacity:0.6;">#2</span></div>
+      <div style="background:linear-gradient(135deg,#3D1F00,#7A4106);color:#fff;padding:5px 10px;display:flex;align-items:center;justify-content:center;"><span style="font-size:0.9rem;font-weight:900;opacity:0.85;">#2</span></div>
       <div style="background:linear-gradient(135deg,#B45309,#D97706);color:#fff;padding:7px 14px;flex:1;"><div style="font-size:0.9rem;font-weight:700;">Cardiological System</div><div style="font-size:0.68rem;color:rgba(255,255,255,0.7);">循環器系</div></div>
     </div>
     <div style="margin-bottom:8px;padding:8px 0;">
@@ -125,23 +129,23 @@
             </div>
 
             <div class="art-box">
-              <div class="art-box-head">肺塞栓症・深部静脈血栓症</div>
-              <table>
-              <tr><td>2026/04/01</td><td><a href="disease-topics/dt-pe-vte.html">肺塞栓症（PE/VTE）の診断と治療</a></td></tr>
-              </table>
-            </div>
-
-            <div class="art-box">
               <div class="art-box-head">心房細動</div>
               <table>
               <tr><td>2026/04/05</td><td><a href="disease-topics/dt-af.html">心房細動（AF）</a></td></tr>
               </table>
             </div>
-          </div>
+
+            <div class="art-box">
+              <div class="art-box-head">肺塞栓症・深部静脈血栓症</div>
+              <table>
+              <tr><td>2026/04/01</td><td><a href="disease-topics/dt-pe-vte.html">肺塞栓症（PE/VTE）の診断と治療</a></td></tr>
+              </table>
+            </div>
+    </div>
 
     <!-- #3 呼吸器系 -->
     <div id="dt-resp" style="display:flex;border-radius:var(--radius);overflow:hidden;margin-top:28px;margin-bottom:0;">
-      <div style="background:linear-gradient(135deg,#3D1F00,#7A4106);color:#fff;padding:5px 10px;display:flex;align-items:center;justify-content:center;"><span style="font-size:0.9rem;font-weight:900;opacity:0.6;">#3</span></div>
+      <div style="background:linear-gradient(135deg,#3D1F00,#7A4106);color:#fff;padding:5px 10px;display:flex;align-items:center;justify-content:center;"><span style="font-size:0.9rem;font-weight:900;opacity:0.85;">#3</span></div>
       <div style="background:linear-gradient(135deg,#B45309,#D97706);color:#fff;padding:7px 14px;flex:1;"><div style="font-size:0.9rem;font-weight:700;">Respiratory System / Critical Care</div><div style="font-size:0.68rem;color:rgba(255,255,255,0.7);">呼吸器系・集中治療</div></div>
     </div>
     <div style="margin-bottom:8px;padding:8px 0;">
@@ -163,11 +167,11 @@
               <tr><td>2026/04/05</td><td><a href="disease-topics/dt-vent-special.html">人工呼吸管理 Level 4 — 特殊病態・脳障害・ECMO</a></td></tr>
               </table>
             </div>
-          </div>
+    </div>
 
     <!-- #4 腎・電解質系 -->
     <div id="dt-renal" style="display:flex;border-radius:var(--radius);overflow:hidden;margin-top:28px;margin-bottom:0;">
-      <div style="background:linear-gradient(135deg,#3D1F00,#7A4106);color:#fff;padding:5px 10px;display:flex;align-items:center;justify-content:center;"><span style="font-size:0.9rem;font-weight:900;opacity:0.6;">#4</span></div>
+      <div style="background:linear-gradient(135deg,#3D1F00,#7A4106);color:#fff;padding:5px 10px;display:flex;align-items:center;justify-content:center;"><span style="font-size:0.9rem;font-weight:900;opacity:0.85;">#4</span></div>
       <div style="background:linear-gradient(135deg,#B45309,#D97706);color:#fff;padding:7px 14px;flex:1;"><div style="font-size:0.9rem;font-weight:700;">Nephrological System / Electrolytes</div><div style="font-size:0.68rem;color:rgba(255,255,255,0.7);">腎・電解質系</div></div>
     </div>
     <div style="margin-bottom:8px;padding:8px 0;">
@@ -180,17 +184,17 @@
             </div>
 
             <div class="art-box">
-              <div class="art-box-head">電解質異常</div>
+              <div class="art-box-head">酸塩基平衡</div>
               <table>
-              <tr><td>2026/03/30</td><td><a href="disease-topics/dt-hyponatremia.html">低ナトリウム血症</a></td></tr>
-              <tr><td>2026/04/01</td><td><a href="disease-topics/dt-hypernatremia.html">高ナトリウム血症</a></td></tr>
+              <tr><td>2026/04/01</td><td><a href="disease-topics/dt-acidbase.html">酸塩基平衡障害</a></td></tr>
               </table>
             </div>
 
             <div class="art-box">
-              <div class="art-box-head">酸塩基平衡</div>
+              <div class="art-box-head">電解質異常</div>
               <table>
-              <tr><td>2026/04/01</td><td><a href="disease-topics/dt-acidbase.html">酸塩基平衡障害</a></td></tr>
+              <tr><td>2026/03/30</td><td><a href="disease-topics/dt-hyponatremia.html">低ナトリウム血症</a></td></tr>
+              <tr><td>2026/04/01</td><td><a href="disease-topics/dt-hypernatremia.html">高ナトリウム血症</a></td></tr>
               </table>
             </div>
 
@@ -200,11 +204,11 @@
               <tr><td>2026/04/01</td><td><a href="disease-topics/dt-albumin.html">ICUにおけるアルブミン投与</a></td></tr>
               </table>
             </div>
-          </div>
+    </div>
 
     <!-- #7 感染症 -->
     <div id="dt-id" style="display:flex;border-radius:var(--radius);overflow:hidden;margin-top:28px;margin-bottom:0;">
-      <div style="background:linear-gradient(135deg,#3D1F00,#7A4106);color:#fff;padding:5px 10px;display:flex;align-items:center;justify-content:center;"><span style="font-size:0.9rem;font-weight:900;opacity:0.6;">#7</span></div>
+      <div style="background:linear-gradient(135deg,#3D1F00,#7A4106);color:#fff;padding:5px 10px;display:flex;align-items:center;justify-content:center;"><span style="font-size:0.9rem;font-weight:900;opacity:0.85;">#7</span></div>
       <div style="background:linear-gradient(135deg,#B45309,#D97706);color:#fff;padding:7px 14px;flex:1;"><div style="font-size:0.9rem;font-weight:700;">Infectious Diseases</div><div style="font-size:0.68rem;color:rgba(255,255,255,0.7);">感染症</div></div>
     </div>
     <div style="margin-bottom:8px;padding:8px 0;">
@@ -224,16 +228,16 @@
             </div>
 
             <div class="art-box">
-              <div class="art-box-head">中枢神経系感染症</div>
+              <div class="art-box-head">呼吸器ウイルス感染症</div>
               <table>
-              <tr><td>2026/04/01</td><td><a href="disease-topics/dt-meningitis.html">院内髄膜炎・脳室炎</a></td></tr>
+              <tr><td>2026/04/10</td><td><a href="disease-topics/dt-influenza.html">インフルエンザ：診断・治療・NMAエビデンス</a></td></tr>
               </table>
             </div>
 
             <div class="art-box">
-              <div class="art-box-head">呼吸器ウイルス感染症</div>
+              <div class="art-box-head">中枢神経系感染症</div>
               <table>
-              <tr><td>2026/04/10</td><td><a href="disease-topics/dt-influenza.html">インフルエンザ：診断・治療・NMAエビデンス</a></td></tr>
+              <tr><td>2026/04/01</td><td><a href="disease-topics/dt-meningitis.html">院内髄膜炎・脳室炎</a></td></tr>
               </table>
             </div>
 
@@ -243,11 +247,11 @@
               <tr><td>2026/04/04</td><td><a href="disease-topics/dt-pcp.html">ニューモシスチス肺炎（PCP）</a></td></tr>
               </table>
             </div>
-          </div>
+    </div>
 
     <!-- #8 栄養・代謝系 -->
     <div id="dt-nutrition" style="display:flex;border-radius:var(--radius);overflow:hidden;margin-top:28px;margin-bottom:0;">
-      <div style="background:linear-gradient(135deg,#3D1F00,#7A4106);color:#fff;padding:5px 10px;display:flex;align-items:center;justify-content:center;"><span style="font-size:0.9rem;font-weight:900;opacity:0.6;">#8</span></div>
+      <div style="background:linear-gradient(135deg,#3D1F00,#7A4106);color:#fff;padding:5px 10px;display:flex;align-items:center;justify-content:center;"><span style="font-size:0.9rem;font-weight:900;opacity:0.85;">#8</span></div>
       <div style="background:linear-gradient(135deg,#B45309,#D97706);color:#fff;padding:7px 14px;flex:1;"><div style="font-size:0.9rem;font-weight:700;">Nutrition / Metabolism</div><div style="font-size:0.68rem;color:rgba(255,255,255,0.7);">栄養 / 代謝系</div></div>
     </div>
     <div style="margin-bottom:8px;padding:8px 0;">
@@ -265,11 +269,11 @@
               <tr><td>2026/04/05</td><td><a href="disease-topics/dt-glucose.html">ICUにおける血糖コントロール</a></td></tr>
               </table>
             </div>
-          </div>
+    </div>
 
     <!-- #6 血液系 -->
     <div id="dt-heme" style="display:flex;border-radius:var(--radius);overflow:hidden;margin-top:28px;margin-bottom:0;">
-      <div style="background:linear-gradient(135deg,#3D1F00,#7A4106);color:#fff;padding:5px 10px;display:flex;align-items:center;justify-content:center;"><span style="font-size:0.9rem;font-weight:900;opacity:0.6;">#6</span></div>
+      <div style="background:linear-gradient(135deg,#3D1F00,#7A4106);color:#fff;padding:5px 10px;display:flex;align-items:center;justify-content:center;"><span style="font-size:0.9rem;font-weight:900;opacity:0.85;">#6</span></div>
       <div style="background:linear-gradient(135deg,#B45309,#D97706);color:#fff;padding:7px 14px;flex:1;"><div style="font-size:0.9rem;font-weight:700;">Hematological System</div><div style="font-size:0.68rem;color:rgba(255,255,255,0.7);">血液系</div></div>
     </div>
     <div style="margin-bottom:8px;padding:8px 0;">
@@ -306,23 +310,29 @@
 
   <script src="../script.js"></script>
   <script>
-    // 更新日が2週間以内の行にNEWバッジを自動付与
-    document.querySelectorAll('.art-row').forEach(function(row) {
-      var dateEl = row.querySelector('.art-date');
-      if (!dateEl || dateEl.textContent.trim() === '—') return;
-      var parts = dateEl.textContent.trim().split('/');
+    // NEWバッジ自動付与
+    document.querySelectorAll('.art-box tr').forEach(function(row) {
+      var dateCell = row.querySelector('td:first-child');
+      if (!dateCell) return;
+      var parts = dateCell.textContent.trim().split('/');
       if (parts.length !== 3) return;
       var updated = new Date(parts[0], parts[1] - 1, parts[2]);
       var diff = (new Date() - updated) / (1000 * 60 * 60 * 24);
       if (diff <= 14) {
-        var titleEl = row.querySelector('.art-title');
-        if (titleEl) {
+        var titleCell = row.querySelector('td:last-child a');
+        if (titleCell) {
           var badge = document.createElement('span');
           badge.className = 'art-new';
           badge.textContent = 'NEW';
-          titleEl.insertBefore(badge, titleEl.firstChild);
+          titleCell.insertBefore(badge, titleCell.firstChild);
         }
       }
+    });
+
+    // デフォルトで閉じた状態
+    document.querySelectorAll('.art-box').forEach(function(box) { box.classList.add('collapsed'); });
+    document.querySelectorAll('.art-box-head').forEach(function(head) {
+      head.addEventListener('click', function() { this.parentElement.classList.toggle('collapsed'); });
     });
 
     // サイドバー：セクション別記事数カウント + スクロール追従ハイライト
@@ -332,9 +342,9 @@
       sections.forEach(function(id){
         var el = document.getElementById(id);
         if(!el) return;
-        var card = el.nextElementSibling;
-        if(!card) return;
-        var rows = card.querySelectorAll('.art-row');
+        var container = el.nextElementSibling;
+        if(!container) return;
+        var rows = container.querySelectorAll('.art-box tr');
         var count = rows.length;
         total += count;
         var link = document.querySelector('.sys-sidebar a[data-section="'+id+'"]');

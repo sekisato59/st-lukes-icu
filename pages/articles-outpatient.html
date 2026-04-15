@@ -13,7 +13,7 @@
   <script src="../site-config.js"></script>
   <style>
     /* ── Article list: Dense Table #9 Stripe ── */
-    .art-box { border-radius:10px;overflow:hidden;border:1px solid #E2E8F0;margin-bottom:10px; }
+    .art-box { border-radius:10px;overflow:hidden;border:1px solid #E2E8F0;margin-bottom:10px;box-shadow:0 2px 8px rgba(0,0,0,0.07); }
     .art-box table { width:100%;border-collapse:collapse; }
     .art-box tr:nth-child(odd) td { background:#F8FAFC; }
     .art-box tr:nth-child(even) td { background:#fff; }
@@ -22,8 +22,12 @@
     .art-box tr:last-child td { border-bottom:none; }
     .art-box tr:hover td { background:#DBEAFE !important; }
     .art-box a { text-decoration:none;color:var(--text);font-weight:500; }
-    .art-box a:hover { color:#2D7A4F; }
-    .art-box-head { background:#DBEAFE;padding:7px 14px;font-size:0.72rem;font-weight:800;color:#1E40AF;border-bottom:1px solid #BFDBFE; }
+    .art-box a:hover { color:#1E40AF; }
+    .art-box-head { background:#DBEAFE;padding:7px 14px;font-size:0.72rem;font-weight:800;color:#1E40AF;border-bottom:1px solid #BFDBFE;cursor:pointer;display:flex;align-items:center;justify-content:space-between;user-select:none;transition:background 0.15s; }
+    .art-box-head:hover { background:#BFDBFE; }
+    .art-box-head::after { content:"▾";font-size:0.65rem;color:#9CA3AF;transition:transform 0.2s; }
+    .art-box.collapsed .art-box-head::after { transform:rotate(-90deg); }
+    .art-box.collapsed table { display:none; }
     .art-keywords { display:none; }
     .art-new { display:inline-block;background:#DC2626;color:#fff;font-size:0.55rem;font-weight:800;padding:1px 5px;border-radius:3px;margin-right:4px;vertical-align:middle; }
     .art-table { width:100%;border-collapse:collapse; }
@@ -40,9 +44,9 @@
     .sys-sidebar { width:180px;flex-shrink:0;position:sticky;top:72px; }
     .sys-sidebar-card { background:#fff;border:1px solid var(--border);border-radius:10px;padding:16px 14px;box-shadow:0 2px 8px rgba(0,0,0,0.06); }
     .sys-sidebar-title { font-size:0.6rem;font-weight:800;color:#1E40AF;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid #BFDBFE; }
-    .sys-sidebar a { display:flex;align-items:center;justify-content:space-between;font-size:0.73rem;color:var(--text);text-decoration:none;padding:7px 10px;border-radius:6px;line-height:1.4;transition:all 0.15s;border-left:3px solid transparent;margin-bottom:2px; }
-    .sys-sidebar a:hover { background:#EFF6FF;color:#1E40AF;border-left-color:#BFDBFE; }
-    .sys-sidebar a.active { background:#EFF6FF;color:#1E40AF;font-weight:700;border-left-color:#1E40AF; }
+    .sys-sidebar a { display:flex;align-items:center;justify-content:space-between;font-size:0.73rem;color:var(--text);text-decoration:none;padding:7px 10px;border-radius:6px;line-height:1.4;transition:all 0.15s;margin-bottom:2px; }
+    .sys-sidebar a:hover { background:#EFF6FF;color:#1E40AF; }
+    .sys-sidebar a.active { background:#EFF6FF;color:#1E40AF;font-weight:700; }
     .sys-sidebar .sys-count { font-size:0.6rem;font-weight:700;color:#9CA3AF;background:#F1F5F9;padding:1px 6px;border-radius:8px;min-width:18px;text-align:center;transition:all 0.15s; }
     .sys-sidebar a.active .sys-count { background:#DBEAFE;color:#1E40AF; }
     .sys-sidebar a:hover .sys-count { background:#DBEAFE;color:#1E40AF; }
@@ -82,6 +86,7 @@
       <a href="../index.html" class="back-link">← メインページへ戻る</a>
       <h1 class="subpage-title">【内科外来】注目論文・最新ガイドラインまとめ</h1>
       <p class="subpage-subtitle">GENERAL MEDICINE · OUTPATIENT</p>
+    </div>
   </div>
 
   <!-- ===== CONTENT ===== -->
@@ -94,11 +99,12 @@
         <h3 class="card-section-title" style="margin-bottom:10px;color:#1E40AF;">このページについて</h3>
         <p style="font-size:0.85rem;color:var(--muted);line-height:1.8;">内科外来で遭遇する疾患・病態に関連する最新ガイドライン・注目論文を、臓器系統（By System）ごとに整理しています。各記事は原著PDF（ガイドライン・論文）の内容のみに基づいて作成されるように設計しています。</p>
         <p style="font-size:0.85rem;color:var(--muted);line-height:1.8;margin-top:8px;">ICU関連の論文・ガイドラインまとめは <a href="articles-guidelines.html" style="color:var(--blue);font-weight:700;">【ICU】注目論文・最新ガイドラインまとめ</a> をご覧ください。</p>
+      </div>
     </div>
 
     <!-- ═══ #1 神経系 ═══ -->
     <div id="op-neuro" style="display:flex;border-radius:var(--radius);overflow:hidden;margin-top:28px;margin-bottom:0;">
-      <div style="background:linear-gradient(135deg,#0F172A,#1E3A5F);color:#fff;padding:5px 10px;display:flex;align-items:center;justify-content:center;"><span style="font-size:0.9rem;font-weight:900;opacity:0.6;">#1</span></div>
+      <div style="background:linear-gradient(135deg,#0F172A,#1E3A5F);color:#fff;padding:5px 10px;display:flex;align-items:center;justify-content:center;"><span style="font-size:0.9rem;font-weight:900;opacity:0.85;">#1</span></div>
       <div style="background:linear-gradient(135deg,#1E40AF,#3B82F6);color:#fff;padding:7px 14px;flex:1;"><div style="font-size:0.9rem;font-weight:700;">Neurological System</div><div style="font-size:0.68rem;color:rgba(255,255,255,0.7);">神経系</div></div>
     </div>
     <div style="margin-bottom:8px;padding:8px 0;">
@@ -113,7 +119,7 @@
 
     <!-- ═══ #2 循環器系 ═══ -->
     <div id="op-cardio" style="display:flex;border-radius:var(--radius);overflow:hidden;margin-top:28px;margin-bottom:0;">
-      <div style="background:linear-gradient(135deg,#0F172A,#1E3A5F);color:#fff;padding:5px 10px;display:flex;align-items:center;justify-content:center;"><span style="font-size:0.9rem;font-weight:900;opacity:0.6;">#2</span></div>
+      <div style="background:linear-gradient(135deg,#0F172A,#1E3A5F);color:#fff;padding:5px 10px;display:flex;align-items:center;justify-content:center;"><span style="font-size:0.9rem;font-weight:900;opacity:0.85;">#2</span></div>
       <div style="background:linear-gradient(135deg,#1E40AF,#3B82F6);color:#fff;padding:7px 14px;flex:1;"><div style="font-size:0.9rem;font-weight:700;">Cardiovascular</div><div style="font-size:0.68rem;color:rgba(255,255,255,0.7);">循環器系</div></div>
     </div>
     <div style="margin-bottom:8px;padding:8px 0;">
@@ -157,10 +163,32 @@
 
     <!-- ═══ #2 内分泌・代謝 ═══ -->
     <div id="op-endo" style="display:flex;border-radius:var(--radius);overflow:hidden;margin-top:28px;margin-bottom:0;">
-      <div style="background:linear-gradient(135deg,#0F172A,#1E3A5F);color:#fff;padding:5px 10px;display:flex;align-items:center;justify-content:center;"><span style="font-size:0.9rem;font-weight:900;opacity:0.6;">#3</span></div>
+      <div style="background:linear-gradient(135deg,#0F172A,#1E3A5F);color:#fff;padding:5px 10px;display:flex;align-items:center;justify-content:center;"><span style="font-size:0.9rem;font-weight:900;opacity:0.85;">#3</span></div>
       <div style="background:linear-gradient(135deg,#1E40AF,#3B82F6);color:#fff;padding:7px 14px;flex:1;"><div style="font-size:0.9rem;font-weight:700;">Endocrine / Metabolic</div><div style="font-size:0.68rem;color:rgba(255,255,255,0.7);">内分泌・代謝</div></div>
     </div>
     <div style="margin-bottom:8px;padding:8px 0;">
+
+            <div class="art-box">
+              <div class="art-box-head">骨粗鬆症</div>
+              <table>
+              <tr><td>2026/04/01</td><td><a href="articles-gl-osteoporosis-jama2025.html">骨粗鬆症のスクリーニングと治療（JAMA 2025）</a></td></tr>
+              <tr><td>2026/04/01</td><td><a href="articles-gl-osteoporosis-nejm2023.html">閉経後骨粗鬆症レビュー（NEJM 2023）</a></td></tr>
+              </table>
+            </div>
+
+            <div class="art-box">
+              <div class="art-box-head">GLP-1受容体作動薬</div>
+              <table>
+              <tr><td>2026/04/02</td><td><a href="articles-gl-glp1-nejm2026.html">GLP-1受容体作動薬レビュー（NEJM 2026）</a></td></tr>
+              </table>
+            </div>
+
+            <div class="art-box">
+              <div class="art-box-head">ステロイド副腎不全</div>
+              <table>
+              <tr><td>2026/04/02</td><td><a href="articles-gl-glai2025.html">グルココルチコイド誘発性副腎不全レビュー（EJE 2025）</a></td></tr>
+              </table>
+            </div>
 
             <div class="art-box">
               <div class="art-box-head">糖尿病管理</div>
@@ -178,33 +206,11 @@
               <tr><td>2026/04/01</td><td><a href="articles-gl-ada-soc2026-ch11.html">ADA 糖尿病診療標準 2026 第11章 — CKDとリスク管理</a></td></tr>
               </table>
             </div>
-
-            <div class="art-box">
-              <div class="art-box-head">GLP-1受容体作動薬</div>
-              <table>
-              <tr><td>2026/04/02</td><td><a href="articles-gl-glp1-nejm2026.html">GLP-1受容体作動薬レビュー（NEJM 2026）</a></td></tr>
-              </table>
-            </div>
-
-            <div class="art-box">
-              <div class="art-box-head">骨粗鬆症</div>
-              <table>
-              <tr><td>2026/04/01</td><td><a href="articles-gl-osteoporosis-jama2025.html">骨粗鬆症のスクリーニングと治療（JAMA 2025）</a></td></tr>
-              <tr><td>2026/04/01</td><td><a href="articles-gl-osteoporosis-nejm2023.html">閉経後骨粗鬆症レビュー（NEJM 2023）</a></td></tr>
-              </table>
-            </div>
-
-            <div class="art-box">
-              <div class="art-box-head">ステロイド副腎不全</div>
-              <table>
-              <tr><td>2026/04/02</td><td><a href="articles-gl-glai2025.html">グルココルチコイド誘発性副腎不全レビュー（EJE 2025）</a></td></tr>
-              </table>
-            </div>
     </div>
 
     <!-- ═══ #3 腎臓 ═══ -->
     <div id="op-renal" style="display:flex;border-radius:var(--radius);overflow:hidden;margin-top:28px;margin-bottom:0;">
-      <div style="background:linear-gradient(135deg,#0F172A,#1E3A5F);color:#fff;padding:5px 10px;display:flex;align-items:center;justify-content:center;"><span style="font-size:0.9rem;font-weight:900;opacity:0.6;">#4</span></div>
+      <div style="background:linear-gradient(135deg,#0F172A,#1E3A5F);color:#fff;padding:5px 10px;display:flex;align-items:center;justify-content:center;"><span style="font-size:0.9rem;font-weight:900;opacity:0.85;">#4</span></div>
       <div style="background:linear-gradient(135deg,#1E40AF,#3B82F6);color:#fff;padding:7px 14px;flex:1;"><div style="font-size:0.9rem;font-weight:700;">Renal / Electrolytes</div><div style="font-size:0.68rem;color:rgba(255,255,255,0.7);">腎臓・電解質</div></div>
     </div>
     <div style="margin-bottom:8px;padding:8px 0;">
@@ -226,24 +232,10 @@
 
     <!-- ═══ #4 感染症 ═══ -->
     <div id="op-id" style="display:flex;border-radius:var(--radius);overflow:hidden;margin-top:28px;margin-bottom:0;">
-      <div style="background:linear-gradient(135deg,#0F172A,#1E3A5F);color:#fff;padding:5px 10px;display:flex;align-items:center;justify-content:center;"><span style="font-size:0.9rem;font-weight:900;opacity:0.6;">#5</span></div>
+      <div style="background:linear-gradient(135deg,#0F172A,#1E3A5F);color:#fff;padding:5px 10px;display:flex;align-items:center;justify-content:center;"><span style="font-size:0.9rem;font-weight:900;opacity:0.85;">#5</span></div>
       <div style="background:linear-gradient(135deg,#1E40AF,#3B82F6);color:#fff;padding:7px 14px;flex:1;"><div style="font-size:0.9rem;font-weight:700;">Infectious Disease</div><div style="font-size:0.68rem;color:rgba(255,255,255,0.7);">感染症</div></div>
     </div>
     <div style="margin-bottom:8px;padding:8px 0;">
-
-            <div class="art-box">
-              <div class="art-box-head">尿路感染症</div>
-              <table>
-              <tr><td>2026/03/30</td><td><a href="articles-gl-uti-idsa2025.html">IDSA 尿路感染症ガイドライン 2025</a></td></tr>
-              </table>
-            </div>
-
-            <div class="art-box">
-              <div class="art-box-head">C. difficile感染症</div>
-              <table>
-              <tr><td>2026/03/31</td><td><a href="articles-gl-cdi-shea2021.html">IDSA/SHEA CDI診療ガイドライン 2021</a></td></tr>
-              </table>
-            </div>
 
             <div class="art-box">
               <div class="art-box-head">インフルエンザ</div>
@@ -261,11 +253,25 @@
               <tr><td>2026/03/31</td><td><a href="articles-gl-hiv-oi.html">HIV/AIDS 日和見感染症の予防と治療</a></td></tr>
               </table>
             </div>
+
+            <div class="art-box">
+              <div class="art-box-head">C. difficile感染症</div>
+              <table>
+              <tr><td>2026/03/31</td><td><a href="articles-gl-cdi-shea2021.html">IDSA/SHEA CDI診療ガイドライン 2021</a></td></tr>
+              </table>
+            </div>
+
+            <div class="art-box">
+              <div class="art-box-head">尿路感染症</div>
+              <table>
+              <tr><td>2026/03/30</td><td><a href="articles-gl-uti-idsa2025.html">IDSA 尿路感染症ガイドライン 2025</a></td></tr>
+              </table>
+            </div>
     </div>
 
     <!-- ═══ #5 消化器 ═══ -->
     <div id="op-gi" style="display:flex;border-radius:var(--radius);overflow:hidden;margin-top:28px;margin-bottom:0;">
-      <div style="background:linear-gradient(135deg,#0F172A,#1E3A5F);color:#fff;padding:5px 10px;display:flex;align-items:center;justify-content:center;"><span style="font-size:0.9rem;font-weight:900;opacity:0.6;">#6</span></div>
+      <div style="background:linear-gradient(135deg,#0F172A,#1E3A5F);color:#fff;padding:5px 10px;display:flex;align-items:center;justify-content:center;"><span style="font-size:0.9rem;font-weight:900;opacity:0.85;">#6</span></div>
       <div style="background:linear-gradient(135deg,#1E40AF,#3B82F6);color:#fff;padding:7px 14px;flex:1;"><div style="font-size:0.9rem;font-weight:700;">Gastroenterology</div><div style="font-size:0.68rem;color:rgba(255,255,255,0.7);">消化器</div></div>
     </div>
     <div style="margin-bottom:8px;padding:8px 0;">
@@ -273,7 +279,7 @@
 
     <!-- ═══ #6 高齢者医学 ═══ -->
     <div id="op-geri" style="display:flex;border-radius:var(--radius);overflow:hidden;margin-top:28px;margin-bottom:0;">
-      <div style="background:linear-gradient(135deg,#0F172A,#1E3A5F);color:#fff;padding:5px 10px;display:flex;align-items:center;justify-content:center;"><span style="font-size:0.9rem;font-weight:900;opacity:0.6;">#7</span></div>
+      <div style="background:linear-gradient(135deg,#0F172A,#1E3A5F);color:#fff;padding:5px 10px;display:flex;align-items:center;justify-content:center;"><span style="font-size:0.9rem;font-weight:900;opacity:0.85;">#7</span></div>
       <div style="background:linear-gradient(135deg,#1E40AF,#3B82F6);color:#fff;padding:7px 14px;flex:1;"><div style="font-size:0.9rem;font-weight:700;">Geriatrics</div><div style="font-size:0.68rem;color:rgba(255,255,255,0.7);">高齢者医学</div></div>
     </div>
     <div style="margin-bottom:8px;padding:8px 0;">
@@ -284,7 +290,6 @@
               <tr><td>2026/04/01</td><td><a href="articles-gl-ada-olderadults2026.html">ADA 糖尿病診療標準 2026 第13章 — 高齢者の糖尿病</a></td></tr>
               </table>
             </div>
-          </div>
     </div>
 
     <!-- 出典注記 -->
@@ -315,22 +320,28 @@
   <script src="../script.js"></script>
   <script>
     // NEWバッジ自動付与
-    document.querySelectorAll('.art-row').forEach(function(row) {
-      var dateEl = row.querySelector('.art-date');
-      if (!dateEl || dateEl.textContent.trim() === '—') return;
-      var parts = dateEl.textContent.trim().split('/');
+    document.querySelectorAll('.art-box tr').forEach(function(row) {
+      var dateCell = row.querySelector('td:first-child');
+      if (!dateCell) return;
+      var parts = dateCell.textContent.trim().split('/');
       if (parts.length !== 3) return;
       var updated = new Date(parts[0], parts[1] - 1, parts[2]);
       var diff = (new Date() - updated) / (1000 * 60 * 60 * 24);
       if (diff <= 5) {
-        var titleEl = row.querySelector('.art-title');
-        if (titleEl) {
+        var titleCell = row.querySelector('td:last-child a');
+        if (titleCell) {
           var badge = document.createElement('span');
           badge.className = 'art-new';
           badge.textContent = 'NEW';
-          titleEl.insertBefore(badge, titleEl.firstChild);
+          titleCell.insertBefore(badge, titleCell.firstChild);
         }
       }
+    });
+
+    // デフォルトで閉じた状態
+    document.querySelectorAll('.art-box').forEach(function(box) { box.classList.add('collapsed'); });
+    document.querySelectorAll('.art-box-head').forEach(function(head) {
+      head.addEventListener('click', function() { this.parentElement.classList.toggle('collapsed'); });
     });
 
     // サイドバー：記事数カウント + スクロール追従
@@ -340,9 +351,9 @@
       sections.forEach(function(id){
         var el = document.getElementById(id);
         if(!el) return;
-        var card = el.nextElementSibling;
-        if(!card) return;
-        var rows = card.querySelectorAll('.art-row');
+        var container = el.nextElementSibling;
+        if(!container) return;
+        var rows = container.querySelectorAll('.art-box tr');
         var count = rows.length;
         total += count;
         var link = document.querySelector('.sys-sidebar a[data-section="'+id+'"]');
