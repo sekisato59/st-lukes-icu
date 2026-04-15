@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>右心カテーテルによる血行動態評価 実践ガイド（JACC HF 2024）— 聖路加ICUガイド</title>
+  <link rel="stylesheet" href="../style-v2.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
+  <style>
+    .alert-yellow { background:#FFFBEB; border:1px solid #FDE68A; border-radius:var(--radius); padding:14px 18px; margin-bottom:12px; }
+    .alert-green  { background:#F0FDF4; border:1px solid #BBF7D0; border-radius:var(--radius); padding:14px 18px; margin-bottom:12px; }
+    .ie-score-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:10px; }
+    @media (max-width:640px) { .ie-score-grid { grid-template-columns:1fr; } }
+    .ie-score-card { background:#F8FAFC; border:1px solid var(--border); border-radius:8px; overflow:hidden; }
+    .ie-score-head { background:#2D7A4F; color:#fff; padding:8px 14px; font-size:0.82rem; font-weight:800; letter-spacing:0.03em; }
+    .ie-score-head-blue { background:#1D4ED8; }
+    .ie-score-head-red  { background:#DC2626; }
+    .ie-score-head-orange { background:#EA580C; }
+    .ie-score-items { padding:10px 14px; }
+    .ie-score-item { display:flex; align-items:baseline; gap:8px; padding:4px 0; border-bottom:1px solid var(--border); font-size:0.8rem; line-height:1.5; }
+    .ie-score-item:last-child { border-bottom:none; }
+    .ie-score-pt { flex-shrink:0; background:#E0F2E9; color:#2D7A4F; font-size:0.68rem; font-weight:800; padding:1px 6px; border-radius:10px; letter-spacing:0.03em; }
+    .ie-score-pt-blue   { background:#DBEAFE; color:#1D4ED8; }
+    .ie-score-pt-red    { background:#FEE2E2; color:#DC2626; }
+    .ie-score-pt-orange { background:#FFEDD5; color:#EA580C; }
+    .ie-score-foot { background:#F0FDF4; border-top:1px solid #BBF7D0; padding:8px 14px; font-size:0.78rem; color:#14532D; line-height:1.6; }
+    .ie-score-foot-blue   { background:#EFF6FF; border-top:1px solid #BFDBFE; color:#1E3A8A; }
+    .ie-score-foot-red    { background:#FEF2F2; border-top:1px solid #FECACA; color:#7F1D1D; }
+    .ie-score-foot-orange { background:#FFF7ED; border-top:1px solid #FED7AA; color:#7C2D12; }
+
+    /* SCAI stageカード */
+    .scai-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:8px; margin-top:10px; }
+    @media (max-width:700px) { .scai-grid { grid-template-columns:1fr 1fr; } }
+    .scai-box { border-radius:8px; overflow:hidden; border:1px solid var(--border); font-size:0.75rem; line-height:1.5; }
+    .scai-head { padding:6px 10px; font-weight:800; font-size:0.73rem; color:#fff; }
+    .scai-body { padding:8px 10px; background:#F8FAFC; }
+    .scai-a { background:#16A34A; }
+    .scai-b { background:#65A30D; }
+    .scai-c { background:#D97706; }
+    .scai-d { background:#DC2626; }
+    .scai-e { background:#7C3AED; }
+
+    /* 血行動態目標グリッド */
+    .goal-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:10px; }
+    @media (max-width:600px) { .goal-grid { grid-template-columns:1fr; } }
+    .goal-box { background:#F0FDF4; border:1px solid #BBF7D0; border-radius:8px; padding:10px 14px; text-align:center; }
+    .goal-val { font-size:1.1rem; font-weight:900; color:#2D7A4F; }
+    .goal-label { font-size:0.72rem; color:#166534; margin-top:2px; line-height:1.4; }
+  </style>
+</head>
+<body>
+
+<!-- ナビゲーション -->
+<nav class="navbar">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-logo">St. Luke's ICU Guide</a>
+    <div class="nav-links">
+      <a href="schedule-ward-daily.html">病棟スケジュール</a>
+      <a href="disease-topics.html">疾患トピックス</a>
+      <a href="articles-guidelines.html" class="active">注目論文</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ヒーローバナー -->
+<div class="subpage-hero">
+  <div class="container">
+    <a href="articles-guidelines.html#art-cardio" class="back-link">← 循環器系一覧へ戻る</a>
+    <h1 class="subpage-title">右心カテーテルによる血行動態評価 実践ガイド</h1>
+    <p class="subpage-subtitle">#2 CARDIOVASCULAR — Heart Failure</p>
+    <div>
+      <span class="ie-badge">JACC: Heart Failure</span>
+      <span class="ie-badge">2024年7月</span>
+    </div>
+  </div>
+</div>
+
+<!-- メインコンテナ -->
+<div class="container" style="display:flex;gap:32px;align-items:flex-start;padding-top:32px;padding-bottom:60px;">
+
+  <!-- メインコンテンツ -->
+  <main style="flex:1;min-width:0;max-width:900px;">
+
+    <!-- 略語一覧カード -->
+    <div class="card" style="margin-bottom:24px;">
+      <div class="card-inner">
+        <h3 class="rule-title" style="margin-bottom:10px;">本ページで使用する略語一覧</h3>
+        <table style="width:100%;border-collapse:collapse;font-size:0.8rem;line-height:1.6;">
+          <tbody>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">略語</td><td style="padding:4px 8px;">正式名称 — 日本語訳</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">RHC</td><td style="padding:4px 8px;">Right Heart Catheterization — 右心カテーテル</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">CO</td><td style="padding:4px 8px;">Cardiac Output — 心拍出量（L/min）</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">CI</td><td style="padding:4px 8px;">Cardiac Index — 心係数（L/min/m²）</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">RAP</td><td style="padding:4px 8px;">Right Atrial Pressure — 右房圧（mmHg）</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">PAP</td><td style="padding:4px 8px;">Pulmonary Artery Pressure — 肺動脈圧（mmHg）</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">PCWP</td><td style="padding:4px 8px;">Pulmonary Capillary Wedge Pressure — 肺動脈楔入圧（mmHg）</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">PVR</td><td style="padding:4px 8px;">Pulmonary Vascular Resistance — 肺血管抵抗（WU = Wood Units）</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">SVR</td><td style="padding:4px 8px;">Systemic Vascular Resistance — 体血管抵抗（dyne·s/cm⁵）</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">TPG</td><td style="padding:4px 8px;">Transpulmonary Gradient — 経肺圧較差（mmHg）= mean PAP − PCWP</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">CPO</td><td style="padding:4px 8px;">Cardiac Power Output — 心臓パワー出力（W）</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">PAPI</td><td style="padding:4px 8px;">Pulmonary Artery Pulsatility Index — 肺動脈拍動指数</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">RVSWI</td><td style="padding:4px 8px;">Right Ventricular Stroke Work Index — 右室一回仕事量係数（g·m/m²/beat）</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">CS</td><td style="padding:4px 8px;">Cardiogenic Shock — 心原性ショック</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">HF</td><td style="padding:4px 8px;">Heart Failure — 心不全</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">HFrEF</td><td style="padding:4px 8px;">Heart Failure with reduced Ejection Fraction — 駆出率低下型心不全</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">HFpEF</td><td style="padding:4px 8px;">Heart Failure with preserved Ejection Fraction — 駆出率保持型心不全</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">PH</td><td style="padding:4px 8px;">Pulmonary Hypertension — 肺高血圧症</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">LVAD</td><td style="padding:4px 8px;">Left Ventricular Assist Device — 左室補助人工心臓</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">RV</td><td style="padding:4px 8px;">Right Ventricle — 右室</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">VO₂</td><td style="padding:4px 8px;">Whole Body Oxygen Consumption — 全身酸素消費量</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">MAP</td><td style="padding:4px 8px;">Mean Arterial Pressure — 平均動脈圧（mmHg）</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">SCAI</td><td style="padding:4px 8px;">Society for Cardiovascular Angiography and Interventions — 心血管造影・インターベンション学会</td></tr>
+            <tr><td style="padding:4px 8px;font-weight:700;">ISHLT</td><td style="padding:4px 8px;">International Society for Heart and Lung Transplantation — 国際心肺移植学会</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ===== 第1章 ===== -->
+    <div id="ch1" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:0;margin-bottom:0;">
+      <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+      <div style="font-size:1.3rem;font-weight:900;position:relative;">第1章 病態生理と RHC の役割</div>
+      <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Pathophysiology and Role of RHC in Heart Failure</div>
+    </div>
+
+    <h3 id="s1-patho" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+      心不全の血行動態病態生理
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">心不全の定義と血行動態の意義</h3>
+        <p class="rule-body">心不全は、安静時または労作時に心臓が体の循環需要を満たすために心腔内圧の上昇を必要とする臨床症候群と定義される。心拍出量（CO）の低下は必須ではなく、安静時のCOが正常であっても、多くの心不全患者では労作に伴いCOが増加しない。</p>
+        <p class="rule-body" style="margin-top:8px;">右心カテーテル（RHC）は心不全診療の全スペクトラムにわたり不可欠な役割を担う。外来患者から心原性ショック（CS）まで、さらにLVADや心臓移植の評価においても、血行動態データは臨床的悪化の迅速な認識・予後評価・治療方針決定に不可欠である。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">うっ血と臓器障害</h3>
+        <p class="rule-body">高中心静脈圧は腎静脈うっ血を招き、COの低下よりも腎機能悪化と強く関連する。肺動脈楔入圧（PCWP）の上昇は、潜在性肺うっ血・運動耐容能低下・心不全入院リスク増大・死亡と関連する。うっ血の証拠は心不全の予後不良因子であり、利尿薬とGDMTによる心腔内充満圧の正常化が重要となる。</p>
+        <p class="rule-body" style="margin-top:8px;">適切な除うっ血が行われなければ、慢性的な左心充満圧上昇と肺うっ血により肺血管リモデリングが起こり、二次性肺高血圧症（PH）が発症する。PHとそれに伴う右室機能不全は、左室駆出率にかかわらず心不全の予後不良因子である。</p>
+      </div>
+    </div>
+
+    <h3 id="s1-class" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+      <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+      心不全の血行動態分類（Warm/Cold/Wet/Dry）
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">CI × PCWP による4象限分類</h3>
+        <p class="rule-body">心不全患者は循環血液量（wet/dry）とCO（warm/cold）の組み合わせで4群に分類され、治療と予後予測に役立つ。ただし、慢性・進行期心不全では身体所見から正確に分類することは難しく、RHCが判断を補う。</p>
+        <div style="margin-top:12px;">
+          <table class="ie-table">
+            <thead>
+              <tr>
+                <th style="white-space:nowrap;"> </th>
+                <th style="white-space:nowrap;">CI ≥ 2.2 L/min/m²<br><span style="font-size:0.7rem;font-weight:400;">（Warm）</span></th>
+                <th style="white-space:nowrap;">CI &lt; 2.2 L/min/m²<br><span style="font-size:0.7rem;font-weight:400;">（Cold）</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="white-space:nowrap;font-weight:700;">PCWP &lt; 18 mmHg<br><span style="font-size:0.7rem;font-weight:400;">（Dry）</span></td>
+                <td><strong>Warm &amp; Dry</strong><br><span style="font-size:0.78rem;color:var(--muted);">正常 or 血管拡張性ショック</span></td>
+                <td><strong>Cold &amp; Dry</strong><br><span style="font-size:0.78rem;color:var(--muted);">等容量性CSまたは循環血液量減少性ショック</span></td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;font-weight:700;">PCWP ≥ 18 mmHg<br><span style="font-size:0.7rem;font-weight:400;">（Wet）</span></td>
+                <td><strong>Warm &amp; Wet</strong><br><span style="font-size:0.78rem;color:var(--muted);">うっ血優位</span></td>
+                <td><strong>Cold &amp; Wet</strong><br><span style="font-size:0.78rem;color:var(--muted);">心原性ショック</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="rule-body" style="margin-top:10px;">慢性・進行期心不全では、頸静脈怒張（右心圧上昇）が左心充満圧の上昇と必ずしも一致しない。また、逆に頸静脈怒張がなくても左心充満圧が高い場合もある。こうした場面でRHCが医療判断を支える。</p>
+      </div>
+    </div>
+
+    <!-- SUMMARY ch1 -->
+    <h3 id="sum-ch1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+      第1章のキーメッセージ
+    </h3>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+            <span class="rule-body"><strong>うっ血は予後不良因子：</strong>高RAP・高PCWPは腎・肺の臓器障害を引き起こし、心不全入院リスクと死亡率を高める。除うっ血の徹底が最優先課題。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+            <span class="rule-body"><strong>4象限分類で治療を最適化：</strong>CI × PCWPの組み合わせでWarm/Cold × Wet/Dryに分類し、治療方針と予後予測に活用する。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+            <span class="rule-body"><strong>PHと右室不全は予後不良：</strong>LVEF問わず、二次性PH・右室機能不全の発症は予後を悪化させる。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+            <span class="rule-body"><strong>身体所見の限界：</strong>慢性・進行期心不全では右心圧と左心充満圧が乖離することがあり、RHCなしに正確な容量評価は困難。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+            <span class="rule-body"><strong>HFpEFの1/3は安静時正常：</strong>HFpEF患者の約1/3はPCWPが安静時正常で労作時のみ上昇。安静時評価だけでは診断を見逃す可能性がある。</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== 第2章 ===== -->
+    <div id="ch2" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+      <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+      <div style="font-size:1.3rem;font-weight:900;position:relative;">第2章 RHC の基本手技と正常値・計算式</div>
+      <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Essentials, Normal Values, and Calculations of RHC</div>
+    </div>
+
+    <h3 id="s2-normal" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+      RHC 正常値
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">各部位の正常圧（mmHg）</h3>
+        <table class="ie-table">
+          <thead>
+            <tr>
+              <th style="white-space:nowrap;">測定部位</th>
+              <th style="white-space:nowrap;">正常値（mmHg）</th>
+              <th>臨床的意義</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="white-space:nowrap;font-weight:700;">右房（RAP）</td>
+              <td style="white-space:nowrap;">0–6</td>
+              <td>うっ血・右室不全の指標。RHC前に頸静脈怒張で推定</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;font-weight:700;">右室</td>
+              <td style="white-space:nowrap;">収縮期 20–34<br>拡張期 0–6</td>
+              <td>収縮期上昇→肺高血圧、右室圧負荷</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;font-weight:700;">肺動脈（PAP）</td>
+              <td style="white-space:nowrap;">収縮期 20–34<br>拡張期 8–12<br>平均 ≤ 20</td>
+              <td>平均PAP &gt; 20 mmHg → PHの基準（2022年改定）</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;font-weight:700;">PCWP</td>
+              <td style="white-space:nowrap;">4–14</td>
+              <td>左室拡張末期圧の代替指標。≥18→うっ血</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="rule-body" style="margin-top:10px;">PCWPは呼気終末・a波中点で読み取る（心房細動ではc波）。大きなv波がある場合は、a波で読んだ値と全心拍周期の平均値を両方報告する。</p>
+      </div>
+    </div>
+
+    <h3 id="s2-calc" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+      <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+      重要な計算式と臨床的意義
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">RHCで算出すべき主要パラメータ</h3>
+        <table class="ie-table">
+          <colgroup>
+            <col style="width:22%">
+            <col style="width:38%">
+            <col style="width:15%">
+            <col style="width:25%">
+          </colgroup>
+          <thead>
+            <tr>
+              <th style="white-space:nowrap;">指標</th>
+              <th>計算式</th>
+              <th style="white-space:nowrap;">正常値</th>
+              <th>臨床的意義</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="white-space:nowrap;font-weight:700;">TPG<br><span style="font-size:0.72rem;font-weight:400;color:var(--muted);">経肺圧較差</span></td>
+              <td>mean PAP − PCWP</td>
+              <td style="white-space:nowrap;">&lt; 12 mmHg</td>
+              <td>慢性左心充満圧上昇による肺血管リモデリングの指標</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;font-weight:700;">PVR<br><span style="font-size:0.72rem;font-weight:400;color:var(--muted);">肺血管抵抗</span></td>
+              <td>TPG ÷ CO</td>
+              <td style="white-space:nowrap;">&lt; 2 WU</td>
+              <td>PVR &gt; 3 WUは移植後右室不全リスク因子。可逆性評価が必要</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;font-weight:700;">SVR<br><span style="font-size:0.72rem;font-weight:400;color:var(--muted);">体血管抵抗</span></td>
+              <td>(MAP − RAP) ÷ CO × 80</td>
+              <td style="white-space:nowrap;">900–1,200<br>dyne·s/cm⁵</td>
+              <td>CS・非代償HFで上昇。低値は炎症反応や感染を示唆</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;font-weight:700;">PAPI<br><span style="font-size:0.72rem;font-weight:400;color:var(--muted);">肺動脈拍動指数</span></td>
+              <td>(PA収縮期 − PA拡張期) ÷ RAP</td>
+              <td style="white-space:nowrap;">&gt; 2.0</td>
+              <td>右室の拍動性負荷と収縮力の推定。LVAD後右室不全リスク：&lt; 1.85</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;font-weight:700;">RVSWI<br><span style="font-size:0.72rem;font-weight:400;color:var(--muted);">右室一回仕事量係数</span></td>
+              <td>(mean PAP − RAP) × (CI ÷ HR × 1,000) × 0.0136</td>
+              <td style="white-space:nowrap;">&gt; 8<br>g·m/m²/beat</td>
+              <td>右室の仕事量と収縮力の推定。LVAD後右室不全と関連</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;font-weight:700;">CPO<br><span style="font-size:0.72rem;font-weight:400;color:var(--muted);">心臓パワー出力</span></td>
+              <td>(MAP − RAP) × CO ÷ 451</td>
+              <td style="white-space:nowrap;">&gt; 1.0 W</td>
+              <td>圧と流量を統合した心臓ポンプ能力の指標。CSの予後と治療エスカレーションの判断に使用</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3 id="s2-co" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+      <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>
+      心拍出量の測定法
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">Fick法 vs 熱希釈法</h3>
+        <p class="rule-body"><strong>Fick法：</strong>直接Fick法はゴールドスタンダードだが、VO₂の直接測定が必要であり多くの施設では困難。VO₂を想定値で代替した「間接Fick法」は誤差 &gt; 25% となる場合があり、報告を避けるべきである。</p>
+        <p class="rule-body" style="margin-top:8px;"><strong>熱希釈法：</strong>VO₂直接測定ができない場合の第一選択。三尖弁逆流があっても合理的な精度が示されている。心腔内シャントがある場合は使用不可。3〜5回測定値の平均を取り再現性を確認する。</p>
+        <div class="alert-yellow" style="margin-top:12px;">
+          <p class="rule-body"><strong>⚠️ 注意：</strong>肥満患者や心不全患者では想定VO₂値が真のVO₂から 25% 超乖離することが多い。間接Fick法のCOをそのまま報告することは避ける。</p>
+        </div>
+      </div>
+    </div>
+
+    <h3 id="s2-pitfall" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+      <span style="color:#16A34A;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 4</span>
+      よくあるピットフォールとトラブルシューティング
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">RHC中の臨床的問題と対処</h3>
+        <table class="ie-table">
+          <colgroup>
+            <col style="width:25%">
+            <col style="width:35%">
+            <col style="width:40%">
+          </colgroup>
+          <thead>
+            <tr>
+              <th style="white-space:nowrap;">問題</th>
+              <th>機序・所見</th>
+              <th>対処法</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="white-space:nowrap;font-weight:700;">ゼロ点設定不良</td>
+              <td>一貫して高値または低値の圧波形</td>
+              <td>右房レベル（胸部中央）でゼロ再設定。ラインのバブル除去</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;font-weight:700;">Over-damping<br><span style="font-size:0.72rem;color:var(--muted);">過減衰</span></td>
+              <td>収縮期圧が偽低下・拡張期圧が偽上昇。波形が「丸い」外観、PA二重切痕消失</td>
+              <td>カテーテル・チューブの屈曲・血栓・気泡・接続部の確認とフラッシュ</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;font-weight:700;">カテーテルウィップ</td>
+              <td>血管内カテーテルの過剰運動による不規則波形</td>
+              <td>カテーテル再配置、バルーン部分または完全デフレ、測定中のチューブ操作を避ける</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;font-weight:700;">楔入不足（under-wedge）</td>
+              <td>PCWPトレースにPAの波形が混入し偽高値</td>
+              <td>PCWP飽和度を全例で測定（体動脈飽和度の5%以内が目安）。楔入できなければLVEDP直接測定を検討</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;font-weight:700;">楔入過剰（over-wedge）</td>
+              <td>a波・v波の消失、呼吸変動なし。遠位PAでの完全バルーン膨張で偽高値PCWPとなり肺動脈破裂リスク</td>
+              <td>遠位PAでの完全膨張を避ける。近位PAに引き戻してから再度前進</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;font-weight:700;">呼吸変動大</td>
+              <td>肥満・肺疾患による胸腔内圧変動の増大</td>
+              <td>呼気終末値と全呼吸周期平均の両方を報告。過鎮静を避ける</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;font-weight:700;">PCWP大v波<br><span style="font-size:0.72rem;color:var(--muted);">（僧帽弁逆流等）</span></td>
+              <td>大きなv波により全周期平均PCWPがLVEDPを過大評価</td>
+              <td>a波での平均PCWPと全周期平均PCWPの両方を報告。v波の存在もレポートに記載</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">constrictive pericarditis の見落とし注意</h3>
+        <p class="rule-body">難治性体液過剰でHFpEFや拘束型心筋症と診断されている患者で、収縮性心外膜炎が見落とされることがある。RHC所見：RAP高値・y下降の強調（x下降より顕著）・クスマウル徴候（吸気時RAP上昇）。</p>
+        <p class="rule-body" style="margin-top:8px;">ただし、これらの所見は進行期HFの不全右室（非コンプライアント）でも認められ予後不良を示す。左右心同時カテーテル検査での動的呼吸負荷試験（心室相互依存性と心腔内−胸腔内乖離の確認）が、収縮性心外膜炎と心筋疾患の鑑別に高い感度・特異度を示す。</p>
+      </div>
+    </div>
+
+    <!-- SUMMARY ch2 -->
+    <h3 id="sum-ch2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+      第2章のキーメッセージ
+    </h3>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+            <span class="rule-body"><strong>PCWPは呼気終末・a波中点で読む：</strong>全心拍周期平均はLVEDPを過大評価する可能性がある。大きなv波がある場合は両値を報告。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+            <span class="rule-body"><strong>間接Fick法は報告を避ける：</strong>VO₂直接測定ができない場合は熱希釈法を使用し、想定VO₂からのFick COは不正確として報告しない。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+            <span class="rule-body"><strong>CPOは圧と流量を統合した指標：</strong>MAP・CO・RAPから算出し、CSの予後評価と治療エスカレーションの判断に使用する。CPO &lt; 0.6 Wで循環補助装置導入を考慮。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+            <span class="rule-body"><strong>PAPI &lt; 1.85でLVAD後右室不全リスク上昇：</strong>右室の拍動性負荷と収縮力を統合した指標であり、LVAD前評価に必須。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+            <span class="rule-body"><strong>楔入不足・過剰は偽PCWPの原因：</strong>全例でPCWP飽和度を測定し（体動脈の5%以内）、正確な楔入を確認する。</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== 第3章 ===== -->
+    <div id="ch3" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+      <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+      <div style="font-size:1.3rem;font-weight:900;position:relative;">第3章 心原性ショック（CS）における RHC</div>
+      <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">RHC in Cardiogenic Shock</div>
+    </div>
+
+    <h3 id="s3-scai" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+      SCAI 心原性ショック 5段階分類
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">SCAI ステージ（A〜E）と血行動態基準</h3>
+        <p class="rule-body" style="margin-bottom:12px;">2019年にSCAIが発表したCS 5段階分類では、血行動態データと生化学マーカーが分類の中核を担う。乳酸上昇による臓器低灌流は、低血圧よりも早期から出現し予後不良を示す。</p>
+        <div class="scai-grid">
+          <div class="scai-box">
+            <div class="scai-head scai-a">Stage A — At risk（リスク）</div>
+            <div class="scai-body" style="font-size:0.78rem;">
+              SBP &gt; 100<br>CI ≥ 2.5<br>RAP &lt; 10<br>PA Sat ≥ 65%<br>腎機能・乳酸 正常
+            </div>
+          </div>
+          <div class="scai-box">
+            <div class="scai-head scai-b">Stage B — Beginning（初期）</div>
+            <div class="scai-body" style="font-size:0.78rem;">
+              SBP &lt; 90 or MAP &lt; 60<br>（またはベースラインから30低下）<br>HR ≥ 100<br>CI ≥ 2.2<br>PA Sat ≥ 65%<br>乳酸 正常<br>BNP 上昇・軽度腎障害
+            </div>
+          </div>
+          <div class="scai-box">
+            <div class="scai-head scai-c">Stage C — Classic（典型）</div>
+            <div class="scai-body" style="font-size:0.78rem;">
+              Stage B の血圧基準＋昇圧薬/デバイスで維持<br>CI &lt; 2.2<br>PCWP &gt; 15<br>RAP/PCWP ≥ 0.8<br>PAPI ≤ 1.85<br>CPO ≤ 0.6<br>Lac ≥ 2<br>GFR 50%超低下<br>LFT↑, BNP↑
+            </div>
+          </div>
+          <div class="scai-box">
+            <div class="scai-head scai-d">Stage D — Deteriorating（悪化）</div>
+            <div class="scai-body" style="font-size:0.78rem;">
+              Stage C に加え：<br>複数昇圧薬 or MCS<br>乳酸 上昇中かつ持続 &gt; 2<br>腎機能悪化<br>LFT悪化<br>BNP上昇
+            </div>
+          </div>
+          <div class="scai-box">
+            <div class="scai-head scai-e">Stage E — Extremis（瀕死）</div>
+            <div class="scai-body" style="font-size:0.78rem;">
+              蘇生なしでSBP維持不能<br>PEA or 難治性VT/VF<br>最大支持下での低血圧<br>pH ≤ 7.2<br>乳酸 ≥ 8<br>塩基欠乏 &gt; 10
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h3 id="s3-goals" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+      <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+      CS における血行動態目標値
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">連続血行動態モニタリングの治療目標</h3>
+        <p class="rule-body" style="margin-bottom:12px;">CSでは連続モニタリングにより以下の目標値への到達を確認し、達成されない場合は強心薬・一時的MCSへのエスカレーションを早期に判断する。</p>
+        <div class="goal-grid">
+          <div class="goal-box">
+            <div class="goal-val">8–12 mmHg</div>
+            <div class="goal-label">RAP目標</div>
+          </div>
+          <div class="goal-box">
+            <div class="goal-val">≤ 15 mmHg</div>
+            <div class="goal-label">PCWP目標</div>
+          </div>
+          <div class="goal-box">
+            <div class="goal-val">≥ 2.2 L/min/m²</div>
+            <div class="goal-label">CI目標</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">CPO による予後評価とエスカレーション判断</h3>
+        <p class="rule-body">CPO = (MAP − RAP) × CO ÷ 451 により、圧と流量の両面から心臓のポンプ能力を評価できる。</p>
+        <p class="rule-body" style="margin-top:8px;">Cardiogenic Shock Working GroupによるCPOと死亡率の直接的な関連は示されなかったが、別の小規模研究ではCPO（RAPを含む式で算出）と院内死亡率の関連が示された。<strong>CPO &lt; 0.6 W</strong>かつ昇圧薬増量にもかかわらず低血圧が持続する場合は、一時的MCSへの移行を考慮する。</p>
+        <div class="alert-red" style="margin-top:12px;">
+          <p class="rule-body"><strong>⚠️ 計算上の注意：</strong>CPO算出にRAPを含めない施設もあるが、CSではRAPが高値になることが多く、RAPを省略すると過大評価となる可能性がある。</p>
+        </div>
+      </div>
+    </div>
+
+    <h3 id="s3-rv" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+      <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>
+      右室不全を伴うCS
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">右室不全・両心室不全 CS の血行動態所見</h3>
+        <p class="rule-body">右室不全はCSの転帰不良の主要因である。以下の指標は死亡率の増加と関連する：</p>
+        <div class="ie-stat-grid" style="margin-top:10px;">
+          <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+            <div class="ie-stat-val" style="color:#DC2626;">&gt; 15 mmHg</div>
+            <div class="ie-stat-label">RAP<br>死亡率増加と関連</div>
+          </div>
+          <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+            <div class="ie-stat-val" style="color:#DC2626;">&gt; 0.6</div>
+            <div class="ie-stat-label">RAP/PCWP比<br>右室不全指標</div>
+          </div>
+          <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+            <div class="ie-stat-val" style="color:#DC2626;">&lt; 1.5</div>
+            <div class="ie-stat-label">PAPI<br>右室不全リスク</div>
+          </div>
+          <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+            <div class="ie-stat-val" style="color:#DC2626;">&lt; 0.3 W</div>
+            <div class="ie-stat-label">RV CPO<br>（mean PAP代入）</div>
+          </div>
+        </div>
+        <p class="rule-body" style="margin-top:12px;">右室は容量・圧負荷に特に感受性が高い。RAP・PCWPを下げる利尿薬投与が右室メカニクス改善に重要である。孤立性右室CSはまれだが、両心室CSは増加傾向にある。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">進行性HFによるCS（HF-CS）の特徴</h3>
+        <p class="rule-body">急性心筋梗塞によるCS（AMI-CS）とHF-CSでは臨床像が異なる。AMI-CSが急速な心機能低下を来たすのに対し、HF-CSでは慢性的なCO低下への適応が生じるため、重篤な血行動態異常があっても臓器障害や乳酸上昇が進行末期まで現れないことがある。HF-CSではより高度な血行動態破綻が見られる一方で、臓器機能は保たれていることが多い。</p>
+      </div>
+    </div>
+
+    <!-- SUMMARY ch3 -->
+    <h3 id="sum-ch3" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+      第3章のキーメッセージ
+    </h3>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+            <span class="rule-body"><strong>CS目標：RAP 8–12、PCWP ≤15、CI ≥2.2：</strong>連続血行動態モニタリングで目標未達の場合は早期エスカレーション。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+            <span class="rule-body"><strong>CPO &lt; 0.6 W で MCS を考慮：</strong>昇圧薬・強心薬増量にもかかわらず目標未達の場合、一時的MCSへの移行を検討する。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+            <span class="rule-body"><strong>右室不全の指標：RAP &gt;15・RAP/PCWP &gt;0.6・PAPI &lt;1.5・RV CPO &lt;0.3：</strong>これらは死亡率増加と関連。利尿薬による右室負荷軽減が重要。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+            <span class="rule-body"><strong>HF-CSは乳酸上昇が遅れる：</strong>慢性HFから移行したCSでは臓器障害が末期まで出現しないことがあり、早期のRHC評価で潜在的COの低下を検出することが重要。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+            <span class="rule-body"><strong>SCAI 5段階分類：</strong>血行動態データと生化学マーカーを組み合わせた客観的分類により、CS重症度の標準化・予後層別化・治療エスカレーションタイミングの判断が可能になる。</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== 第4章 ===== -->
+    <div id="ch4" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+      <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+      <div style="font-size:1.3rem;font-weight:900;position:relative;">第4章 HFrEF・HFpEF・肺高血圧症</div>
+      <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">HFrEF, HFpEF, and Pulmonary Hypertension</div>
+    </div>
+
+    <h3 id="s4-hfref" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+      HFrEF における RHC の適応
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">慢性HFrEFでRHCを考慮すべき臨床状況</h3>
+        <p class="rule-body">HFrEFにおける急性非代償期へのRHCは、容量状態が不明確な場合や利尿薬抵抗性の際に有用である。臨床家が「腎機能悪化を懸念して利尿薬を不適切に控える」場面では、RHCで充満圧上昇を確認することで腎静脈うっ血が機能不全の原因であることを示し、積極的な利尿薬投与の根拠を与える。</p>
+        <table class="ie-table" style="margin-top:10px;">
+          <thead><tr><th>RHCを考慮すべき臨床状況</th></tr></thead>
+          <tbody>
+            <tr><td>増悪する倦怠感</td></tr>
+            <tr><td>脈圧減少を伴う低血圧</td></tr>
+            <tr><td>四肢冷感 + S3ギャロップ</td></tr>
+            <tr><td>GDMTの減量・中断を余儀なくされている</td></tr>
+            <tr><td>誘因不明の反復する心不全入院</td></tr>
+            <tr><td>悪化する腎機能</td></tr>
+            <tr><td>肝機能障害の悪化（ビリルビン・トランスアミナーゼ上昇）</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">低拍出 HFrEF の治療戦略</h3>
+        <p class="rule-body"><strong>低CO + 高SVR + 良好な灌流圧：</strong>血管拡張薬の開始・漸増（ARNi等のGDMT、重症例はニトロプルシド）によりCOを改善しつつ神経体液因子療法の増量を図る。</p>
+        <p class="rule-body" style="margin-top:8px;"><strong>低灌流が明らかなGDMT最適化後の低CO：</strong>疾患進行によるものであり、強心薬サポートを検討する。米国で承認されている静注強心薬はドブタミンとミルリノンのみ。長期強心薬は低血圧・不整脈・感染・血栓症リスクを伴うため、進行期治療（LVAD・移植）へのブリッジまたは緩和ケアとしての位置づけで使用する。</p>
+      </div>
+    </div>
+
+    <h3 id="s4-hfpef" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+      <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+      HFpEF の診断における運動負荷 RHC
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">HFpEFのゴールドスタンダード診断：侵襲的運動負荷テスト</h3>
+        <p class="rule-body">HFpEFの有病率は増加しており、患者の約1/3は安静時PCWP正常・BNP正常で身体所見・心エコーに異常がない。これらの患者は、<strong>安静時評価だけでは見逃される</strong>。しかしHFpEFの早期ステージでも労作誘発性PCWP上昇があれば、心不全入院・死亡リスクが<strong>2.4倍</strong>増加することが示されている。</p>
+        <p class="rule-body" style="margin-top:8px;"><strong>正常な運動時反応（基準値）：</strong></p>
+        <div class="ie-stat-grid" style="margin-top:8px;">
+          <div class="ie-stat" style="background:#F0FDF4;border-color:#BBF7D0;">
+            <div class="ie-stat-val" style="color:#2D7A4F;">&lt; 3.0 mmHg/L/min</div>
+            <div class="ie-stat-label">mean PAP/CO の増加量<br>（正常運動反応）</div>
+          </div>
+          <div class="ie-stat" style="background:#F0FDF4;border-color:#BBF7D0;">
+            <div class="ie-stat-val" style="color:#2D7A4F;">&lt; 25 mmHg</div>
+            <div class="ie-stat-label">運動時 PCWP<br>（正常運動反応）</div>
+          </div>
+          <div class="ie-stat" style="background:#F0FDF4;border-color:#BBF7D0;">
+            <div class="ie-stat-val" style="color:#2D7A4F;">低下</div>
+            <div class="ie-stat-label">PVR（運動時）<br>血管拡張・リクルートメント</div>
+          </div>
+        </div>
+        <p class="rule-body" style="margin-top:12px;">運動負荷RHCはサイクルエルゴメーターが必要であり、三次医療機関で主に実施される。呼気終末PCWP値は全呼吸周期平均値より高いが、肺うっ血とより強く相関することが示されている。</p>
+      </div>
+    </div>
+
+    <h3 id="s4-ph" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+      <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>
+      心不全に伴う肺高血圧症の血行動態分類
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">PH の改定定義と分類（World Symposium on PH 2022）</h3>
+        <p class="rule-body">PHの定義がmean PAP <strong>&gt; 25 mmHg から &gt; 20 mmHg</strong> に改定された。PH表現型はPCWP・CO・PVRにより以下に分類される。</p>
+        <div class="ie-score-grid" style="margin-top:12px;">
+          <div class="ie-score-card">
+            <div class="ie-score-head" style="background:#1D4ED8;">前毛細血管性PH（Precapillary PH）</div>
+            <div class="ie-score-items">
+              <div class="ie-score-item"><span class="ie-score-pt ie-score-pt-blue">必須</span>mean PAP &gt; 20 mmHg</div>
+              <div class="ie-score-item"><span class="ie-score-pt ie-score-pt-blue">必須</span>PCWP ≤ 15 mmHg</div>
+              <div class="ie-score-item"><span class="ie-score-pt ie-score-pt-blue">必須</span>PVR &gt; 2 WU</div>
+            </div>
+            <div class="ie-score-foot ie-score-foot-blue">左心疾患なし。肺動脈性肺高血圧症（PAH）等。PAH治療薬が有効</div>
+          </div>
+          <div class="ie-score-card">
+            <div class="ie-score-head" style="background:#EA580C;">孤立性後毛細血管性PH（IpcPH）</div>
+            <div class="ie-score-items">
+              <div class="ie-score-item"><span class="ie-score-pt ie-score-pt-orange">必須</span>mean PAP &gt; 20 mmHg</div>
+              <div class="ie-score-item"><span class="ie-score-pt ie-score-pt-orange">必須</span>PCWP &gt; 15 mmHg</div>
+              <div class="ie-score-item"><span class="ie-score-pt ie-score-pt-orange">必須</span>PVR ≤ 2 WU</div>
+            </div>
+            <div class="ie-score-foot ie-score-foot-orange">左心疾患（HFrEF/HFpEF）による充満圧上昇に起因。最も一般的</div>
+          </div>
+          <div class="ie-score-card" style="grid-column:1/-1;">
+            <div class="ie-score-head" style="background:#7C3AED;">混合性PH（Combined Pre- and Post-capillary PH: CpcPH）</div>
+            <div class="ie-score-items">
+              <div class="ie-score-item"><span class="ie-score-pt" style="background:#EDE9FE;color:#7C3AED;">必須</span>mean PAP &gt; 20 mmHg</div>
+              <div class="ie-score-item"><span class="ie-score-pt" style="background:#EDE9FE;color:#7C3AED;">必須</span>PCWP &gt; 15 mmHg</div>
+              <div class="ie-score-item"><span class="ie-score-pt" style="background:#EDE9FE;color:#7C3AED;">必須</span>PVR &gt; 2 WU</div>
+            </div>
+            <div class="ie-score-foot" style="background:#FAF5FF;border-top:1px solid #DDD6FE;color:#4C1D95;">左心疾患に加え反応性肺血管リモデリングを伴う。より重篤な右室機能不全・肺ガス交換障害を示す。肺血管拡張薬は有効性未証明</div>
+          </div>
+        </div>
+        <p class="rule-body" style="margin-top:12px;">左心疾患患者でPCWPと「釣り合わないほど高い」PHを呈する場合（CpcPH）、より不良な血行動態・重篤な右室機能不全を示すが、肺動脈血管拡張薬の有益性は示されていない。</p>
+      </div>
+    </div>
+
+    <!-- SUMMARY ch4 -->
+    <h3 id="sum-ch4" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+      第4章のキーメッセージ
+    </h3>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+            <span class="rule-body"><strong>HFrEFで利尿薬を控えるべきでない：</strong>腎機能悪化の原因が腎静脈うっ血であれば、RHCで充満圧上昇を示し積極的な利尿薬・血管拡張薬投与を支持する。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+            <span class="rule-body"><strong>HFpEFの1/3は安静時RHC正常：</strong>労作誘発性PCWPでのみ診断できる症例があり、侵襲的運動負荷テストがゴールドスタンダード。労作時PCWP上昇だけで入院・死亡リスクが2.4倍増加。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+            <span class="rule-body"><strong>PH定義がmean PAP &gt;20に改定：</strong>旧定義（&gt;25 mmHg）から改定。PCWP・PVRにより前毛細血管性・後毛細血管性・混合性に分類。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+            <span class="rule-body"><strong>混合性PH（CpcPH）への肺血管拡張薬は有効性未証明：</strong>PCWP &gt;15かつPVR &gt;2の患者には、肺動脈性高血圧症治療薬の使用を慎重に評価すべき。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+            <span class="rule-body"><strong>正常LVEF＋未説明の労作時息切れにはHFpEFを疑う：</strong>BNP正常・エコー異常なしでもHFpEFである可能性があり、運動負荷RHCの閾値を低くもつ。</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== 第5章 ===== -->
+    <div id="ch5" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+      <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+      <div style="font-size:1.3rem;font-weight:900;position:relative;">第5章 LVAD・心臓移植・特殊病態</div>
+      <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">LVAD, Heart Transplantation, and Special Conditions</div>
+    </div>
+
+    <h3 id="s5-lvad" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+      LVAD における RHC の役割
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">LVAD 前・術後・長期管理における RHC 推奨（ISHLT 2023）</h3>
+        <table class="ie-table">
+          <colgroup>
+            <col style="width:35%">
+            <col style="width:40%">
+            <col style="width:25%">
+          </colgroup>
+          <thead>
+            <tr>
+              <th style="white-space:nowrap;">タイミング</th>
+              <th>目的・内容</th>
+              <th style="white-space:nowrap;">推奨クラス</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="white-space:nowrap;">待機手術：術前1–2週間以内<br>重症患者：手術直前</td>
+              <td>右室不全の有無と重症度評価</td>
+              <td style="white-space:nowrap;">Class I</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;">術後 — 反復するHF症状</td>
+              <td>RV不全・デバイス不全・LV不十分なアンロードの評価</td>
+              <td style="white-space:nowrap;">Class I</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;">LVAD速度最適化（Rampテスト）</td>
+              <td>RAP &lt; 12・PCWP &lt; 18・大動脈弁の間欠的開放・MR最小化を目標に速度調整</td>
+              <td style="white-space:nowrap;">Class IIa</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;">心筋回復の評価</td>
+              <td>順次ポンプ速度を下げて血行動態評価。正常化確認後にLVAD離脱を検討</td>
+              <td style="white-space:nowrap;">Class IIa</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="rule-body" style="margin-top:12px;">LVAD後右室不全は主要な合併症。術前に右室不全リスクを高める指標：</p>
+        <div class="ie-stat-grid" style="margin-top:8px;">
+          <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+            <div class="ie-stat-val" style="color:#DC2626;">≥ 15 mmHg</div>
+            <div class="ie-stat-label">RAP<br>右室不全リスク増加</div>
+          </div>
+          <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+            <div class="ie-stat-val" style="color:#DC2626;">&gt; 0.63</div>
+            <div class="ie-stat-label">RAP/PCWP比<br>右室不全リスク</div>
+          </div>
+          <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+            <div class="ie-stat-val" style="color:#DC2626;">&lt; 1.85</div>
+            <div class="ie-stat-label">PAPI<br>右室不全リスク</div>
+          </div>
+        </div>
+        <p class="rule-body" style="margin-top:12px;">単一指標は優位性が明確でなく、血行動態データ・臨床所見・心エコーを総合した評価が最適。術前にRAP &lt; 15を目標に利尿薬投与し、重篤な右室機能不全では術時の右室補助（RVAD）を計画する。</p>
+      </div>
+    </div>
+
+    <h3 id="s5-tx" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+      <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+      心臓移植における RHC と PVR 評価
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">心臓移植前の必須血行動態評価</h3>
+        <p class="rule-body">米国の2018年移植優先度割り当てポリシーでは、ウェイティングリスト上の優先順位づけに血行動態データが必要。</p>
+        <p class="rule-body" style="margin-top:8px;"><strong>強心薬適応（PCWP &gt;15 かつ CI &lt;2.2）</strong>・<strong>MCS適応（CI &lt;1.8 L/min/m²・昇圧薬なし、または &lt;2.0・昇圧薬使用下、かつSBP &lt;90）</strong>。</p>
+        <div class="alert-red" style="margin-top:12px;">
+          <p class="rule-body"><strong>移植の相対禁忌：PVR &gt; 5 WU または TPG &gt; 16 mmHg</strong><br>ドナー右室が後負荷に耐えられないリスクがあるため。</p>
+        </div>
+        <p class="rule-body" style="margin-top:12px;"><strong>急性肺血管拡張薬試験の適応：</strong>PA収縮期 &gt; 50 mmHg かつ TPG ≥ 15 mmHg または PVR ≥ 3 WUの患者。使用薬剤：吸入NO・プロスタサイクリン・ニトロプルシド・ミルリノン・ニトログリセリン（施設・血行動態に応じて選択）。</p>
+        <table class="ie-table" style="margin-top:10px;">
+          <thead>
+            <tr>
+              <th>陽性反応（低リスク）</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>PVR が <strong>&lt; 3 WU</strong> かつ SBP &gt; 85 mmHg に低下</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="rule-body" style="margin-top:10px;">急性試験が陰性の場合は入院の上で強心薬・利尿薬・血管作動薬を投与し、24〜48時間後のPVR低下を確認する。LVAD長期サポートにより可逆化が得られ、その後の心臓移植が可能になる場合もある。</p>
+      </div>
+    </div>
+
+    <h3 id="s5-portal" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+      <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>
+      門脈圧亢進症の評価
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">肝静脈楔入圧による門脈圧評価</h3>
+        <p class="rule-body">重篤な体静脈うっ血を伴うHF患者では、肝機能異常・肝画像所見の異常が見られることがある。<strong>肝障害がHFによる充血性肝障害なのか、原発性門脈圧亢進症（肝内疾患）によるものかを鑑別することが重要</strong>（後者はLVAD・移植の禁忌となる可能性がある）。</p>
+        <p class="rule-body" style="margin-top:8px;">最も一般的な評価法は<strong>肝静脈楔入圧</strong>の測定。</p>
+        <table class="ie-table" style="margin-top:10px;">
+          <thead>
+            <tr>
+              <th>指標</th>
+              <th>基準値</th>
+              <th>解釈</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="white-space:nowrap;font-weight:700;">肝静脈圧 − 肝静脈楔入圧較差</td>
+              <td style="white-space:nowrap;">1–5 mmHg（正常）</td>
+              <td>&lt; 5 mmHg：正常</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;font-weight:700;"></td>
+              <td style="white-space:nowrap;">&gt; 5 mmHg</td>
+              <td>門脈圧亢進症を疑う</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="rule-body" style="margin-top:10px;">肝静脈圧は上昇しているが圧較差が正常（1〜5 mmHg）であれば、肝障害はHFによるものである可能性が高い。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">高拍出性心不全（High-output HF）</h3>
+        <p class="rule-body">高拍出性心不全は稀な病態で、CI &gt; 4.0 L/min/m² のHF症候群として定義される。主な原因：肥満・肝疾患・動静脈瘻。</p>
+        <p class="rule-body" style="margin-top:8px;">動静脈瘻は静脈還流と前負荷を増加させSVRを低下させ、時間の経過とともに高拍出性HF・右室不全・PHを招く。評価法として、基準値測定後に瘻の1分間圧迫を行い血行動態変化を測定する（安全性が示されている）。瘻の閉鎖・縮小により心臓リバースリモデリングまたはHF重症度の改善が得られる場合がある。</p>
+      </div>
+    </div>
+
+    <!-- SUMMARY ch5 -->
+    <h3 id="sum-ch5" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+      第5章のキーメッセージ
+    </h3>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+            <span class="rule-body"><strong>LVAD前RHCは必須：</strong>右室不全評価のため選択手術では術前1〜2週、重症例は直前に実施。RAP ≥15・RAP/PCWP &gt;0.63・PAPI &lt;1.85は術後右室不全リスク因子。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+            <span class="rule-body"><strong>Ramp最適化目標：RAP &lt;12・PCWP &lt;18：</strong>LVAD速度調整により血行動態目標を達成し、機能的能力改善・再入院減少・LVAD合併症低減が期待される（Class IIa）。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+            <span class="rule-body"><strong>移植禁忌：PVR &gt;5 WU または TPG &gt;16 mmHg：</strong>急性肺血管拡張薬試験で PVR &lt;3 WU＋SBP &gt;85 mmHg を確認できれば低リスクと判断。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+            <span class="rule-body"><strong>肝機能異常の原因鑑別が重要：</strong>充血性肝障害 vs 原発性肝疾患（門脈圧亢進症）の鑑別に肝静脈楔入圧を測定。圧較差 &gt;5 mmHg で門脈圧亢進症を疑い、LVAD・移植適応を再評価。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+            <span class="rule-body"><strong>後期右室不全はLVAD患者の重要合併症：</strong>早期症状（倦怠感・浮腫・不整脈・肝腎機能異常）を見落とさず、疑いがあれば早期RHCで評価する。</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 出典注記 -->
+    <p style="font-size:0.72rem;color:#9CA3AF;margin-top:16px;line-height:1.7;">
+      出典：Rajagopalan N, Borlaug BA, Bailey AL, et al. Practical Guidance for Hemodynamic Assessment by Right Heart Catheterization in Management of Heart Failure. JACC Heart Fail. 2024;12(7):1141–1156.<br>
+      DOI：<a href="https://doi.org/10.1016/j.jchf.2024.03.020" target="_blank" rel="noopener" style="color:#60A5FA;">https://doi.org/10.1016/j.jchf.2024.03.020</a><br>
+      本資料は教育目的で作成したサマリーです。診断・治療方針の決定には必ず原典を参照してください。
+    </p>
+    <p style="font-size:0.75rem;color:var(--muted);text-align:right;margin-top:8px;">制作：ICU 関谷</p>
+
+  </main>
+
+  <!-- サイドバー目次 -->
+  <aside class="ie-sidebar">
+    <div class="ie-sidebar-card">
+      <div class="ie-sidebar-title">目次</div>
+      <a href="#ch1" class="ie-toc-chapter">第1章 病態生理と役割</a>
+      <a href="#s1-patho" class="ie-toc-section">S1 — 病態生理・うっ血</a>
+      <a href="#s1-class" class="ie-toc-section">S2 — 4象限分類</a>
+      <a href="#sum-ch1" class="ie-toc-section">SUMMARY</a>
+      <a href="#ch2" class="ie-toc-chapter">第2章 基本手技と計算式</a>
+      <a href="#s2-normal" class="ie-toc-section">S1 — 正常値</a>
+      <a href="#s2-calc" class="ie-toc-section">S2 — 計算式（TPG/PVR/CPO/PAPI）</a>
+      <a href="#s2-co" class="ie-toc-section">S3 — CO測定法</a>
+      <a href="#s2-pitfall" class="ie-toc-section">S4 — ピットフォール</a>
+      <a href="#sum-ch2" class="ie-toc-section">SUMMARY</a>
+      <a href="#ch3" class="ie-toc-chapter">第3章 心原性ショック</a>
+      <a href="#s3-scai" class="ie-toc-section">S1 — SCAI 5段階分類</a>
+      <a href="#s3-goals" class="ie-toc-section">S2 — 血行動態目標値</a>
+      <a href="#s3-rv" class="ie-toc-section">S3 — 右室不全を伴うCS</a>
+      <a href="#sum-ch3" class="ie-toc-section">SUMMARY</a>
+      <a href="#ch4" class="ie-toc-chapter">第4章 HFrEF/HFpEF/PH</a>
+      <a href="#s4-hfref" class="ie-toc-section">S1 — HFrEF の適応</a>
+      <a href="#s4-hfpef" class="ie-toc-section">S2 — HFpEF 運動負荷RHC</a>
+      <a href="#s4-ph" class="ie-toc-section">S3 — 肺高血圧症の分類</a>
+      <a href="#sum-ch4" class="ie-toc-section">SUMMARY</a>
+      <a href="#ch5" class="ie-toc-chapter">第5章 LVAD/移植/特殊病態</a>
+      <a href="#s5-lvad" class="ie-toc-section">S1 — LVAD</a>
+      <a href="#s5-tx" class="ie-toc-section">S2 — 心臓移植・PVR評価</a>
+      <a href="#s5-portal" class="ie-toc-section">S3 — 門脈圧亢進・高拍出HF</a>
+      <a href="#sum-ch5" class="ie-toc-section">SUMMARY</a>
+    </div>
+  </aside>
+
+</div>
+
+<script src="../script.js"></script>
+<script src="../abbr-tooltip.js"></script>
+</body>
+</html>

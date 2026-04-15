@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ノルエピネフリン等価スコア 更新版（訂正）— 昇圧薬換算係数・メタラミノール修正（Critical Care 2025） | 聖路加ICU</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style-v2.css">
+  <script src="../site-config.js"></script>
+  <style>
+    .subpage-hero { background: linear-gradient(150deg, #1A3A2A 0%, #2D7A4F 55%, #3D9B65 100%) !important; }
+    .ie-badge { display:inline-block;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:20px;padding:4px 12px;font-size:0.72rem;font-weight:500;color:#fff;margin-right:6px;margin-top:8px; }
+
+    /* Layout */
+    .content-wrap { display:flex;gap:32px;align-items:flex-start;max-width:1140px;margin:0 auto;padding:32px 20px 80px; }
+    .main-col { flex:1;min-width:0;max-width:900px; }
+    .ie-sidebar { width:220px;flex-shrink:0;position:sticky;top:80px;max-height:calc(100vh - 120px);overflow-y:auto; }
+    .ie-sidebar-card { background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:14px; }
+    .ie-sidebar-title { font-size:0.75rem;font-weight:800;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border); }
+    .ie-toc-chapter { display:block;font-size:0.8rem;font-weight:700;color:var(--text);padding:6px 0;border-bottom:1px solid var(--border);text-decoration:none;line-height:1.4; }
+    .ie-toc-section { display:block;font-size:0.75rem;color:var(--muted);padding:4px 0 4px 10px;text-decoration:none;line-height:1.4;border-left:2px solid var(--border); }
+    .ie-toc-chapter:hover,.ie-toc-section:hover { color:var(--blue); }
+    @media (max-width:900px) { .ie-sidebar { display:none; } }
+
+    /* Tables */
+    .ie-table { width:100%;border-collapse:collapse;font-size:0.82rem;margin-top:10px; }
+    .ie-table th { background:#F0FDF4;border:1px solid #BBF7D0;padding:8px 12px;font-weight:700;font-size:0.78rem;text-align:left; }
+    .ie-table td { border:1px solid var(--border);padding:8px 12px;vertical-align:top;line-height:1.7; }
+    .ie-table tr:nth-child(even) td { background:#F8FAFC; }
+
+    /* Flow */
+    .ie-flow { display:flex;flex-direction:column;gap:0; }
+    .ie-flow-item { display:flex;align-items:flex-start;gap:14px;background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:14px 16px; }
+    .ie-flow-arrow { text-align:center;color:#2D7A4F;font-size:1.1rem;font-weight:700;padding:4px 0; }
+    .ie-flow-num { width:28px;height:28px;border-radius:50%;background:#2D7A4F;color:#fff;font-size:0.78rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px; }
+
+    /* Stat grid */
+    .ie-stat-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px; }
+    @media (max-width:520px) { .ie-stat-grid { grid-template-columns:1fr 1fr; } }
+    .ie-stat { background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;padding:14px 12px;text-align:center; }
+    .ie-stat-val { font-size:1.25rem;font-weight:900;color:#2D7A4F;line-height:1.3; }
+    .ie-stat-label { font-size:0.68rem;color:var(--muted);margin-top:5px;line-height:1.5; }
+
+    /* Alpha card */
+    .ie-alpha { background:#F5F3FF;border:1px solid #DDD6FE;border-radius:8px;padding:2px;margin-top:10px; }
+    .ie-alpha-inner { padding:14px 16px; }
+    .ie-alpha-header { display:flex;align-items:center;gap:8px;margin-bottom:8px; }
+    .ie-alpha-badge { background:#7C3AED;color:#fff;font-size:0.65rem;font-weight:800;padding:2px 8px;border-radius:20px;letter-spacing:0.05em; }
+    .ie-alpha-title { font-size:0.85rem;font-weight:700;color:#4C1D95; }
+
+    /* Alerts */
+    .alert-yellow { background:#FFFBEB;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#92400E;line-height:1.7; }
+    .alert-green  { background:#F0FDF4;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#14532D;line-height:1.7; }
+    .alert-red    { background:#FEF2F2;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#7F1D1D;line-height:1.7; }
+
+    /* NE formula display */
+    .ne-formula-box { background:#F0FDF4;border:2px solid #2D7A4F;border-radius:10px;padding:18px 20px;margin-top:12px;font-family:'Noto Sans JP',sans-serif; }
+    .ne-formula-title { font-size:0.78rem;font-weight:800;color:#2D7A4F;letter-spacing:0.05em;margin-bottom:10px; }
+    .ne-formula-body { font-size:0.85rem;line-height:2.0;color:var(--text); }
+    .ne-formula-term { display:inline-block;background:#fff;border:1px solid #BBF7D0;border-radius:4px;padding:1px 6px;margin:2px 2px;white-space:nowrap; }
+    .ne-formula-corrected { background:#FEF2F2;border:1px solid #FECACA;color:#DC2626;font-weight:700; }
+
+    /* Drug grid */
+    .drug-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px; }
+    @media (max-width:640px) { .drug-grid { grid-template-columns:1fr 1fr; } }
+    .drug-box { background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:12px;text-align:center; }
+    .drug-name { font-size:0.75rem;font-weight:700;color:var(--text);margin-bottom:4px; }
+    .drug-factor { font-size:1.1rem;font-weight:900;color:#2D7A4F;line-height:1.3; }
+    .drug-unit { font-size:0.62rem;color:var(--muted);margin-top:2px;line-height:1.5; }
+    .drug-box-red { background:#FEF2F2;border:2px solid #FECACA; }
+    .drug-box-red .drug-factor { color:#DC2626; }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="../index.html" class="nav-logo">聖路加ICU</a>
+      <div class="nav-links">
+        <a href="../index.html">ホーム</a>
+        <a href="articles-guidelines.html" class="active">注目論文・GL</a>
+        <a href="disease-topics.html">疾患トピックス</a>
+        <a href="procedures.html">手技</a>
+        <a href="pharmacology.html">薬剤</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <div class="subpage-hero">
+    <div class="container">
+      <a href="articles-guidelines.html#art-cardio" class="back-link">← 一覧へ戻る</a>
+      <h1 class="subpage-title">ノルエピネフリン等価スコア 更新版（訂正）</h1>
+      <p class="subpage-subtitle">#2 Cardiological System — ショック・昇圧薬</p>
+      <div>
+        <span class="ie-badge">Critical Care 2025</span>
+        <span class="ie-badge">Correction</span>
+        <span class="ie-badge">2025年3月</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-wrap">
+    <main class="main-col">
+
+      <!-- 略語一覧 -->
+      <div class="card" style="margin-bottom:24px;">
+        <div class="card-inner">
+          <h3 class="rule-title" style="margin-bottom:10px;">本ページで使用する略語一覧</h3>
+          <table style="width:100%;border-collapse:collapse;font-size:0.8rem;line-height:1.6;">
+            <tbody>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:140px;color:var(--blue);">略語</td><td style="padding:4px 8px;">正式名称 — 日本語訳</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">NE</td><td style="padding:4px 8px;">Norepinephrine — ノルエピネフリン（ノルアドレナリン）</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">NE equivalent</td><td style="padding:4px 8px;">Norepinephrine Equivalent Score — ノルエピネフリン等価スコア（複数昇圧薬の総合力をNE換算で表した指標）</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">EPI</td><td style="padding:4px 8px;">Epinephrine — エピネフリン（アドレナリン）</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">DA</td><td style="padding:4px 8px;">Dopamine — ドパミン</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">PHE</td><td style="padding:4px 8px;">Phenylephrine — フェニレフリン</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">VP</td><td style="padding:4px 8px;">Vasopressin — バソプレシン</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">AT-II</td><td style="padding:4px 8px;">Angiotensin II — アンジオテンシンII</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">TLP</td><td style="padding:4px 8px;">Terlipressin — テルリプレシン</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">MB</td><td style="padding:4px 8px;">Methylene Blue — メチレンブルー</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">MTR</td><td style="padding:4px 8px;">Metaraminol — メタラミノール（アルチバ昇圧薬、アジア圏で使用）</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">HOB</td><td style="padding:4px 8px;">Hydroxocobalamin — ヒドロキソコバラミン（ビタミンB12 / シアン化物中毒・難治性ショックへの試験的使用）</td></tr>
+              <tr><td style="padding:4px 8px;font-weight:700;">MDR</td><td style="padding:4px 8px;">Midodrine — ミドドリン（経口α1作動薬、ICUからの離脱時に使用されることがある）</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ═══ 章バナー：訂正の概要 ═══ -->
+      <div id="ne-ch1" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:0;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">訂正の概要と NE 等価スコアの意義</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Background and Correction Summary</div>
+      </div>
+
+      <!-- NE等価スコアとは -->
+      <h3 id="ne-s1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+        NE 等価スコアとは何か
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">ノルエピネフリン等価スコア（NE equivalent）の臨床的意義</h3>
+          <p class="rule-body">ICUでは、敗血症性ショックや心原性ショックの患者に複数の昇圧薬・強心薬が同時に投与されることが多い。ノルエピネフリン（NE）は世界的に最も広く使用される第一選択昇圧薬であるが、ドパミン・バソプレシン・テルリプレシン・アンジオテンシンIIなど他の薬剤を同時使用している場合、「昇圧薬の総負荷」を単一の数値で表すことが困難になる。</p>
+          <p class="rule-body" style="margin-top:8px;">NE等価スコアとは、<span class="mark-green"><strong>すべての昇圧薬をNEの等価量（µg/kg/min）に換算して合算した総合指標</strong></span>である。この指標は以下の目的に活用される。</p>
+          <div class="ie-flow" style="margin-top:12px;">
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">1</div>
+              <div style="flex:1;"><p class="rule-body"><strong>ショック重症度の評価：</strong>単一の昇圧薬ではわからない総カテコラミン負荷を定量化し、患者の病態の重篤度を一元的に評価する</p></div>
+            </div>
+            <div class="ie-flow-arrow">↓</div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">2</div>
+              <div style="flex:1;"><p class="rule-body"><strong>異なる施設・試験の比較：</strong>施設によって第1〜第3選択薬の種類が異なる場合でも、NE等価スコアで標準化することで比較が可能になる</p></div>
+            </div>
+            <div class="ie-flow-arrow">↓</div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">3</div>
+              <div style="flex:1;"><p class="rule-body"><strong>臨床試験の適格基準・主要評価項目：</strong>各種ショック介入試験で、ベースラインの昇圧薬負荷量の定義や離脱成功の定義として広く使用されている</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 訂正の内容 -->
+      <h3 id="ne-s2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+        訂正内容：メタラミノールの換算係数
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">訂正の経緯と根拠</h3>
+          <p class="rule-body">Kotani et al.（Critical Care 2023）として発表された「更新版 NE 等価スコア」において、<span class="mark-red"><strong>メタラミノール（metaraminol）の換算係数に誤りがあった</strong></span>ことが発覚し、訂正論文（本論文, 2025）として修正された。</p>
+
+          <div class="alert-red" style="margin-top:12px;">
+            <strong>誤り（旧）：</strong> メタラミノール係数 = <strong>×8</strong>（メタラミノール dose × 8 をNE等価量として加算）<br>
+            <strong>正しい（新）：</strong> メタラミノール係数 = <strong>×1/8</strong>（メタラミノール dose ÷ 8 をNE等価量として加算）
+          </div>
+
+          <p class="rule-body" style="margin-top:12px;">換算係数の根拠となったランダム化試験では、<strong>メタラミノール 2.5 µg/kg/min がノルエピネフリン 0.3 µg/kg/min に相当する</strong>とされている。この関係から換算係数を導くと：</p>
+
+          <div class="ie-stat-grid" style="margin-top:12px;">
+            <div class="ie-stat">
+              <div class="ie-stat-val">2.5</div>
+              <div class="ie-stat-label">メタラミノール<br>µg/kg/min</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">0.3</div>
+              <div class="ie-stat-label">ノルエピネフリン<br>相当量 µg/kg/min</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">0.3÷2.5</div>
+              <div class="ie-stat-label">換算係数<br>≈ 1/8 ≈ 0.12</div>
+            </div>
+          </div>
+
+          <p class="rule-body" style="margin-top:12px;">すなわち、メタラミノールのNE等価量を求めるには「投与量（µg/kg/min）を8で割る（×1/8）」のが正しく、誤って「8をかける（×8）」と記載されていたため、今回の訂正に至った。</p>
+        </div>
+      </div>
+
+      <!-- ═══ 章バナー：更新版NE等価スコア ═══ -->
+      <div id="ne-ch2" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">更新版 NE 等価スコア（訂正済み）</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Updated Norepinephrine Equivalent Score (Corrected)</div>
+      </div>
+
+      <!-- 訂正済み計算式 -->
+      <h3 id="ne-s3" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>
+        訂正済み NE 等価スコア計算式（Kotani 2022/2023）
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">NE 等価スコア — 各昇圧薬の換算係数（訂正済み）</h3>
+          <p class="rule-body">以下の換算係数を使い、各昇圧薬の投与量（各自の単位）に対応する係数を掛けて合計することで、NE等価スコア（µg/kg/min）を算出する。<span class="mark-red"><strong>メタラミノールの係数が 1/8 に訂正されている点に注意する。</strong></span></p>
+
+          <div class="ne-formula-box">
+            <div class="ne-formula-title">NE 等価スコア（µg/kg/min）= 以下の総和</div>
+            <div class="ne-formula-body">
+              <span class="ne-formula-term">NE (µg/kg/min) × <strong>1</strong></span>
+              +
+              <span class="ne-formula-term">EPI (µg/kg/min) × <strong>1</strong></span>
+              +
+              <span class="ne-formula-term">DA (µg/kg/min) × <strong>1/100</strong></span>
+              +
+              <span class="ne-formula-term">PHE (µg/kg/min) × <strong>0.06</strong></span>
+              +
+              <span class="ne-formula-term">VP (U/min) × <strong>2.5</strong></span>
+              +
+              <span class="ne-formula-term">AT-II (ng/kg/min) × <strong>0.0025</strong></span>
+              +
+              <span class="ne-formula-term">TLP (µg/kg/min) × <strong>10</strong></span>
+              +
+              <span class="ne-formula-term">MB (mg/kg/h) × <strong>0.2</strong></span>
+              +
+              <span class="ne-formula-term ne-formula-corrected">MTR (µg/kg/min) × <strong>1/8</strong> ← 訂正</span>
+              +
+              <span class="ne-formula-term">HOB (g) × <strong>0.02</strong></span>
+              +
+              <span class="ne-formula-term">MDR (µg/kg/min) × <strong>0.4</strong></span>
+            </div>
+          </div>
+
+          <!-- Drug factor grid -->
+          <div style="margin-top:20px;">
+            <div style="font-size:0.8rem;font-weight:700;color:var(--muted);letter-spacing:0.05em;margin-bottom:10px;">各薬剤の換算係数一覧（1単位あたりのNE等価量）</div>
+            <div class="drug-grid">
+              <div class="drug-box">
+                <div class="drug-name">ノルエピネフリン</div>
+                <div class="drug-factor">× 1</div>
+                <div class="drug-unit">µg/kg/min あたり</div>
+              </div>
+              <div class="drug-box">
+                <div class="drug-name">エピネフリン</div>
+                <div class="drug-factor">× 1</div>
+                <div class="drug-unit">µg/kg/min あたり</div>
+              </div>
+              <div class="drug-box">
+                <div class="drug-name">ドパミン</div>
+                <div class="drug-factor">× 1/100</div>
+                <div class="drug-unit">µg/kg/min あたり</div>
+              </div>
+              <div class="drug-box">
+                <div class="drug-name">フェニレフリン</div>
+                <div class="drug-factor">× 0.06</div>
+                <div class="drug-unit">µg/kg/min あたり</div>
+              </div>
+              <div class="drug-box">
+                <div class="drug-name">バソプレシン</div>
+                <div class="drug-factor">× 2.5</div>
+                <div class="drug-unit">U/min あたり</div>
+              </div>
+              <div class="drug-box">
+                <div class="drug-name">アンジオテンシンII</div>
+                <div class="drug-factor">× 0.0025</div>
+                <div class="drug-unit">ng/kg/min あたり</div>
+              </div>
+              <div class="drug-box">
+                <div class="drug-name">テルリプレシン</div>
+                <div class="drug-factor">× 10</div>
+                <div class="drug-unit">µg/kg/min あたり</div>
+              </div>
+              <div class="drug-box">
+                <div class="drug-name">メチレンブルー</div>
+                <div class="drug-factor">× 0.2</div>
+                <div class="drug-unit">mg/kg/h あたり</div>
+              </div>
+              <div class="drug-box drug-box-red">
+                <div class="drug-name">メタラミノール <span style="font-size:0.62rem;color:#DC2626;">【訂正】</span></div>
+                <div class="drug-factor">× 1/8</div>
+                <div class="drug-unit">µg/kg/min あたり<br>（旧: × 8 → 正: × 1/8）</div>
+              </div>
+              <div class="drug-box">
+                <div class="drug-name">ヒドロキソコバラミン</div>
+                <div class="drug-factor">× 0.02</div>
+                <div class="drug-unit">g あたり</div>
+              </div>
+              <div class="drug-box">
+                <div class="drug-name">ミドドリン</div>
+                <div class="drug-factor">× 0.4</div>
+                <div class="drug-unit">µg/kg/min あたり</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">NE 等価スコアの臨床活用と注意点</h3>
+          <p class="rule-body">NE等価スコアは複数の昇圧薬を使用しているICU患者の「昇圧薬総負荷量」を1つの数値で表現できるため、以下の場面で活用される。</p>
+          <ul style="margin-top:8px;padding-left:20px;font-size:0.85rem;line-height:2.0;color:var(--text);">
+            <li><strong>臨床試験の組み入れ基準：</strong> 例「NE equivalent ≥ 0.25 µg/kg/min」など、ショック重症度の定義に使用</li>
+            <li><strong>離脱成功の定義：</strong> 昇圧薬完全中止の代わりに「NE equivalent &lt; 閾値」で評価</li>
+            <li><strong>異なる施設・地域間の標準化：</strong> アジア圏でよく使われるメタラミノールも今回のスコアに組み込まれており、欧米以外の試験との比較が可能</li>
+            <li><strong>重症度トレンドの追跡：</strong> 時系列的にNE等価スコアをプロットすることで昇圧薬依存度の推移を可視化できる</li>
+          </ul>
+          <div class="alert-yellow" style="margin-top:12px;">
+            <strong>注意：</strong> NE等価スコアは薬剤の強度を一元換算する「近似値」であり、実際の血行動態効果は患者・病態によって大きく異なる。また本スコアは純粋な昇圧薬（血管収縮薬）に加え、一部の薬剤（テルリプレシン・メチレンブルー・ヒドロキソコバラミン等）の換算係数は限られたデータに基づく。絶対的な指標としてではなく、臨床判断の補助・研究目的での標準化に用いる。
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ 章バナー：歴史的変遷 ═══ -->
+      <div id="ne-ch3" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">NE 等価スコアの歴史的変遷</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Historical Evolution of NE Equivalent Formulas</div>
+      </div>
+
+      <!-- 変遷テーブル -->
+      <h3 id="ne-s4" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+        <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 4</span>
+        NE 等価スコア各式の比較（2002〜2022年）
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">主要なNE等価スコア算出式の変遷</h3>
+          <p class="rule-body">NE等価スコアの概念はPatel et al.（2002）が初めて提唱して以来、複数の研究グループが独自の算出式を発表してきた。各式で対応する薬剤の種類・換算係数が異なるため、試験間比較の際は使用されたスコアの種類を確認することが重要である。</p>
+
+          <table class="ie-table" style="margin-top:12px;">
+            <colgroup>
+              <col style="width:130px;">
+              <col style="width:60px;">
+              <col style="width:auto;">
+            </colgroup>
+            <thead>
+              <tr>
+                <th style="white-space:nowrap;">著者（試験名）</th>
+                <th style="white-space:nowrap;">年</th>
+                <th>計算式（各係数での合算）</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="white-space:nowrap;"><strong>Patel et al.</strong></td>
+                <td style="white-space:nowrap;">2002</td>
+                <td>NE (µg/min) + EPI (µg/min) + 1/4 × DA (µg/kg/min)</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;"><strong>Russell et al.</strong><br><span style="font-size:0.72rem;color:var(--muted);">VASST試験</span></td>
+                <td style="white-space:nowrap;">2008</td>
+                <td>NE (µg/min) + 1/2 × DA (µg/kg/min) + EPI (µg/min) + 1/10 × PHE (µg/min)</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;"><strong>Brown et al.</strong></td>
+                <td style="white-space:nowrap;">2013</td>
+                <td>NE (µg/kg/min) + EPI (µg/kg/min) + 1/100 × DA (µg/kg/min) + 5 × VP (U/min) + 0.45 × PHE (µg/kg/min)</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;"><strong>Ralib et al.</strong></td>
+                <td style="white-space:nowrap;">2013</td>
+                <td>NE (µg/min) + 500 × VP (U/min) + EPI (µg/min) + 1/3 × PHE (µg/min) + 1/100 × DA (µg/min)</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;"><strong>Gutsche et al.</strong></td>
+                <td style="white-space:nowrap;">2017</td>
+                <td>NE (µg/min) + 1/2 × DA (µg/kg/min) + EPI (µg/min) + 1/10 × PHE (µg/min) + 200 × VP (U/min)</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;"><strong>Khanna et al.</strong><br><span style="font-size:0.72rem;color:var(--muted);">ATHOS-3試験</span></td>
+                <td style="white-space:nowrap;">2017</td>
+                <td>NE (µg/kg/min) + EPI (µg/kg/min) + 1/150 × DA (µg/kg/min) + 1/10 × PHE (µg/kg/min) + 2.5 × VP (U/min)</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;"><strong>Laterre et al.</strong><br><span style="font-size:0.72rem;color:var(--muted);">SEPSIS-ACT試験</span></td>
+                <td style="white-space:nowrap;">2019</td>
+                <td>NE (µg/min) + EPI (µg/min) + 1/100 × DA (µg/min) + 1/2.2 × PHE (µg/kg/min)</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;"><strong>Goradia et al.</strong></td>
+                <td style="white-space:nowrap;">2021</td>
+                <td>NE (µg/kg/min) + EPI (µg/kg/min) + 1/10 × PHE (µg/kg/min) + 1/100 × DA (µg/kg/min) + 1/8 × MTR (µg/kg/min) + 2.5 × VP (U/min) + 10 × AT-II (µg/kg/min)</td>
+              </tr>
+              <tr style="background:#F0FDF4;">
+                <td style="white-space:nowrap;"><strong>Kotani et al.</strong><br><span style="font-size:0.72rem;color:#2D7A4F;font-weight:700;">【本論文・訂正済み】</span></td>
+                <td style="white-space:nowrap;">2022/2025</td>
+                <td>NE (µg/kg/min) + EPI (µg/kg/min) + 1/100 × DA (µg/kg/min) + 0.06 × PHE (µg/kg/min) + 2.5 × VP (U/min) + 0.0025 × AT-II (ng/kg/min) + 10 × TLP (µg/kg/min) + 0.2 × MB (mg/kg/h) + <strong style="color:#DC2626;">1/8</strong> × MTR (µg/kg/min) + 0.02 × HOB (g) + 0.4 × MDR (µg/kg/min)</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <p class="rule-body" style="margin-top:12px;">Kotani 2022/2025年版は、従来の式では対応していなかったテルリプレシン・メチレンブルー・ヒドロキソコバラミン・ミドドリン・メタラミノール・アンジオテンシンIIをすべて包含した最も包括的な算出式である。特にアジア圏やテルリプレシン使用国での適用に優れる。</p>
+        </div>
+      </div>
+
+      <div class="ie-alpha">
+        <div class="ie-alpha-inner">
+          <div class="ie-alpha-header">
+            <span class="ie-alpha-badge">＋α</span>
+            <span class="ie-alpha-title">各式の単位の違いに注意（µg/min vs µg/kg/min）</span>
+          </div>
+          <p class="rule-body" style="color:#4C1D95;">NE等価スコアの歴史的変遷において、薬剤の単位が「µg/min（体重非補正）」と「µg/kg/min（体重補正）」の2種類が混在していることに注意が必要である。Patel 2002・Russell 2008・Laterre 2019はµg/minベースを採用しており、Brown 2013・Khanna 2017・Kotani 2022はµg/kg/minベースを採用している。異なる式から得られた数値を直接比較することはできず、文献を読む際には使用された単位系を確認する必要がある。</p>
+        </div>
+      </div>
+
+      <!-- SUMMARY ch1 -->
+      <h3 id="ne-summary1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+        キーメッセージ
+      </h3>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+              <span class="rule-body"><strong>訂正内容：</strong>Kotani 2023論文のメタラミノール換算係数が誤りで、「×8」が正しくは「×1/8」であることが判明した（2.5 µg/kg/min MTR ≒ 0.3 µg/kg/min NE という試験根拠から導出）</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+              <span class="rule-body"><strong>訂正済みKotani式：</strong>NE + EPI + 1/100×DA + 0.06×PHE + 2.5×VP + 0.0025×AT-II + 10×TLP + 0.2×MB + <strong>1/8×MTR</strong>（訂正）+ 0.02×HOB + 0.4×MDR（すべてµg/kg/min換算後加算）</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+              <span class="rule-body"><strong>Kotani式の特徴：</strong>2022年発表の最新版NE等価スコアはテルリプレシン・メチレンブルー・ヒドロキソコバラミン・メタラミノールを含む11薬剤をカバーし、従来式より網羅的</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+              <span class="rule-body"><strong>臨床活用：</strong>NE等価スコアは昇圧薬総負荷量の定量化・臨床試験の組み入れ基準・異施設間比較・ショック重症度の経時的モニタリングに有用な標準化指標</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+              <span class="rule-body"><strong>単位の注意：</strong>各式によりµg/min（体重非補正）とµg/kg/min（体重補正）が混在するため、異なる式の数値を直接比較しないよう注意が必要</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 出典 -->
+      <p style="font-size:0.72rem;color:#9CA3AF;margin-top:16px;line-height:1.7;">
+        出典：Kotani Y, Di Gioia A, Landoni G, Belletti A, Khanna AK. Correction: An updated "norepinephrine equivalent" score in intensive care as a marker of shock severity. Crit Care. 2025;29:104.<br>
+        DOI：<a href="https://doi.org/10.1186/s13054-025-05250-9" target="_blank" rel="noopener" style="color:#60A5FA;">https://doi.org/10.1186/s13054-025-05250-9</a><br>
+        原著：Kotani Y et al. Crit Care. 2023;27:29. DOI：<a href="https://doi.org/10.1186/s13054-023-04322-y" target="_blank" rel="noopener" style="color:#60A5FA;">https://doi.org/10.1186/s13054-023-04322-y</a><br>
+        本資料は教育目的で作成したサマリーです。診断・治療方針の決定には必ず原典ガイドラインを参照してください。
+      </p>
+      <p style="font-size:0.75rem;color:var(--muted);text-align:right;margin-top:8px;">制作：ICU 関谷</p>
+
+    </main>
+
+    <!-- Sidebar -->
+    <aside class="ie-sidebar">
+      <div class="ie-sidebar-card">
+        <div class="ie-sidebar-title">目次</div>
+        <a href="#ne-ch1" class="ie-toc-chapter">訂正の概要</a>
+        <a href="#ne-s1" class="ie-toc-section">S1 — NE等価スコアとは</a>
+        <a href="#ne-s2" class="ie-toc-section">S2 — 訂正内容（メタラミノール）</a>
+        <a href="#ne-ch2" class="ie-toc-chapter">訂正済みNE等価スコア</a>
+        <a href="#ne-s3" class="ie-toc-section">S3 — 計算式と換算係数</a>
+        <a href="#ne-ch3" class="ie-toc-chapter">歴史的変遷</a>
+        <a href="#ne-s4" class="ie-toc-section">S4 — 各式の比較（2002〜2022）</a>
+        <a href="#ne-summary1" class="ie-toc-section">SUMMARY</a>
+      </div>
+    </aside>
+  </div>
+
+  <script src="../script.js"></script>
+  <script src="../abbr-tooltip.js"></script>
+</body>
+</html>
