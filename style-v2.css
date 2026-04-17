@@ -163,21 +163,22 @@ button { cursor: pointer; font-family: inherit; }
   align-items: center;
 }
 
-/* Inset frame */
-.hero-frame {
+/* Noise grain overlay */
+.hero::before {
+  content: '';
   position: absolute;
-  inset: 20px;
-  border: 1px solid rgba(255,255,255,0.04);
-  border-radius: 12px;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+  opacity: 0.3;
   pointer-events: none;
   z-index: 1;
 }
-
-/* No dot grid, no wave — clean */
-.hero::before { display: none; }
 .hero::after { display: none; }
 
-.hero .container { max-width: 1160px; margin: 0 auto; padding: 0 20px; }
+/* No inset frame for #10 */
+.hero-frame { display: none; }
+
 .hero-inner {
   display: flex;
   align-items: center;
