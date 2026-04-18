@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IVC呼吸変動による輸液反応性予測 — 人工呼吸下ショック患者のメタ解析（Critical Care 2018） | 聖路加ICU</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style-v2.css">
+  <script src="../site-config.js"></script>
+  <style>
+    .subpage-hero { background: linear-gradient(150deg, #1A3A2A 0%, #2D7A4F 55%, #3D9B65 100%) !important; }
+    .ie-badge { display:inline-block;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:20px;padding:4px 12px;font-size:0.72rem;font-weight:500;color:#fff;margin-right:6px;margin-top:8px; }
+
+    /* Layout */
+    .content-wrap { display:flex;gap:32px;align-items:flex-start;max-width:1140px;margin:0 auto;padding:32px 20px 80px; }
+    .main-col { flex:1;min-width:0;max-width:900px; }
+    .ie-toc-chapter { display:block;font-size:0.78rem;font-weight:700;color:var(--text);padding:5px 0;border-bottom:1px solid var(--border);text-decoration:none;line-height:1.4; }
+    .ie-toc-section { display:block;font-size:0.72rem;color:var(--muted);padding:3px 0 3px 10px;text-decoration:none;line-height:1.4;border-left:2px solid var(--border); }
+
+    /* Tables */
+    .ie-table { width:100%;border-collapse:collapse;font-size:0.82rem;margin-top:10px; }
+    .ie-table th { background:#F0FDF4;border:1px solid #BBF7D0;padding:8px 12px;font-weight:700;font-size:0.78rem;text-align:left; }
+    .ie-table td { border:1px solid var(--border);padding:8px 12px;vertical-align:top;line-height:1.7; }
+    .ie-table tr:nth-child(even) td { background:#F8FAFC; }
+
+    /* Stat grid */
+    .ie-stat-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px; }
+    @media (max-width:520px) { .ie-stat-grid { grid-template-columns:1fr 1fr; } }
+    .ie-stat { background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;padding:14px 12px;text-align:center; }
+    .ie-stat-val { font-size:1.25rem;font-weight:900;color:#2D7A4F;line-height:1.3; }
+    .ie-stat-label { font-size:0.68rem;color:var(--muted);margin-top:5px;line-height:1.5; }
+    .ie-stat.red { background:#FEF2F2;border-color:#FECACA; }
+    .ie-stat.red .ie-stat-val { color:#DC2626; }
+    .ie-stat.orange { background:#FFF7ED;border-color:#FED7AA; }
+    .ie-stat.orange .ie-stat-val { color:#EA580C; }
+
+    /* Alpha card */
+    .ie-alpha { background:#F5F3FF;border:1px solid #DDD6FE;border-radius:8px;padding:2px;margin-top:10px; }
+    .ie-alpha-inner { padding:14px 16px; }
+    .ie-alpha-header { display:flex;align-items:center;gap:8px;margin-bottom:8px; }
+    .ie-alpha-badge { background:#7C3AED;color:#fff;font-size:0.65rem;font-weight:800;padding:2px 8px;border-radius:20px;letter-spacing:0.05em; }
+    .ie-alpha-title { font-size:0.85rem;font-weight:700;color:#4C1D95; }
+
+    /* Alerts */
+    .alert-yellow { background:#FFFBEB;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#92400E;line-height:1.7; }
+    .alert-green  { background:#F0FDF4;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#14532D;line-height:1.7; }
+    .alert-red    { background:#FEF2F2;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#7F1D1D;line-height:1.7; }
+
+    /* 2-col grid */
+    .ie-echo-grid { display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px; }
+    @media (max-width:580px) { .ie-echo-grid { grid-template-columns:1fr; } }
+    .ie-echo-box { background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:12px 14px; }
+    .ie-echo-name { font-size:0.78rem;font-weight:800;color:var(--text);margin-bottom:4px; }
+    .ie-echo-body { font-size:0.78rem;color:var(--muted);line-height:1.6; }
+
+    /* Flow */
+    .ie-flow { display:flex;flex-direction:column;gap:0;margin-top:10px; }
+    .ie-flow-item { display:flex;align-items:flex-start;gap:12px;background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:12px 14px; }
+    .ie-flow-num { width:28px;height:28px;background:#2D7A4F;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:900;flex-shrink:0; }
+    .ie-flow-arrow { text-align:center;color:#2D7A4F;font-size:1.1rem;padding:4px 0;margin:2px 0; }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="../index.html" class="nav-logo">
+        <img src="../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+        <span class="nav-logo-text">聖路加国際病院ICU</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="../index.html#intro" class="nav-link"><span class="nav-icon nav-ico-home"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>はじめに</a></li>
+        <li><a href="../pages/schedule-ward-daily.html" class="nav-link">スケジュール</a></li>
+        <li><a href="../pages/articles-guidelines.html" class="nav-link">注目論文</a></li>
+        <li><a href="../pages/disease-topics.html" class="nav-link">疾患トピックス</a></li>
+        <li><a href="../index.html#tools" class="nav-link">ツール</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <div class="subpage-hero">
+    <div class="container">
+      <a href="articles-guidelines.html#art-fluid" class="back-link">← 一覧へ戻る</a>
+      <h1 class="subpage-title">IVC呼吸変動による輸液反応性予測<br>— 人工呼吸下ショック患者のメタ解析</h1>
+      <p class="subpage-subtitle">#輸液管理 / ベッドサイドエコー</p>
+      <div>
+        <span class="ie-badge">Critical Care 2018</span>
+        <span class="ie-badge">Huang et al.</span>
+        <span class="ie-badge">系統的レビュー・メタ解析</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== CONTENT ===== -->
+  <div class="content-wrap">
+
+    <!-- メインコンテンツ -->
+    <div class="main-col">
+
+      <!-- 略語一覧 -->
+      <div class="card" style="margin-bottom:24px;">
+        <div class="card-inner">
+          <h3 class="rule-title" style="margin-bottom:10px;">本ページで使用する略語一覧</h3>
+          <table style="width:100%;border-collapse:collapse;font-size:0.8rem;line-height:1.6;">
+            <tbody>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:140px;color:var(--blue);">略語</td><td style="padding:4px 8px;">正式名称 — 日本語訳</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">ΔIVCD</td><td style="padding:4px 8px;">Respiratory variation in inferior vena cava diameter — IVC径の呼吸性変動率</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">IVC</td><td style="padding:4px 8px;">Inferior vena cava — 下大静脈</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">AUROC</td><td style="padding:4px 8px;">Area under the receiver operating characteristic curve — ROC曲線下面積</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">DOR</td><td style="padding:4px 8px;">Diagnostic odds ratio — 診断オッズ比</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">Sn / Sp</td><td style="padding:4px 8px;">Sensitivity / Specificity — 感度 / 特異度</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CI</td><td style="padding:4px 8px;">Confidence interval — 信頼区間（cardiac index〔心係数〕の意味でも使用）</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CO</td><td style="padding:4px 8px;">Cardiac output — 心拍出量</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">SV</td><td style="padding:4px 8px;">Stroke volume — 1回拍出量</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">TTE</td><td style="padding:4px 8px;">Transthoracic echocardiogram — 経胸壁心エコー</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">PCA</td><td style="padding:4px 8px;">Pulse contour analysis — パルス輪郭解析法</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">SROC</td><td style="padding:4px 8px;">Summary receiver operating characteristic curve — 統合ROC曲線</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">QUADAS-2</td><td style="padding:4px 8px;">Quality Assessment of Diagnostic Accuracy Studies-2 — 診断精度研究の質評価ツール</td></tr>
+              <tr><td style="padding:4px 8px;font-weight:700;color:var(--blue);">PRISMA</td><td style="padding:4px 8px;">Preferred Reporting Items for Systematic Reviews and Meta-Analyses — メタ解析報告ガイドライン</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 章バナー：研究背景と目的 -->
+      <div id="ivc-bg" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">研究背景と目的</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Background & Objective</div>
+      </div>
+
+      <!-- S1: 臨床的背景 -->
+      <h3 id="ivc-context" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+        輸液反応性評価の臨床的重要性
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">なぜ輸液反応性の評価が重要か</h3>
+          <p class="rule-body">急性循環不全患者において、輸液蘇生は治療の根幹をなすが、適切でない輸液は有害な影響をもたらす。過剰輸液はvolume overload・全身性および肺水腫・組織への酸素拡散障害を引き起こし、組織低酸素を悪化させる。そのため、ICUにおける循環不全患者の輸液反応性に関する信頼性の高い情報の取得が不可欠である。</p>
+          <p class="rule-body" style="margin-top:8px;">従来の静的パラメータ（胸腔内血液量指数・肺動脈楔入圧・中心静脈圧）はvolume statusとの相関が証明されていない。一方、pleth variability indexやstroke volume variationなどの動的パラメータはより有用だが、侵襲的な手技と特殊なモニタリング機器を必要とする。</p>
+          <div class="alert-yellow" style="margin-top:12px;">
+            <strong>臨床的 Pitfall：</strong> 「CVPが低いから輸液反応性あり」「CVPが高いから輸液反応性なし」という判断は信頼性が低い。静的パラメータは循環動態の評価に不十分であることがすでに示されている。
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">IVC超音波による輸液反応性評価の背景</h3>
+          <p class="rule-body">近年、超音波が輸液蘇生のガイドとして注目されている。IVC径の呼吸性変動（ΔIVCD）は血液透析患者のdry weight予測因子として同定され、さらに多様な臨床場面での自発呼吸患者における輸液反応性の予測因子としても報告されてきた。</p>
+          <p class="rule-body" style="margin-top:8px;">人工呼吸下においても、ΔIVCDは特に敗血症患者での輸液反応性を示す信頼性の高い非侵襲的指標として報告されてきたが、結果は一致していなかった。本メタ解析は、人工呼吸下のショック患者に特化して、ΔIVCDの輸液反応性予測精度を系統的に評価した最初の研究である。</p>
+        </div>
+      </div>
+
+      <!-- 章バナー：方法 -->
+      <div id="ivc-methods" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">方法</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Methods</div>
+      </div>
+
+      <!-- S2: 研究デザイン -->
+      <h3 id="ivc-design" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+        研究選択基準・データ抽出
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">PRISMA準拠の系統的レビュー・メタ解析</h3>
+          <p class="rule-body">PubMed・Embase・Cochrane Libraryを2017年6月まで網羅的に検索した（検索語：fluid therapy, inferior vena cava, mechanical ventilation, acute circulatory failure/shock）。2名の独立した研究者が選択基準を評価し、意見の相違はグループ討議で解決した。</p>
+
+          <h3 class="rule-title" style="margin-top:16px;">組み入れ基準</h3>
+          <div class="ie-flow">
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">1</div>
+              <div style="flex:1;"><p class="rule-body">ショック状態で人工呼吸管理を受けている患者を対象とした研究</p></div>
+            </div>
+            <div class="ie-flow-arrow">↓</div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">2</div>
+              <div style="flex:1;"><p class="rule-body">輸液反応性診断のゴールドスタンダードを有する研究</p></div>
+            </div>
+            <div class="ie-flow-arrow">↓</div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">3</div>
+              <div style="flex:1;"><p class="rule-body">2×2分割表（TP・FP・FN・TN）を構成するのに十分なデータを提供している研究</p></div>
+            </div>
+          </div>
+
+          <h3 class="rule-title" style="margin-top:16px;">除外基準</h3>
+          <p class="rule-body">同一集団または重複データベースを使用した研究、および動物モデルを対象とした研究は除外した。また、心臓手術・混合患者（非ショック）や使用可能なデータを提示していない研究も除外された。</p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">ΔIVCDの測定方法</h3>
+          <p class="rule-body">各研究で採用されたΔIVCDの算出式には以下の2種類があった。いずれも1呼吸サイクルにおけるIVC径の最大値（Dmax：吸気相）と最小値（Dmin：呼気相）を用いる。</p>
+          <div class="ie-echo-grid" style="margin-top:12px;">
+            <div class="ie-echo-box">
+              <div class="ie-echo-name">算出式①（collapsibility index型）</div>
+              <div class="ie-echo-body" style="font-size:0.85rem;font-weight:700;color:var(--text);margin-top:4px;">ΔIVCD = (Dmax − Dmin) / Dmin</div>
+              <div class="ie-echo-body" style="margin-top:4px;">Barbier 2004・Charbonneau 2014・Lu 2017・Vignon 2017で使用</div>
+            </div>
+            <div class="ie-echo-box">
+              <div class="ie-echo-name">算出式②（distensibility index型）</div>
+              <div class="ie-echo-body" style="font-size:0.85rem;font-weight:700;color:var(--text);margin-top:4px;">ΔIVCD = (Dmax − Dmin) / [(Dmax + Dmin) / 2]</div>
+              <div class="ie-echo-body" style="margin-top:4px;">Feissel 2004・Theerawit 2016で使用</div>
+            </div>
+          </div>
+          <div class="alert-yellow" style="margin-top:12px;">
+            <strong>注意：</strong> 算出式の違いがカットオフ値の比較を困難にする要因の一つである。研究間でカットオフ値が8〜21%と広範にばらついた背景の一つはこの算出式の相違にある。
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">輸液反応性のゴールドスタンダード定義</h3>
+          <p class="rule-body">輸液負荷後の心拍出量・心係数・1回拍出量の上昇を基準とした（研究によって閾値は異なる）。</p>
+          <table class="ie-table" style="margin-top:10px;">
+            <thead>
+              <tr>
+                <th style="white-space:nowrap;">研究</th>
+                <th style="white-space:nowrap;">ゴールドスタンダード</th>
+                <th style="white-space:nowrap;">閾値</th>
+                <th>測定デバイス</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td style="white-space:nowrap;">Barbier 2004</td><td>心係数（CI）上昇</td><td>&gt;15%</td><td>TTE</td></tr>
+              <tr><td style="white-space:nowrap;">Feissel 2004</td><td>心拍出量（CO）上昇</td><td>&gt;15%</td><td>TTE</td></tr>
+              <tr><td style="white-space:nowrap;">Charbonneau 2014</td><td>心係数（CI）上昇</td><td>&gt;15%</td><td>TTE</td></tr>
+              <tr><td style="white-space:nowrap;">Theerawit 2016</td><td>心拍出量（CO）上昇</td><td>&gt;15%</td><td>PCA（パルス輪郭解析）</td></tr>
+              <tr><td style="white-space:nowrap;">Lu 2017</td><td>心係数（CI）上昇</td><td>≥10%</td><td>TTE</td></tr>
+              <tr><td style="white-space:nowrap;">Vignon 2017</td><td>1回拍出量（SV）上昇</td><td>&gt;10%</td><td>TTE</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">統計解析</h3>
+          <p class="rule-body">Stata 14.0を用いた二変量メタ解析モデルで感度・特異度・陽性尤度比・陰性尤度比・DORを統合した。統合ROC（SROC）曲線を作成し、AUROC（AUC）を算出した。研究間の異質性はQ検定とI²統計量で評価した（Q検定のP &lt; 0.10またはI² ≥ 50%を実質的な異質性とした）。出版バイアスはDeeks' funnel plot asymmetry testで評価した。</p>
+        </div>
+      </div>
+
+      <!-- SUMMARY セクション1 -->
+      <h3 id="ivc-sum1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+        背景・方法のキーメッセージ
+      </h3>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+              <span class="rule-body"><strong>対象集団の限定：</strong>本メタ解析は人工呼吸下のショック患者に限定した点で、神経外科・心臓術後患者などを含む従来のメタ解析と異なる。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+              <span class="rule-body"><strong>ΔIVCDの算出式：</strong>(Dmax − Dmin)/Dmin と (Dmax − Dmin)/[(Dmax + Dmin)/2] の2種類が混在し、カットオフ値の直接比較が困難である。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+              <span class="rule-body"><strong>ゴールドスタンダードの多様性：</strong>CI/CO/SV上昇10〜15%を閾値とするが、測定デバイス（TTE・PCA）と閾値が研究間で異なる。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+              <span class="rule-body"><strong>質評価（QUADAS-2）：</strong>2研究でインデックステスト（ΔIVCD評価）の盲検化が不十分であったため、バイアスリスクが高と判定された。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 章バナー：結果 -->
+      <div id="ivc-results" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">結果</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Results</div>
+      </div>
+
+      <!-- S3: 選択研究の概要 -->
+      <h3 id="ivc-studies" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+        <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>
+        組み入れ研究の概要
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">研究選択プロセス</h3>
+          <p class="rule-body">データベース検索により144報、手動検索により1報の合計145報を一次抽出した。重複36報を除外後、研究トピックと無関係・レター・レビュー・メタ解析に該当する94報を除外した。さらに手術患者・心臓患者・混合患者を含む研究や使用可能なデータのない9報を除外し、最終的に<strong>6研究</strong>がすべての組み入れ基準を満たした。</p>
+          <div class="ie-stat-grid">
+            <div class="ie-stat">
+              <div class="ie-stat-val">6</div>
+              <div class="ie-stat-label">組み入れ研究数<br>（145報中）</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">603</div>
+              <div class="ie-stat-label">総患者数<br>（合計）</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">53.7%</div>
+              <div class="ie-stat-label">輸液反応性あり<br>（324/603例）</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">組み入れ6研究の主要特性</h3>
+          <table class="ie-table" style="margin-top:10px;">
+            <colgroup>
+              <col style="width:16%">
+              <col style="width:8%">
+              <col style="width:8%">
+              <col style="width:8%">
+              <col style="width:10%">
+              <col style="width:14%">
+              <col style="width:10%">
+              <col style="width:10%">
+              <col style="width:16%">
+            </colgroup>
+            <thead>
+              <tr>
+                <th style="white-space:nowrap;">研究・発表年</th>
+                <th style="white-space:nowrap;">国</th>
+                <th style="white-space:nowrap;">n</th>
+                <th style="white-space:nowrap;">TV (ml/kg)</th>
+                <th style="white-space:nowrap;">カットオフ (%)</th>
+                <th>感度 (%)</th>
+                <th>特異度 (%)</th>
+                <th>AUROC</th>
+                <th>輸液反応性の基準</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="white-space:nowrap;"><strong>Barbier 2004</strong></td>
+                <td>フランス</td>
+                <td>20</td>
+                <td>8.5</td>
+                <td>18</td>
+                <td>90</td>
+                <td>90</td>
+                <td>0.91</td>
+                <td>CI &gt;15%（TTE）</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;"><strong>Feissel 2004</strong></td>
+                <td>米国</td>
+                <td>39</td>
+                <td>8–10</td>
+                <td>12</td>
+                <td>88</td>
+                <td>96</td>
+                <td>報告なし</td>
+                <td>CO &gt;15%（TTE）</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;"><strong>Charbonneau 2014</strong></td>
+                <td>フランス</td>
+                <td>44</td>
+                <td>8</td>
+                <td>21</td>
+                <td>38</td>
+                <td>61</td>
+                <td>0.43</td>
+                <td>CI &gt;15%（TTE）</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;"><strong>Theerawit 2016</strong></td>
+                <td>タイ</td>
+                <td>29</td>
+                <td>8</td>
+                <td>10</td>
+                <td>75</td>
+                <td>77</td>
+                <td>0.67</td>
+                <td>CO &gt;15%（PCA）</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;"><strong>Lu 2017</strong></td>
+                <td>中国</td>
+                <td>49</td>
+                <td>8–10</td>
+                <td>20.5</td>
+                <td>67</td>
+                <td>77</td>
+                <td>0.81</td>
+                <td>CI ≥10%（TTE）</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;"><strong>Vignon 2017</strong></td>
+                <td>フランス</td>
+                <td>422</td>
+                <td>8</td>
+                <td>8</td>
+                <td>55</td>
+                <td>70</td>
+                <td>0.635</td>
+                <td>SV &gt;10%（TTE）</td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="rule-body" style="margin-top:10px;font-size:0.78rem;color:var(--muted);">TV：1回換気量（tidal volume）。Vignon 2017はn=422と最大規模で、全サンプルサイズの60%超を占める。</p>
+        </div>
+      </div>
+
+      <!-- S4: 定量的統合 -->
+      <h3 id="ivc-pooled" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+        <span style="color:#16A34A;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 4</span>
+        定量的統合（メタ解析）結果
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">統合診断精度指標</h3>
+          <p class="rule-body">6研究603例を対象とした統合解析の結果、ΔIVCDは人工呼吸下ショック患者の輸液反応性を中程度の精度で予測した。カットオフ値は研究間で8〜21%と大きく異なった。各研究の個別AUROCは0.43〜0.91の範囲であり、Charbonneau 2014では診断的価値がほぼ認められなかった（AUROC 0.43）のに対し、Barbier 2004では高い精度を示した（AUROC 0.91）。</p>
+          <div class="ie-stat-grid">
+            <div class="ie-stat">
+              <div class="ie-stat-val">0.69</div>
+              <div class="ie-stat-label">統合感度（Sn）<br>95%CI：0.51–0.83</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">0.80</div>
+              <div class="ie-stat-label">統合特異度（Sp）<br>95%CI：0.66–0.89</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">0.82</div>
+              <div class="ie-stat-label">統合AUROC<br>95%CI：0.79–0.85</div>
+            </div>
+          </div>
+          <div class="ie-stat-grid" style="margin-top:10px;">
+            <div class="ie-stat orange">
+              <div class="ie-stat-val">9.28</div>
+              <div class="ie-stat-label">診断オッズ比（DOR）<br>95%CI：2.33–36.98</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">I²＝0%</div>
+              <div class="ie-stat-label">研究間異質性<br>P = 0.483</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">P＝0.19</div>
+              <div class="ie-stat-label">出版バイアス検定<br>（Deeks法）</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">臨床解釈：陽性でも陰性でも「確定」には使えない</h3>
+          <p class="rule-body">統合特異度が0.80（95%CI: 0.66–0.89）であることは、<span class="mark-green"><strong>IVC超音波陽性（ΔIVCD大）は輸液反応性の予測に中程度有用</strong></span>であることを示す。一方、統合感度が0.69（95%CI: 0.51–0.83）と低いことは、<span class="mark-red"><strong>IVC超音波陰性（ΔIVCD小）は輸液反応性の否定に不十分</strong></span>であることを意味する。</p>
+          <div class="alert-red" style="margin-top:12px;">
+            <strong>重要：</strong> ΔIVCDが低値であっても輸液反応性がある患者を見逃す（偽陰性）可能性が高い。ΔIVCD単独で「輸液反応性なし」と判断することは危険であり、臨床判断や他のパラメータと組み合わせる必要がある。
+          </div>
+          <div class="alert-green" style="margin-top:8px;">
+            <strong>実践的活用法：</strong> ΔIVCDが高値の場合（カットオフ超え）は輸液反応性の支持的証拠として使用できる。ただしカットオフ値は研究間で8〜21%と大きなばらつきがあり、現時点では明確な「最適カットオフ」は定まっていない。
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">異質性・出版バイアス</h3>
+          <p class="rule-body">研究間の異質性はQ = 0.069、I² = 0%、P = 0.483と極めて低く、本メタ解析で採用した固定効果モデルの妥当性が支持された。感度分析（goodness-of-fit・二変量正規性・影響解析・外れ値検出）でも、モデルの頑健性が確認された。</p>
+          <p class="rule-body" style="margin-top:8px;">出版バイアスについては、Deeks' funnel plot asymmetry testにより6研究の傾きにP = 0.19の対称性が認められ、有意な出版バイアスはないと判断された。</p>
+        </div>
+      </div>
+
+      <!-- 章バナー：考察と限界 -->
+      <div id="ivc-discussion" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">考察・限界・結論</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Discussion, Limitations & Conclusions</div>
+      </div>
+
+      <!-- S5: 他メタ解析との比較 -->
+      <h3 id="ivc-comparison" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 5</span>
+        先行メタ解析との比較
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">本研究の位置づけ</h3>
+          <p class="rule-body">ΔIVCDと輸液反応性に関するメタ解析はこれまでに2報（Long et al.、Zhang et al.）存在したが、本メタ解析はその後に発表された重要な研究（Lu 2017・Vignon 2017）を含む最初の解析である。</p>
+          <table class="ie-table" style="margin-top:10px;">
+            <thead>
+              <tr>
+                <th style="white-space:nowrap;">メタ解析</th>
+                <th>対象集団</th>
+                <th>含まれる研究数</th>
+                <th>特徴・相違点</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="white-space:nowrap;"><strong>本研究<br>（Huang 2018）</strong></td>
+                <td>人工呼吸下のショック患者<br>（限定的）</td>
+                <td>6研究<br>（最新研究を含む）</td>
+                <td>集団を絞り込み、最新データを網羅</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;">Long et al.</td>
+                <td>敗血症を含む多様な患者群（神経外科・心臓術後も含む）</td>
+                <td>本研究より少数</td>
+                <td>Lu 2017・Vignon 2017を含まない</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;">Zhang et al.</td>
+                <td>重症患者（幅広い集団）</td>
+                <td>2研究<br>（本研究との重複）</td>
+                <td>本研究6研究のうちBarbier 2004・Feissel 2004の2研究のみを解析</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- S6: 限界 -->
+      <h3 id="ivc-limitations" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 6</span>
+        本研究の限界
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">5つの主要な限界</h3>
+          <div class="ie-flow">
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">1</div>
+              <div style="flex:1;"><p class="rule-body"><strong>少数研究・サンプルサイズの制限：</strong>組み入れ研究は6研究にとどまり、サンプルサイズは相対的に小さい。特にVignon 2017が全サンプルの60%超を占め、結果が1研究に大きく依存している。</p></div>
+            </div>
+            <div class="ie-flow-arrow">↓</div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">2</div>
+              <div style="flex:1;"><p class="rule-body"><strong>インデックステストのバイアスリスク：</strong>2研究でΔIVCDの評価が盲検化されていなかったため、バイアスリスクが高と判定された。これが真の診断精度の解釈を制限する可能性がある。</p></div>
+            </div>
+            <div class="ie-flow-arrow">↓</div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">3</div>
+              <div style="flex:1;"><p class="rule-body"><strong>個別患者データの不入手：</strong>より詳細な解析（サブグループ解析等）に必要な個別患者データが入手できず、包括的な解析は困難であった。</p></div>
+            </div>
+            <div class="ie-flow-arrow">↓</div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">4</div>
+              <div style="flex:1;"><p class="rule-body"><strong>算出式・カットオフの多様性：</strong>異なる算出式（2種類）と広範囲のカットオフ（8〜21%）が研究間で使用されており、「最適カットオフ」の確立が困難である。</p></div>
+            </div>
+            <div class="ie-flow-arrow">↓</div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">5</div>
+              <div style="flex:1;"><p class="rule-body"><strong>視覚的評価の問題：</strong>一部の研究ではΔIVCDを人工呼吸器の波形と重ね合わせず「目視」のみで評価しており、感度が低下した可能性がある（Theerawit 2016）。</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ie-alpha">
+        <div class="ie-alpha-inner">
+          <div class="ie-alpha-header">
+            <span class="ie-alpha-badge">＋α</span>
+            <span class="ie-alpha-title">ΔIVCD測定の実践的落とし穴：なぜカットオフが研究間でばらつくのか</span>
+          </div>
+          <p class="rule-body" style="color:#4C1D95;">ΔIVCDのカットオフ値が8〜21%と広くばらつく背景には複数の要因がある。①算出式の違い（Dmax/Dmin基準 vs 平均径基準）、②測定位置（剣状突起直下 vs 肝静脈合流部）、③呼吸器のモード・設定（1回換気量・呼気終末陽圧）、④解剖学的変異（腹部肥満・慢性疾患による構造変化）、⑤視覚的評価 vs 解析ソフトウェアによる評価の違い。これらの標準化なしに単一のカットオフ値を採用することは不適切であり、施設ごとの測定プロトコルの標準化が求められる。</p>
+        </div>
+      </div>
+
+      <!-- SUMMARY 全体 -->
+      <h3 id="ivc-summary-final" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+        本論文のキーメッセージ
+      </h3>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+              <span class="rule-body"><strong>中程度の診断精度：</strong>人工呼吸下ショック患者のΔIVCDは、統合感度0.69・統合特異度0.80・統合AUROC 0.82と中程度の輸液反応性予測精度を示した（6研究、n=603）。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+              <span class="rule-body"><strong>陽性には使える、陰性には使えない：</strong>特異度0.80は「ΔIVCD高値は輸液反応性の支持」に利用可能であることを示す一方、感度0.69は「ΔIVCD低値で輸液反応性を否定」することの危険性を示す。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+              <span class="rule-body"><strong>カットオフ値は未確立：</strong>各研究のカットオフ値は8〜21%と大きくばらつき、最適なカットオフ値は依然として不明確である。単一の閾値を盲目的に適用しないこと。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+              <span class="rule-body"><strong>異質性は低い：</strong>I² = 0%と研究間の異質性が極めて低く、出版バイアスも認めなかった（Deeks P = 0.19）。本メタ解析の統合推定値の信頼性は高い。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+              <span class="rule-body"><strong>ポイントオブケア超音波（POCUS）として有用：</strong>ΔIVCDは非侵襲的・即時測定可能な指標であり、救急・ICUでの普及が進むPOCUSの文脈で中程度の補助的情報を提供できる。ただし単独での意思決定には限界があり、他の臨床パラメータとの統合が必要。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 出典注記 -->
+      <p style="font-size:0.72rem;color:#9CA3AF;margin-top:16px;line-height:1.7;">
+        出典：Huang H, Shen Q, Liu Y, Xu H, Fang Y. Value of variation index of inferior vena cava diameter in predicting fluid responsiveness in patients with circulatory shock receiving mechanical ventilation: a systematic review and meta-analysis. Critical Care. 2018;22:204.<br>
+        DOI：<a href="https://doi.org/10.1186/s13054-018-2063-4" target="_blank" rel="noopener" style="color:#60A5FA;">https://doi.org/10.1186/s13054-018-2063-4</a><br>
+        本資料は教育目的で作成したサマリーです。診断・治療方針の決定には必ず原典論文を参照してください。
+      </p>
+      <p style="font-size:0.75rem;color:var(--muted);text-align:right;margin-top:8px;">制作：ICU 関谷</p>
+
+    </div><!-- /main-col -->
+
+    <!-- サイドバー目次 -->
+    <aside class="ie-sidebar">
+      <div class="ie-sidebar-card">
+        <div class="ie-sidebar-title">目次</div>
+        <a href="#ivc-bg" class="ie-toc-chapter">研究背景と目的</a>
+        <a href="#ivc-context" class="ie-toc-section">S1 — 輸液反応性評価の臨床的重要性</a>
+        <a href="#ivc-methods" class="ie-toc-chapter">方法</a>
+        <a href="#ivc-design" class="ie-toc-section">S2 — 研究選択基準・ΔIVCD測定法</a>
+        <a href="#ivc-sum1" class="ie-toc-section">SUMMARY（背景・方法）</a>
+        <a href="#ivc-results" class="ie-toc-chapter">結果</a>
+        <a href="#ivc-studies" class="ie-toc-section">S3 — 組み入れ6研究の概要</a>
+        <a href="#ivc-pooled" class="ie-toc-section">S4 — 統合診断精度（感度・特異度・AUROC）</a>
+        <a href="#ivc-discussion" class="ie-toc-chapter">考察・限界・結論</a>
+        <a href="#ivc-comparison" class="ie-toc-section">S5 — 先行メタ解析との比較</a>
+        <a href="#ivc-limitations" class="ie-toc-section">S6 — 本研究の限界</a>
+        <a href="#ivc-summary-final" class="ie-toc-section">SUMMARY（キーメッセージ）</a>
+      </div>
+    </aside>
+
+  </div><!-- /content-wrap -->
+
+  <script src="../script.js"></script>
+  <script src="../abbr-tooltip.js"></script>
+</body>
+</html>

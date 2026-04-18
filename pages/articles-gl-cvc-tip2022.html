@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CVCの理想的な先端位置についての考察（Medical Nutritionist of PEN Leaders 2022） | 聖路加ICU</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style-v2.css">
+  <script src="../site-config.js"></script>
+  <style>
+    .subpage-hero { background: linear-gradient(150deg, #1A3A2A 0%, #2D7A4F 55%, #3D9B65 100%) !important; }
+    .ie-badge { display:inline-block;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:20px;padding:4px 12px;font-size:0.72rem;font-weight:500;color:#fff;margin-right:6px;margin-top:8px; }
+
+    /* Layout */
+    .content-wrap { display:flex;gap:32px;align-items:flex-start;max-width:1140px;margin:0 auto;padding:32px 20px 80px; }
+    .main-col { flex:1;min-width:0;max-width:900px; }
+    .ie-toc-chapter { display:block;font-size:0.78rem;font-weight:700;color:var(--text);padding:5px 0;border-bottom:1px solid var(--border);text-decoration:none;line-height:1.4; }
+    .ie-toc-section { display:block;font-size:0.72rem;color:var(--muted);padding:3px 0 3px 10px;text-decoration:none;line-height:1.4;border-left:2px solid var(--border); }
+
+    /* Tables */
+    .ie-table { width:100%;border-collapse:collapse;font-size:0.82rem;margin-top:10px; }
+    .ie-table th { background:#F0FDF4;border:1px solid #BBF7D0;padding:8px 12px;font-weight:700;font-size:0.78rem;text-align:left; }
+    .ie-table td { border:1px solid var(--border);padding:8px 12px;vertical-align:top;line-height:1.7; }
+    .ie-table tr:nth-child(even) td { background:#F8FAFC; }
+
+    /* Stat grid */
+    .ie-stat-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px; }
+    @media (max-width:520px) { .ie-stat-grid { grid-template-columns:1fr 1fr; } }
+    .ie-stat { background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;padding:14px 12px;text-align:center; }
+    .ie-stat-val { font-size:1.25rem;font-weight:900;color:#2D7A4F;line-height:1.3; }
+    .ie-stat-label { font-size:0.68rem;color:var(--muted);margin-top:5px;line-height:1.5; }
+    .ie-stat.red { background:#FEF2F2;border-color:#FECACA; }
+    .ie-stat.red .ie-stat-val { color:#DC2626; }
+    .ie-stat.orange { background:#FFF7ED;border-color:#FED7AA; }
+    .ie-stat.orange .ie-stat-val { color:#EA580C; }
+
+    /* Alpha card */
+    .ie-alpha { background:#F5F3FF;border:1px solid #DDD6FE;border-radius:8px;padding:2px;margin-top:10px; }
+    .ie-alpha-inner { padding:14px 16px; }
+    .ie-alpha-header { display:flex;align-items:center;gap:8px;margin-bottom:8px; }
+    .ie-alpha-badge { background:#7C3AED;color:#fff;font-size:0.65rem;font-weight:800;padding:2px 8px;border-radius:20px;letter-spacing:0.05em; }
+    .ie-alpha-title { font-size:0.85rem;font-weight:700;color:#4C1D95; }
+
+    /* Alerts */
+    .alert-yellow { background:#FFFBEB;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#92400E;line-height:1.7; }
+    .alert-green  { background:#F0FDF4;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#14532D;line-height:1.7; }
+    .alert-red    { background:#FEF2F2;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#7F1D1D;line-height:1.7; }
+
+    /* 2-col grid */
+    .ie-echo-grid { display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px; }
+    @media (max-width:580px) { .ie-echo-grid { grid-template-columns:1fr; } }
+    .ie-echo-box { background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:12px 14px; }
+    .ie-echo-name { font-size:0.78rem;font-weight:800;color:var(--text);margin-bottom:4px; }
+    .ie-echo-body { font-size:0.78rem;color:var(--muted);line-height:1.6; }
+
+    /* Flow */
+    .ie-flow { display:flex;flex-direction:column;gap:0;margin-top:10px; }
+    .ie-flow-item { display:flex;align-items:flex-start;gap:12px;background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:12px 14px; }
+    .ie-flow-num { width:28px;height:28px;background:#2D7A4F;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:900;flex-shrink:0; }
+    .ie-flow-arrow { text-align:center;color:#2D7A4F;font-size:1.1rem;padding:4px 0;margin:2px 0; }
+
+    /* Zone diagram */
+    .zone-card { background:#F8FAFC;border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-top:10px; }
+    .zone-head { padding:8px 14px;font-size:0.82rem;font-weight:800;color:#fff;letter-spacing:0.03em; }
+    .zone-body { padding:10px 14px;font-size:0.82rem;line-height:1.7; }
+    .zone-a .zone-head { background:#DC2626; }
+    .zone-b .zone-head { background:#EA580C; }
+    .zone-c .zone-head { background:#2D7A4F; }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="../index.html" class="nav-logo">
+        <img src="../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+        <span class="nav-logo-text">聖路加国際病院ICU</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="../index.html#intro" class="nav-link"><span class="nav-icon nav-ico-home"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>はじめに</a></li>
+        <li><a href="../index.html#schedule" class="nav-link"><span class="nav-icon nav-ico-sched"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>スケジュール</a></li>
+        <li><a href="../index.html#rules" class="nav-link"><span class="nav-icon nav-ico-rules"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>ICUの方針</a></li>
+        <li><a href="../index.html#learning" class="nav-link"><span class="nav-icon nav-ico-learn"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></span>学習・評価</a></li>
+        <li><a href="articles-guidelines.html" class="nav-link"><span class="nav-icon nav-ico-gl-icu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span>論文GL(ICU)</a></li>
+        <li><a href="articles-outpatient.html" class="nav-link"><span class="nav-icon nav-ico-gl-op"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><circle cx="12" cy="15" r="2"/></svg></span>論文GL(外来)</a></li>
+        <li><a href="disease-topics.html" class="nav-link"><span class="nav-icon nav-ico-dt"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></span>疾患トピックス</a></li>
+        <li><a href="exam-icu-board.html" class="nav-link"><span class="nav-icon nav-ico-exam"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></span>試験対策</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <div class="subpage-hero">
+    <div class="container">
+      <a href="articles-guidelines.html" class="back-link">← 一覧へ戻る</a>
+      <h1 class="subpage-title">中心静脈カテーテル挿入における理想的なカテーテル先端位置についての考察</h1>
+      <p class="subpage-subtitle">CVC / PICC — SVC-RAJを越えない下部SVCへの留置</p>
+      <div>
+        <span class="ie-badge">総説論文</span>
+        <span class="ie-badge">Medical Nutritionist of PEN Leaders 2022</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== CONTENT ===== -->
+  <div class="content-wrap">
+    <main class="main-col">
+
+      <!-- 略語一覧 -->
+      <div class="card" style="margin-bottom:24px;">
+        <div class="card-inner">
+          <h3 class="rule-title" style="margin-bottom:10px;">本ページで使用する略語一覧</h3>
+          <table style="width:100%;border-collapse:collapse;font-size:0.8rem;line-height:1.6;">
+            <tbody>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:130px;color:var(--blue);">略語</td><td style="padding:4px 8px;">正式名称 — 日本語訳</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">CV</td><td style="padding:4px 8px;">Central Venous — 中心静脈</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">CVC</td><td style="padding:4px 8px;">Central Venous Catheter — 中心静脈カテーテル</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">CICC</td><td style="padding:4px 8px;">Centrally Inserted Central venous Catheter — 中枢挿入式中心静脈カテーテル</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">PICC</td><td style="padding:4px 8px;">Peripherally Inserted Central venous Catheter — 末梢挿入式中心静脈カテーテル</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">SVC</td><td style="padding:4px 8px;">Superior Vena Cava — 上大静脈</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">SVC-RAJ</td><td style="padding:4px 8px;">SVC-Right Atrium Junction — 上大静脈右心房接合部</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">RA</td><td style="padding:4px 8px;">Right Atrium — 右心房</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">TPN</td><td style="padding:4px 8px;">Total Parenteral Nutrition — 中心静脈栄養法</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">HPN</td><td style="padding:4px 8px;">Home Parenteral Nutrition — 在宅中心静脈栄養</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">CRBSI</td><td style="padding:4px 8px;">Catheter-Related Blood Stream Infection — カテーテル関連血流感染症</td></tr>
+              <tr><td style="padding:4px 8px;font-weight:700;">NICU</td><td style="padding:4px 8px;">Neonatal Intensive Care Unit — 新生児集中治療室</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ====== CHAPTER BANNER ====== -->
+      <div id="cvc-ch1" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:0;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">CVC先端位置を巡る議論と理想的留置部位の考察</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Ideal Catheter Tip Position in Central Venous Catheterization</div>
+      </div>
+
+      <!-- S1: ガイドライン比較 -->
+      <h3 id="cvc-guidelines" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+        各ガイドラインで推奨されるCVC先端位置の違い
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">北米・欧州 vs 本邦 — 推奨位置が異なる</h3>
+          <p class="rule-body">CVC挿入時の至適カテーテル先端位置について、北米・欧州のガイドラインと本邦のガイドラインは明確に異なる推奨を示している。北米・欧州では（中）下部SVCから右心房（心嚢膜翻転部内）までの位置が推奨されるのに対し、本邦では気管分岐部より頭側のSVC（心嚢膜翻転部外）が推奨されている。</p>
+          <table class="ie-table">
+            <thead>
+              <tr><th style="width:38%;">ガイドライン</th><th>推奨される中心静脈カテーテル先端位置</th></tr>
+            </thead>
+            <tbody>
+              <tr><td style="white-space:nowrap;"><strong>北米ガイドライン</strong><br><span style="font-size:0.72rem;color:var(--muted);">Infusion Nurses Society 2006</span></td><td>上大静脈（SVC）下 1/3 から <strong>SVC-右心房接合部（SVC-RAJ）</strong>の範囲</td></tr>
+              <tr><td style="white-space:nowrap;"><strong>欧州ガイドライン</strong><br><span style="font-size:0.72rem;color:var(--muted);">ESPEN 2009</span></td><td>中下部SVCからSVC-RAJの範囲、または<strong>右心房上部</strong></td></tr>
+              <tr><td style="white-space:nowrap;"><strong>本邦ガイドライン</strong><br><span style="font-size:0.72rem;color:var(--muted);">改訂第3版 2020</span></td><td><strong>気管分岐部レベルのSVC</strong>。左側挿入のCVCでは左腕頭静脈内に留める</td></tr>
+            </tbody>
+          </table>
+          <p class="rule-body" style="margin-top:12px;">この違いの背景には、<span class="mark-red"><strong>最も重篤な合併症である心タンポナーデ（致死率47〜100%）をいかに予防するか</strong></span>という議論がある。本章ではこの議論の変遷を辿り、現代におけるCVC先端位置の最適解を考察する。</p>
+        </div>
+      </div>
+
+      <!-- S2: 心タンポナーデ -->
+      <h3 id="cvc-tamponade" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+        CVC挿入に合併する心タンポナーデ
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">頻度と発生機序</h3>
+          <div class="ie-stat-grid">
+            <div class="ie-stat red">
+              <div class="ie-stat-val">0.0001〜1.4%</div>
+              <div class="ie-stat-label">CVC挿入合併<br>心タンポナーデ頻度</div>
+            </div>
+            <div class="ie-stat red">
+              <div class="ie-stat-val">47〜100%</div>
+              <div class="ie-stat-label">心タンポナーデ<br>致死率</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">平均3日</div>
+              <div class="ie-stat-label">挿入から発生までの期間<br>（数分〜数か月）</div>
+            </div>
+          </div>
+          <p class="rule-body" style="margin-top:12px;">発生時期により早期（挿入から48時間以内）と後期（48時間以降）に分けられる。</p>
+          <ul style="margin:10px 0 0 20px;font-size:0.88rem;line-height:1.8;">
+            <li><strong>早期：</strong>挿入手技による血管壁損傷（穿刺針、ガイドワイヤー、ダイレーター、イントロデューサー等）</li>
+            <li><strong>後期：</strong>高浸透圧の高カロリー輸液・刺激性の強い抗がん剤による化学的血管壁損傷、または持続的なカテーテル先端の血管壁刺激による機械的損傷</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">穿孔部位と予後</h3>
+          <p class="rule-body">カテーテル留置に関連した心タンポナーデでは、穿孔部位が<span class="mark-red"><strong>心嚢膜翻転部内（SVC下部1/3〜心臓内）</strong></span>であれば心タンポナーデが発生する。一方、<span class="mark-green"><strong>心嚢膜翻転部外（SVC中部より頭側〜腕頭静脈内）</strong></span>であれば縦隔水腫（血腫）や血胸水を来すものの救命率は高くなる。</p>
+          <div class="alert-red" style="margin-top:10px;">
+            <strong>Keeneyらの新生児報告：</strong>CVC輸液血管外漏出11例の検討で、<strong>心嚢水腫を来した6例の死亡率は67%</strong>であったのに対し、<strong>胸腔内漏出のみであった5例の死亡はなかった</strong>。この報告が欧米と本邦の推奨差の論理的背景の一部となっている。
+          </div>
+          <p class="rule-body" style="margin-top:12px;">Gravensteinらはin vitro血管モデルで、穿孔リスクを増す因子として以下を挙げている：</p>
+          <ul style="margin:6px 0 0 20px;font-size:0.88rem;line-height:1.8;">
+            <li>カテーテルと血管壁との刺入角度が<strong>40度以上</strong></li>
+            <li>カテーテル径が太い</li>
+            <li>カテーテルのルーメン数が増える</li>
+            <li>カテーテル硬度が高い（ポリエチレン ＞ ポリウレタン ＞ シリコーン の順で硬い）</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- S3: 歴史的変遷 -->
+      <h3 id="cvc-history" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+        <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>
+        海外における成人心タンポナーデ報告の変遷
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">「古いデータ」に基づく本邦ガイドラインの論拠</h3>
+          <div class="ie-flow">
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">1</div>
+              <div style="flex:1;"><p class="rule-body"><strong>1968〜1988年（Chabanierら）：</strong>67例の成人心タンポナーデを検討。29例は右心房、18例は右心室、3例はSVCの穿孔。67例中26例が腕から挿入されたPICCで、原因として腕の内転によるカテーテル先端の中枢側移動が心血管壁を損傷したと推察された。この時代のカテーテルは硬いポリエチレンや第一世代ポリウレタン製で、現在より容易に血管損傷を来した。</p></div>
+            </div>
+            <div class="ie-flow-arrow">↓</div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">2</div>
+              <div style="flex:1;"><p class="rule-body"><strong>1989〜1998年（Collierら）：</strong>25例の心タンポナーデ報告のほとんどが早期発生であった。</p></div>
+            </div>
+            <div class="ie-flow-arrow">↓</div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">3</div>
+              <div style="flex:1;"><p class="rule-body"><strong>1999〜2014年（Pittirutiら）：</strong>CVC関連成人心タンポナーデは<strong>わずか8例</strong>に激減。全例が早期発生で、硬いポリウレタン製カテーテル、盲目的穿刺、ガイドワイヤー・ダイレーター操作の技術的問題が原因であった。</p></div>
+            </div>
+          </div>
+          <div class="alert-yellow" style="margin-top:12px;">
+            <strong>本邦ガイドラインの論拠の古さ：</strong>「心嚢膜翻転部外に留置すべき」とする根拠となったChabanierの論文は<strong>1988年</strong>、Collierの論文は<strong>1998年</strong>。これを否定したPittirutiの論文は<strong>2015年</strong>。本邦ガイドラインの理論的背景となった文献は古いデータを基にしていると言える。
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">気管分岐部より頭側留置とする理論的背景</h3>
+          <p class="rule-body">1968〜1998年の心タンポナーデ発生症例のほとんどが心臓内（右心房・右心室）留置であったChabanierらやCollierらの報告から、心タンポナーデ予防のためには<strong>CVC先端を心嚢膜翻転部より頭側に留置すべき</strong>であるというコンセンサスが形成された。</p>
+          <p class="rule-body"><span class="mark-yellow"><strong>心嚢膜翻転部最上端は気管分岐部より平均0.4〜0.8 cm尾側に位置し、気管分岐部より頭側に存在したものはほとんどなかった</strong></span>との報告から、心タンポナーデ予防のためにはCVC先端を気管分岐部より頭側のSVCに留置すべきであるとされた。</p>
+        </div>
+      </div>
+
+      <!-- S4: 頭側留置のデメリット -->
+      <h3 id="cvc-demerits" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+        <span style="color:#16A34A;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 4</span>
+        気管分岐部より頭側（上部SVC）に留置するデメリット
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">a. 血栓塞栓症とカテーテル機能不全</h3>
+          <p class="rule-body"><strong>Petersenら（CICC症例）：</strong>カテーテル先端位置が上部SVC・腕頭静脈・内頸静脈・鎖骨下静脈にある症例は、右心房にあるものに比べ<span class="mark-red"><strong>有意にカテーテル機能不全を来した</strong></span>。カテーテル先端位置はSVC-RAJないしRAに留置すべきと結論づけた。</p>
+          <p class="rule-body"><strong>Campagnaら（PICC症例）：</strong>がん化学療法目的でのPICC挿入症例で、カテーテル先端位置を<strong>SVC下部1/3</strong>に置くことによってカテーテル閉塞や血栓塞栓症を減少させることができた。</p>
+          <div class="alert-yellow" style="margin-top:10px;">
+            <strong>ただし「深すぎる」留置も問題：</strong>カテーテル先端が右心房・右心室・下大静脈内にある症例では、不整脈・三尖弁機能不全・右心房内血栓のリスク因子となる。
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">b. CRBSIと血栓塞栓症の相互関係</h3>
+          <p class="rule-body">カテーテル関連血流感染症（CRBSI）とカテーテル関連血栓塞栓症とは密接な関係がある。</p>
+          <div class="ie-echo-grid">
+            <div class="ie-echo-box">
+              <div class="ie-echo-name">Lordickらの報告</div>
+              <div class="ie-echo-body">血液悪性疾患患者43人中14人にCRBSIを認め、うち<strong>12人にカテーテル関連血栓症が先行</strong>していた。</div>
+            </div>
+            <div class="ie-echo-box">
+              <div class="ie-echo-name">van Roodenらの報告</div>
+              <div class="ie-echo-body">CRBSI症例の<strong>44%に続発性カテーテル血栓症</strong>を認めたが、CRBSIのない症例では<strong>わずか3%</strong>であった。</div>
+            </div>
+          </div>
+          <p class="rule-body" style="margin-top:10px;">どちらが先行するかに関わらず、カテーテル血栓塞栓症とCRBSIは相互に関連している。<span class="mark-red"><strong>浅い留置による血栓形成リスク増加は、同時にCRBSIリスクも増加させる。</strong></span></p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">c. SVCに対するカテーテル先端角度</h3>
+          <p class="rule-body">カテーテル先端とSVCの角度が鋭角の場合、SVC穿孔のリスクが増す。SVC穿孔の頻度は<strong>右側よりも左側CVC挿入症例に多く</strong>、左側腕頭静脈とSVCとの角度が鋭角であることから、浅く挿入されたカテーテル先端がSVC壁を機械的に損傷することが穿孔原因と推測されている。</p>
+          <div class="ie-stat-grid">
+            <div class="ie-stat red">
+              <div class="ie-stat-val">31.5%</div>
+              <div class="ie-stat-label">40度以上の頻度<br>（気管分岐部より頭側）</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">4.3%</div>
+              <div class="ie-stat-label">40度以上の頻度<br>（気管分岐部より尾側）</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">147例</div>
+              <div class="ie-stat-label">著者らの上腕PICC検討例<br>（ベッドサイド挿入）</div>
+            </div>
+          </div>
+          <div class="alert-green" style="margin-top:12px;">
+            <strong>著者らの知見（147例の上腕PICC）：</strong>カテーテル先端位置が<span class="mark-green"><strong>気管分岐部から1.2 cm以深</strong></span>であれば、左側挿入であってもカテーテル先端がSVCに対して40度以上になることはなかった（右側挿入では40度以上になった症例なし）。
+          </div>
+          <p class="rule-body" style="margin-top:10px;font-size:0.78rem;color:var(--muted);">※ Kimらの報告（韓国、左側からの内頸・鎖骨下静脈穿刺症例）</p>
+        </div>
+      </div>
+
+      <!-- S5: Zone分類 -->
+      <h3 id="cvc-zones" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 5</span>
+        Fletcher-Bodenham のZone分類と Pittiruti の現代的再評価
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">Zone分類（Fletcher & Bodenham 2000）</h3>
+          <p class="rule-body">Fletcher & Bodenham はカテーテル先端留置部位を3つのZoneに分類し、どこが理想的かを議論した：</p>
+          <div class="zone-card zone-a">
+            <div class="zone-head">Zone A — 下部SVC〜上部右心房</div>
+            <div class="zone-body">左右どちら側の挿入に対してもカテーテル先端が右心房壁や三尖弁を損傷しない<strong>最も理想的な位置</strong>（Fletcherら）。ただし心嚢膜翻転部内にあるため、古典的には心タンポナーデのリスクが議論されてきた。</div>
+          </div>
+          <div class="zone-card zone-b">
+            <div class="zone-head">Zone B — 上中部SVC</div>
+            <div class="zone-body">右側挿入において適切。Stonelakeらは右側挿入ではZone Bに留置すべきとした。</div>
+          </div>
+          <div class="zone-card zone-c">
+            <div class="zone-head">Zone C — 左腕頭静脈</div>
+            <div class="zone-body">SVC穿孔のリスクを減ずる点で左側挿入であれば許容できるとされた。しかし上肢運動によるカテーテル先端移動・奇静脈迷入・血栓塞栓症・感染リスクが高くなるという問題が後に指摘された。</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">Pittiruti らの現代的再評価（2015）</h3>
+          <p class="rule-body">Pittirutiらは近年（1999〜2014年）報告された心タンポナーデ症例は<strong>全て早期発生の穿刺操作に関連した技術的問題</strong>が発生原因であり、<span class="mark-red"><strong>カテーテル先端が徐々に血管壁を傷害し穿孔させるとする後期発生の心タンポナーデ報告は皆無</strong></span>であったとした。</p>
+          <p class="rule-body">したがって、<strong>カテーテル先端を心嚢膜翻転部外に留置すべきとする根拠はなく</strong>、逆に浅く挿入されたカテーテルによる血栓塞栓や感染のリスクの方が危険であるとし、<span class="mark-green"><strong>Zone Aのみが理想のカテーテル先端位置</strong></span>であると結論づけた。</p>
+          <div class="alert-green" style="margin-top:10px;">
+            現行の北米ガイドライン・欧州ガイドラインは主にこのPittirutiらの提唱（2015年論文）を取り入れている。
+          </div>
+        </div>
+      </div>
+
+      <!-- S6: 本邦報告 -->
+      <h3 id="cvc-japan" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 6</span>
+        本邦における心タンポナーデ報告例の検討
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">2000年以降の本邦報告14症例の解析</h3>
+          <p class="rule-body">本邦における2000年以降のCVCが心タンポナーデ発生原因となった14症例を検討したところ、非成人症例7例（新生児4例、幼児1例、小児2例）、成人症例7例であった。</p>
+          <table class="ie-table">
+            <thead>
+              <tr><th style="width:30%;">症例分類</th><th>原因</th></tr>
+            </thead>
+            <tbody>
+              <tr><td style="white-space:nowrap;"><strong>成人 7例中 3例</strong></td><td>挿入操作自体が原因（ガイドワイヤーや動脈穿刺による損傷など）</td></tr>
+              <tr><td style="white-space:nowrap;"><strong>成人 7例中 1例</strong></td><td>pinch-offにより逸脱したカテーテルが穿孔</td></tr>
+              <tr><td style="white-space:nowrap;"><strong>成人 7例中 1例</strong></td><td>CVC挿入と同時合併の緊張性気胸が一因</td></tr>
+              <tr><td style="white-space:nowrap;"><strong>成人 7例中 2例</strong></td><td>カテーテル先端迷入（左鎖骨下静脈血栓による血管外漏出1例、左鎖骨下静脈迷入による遅発性穿孔1例）</td></tr>
+              <tr><td style="white-space:nowrap;"><strong>新生児〜小児 4症例</strong></td><td>新生児2例は肘PICC挿入時にSVC内で先端確認するも、3日目・7日目に心嚢内カテーテル迷入で心タンポナーデ発症。4歳筋ジストロフィーHPN例は約3年後にカテーテル先端がJ字状に曲がり心嚢内迷入。生後8か月複合心奇形児は非X線透視下挿入で3時間後発症（SVCから直接心嚢内迷入）</td></tr>
+            </tbody>
+          </table>
+          <div class="alert-red" style="margin-top:12px;">
+            <strong>重要な知見：</strong>2000年以降の本邦成人心タンポナーデ報告例7例のうち、<span class="mark-red"><strong>心臓内に深く挿入されたカテーテル先端が原因であったものは1例もなかった</strong></span>。成人・新生児・小児いずれにおいても、本邦報告例で「挿入時カテーテル先端が心嚢内に留置されることが原因」と考えられた症例は認められなかった。
+          </div>
+          <p class="rule-body" style="margin-top:12px;">本邦のガイドライン（心嚢膜翻転部外留置推奨）が予防しようとしている「慢性的な心嚢膜翻転部内留置による後期発生心タンポナーデ」は、実際の本邦報告例においても確認されていない。</p>
+        </div>
+      </div>
+
+      <!-- S7: カテーテル移動 -->
+      <h3 id="cvc-migration" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+        <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 7</span>
+        上肢運動・体位・呼吸によるカテーテル先端移動
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">体動・呼吸による有意な先端移動</h3>
+          <p class="rule-body">CVCの呼吸性・体動による移動（migration）は以前より指摘されており、主に遅発性のカテーテル先端位置異常に関与している。</p>
+          <div class="ie-stat-grid">
+            <div class="ie-stat orange">
+              <div class="ie-stat-val">平均 9 mm</div>
+              <div class="ie-stat-label">吸気時の頭側移動<br>（範囲 0〜25 mm）</div>
+            </div>
+            <div class="ie-stat orange">
+              <div class="ie-stat-val">平均 19 mm</div>
+              <div class="ie-stat-label">臥位→立位で<br>頭側移動</div>
+            </div>
+            <div class="ie-stat red">
+              <div class="ie-stat-val">平均 21 mm</div>
+              <div class="ie-stat-label">上腕外転位→内転位で<br>中枢側移動（範囲 2〜53 mm）</div>
+            </div>
+          </div>
+          <p class="rule-body" style="margin-top:12px;">Forauerらは上肢を90度外転位で挿入した成人53例の上腕PICCを検討し、上腕を内転位にした際、<strong>平均21 mm（2〜53 mm）中枢側へ移動</strong>し、右側が左側よりも移動幅が大きい傾向があったと報告している。</p>
+          <p class="rule-body">新生児でも、上腕・前腕PICC とも肩関節内転や肘の屈曲でカテーテル先端は中枢側へ移動する（尺側皮静脈挿入では肩関節内転・肘関節屈曲で平均15 mm移動）。咳嗽・嘔吐などの怒責によっても容易に先端は移動する。</p>
+          <div class="alert-yellow" style="margin-top:12px;">
+            <strong>臨床的含意：</strong>浅く挿入されたカテーテルは、体位変換・上肢運動・呼吸・咳嗽により容易にSVC外へ迷入する。左側挿入のPICCでは、上肢運動による中枢側移動により角度が40度を超え、SVC壁損傷・奇静脈迷入のリスクが増大する。
+          </div>
+        </div>
+      </div>
+
+      <!-- S8: PICC心タンポナーデ -->
+      <h3 id="cvc-picc" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+        <span style="color:#16A34A;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 8</span>
+        PICCによる心タンポナーデ
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">新生児で高頻度、右心房内留置が鍵</h3>
+          <div class="ie-stat-grid">
+            <div class="ie-stat red">
+              <div class="ie-stat-val">0.07〜2%</div>
+              <div class="ie-stat-label">PICC関連<br>心タンポナーデ頻度</div>
+            </div>
+            <div class="ie-stat red">
+              <div class="ie-stat-val">75%</div>
+              <div class="ie-stat-label">死亡率<br>（大半が新生児症例）</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">79.2%</div>
+              <div class="ie-stat-label">右心房内留置<br>（Houら 23例中19例）</div>
+            </div>
+          </div>
+          <p class="rule-body" style="margin-top:12px;"><strong>Barreirosら：</strong>PICCを挿入した早産新生児194例中<strong>3例（1.5%）に心タンポナーデ</strong>が発生し、全例ともカテーテル先端が右心房内壁に近接していた。</p>
+          <p class="rule-body"><strong>Ohkiら：</strong>日本のNICU 19施設の2年間にわたるPICC挿入975症例の前向き検討で、<strong>心タンポナーデ発生は0.1%</strong>であった。</p>
+          <p class="rule-body"><strong>Houら：</strong>2018年までに報告されたPICC関連新生児心タンポナーデ23症例のうち<span class="mark-red"><strong>19例（79.2%）でカテーテル先端が右心房内</strong></span>にあり、右心房内心筋とカテーテルとの機械的摩擦が心タンポナーデ発生の重要な要因であると述べている。</p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">PICC関連成人心タンポナーデ報告例（表2）</h3>
+          <table class="ie-table">
+            <thead>
+              <tr><th>年齢（性）</th><th>疾患</th><th>挿入時先端</th><th>発症まで</th><th>転帰</th></tr>
+            </thead>
+            <tbody>
+              <tr><td style="white-space:nowrap;">14歳（女）</td><td>側弯症術中</td><td>右心房</td><td style="white-space:nowrap;">3時間</td><td style="white-space:nowrap;">回復<br><span style="font-size:0.72rem;color:var(--muted);">心嚢穿刺ドレナージ</span></td></tr>
+              <tr><td style="white-space:nowrap;">20歳（女）</td><td>両側下顎骨切り術後</td><td>右心房</td><td style="white-space:nowrap;">10時間</td><td style="white-space:nowrap;">死亡<br><span style="font-size:0.72rem;color:var(--muted);">希釈塩化カリウム静注30分後</span></td></tr>
+              <tr><td style="white-space:nowrap;">70歳（女）</td><td>膵頭部がん術後・低栄養</td><td>右心房</td><td style="white-space:nowrap;">1週間</td><td style="white-space:nowrap;">死亡<br><span style="font-size:0.72rem;color:var(--muted);">SVC後壁穿孔</span></td></tr>
+            </tbody>
+          </table>
+          <p class="rule-body" style="margin-top:10px;font-size:0.82rem;">成人のPICC関連心タンポナーデ報告は検索し得た限り3例のみ。全例とも<strong>PICC挿入時のカテーテル先端が右心房内</strong>に留置されていた。原因として、カテーテル先端の心横隔静脈への迷入、柔軟性の低いポリウレタン製カテーテル使用、投与輸液の血管外漏出が挙げられている。</p>
+        </div>
+      </div>
+
+      <!-- S9: PICC迷入による穿孔 -->
+      <h3 id="cvc-perforation" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 9</span>
+        PICC迷入による静脈穿孔
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">左側PICCに多い奇静脈迷入・前縦隔穿孔</h3>
+          <p class="rule-body">左上腕PICCが奇静脈に迷入し遅発性の血管穿孔を起こしたとの報告がある。一般的に<span class="mark-yellow"><strong>奇静脈は左腕頭静脈がSVCへ流入する部位と浅い角度をなし、左側PICC挿入では右側と比べ明らかに迷入しやすい</strong></span>解剖学的特徴を持つ。また、奇静脈の走行はSVCと並行しているため前後面胸部X線写真では鑑別がつきにくい。</p>
+          <table class="ie-table">
+            <thead>
+              <tr><th>年齢（性）</th><th>疾患・挿入側</th><th>逸脱部位</th><th>発症期間</th><th>転帰</th></tr>
+            </thead>
+            <tbody>
+              <tr><td style="white-space:nowrap;">42歳（男）</td><td>憩室炎・肝膿瘍</td><td>前縦隔</td><td>4日</td><td>回復</td></tr>
+              <tr><td style="white-space:nowrap;">21歳（女）</td><td>腸閉塞・内臓逆位・奇静脈拡張／左尺側皮</td><td>奇静脈</td><td>9日</td><td>回復</td></tr>
+              <tr><td style="white-space:nowrap;">80歳（女）</td><td>憩室炎・右乳がん術後／左</td><td>左内頸静脈</td><td>11日</td><td>回復</td></tr>
+              <tr><td style="white-space:nowrap;">54歳（女）</td><td>胃バイパス術後潰瘍・転倒／右</td><td>右無名静脈</td><td style="white-space:nowrap;">転倒3日後<br><span style="font-size:0.72rem;color:var(--muted);">PICC挿入4年</span></td><td>回復</td></tr>
+              <tr><td style="white-space:nowrap;">90歳（女）</td><td>胃がん術前／左</td><td>前縦隔</td><td>4日</td><td>回復</td></tr>
+              <tr><td style="white-space:nowrap;">68歳（女）</td><td>左脛骨骨折後創感染／左尺側皮</td><td>SVC</td><td>48日</td><td style="white-space:nowrap;">回復<br><span style="font-size:0.72rem;color:var(--muted);">PICC抜去のみ</span></td></tr>
+            </tbody>
+          </table>
+          <div class="alert-yellow" style="margin-top:12px;">
+            <strong>臨床警告：</strong>PICC挿入時に抵抗を感じた場合や逆血が困難な場合は、<strong>側面X線写真で確認するか、必要に応じてCTや血管造影</strong>にてカテーテル先端位置を確認する必要がある。
+          </div>
+        </div>
+      </div>
+
+      <!-- S10: ランドマーク -->
+      <h3 id="cvc-landmark" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+        <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 10</span>
+        胸部X線上の実践的ランドマーク
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">気管分岐部が最も実用的</h3>
+          <p class="rule-body">胸部X線透視下にCVC挿入を行う場合、ランドマークとして右気管気管支角を用いる意見と気管分岐部を用いる意見がある。</p>
+          <div class="ie-echo-grid">
+            <div class="ie-echo-box">
+              <div class="ie-echo-name">Aslamyらの提案（右気管気管支角）</div>
+              <div class="ie-echo-body">成人MRI計測で<strong>右気管気管支角からSVC-RAJまでの距離が2.9 cmより短かった症例がなかった</strong>ことより、カテーテル先端を右気管気管支角から2.9 cm以内にすることを推奨。</div>
+            </div>
+            <div class="ie-echo-box">
+              <div class="ie-echo-name">Wirsingらの検証（気管分岐部）</div>
+              <div class="ie-echo-body">実際にX線透視下で正確にCVC位置を確定できたのは、右気管気管支角をランドマークで<strong>38%</strong>、気管分岐部で<strong>95%</strong>。気管分岐部が実用的。</div>
+            </div>
+          </div>
+          <p class="rule-body" style="margin-top:12px;">気管分岐部はほとんどの例で心嚢膜翻転部より頭側にあることから、CV挿入における良いランドマークとされてきた。</p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">SVC周囲の解剖学的距離</h3>
+          <div class="ie-stat-grid">
+            <div class="ie-stat">
+              <div class="ie-stat-val">3.0〜3.8 cm</div>
+              <div class="ie-stat-label">心嚢膜翻転部〜SVC-RAJ<br>（範囲 1.0〜8.6 cm）</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">4.0 ± 1.4 cm</div>
+              <div class="ie-stat-label">気管分岐部〜SVC-RAJ<br>（Mahlon）</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">3.0 ± 1.1 cm</div>
+              <div class="ie-stat-label">SVC起始部〜気管分岐部<br>（Mahlon）</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- S11: 理想的留置位置 -->
+      <h3 id="cvc-ideal" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 11</span>
+        著者らが推奨する理想的CVC先端位置
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">成人：気管分岐部から尾側 2.5 cm</h3>
+          <p class="rule-body">著者らは論理的考察に基づき、成人における理想的なCVC先端位置を次のように提唱する。</p>
+          <div class="alert-green" style="margin-top:10px;">
+            <strong>結論：</strong><span class="mark-green"><strong>カテーテル先端をSVCと並行に留置し、かつSVC-RAJを越えない範囲の下部SVC</strong></span>にカテーテルを留置することが最も理想的である。胸部X線上の指標としては、<span class="mark-green"><strong>気管分岐部から尾側（中枢側）2.5 cmの位置</strong></span>を推奨する。
+          </div>
+          <p class="rule-body" style="margin-top:12px;"><strong>根拠となる数値（著者らの142例上腕PICC検討＋既報の統合）：</strong></p>
+          <ul style="margin:6px 0 0 20px;font-size:0.88rem;line-height:1.8;">
+            <li>気管分岐部から尾側 <strong>1.2 cm 以深</strong>であれば、カテーテル先端角度が40度を超える症例はなかった</li>
+            <li>気管分岐部からSVC-RAJまでの平均距離は <strong>4.0 cm</strong></li>
+            <li>上肢の動きによる先端位置中枢移動は平均 <strong>2.1 cm</strong>（PICC）</li>
+            <li>臥位→立位で先端は平均 <strong>1.9 cm</strong>頭側移動</li>
+            <li>吸気で平均 <strong>0.9 cm</strong>頭側移動</li>
+          </ul>
+          <p class="rule-body" style="margin-top:12px;">推奨位置（図3）の各構成要素：</p>
+          <table class="ie-table">
+            <tbody>
+              <tr><td style="white-space:nowrap;width:30%;"><strong>①</strong> SVC長</td><td>6.4〜7.0 cm</td></tr>
+              <tr><td style="white-space:nowrap;"><strong>②</strong> 心嚢膜翻転部〜SVC-RAJ</td><td>3.0〜3.8 cm</td></tr>
+              <tr><td style="white-space:nowrap;"><strong>③</strong> 気管分岐部〜SVC-RAJ</td><td>4.0 cm</td></tr>
+              <tr><td style="white-space:nowrap;"><strong>④</strong> 気管分岐部〜心嚢膜翻転部</td><td>0.4〜0.8 cm</td></tr>
+              <tr><td style="white-space:nowrap;"><strong>⑤</strong> 血管壁と並行になる距離</td><td>気管分岐部から 1.2 cm</td></tr>
+              <tr style="background:#F0FDF4;"><td style="white-space:nowrap;"><strong>推奨位置</strong></td><td><strong>気管分岐部から尾側 2.5 cm</strong>（患者の活動性・体格を考慮して調整）</td></tr>
+            </tbody>
+          </table>
+          <div class="alert-yellow" style="margin-top:12px;">
+            <strong>個別調整：</strong>上記は指標であり、患者の活動性（上肢の動きや、臥床がちかどうかなど）や体格を考慮して調整すべきである。特に左側挿入では上肢運動による中枢側移動が大きく、浅い挿入ではSVC壁損傷・奇静脈迷入リスクが高くなる。
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">新生児の場合</h3>
+          <p class="rule-body">新生児のCVC挿入では、成人に比べて血管壁が脆弱であること、NICUで扱う新生児疾患に心血管系先天異常が多いことなどから、成人よりもさらなる注意が必要である。新生児PICC挿入における心タンポナーデ発生頻度は成人と比べて高率であり、そのほとんどは右心房内にカテーテルが留置されていた症例であるため、<span class="mark-red"><strong>新生児においてカテーテルの右心房内留置は禁忌</strong></span>である。</p>
+          <div class="alert-green" style="margin-top:10px;">
+            <strong>新生児の胸部X線上の目安：</strong>CVC先端位置を、<strong>早産児では心陰影の外 1 cm</strong>、<strong>満期産児では心陰影の外 2 cm</strong>に置く。
+          </div>
+        </div>
+      </div>
+
+      <!-- S12: 近年の動向 -->
+      <h3 id="cvc-trend" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+        <span style="color:#16A34A;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 12</span>
+        近年の動向 — 血管内心電図ガイドPICC挿入
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">透視に代わる床サイド法</h3>
+          <p class="rule-body">X線透視下にPICC挿入を行うことはカテーテル先端を適正位置に留置する上で有利であるが、被ばくや患者移送の面で検討の余地があるとされてきた。</p>
+          <p class="rule-body">近年、<strong>血管内心電図モニターを使用したベッドサイド下PICC挿入</strong>の有用性が報告されている。PICC先端に留置された心電図センサーによるP波が、SVC内から右心房内へと移動するにつれて変化することにより、正確にカテーテル先端位置を把握することができる。</p>
+          <div class="ie-alpha">
+            <div class="ie-alpha-inner">
+              <div class="ie-alpha-header">
+                <span class="ie-alpha-badge">＋α</span>
+                <span class="ie-alpha-title">日本での普及状況</span>
+              </div>
+              <p class="rule-body" style="color:#4C1D95;">本法はまだ日本では一般に普及していないが、使いやすさや正確性が確立されれば、X線透視下でのカテーテル留置に代わる方法として期待できる（Mackらによる無作為化非劣性試験の報告あり）。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- S13: Take-home -->
+      <h3 id="cvc-takehome" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 13</span>
+        テイクホームメッセージ
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">実践的な挿入・管理のポイント</h3>
+          <p class="rule-body">CVC挿入に伴う合併症予防には、挿入時に適切な位置にカテーテル先端を留置することが重要である。著者らの考察の骨子は以下の通り。</p>
+          <ul style="margin:10px 0 0 20px;font-size:0.88rem;line-height:1.85;">
+            <li>後期発生の心タンポナーデ報告は近年減少しており、発生原因のほとんどは手技起因またはカテーテル迷入である</li>
+            <li>「心嚢膜翻転部外に置くべき」とする古くからの考えに明らかなエビデンスはない</li>
+            <li>浅く留置されたカテーテルによるSVC壁損傷・血栓塞栓症・CRBSIのリスクが問題となる</li>
+            <li>一方、深すぎる留置（右心房内・右心室内）は不整脈・三尖弁損傷・右心房内血栓・新生児では心タンポナーデのリスクとなる</li>
+            <li>理想はカテーテルがSVC壁と並行に位置し、SVC-RAJを越えない位置</li>
+          </ul>
+          <div class="alert-red" style="margin-top:12px;">
+            <strong>位置異常を疑う兆候：</strong>
+            <ul style="margin:6px 0 0 18px;">
+              <li>カテーテルから薬剤投与時の特有な症状（胸骨裏の痛み＝内胸静脈、頭痛＝内頸静脈など）</li>
+              <li>カテーテルからの逆血が見られない</li>
+            </ul>
+            これらがあれば、2方向のX線やCT撮影を考慮する。
+          </div>
+          <div class="alert-green" style="margin-top:10px;">
+            <strong>挿入・管理のルール：</strong>
+            <ul style="margin:6px 0 0 18px;">
+              <li>CV挿入はX線透視下で行う</li>
+              <li>挿入後のX線撮影での先端位置の確認を必ず行う</li>
+              <li>成人：気管分岐部から尾側 2.5 cm を目安に、体格・活動性で調整</li>
+              <li>新生児：早産児は心陰影外 1 cm、満期産児は 2 cm、右心房内留置は禁忌</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- SUMMARY -->
+      <h3 id="cvc-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+        キーメッセージ
+      </h3>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+              <span class="rule-body"><strong>ガイドライン間の乖離：</strong>北米・欧州は下部SVC〜SVC-RAJ（心嚢膜翻転部内）を推奨、本邦は気管分岐部より頭側（心嚢膜翻転部外）を推奨。この違いは1988〜1998年の古い症例報告をどう解釈するかに由来する。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+              <span class="rule-body"><strong>古い時代との違い：</strong>ポリエチレン・第一世代ポリウレタン製の硬いカテーテルが主流だった時代と異なり、現代のCVCはより柔軟である。Pittirutiらの検討（1999〜2014）では後期発生の心タンポナーデ報告は皆無で、発生したものは全て早期の手技関連症例であった。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+              <span class="rule-body"><strong>浅い留置の害：</strong>気管分岐部より頭側（上部SVC）へのカテーテル留置は、血栓塞栓症（SVC-RAJ留置より機能不全が有意に多い）、CRBSI（血栓と相互関連）、SVC穿孔（先端角度40度以上の頻度が31.5% vs 4.3%）のリスクを高める。特に左側挿入では鋭角形成と奇静脈迷入リスクが大きい。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+              <span class="rule-body"><strong>カテーテルは動く：</strong>上腕内転で平均21 mm、臥位→立位で19 mm、吸気で9 mm、咳嗽でも容易に移動する。浅く置けば体位変換で容易にSVC外へ逸脱する。本邦報告14例で後期発生心タンポナーデの原因となった症例の多くはカテーテル迷入に起因する。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+              <span class="rule-body"><strong>著者の推奨：</strong>理想的な成人CVC先端位置は<strong>気管分岐部から尾側 2.5 cm</strong>（カテーテルがSVCと並行・SVC-RAJを越えない位置）。気管分岐部より尾側 1.2 cm より深く留置する。新生児は右心房内留置禁忌、早産児は心陰影外 1 cm、満期産児は 2 cm。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 出典注記 -->
+      <p style="font-size:0.72rem;color:#9CA3AF;margin-top:40px;line-height:1.7;">
+        出典：木許健生、大川太資、友野絢子、田上修司（大阪府済生会茨木病院外科）「中心静脈カテーテル挿入における理想的なカテーテル先端位置についての考察」Medical Nutritionist of PEN Leaders Vol.6 No.2, 165-174, 2022<br>
+        本資料は教育目的で作成したサマリーです。診断・治療方針の決定には必ず原著論文・本邦CVCガイドライン（改訂第3版 2020）を参照してください。
+      </p>
+      <p style="font-size:0.75rem;color:var(--muted);text-align:right;margin-top:8px;">制作：ICU 関谷</p>
+
+    </main>
+
+    <!-- ===== SIDEBAR ===== -->
+    <aside class="ie-sidebar">
+      <div class="ie-sidebar-card">
+        <div class="ie-sidebar-title">目次</div>
+        <a href="#cvc-ch1" class="ie-toc-chapter">CVC先端位置の考察</a>
+        <a href="#cvc-guidelines" class="ie-toc-section">S1 — 各GLの比較</a>
+        <a href="#cvc-tamponade" class="ie-toc-section">S2 — 心タンポナーデの病態</a>
+        <a href="#cvc-history" class="ie-toc-section">S3 — 海外報告の変遷</a>
+        <a href="#cvc-demerits" class="ie-toc-section">S4 — 頭側留置のデメリット</a>
+        <a href="#cvc-zones" class="ie-toc-section">S5 — Zone分類とPittiruti</a>
+        <a href="#cvc-japan" class="ie-toc-section">S6 — 本邦報告14症例</a>
+        <a href="#cvc-migration" class="ie-toc-section">S7 — カテーテル先端移動</a>
+        <a href="#cvc-picc" class="ie-toc-section">S8 — PICCと心タンポナーデ</a>
+        <a href="#cvc-perforation" class="ie-toc-section">S9 — PICC迷入と穿孔</a>
+        <a href="#cvc-landmark" class="ie-toc-section">S10 — X線ランドマーク</a>
+        <a href="#cvc-ideal" class="ie-toc-section">S11 — 理想的先端位置</a>
+        <a href="#cvc-trend" class="ie-toc-section">S12 — 近年の動向</a>
+        <a href="#cvc-takehome" class="ie-toc-section">S13 — テイクホームメッセージ</a>
+        <a href="#cvc-summary" class="ie-toc-section">SUMMARY</a>
+      </div>
+    </aside>
+  </div>
+
+  <script src="../script.js"></script>
+  <script src="../abbr-tooltip.js"></script>
+</body>
+</html>
