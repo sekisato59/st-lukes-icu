@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stewart light — 複雑な酸塩基平衡異常への実践的アプローチ（ICM 2026）| 聖路加ICU</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style-v2.css?v=20260424b">
+  <script src="../site-config.js"></script>
+  <style>
+    .subpage-hero { background: linear-gradient(150deg, #1A3A2A 0%, #2D7A4F 55%, #3D9B65 100%) !important; }
+    .ie-badge { display:inline-block;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:20px;padding:4px 12px;font-size:0.72rem;font-weight:500;color:#fff;margin-right:6px;margin-top:8px; }
+
+    /* Layout */
+    .content-wrap { display:flex;gap:32px;align-items:flex-start;max-width:1140px;margin:0 auto;padding:32px 20px 80px; }
+    .main-col { flex:1;min-width:0;max-width:900px; }
+    .ie-toc-chapter { display:block;font-size:0.8rem;font-weight:700;color:var(--text);padding:6px 0;border-bottom:1px solid var(--border);text-decoration:none;line-height:1.4; }
+    .ie-toc-section { display:block;font-size:0.75rem;color:var(--muted);padding:4px 0 4px 10px;text-decoration:none;line-height:1.4;border-left:2px solid var(--border); }
+
+    /* Tables */
+    .ie-table { width:100%;border-collapse:collapse;font-size:0.82rem;margin-top:10px; }
+    .ie-table th { background:#F0FDF4;border:1px solid #BBF7D0;padding:8px 12px;font-weight:700;font-size:0.78rem;text-align:left; }
+    .ie-table td { border:1px solid var(--border);padding:8px 12px;vertical-align:top;line-height:1.7; }
+    .ie-table tr:nth-child(even) td { background:#F8FAFC; }
+
+    /* Flow */
+    .ie-flow { display:flex;flex-direction:column;gap:0; }
+    .ie-flow-item { display:flex;align-items:flex-start;gap:14px;background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:14px 16px; }
+    .ie-flow-arrow { text-align:center;color:#2D7A4F;font-size:1.1rem;font-weight:700;padding:4px 0; }
+    .ie-flow-num { width:28px;height:28px;border-radius:50%;background:#2D7A4F;color:#fff;font-size:0.78rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0; }
+
+    /* Stat grid */
+    .ie-stat-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px; }
+    @media (max-width:520px) { .ie-stat-grid { grid-template-columns:1fr 1fr; } }
+    .ie-stat { background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;padding:14px 12px;text-align:center; }
+    .ie-stat-val { font-size:1.25rem;font-weight:900;color:#2D7A4F;line-height:1.3; }
+    .ie-stat-label { font-size:0.68rem;color:var(--muted);margin-top:5px;line-height:1.5; }
+
+    /* Alpha card */
+    .ie-alpha { background:#F5F3FF;border:1px solid #DDD6FE;border-radius:8px;padding:2px;margin-top:10px; }
+    .ie-alpha-inner { padding:14px 16px; }
+    .ie-alpha-header { display:flex;align-items:center;gap:8px;margin-bottom:8px; }
+    .ie-alpha-badge { background:#7C3AED;color:#fff;font-size:0.65rem;font-weight:800;padding:2px 8px;border-radius:20px;letter-spacing:0.05em; }
+    .ie-alpha-title { font-size:0.85rem;font-weight:700;color:#4C1D95; }
+
+    /* Alerts */
+    .alert-yellow { background:#FFFBEB;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#92400E;line-height:1.7; }
+    .alert-green  { background:#F0FDF4;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#14532D;line-height:1.7; }
+    .alert-red    { background:#FEF2F2;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#7F1D1D;line-height:1.7; }
+
+    /* Formula box */
+    .formula-box { background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;padding:14px 18px;margin-top:10px;font-family:monospace;font-size:0.88rem;color:#14532D;line-height:1.8; }
+    .formula-label { font-family:var(--font);font-size:0.72rem;font-weight:800;color:#2D7A4F;letter-spacing:0.06em;margin-bottom:4px;text-transform:uppercase; }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="../index.html" class="nav-logo">
+        <img src="../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+        <span class="nav-logo-text">聖路加国際病院ICU</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
+        <span></span><span></span><span></span>
+      </button>
+            <ul class="nav-menu" id="navMenu">
+        <li><a href="../index.html#intro" class="nav-link"><span class="nav-icon nav-ico-home"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>はじめに</a></li>
+        <li><a href="../index.html#schedule" class="nav-link"><span class="nav-icon nav-ico-sched"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>スケジュール</a></li>
+        <li><a href="../index.html#rules" class="nav-link"><span class="nav-icon nav-ico-rules"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>ICUの方針</a></li>
+        <li><a href="../index.html#learning" class="nav-link"><span class="nav-icon nav-ico-learn"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></span>学習・評価</a></li>
+        <li><a href="articles-guidelines.html" class="nav-link"><span class="nav-icon nav-ico-gl-icu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span>論文GL(ICU)</a></li>
+        <li><a href="articles-outpatient.html" class="nav-link"><span class="nav-icon nav-ico-gl-op"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><circle cx="12" cy="15" r="2"/></svg></span>論文GL(外来)</a></li>
+        <li><a href="disease-topics.html" class="nav-link"><span class="nav-icon nav-ico-disease"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></span>疾患マニュアル</a></li>
+        <li><a href="../index.html#faq" class="nav-link"><span class="nav-icon nav-ico-faq"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>FAQ</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <div class="subpage-hero">
+    <div class="container">
+      <a href="articles-guidelines.html#art-acidbase" class="back-link">← 注目論文・ガイドラインまとめへ戻る</a>
+      <h1 class="subpage-title">Stewart light<br>複雑な酸塩基平衡異常への実践的アプローチ</h1>
+      <p class="subpage-subtitle">#8 METABOLIC SYSTEM / ACID-BASE</p>
+      <div>
+        <span class="ie-badge">Duška F, Krbec M, Heldeweg M, Elbers P, Giosa L</span>
+        <span class="ie-badge">Intensive Care Med 2026</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== CONTENT ===== -->
+  <div class="content-wrap">
+
+    <div class="main-col">
+
+<div class="card" style="margin-bottom:24px;">
+  <div class="card-inner">
+    <h3 class="rule-title" style="margin-bottom:10px;">本ページで使用する略語一覧</h3>
+    <table style="width:100%;border-collapse:collapse;font-size:0.8rem;line-height:1.6;">
+      <tbody>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">略語</td><td style="padding:4px 8px;">正式名称 — 日本語訳</td></tr>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">ICU</td><td style="padding:4px 8px;">Intensive Care Unit — 集中治療室</td></tr>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">SBE</td><td style="padding:4px 8px;">Standard Base Excess — 標準塩基過剰</td></tr>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">SID</td><td style="padding:4px 8px;">Strong Ion Difference — 強イオン差</td></tr>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">[A<sup>TOT</sup>]</td><td style="padding:4px 8px;">Total weak acid concentration — 弱酸総濃度（主にアルブミン・リン酸）</td></tr>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">[A<sup>−</sup>]</td><td style="padding:4px 8px;">弱酸の負電荷成分</td></tr>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">UI</td><td style="padding:4px 8px;">Unmeasured Ions — 未測定イオン（ケトン・尿毒症性アニオン・毒物代謝物など）</td></tr>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">PCO₂</td><td style="padding:4px 8px;">Partial pressure of carbon dioxide — 二酸化炭素分圧</td></tr>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">HCO₃⁻</td><td style="padding:4px 8px;">Bicarbonate — 重炭酸イオン</td></tr>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">Alb</td><td style="padding:4px 8px;">Albumin — アルブミン</td></tr>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">AG</td><td style="padding:4px 8px;">Anion Gap — アニオンギャップ</td></tr>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">DKA</td><td style="padding:4px 8px;">Diabetic Ketoacidosis — 糖尿病性ケトアシドーシス</td></tr>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">SBE<sub>SID</sub></td><td style="padding:4px 8px;">SID 由来の SBE 成分（強イオン成分）</td></tr>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">SBE<sub>Alb</sub></td><td style="padding:4px 8px;">アルブミン由来の SBE 成分</td></tr>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">SBE<sub>UI</sub></td><td style="padding:4px 8px;">未測定イオン由来の SBE 成分</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+      <!-- ── 概要カード ── -->
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">本稿のコアメッセージ</h3>
+          <p class="rule-body">本稿は <em>Intensive Care Medicine</em> 誌 "Understanding the Disease" シリーズとして2026年に発表された酸塩基平衡解釈アルゴリズムの提案である。古典的アプローチ（HCO₃⁻・SBE + Boston ルール）と Stewart 法（SID・[A<sup>TOT</sup>]・PCO₂）の双方の利点を統合し、<strong>血液ガス表示値と血清アルブミンのみという最小データセット</strong>で複雑な混合性酸塩基障害を解き明かす、ベッドサイド向けの5ステップアルゴリズム「Stewart light」を提示する。</p>
+          <p class="rule-body" style="margin-top:8px;">2004年に Story らが提案した base-excess partitioning は pH 7.30〜7.50 の範囲外で誤差が大きいという限界があったが、本稿は <span class="mark-green"><strong>pH 依存性の経膜強イオンシフトを考慮した [Na⁺]–[Cl⁻] 基準値の補正</strong></span>を組み込むことで、重症 ICU 患者にも適用可能な形に発展させている。既存アルゴリズムへの優越性を主張するのではなく、ベッドサイド実践と教育目的の構造化された代替案として提示されている。</p>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════
+           SECTION 1 — 背景と位置づけ
+      ═══════════════════════════════════════════ -->
+      <h3 id="s1-background" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+        背景 — 古典的アプローチ・Stewart 法・Stewart light
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">古典的アプローチは「単一障害」に強く、「混合障害」で破綻する</h3>
+          <p class="rule-body">血液ガス分析は ICU・救急の日常業務である。多くの臨床医は HCO₃⁻ または標準塩基過剰（SBE）で結果を解釈し、代償的 PCO₂ 反応の妥当性を経験式（例：Boston ルール）で評価する。<strong>単一の主要障害であればこの「古典的」アプローチで十分機能する</strong>。</p>
+          <p class="rule-body" style="margin-top:8px;">しかし <span class="mark-red"><strong>複数の併存疾患を持つ ICU 患者では、複数の代謝・呼吸過程が共存して互いを相殺し、複雑な混合性酸塩基障害を生み出す</strong></span>。この状況では古典的アプローチは真の病態を捉えきれない（補足付録の症例1 を参照）。</p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">Stewart アプローチ — 物理化学的な「3独立変数」</h3>
+          <p class="rule-body">これに対し Stewart は、酸塩基平衡を物理化学的視点から <strong>3つの独立変数</strong> で記述した。</p>
+          <div class="ie-stat-grid" style="margin-top:10px;">
+            <div class="ie-stat">
+              <div class="ie-stat-val">PCO₂</div>
+              <div class="ie-stat-label">呼吸成分</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">SID</div>
+              <div class="ie-stat-label">強イオン差<br>（[Na⁺]−[Cl⁻] ほか）</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">[A<sup>TOT</sup>]</div>
+              <div class="ie-stat-label">弱酸総濃度<br>（主にアルブミン・リン酸）</div>
+            </div>
+          </div>
+          <p class="rule-body" style="margin-top:10px;">このアプローチは、最終的な HCO₃⁻ の値ではなく、<span class="mark-green"><strong>酸塩基状態を決定する「決定因子」を直接分析する</strong></span>ため、混合障害を解きほぐすことができる。</p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">橋渡しとしての base-excess partitioning（Story 2004）</h3>
+          <p class="rule-body">ベッドサイドで Stewart の概念を使いつつ古典的アプローチの利点を残すため、Story らは 2004 年に base-excess partitioning を提案した。代謝性 SBE を以下の3成分に振り分ける方法である。</p>
+          <div class="formula-box">
+            <div class="formula-label">Story の base-excess partitioning（2004）</div>
+            SBE = SBE<sub>SID</sub> + SBE<sub>Alb</sub> + SBE<sub>UI</sub><br>
+            ・SBE<sub>SID</sub> ≈ [Na⁺] − [Cl⁻] − 35<br>
+            ・SBE<sub>Alb</sub> ≈ 0.25 × (42 − Alb [g/L])<br>
+            ・SBE<sub>UI</sub> = 残差（未測定イオンに起因）
+          </div>
+          <p class="rule-body" style="margin-top:10px;">直感的で有用だが、<span class="mark-yellow"><strong>pH 7.30〜7.50 の範囲外ではパフォーマンスが低下する</strong></span>。このため、ICU の重度酸塩基異常患者への適用には限界があった。</p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">本稿の新規性 — pH 依存性の補正を組み込む</h3>
+          <p class="rule-body">筆者らは多区画酸塩基生理学の研究の中で、<strong>pH 依存性の経膜強イオンシフトを考慮し、[Na⁺]−[Cl⁻] の基準値を調整すれば、base-excess partitioning の誤差を補正できる</strong>ことを示した<a href="https://doi.org/10.1152/japplphysiol.00917.2023" target="_blank" rel="noopener" style="color:#60A5FA;font-size:0.72rem;vertical-align:super;font-weight:500;text-decoration:none;margin-left:1px;">[Giosa 2024]</a>。</p>
+          <p class="rule-body" style="margin-top:8px;">本稿で提示する「Stewart light」は、長年の酸塩基平衡の原則とこの新知見を組み合わせた<strong>実践的アルゴリズム</strong>である。著者らは既存アルゴリズムへの優越を主張するのではなく、<span class="mark-green"><strong>ベッドサイド実践と教育目的に有用な構造化された代替案</strong></span>として提示している。</p>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════
+           SECTION 2 — Stewart light アルゴリズム（5ステップ）
+      ═══════════════════════════════════════════ -->
+      <h3 id="s2-algorithm" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+        Stewart light アルゴリズム — 5ステップ
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">必要なデータは「血液ガス表示値 + 血清アルブミン」のみ</h3>
+          <p class="rule-body">Stewart light はベッドサイドで実施できることを設計目標としており、必要な最小データセットは<strong>血液ガスの表示値と血清アルブミン値のみ</strong>である。5ステップは大きく「臨床評価」「代謝成分の解析」「統合解釈」の3パートに分かれる。</p>
+          <table class="ie-table" style="margin-top:12px;">
+            <thead>
+              <tr><th style="width:22%;">フェーズ</th><th>ステップ</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="white-space:nowrap;"><strong>臨床評価</strong><br><span style="font-size:0.72rem;color:var(--muted);">診断確率・重症度・急性代償</span></td>
+                <td>Step 1：臨床像・pH・Boston ルール</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;"><strong>代謝成分の解析</strong></td>
+                <td>Step 2：強イオン効果（SBE<sub>SID</sub>）<br>Step 3：弱酸効果（SBE<sub>Alb</sub>）<br>Step 4：未測定イオンの同定（SBE<sub>UI</sub>）</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;"><strong>統合解釈</strong></td>
+                <td>Step 5：シンセシス（原発・代償・重複の統合）</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Step 1 -->
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">Step 1 — 臨床像・pH・Boston ルール</h3>
+          <p class="rule-body">病歴と臨床像は血液ガス取得前の<strong>事前診断確率</strong>を与え、検査の適応を導く。結果が得られたら、まず重症度と臨床的含意を認識する。</p>
+          <div class="alert-red" style="margin-top:10px;">
+            <strong>重症度の閾値：</strong>極端な pH（&lt; 7.2 または &gt; 7.6）は迅速な介入が必要。代謝性障害の代償不全は呼吸筋疲労・挿管迫りの可能性を示唆する。
+          </div>
+          <p class="rule-body" style="margin-top:10px;">代償の妥当性は <strong>Boston ルール</strong> で評価する。代謝性アシドーシスでは <strong>Winters の式</strong> で期待 PCO₂ を推定する。</p>
+          <div class="formula-box">
+            <div class="formula-label">Winters の式（代謝性アシドーシスの呼吸代償）</div>
+            期待 PCO₂ (mmHg) = 1.5 × [HCO₃⁻] + 8 ± 2
+          </div>
+          <p class="rule-body" style="margin-top:10px;">期待値より高い PCO₂ は<strong>代償不全または呼吸性アシドーシスの合併</strong>を、低い PCO₂ は<strong>呼吸性アルカローシスの合併</strong>を示唆する。</p>
+        </div>
+      </div>
+
+      <!-- Bridge -->
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">代謝成分の解析へ — SBE は「量」、SID・Alb・UI は「質」</h3>
+          <p class="rule-body">次に代謝成分を解析する。<strong>SBE は細胞外液における代謝酸・代謝塩基の総量</strong>を定量する。重要なのは、<span class="mark-yellow"><strong>SBE = 0 は「代謝状態正常」だけでなく「量的に等しい反対方向の障害の組み合わせ」も意味しうる</strong></span>という点である。したがって、SBE を Step 2〜4 で3成分に分解する必要がある。</p>
+        </div>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">Step 2 — 強イオン効果（SBE<sub>SID</sub>）</h3>
+          <p class="rule-body">測定された Na−Cl 差から SID 効果を推定する。</p>
+          <div class="formula-box">
+            <div class="formula-label">強イオン効果（基本式）</div>
+            SBE<sub>SID</sub> = [Na⁺] − [Cl⁻] − 35
+          </div>
+          <div class="alert-green" style="margin-top:10px;">
+            <strong>pH 補正ルール（Stewart light の核心）：</strong>pH が 7.30〜7.50 の範囲外の場合、基準値 35 を補正する。pH 7.40 から 0.1 下がるごとに基準値を <strong>+1.5 mmol/L</strong>、pH 7.40 から 0.1 上がるごとに基準値を <strong>−1.5 mmol/L</strong> 調整する<a href="https://doi.org/10.1016/j.bja.2026.02.001" target="_blank" rel="noopener" style="color:#60A5FA;font-size:0.72rem;vertical-align:super;font-weight:500;text-decoration:none;margin-left:1px;">[Krbec 2026]</a>。
+          </div>
+          <p class="rule-body" style="margin-top:10px;">負の SBE<sub>SID</sub> は<strong>強イオンアシドーシス</strong>を、正の SBE<sub>SID</sub> は<strong>強イオンアルカローシス</strong>を示す。</p>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">Step 3 — 弱酸効果（SBE<sub>Alb</sub>）</h3>
+          <p class="rule-body">アルブミン濃度から [A<sup>TOT</sup>] 効果を推定する。アルブミンが 10 g/L 低下するごとに SBE は約 +3 mmol/L 上昇する。</p>
+          <div class="formula-box">
+            <div class="formula-label">アルブミン効果</div>
+            SBE<sub>Alb</sub> = 0.3 × (40 − Albumin [g/L])
+          </div>
+          <p class="rule-body" style="margin-top:10px;"><span class="mark-yellow"><strong>低アルブミン血症はアルカリ化過程として作用する</strong></span>。それ自体の臨床的重要性は大きくないが、次のステップ（未測定イオンの同定）で決定的に重要となる。</p>
+        </div>
+      </div>
+
+      <!-- Step 4 -->
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">Step 4 — 未測定イオン（SBE<sub>UI</sub>）の同定</h3>
+          <p class="rule-body">Step 2・3 の予測効果を合計し、血液ガス表示の SBE と比較する。説明できない残余 SBE が未測定イオン（UI）に帰属される。</p>
+          <div class="formula-box">
+            <div class="formula-label">未測定イオン成分</div>
+            SBE<sub>UI</sub> = SBE − SBE<sub>SID</sub> − SBE<sub>Alb</sub>
+          </div>
+          <p class="rule-body" style="margin-top:10px;">乳酸値が利用可能であれば、その寄与を差し引いて<strong>追加の UI が存在するか</strong>を判断する。代表的な原因：</p>
+          <table class="ie-table" style="margin-top:10px;">
+            <thead>
+              <tr><th>SBE<sub>UI</sub> の符号</th><th>含まれるイオン</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="white-space:nowrap;"><strong>負（一般的）</strong></td>
+                <td>ケトン、尿毒症性アニオン（リン酸・硫酸）、毒物代謝物</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;"><strong>正（稀）</strong></td>
+                <td>未測定陽イオン（例：Li⁺、パラプロテイン）の存在を示唆</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Step 5 -->
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">Step 5 — シンセシス（統合解釈）</h3>
+          <p class="rule-body">個々の酸塩基障害が同定されたら、<strong>臨床背景と統合し、原発障害・予想される慢性代償反応・重複する二次障害を決定する</strong>。</p>
+          <div class="ie-alpha" style="margin-top:10px;">
+            <div class="ie-alpha-inner">
+              <div class="ie-alpha-header">
+                <span class="ie-alpha-badge">＋α</span>
+                <span class="ie-alpha-title">臨床例：高 SID アルカローシスの解釈</span>
+              </div>
+              <p class="rule-body" style="color:#4C1D95;">陽性の SBE<sub>SID</sub> によって示される高 SID アルカローシスは、上部消化管喪失と一致するが、<strong>慢性高炭酸ガス血症への腎応答</strong>を反映することもある。腎代償は PCO₂ が 40 mmHg から 10 mmHg 上昇するごとに [Na⁺] − [Cl⁻] 差を約 <strong>3〜4 mmol/L 増加</strong>させる<a href="https://doi.org/10.1097/ALN.0000000000004751" target="_blank" rel="noopener" style="color:#60A5FA;font-size:0.72rem;vertical-align:super;font-weight:500;text-decoration:none;margin-left:1px;">[Zadek 2024]</a>。この関係から、SBE<sub>SID</sub> が代償で完全に説明できるか、追加の過程を反映しているかを判定できる。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Gamblegram mental model -->
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">メンタルモデル：Gamblegram（ギャンブル図）</h3>
+          <p class="rule-body">本手法の直感的理解には <strong>Gamblegram</strong>（陽イオンと陰イオンのバランス図）を心象に置くとよい。</p>
+          <div class="ie-echo-grid" style="margin-top:10px;">
+            <div class="ie-echo-box">
+              <div class="ie-echo-name">核心コンセプト</div>
+              <div class="ie-echo-body">SID は [A<sup>−</sup>] と [HCO₃⁻] が共有するアニオン空間を規定する。<strong>SID の増加または [A<sup>−</sup>] の減少は [HCO₃⁻] の増加（アルカローシス）をもたらし、逆もまた然り</strong>。</div>
+            </div>
+            <div class="ie-echo-box">
+              <div class="ie-echo-name">UI の位置づけ</div>
+              <div class="ie-echo-body">SID と [A<sup>−</sup>] の偏位の組み合わせで説明できない SBE は<strong>必ず UI に由来する</strong>。この「残余」が UI を同定する鍵になる。</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════
+           SECTION 3 — 臨床応用と限界
+      ═══════════════════════════════════════════ -->
+      <h3 id="s3-application" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+        <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>
+        臨床応用と限界
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">Stewart light が最も活きる場面</h3>
+          <p class="rule-body">Stewart light は <span class="mark-green"><strong>UI と SID 変化が併存していると疑われる場面</strong></span>で最も有用である。代表的な臨床例：</p>
+          <table class="ie-table" style="margin-top:10px;">
+            <thead>
+              <tr><th>疾患・病態</th><th>UI と SID が併存する機序</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="white-space:nowrap;"><strong>糖尿病性ケトアシドーシス（DKA）</strong></td>
+                <td>ケトン体（UI）+ 治療輸液・腎排泄による SID 変化</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;"><strong>中毒</strong></td>
+                <td>毒物代謝物（UI）+ 嘔吐・治療による SID シフト</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;"><strong>敗血症</strong></td>
+                <td>乳酸・有機酸（UI）+ 大量輸液・利尿薬による SID 変化</td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="rule-body" style="margin-top:10px;">これらの状況では UI の存在が生理学的反応（嘔吐、有機酸のナトリウム塩としての腎排泄）と治療（輸液・利尿薬・腎代替療法）を誘発し、<strong>同時に SID を変化させる</strong>。</p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">古典的アプローチとの関係 — 排他的ではなく補完的</h3>
+          <p class="rule-body">このような場面では、古典的アプローチは <strong>アルブミン補正アニオンギャップを用いた孤立 UI の検出には依然として有効なツール</strong>である。Stewart light の付加的利点は、<span class="mark-red"><strong>治療経過中の酸塩基変化の解釈や蘇生輸液選択の指針となる SID 障害の重複を同定できる点</strong></span>にある。</p>
+          <div class="alert-yellow" style="margin-top:10px;">
+            <strong>実務上の方針：</strong>Stewart light は古典的アプローチを置き換えるものではなく、混合障害の解釈を深める追加レンズとして併用するのが現実的。
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">限界 — 省略された因子と係数の丸め</h3>
+          <p class="rule-body">Stewart light の限界は以下の点に由来する。</p>
+          <table class="ie-table" style="margin-top:10px;">
+            <thead>
+              <tr><th>限界の種類</th><th>内容</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="white-space:nowrap;"><strong>省略されたイオン</strong></td>
+                <td>リン酸、マイナー陽イオン（K⁺・Ca²⁺・Mg²⁺）は式に含まれていない</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;"><strong>係数の丸め</strong></td>
+                <td>SID 効果・アルブミン効果の SBE への寄与係数が実用上の近似に丸められている</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">学習・教育上のノート</h3>
+          <p class="rule-body">著者らは、本アルゴリズムを<strong>臨床症例を通して学ぶこと</strong>を推奨している（補足付録）。Gamblegram を酸塩基状態のメンタルモデルとして常に意識する。</p>
+          <div class="alert-green" style="margin-top:10px;">
+            <strong>教育上の推奨：</strong>学習者はまず <strong>pH がほぼ正常に近い症例</strong>でアルゴリズムを練習し、<strong>その後に [Na⁺]−[Cl⁻] 基準値の pH 補正</strong>を適用する段階的アプローチが望ましい。
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">展望 — 酸塩基「多言語主義」へ</h3>
+          <p class="rule-body">Stewart light は、SBE・電気的中性・多区画生理学・標準的呼吸代償ルールを<strong>構造化されたベッドサイドアルゴリズム</strong>に統合したものであり、臨床医が複雑な酸塩基障害を解読し治療を指針づけることを可能にする。</p>
+          <p class="rule-body" style="margin-top:8px;">著者らは「古典的」「Stewart」「新しいアプローチ」を統合することで、<span class="mark-green"><strong>単一の方法を優先するのではなく、酸塩基の「多言語主義（multilingualism）」の精神</strong></span>を強調している<a href="https://doi.org/10.1007/s00134-024-07734-8" target="_blank" rel="noopener" style="color:#60A5FA;font-size:0.72rem;vertical-align:super;font-weight:500;text-decoration:none;margin-left:1px;">[Giosa 2025]</a>。</p>
+        </div>
+      </div>
+
+      <!-- ── SUMMARY ── -->
+      <h3 id="summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+        キーメッセージ
+      </h3>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+              <span class="rule-body"><strong>Stewart light は最小データセットで実行可能：</strong>血液ガス表示値と血清アルブミンのみで、複雑な混合性酸塩基障害を5ステップで解きほぐすベッドサイドアルゴリズム。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+              <span class="rule-body"><strong>5ステップ構成：</strong>① 臨床像 + pH + Boston ルール、② 強イオン効果 SBE<sub>SID</sub> = [Na⁺]−[Cl⁻]−35、③ アルブミン効果 SBE<sub>Alb</sub> = 0.3×(40−Alb)、④ 未測定イオン SBE<sub>UI</sub> = SBE−SBE<sub>SID</sub>−SBE<sub>Alb</sub>、⑤ 臨床統合。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+              <span class="rule-body"><strong>pH 依存補正が本稿の核心：</strong>pH が 7.30〜7.50 の範囲外のとき、[Na⁺]−[Cl⁻] の基準値 35 を pH 7.40 からの 0.1 偏位ごとに ±1.5 mmol/L 調整する。従来の Story 法の限界を克服する本稿の新規性。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+              <span class="rule-body"><strong>最適な適応は UI と SID の併存が疑われる場面：</strong><a href="articles-gl-metabolic-acidosis2025.html#s3-diagnosis" style="color:var(--blue);font-weight:700;">DKA</a>・中毒・敗血症では UI（ケトン・毒物代謝物・有機酸）と治療・生理応答に伴う SID 変化が同時に起きるため、Stewart light が特に有用。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+              <span class="rule-body"><strong>既存法との関係は「排他」ではなく「多言語主義」：</strong>著者らは Stewart light が古典的アプローチに取って代わるものではなく、混合障害の解釈と蘇生輸液選択を深めるための構造化された追加レンズとして位置づけている。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── 出典注記 ── -->
+      <p style="font-size:0.72rem;color:#9CA3AF;margin-top:16px;line-height:1.7;">
+        出典：Duška F, Krbec M, Heldeweg M, Elbers P, Giosa L. A pragmatic approach to complex acid–base disturbances of critical illness: the "Stewart light". Intensive Care Med (2026)<br>
+        DOI：<a href="https://doi.org/10.1007/s00134-026-08416-3" target="_blank" rel="noopener" style="color:#60A5FA;">https://doi.org/10.1007/s00134-026-08416-3</a><br>
+        本資料は教育目的で作成したサマリーです。診断・治療方針の決定には必ず原典を参照してください。
+      </p>
+      <p style="font-size:0.75rem;color:var(--muted);text-align:right;margin-top:8px;">制作：ICU 関谷</p>
+
+    </div><!-- /main-col -->
+
+    <!-- ===== SIDEBAR ===== -->
+    <aside class="ie-sidebar">
+      <div class="ie-sidebar-card">
+        <div class="ie-sidebar-title">目次</div>
+        <a href="#s1-background" class="ie-toc-chapter">S1 — 背景・位置づけ</a>
+        <a href="#s1-background" class="ie-toc-section">古典的 vs Stewart</a>
+        <a href="#s1-background" class="ie-toc-section">Story 2004 法</a>
+        <a href="#s1-background" class="ie-toc-section">本稿の新規性</a>
+        <a href="#s2-algorithm" class="ie-toc-chapter">S2 — 5ステップアルゴリズム</a>
+        <a href="#s2-algorithm" class="ie-toc-section">Step 1：pH + Boston</a>
+        <a href="#s2-algorithm" class="ie-toc-section">Step 2：SBE<sub>SID</sub></a>
+        <a href="#s2-algorithm" class="ie-toc-section">Step 3：SBE<sub>Alb</sub></a>
+        <a href="#s2-algorithm" class="ie-toc-section">Step 4：SBE<sub>UI</sub></a>
+        <a href="#s2-algorithm" class="ie-toc-section">Step 5：統合解釈</a>
+        <a href="#s2-algorithm" class="ie-toc-section">Gamblegram</a>
+        <a href="#s3-application" class="ie-toc-chapter">S3 — 臨床応用・限界</a>
+        <a href="#s3-application" class="ie-toc-section">最適な適応場面</a>
+        <a href="#s3-application" class="ie-toc-section">限界と注意点</a>
+        <a href="#s3-application" class="ie-toc-section">学習・展望</a>
+        <a href="#summary" class="ie-toc-chapter">SUMMARY</a>
+      </div>
+    </aside>
+
+  </div><!-- /content-wrap -->
+
+  <script src="../script.js"></script>
+  <script src="../mob-toc.js"></script>
+  <script src="../abbr-tooltip.js"></script>
+</body>
+</html>
