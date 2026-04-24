@@ -66,6 +66,32 @@
     .sys-sidebar-footer { margin-top:12px;padding-top:10px;border-top:1px solid var(--border);font-size:0.62rem;color:var(--muted);text-align:center;line-height:1.5; }
     .sys-sidebar-footer strong { color:#2D7A4F;font-size:0.72rem; }
     @media (max-width:900px) { .sys-sidebar { display:none; } .sys-layout { max-width:900px; } .sys-main { max-width:100%; } }
+
+    /* ── モバイル FAB / ドロワー ── */
+    .gm-fab { display:none;position:fixed;bottom:24px;right:20px;z-index:900;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#2D7A4F,#1A3A2A);color:#fff;border:none;box-shadow:0 4px 14px rgba(0,0,0,0.3);cursor:pointer;align-items:center;justify-content:center;font-size:1.2rem; }
+    @media (max-width:900px) { .gm-fab { display:flex; } }
+    .gm-overlay { display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:910;opacity:0;transition:opacity 0.3s; }
+    .gm-overlay.open { opacity:1; }
+    .gm-drawer { display:none;position:fixed;bottom:0;left:0;right:0;z-index:920;background:#fff;border-radius:16px 16px 0 0;box-shadow:0 -4px 20px rgba(0,0,0,0.15);max-height:70vh;overflow-y:auto;transform:translateY(100%);transition:transform 0.3s; }
+    .gm-drawer.open { transform:translateY(0); }
+    .gm-drawer-handle { width:36px;height:4px;background:#D1D5DB;border-radius:2px;margin:10px auto 6px; }
+    .gm-drawer-title { font-size:0.72rem;font-weight:800;color:var(--muted);letter-spacing:0.1em;padding:4px 20px 10px;border-bottom:1px solid var(--border); }
+    .gm-sys-links { padding:8px 0; }
+    .gm-sys-links a { display:flex;align-items:center;justify-content:space-between;padding:12px 20px;font-size:0.85rem;font-weight:600;color:var(--text);text-decoration:none;border-bottom:1px solid #F1F5F9;transition:background 0.15s; }
+    .gm-sys-links a:last-child { border-bottom:none; }
+    .gm-sys-links a:active { background:#F0FDF4; }
+    .gm-count { font-size:0.65rem;font-weight:700;color:#9CA3AF;background:#F1F5F9;padding:2px 7px;border-radius:8px; }
+    .gm-search-trigger { display:flex;align-items:center;gap:6px;padding:10px 20px;font-size:0.78rem;font-weight:600;color:#2D7A4F;cursor:pointer;border-bottom:1px solid var(--border); }
+    .gm-search-box { display:none;padding:8px 20px 12px; }
+    .gm-search-box.open { display:block; }
+    .gm-search-input { width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:8px;font-size:0.82rem;font-family:inherit;outline:none; }
+    .gm-search-input:focus { border-color:#2D7A4F;box-shadow:0 0 0 2px rgba(45,122,79,0.15); }
+    .gm-results { max-height:40vh;overflow-y:auto;padding:4px 0; }
+    .gm-results a { display:block;padding:10px 20px;font-size:0.78rem;color:var(--text);text-decoration:none;border-bottom:1px solid #F8FAFC;line-height:1.5; }
+    .gm-results a:active { background:#F0FDF4; }
+    .gm-subcat { font-size:0.62rem;color:#9CA3AF;margin-top:2px; }
+    .gm-cat { font-size:0.62rem;color:#2D7A4F;font-weight:700;margin-left:8px; }
+    .gm-noresult { padding:20px;text-align:center;font-size:0.78rem;color:#9CA3AF; }
   </style>
 </head>
 <body>
@@ -884,6 +910,26 @@
     </aside>
 
   </div><!-- /.sys-layout -->
+
+  <!-- ===== モバイル FAB / ドロワー ===== -->
+  <button class="gm-fab" id="glMobFab" aria-label="システム選択">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </button>
+  <div class="gm-overlay" id="glMobOverlay"></div>
+  <div class="gm-drawer" id="glMobDrawer">
+    <div class="gm-drawer-handle"></div>
+    <div class="gm-drawer-title">SYSTEM</div>
+    <div class="gm-search-trigger" id="glMobSearchTrigger">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      記事を検索
+    </div>
+    <div class="gm-search-box" id="glMobSearchBox">
+      <input type="text" class="gm-search-input" id="glMobSearchInput" placeholder="キーワードで検索" autocomplete="off">
+    </div>
+    <div class="gm-results" id="glMobResults" style="display:none;"></div>
+    <div class="gm-noresult" id="glMobEmpty" style="display:none;">該当する記事がありません</div>
+    <div class="gm-sys-links" id="glMobSystemLinks"></div>
+  </div>
 
   <script src="../script.js"></script>
   <script>
