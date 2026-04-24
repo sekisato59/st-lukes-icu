@@ -914,20 +914,19 @@
     document.querySelectorAll('.art-box-head').forEach(function(head) {
       head.addEventListener('click', function() { this.parentElement.classList.toggle('collapsed'); });
     });
-    // art-sub トグル（小見出し、クリックで論文表示/非表示）+ 論文数カウント
+    // art-sub トグル（小見出し、クリックで論文表示/非表示）
+    document.querySelectorAll('.art-sub').forEach(function(sub) {
+      sub.addEventListener('click', function() { this.classList.toggle('open'); });
+    });
+    // art-sub 論文数カウントバッジ
     document.querySelectorAll('.art-sub').forEach(function(sub) {
       var body = sub.nextElementSibling;
-      if (body && body.classList.contains('art-sub-body')) {
-        var count = body.querySelectorAll('.art-link').length;
-        var badge = document.createElement('span');
-        badge.className = 'art-sub-count';
-        badge.textContent = count;
-        sub.insertBefore(badge, sub.firstChild);
-      }
-      sub.addEventListener('click', function(e) {
-        e.stopPropagation();
-        this.classList.toggle('open');
-      });
+      if (!body || !body.classList.contains('art-sub-body')) return;
+      var count = body.querySelectorAll('.art-link').length;
+      var badge = document.createElement('span');
+      badge.className = 'art-sub-count';
+      badge.textContent = count;
+      sub.insertBefore(badge, sub.firstChild);
     });
 
     // サイドバー：記事数カウント（art-box tr + art-link 合算）
