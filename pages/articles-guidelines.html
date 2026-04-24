@@ -40,6 +40,8 @@
     /* ── 小見出し（トグルバー）── */
     .art-sub { font-size:0.74rem;font-weight:700;color:#2D7A4F;padding:7px 14px 7px 28px;margin-top:4px;border-bottom:1px solid #E2E8F0;cursor:pointer;display:flex;align-items:center;justify-content:space-between;user-select:none;transition:background 0.15s; }
     .art-sub:hover { background:#F8FAFC; }
+    .art-sub-count { font-size:0.6rem;font-weight:700;color:#9CA3AF;background:#F1F5F9;border-radius:8px;padding:1px 6px;margin-left:auto;margin-right:8px; }
+    .art-sub-count.zero { display:none; }
     .art-sub::after { content:"▸";font-size:0.6rem;color:#9CA3AF;transition:transform 0.15s; }
     .art-sub.open::after { transform:rotate(90deg); }
     .art-sub-body { display:none;padding:0 0 4px; }
@@ -913,9 +915,17 @@
     document.querySelectorAll('.art-box-head').forEach(function(head) {
       head.addEventListener('click', function() { this.parentElement.classList.toggle('collapsed'); });
     });
-    // art-sub トグル（小見出し、クリックで論文表示/非表示）
+    // art-sub トグル（小見出し、クリックで論文表示/非表示）+ 論文数カウント
     document.querySelectorAll('.art-sub').forEach(function(sub) {
       sub.addEventListener('click', function() { this.classList.toggle('open'); });
+      var body = sub.nextElementSibling;
+      if (body && body.classList.contains('art-sub-body')) {
+        var count = body.querySelectorAll('.art-link').length;
+        var badge = document.createElement('span');
+        badge.className = 'art-sub-count' + (count === 0 ? ' zero' : '');
+        badge.textContent = count;
+        sub.appendChild(badge);
+      }
     });
 
     // サイドバー：記事数カウント（art-box tr + art-link 合算）
