@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>聖路加国際病院 ICU ローテーターガイド（ダミーUI）</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style-v2.css?v=20260427b">
+  <script src="site-config.js"></script>
+  <script src="search-index.js"></script>
+  <style>
+    /* ============================================
+       Dummy Hero — リブランディング用 UI
+       ============================================ */
+    :root {
+      --hero-bg: #F4F8FB;
+      --hero-blue: #1269B0;
+      --hero-blue-dark: #0D4F8C;
+      --hero-teal: #2A8DA6;
+      --hero-green: #2D7A4F;
+      --hero-green-dark: #1A5A37;
+      --hero-text-dark: #1F2937;
+      --hero-text-mute: #4B5563;
+    }
+
+    /* Navbar slim style override (dummy page) */
+    .dum-nav {
+      position:sticky;top:0;z-index:100;
+      background:var(--hero-bg);
+      border-bottom:1px solid transparent;
+      transition:background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+    .dum-nav.scrolled {
+      background:rgba(255,255,255,0.92);
+      backdrop-filter:blur(10px);
+      -webkit-backdrop-filter:blur(10px);
+      border-bottom-color:#ECECE6;
+      box-shadow:0 2px 12px rgba(0,0,0,0.04);
+    }
+    .dum-nav-inner {
+      max-width:1240px;margin:0 auto;padding:14px 32px;
+      display:flex;align-items:center;justify-content:space-between;gap:24px;
+    }
+    .dum-nav-logo {
+      display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--hero-text-dark);
+    }
+    .dum-nav-logo-mark {
+      width:38px;height:38px;background:var(--hero-bg);border:1.5px solid var(--hero-blue);
+      border-radius:8px;display:flex;align-items:center;justify-content:center;
+    }
+    .dum-nav-logo-mark svg { color:var(--hero-blue); }
+    .dum-nav-logo-text {
+      display:flex;flex-direction:column;line-height:1.2;
+    }
+    .dum-nav-logo-text strong { font-size:0.92rem;font-weight:800;color:var(--hero-text-dark); }
+    .dum-nav-logo-text span { font-size:0.72rem;color:var(--hero-text-mute);font-weight:500; }
+    .dum-nav-menu {
+      display:flex;gap:32px;list-style:none;margin:0;padding:0;
+    }
+    .dum-nav-menu a {
+      color:var(--hero-text-dark);font-size:0.9rem;font-weight:600;text-decoration:none;
+      padding:6px 2px;position:relative;transition:color .2s;
+    }
+    .dum-nav-menu a:hover { color:var(--hero-blue); }
+    .dum-nav-menu a.active { color:var(--hero-blue); }
+    .dum-nav-menu a.active::after {
+      content:'';position:absolute;left:0;right:0;bottom:-4px;height:2px;background:var(--hero-blue);
+    }
+
+    /* HERO — content-width image */
+    .dum-hero-full {
+      width:100%;background:var(--hero-bg);line-height:0;padding:0 32px 32px;
+    }
+    .dum-hero-full img {
+      max-width:1240px;width:100%;height:auto;display:block;margin:0 auto;
+      border-radius:0 0 14px 14px;box-shadow:0 8px 28px rgba(13,79,140,0.08);
+    }
+
+    /* HERO (legacy split layout — unused) */
+    .dum-hero {
+      background:var(--hero-bg);
+      position:relative;overflow:hidden;
+    }
+    .dum-hero-leaves-left {
+      position:absolute;left:-40px;top:30%;width:160px;opacity:0.6;pointer-events:none;
+    }
+    .dum-hero-inner {
+      max-width:1240px;margin:0 auto;padding:60px 32px 80px;
+      display:grid;grid-template-columns:1fr 1.1fr;gap:60px;align-items:center;
+    }
+    .dum-hero-text h1 {
+      font-size:3.2rem;font-weight:900;line-height:1.25;margin:0 0 28px;color:var(--hero-text-dark);
+      letter-spacing:-0.01em;
+    }
+    .dum-hero-text h1 .orange { color:var(--hero-orange); }
+    .dum-hero-text h1 .green-underline {
+      color:var(--hero-green-dark);position:relative;display:inline-block;
+    }
+    .dum-hero-text h1 .green-underline::after {
+      content:'';position:absolute;left:0;right:0;bottom:-2px;height:8px;
+      background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 8'><path d='M0 4 Q 25 0, 50 4 T 100 4 T 150 4 T 200 4' stroke='%234FA66E' stroke-width='2.5' fill='none'/></svg>") repeat-x center/contain;
+    }
+    .dum-hero-desc {
+      font-size:1rem;line-height:2.0;color:var(--hero-text-mute);margin:0 0 36px;
+      font-weight:500;
+    }
+    .dum-hero-ctas {
+      display:flex;flex-direction:column;gap:12px;max-width:380px;
+    }
+    .dum-cta {
+      display:flex;align-items:center;justify-content:space-between;
+      padding:18px 28px;border-radius:999px;font-size:0.95rem;font-weight:700;
+      text-decoration:none;transition:transform .2s,box-shadow .2s;cursor:pointer;border:none;
+    }
+    .dum-cta-primary {
+      background:linear-gradient(135deg,#F4A04E,#F08C2E);color:#fff;
+      box-shadow:0 4px 16px rgba(240,140,46,0.3);
+    }
+    .dum-cta-primary:hover { transform:translateY(-2px);box-shadow:0 6px 20px rgba(240,140,46,0.4); }
+    .dum-cta-secondary {
+      background:transparent;color:var(--hero-green-dark);
+      border:1.5px solid var(--hero-green);
+    }
+    .dum-cta-secondary:hover { background:rgba(79,166,110,0.08); }
+    .dum-cta .arrow {
+      width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+      background:rgba(255,255,255,0.25);font-size:1rem;
+    }
+    .dum-cta-secondary .arrow {
+      background:rgba(79,166,110,0.15);color:var(--hero-green-dark);
+    }
+
+    .dum-hero-image {
+      position:relative;border-radius:14px;overflow:hidden;
+      box-shadow:0 12px 40px rgba(0,0,0,0.1);
+      max-height:520px;
+    }
+    .dum-hero-image img {
+      width:100%;height:100%;object-fit:cover;display:block;
+    }
+
+    /* ===== 学習コンテンツ セクション ===== */
+    .dum-content-block {
+      background:var(--hero-bg);padding:8px 32px 56px;
+    }
+    .dum-content-inner { max-width:1240px;margin:0 auto; }
+    .dum-block-head {
+      display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:28px;flex-wrap:wrap;gap:12px;
+    }
+    .dum-block-head-left { display:flex;align-items:baseline;gap:18px;flex-wrap:wrap; }
+    .dum-block-title { font-size:1.5rem;font-weight:900;color:var(--hero-text-dark);margin:0; }
+    .dum-block-sub { font-size:0.85rem;color:var(--hero-text-mute); }
+    .dum-block-all {
+      font-size:0.85rem;color:var(--hero-text-mute);font-weight:600;text-decoration:none;
+      display:flex;align-items:center;gap:6px;
+    }
+    .dum-block-all:hover { color:var(--hero-blue); }
+
+    .dum-card-grid {
+      display:grid;grid-template-columns:repeat(4,1fr);gap:18px;
+    }
+    .dum-card {
+      background:#fff;border-radius:14px;
+      box-shadow:0 2px 12px rgba(0,0,0,0.04);
+      transition:transform .25s,box-shadow .25s;cursor:pointer;display:block;
+      text-decoration:none;color:inherit;position:relative;
+    }
+    .dum-card:hover { transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,0.08); }
+    .dum-card-img-wrap {
+      position:relative;width:100%;aspect-ratio:16/10;overflow:hidden;background:#E5E7EB;
+      border-radius:14px 14px 0 0;
+    }
+    .dum-card-img-wrap img { width:100%;height:100%;object-fit:cover; }
+    .dum-card-icon {
+      position:absolute;left:16px;top:calc(100% * 10 / 16 - 22px);width:44px;height:44px;
+      background:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;
+      box-shadow:0 4px 12px rgba(13,79,140,0.15);color:var(--hero-blue);z-index:2;
+    }
+    .dum-card:nth-child(2) .dum-card-icon { color:var(--hero-teal); }
+    .dum-card:nth-child(3) .dum-card-icon { color:var(--hero-green); }
+    .dum-card:nth-child(4) .dum-card-icon { color:var(--hero-blue-dark); }
+    .dum-card-body {
+      padding:34px 18px 16px;
+    }
+    .dum-card-title {
+      font-size:1.02rem;font-weight:800;color:var(--hero-text-dark);margin:0 0 4px;
+    }
+    .dum-card-desc {
+      font-size:0.8rem;color:var(--hero-text-mute);line-height:1.65;margin:0 0 8px;
+    }
+    .dum-card-arrow {
+      display:flex;justify-content:flex-end;color:var(--hero-text-mute);font-size:1.05rem;
+    }
+
+    /* ===== 新着コンテンツ ===== */
+    .dum-news-grid {
+      display:grid;grid-template-columns:repeat(3,1fr);gap:18px;
+    }
+    .dum-news-card {
+      background:#fff;border-radius:12px;overflow:hidden;
+      display:flex;align-items:stretch;
+      box-shadow:0 2px 10px rgba(0,0,0,0.04);
+      cursor:pointer;text-decoration:none;color:inherit;
+      transition:transform .2s;
+    }
+    .dum-news-card:hover { transform:translateY(-2px); }
+    .dum-news-thumb { width:120px;flex-shrink:0;background:#E5E7EB; }
+    .dum-news-thumb img { width:100%;height:100%;object-fit:cover; }
+    .dum-news-body { padding:14px 18px;flex:1;display:flex;flex-direction:column;gap:6px; }
+    .dum-news-tag {
+      display:inline-block;font-size:0.65rem;font-weight:700;padding:2px 8px;border-radius:4px;
+      background:#E1F0FB;color:var(--hero-blue);align-self:flex-start;letter-spacing:0.05em;
+    }
+    .dum-news-tag.tag-explain { background:#E0F2E9;color:var(--hero-green-dark); }
+    .dum-news-tag.tag-paper { background:#E5F4F7;color:var(--hero-teal); }
+    .dum-news-title { font-size:0.92rem;font-weight:800;color:var(--hero-text-dark);line-height:1.5; }
+    .dum-news-meta { display:flex;justify-content:space-between;align-items:center;font-size:0.72rem;color:var(--hero-text-mute);margin-top:auto; }
+
+    @media (max-width:980px) {
+      .dum-hero-inner { grid-template-columns:1fr;gap:32px;padding:40px 24px; }
+      .dum-hero-text h1 { font-size:2.2rem; }
+      .dum-card-grid { grid-template-columns:repeat(2,1fr); }
+      .dum-news-grid { grid-template-columns:1fr; }
+      .dum-nav-menu { display:none; }
+    }
+    @media (max-width:520px) {
+      .dum-card-grid { grid-template-columns:1fr; }
+      .dum-hero-text h1 { font-size:1.8rem; }
+    }
+  </style>
+</head>
+<body style="background:var(--hero-bg);">
+
+  <!-- ===== NAVBAR (Dummy) ===== -->
+  <nav class="dum-nav">
+    <div class="dum-nav-inner">
+      <a href="#" class="dum-nav-logo">
+        <span class="dum-nav-logo-mark">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 L4 6 L4 12 C4 16.5 7 20.5 12 22 C17 20.5 20 16.5 20 12 L20 6 Z"/><line x1="12" y1="8" x2="12" y2="14"/><line x1="9" y1="11" x2="15" y2="11"/></svg>
+        </span>
+        <span class="dum-nav-logo-text">
+          <strong>聖路加国際病院</strong>
+          <span>ICU情報サイト</span>
+        </span>
+      </a>
+      <ul class="dum-nav-menu">
+        <li><a href="#">はじめに</a></li>
+        <li><a href="#" class="active">ICUガイド</a></li>
+        <li><a href="#">症例・疾患</a></li>
+        <li><a href="#">手技・管理</a></li>
+        <li><a href="#">動画ライブラリ</a></li>
+        <li><a href="#">論文・エビデンス</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ===== HERO (Full-width Image) ===== -->
+  <section class="dum-hero-full">
+    <img src="images/ICU Top.png" alt="聖路加ICU ローテーターガイド">
+  </section>
+
+  <!-- ===== 学習コンテンツ ===== -->
+  <section class="dum-content-block">
+    <div class="dum-content-inner">
+      <div class="dum-block-head">
+        <div class="dum-block-head-left">
+          <h2 class="dum-block-title">学習コンテンツ</h2>
+          <span class="dum-block-sub">目的にあわせて、必要な知識やスキルを効率的に学べます。</span>
+        </div>
+        <a href="#" class="dum-block-all">すべて見る →</a>
+      </div>
+
+      <div class="dum-card-grid">
+        <a href="#" class="dum-card">
+          <div class="dum-card-img-wrap">
+            <img src="images/icu-study.jpg" alt="ICUガイド">
+          </div>
+          <div class="dum-card-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          </div>
+          <div class="dum-card-body">
+            <h3 class="dum-card-title">ICUガイド</h3>
+            <p class="dum-card-desc">ICUの基本から実践までを<br>体系的に解説</p>
+            <div class="dum-card-arrow">→</div>
+          </div>
+        </a>
+
+        <a href="#" class="dum-card">
+          <div class="dum-card-img-wrap">
+            <img src="images/朝カンファ風景.webp" alt="症例・疾患">
+          </div>
+          <div class="dum-card-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          </div>
+          <div class="dum-card-body">
+            <h3 class="dum-card-title">症例・疾患</h3>
+            <p class="dum-card-desc">実際の症例から学ぶ<br>思考プロセス</p>
+            <div class="dum-card-arrow">→</div>
+          </div>
+        </a>
+
+        <a href="#" class="dum-card">
+          <div class="dum-card-img-wrap">
+            <img src="images/14.png" alt="手技・管理">
+          </div>
+          <div class="dum-card-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/></svg>
+          </div>
+          <div class="dum-card-body">
+            <h3 class="dum-card-title">手技・管理</h3>
+            <p class="dum-card-desc">ICUで必要な手技と<br>管理のポイント</p>
+            <div class="dum-card-arrow">→</div>
+          </div>
+        </a>
+
+        <a href="#" class="dum-card">
+          <div class="dum-card-img-wrap">
+            <img src="images/IDICUtop.png" alt="動画ライブラリ">
+          </div>
+          <div class="dum-card-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+          </div>
+          <div class="dum-card-body">
+            <h3 class="dum-card-title">動画ライブラリ</h3>
+            <p class="dum-card-desc">視覚的に学ぶ<br>手技と実践のコツ</p>
+            <div class="dum-card-arrow">→</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 新着コンテンツ ===== -->
+  <section class="dum-content-block" style="padding-top:8px;">
+    <div class="dum-content-inner">
+      <div class="dum-block-head">
+        <div class="dum-block-head-left">
+          <h2 class="dum-block-title">新着コンテンツ</h2>
+        </div>
+        <a href="#" class="dum-block-all">すべて見る →</a>
+      </div>
+
+      <div class="dum-news-grid">
+        <a href="#" class="dum-news-card">
+          <div class="dum-news-thumb"><img src="images/icu-study.jpg" alt=""></div>
+          <div class="dum-news-body">
+            <span class="dum-news-tag">症例</span>
+            <div class="dum-news-title">敗血症性ショックの1例</div>
+            <div class="dum-news-meta"><span>2026.04.27</span><span>→</span></div>
+          </div>
+        </a>
+
+        <a href="#" class="dum-news-card">
+          <div class="dum-news-thumb"><img src="images/朝カンファ風景.webp" alt=""></div>
+          <div class="dum-news-body">
+            <span class="dum-news-tag tag-explain">解説</span>
+            <div class="dum-news-title">人工呼吸器の基本設定</div>
+            <div class="dum-news-meta"><span>2026.04.20</span><span>→</span></div>
+          </div>
+        </a>
+
+        <a href="#" class="dum-news-card">
+          <div class="dum-news-thumb"><img src="images/IDICUtop.png" alt=""></div>
+          <div class="dum-news-body">
+            <span class="dum-news-tag tag-paper">論文</span>
+            <div class="dum-news-title">ARDS診療の最新知見</div>
+            <div class="dum-news-meta"><span>2026.04.15</span><span>→</span></div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================
+       ↓ 以下、現Mainページと同一コンテンツ
+       ============================================ -->
+
+  <!-- ===== PAGE BODY (2-column) ===== -->
+  <div class="page-body container" style="background:#fff;border-top:1px solid #ECECE6;margin-top:0;">
+
+    <!-- === MAIN COLUMN === -->
+    <main class="main-column">
+
+      <!-- ===== WELCOME CALLOUT ===== -->
+      <div class="welcome-callout" style="margin-bottom:24px;">
+        <div class="callout-body">
+          <strong>ご利用にあたって</strong>
+          <p>患者の個人情報取り扱いには十分ご注意ください。このページはICUローテーター向けの情報提供ページです。最新の情報は担当指導医・スタッフにご確認ください。レイアウトはPCデスクトップ用に最適化しています。</p>
+        </div>
+      </div>
+
+      <!-- ① はじめに -->
+      <section id="intro">
+        <div class="sec-head">
+          <span class="sec-en">SECTION 01 · INTRODUCTION</span>
+          <h2 class="sec-title">はじめに</h2>
+        </div>
+
+        <div class="card reveal" id="ql-vision">
+          <div class="card-inner">
+            <h3 class="card-section-title">聖路加ICUが目指すもの</h3>
+            <img src="images/14.png" alt="聖路加ICUが目指すもの" style="width:70%;border-radius:8px;margin-bottom:16px;display:block;margin-left:auto;margin-right:auto;">
+            <blockquote class="philosophy-quote">
+              「Hotel ICU」はレイアウト変更に代表されるような、ICU環境を整えるという意味だけではなく、患者様に安らぎと最高のケアを提供するという私たちの強い意志を表しています。患者様一人ひとりに合った最高のケアを提供していきましょう！
+            </blockquote>
+            <p class="philosophy-attr">— ICU部長 岡本 洋史 先生　2024年 新年挨拶より</p>
+          </div>
+        </div>
+
+        <div class="card reveal" id="ql-goals">
+          <div class="card-inner">
+            <h3 class="card-section-title">ローテーション修了時の到達目標</h3>
+            <ul class="video-list">
+              <li><label class="video-check-label"><input type="checkbox" class="video-check"><span style="cursor:default;color:var(--text);">患者をby systemで評価し、適切なプランまで提示できる</span></label></li>
+              <li><label class="video-check-label"><input type="checkbox" class="video-check"><span style="cursor:default;color:var(--text);">チームの一員として多職種を尊重し、協働できる</span></label></li>
+              <li><label class="video-check-label"><input type="checkbox" class="video-check"><span style="cursor:default;color:var(--text);">人工呼吸器の設定を理解し、適切な変更を行うことができる</span></label></li>
+              <li><label class="video-check-label"><input type="checkbox" class="video-check"><span style="cursor:default;color:var(--text);">各種手技を、適切に完遂することができる</span></label></li>
+              <li><label class="video-check-label"><input type="checkbox" class="video-check"><span style="cursor:default;color:var(--text);">急変患者を前に適切な対応をとり、上級医やICUへ繋げることができる</span></label></li>
+            </ul>
+            <img src="images/icu-study.jpg" alt="ICUで学習中のローテーター" style="width:100%;max-height:260px;object-fit:cover;object-position:center 30%;border-radius:8px;margin-top:16px;">
+          </div>
+        </div>
+
+        <style>
+          .aurora-card{background:#0F172A;border-radius:16px;padding:28px 26px;position:relative;overflow:hidden;transition:transform .25s;display:block;text-decoration:none;color:inherit;cursor:pointer;}
+          .aurora-card::before{content:'';position:absolute;top:-50%;left:-20%;width:140%;height:140%;background:conic-gradient(from 220deg,rgba(16,185,129,0.3),rgba(59,130,246,0.2),rgba(139,92,246,0.3),rgba(236,72,153,0.15),transparent 60%);animation:aurora-spin 8s linear infinite;}
+          @keyframes aurora-spin{to{transform:rotate(360deg);}}
+          .aurora-card:hover{transform:translateY(-3px);}
+        </style>
+        <a href="#" id="ql-todo" class="aurora-card reveal">
+          <h3 style="font-size:1rem;font-weight:800;color:#F0FDF4;margin-bottom:6px;position:relative;">【必読】ローテ開始前のTo Do</h3>
+          <p style="font-size:.875rem;color:rgba(255,255,255,0.6);line-height:1.7;position:relative;">確認事項・自己紹介・感染予防クイズ・必須動画・ICUルールの5ステップ</p>
+        </a>
+      </section>
+
+      <!-- ② スケジュール -->
+      <section id="schedule">
+        <div class="sec-head">
+          <span class="sec-en">SECTION 02 · SCHEDULE</span>
+          <h2 class="sec-title">スケジュール</h2>
+        </div>
+
+        <div class="card card-timeline reveal" id="ql-weekday">
+          <h3 class="card-title-plain">平日の1日の流れ</h3>
+          <div class="timeline">
+            <div class="tl-row">
+              <div class="tl-left"><div class="tl-time" style="color:#94A3B8;">7:00</div></div>
+              <div class="tl-bar"></div>
+              <div class="tl-text"><strong>朝カンファレンス前の準備</strong>担当患者の夜間経過を把握、夜勤Nsへ夜間経過を聴取、プレゼン準備</div>
+            </div>
+            <div class="tl-row tl-linked">
+              <div class="tl-left"><div class="tl-time">8:15</div></div>
+              <div class="tl-bar"></div>
+              <a href="#" class="tl-text"><strong>腎臓内科カンファレンス</strong>腎内主科・コンサルト患者のプレゼン（土日祝はお休みです）</a>
+            </div>
+            <div class="tl-row tl-linked">
+              <div class="tl-left"><div class="tl-time">8:30</div></div>
+              <div class="tl-bar"></div>
+              <a href="#" class="tl-text"><strong>ICUカンファレンス</strong>レジデントの先生はBy-systemのプレゼンを行います（土日祝はお休みです）</a>
+            </div>
+            <div class="tl-row tl-linked">
+              <div class="tl-left"><div class="tl-time">9:00</div></div>
+              <div class="tl-bar"></div>
+              <a href="#" class="tl-text"><strong>病棟業務</strong>カンファレンスで決まった検査/処方を入力・手技・Daily Chartを記載します</a>
+            </div>
+            <div class="tl-row">
+              <div class="tl-left"><div class="tl-time" style="color:#94A3B8;">12:00</div></div>
+              <div class="tl-bar"></div>
+              <div class="tl-text"><strong>半日出勤の日は退勤</strong>病棟長・日勤スタッフに申し送りして帰宅</div>
+            </div>
+            <div class="tl-row">
+              <div class="tl-left"><div class="tl-time" style="color:#94A3B8;">16:00</div></div>
+              <div class="tl-bar"></div>
+              <div class="tl-text"><strong>夜勤への申し送り</strong>日勤帯でやったこと・夜間の依頼事項を中心にプレゼン。申し送り終了で業務終了</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card card-timeline reveal" id="ql-holiday">
+          <h3 class="card-title-plain">土日祝日の1日の流れ</h3>
+          <div class="timeline">
+            <div class="tl-row">
+              <div class="tl-left"><div class="tl-time" style="color:#94A3B8;">8:00</div></div>
+              <div class="tl-bar"></div>
+              <div class="tl-text"><strong>夜勤からの申し送り</strong>その後、勤務開始</div>
+            </div>
+            <div class="tl-row">
+              <div class="tl-left"><div class="tl-time" style="color:#94A3B8;">12:00</div></div>
+              <div class="tl-bar"></div>
+              <div class="tl-text"><strong>スタッフへ申し送り</strong>勤務が終わり次第、打刻をして帰宅しましょう</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card card-timeline reveal" id="ql-weekly">
+          <h3 class="card-title-plain">週間スケジュール</h3>
+          <div class="timeline">
+            <div class="tl-row">
+              <div class="tl-left"><div class="tl-time" style="color:#94A3B8;">月</div></div>
+              <div class="tl-bar"></div>
+              <div class="tl-text"><strong>海外教科書勉強会（隔週）</strong></div>
+            </div>
+            <div class="tl-row tl-linked">
+              <div class="tl-left"><div class="tl-time">金</div></div>
+              <div class="tl-bar"></div>
+              <a href="#" class="tl-text"><strong>ID×ICUカンファレンス（13:30〜）</strong>感染症科 森先生から直接レクチャーいただく貴重な機会！</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ③ ICUの方針 -->
+      <section id="rules">
+        <div class="sec-head">
+          <span class="sec-en">SECTION 03 · POLICY</span>
+          <h2 class="sec-title">ICUの方針</h2>
+        </div>
+
+        <a href="#" class="card reveal" style="display:block;text-decoration:none;color:inherit;cursor:pointer;">
+          <div class="card-inner">
+            <h3 class="card-section-title">ICUのルール</h3>
+            <p style="font-size:.875rem;color:var(--muted);">内科・外科病棟と異なるICU独自のルールをまとめています。ローテーション開始前に必ず確認してください。</p>
+          </div>
+        </a>
+
+        <a href="#" id="ql-staff" class="card reveal" style="display:block;text-decoration:none;color:inherit;cursor:pointer;">
+          <div class="card-inner">
+            <h3 class="card-section-title">スタッフ紹介・チーム編成</h3>
+            <p style="font-size:.875rem;color:var(--muted);">ICUスタッフの紹介・チーム構成・役割分担・連携体制についてまとめています。</p>
+          </div>
+        </a>
+
+        <a href="#" class="card reveal" style="display:block;text-decoration:none;color:inherit;cursor:pointer;">
+          <div class="card-inner">
+            <h3 class="card-section-title">ICUのセット</h3>
+            <p style="font-size:.875rem;color:var(--muted);">ICUで使用するオーダーセットの一覧・アクセス方法・各セットの展開手順をまとめています。</p>
+          </div>
+        </a>
+      </section>
+
+      <!-- ④ 学習・評価 -->
+      <section id="learning">
+        <div class="sec-head">
+          <span class="sec-en">SECTION 04 · LEARNING</span>
+          <h2 class="sec-title">学習・評価</h2>
+        </div>
+
+        <a href="#" id="ql-passport" class="card reveal" style="display:block;text-decoration:none;color:inherit;cursor:pointer;">
+          <div class="card-inner">
+            <h3 class="card-section-title">ICU PASSPORT（レクチャーシート）</h3>
+            <p style="font-size:.875rem;color:var(--muted);margin-bottom:14px">ICUローテーション中は学習のモチベーションを高める4種類のミッションを用意。詳細はこちらから</p>
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;">
+              <img src="images/1.png" alt="ICU PASSPORT 1" style="width:100%;border-radius:6px;border:1px solid var(--border);">
+              <img src="images/3.png" alt="ICU PASSPORT 3" style="width:100%;border-radius:6px;border:1px solid var(--border);">
+              <img src="images/5.png" alt="ICU PASSPORT 5" style="width:100%;border-radius:6px;border:1px solid var(--border);">
+              <img src="images/7.png" alt="ICU PASSPORT 7" style="width:100%;border-radius:6px;border:1px solid var(--border);">
+            </div>
+          </div>
+        </a>
+
+        <a href="#" id="ql-videos" class="card reveal" style="display:block;text-decoration:none;color:inherit;cursor:pointer;">
+          <div class="card-inner">
+            <h3 class="card-section-title">聖路加ICU動画講座集</h3>
+            <p style="font-size:.875rem;color:var(--muted);">学びたい内容を、学びたい時に、学びたいだけ。特設サイトはこちらから</p>
+          </div>
+        </a>
+
+        <a href="#" id="ql-idicu" class="card reveal" style="display:block;text-decoration:none;color:inherit;cursor:pointer;">
+          <div class="card-inner">
+            <h3 class="card-section-title">ID×ICU Conference 動画集</h3>
+            <p style="font-size:.875rem;color:var(--muted);">感染症科 森先生による週1レクチャーの録画アーカイブです。</p>
+          </div>
+        </a>
+
+        <a href="#" id="ql-articles" class="card reveal" style="display:block;text-decoration:none;color:inherit;cursor:pointer;">
+          <div class="card-inner">
+            <h3 class="card-section-title">【ICU】注目論文・最新ガイドラインまとめ</h3>
+            <p style="font-size:.875rem;color:var(--muted);">ICU関連の最新ガイドライン・注目論文を臓器系統ごとに整理。原著PDFの内容のみに基づいた要約ページ集です。</p>
+          </div>
+        </a>
+
+        <a href="#" id="ql-outpatient" class="card reveal" style="display:block;text-decoration:none;color:inherit;cursor:pointer;">
+          <div class="card-inner">
+            <h3 class="card-section-title">【内科外来】注目論文・最新ガイドラインまとめ</h3>
+            <p style="font-size:.875rem;color:var(--muted);">内科外来で遭遇する疾患の最新ガイドライン・注目論文を臓器系統ごとに整理した要約ページ集です。</p>
+          </div>
+        </a>
+
+        <a href="#" id="ql-disease-topics" class="card reveal" style="display:block;text-decoration:none;color:inherit;cursor:pointer;">
+          <div class="card-inner">
+            <h3 class="card-section-title">【研修医向け】疾患/症候マニュアル</h3>
+            <p style="font-size:.875rem;color:var(--muted);">収録済みの論文・ガイドラインの知見を疾患ごとに横断的に統合した総説ページ集です。</p>
+          </div>
+        </a>
+
+        <a href="#" id="ql-coreconf" class="card reveal" style="display:block;text-decoration:none;color:inherit;cursor:pointer;">
+          <div class="card-inner">
+            <h3 class="card-section-title">レジデントのICU資料集</h3>
+            <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;">
+              <img src="images/9.png" alt="レジデントのICU資料集 1" style="width:100%;border-radius:6px;border:1px solid var(--border);">
+              <img src="images/10.png" alt="レジデントのICU資料集 2" style="width:100%;border-radius:6px;border:1px solid var(--border);">
+              <img src="images/11.png" alt="レジデントのICU資料集 3" style="width:100%;border-radius:6px;border:1px solid var(--border);">
+              <img src="images/12.png" alt="レジデントのICU資料集 4" style="width:100%;border-radius:6px;border:1px solid var(--border);">
+              <img src="images/13.png" alt="レジデントのICU資料集 5" style="width:100%;border-radius:6px;border:1px solid var(--border);">
+            </div>
+          </div>
+        </a>
+      </section>
+
+      <!-- ⑥ FAQ -->
+      <section id="faq">
+        <div class="sec-head">
+          <span class="sec-en">SECTION 05 · FAQ</span>
+          <h2 class="sec-title">FAQ</h2>
+        </div>
+
+        <div class="faq-list">
+          <div class="faq-item reveal">
+            <button class="faq-question">ICUの勉強はどうやってしたらいい？<span class="faq-toggle">+</span></button>
+            <div class="faq-answer">
+              <p>3段階で進めましょう：</p>
+              <ul>
+                <li>まず<a href="#" style="color:var(--blue);font-weight:700;">ICU PASSPORT</a>のレクチャーを1〜2週で全修了</li>
+                <li><a href="#" style="color:var(--blue);font-weight:700;">ICU動画講座集</a>（50本以上）を興味に応じて視聴</li>
+                <li><a href="#" style="color:var(--blue);font-weight:700;">注目論文・ガイドラインまとめ</a>で深掘り</li>
+                <li><a href="#" style="color:var(--blue);font-weight:700;">【研修医向け】マニュアル</a>で疾患ごとの総説を確認</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="faq-item reveal">
+            <button class="faq-question">有給を取得したいです<span class="faq-toggle">+</span></button>
+            <div class="faq-answer">
+              <ul>
+                <li>秘書 川田さん・部長 岡本先生に事前に連絡</li>
+                <li>病棟長・レジデント間での半休日の交換は自由（変更時も連絡すること）</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="faq-item reveal">
+            <button class="faq-question">ICU入室時にやることは？<span class="faq-toggle">+</span></button>
+            <div class="faq-answer">
+              <ul>
+                <li>① ICU入室時セットを展開（各種スコア入力を忘れずに！）</li>
+                <li>② 輸血・ラインなどの同意書4点セットを確認</li>
+              </ul>
+              <p>詳細は <a href="#" style="color:var(--blue);font-weight:700;">ICU入室時のTo Do List</a> を参照してください。</p>
+            </div>
+          </div>
+
+          <div class="faq-item reveal">
+            <button class="faq-question">ICU退室時にやることは？<span class="faq-toggle">+</span></button>
+            <div class="faq-answer">
+              <p>主科に応じてセットを選択して展開してください：</p>
+              <ul>
+                <li>内科系 → 「内科退室時」セットを展開</li>
+                <li>外科系 → 「外科退室時」セットを展開</li>
+              </ul>
+              <p>詳細は <a href="#" style="color:var(--blue);font-weight:700;">ICU退室時のTo Do List</a> を参照してください。</p>
+            </div>
+          </div>
+
+          <div class="faq-item reveal">
+            <button class="faq-question">カルテのセットへのアクセス方法は？<span class="faq-toggle">+</span></button>
+            <div class="faq-answer">
+              <ul>
+                <li>「セット展開」→「ICU」から展開できます</li>
+                <li>詳細は <a href="#" style="color:var(--blue);font-weight:700;">ICUセット</a> ページを参照してください</li>
+                <li>入退室時の手順は <a href="#" style="color:var(--blue);font-weight:700;">病棟業務</a> ページにまとまっています</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="faq-item reveal">
+            <button class="faq-question">当直中に困ったときはどうすればいい？<span class="faq-toggle">+</span></button>
+            <div class="faq-answer">
+              <ul>
+                <li>まず患者の安全を最優先に確保</li>
+                <li>当直上級医に速やかに連絡（伝書鳩で怒る先生はいません）</li>
+                <li>必要に応じてRRS（院内急変対応システム）を起動</li>
+                <li>3分後には急変しているのはよくある話。ためらわず報告を</li>
+              </ul>
+              <p><a href="#" style="color:var(--blue);font-weight:700;">ICUのルール</a> も併せて確認してください。</p>
+            </div>
+          </div>
+
+          <div class="faq-item reveal">
+            <button class="faq-question">ICUカンファレンスのプレゼンのポイントは？<span class="faq-toggle">+</span></button>
+            <div class="faq-answer">
+              <p>1患者あたり5〜7分を目標に、冗長な内容は削ぎましょう：</p>
+              <ul>
+                <li>By-system形式で各臓器の状態を簡潔に</li>
+                <li>朝の申し送りで得た夜間の変化を盛り込む</li>
+                <li>カンファで決まった内容は患者リスト「本日の方針」に記載後、カルテに転写</li>
+              </ul>
+              <p>詳細は <a href="#" style="color:var(--blue);font-weight:700;">ICUカンファレンス</a> ページを参照してください。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- === SIDEBAR === -->
+    <aside class="sidebar-column">
+      <div class="sidebar-widget">
+        <div class="sidebar-header"><span>クイックリンク</span></div>
+        <div class="quick-links">
+          <a href="#intro" class="quick-link ql-section">はじめに</a>
+          <a href="#ql-vision" class="quick-link ql-sub">聖路加ICUが目指すもの</a>
+          <a href="#ql-goals" class="quick-link ql-sub">ローテーション修了時の到達目標</a>
+          <a href="#ql-todo" class="quick-link ql-sub">【必読】ローテ開始前のTo Do</a>
+          <a href="#ql-staff" class="quick-link ql-sub">スタッフ紹介</a>
+          <a href="#schedule" class="quick-link ql-section">スケジュール</a>
+          <a href="#ql-weekday" class="quick-link ql-sub">平日の1日の流れ</a>
+          <a href="#ql-holiday" class="quick-link ql-sub">土日祝日の1日の流れ</a>
+          <a href="#ql-weekly" class="quick-link ql-sub">週間スケジュール</a>
+          <a href="#rules" class="quick-link ql-section">ICUの方針</a>
+          <a href="#learning" class="quick-link ql-section">学習・評価</a>
+          <a href="#ql-passport" class="quick-link ql-sub">ICU PASSPORT</a>
+          <a href="#ql-videos" class="quick-link ql-sub">聖路加ICU動画講座集</a>
+          <a href="#ql-idicu" class="quick-link ql-sub">ID×ICU Conference 動画集</a>
+          <a href="#ql-articles" class="quick-link ql-sub">【ICU】注目論文・最新ガイドラインまとめ</a>
+          <a href="#ql-disease-topics" class="quick-link ql-sub">【研修医向け】マニュアル</a>
+          <a href="#ql-coreconf" class="quick-link ql-sub">レジデントのICU資料集</a>
+          <a href="#faq" class="quick-link ql-section">FAQ</a>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:8px;margin-top:12px;">
+        <a href="#" style="flex:1;display:block;overflow:hidden;border-radius:var(--radius);border:1px solid var(--border);height:80px;"><img src="images/instagram.png" alt="Instagram" style="width:100%;height:100%;object-fit:cover;object-position:45% center;display:block;"></a>
+        <a href="#" style="flex:1;display:block;overflow:hidden;border-radius:var(--radius);border:1px solid var(--border);height:80px;"><img src="images/new_facebook.png" alt="Facebook" style="width:100%;height:100%;object-fit:cover;object-position:45% center;display:block;"></a>
+      </div>
+    </aside>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-info">
+          <img src="images/logo.png" alt="ST. LUKE'S ICU" class="footer-logo-img">
+          <h3>聖路加国際病院 ICU</h3>
+          <p>〒104-8560 東京都中央区明石町9-1</p>
+          <p>Instagram: @st.lukes.icu</p>
+        </div>
+        <div class="footer-links">
+          <h3>クイックリンク</h3>
+          <ul>
+            <li><a href="#intro">はじめに</a></li>
+            <li><a href="#schedule">スケジュール</a></li>
+            <li><a href="#rules">ICUの方針</a></li>
+            <li><a href="#learning">学習・評価</a></li>
+            <li><a href="#faq">FAQ</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>最終更新: 2026年4月 | 聖路加国際病院 集中治療科 ※本ページはダミーUIプロトタイプです</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    (function(){
+      var nav = document.querySelector('.dum-nav');
+      if (!nav) return;
+      function update(){ nav.classList.toggle('scrolled', window.scrollY > 10); }
+      window.addEventListener('scroll', update, {passive:true});
+      update();
+    })();
+  </script>
+</body>
+</html>
