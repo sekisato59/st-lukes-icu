@@ -437,6 +437,9 @@
       .dum-notice-body strong { font-size:0.88rem; }
       .dum-notice-body p { font-size:0.77rem;line-height:1.7; }
 
+      /* 見出し（新着コンテンツ等）：カード列と左端を揃える */
+      .dum-learn-panel .dum-block-head { margin-left:14px !important;margin-right:14px !important; }
+
       /* 新着コンテンツ */
       .dum-news-grid { grid-template-columns:1fr !important;gap:10px;margin:0 14px !important;width:auto !important; }
       .dum-news-card { min-height:88px; }
@@ -445,17 +448,36 @@
       .dum-news-tag { font-size:0.61rem !important; }
       .dum-news-meta { font-size:0.67rem !important; }
 
-      /* 5枚カードグリッド → 2カラム化（カード文字を更に1pt縮小） */
+      /* 聖路加ICU 5枚カード → モバイルでは「新着カード」と同じ横長レイアウトに */
       .dum-card-grid {
-        display:grid !important;grid-template-columns:1fr 1fr;gap:8px;
+        display:grid !important;grid-template-columns:1fr;gap:10px;
         margin:0 14px !important;width:auto !important;flex-wrap:initial;
       }
       .dum-card-grid > .dum-card { flex:initial !important; }
-      .dum-card { aspect-ratio:5/3; }
-      .dum-card-body { padding:12px 12px 10px; }
-      .dum-card-icon { width:30px;height:30px; }
-      .dum-card-title { font-size:0.74rem !important; }
-      .dum-card-desc { font-size:0.58rem !important;line-height:1.5; }
+      .dum-card {
+        aspect-ratio:initial !important;min-height:88px;
+        display:flex;flex-direction:row;align-items:stretch;
+        background-color:#fff !important;
+        background-size:110px 100% !important;background-position:left center !important;background-repeat:no-repeat !important;
+        color:var(--hero-text-dark) !important;
+        box-shadow:0 2px 10px rgba(0,0,0,0.06);
+        overflow:hidden;
+      }
+      .dum-card::before { display:none !important; }
+      .dum-card-body {
+        position:static !important;margin-left:110px;
+        padding:12px 14px !important;color:var(--hero-text-dark) !important;
+        display:flex;flex-direction:column;justify-content:center;gap:3px;
+      }
+      .dum-card-icon { display:none !important; }
+      .dum-card-title {
+        font-size:0.81rem !important;font-weight:800 !important;
+        color:var(--hero-text-dark) !important;text-shadow:none !important;line-height:1.4;margin:0;
+      }
+      .dum-card-desc {
+        font-size:0.65rem !important;color:var(--hero-text-mute) !important;
+        text-shadow:none !important;line-height:1.5;margin:0;opacity:1;
+      }
 
       /* SNS 誘導 */
       .dum-sns-grid { grid-template-columns:1fr !important;margin-left:14px !important;margin-right:14px; }
@@ -481,11 +503,11 @@
       .dum-footer-image { padding:0;max-width:100%; }
     }
     @media (max-width:480px) {
-      /* スマホ縦持ち：5枚カードを1カラムに */
-      .dum-card-grid { grid-template-columns:1fr !important; }
-      .dum-card { aspect-ratio:5/2; }
-      .dum-card-title { font-size:0.86rem !important; }
-      .dum-card-desc { font-size:0.64rem !important; }
+      /* スマホ縦持ち：横長カードのサムネ幅を縮小して文字エリアを確保 */
+      .dum-card { background-size:90px 100% !important; }
+      .dum-card-body { margin-left:90px;padding:10px 12px !important; }
+      .dum-card-title { font-size:0.78rem !important; }
+      .dum-card-desc { font-size:0.62rem !important; }
     }
 
   </style>
@@ -539,7 +561,6 @@
           <div class="dum-block-head-left">
             <h2 class="dum-block-title">新着コンテンツ</h2>
           </div>
-          <a href="#" class="dum-block-all">すべて見る →</a>
         </div>
 
         <div id="dumNewsGrid" class="dum-news-grid" style="margin-left:calc(var(--dum-grid-shift) + var(--dum-card-pad));">
