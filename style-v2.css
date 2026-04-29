@@ -424,12 +424,27 @@ button { cursor: pointer; font-family: inherit; }
   color: #111 !important;
 }
 
-/* タイトル開始位置の正規化：内側の独自コンテナの上余白を打ち消す
-   （hero-container/container どちらも対応。enio-sbt のような padding:36px... も上書き） */
-.subpage-hero.hero-image-bg .hero-container,
-.subpage-hero.hero-image-bg > .container,
-.subpage-hero.hero-image-bg .hero-container > div {
-  padding-top: 0 !important;
+/* タイトル開始位置の水平・垂直 正規化：JIPAD と同じ位置にタイトルを揃える
+   - 一部ページ（TGA/PCP/CSW/ASAH/DEX/DOC等）が独自に <div class="hero-container"> や
+     inline style="max-width:860px" の入れ子で title を中央に押し込めていたため、
+     title の left edge が JIPAD と違う位置に出る問題を修正 */
+.subpage-hero.hero-image-bg {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+.subpage-hero.hero-image-bg > .hero-container,
+.subpage-hero.hero-image-bg > .container {
+  max-width: 1160px !important;
+  margin: 0 auto !important;
+  padding: 0 20px !important;
+  position: relative;
+  z-index: 1;
+}
+.subpage-hero.hero-image-bg > .hero-container > div,
+.subpage-hero.hero-image-bg > .container > div {
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 .subpage-hero .container {
   position: relative;
