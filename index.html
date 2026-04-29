@@ -422,7 +422,10 @@
       /* セクション/パネルの padding は 0（バナー画像を端まで広げるため） */
       .dum-content-block { padding-left:0;padding-right:0; }
       .dum-hero-full { padding-left:0;padding-right:0; }
-      .dum-hero-img-box { transform:none; }
+      /* モバイル用ヘッダー画像はクリーンに表示（PC専用の右側グラデ・端フェードを無効化） */
+      .dum-hero-img-box { transform:none;max-width:100%; }
+      .dum-hero-img-box::before { display:none; }
+      .dum-hero-full img { -webkit-mask-image:none;mask-image:none; }
       .dum-learn-panel { padding-left:0;padding-right:0; }
 
       /* バナー画像：端まで広げる（フェード復活でコンテンツとなじませる） */
@@ -512,10 +515,13 @@
     </div>
   </nav>
 
-  <!-- ===== HERO (Full-width Image) ===== -->
+  <!-- ===== HERO (Full-width Image / モバイル専用画像を出し分け) ===== -->
   <section class="dum-hero-full">
     <div class="dum-hero-img-box">
-      <img src="images/Toppage5.jpg" alt="聖路加ICU ローテーターガイド">
+      <picture>
+        <source media="(max-width:768px)" srcset="images/header Mainpage for mobile.png">
+        <img src="images/Toppage5.jpg" alt="聖路加ICU ローテーターガイド">
+      </picture>
     </div>
   </section>
 
