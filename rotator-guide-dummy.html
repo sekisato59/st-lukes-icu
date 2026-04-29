@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ICUローテーターガイド｜聖路加国際病院ICU</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style-v2.css?v=20260427b">
+  <style>
+    :root {
+      --hero-bg: #F4F8FB;
+      --hero-blue: #1269B0;
+      --hero-blue-dark: #0D4F8C;
+      --hero-teal: #2A8DA6;
+      --hero-green: #2D7A4F;
+      --hero-green-dark: #1A5A37;
+      --hero-text-dark: #1F2937;
+      --hero-text-mute: #4B5563;
+
+      --dum-section-px: clamp(16px, 0.6rem + 1.4vw, 32px);
+      --dum-panel-px:   clamp(18px, 0.6rem + 1.2vw, 28px);
+      --dum-panel-py:   clamp(10px, 0.4rem + 0.7vw, 14px);
+      --dum-radius-lg:  clamp(10px, 0.5rem + 0.6vw, 18px);
+      --dum-radius-md:  clamp(8px,  0.4rem + 0.4vw, 14px);
+    }
+
+    body {
+      font-family:"Noto Sans JP", sans-serif;
+      color:var(--hero-text-dark);
+      line-height:1.7;
+    }
+
+    /* Navbar */
+    .dum-nav {
+      position:sticky;top:0;z-index:100;
+      background:#fff;border-bottom:1px solid #ECECE6;
+      box-shadow:0 2px 12px rgba(0,0,0,0.04);
+    }
+    .dum-nav-inner {
+      max-width:1364px;margin:0 auto;
+      padding:clamp(10px, 0.4rem + 0.6vw, 14px) var(--dum-section-px);
+      display:flex;align-items:center;justify-content:space-between;
+      gap:clamp(12px, 0.8rem + 1vw, 24px);
+    }
+    .dum-nav-logo {
+      display:flex;align-items:center;gap:8px;text-decoration:none;
+      font-weight:900;letter-spacing:-0.01em;flex-shrink:0;
+    }
+    .dum-nav-logo-img {
+      width:clamp(28px, 22px + 0.6vw, 36px);
+      height:clamp(28px, 22px + 0.6vw, 36px);
+      border-radius:50%;object-fit:cover;flex-shrink:0;
+    }
+    .dum-nav-logo-text {
+      font-size:clamp(0.82rem, 0.55rem + 0.45vw, 1.05rem);
+      font-weight:900;color:#123293;letter-spacing:-0.03em;
+    }
+    .dum-nav-menu {
+      display:flex;gap:2px;list-style:none;margin:0;padding:0;flex-wrap:nowrap;
+    }
+    .dum-nav-menu a, .dum-nav-menu button {
+      display:flex;align-items:center;gap:6px;
+      color:var(--hero-text-mute);
+      font-size:clamp(0.6rem, 0.4rem + 0.3vw, 0.78rem);
+      font-weight:600;text-decoration:none;white-space:nowrap;
+      padding:7px 10px;border-radius:6px;
+      background:none;border:none;cursor:pointer;
+      transition:background .2s, color .2s;
+      font-family:inherit;
+    }
+    .dum-nav-menu a:hover, .dum-nav-menu button:hover,
+    .dum-nav-menu a.active, .dum-nav-menu button.active {
+      background:#E1F0FB;color:var(--hero-blue);
+    }
+    .dum-nav-menu .nav-icon { display:flex;align-items:center;justify-content:center; }
+    .dum-nav-menu .nav-icon svg {
+      width:clamp(14px, 11px + 0.3vw, 18px);
+      height:clamp(14px, 11px + 0.3vw, 18px);
+    }
+
+    /* Page hero (banner) */
+    .rg-hero {
+      background:linear-gradient(135deg,#0D4F8C 0%,#1269B0 45%,#2A8DA6 100%);
+      color:#fff;
+      padding:clamp(28px, 1.5rem + 2vw, 56px) var(--dum-section-px);
+      position:relative;overflow:hidden;
+    }
+    .rg-hero::after {
+      content:'';position:absolute;inset:0;
+      background-image:radial-gradient(circle, rgba(255,255,255,0.08) 1px, transparent 1px);
+      background-size:24px 24px;
+      pointer-events:none;
+    }
+    .rg-hero-inner {
+      max-width:1294px;margin:0 auto;position:relative;z-index:1;
+    }
+    .rg-breadcrumb {
+      font-size:clamp(0.66rem, 0.5rem + 0.3vw, 0.78rem);
+      opacity:0.85;margin-bottom:8px;
+    }
+    .rg-breadcrumb a { color:#fff;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.4); }
+    .rg-breadcrumb a:hover { border-bottom-color:#fff; }
+    .rg-hero h1 {
+      font-size:clamp(1.4rem, 1rem + 1.6vw, 2rem);
+      font-weight:900;letter-spacing:-0.01em;margin:0 0 6px;
+    }
+    .rg-hero p {
+      font-size:clamp(0.78rem, 0.6rem + 0.35vw, 0.95rem);
+      opacity:0.92;margin:0;
+    }
+
+    /* Body container */
+    .rg-body {
+      max-width:1100px;margin:0 auto;
+      padding:clamp(24px, 1.2rem + 1.5vw, 48px) var(--dum-section-px) clamp(40px, 2rem + 1.5vw, 72px);
+    }
+
+    /* Section */
+    .rg-section { margin-bottom:clamp(28px, 1.5rem + 1.2vw, 48px); }
+    .rg-section h2 {
+      font-size:clamp(1.05rem, 0.8rem + 0.5vw, 1.3rem);
+      font-weight:900;color:var(--hero-blue-dark);
+      padding-left:14px;border-left:4px solid var(--hero-blue);
+      line-height:1.4;margin:0 0 16px;
+    }
+    .rg-section p {
+      font-size:clamp(0.78rem, 0.6rem + 0.3vw, 0.92rem);
+      color:var(--hero-text-dark);line-height:1.85;
+      margin:0 0 14px;
+    }
+
+    /* Card grid for quick info */
+    .rg-grid {
+      display:grid;grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));
+      gap:clamp(12px, 0.7rem + 0.7vw, 18px);
+      margin-top:18px;
+    }
+    .rg-card {
+      background:#fff;border:1px solid #E2E8F0;
+      border-radius:var(--dum-radius-md);
+      padding:clamp(14px, 0.7rem + 0.7vw, 20px);
+      box-shadow:0 2px 10px rgba(13,79,140,0.05);
+    }
+    .rg-card h3 {
+      font-size:clamp(0.85rem, 0.65rem + 0.35vw, 1rem);
+      font-weight:800;color:var(--hero-blue);margin:0 0 8px;
+    }
+    .rg-card p {
+      font-size:clamp(0.72rem, 0.55rem + 0.3vw, 0.85rem);
+      color:var(--hero-text-mute);line-height:1.7;margin:0;
+    }
+
+    /* Step list */
+    .rg-steps { counter-reset:rg-step;list-style:none;padding:0;margin:14px 0 0; }
+    .rg-steps li {
+      counter-increment:rg-step;
+      position:relative;padding:14px 16px 14px 56px;
+      background:#F8FAFC;border:1px solid #E2E8F0;
+      border-radius:var(--dum-radius-md);margin-bottom:10px;
+    }
+    .rg-steps li::before {
+      content:counter(rg-step);
+      position:absolute;left:14px;top:14px;
+      width:28px;height:28px;border-radius:50%;
+      background:var(--hero-blue);color:#fff;
+      display:flex;align-items:center;justify-content:center;
+      font-size:0.78rem;font-weight:800;
+    }
+    .rg-steps strong { color:var(--hero-blue-dark);font-weight:800; }
+
+    /* Callout */
+    .rg-callout {
+      background:#FFFBEB;border:1px solid #FDE68A;
+      border-radius:var(--dum-radius-md);
+      padding:clamp(12px, 0.7rem + 0.5vw, 18px);
+      margin:18px 0;
+    }
+    .rg-callout strong { display:block;color:#92400E;margin-bottom:4px;font-size:0.92rem; }
+    .rg-callout p { color:#78350F;margin:0;font-size:0.84rem; }
+
+    @media (max-width:980px) { .dum-nav-menu { display:none; } }
+  </style>
+</head>
+<body style="background-image:url('images/背景3.png');background-size:cover;background-position:center top;background-attachment:fixed;background-repeat:no-repeat;background-color:var(--hero-bg);">
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="dum-nav">
+    <div class="dum-nav-inner">
+      <a href="index.html" class="dum-nav-logo">
+        <img src="images/logo.png" alt="ST. LUKE'S ICU" class="dum-nav-logo-img">
+        <span class="dum-nav-logo-text">聖路加国際病院ICU</span>
+      </a>
+      <ul class="dum-nav-menu">
+        <li><a href="index.html#about" class="active"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>はじめに</a></li>
+        <li><a href="index.html#about"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>スケジュール</a></li>
+        <li><a href="index.html#about"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>ICUの方針</a></li>
+        <li><a href="index.html#learning"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></span>学習・評価</a></li>
+        <li><a href="pages/articles-guidelines.html"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span>論文GL(ICU)</a></li>
+        <li><a href="pages/articles-outpatient.html"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><circle cx="12" cy="15" r="2"/></svg></span>論文GL(外来)</a></li>
+        <li><a href="pages/disease-topics.html"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></span>疾患マニュアル</a></li>
+        <li><a href="index.html#faq"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>FAQ</a></li>
+        <li><a href="index.html"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>検索</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="rg-hero">
+    <div class="rg-hero-inner">
+      <div class="rg-breadcrumb"><a href="index.html">トップ</a> ／ ICUローテーターガイド</div>
+      <h1>ICUローテーターガイド</h1>
+      <p>当院ICUでのローテーションが初めての方向けのガイドです。</p>
+    </div>
+  </section>
+
+  <!-- ===== BODY ===== -->
+  <main class="rg-body">
+
+    <section class="rg-section">
+      <h2>はじめに</h2>
+      <p>聖路加国際病院ICUへのローテーションへようこそ。本ページでは、初日までに知っておきたい情報・施設のルール・学習リソースの使い方をまとめています。</p>
+      <p>不明点があれば指導医・スタッフへ気軽にお問い合わせください。</p>
+    </section>
+
+    <section class="rg-section">
+      <h2>このガイドで分かること</h2>
+      <div class="rg-grid">
+        <div class="rg-card">
+          <h3>ICUの運営体制</h3>
+          <p>診療チーム構成、当直体制、コンサルトの流れなど、業務に必要な基本情報。</p>
+        </div>
+        <div class="rg-card">
+          <h3>1日のスケジュール</h3>
+          <p>朝カンファ・回診・手技・夕カンファのタイムライン。</p>
+        </div>
+        <div class="rg-card">
+          <h3>学習リソース</h3>
+          <p>ガイドラインまとめ、疾患マニュアル、動画ライブラリへのアクセス方法。</p>
+        </div>
+        <div class="rg-card">
+          <h3>緊急時の連絡先</h3>
+          <p>院内緊急コール、夜間・休日の連絡フロー。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="rg-section">
+      <h2>ローテーション初日までの流れ</h2>
+      <ol class="rg-steps">
+        <li><strong>事前準備：</strong>当院の電子カルテIDの取得、入退室カード受領、ICU研修オリエンテーション資料の確認。</li>
+        <li><strong>初日 8:00：</strong>ICU入口前に集合。担当指導医より施設案内・チーム配属の説明があります。</li>
+        <li><strong>朝カンファ：</strong>新規入室・継続入室患者のプレゼンに参加し、診療方針を共有します。</li>
+        <li><strong>回診同行：</strong>担当指導医について回診。担当患者がアサインされます。</li>
+        <li><strong>夕カンファ・申し送り：</strong>その日のサマリーと夜間の方針を共有して終業です。</li>
+      </ol>
+    </section>
+
+    <section class="rg-section">
+      <h2>知っておきたいこと</h2>
+      <div class="rg-callout">
+        <strong>個人情報の取り扱い</strong>
+        <p>患者情報は院内ネットワーク内のみで取り扱ってください。スマートフォン等での撮影・院外持ち出しは禁止です。</p>
+      </div>
+      <div class="rg-callout">
+        <strong>白衣・装備</strong>
+        <p>ICU内では指定の手洗い・PPE着用ルールに従ってください。詳細は初日のオリエンテーションで案内します。</p>
+      </div>
+    </section>
+
+    <section class="rg-section">
+      <h2>サイト内のリソース</h2>
+      <p>本サイトには以下のコンテンツがあります。ローテーション中、必要に応じて参照してください。</p>
+      <div class="rg-grid">
+        <div class="rg-card">
+          <h3><a href="pages/articles-guidelines.html" style="color:inherit;text-decoration:none;">論文GL（ICU）</a></h3>
+          <p>主要なICU関連ガイドライン・注目論文の日本語まとめ。</p>
+        </div>
+        <div class="rg-card">
+          <h3><a href="pages/disease-topics.html" style="color:inherit;text-decoration:none;">疾患マニュアル</a></h3>
+          <p>ICUで遭遇しうる主要疾患の総説。</p>
+        </div>
+        <div class="rg-card">
+          <h3><a href="index.html#faq" style="color:inherit;text-decoration:none;">FAQ</a></h3>
+          <p>過去のローテーターから寄せられたよくある質問と回答。</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="site-config.js"></script>
+  <script src="search-index.js"></script>
+</body>
+</html>

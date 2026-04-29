@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ICU紹介 | 聖路加ICU</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style-v2.css?v=20260429">
+  <script src="../site-config.js"></script>
+  <style>
+    :root {
+      --hero-bg: #F4F8FB;
+      --hero-blue: #1269B0;
+      --hero-blue-dark: #0D4F8C;
+      --hero-text-dark: #1F2937;
+      --hero-text-mute: #4B5563;
+      --dum-section-px: clamp(16px, 0.6rem + 1.4vw, 32px);
+      --dum-radius-md:  clamp(8px,  0.4rem + 0.4vw, 14px);
+    }
+
+    /* Navbar slim style */
+    .dum-nav {
+      position:sticky;top:0;z-index:100;
+      background:#fff;
+      border-bottom:1px solid #ECECE6;
+      box-shadow:0 2px 12px rgba(0,0,0,0.04);
+    }
+    .dum-nav-inner {
+      max-width:1364px;margin:0 auto;
+      padding:clamp(10px, 0.4rem + 0.6vw, 14px) var(--dum-section-px);
+      display:flex;align-items:center;justify-content:space-between;
+      gap:clamp(12px, 0.8rem + 1vw, 24px);
+    }
+    .dum-nav-logo {
+      display:flex;align-items:center;gap:8px;text-decoration:none;
+      font-weight:900;letter-spacing:-0.01em;flex-shrink:0;
+    }
+    .dum-nav-logo-img {
+      width:clamp(28px, 22px + 0.6vw, 36px);
+      height:clamp(28px, 22px + 0.6vw, 36px);
+      border-radius:50%;object-fit:cover;flex-shrink:0;
+    }
+    .dum-nav-logo-text {
+      font-size:clamp(0.82rem, 0.55rem + 0.45vw, 1.05rem);
+      font-weight:900;color:#123293;letter-spacing:-0.03em;
+    }
+    .dum-nav-menu {
+      display:flex;gap:2px;list-style:none;margin:0;padding:0;flex-wrap:nowrap;
+    }
+    .dum-nav-menu a {
+      display:flex;align-items:center;gap:6px;
+      color:var(--hero-text-mute);
+      font-size:clamp(0.6rem, 0.4rem + 0.3vw, 0.78rem);
+      font-weight:600;text-decoration:none;white-space:nowrap;
+      padding:7px 10px;border-radius:6px;
+      transition:background .2s, color .2s;
+    }
+    .dum-nav-menu a:hover { background:#F4F8FB;color:var(--hero-blue); }
+    .dum-nav-menu .nav-icon { display:flex;align-items:center;justify-content:center;color:currentColor; }
+    .dum-nav-menu .nav-icon svg { width:14px;height:14px; }
+
+    /* ===== ページバナー ===== */
+    .page-banner {
+      width:100%;
+      padding:clamp(16px, 0.8rem + 0.8vw, 24px) var(--dum-section-px) 0;
+      box-sizing:border-box;
+      max-width:1294px;margin:0 auto;
+      line-height:0;
+    }
+    .page-banner img {
+      width:100%;height:auto;display:block;
+      -webkit-mask-image:linear-gradient(to bottom, transparent 0%, #000 10%, #000 90%, transparent 100%);
+      mask-image:linear-gradient(to bottom, transparent 0%, #000 10%, #000 90%, transparent 100%);
+    }
+
+    /* ===== ページレイアウト：左メイン + 右サイドTOC ===== */
+    .about-page-body {
+      max-width:1294px;margin:0 auto;
+      padding:0 var(--dum-section-px) clamp(40px, 2rem + 1.5vw, 64px);
+      display:grid;
+      grid-template-columns:minmax(0, 900px) 240px;
+      gap:clamp(24px, 1rem + 1.5vw, 40px);
+      align-items:start;
+    }
+    .about-main { min-width:0; }
+    .back-link {
+      display:inline-block;margin:0 0 16px;
+      font-size:0.82rem;color:var(--hero-blue-dark);text-decoration:none;
+      font-weight:700;
+    }
+    .back-link:hover { text-decoration:underline; }
+
+    /* ===== 右サイド 目次（ショートカット） ===== */
+    .about-toc {
+      position:sticky;top:clamp(70px, 4rem + 0.6vw, 90px);
+      background:rgba(255,255,255,0.85);
+      backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+      border:1px solid rgba(255,255,255,0.7);
+      border-radius:var(--dum-radius-md);
+      padding:14px 16px 12px;
+      box-shadow:0 4px 18px rgba(13,79,140,0.08);
+      max-height:calc(100vh - clamp(90px, 5rem + 0.6vw, 110px));
+      overflow-y:auto;
+      margin-top:32px;
+    }
+    .about-toc-title {
+      font-size:0.78rem;font-weight:900;color:var(--hero-blue-dark);
+      letter-spacing:0.05em;margin:0 0 8px;
+      padding-bottom:6px;border-bottom:1px solid #E5E7EB;
+    }
+    .about-toc nav { display:flex;flex-direction:column; }
+    .about-toc a {
+      display:block;padding:5px 4px 5px 10px;text-decoration:none;
+      font-size:0.74rem;color:var(--hero-text-mute);line-height:1.5;
+      border-left:2px solid transparent;
+      transition:color .15s, border-color .15s, background .15s;
+    }
+    .about-toc a:hover { color:var(--hero-blue);border-left-color:var(--hero-blue);background:rgba(244,248,251,0.6); }
+    .about-toc a.toc-section {
+      font-weight:800;color:var(--hero-text-dark);
+      margin-top:8px;font-size:0.78rem;
+    }
+    .about-toc a.toc-section:first-child { margin-top:0; }
+    .about-toc a.toc-sub { padding-left:22px;font-size:0.72rem; }
+
+    @media (max-width:980px) {
+      .dum-nav-menu { display:none; }
+    }
+    @media (max-width:1100px) {
+      .about-page-body { grid-template-columns:1fr; }
+      .about-toc { display:none; }
+    }
+  </style>
+</head>
+<body style="background-image:url('../images/背景3.png');background-size:cover;background-position:center top;background-attachment:fixed;background-repeat:no-repeat;background-color:var(--hero-bg);">
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="dum-nav">
+    <div class="dum-nav-inner">
+      <a href="../index.html" class="dum-nav-logo">
+        <img src="../images/logo.png" alt="ST. LUKE'S ICU" class="dum-nav-logo-img">
+        <span class="dum-nav-logo-text">聖路加国際病院ICU</span>
+      </a>
+      <ul class="dum-nav-menu">
+        <li><a href="../index.html"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>HOME</a></li>
+        <li><a href="../index.html#learning"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></span>学習コンテンツ</a></li>
+        <li><a href="articles-guidelines.html"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span>論文GL(ICU)</a></li>
+        <li><a href="disease-topics.html"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></span>疾患マニュアル</a></li>
+        <li><a href="../index.html#faq"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>FAQ</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ===== バナー画像 ===== -->
+  <div class="page-banner">
+    <img src="../images/headerICUについてbanner.jpg" alt="聖路加ICUについて — 運営体制・スタッフ・施設や科内のルール、システムを紹介">
+  </div>
+
+  <!-- ===== 本文 ===== -->
+  <main class="about-page-body">
+    <div class="about-main">
+    <a href="../index.html" class="back-link">← トップへ戻る</a>
+
+    <!-- ──────────────────────────── -->
+    <!-- ① はじめに                   -->
+    <!-- ──────────────────────────── -->
+    <section id="intro">
+      <div class="sec-head">
+        <span class="sec-en">SECTION 01 · INTRODUCTION</span>
+        <h2 class="sec-title">はじめに</h2>
+      </div>
+
+      <!-- 理念 -->
+      <div class="card" id="ql-vision">
+        <div class="card-inner">
+          <h3 class="card-section-title">聖路加ICUが目指すもの</h3>
+          <img src="../images/14.png" alt="聖路加ICUが目指すもの" style="width:70%;border-radius:8px;margin-bottom:16px;display:block;margin-left:auto;margin-right:auto;">
+          <blockquote class="philosophy-quote">
+            「Hotel ICU」はレイアウト変更に代表されるような、ICU環境を整えるという意味だけではなく、患者様に安らぎと最高のケアを提供するという私たちの強い意志を表しています。患者様一人ひとりに合った最高のケアを提供していきましょう！
+          </blockquote>
+          <p class="philosophy-attr">— ICU部長 岡本 洋史 先生　2024年 新年挨拶より</p>
+        </div>
+      </div>
+
+      <!-- ローテ前To Do (Aurora) -->
+      <style>
+        .aurora-card{background:#0F172A;border-radius:16px;padding:28px 26px;position:relative;overflow:hidden;transition:transform .25s;display:block;text-decoration:none;color:inherit;cursor:pointer;}
+        .aurora-card::before{content:'';position:absolute;top:-50%;left:-20%;width:140%;height:140%;background:conic-gradient(from 220deg,rgba(16,185,129,0.3),rgba(59,130,246,0.2),rgba(139,92,246,0.3),rgba(236,72,153,0.15),transparent 60%);animation:aurora-spin 8s linear infinite;}
+        @keyframes aurora-spin{to{transform:rotate(360deg);}}
+        .aurora-card:hover{transform:translateY(-3px);}
+      </style>
+      <a href="pre-rotation-todo.html" id="ql-todo" class="aurora-card">
+        <h3 style="font-size:1rem;font-weight:800;color:#F0FDF4;margin-bottom:6px;position:relative;">【必読】ローテ開始前のTo Do</h3>
+        <p style="font-size:.875rem;color:rgba(255,255,255,0.6);line-height:1.7;position:relative;">確認事項・自己紹介・感染予防クイズ・必須動画・ICUルールの5ステップ</p>
+      </a>
+
+    </section><!-- /#intro -->
+
+
+    <!-- ──────────────────────────── -->
+    <!-- ③ ICUの方針                  -->
+    <!-- ──────────────────────────── -->
+    <section id="rules">
+      <div class="sec-head">
+        <span class="sec-en">SECTION 02 · POLICY</span>
+        <h2 class="sec-title">ICUの方針</h2>
+      </div>
+
+      <a href="pre-rotation-todo.html#sec-rules" id="ql-rules" class="card" style="display:block;text-decoration:none;color:inherit;cursor:pointer;">
+        <div class="card-inner">
+          <h3 class="card-section-title">ICUのルール</h3>
+          <p style="font-size:.875rem;color:var(--muted);">内科・外科病棟と異なるICU独自のルールをまとめています。ローテーション開始前に必ず確認してください。</p>
+        </div>
+      </a>
+
+      <a href="icu-team.html" id="ql-staff" class="card" style="display:block;text-decoration:none;color:inherit;cursor:pointer;">
+        <div class="card-inner">
+          <h3 class="card-section-title">スタッフ紹介・チーム編成</h3>
+          <p style="font-size:.875rem;color:var(--muted);">ICUスタッフの紹介・チーム構成・役割分担・連携体制についてまとめています。</p>
+        </div>
+      </a>
+
+      <a href="schedule-ward-work.html" id="ql-sets" class="card" style="display:block;text-decoration:none;color:inherit;cursor:pointer;">
+        <div class="card-inner">
+          <h3 class="card-section-title">ICUのセット</h3>
+          <p style="font-size:.875rem;color:var(--muted);">ICUで使用するオーダーセットの一覧・アクセス方法・各セットの展開手順をまとめています。</p>
+        </div>
+      </a>
+
+    </section><!-- /#rules -->
+
+    </div><!-- /.about-main -->
+
+    <!-- ===== 右サイド 目次 ===== -->
+    <aside class="about-toc" aria-label="ページ内ショートカット">
+      <h3 class="about-toc-title">目次</h3>
+      <nav>
+        <a href="#intro" class="toc-section">SECTION 01 — はじめに</a>
+        <a href="#ql-vision" class="toc-sub">聖路加ICUが目指すもの</a>
+        <a href="#ql-todo" class="toc-sub">【必読】ローテ開始前のTo Do</a>
+
+        <a href="#rules" class="toc-section">SECTION 02 — ICUの方針</a>
+        <a href="#ql-rules" class="toc-sub">ICUのルール</a>
+        <a href="#ql-staff" class="toc-sub">スタッフ紹介・チーム編成</a>
+        <a href="#ql-sets" class="toc-sub">ICUのセット</a>
+      </nav>
+    </aside>
+
+  </main>
+
+  <script src="../script.js"></script>
+</body>
+</html>
