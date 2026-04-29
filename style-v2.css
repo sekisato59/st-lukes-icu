@@ -396,6 +396,8 @@ button { cursor: pointer; font-family: inherit; }
   background: url('images/free-bg3-desktop.jpg') center center / cover no-repeat !important;
   color: #111 !important;
   padding-top: calc(64px + 16px) !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
 }
 .subpage-hero.hero-image-bg::before {
   background-image: radial-gradient(circle, rgba(0,0,0,0.06) 1px, transparent 1px) !important;
@@ -428,10 +430,6 @@ button { cursor: pointer; font-family: inherit; }
    - 一部ページ（TGA/PCP/CSW/ASAH/DEX/DOC等）が独自に <div class="hero-container"> や
      inline style="max-width:860px" の入れ子で title を中央に押し込めていたため、
      title の left edge が JIPAD と違う位置に出る問題を修正 */
-.subpage-hero.hero-image-bg {
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-}
 .subpage-hero.hero-image-bg > .hero-container,
 .subpage-hero.hero-image-bg > .container {
   max-width: 1160px !important;
@@ -727,6 +725,7 @@ a.tl-text {
   cursor: pointer;
   transition: background 0.15s;
   border-radius: 8px;
+  position: relative;
 }
 .tl-linked:hover {
   background: var(--blue-pale);
@@ -734,7 +733,6 @@ a.tl-text {
 .tl-linked:hover .tl-text,
 .tl-linked:hover a.tl-text { color: var(--blue); }
 .tl-linked:hover strong { color: var(--blue); }
-.tl-linked { position: relative; }
 .tl-linked::after {
   content: '詳細を確認する →';
   position: absolute;
@@ -1585,6 +1583,42 @@ a.resource-item:hover .resource-name { color: var(--blue); }
     gap: 16px;
   }
 }
+
+/* ===== 共通ユーティリティクラス（inline style の重複を吸収） =====
+   SUMMARY 番号 / セクション英ラベル ─ GLページ(緑) と 疾患トピックス(橙) で使用 */
+.summary-num       { color: #2D7A4F; font-weight: 800; font-size: 0.8rem; width: 18px; flex-shrink: 0; }
+.summary-num.dt    { color: #B45309; }
+.section-label     { color: #2D7A4F; font-size: 0.75rem; letter-spacing: 0.1em; display: block; margin-bottom: 2px; }
+.section-label.dt  { color: #B45309; }
+
+/* ===== 章バナー（GLページ：緑グラデ + ドットグリッド） =====
+   .gl-chapter-banner            … 緑系（margin-top:48px デフォルト）
+   .gl-chapter-banner.dt         … 橙系（疾患トピックス）
+   .gl-chapter-banner.first      … margin-top:0（章間ではなく最初のバナー） */
+.gl-chapter-banner {
+  background: linear-gradient(150deg, #1A3A2A 0%, #2D7A4F 100%);
+  border-radius: 10px;
+  padding: 18px 22px;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+  margin-top: 48px;
+  margin-bottom: 0;
+}
+.gl-chapter-banner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px);
+  background-size: 20px 20px;
+  pointer-events: none;
+}
+.gl-chapter-banner.dt {
+  background: linear-gradient(150deg, #3D1F00 0%, #B45309 100%);
+}
+.gl-chapter-banner.first { margin-top: 0; }
+.gl-chapter-banner .gl-chapter-title    { font-size: 1.3rem; font-weight: 900; position: relative; }
+.gl-chapter-banner .gl-chapter-subtitle { font-size: 0.78rem; color: rgba(255,255,255,0.6); position: relative; }
 
 /* ===== ie-table ベース定義（150+ページが inline 化していた標準を吸収） ===== */
 .ie-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; line-height: 1.6; margin-top: 10px; }
