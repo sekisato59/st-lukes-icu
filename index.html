@@ -372,14 +372,44 @@
       .dum-news-grid { grid-template-columns:1fr; }
       .dum-nav-menu { display:none; }
       .dum-nav-toggle { display:flex; }
+
+      /* モバイル：ハンバーガーを開いたら 4列のアイコン形式タブを表示 */
       .dum-nav-menu.open {
-        display:flex;flex-direction:column;gap:0;
-        position:absolute;top:100%;right:var(--dum-section-px);
-        background:#fff;border:1px solid #ECECE6;border-radius:10px;
-        box-shadow:0 8px 24px rgba(0,0,0,0.08);
-        padding:8px;min-width:220px;max-height:75vh;overflow-y:auto;z-index:99;
+        display:grid !important;grid-template-columns:repeat(4, 1fr);gap:6px;
+        position:absolute;top:100%;left:8px;right:8px;
+        background:#fff;border:1px solid #ECECE6;border-radius:14px;
+        box-shadow:0 8px 24px rgba(0,0,0,0.12);
+        padding:14px 10px;max-height:80vh;overflow-y:auto;z-index:99;
+        list-style:none;margin:6px 0 0;
       }
-      .dum-nav-menu.open a { padding:10px 14px;border-radius:6px; }
+      .dum-nav-menu.open li { list-style:none; }
+      .dum-nav-menu.open a {
+        display:flex !important;flex-direction:column;align-items:center;justify-content:flex-start;
+        gap:6px;padding:10px 4px;
+        font-size:0.62rem;font-weight:700;color:var(--hero-text-mute);
+        text-align:center;line-height:1.3;border-radius:10px;
+        white-space:normal;text-decoration:none;min-height:74px;
+        transition:background .15s;
+      }
+      .dum-nav-menu.open a:hover { background:#F4F8FB; }
+      .dum-nav-menu.open .nav-icon {
+        display:flex !important;align-items:center;justify-content:center;
+        width:40px;height:40px;border-radius:11px;background:#DBEAFE;flex-shrink:0;
+      }
+      .dum-nav-menu.open .nav-icon svg { width:22px;height:22px;stroke:#2563EB;fill:none; }
+
+      /* パステル色分け */
+      .dum-nav-menu.open .dn-ico-home    { background:#DBEAFE; } .dum-nav-menu.open .dn-ico-home    svg { stroke:#2563EB; }
+      .dum-nav-menu.open .dn-ico-todo    { background:#EDE9FE; } .dum-nav-menu.open .dn-ico-todo    svg { stroke:#7C3AED; }
+      .dum-nav-menu.open .dn-ico-learn   { background:#FEF3C7; } .dum-nav-menu.open .dn-ico-learn   svg { stroke:#D97706; }
+      .dum-nav-menu.open .dn-ico-video   { background:#FEE2E2; } .dum-nav-menu.open .dn-ico-video   svg { stroke:#DC2626; }
+      .dum-nav-menu.open .dn-ico-gl-icu  { background:#D1FAE5; } .dum-nav-menu.open .dn-ico-gl-icu  svg { stroke:#059669; }
+      .dum-nav-menu.open .dn-ico-gl-op   { background:#E0F2FE; } .dum-nav-menu.open .dn-ico-gl-op   svg { stroke:#0284C7; }
+      .dum-nav-menu.open .dn-ico-disease { background:#FFF7ED; } .dum-nav-menu.open .dn-ico-disease svg { stroke:#EA580C; }
+      .dum-nav-menu.open .dn-ico-faq     { background:#F3F4F6; } .dum-nav-menu.open .dn-ico-faq     svg { stroke:#6B7280; }
+    }
+    @media (max-width:380px) {
+      .dum-nav-menu.open { grid-template-columns:repeat(3, 1fr); }
     }
     /* ハンバーガートグル */
     .dum-nav-toggle {
@@ -533,14 +563,14 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
       </button>
       <ul class="dum-nav-menu" id="dumNavMenu">
-        <li><a href="#about"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>当院ICUについて</a></li>
-        <li><a href="pages/pre-rotation-todo.html"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span>研修される先生へ</a></li>
-        <li><a href="#learning"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></span>学習コンテンツ</a></li>
-        <li><a href="#videos"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg></span>講義動画</a></li>
-        <li><a href="pages/articles-guidelines.html"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span>論文GL(ICU)</a></li>
-        <li><a href="pages/articles-outpatient.html"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><circle cx="12" cy="15" r="2"/></svg></span>論文GL(外来)</a></li>
-        <li><a href="pages/disease-topics.html"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></span>疾患マニュアル</a></li>
-        <li><a href="#faq"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>FAQ</a></li>
+        <li><a href="#about"><span class="nav-icon dn-ico-home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>当院ICUについて</a></li>
+        <li><a href="pages/pre-rotation-todo.html"><span class="nav-icon dn-ico-todo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span>研修される先生へ</a></li>
+        <li><a href="#learning"><span class="nav-icon dn-ico-learn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></span>学習コンテンツ</a></li>
+        <li><a href="#videos"><span class="nav-icon dn-ico-video"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg></span>講義動画</a></li>
+        <li><a href="pages/articles-guidelines.html"><span class="nav-icon dn-ico-gl-icu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span>論文GL(ICU)</a></li>
+        <li><a href="pages/articles-outpatient.html"><span class="nav-icon dn-ico-gl-op"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><circle cx="12" cy="15" r="2"/></svg></span>論文GL(外来)</a></li>
+        <li><a href="pages/disease-topics.html"><span class="nav-icon dn-ico-disease"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></span>疾患マニュアル</a></li>
+        <li><a href="#faq"><span class="nav-icon dn-ico-faq"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>FAQ</a></li>
       </ul>
     </div>
   </nav>
