@@ -417,57 +417,67 @@
 
     /* ===== SNS 誘導カード hover ===== */
     .dum-sns-card:hover { transform:translateY(-2px);box-shadow:0 6px 18px rgba(13,79,140,0.12); }
-    /* ===== モバイル：視認性を優先したレイアウト調整 ===== */
+    /* ===== モバイル：視認性を優先 + 画面端まで広げる ===== */
     @media (max-width:768px) {
-      /* ご利用にあたって：左右マージン縮小・本文サイズUP */
-      .dum-notice { margin-left:8px;margin-right:8px;padding:14px 16px; }
+      /* セクション全体の左右パディングを除去（画面端まで使う） */
+      .dum-content-block { padding-left:0;padding-right:0; }
+      .dum-hero-full { padding-left:0;padding-right:0; }
+      .dum-hero-img-box { transform:none; }
+      .dum-learn-panel { padding-left:0;padding-right:0; }
+
+      /* ご利用にあたって：左右ゼロ */
+      .dum-notice { margin-left:0;margin-right:0;padding:14px 16px;border-radius:0; }
       .dum-notice-body strong { font-size:0.95rem; }
       .dum-notice-body p { font-size:0.84rem;line-height:1.7; }
 
-      /* 新着コンテンツ：1カラム化＋サムネ拡大 */
-      .dum-news-grid { grid-template-columns:1fr !important;gap:10px;margin-left:8px !important;margin-right:8px; }
-      .dum-news-card { min-height:88px; }
+      /* 新着コンテンツ：1カラム化＋画面端まで */
+      .dum-news-grid { grid-template-columns:1fr !important;gap:10px;margin-left:0 !important;margin-right:0; }
+      .dum-news-card { min-height:88px;border-radius:0; }
       .dum-news-thumb { width:110px; }
       .dum-news-title { font-size:0.92rem !important;line-height:1.45; }
       .dum-news-tag { font-size:0.68rem !important; }
       .dum-news-meta { font-size:0.74rem !important; }
 
-      /* 5枚カードグリッド → 2カラム化（折り返し許可） */
+      /* 5枚カードグリッド → 2カラム化（画面端まで） */
       .dum-card-grid {
-        display:grid !important;grid-template-columns:1fr 1fr;gap:10px;
-        margin-left:8px !important;margin-right:8px;flex-wrap:initial;
+        display:grid !important;grid-template-columns:1fr 1fr;gap:6px;
+        margin-left:0 !important;margin-right:0;flex-wrap:initial;
       }
       .dum-card-grid > .dum-card { flex:initial !important; }
-      .dum-card { aspect-ratio:5/3; }
+      .dum-card { aspect-ratio:5/3;border-radius:0; }
       .dum-card-body { padding:12px 12px 10px; }
       .dum-card-icon { width:30px;height:30px; }
       .dum-card-title { font-size:0.88rem !important; }
       .dum-card-desc { font-size:0.72rem !important;line-height:1.5; }
 
       /* SNS 誘導：1カラム */
-      .dum-sns-grid { grid-template-columns:1fr !important;margin-left:8px !important;margin-right:8px; }
+      .dum-sns-grid { grid-template-columns:1fr !important;margin-left:0 !important;margin-right:0; }
 
-      /* 学習コンテンツ・講義動画のテキストカード：余白拡大・本文サイズUP */
-      .dum-textcard-list { margin-left:8px !important;margin-right:8px; }
+      /* 学習コンテンツ・講義動画のテキストカード */
+      .dum-textcard-list { margin-left:0 !important;margin-right:0; }
+      .dum-textcard-list .card { border-radius:0;border-left:none;border-right:none;margin-bottom:0;border-bottom:1px solid var(--border); }
       .dum-textcard-list .card .card-inner { padding:14px 16px; }
       .dum-textcard-list .card .card-section-title { font-size:0.95rem;padding-bottom:8px;margin-bottom:8px; }
       .dum-textcard-list .card p { font-size:0.82rem !important;line-height:1.65; }
 
-      /* バナー画像：左右マージンも縮小 */
-      .dum-learn-panel > div:first-child { margin-left:8px !important;margin-right:8px !important; }
+      /* バナー画像：左右マージン除去 */
+      .dum-learn-panel > div:first-child { margin-left:0 !important;margin-right:0 !important; }
+      .dum-learn-banner { -webkit-mask-image:none;mask-image:none; }
 
-      /* FAQ：本文視認性UP・タップ領域確保 */
+      /* FAQ：画面端まで・タップ領域確保 */
+      .dum-content-block .faq-list { margin-left:0 !important;margin-right:0; }
+      .dum-content-block .faq-item { border-radius:0;border-left:none;border-right:none; }
       .dum-content-block .faq-question { font-size:0.95rem !important;padding:14px 16px !important; }
       .dum-content-block .faq-toggle { font-size:1.2rem !important; }
       .dum-content-block .faq-answer p,
       .dum-content-block .faq-answer ul { font-size:0.85rem !important;line-height:1.75; }
-      #faq { margin-left:8px !important; }
+      #faq { margin-left:0 !important; }
 
-      /* hr 区切り線：左右に追従 */
-      .dum-learn-panel hr { margin-left:8px !important;margin-right:8px !important; }
+      /* hr 区切り線：マージンゼロ */
+      .dum-learn-panel hr { margin-left:0 !important;margin-right:0 !important; }
 
-      /* フッター画像も画面端まで広げる */
-      .dum-footer-image { padding:0 8px; }
+      /* フッター画像も画面端まで */
+      .dum-footer-image { padding:0;max-width:100%; }
     }
     @media (max-width:480px) {
       /* スマホ縦持ち：5枚カードを1カラムに */
