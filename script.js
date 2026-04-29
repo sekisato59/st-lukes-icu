@@ -1,4 +1,4 @@
-// ===== 全ページ共通検索機能 =====
+// ===== 全ページ共通：ナビ統一 + 検索機能 =====
 (function initGlobalSearch() {
   // 既にメインページで検索UIがある場合はスキップ
   if (document.getElementById('heroSearchTrigger')) return;
@@ -6,19 +6,7 @@
   var navMenu = document.getElementById('navMenu');
   if (!navMenu) return;
 
-  // 検索ボタンをnavbarに追加
-  var li = document.createElement('li');
-  li.innerHTML = '<button class="nav-search-trigger" id="globalSearchTrigger" aria-label="検索を開く">検索<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left:4px;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></button>';
-  navMenu.appendChild(li);
-
-  // 検索オーバーレイをbodyに追加
-  var overlay = document.createElement('div');
-  overlay.className = 'search-overlay';
-  overlay.id = 'globalSearchOverlay';
-  overlay.innerHTML = '<div class="search-overlay-inner"><button class="search-overlay-close" id="globalSearchClose" aria-label="閉じる">&times;</button><input type="text" id="globalSearchInput" class="search-overlay-input" placeholder="キーワードで検索（例：抗菌薬、透析、ルール）" autocomplete="off"><div class="search-overlay-results" id="globalSearchResults"></div></div>';
-  document.body.appendChild(overlay);
-
-  // search-index.jsを動的に読み込む
+  // basePath: script.js の src 属性からルートへの相対パスを算出
   var basePath = '';
   var scripts = document.getElementsByTagName('script');
   for (var i = 0; i < scripts.length; i++) {
@@ -28,6 +16,24 @@
       break;
     }
   }
+
+  // ナビメニュー全体をメインページと同じ統一版に差し替え（テキストのみ）
+  navMenu.innerHTML = ''
+    + '<li><a href="' + basePath + 'index.html#about" class="nav-link">当院ICUについて</a></li>'
+    + '<li><a href="' + basePath + 'pages/pre-rotation-todo.html" class="nav-link">研修される先生へ</a></li>'
+    + '<li><a href="' + basePath + 'index.html#learning" class="nav-link">学習コンテンツ</a></li>'
+    + '<li><a href="' + basePath + 'index.html#videos" class="nav-link">講義動画</a></li>'
+    + '<li><a href="' + basePath + 'pages/articles-guidelines.html" class="nav-link">論文GL(ICU)</a></li>'
+    + '<li><a href="' + basePath + 'pages/articles-outpatient.html" class="nav-link">論文GL(外来)</a></li>'
+    + '<li><a href="' + basePath + 'pages/disease-topics.html" class="nav-link">疾患マニュアル</a></li>'
+    + '<li><button type="button" class="nav-search-trigger" id="globalSearchTrigger" aria-label="検索を開く">検索<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left:4px;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></button></li>';
+
+  // 検索オーバーレイをbodyに追加
+  var overlay = document.createElement('div');
+  overlay.className = 'search-overlay';
+  overlay.id = 'globalSearchOverlay';
+  overlay.innerHTML = '<div class="search-overlay-inner"><button class="search-overlay-close" id="globalSearchClose" aria-label="閉じる">&times;</button><input type="text" id="globalSearchInput" class="search-overlay-input" placeholder="キーワードで検索（例：抗菌薬、透析、ルール）" autocomplete="off"><div class="search-overlay-results" id="globalSearchResults"></div></div>';
+  document.body.appendChild(overlay);
 
   function bindSearch() {
     if (typeof SEARCH_INDEX === 'undefined') return;
