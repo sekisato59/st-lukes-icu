@@ -419,29 +419,33 @@
     .dum-sns-card:hover { transform:translateY(-2px);box-shadow:0 6px 18px rgba(13,79,140,0.12); }
     /* ===== モバイル：iPhone 15 Pro Max ランドスケープ(932px)もカバーするため 1024px に設定 ===== */
     @media (max-width:1024px) {
-      /* セクション/パネルの padding は 0（バナー画像を端まで広げるため） */
+      /* セクション/パネル自体に padding を持たせ、子要素は左右マージン0で確実に揃える */
       .dum-content-block { padding-left:0;padding-right:0; }
       .dum-hero-full { padding-left:0;padding-right:0; }
-      /* モバイル用ヘッダー画像はクリーンに表示（PC専用の右側グラデ・端フェードを無効化） */
       .dum-hero-img-box { transform:none;max-width:100%; }
       .dum-hero-img-box::before { display:none; }
       .dum-hero-full img { -webkit-mask-image:none;mask-image:none; }
-      .dum-learn-panel { padding-left:0;padding-right:0; }
+      .dum-learn-panel { padding:0 14px; }
 
-      /* バナー画像：端まで広げる */
-      .dum-learn-panel > div:first-child { margin-left:0 !important;margin-right:0 !important; }
+      /* バナー画像：負マージンでパネルの padding を打ち消し、画面端まで広げる */
+      .dum-learn-panel > div:first-child { margin:0 -14px !important; }
 
-      /* 以下、コンテンツカード類はすべて両脇 14px の余白／フォントは PC比 1pt 縮小 */
-      /* ご利用にあたって */
+      /* すべての子要素を margin-left/right:0 に統一（panel padding が左右余白を担保） */
+      .dum-learn-panel > .dum-block-head,
+      .dum-learn-panel > .dum-news-grid,
+      .dum-learn-panel > .dum-card-grid,
+      .dum-learn-panel > .dum-sns-grid,
+      .dum-learn-panel > .dum-textcard-list,
+      .dum-learn-panel > .faq-list,
+      .dum-learn-panel > hr { margin-left:0 !important;margin-right:0 !important;width:auto !important; }
+
+      /* ご利用にあたって：パネル外なので個別に14px */
       .dum-notice { margin-left:14px;margin-right:14px;padding:14px 16px; }
       .dum-notice-body strong { font-size:0.88rem; }
       .dum-notice-body p { font-size:0.77rem;line-height:1.7; }
 
-      /* 見出し（新着コンテンツ等）：カード列と左端を揃える */
-      .dum-learn-panel .dum-block-head { margin-left:14px !important;margin-right:14px !important; }
-
       /* 新着コンテンツ */
-      .dum-news-grid { grid-template-columns:1fr !important;gap:10px;margin:0 14px !important;width:auto !important; }
+      .dum-news-grid { grid-template-columns:1fr !important;gap:10px; }
       .dum-news-card { min-height:88px; }
       .dum-news-thumb { width:110px; }
       .dum-news-title { font-size:0.85rem !important;line-height:1.45; }
@@ -451,7 +455,7 @@
       /* 聖路加ICU 5枚カード → モバイルでは「新着カード」と同じ横長レイアウトに */
       .dum-card-grid {
         display:grid !important;grid-template-columns:1fr;gap:10px;
-        margin:0 14px !important;width:auto !important;flex-wrap:initial;
+        flex-wrap:initial;
       }
       .dum-card-grid > .dum-card { flex:initial !important; }
       .dum-card {
@@ -480,24 +484,18 @@
       }
 
       /* SNS 誘導 */
-      .dum-sns-grid { grid-template-columns:1fr !important;margin-left:14px !important;margin-right:14px; }
+      .dum-sns-grid { grid-template-columns:1fr !important; }
 
       /* 学習コンテンツ・講義動画のテキストカード */
-      .dum-textcard-list { margin-left:14px !important;margin-right:14px; }
       .dum-textcard-list .card .card-inner { padding:14px 16px; }
       .dum-textcard-list .card .card-section-title { font-size:0.88rem;padding-bottom:8px;margin-bottom:8px; }
       .dum-textcard-list .card p { font-size:0.75rem !important;line-height:1.65; }
 
       /* FAQ */
-      .dum-content-block .faq-list { margin-left:14px !important;margin-right:14px; }
       .dum-content-block .faq-question { font-size:0.88rem !important;padding:14px 16px !important; }
       .dum-content-block .faq-toggle { font-size:1.13rem !important; }
       .dum-content-block .faq-answer p,
       .dum-content-block .faq-answer ul { font-size:0.78rem !important;line-height:1.75; }
-      #faq { margin-left:14px !important; }
-
-      /* hr 区切り線：カード列と揃える */
-      .dum-learn-panel hr { margin-left:14px !important;margin-right:14px !important; }
 
       /* フッター画像はバナー扱い：端まで */
       .dum-footer-image { padding:0;max-width:100%; }
