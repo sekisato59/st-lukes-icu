@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>血管ウォーターフォール現象と Critical Closing Pressure（J Crit Care 2026）| 聖路加ICU</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style-v2.css?v=202605010310">
+  <style>
+/* Layout */
+    .content-wrap { display:flex;gap:32px;align-items:flex-start;max-width:1140px;margin:0 auto;padding:32px 20px 80px; }
+    .main-col { flex:1;min-width:0;max-width:900px; }
+    .ie-sidebar { width:220px;flex-shrink:0;position:sticky;top:80px; }
+    .ie-sidebar-card { background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:14px; }
+    .ie-sidebar-title { font-size:0.72rem;font-weight:800;color:#2D7A4F;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:8px; }
+    .ie-toc-chapter { display:block;font-size:0.8rem;font-weight:700;color:var(--text);padding:6px 0;border-bottom:1px solid var(--border);text-decoration:none;line-height:1.4; }
+    .ie-toc-section { display:block;font-size:0.75rem;color:var(--muted);padding:4px 0 4px 10px;text-decoration:none;line-height:1.4;border-left:2px solid var(--border); }
+    @media (max-width:900px) { .ie-sidebar { display:none; } }
+
+    /* Tables */
+    .ie-table { width:100%;border-collapse:collapse;font-size:0.82rem;margin-top:10px; }
+    .ie-table th { background:#F0FDF4;border:1px solid #BBF7D0;padding:8px 12px;font-weight:700;font-size:0.78rem;text-align:left; }
+    .ie-table td { border:1px solid var(--border);padding:8px 12px;vertical-align:top;line-height:1.7; }
+    .ie-table tr:nth-child(even) td { background:#F8FAFC; }
+
+    /* Flow */
+    .ie-flow { display:flex;flex-direction:column;gap:0; }
+    .ie-flow-item { display:flex;align-items:flex-start;gap:14px;background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:14px 16px; }
+    .ie-flow-arrow { text-align:center;color:#2D7A4F;font-size:1.1rem;font-weight:700;padding:4px 0; }
+    .ie-flow-num { width:28px;height:28px;border-radius:50%;background:#2D7A4F;color:#fff;font-size:0.78rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0; }
+
+    /* Stat grid */
+    .ie-stat-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px; }
+    @media (max-width:520px) { .ie-stat-grid { grid-template-columns:1fr 1fr; } }
+    .ie-stat { background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;padding:14px 12px;text-align:center; }
+    .ie-stat-val { font-size:1.25rem;font-weight:900;color:#2D7A4F;line-height:1.3; }
+    .ie-stat-label { font-size:0.68rem;color:var(--muted);margin-top:5px;line-height:1.5; }
+    .ie-stat.red { background:#FEF2F2;border-color:#FECACA; }
+    .ie-stat.red .ie-stat-val { color:#DC2626; }
+    .ie-stat.orange { background:#FFF7ED;border-color:#FED7AA; }
+    .ie-stat.orange .ie-stat-val { color:#EA580C; }
+
+    /* Alpha card */
+    .ie-alpha { background:#F5F3FF;border:1px solid #DDD6FE;border-radius:8px;overflow:hidden;margin-top:10px; }
+    .ie-alpha-inner { padding:14px 16px; }
+    .ie-alpha-header { display:flex;align-items:center;gap:8px;margin-bottom:8px; }
+    .ie-alpha-badge { background:#7C3AED;color:#fff;font-size:0.68rem;font-weight:800;padding:2px 8px;border-radius:10px;letter-spacing:0.05em; }
+    .ie-alpha-title { font-size:0.88rem;font-weight:800;color:#4C1D95; }
+
+    /* Alerts */
+    .alert-red    { background:#FEF2F2;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#7F1D1D;line-height:1.7; }
+    .alert-blue   { background:#EFF6FF;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#1E3A5F;line-height:1.7; }
+    .alert-green  { background:#F0FDF4;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#14532D;line-height:1.7; }
+    .alert-yellow { background:#FEFCE8;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#713F12;line-height:1.7; }
+
+    /* Formula / equation box */
+    .formula-box { background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;padding:14px 18px;margin-top:10px;font-size:0.9rem;color:#14532D;line-height:1.9;text-align:center; }
+    .formula-sub { font-size:0.72rem;color:var(--muted);margin-top:6px;text-align:center; }
+
+    /* Pressure gradient schematic */
+    .pressure-flow { display:flex;align-items:center;gap:6px;flex-wrap:wrap;background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:14px 16px;margin-top:10px;font-size:0.82rem; }
+    .pf-box { background:#2D7A4F;color:#fff;font-size:0.8rem;font-weight:800;padding:6px 12px;border-radius:6px;text-align:center; }
+    .pf-box.red { background:#DC2626; }
+    .pf-box.orange { background:#EA580C; }
+    .pf-box.gray { background:#94A3B8; }
+    .pf-box.purple { background:#7C3AED; }
+    .pf-arrow { color:#2D7A4F;font-weight:700;font-size:0.9rem; }
+    .pf-arrow.red { color:#DC2626; }
+    .pf-label { font-size:0.65rem;color:var(--muted);margin-top:3px;text-align:center; }
+
+    /* Zone diagram */
+    .zone-grid { display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px; }
+    .zone-box { border-radius:8px;padding:12px;text-align:center;border:1px solid var(--border); }
+    .zone-box h4 { font-size:0.78rem;font-weight:800;margin:0 0 6px; }
+    .zone-box p { font-size:0.72rem;line-height:1.6;margin:0;color:var(--text); }
+    @media (max-width:600px) { .zone-grid { grid-template-columns:1fr; } }
+
+    /* Echo grid */
+    .ie-echo-grid { display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px; }
+    .ie-echo-box { background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:12px 14px; }
+    .ie-echo-name { font-size:0.78rem;font-weight:800;color:#2D7A4F;margin-bottom:4px; }
+    .ie-echo-body { font-size:0.8rem;line-height:1.7;color:var(--text); }
+    @media (max-width:600px) { .ie-echo-grid { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="../index.html" class="nav-logo">
+        <img src="../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+        <span class="nav-logo-text">聖路加国際病院ICU</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-menu" id="navMenu"></ul>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <div class="subpage-hero hero-image-bg">
+    <div class="container">
+      <a href="articles-guidelines.html#art-cardio" class="back-link">← 注目論文・ガイドラインまとめへ戻る</a>
+      <h1 class="subpage-title">血管ウォーターフォール現象と<br>Critical Closing Pressure<br>循環生理の統合的理解</h1>
+      <p class="subpage-subtitle">#2 CARDIOLOGICAL SYSTEM / SHOCK PHYSIOLOGY</p>
+      <div>
+        <span class="ie-badge">Castro R, Retamal J, Hernández G, Kattan E, Pinsky MR</span>
+        <span class="ie-badge">J Crit Care 2026</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== CONTENT ===== -->
+  <div class="content-wrap">
+
+    <div class="main-col">
+
+      <!-- ===== 略語一覧 ===== -->
+      <div class="card" style="margin-bottom:24px;">
+        <div class="card-inner">
+          <h3 class="rule-title" style="margin-bottom:10px;">本ページで使用する略語一覧</h3>
+          <table style="width:100%;border-collapse:collapse;font-size:0.8rem;line-height:1.6;">
+            <tbody>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:130px;color:var(--blue);">略語</td><td style="padding:4px 8px;">正式名称 — 日本語訳</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">VW</td><td style="padding:4px 8px;">Vascular Waterfall — 血管ウォーターフォール</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">Pcrit</td><td style="padding:4px 8px;">Critical Closing Pressure — 臨界閉塞圧（血流が停止する最小動脈圧）</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">Pmsf</td><td style="padding:4px 8px;">Mean Systemic Filling Pressure — 平均体循環充満圧</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">TPP</td><td style="padding:4px 8px;">Tissue Perfusion Pressure — 組織灌流圧（= MAP − Pcrit）</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">MAP</td><td style="padding:4px 8px;">Mean Arterial Pressure — 平均動脈圧</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CVP</td><td style="padding:4px 8px;">Central Venous Pressure — 中心静脈圧</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CO</td><td style="padding:4px 8px;">Cardiac Output — 心拍出量</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">SVR</td><td style="padding:4px 8px;">Systemic Vascular Resistance — 体血管抵抗</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">Pa</td><td style="padding:4px 8px;">Arterial Pressure — 動脈圧</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">Pv</td><td style="padding:4px 8px;">Venous Pressure — 静脈圧</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">PA</td><td style="padding:4px 8px;">Alveolar Pressure — 肺胞圧</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">Ppa</td><td style="padding:4px 8px;">Pulmonary Arterial Pressure — 肺動脈圧</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">Ppv</td><td style="padding:4px 8px;">Pulmonary Venous Pressure — 肺静脈圧</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">Ppl</td><td style="padding:4px 8px;">Pleural Pressure — 胸腔内圧</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">RAP</td><td style="padding:4px 8px;">Right Atrial Pressure — 右房圧</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">PEEP</td><td style="padding:4px 8px;">Positive End-Expiratory Pressure — 呼気終末陽圧</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">RV</td><td style="padding:4px 8px;">Right Ventricle — 右心室</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">ARDS</td><td style="padding:4px 8px;">Acute Respiratory Distress Syndrome — 急性呼吸窮迫症候群</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">Eadyn</td><td style="padding:4px 8px;">Dynamic Arterial Elastance — 動脈動的エラスタンス（昇圧薬反応性のサロゲート指標）</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">AKI</td><td style="padding:4px 8px;">Acute Kidney Injury — 急性腎障害</td></tr>
+              <tr><td style="padding:4px 8px;font-weight:700;color:var(--blue);">PVR</td><td style="padding:4px 8px;">Pulmonary Vascular Resistance — 肺血管抵抗</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ===== CHAPTER 1 ===== -->
+      <div id="vw-ch1" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:24px;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">第1章 概念的基盤</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Historical Development and Mechanistic Foundations</div>
+      </div>
+
+      <!-- S1: 古典的モデルの限界 -->
+      <h3 id="vw-s1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+        古典的線形モデルの限界
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">Ohm則モデルとその限界</h3>
+          <p class="rule-body">従来、循環系は Ohm の法則に類似した線形水圧モデルで説明されてきた。すなわち血流量（Q）は、MAP と CVP の圧較差を SVR で除した値として定式化される（Q = ΔP / R）。このモデルは直感的でわかりやすいが、実際の循環生理には当てはまらない側面が多い。</p>
+          <p class="rule-body">線形モデルは「抵抗一定」を前提としているが、実際には大動脈などの大血管には測定可能な抵抗はほとんど存在せず、動脈抵抗のほぼすべては小動脈・細動脈できわめて短い距離の間に生じる。また、可変な血管運動緊張、血管コンプライアンス、血管虚脱、外部圧縮力といった非線形因子を考慮できない。こうした限界から、自己調節能（オートレギュレーション）やショック状態をより正確に説明する枠組みとして、<span class="mark-green"><strong>血管ウォーターフォール（VW）モデル</strong></span>が提唱された。</p>
+          <div class="formula-box">
+            古典モデル：Q = (MAP − CVP) / SVR<br>
+            <span style="color:#2D7A4F;font-weight:700;">↓ 問題点：非線形因子を考慮できない</span><br>
+            VWモデル：有効組織灌流圧 = Pa − Pcrit<br>
+            <div style="font-size:0.72rem;color:var(--muted);margin-top:6px;">CVP ではなく Pcrit が真の後負荷圧として機能する</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- S2: VW歴史的発展 -->
+      <h3 id="vw-s2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+        血管ウォーターフォールの歴史的発展
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">概念の誕生：Starling抵抗体からVascular Waterfallへ</h3>
+          <p class="rule-body">血管ウォーターフォールの概念は、1世紀以上にわたる動脈・静脈系における圧力‐流量関係の研究から生まれた。</p>
+          <table class="ie-table" style="margin-top:12px;">
+            <colgroup><col style="width:90px;"><col style="width:130px;"><col></colgroup>
+            <thead><tr><th>年</th><th>研究者</th><th>貢献</th></tr></thead>
+            <tbody>
+              <tr><td style="white-space:nowrap;">1914年</td><td style="white-space:nowrap;">Starling EH</td><td>灌流心臓モデルにおいて、大動脈を外部圧チャンバーで囲むことで冠灌流を維持できることを観察 → <strong>Starling 抵抗体</strong>の原型</td></tr>
+              <tr><td style="white-space:nowrap;">1951年</td><td style="white-space:nowrap;">Burton AC</td><td><strong>Critical Closing Pressure（Pcrit）</strong>を定義：「内腔動脈圧がこの閾値を下回ると血管が虚脱し血流が一時的に停止する」</td></tr>
+              <tr><td style="white-space:nowrap;">1963年</td><td style="white-space:nowrap;">Permutt S, Riley RL</td><td><strong>「血管ウォーターフォール」</strong>として概念を定式化：血流が下流圧から独立し、上流圧と Pcrit の圧較差のみに依存する現象</td></tr>
+              <tr><td style="white-space:nowrap;">1964年</td><td style="white-space:nowrap;">West JB et al.</td><td>肺循環における VW 生理（<strong>West Zone</strong>）を記載：肺胞圧が有効下流圧を規定する</td></tr>
+              <tr><td style="white-space:nowrap;">1969年</td><td style="white-space:nowrap;">Conrad WA</td><td>加圧環境下での虚脱チューブを用いた力学実験：<strong>負の抵抗</strong>・振動流・残存開存の機械学的基盤を解明</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">Pcrit の定義とウォーターフォールのメカニズム</h3>
+          <p class="rule-body">1951年に Burton が定義した <span class="mark-green"><strong>Pcrit</strong></span>（臨界閉塞圧）は、血管外圧（血管運動緊張または間質圧）が内腔動脈圧を上回ることで生じる流量制限閾値である。内腔圧が Pcrit を下回ると血管が部分的または完全に虚脱し、たとえ流入・流出間の圧較差が残存していても血流は一時的に停止する。</p>
+          <p class="rule-body">流れが停止すると、内腔圧は上流値まで反跳して血流が再開し、ただちにまた停止するという「断続流」パターンが生じる。これは、<strong>Pcrit が有効な後負荷圧として機能</strong>することを意味する。すなわち Pcrit を下回る下流圧は血流に影響せず、血流は Pa（≒MAP）と Pcrit の圧較差のみに支配される。</p>
+          <p class="rule-body">Permutt と Riley はこの原理を「水が崖を越える滝」にたとえた。水が崖を流れ落ちる際、流量は上流の水位と崖の縁の位置にのみ依存し、滝壺の深さには無関係である。血流においても、虚脱した血管セグメントの先では、下流圧ではなく上流圧（Pa）と Pcrit の関係のみが流量を決定する。</p>
+
+          <div class="alert-green">
+            <strong>血管ウォーターフォールの要件：</strong><br>
+            ① 周囲圧（血管運動緊張 or 間質圧）が内腔動脈圧を超えること<br>
+            ② Pcrit が有効後負荷圧として機能すること（Pcrit &gt; Pv のとき）<br>
+            ③ 組織灌流圧 = <strong>Pa − Pcrit</strong>（CVP や Pv ではなく Pcrit が基準）
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">Pmsf（平均体循環充満圧）との関係</h3>
+          <p class="rule-body">Pmsf は心拍が停止した際に循環全体が達する平衡圧であり、静脈還流の有効上流圧として機能する。生理的条件下では Pmsf と Pv（静脈圧）の圧較差が静脈還流の駆動力を規定する。静脈うっ血によって Pv が上昇すると、直ちに静脈還流が障害される。</p>
+          <p class="rule-body">VW の文脈では、<span class="mark-yellow"><strong>Pcrit と Pmsf の圧較差</strong>が機能的 VW 勾配を形成し、これが組織灌流圧を決定する</span>。すなわち：</p>
+          <div class="pressure-flow" style="justify-content:center;gap:10px;flex-wrap:wrap;">
+            <div><div class="pf-box" style="background:#1565C0;">MAP（Pa）</div><div class="pf-label">動脈圧</div></div>
+            <div><div class="pf-arrow">→</div></div>
+            <div><div class="pf-box" style="background:#2D7A4F;">Pcrit</div><div class="pf-label">臨界閉塞圧</div></div>
+            <div><div class="pf-arrow">→</div></div>
+            <div><div class="pf-box" style="background:#B45309;">Pmsf</div><div class="pf-label">平均体循環充満圧</div></div>
+            <div><div class="pf-arrow">→</div></div>
+            <div><div class="pf-box gray">CVP</div><div class="pf-label">中心静脈圧</div></div>
+          </div>
+          <p class="rule-body" style="margin-top:10px;">圧力は動脈から Pcrit まで（動脈抵抗）、Pmsf から CVP まで（静脈還流勾配）と段階的に低下する。この構造を理解すると、<strong>SVR という単一指標では捉えられない組織灌流の精緻な評価</strong>が可能になる。</p>
+
+          <div class="ie-stat-grid">
+            <div class="ie-stat">
+              <div class="ie-stat-val">Pa − Pcrit</div>
+              <div class="ie-stat-label">有効組織灌流圧（TPP）<br>VWが機能している場合</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">Pcrit − Pmsf</div>
+              <div class="ie-stat-label">機能的VW勾配<br>組織灌流を規定する</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">Pmsf − CVP</div>
+              <div class="ie-stat-label">静脈還流の駆動圧<br>心拍出量の決定因子</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- S3: 肺循環のVW（West Zones） -->
+      <h3 id="vw-s3" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+        <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>
+        肺循環のウォーターフォール — West ゾーン
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">肺循環はVW生理の典型例</h3>
+          <p class="rule-body">肺循環は血管ウォーターフォール生理の最もわかりやすい例である。1964年に West らが記述したように、肺胞圧（PA）と胸腔内圧（Ppl）が有効下流圧を再定義し、3つのゾーンが生まれる。このゾーン構造は機械的換気（特に高 PEEP）下での循環管理において直接的な臨床意義をもつ。</p>
+          <div class="zone-grid">
+            <div class="zone-box" style="background:#FEF2F2;border-color:#FECACA;">
+              <h4 style="color:#DC2626;">Zone 1</h4>
+              <p><strong>Pa &lt; PA</strong><br>肺動脈圧が肺胞圧を下回る<br>→ <span class="mark-red"><strong>血流停止</strong></span></p>
+            </div>
+            <div class="zone-box" style="background:#FFFBEB;border-color:#FDE68A;">
+              <h4 style="color:#B45309;">Zone 2</h4>
+              <p><strong>Pa &gt; PA &gt; Ppv</strong><br>血流は Pa − PA のみに依存<br>→ <span class="mark-yellow"><strong>VWの典型（Ppv 無関係）</strong></span></p>
+            </div>
+            <div class="zone-box" style="background:#F0FDF4;border-color:#BBF7D0;">
+              <h4 style="color:#2D7A4F;">Zone 3</h4>
+              <p><strong>Pa &gt; Ppv &gt; PA</strong><br>血流は Pa − Ppv で決まる<br>→ <span class="mark-green"><strong>通常の圧依存性流量</strong></span></p>
+            </div>
+          </div>
+          <p class="rule-body" style="margin-top:10px;">Zone 2 では PA が有効閉塞圧として働き、下流の肺静脈圧（Ppv）が変化しても血流は変わらない。これが「血管ウォーターフォール」の肺循環における表現型である。高 PEEP によって PA が上昇すると Zone 2 が Zone 1 へとシフトし、血流停止のリスクが生じる。</p>
+        </div>
+      </div>
+
+      <!-- S4: Conradモデル -->
+      <h3 id="vw-s4" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+        <span style="color:#16A34A;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 4</span>
+        Conrad の力学的モデルと非線形血流挙動
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">虚脱チューブの非線形挙動：負の抵抗と残存開存</h3>
+          <p class="rule-body">1969年に Conrad が加圧環境下で薄壁虚脱チューブを用いた実験を行い、血流が直線的な圧力‐流量関係に従わないことを実証した。この力学的知見は Permutt と Riley の生理学的モデルを補完する機械的基盤として位置づけられる。</p>
+          <table class="ie-table" style="margin-top:10px;">
+            <colgroup><col style="width:110px;"><col></colgroup>
+            <thead><tr><th>流れの状態</th><th>特徴</th></tr></thead>
+            <tbody>
+              <tr><td style="white-space:nowrap;"><strong>完全開存</strong></td><td>Poiseuille 則に従う通常の層流。流量増加とともに抵抗も増加</td></tr>
+              <tr><td style="white-space:nowrap;"><strong>部分虚脱</strong><br><span style="font-size:0.72rem;color:var(--muted);">「負の抵抗」</span></td><td>虚脱部分から開存部分へ向けて血管径が拡大 → 抵抗が流量増加とともに<strong>減少</strong>（負の抵抗）。辺縁灌流床の灌流を保持するメカニズム</td></tr>
+              <tr><td style="white-space:nowrap;"><strong>側方トンネル</strong></td><td>内腔圧が周囲圧を下回っても、「側方トンネル（sided tunnel）」を通じて残存血流が維持される可能性</td></tr>
+              <tr><td style="white-space:nowrap;"><strong>振動流</strong></td><td>高流量では流体慣性と壁弾性の相互作用による振動が生じ、蠕動様の前向き血流を生む</td></tr>
+              <tr><td style="white-space:nowrap;"><strong>再開存</strong></td><td>チューブが再拡張すると層流が回復し、抵抗が再び流量に比例して増加</td></tr>
+            </tbody>
+          </table>
+          <div class="ie-alpha" style="margin-top:12px;">
+            <div class="ie-alpha-inner">
+              <div class="ie-alpha-header">
+                <span class="ie-alpha-badge">＋α</span>
+                <span class="ie-alpha-title">負の抵抗の臨床的意義</span>
+              </div>
+              <p class="rule-body" style="color:#4C1D95;">負の抵抗（流量増加→抵抗低下）は、肺循環における圧力誘発性拡張（Recruitment）に対応し、肺動脈圧上昇によって PVR がむしろ低下する現象として観察される。この非線形挙動は古典的 SVR 概念への挑戦であり、動脈抵抗と静脈抵抗を独立に評価する重要性を支持する。また、外部圧が上昇する中でも静脈還流が維持される機序も部分的にこの原理で説明できる。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SUMMARY CH1 -->
+      <h3 id="vw-sum1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+        第1章のキーメッセージ
+      </h3>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+              <span class="rule-body"><strong>CVP ではなく Pcrit が真の後負荷圧：</strong>MAP − CVP ではなく、Pa − Pcrit（= TPP）が真の組織灌流駆動圧である。Pcrit を下回る下流圧は血流に影響しない</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+              <span class="rule-body"><strong>VWの発生条件：</strong>周囲圧（血管運動緊張または間質圧）が内腔動脈圧を上回ると、Pcrit が有効後負荷圧として機能し、下流圧から独立した流量制限が成立する</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+              <span class="rule-body"><strong>圧力段階の構造：</strong>MAP → Pcrit（動脈抵抗）→ Pmsf → CVP（静脈還流勾配）という圧力段階が循環動態の全体像を提供する</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+              <span class="rule-body"><strong>肺循環はVWの典型：</strong>West Zone 2 では PA が Pcrit として機能し、Ppv に依存しない血流制限が生じる。高 PEEP は Zone 2→1 シフトを招く</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+              <span class="rule-body"><strong>非線形挙動：</strong>虚脱血管では「負の抵抗」「残存側方血流」「振動流」が生じ、古典的 Ohm 則では説明できない灌流維持機構が存在する</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== CHAPTER 2 ===== -->
+      <div id="vw-ch2" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">第2章 Pcrit・Pmsfの生理的相関とベッドサイド推定</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Physiological Correlates and Bedside Estimation</div>
+      </div>
+
+      <!-- S1: 毛細血管床 -->
+      <h3 id="vw-s5" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+        毛細血管床の特性と圧力推定の困難性
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">高コンプライアンスな毛細血管床と空間的不均一性</h3>
+          <p class="rule-body">毛細血管床は低抵抗・高コンプライアンスのリザーバーとして機能し、灌流圧の上昇に応じてリクルートメントと拡張が起こる（特に運動時・交感神経活性化時）。このコンプライアンスのために、毛細血管圧および臨界閉塞圧には局所的な血管運動緊張と代謝需要の違いを反映した顕著な空間的不均一性が存在する。</p>
+
+          <div class="ie-stat-grid">
+            <div class="ie-stat">
+              <div class="ie-stat-val">5–10 mmHg</div>
+              <div class="ie-stat-label">通常の毛細血管圧<br>Pmsf より高い範囲</div>
+            </div>
+            <div class="ie-stat orange">
+              <div class="ie-stat-val">18–25 mmHg</div>
+              <div class="ie-stat-label">骨格筋ピーク血流時の<br>毛細血管圧</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">不均一</div>
+              <div class="ie-stat-label">臓器・組織ごとに<br>Pcrit が異なる</div>
+            </div>
+          </div>
+
+          <p class="rule-body" style="margin-top:10px;">この空間的不均一性のため、<strong>Pcrit や VW 圧の生体内での直接測定は現実的でない</strong>。しかし定常状態では各血管床が共通の平衡圧（Pmsf）に収束する傾向があり、毛細血管網の伸展性によって比較的安定した基準点となる。</p>
+
+          <div class="ie-alpha">
+            <div class="ie-alpha-inner">
+              <div class="ie-alpha-header">
+                <span class="ie-alpha-badge">＋α</span>
+                <span class="ie-alpha-title">末梢 vs 中枢動脈圧の解離とVW生理</span>
+              </div>
+              <p class="rule-body" style="color:#4C1D95;">中枢動脈圧と末梢動脈圧の解離は、並列血管床が異なる Pcrit を生成することで生じる。低心拍出（循環血液量減少性・心原性）ショックでは、橈骨動脈などの遠位筋性動脈が大腿動脈に比べてより強く収縮し、局所 Pcrit が不均衡に上昇する。このため、中枢動脈圧は正常に見えても遠位圧は低下する「大腿‐橈骨圧較差」が生じる。低体温もこの機序により同様の現象をきたす。これは直列の単一血管での圧降下ではなく、<strong>異なる閉塞圧をもつ並列血管セグメント</strong>の問題として理解される。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- S2: ベッドサイド推定 -->
+      <h3 id="vw-s6" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+        ベッドサイドでの Pcrit・Pmsf 推定法
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">過渡的血行動態擾乱を利用した間接推定</h3>
+          <p class="rule-body">Pcrit と Pmsf は生体内で直接測定できないが、一過性の血行動態擾乱時に得られた圧力‐流量関係の解析によって間接的に推定できる。この手法により VW 概念の生理学的検証と昇圧薬などの介入効果の評価が可能になった。</p>
+
+          <div class="ie-flow">
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">1</div>
+              <div style="flex:1;">
+                <p class="rule-body"><strong>吸気保持手技（Inspiratory Hold）</strong><br>吸気保持中に静脈還流曲線を描き、ゼロ流量外挿値を <strong>Pmsf のサロゲート</strong>として推定する</p>
+              </div>
+            </div>
+            <div class="ie-flow-arrow">↓</div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">2</div>
+              <div style="flex:1;">
+                <p class="rule-body"><strong>MAP vs CO プロット</strong><br>心拍出量をゼロに外挿した際の動脈圧を <strong>Pcrit のサロゲート</strong>として推定する（心室出力曲線の零流量切片）</p>
+              </div>
+            </div>
+            <div class="ie-flow-arrow">↓</div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">3</div>
+              <div style="flex:1;">
+                <p class="rule-body"><strong>Pcrit − Pmsf 較差の評価</strong><br>この値が機能的 VW を定量化し、MAP 単独を超えた組織灌流圧の力学的分割評価（Mechanistic Partitioning）を可能にする</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="alert-yellow" style="margin-top:12px;">
+            <strong>⚠️ 推定法の前提と限界：</strong><br>
+            これらの推定は「線形性・血管運動緊張の安定・定常状態に近い条件」を仮定している。動的な臨床状態（敗血症性ショック急性期・急激な血管緊張変化）では推定精度が低下する可能性がある。
+          </div>
+        </div>
+      </div>
+
+      <!-- SUMMARY CH2 -->
+      <h3 id="vw-sum2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+        第2章のキーメッセージ
+      </h3>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+              <span class="rule-body"><strong>毛細血管圧の不均一性：</strong>局所血管運動緊張と代謝需要に応じて Pcrit は臓器間で大きく異なり、生体内での直接測定は現実的でない</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+              <span class="rule-body"><strong>Pmsfのサロゲート：</strong>吸気保持手技による静脈還流曲線のゼロ流量外挿値が Pmsf の臨床的推定法となる</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+              <span class="rule-body"><strong>Pcritのサロゲート：</strong>MAP vs CO プロットの零流量切片が Pcrit 推定値となり、昇圧薬の効果評価に応用できる</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+              <span class="rule-body"><strong>TPP = MAP − Pcrit：</strong>Pcrit − Pmsf 較差が機能的VWを定量化し、MAP 単独より精緻な灌流評価を提供する</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+              <span class="rule-body"><strong>並列血管床の Pcrit 解離：</strong>低心拍出状態では遠位筋性動脈 Pcrit が中枢動脈と異なり、中枢‐末梢圧較差として観察される</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== CHAPTER 3 ===== -->
+      <div id="vw-ch3" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">第3章 臨床応用1 — オートレギュレーションとショック</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Clinical Applications: Autoregulation and Shock</div>
+      </div>
+
+      <!-- S1: オートレギュレーション -->
+      <h3 id="vw-s7" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+        血管ウォーターフォールとオートレギュレーション
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">オートレギュレーションはVW生理の組織レベルでの表現</h3>
+          <p class="rule-body">オートレギュレーションとは、代謝需要の変化に応じて局所血流を一定範囲の動脈圧にわたって維持するメカニズムであり、血管ウォーターフォール生理の組織レベルでの発現として理解される。</p>
+          <p class="rule-body">代謝需要が増加すると、局所組織は上流細動脈の血管運動緊張を逆行性に低下させることで Pcrit を低下させ、血流を増加させる。このとき、有効なオートレギュレーションには<strong>十分な圧較差</strong>（Pa が Pcrit を上回ること、かつ Pcrit が Pmsf を上回ること）が必要である。</p>
+          <p class="rule-body">Pa が Pcrit に近づき組織の下限オートレギュレーション閾値を下回ると、オートレギュレーションは破綻する。正常に機能している場合、VW（Pcrit − Pmsf）が有効流出圧を安定させ、圧受容体反射が流入圧（Pa − Pcrit）を維持する。この二重安定化機構により、VW は Pa や流量変動から独立して機能し、局所血流調節の精度と適応性を高める。</p>
+
+          <div class="ie-echo-grid">
+            <div class="ie-echo-box">
+              <div class="ie-echo-name" style="color:#2D7A4F;">VWが機能している状態</div>
+              <div class="ie-echo-body">Pcrit &gt; Pmsf<br>Pa &gt; Pcrit<br>→ オートレギュレーション正常<br>→ 代謝需要変化に応じた局所調節可能</div>
+            </div>
+            <div class="ie-echo-box" style="background:#FEF2F2;border-color:#FECACA;">
+              <div class="ie-echo-name" style="color:#DC2626;">VWが破綻した状態</div>
+              <div class="ie-echo-body">Pcrit ≈ Pmsf（VW消失）<br>または Pa ≈ Pcrit<br>→ オートレギュレーション破綻<br>→ 灌流が代謝需要に追従できない</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- S2: ショックにおけるVW -->
+      <h3 id="vw-s8" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+        ショックにおける Pcrit の変動
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">低心拍出ショック vs 血管拡張性ショックの Pcrit</h3>
+          <p class="rule-body">ショックの種類によって Pcrit の変動様式は根本的に異なる。この違いを理解することが、昇圧薬や輸液の効果を適切に評価する上で不可欠である。</p>
+
+          <table class="ie-table" style="margin-top:10px;">
+            <colgroup><col style="width:150px;"><col><col></colgroup>
+            <thead><tr><th>ショック型</th><th>Pcrit の状態</th><th>VWへの影響</th></tr></thead>
+            <tbody>
+              <tr>
+                <td style="white-space:nowrap;"><strong>低心拍出型</strong><br><span style="font-size:0.72rem;color:var(--muted);">循環血液量減少性・心原性・閉塞性</span></td>
+                <td>強い血管収縮 → 血管運動緊張↑ → <strong>Pcrit 高値</strong><br>拡張期に Pa − Pcrit が著しく縮小→拡張期血流停止</td>
+                <td>VW は存在するが、CO 減少により前向き流量が絶対的に不足</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;"><strong>血管拡張性ショック</strong><br><span style="font-size:0.72rem;color:var(--muted);">敗血症性・血管麻痺</span></td>
+                <td>血管運動緊張の著明低下 → <span class="mark-red"><strong>Pcrit が Pmsf に接近</strong></span><br>Pa も低いが Pcrit も極端に低下</td>
+                <td><span class="mark-red"><strong>VW が消失（Pcrit ≈ Pmsf）</strong></span>→ オートレギュレーション破綻 → 見かけ上 CO が正常でも灌流障害</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="alert-red" style="margin-top:12px;">
+            <strong>⚠️ 敗血症性・血管麻痺性ショックの本質：</strong><br>
+            輸液蘇生後に CO が維持または上昇していても、Pa と Pcrit がともに異常低値を示し、かつ <strong>Pcrit ≈ Pmsf</strong> である場合、VW は消失している。この状態では MAP が 70 mmHg に達しても、Pa − Pcrit（= TPP）が小さく実効的な組織灌流が得られない。「MAПが十分でも臓器灌流が改善しない」という臨床現象の生理学的説明がここにある。
+          </div>
+        </div>
+      </div>
+
+      <!-- S3: NE とVW Responder -->
+      <h3 id="vw-s9" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+        <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>
+        ノルエピネフリンの効果と「VW Responder」フェノタイプ
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">NE は Pcrit を Pmsf より高く引き上げたときにのみ有効</h3>
+          <p class="rule-body">血管麻痺性低血圧においてノルエピネフリン（NE）が組織灌流を改善できるのは、<span class="mark-green"><strong>Pcrit が Pmsf を上回って VW が再確立されたとき</strong></span>、かつ MAP が新しい Pcrit を十分に超えたときに限られる。</p>
+          <p class="rule-body">Andrei らによる心臓手術後血管麻痺患者の前向き観察研究（ICM Exp 2023）<a href="https://doi.org/10.1186/s40635-023-00539-x" target="_blank" rel="noopener" style="color:#60A5FA;font-size:0.72rem;vertical-align:super;font-weight:500;text-decoration:none;margin-left:1px;">[Andrei 2023]</a> では、NE 投与後の血行動態応答に基づいて2表現型が記述された。</p>
+
+          <div class="ie-echo-grid">
+            <div class="ie-echo-box" style="background:#F0FDF4;border-color:#BBF7D0;">
+              <div class="ie-echo-name" style="color:#2D7A4F;">VW Responder</div>
+              <div class="ie-echo-body">Pcrit が上昇し Pmsf を超える<br>（典型的に Pcrit ≈ 40 mmHg）<br>→ VW が再確立<br>→ 末梢灌流が改善<br>→ CO・CRT・pCO₂ gap・乳酸が改善</div>
+            </div>
+            <div class="ie-echo-box" style="background:#FEF2F2;border-color:#FECACA;">
+              <div class="ie-echo-name" style="color:#DC2626;">VW Non-Responder</div>
+              <div class="ie-echo-body">MAP は上昇しても Pcrit が<br>Pmsf 近傍に留まる<br>（Pcrit ≈ 20 mmHg）<br>→ VW が再確立されない<br>→ MAP ≥ 70 mmHg でも微小循環障害持続</div>
+            </div>
+          </div>
+
+          <div class="ie-stat-grid" style="margin-top:12px;">
+            <div class="ie-stat">
+              <div class="ie-stat-val">〜40 mmHg</div>
+              <div class="ie-stat-label">VW Responder での<br>典型的 Pcrit 上昇値</div>
+            </div>
+            <div class="ie-stat red">
+              <div class="ie-stat-val">〜20 mmHg</div>
+              <div class="ie-stat-label">Non-Responder での<br>Pcrit 値（Pmsf に近接）</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">MAP &gt; Pcrit</div>
+              <div class="ie-stat-label">有効灌流の必要条件<br>VW回復に加え両者が必要</div>
+            </div>
+          </div>
+
+          <div class="alert-blue" style="margin-top:12px;">
+            <strong>臨床的意義：</strong>NE の効果判定は MAP の変化だけでは不十分である。<strong>Pcrit が Pmsf より高く引き上げられたかどうか</strong>が本質的な評価項目である。この条件が満たされない患者では、MAP が上昇してもTPP（= MAP − Pcrit）が小さく、微小循環異常が持続する。
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">TPP と臓器アウトカム</h3>
+          <p class="rule-body">Chandrasekhar らの研究（Nat Med 2023）<a href="https://doi.org/10.1038/s41591-023-02474-6" target="_blank" rel="noopener" style="color:#60A5FA;font-size:0.72rem;vertical-align:super;font-weight:500;text-decoration:none;margin-left:1px;">[Chandrasekhar 2023]</a> では、TPP が ICU での連続血行動態評価とリスク予測に有用であることが示された。また Miles らによる大規模心臓手術コホート（JTCVS 2025）<a href="https://doi.org/10.1016/j.jtcvs.2025.07.009" target="_blank" rel="noopener" style="color:#60A5FA;font-size:0.72rem;vertical-align:super;font-weight:500;text-decoration:none;margin-left:1px;">[Miles 2025]</a> では、<span class="mark-green"><strong>低 TPP が MAP レベルに依存しない独立した AKI リスク因子</strong></span>であることが実証された。</p>
+          <p class="rule-body">すなわち、同一の MAP であっても TPP が低い（= Pcrit が Pmsf を十分上回っていない）患者では、AKI 発生率が高い。これは「MAP 70 mmHg 達成」という従来目標の限界を示すエビデンスである。</p>
+
+          <p class="rule-body">NE 投与により VW が回復した患者では、以下の灌流サロゲート指標が改善することが報告されている：</p>
+          <ul style="font-size:0.82rem;line-height:1.9;padding-left:1.4em;color:var(--text);">
+            <li>心拍出量（CO）</li>
+            <li>毛細血管再充満時間（Capillary Refill Time: CRT）</li>
+            <li>静脈‐動脈 CO₂ 較差（pCO₂ gap）</li>
+            <li>血漿乳酸値（Lactate）</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- S4: Eadyn と非カテコラミン昇圧薬 -->
+      <h3 id="vw-s10" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+        <span style="color:#16A34A;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 4</span>
+        Eadyn と非カテコラミン系昇圧薬の VW 生理
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">Eadyn：VW 完全性のベッドサイドサロゲート</h3>
+          <p class="rule-body">Eadyn（動脈動的エラスタンス）は動脈緊張度と VW 完全性のサロゲートマーカーとして提唱されており、Pcrit − Pmsf 勾配の変化を追跡し、ノルエピネフリンに対する MAP 応答性を予測する。NE によって VW が回復すると予測される患者（VW Responder 候補）の同定に有用なベッドサイドツールとなり得る。</p>
+          <p class="rule-body">ただし、敗血症関連血管麻痺において過剰な α アドレナリン受容体刺激は、血流再分布を障害し、微小循環への影響を考慮せずに投与量を増やすと虚血を悪化させる可能性があることにも注意が必要である。</p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">非カテコラミン系昇圧薬と VW（推論的考察）</h3>
+          <p class="rule-body">VW の枠組みは、非カテコラミン系昇圧薬の差異的効果を説明するために応用されている。ただし、以下は生理学的推論の域にとどまり、Pcrit への効果を直接検証した研究はない。</p>
+
+          <table class="ie-table" style="margin-top:10px;">
+            <colgroup><col style="width:110px;"><col><col></colgroup>
+            <thead><tr><th>薬剤</th><th>想定される VW への作用</th><th>関連するエビデンス</th></tr></thead>
+            <tbody>
+              <tr>
+                <td style="white-space:nowrap;"><strong>バソプレシン</strong><br><span style="font-size:0.72rem;color:var(--muted);">V1受容体</span></td>
+                <td>血管床によって Pcrit への影響が異なる可能性（部位特異的 V1 分布）<br>→ 腎保護シグナルの一部説明</td>
+                <td>VANISH<a href="https://doi.org/10.1001/jama.2016.10485" target="_blank" rel="noopener" style="color:#60A5FA;font-size:0.72rem;vertical-align:super;font-weight:500;text-decoration:none;margin-left:1px;">[Gordon 2016]</a>、VANCS<a href="https://doi.org/10.1097/aln.0000000000001434" target="_blank" rel="noopener" style="color:#60A5FA;font-size:0.72rem;vertical-align:super;font-weight:500;text-decoration:none;margin-left:1px;">[Hajjar 2017]</a>、OVISS<a href="https://doi.org/10.1001/jama.2025.3046" target="_blank" rel="noopener" style="color:#60A5FA;font-size:0.72rem;vertical-align:super;font-weight:500;text-decoration:none;margin-left:1px;">[Kalimouttou 2025]</a> での腎保護シグナル</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;"><strong>アンジオテンシンII</strong><br><span style="font-size:0.72rem;color:var(--muted);">AT1受容体</span></td>
+                <td>MAP と Pcrit をともに上昇させる可能性<br>（内臓・腎臓流出血管を優先的に収縮）</td>
+                <td>Pcrit への直接的効果を検証した研究なし（推論）</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="ie-alpha" style="margin-top:12px;">
+            <div class="ie-alpha-inner">
+              <div class="ie-alpha-header">
+                <span class="ie-alpha-badge">＋α</span>
+                <span class="ie-alpha-title">マクロ循環と微小循環の一貫性（Hemodynamic Coherence）</span>
+              </div>
+              <p class="rule-body" style="color:#4C1D95;">敗血症ショックでは、MAP などのマクロ循環指標が改善しても微小循環が回復しない「ヘモダイナミック非一貫性（Hemodynamic Incoherence）」が生じる。VW の枠組みは、この乖離を Pcrit と Pmsf の観点から説明し、MAP 単独ではなく TPP（= MAP − Pcrit）という概念で両循環レベルを橋渡しする精密な評価軸を提供する可能性がある。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SUMMARY CH3 -->
+      <h3 id="vw-sum3" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+        第3章のキーメッセージ
+      </h3>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+              <span class="rule-body"><strong>敗血症性ショックではVWが消失：</strong>Pcrit が Pmsf に接近し（Pcrit ≈ Pmsf）、CO が正常でも VW が消失してオートレギュレーションが破綻する</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+              <span class="rule-body"><strong>NE の効果は Pcrit &gt; Pmsf が条件：</strong>MAP 上昇だけでは不十分。Pcrit を Pmsf より高く引き上げて VW を再確立した患者のみ灌流が改善する（VW Responder）</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+              <span class="rule-body"><strong>VW Responder での Pcrit：</strong>典型的に〜40 mmHg まで上昇し末梢灌流が回復。Non-Responder では〜20 mmHg に留まり、MAP ≥ 70 でも微小循環障害が持続</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+              <span class="rule-body"><strong>低 TPP は独立した AKI リスク因子：</strong>心臓手術コホートにて TPP 低値が MAP 非依存の AKI 発生率上昇と関連（Miles 2025）</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+              <span class="rule-body"><strong>Eadyn がVW完全性を反映：</strong>Pcrit − Pmsf 勾配の変化を追跡し、NE 反応性を予測するベッドサイドツールとして位置づけられる</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== CHAPTER 4 ===== -->
+      <div id="vw-ch4" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">第4章 臨床応用2 — 機械的換気と ARDS</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Clinical Applications: Mechanical Ventilation and ARDS</div>
+      </div>
+
+      <!-- S1: 陽圧換気とWest Zone -->
+      <h3 id="vw-s11" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+        陽圧換気と West Zone の変動
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">PEEP は肺循環の有効閉塞圧を変化させる</h3>
+          <p class="rule-body">West のゾーン構造が示すように、PA（肺胞圧）と Ppl（胸腔内圧）が有効下流圧を再定義する。Zone 2 では PA が Pcrit として機能し、Ppv に依存しない血流制限が生じるが、これには緩衝能がある。流れが停止すると肺動脈圧が PA を一時的に超えて血管を再開放し、前向き血流を維持する機構が働く。</p>
+          <p class="rule-body">しかし、過剰な肺胞加圧（高 PEEP）はこの緩衝能を圧倒し、<strong>Zone 2 → Zone 1 へのシフト</strong>、すなわち完全な血流停止を招く。肺コンプライアンスが低下した ARDS では、PEEP の影響がさらに複雑になる。</p>
+
+          <div class="ie-flow" style="margin-top:12px;">
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">1</div>
+              <div style="flex:1;"><p class="rule-body"><strong>PEEP ↑ → PA ↑</strong><br>低コンプライアンス（ARDS）では、PEEP が肺静脈圧（Ppv）を超える広範な Zone 2 領域が形成される</p></div>
+            </div>
+            <div class="ie-flow-arrow">↓</div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">2</div>
+              <div style="flex:1;"><p class="rule-body"><strong>Ppl ↑ → 体静脈還流障害</strong><br>胸腔内圧が Pmsf を超えると胸腔内静脈が虚脱し、ウォーターフォール様の体静脈還流障害が生じる</p></div>
+            </div>
+            <div class="ie-flow-arrow">↓</div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">3</div>
+              <div style="flex:1;"><p class="rule-body"><strong>PA↑・経肺圧↑ → 肺胞血管虚脱 → PVR↑ → RV 後負荷↑</strong><br>肺動脈圧（Ppa）が上昇し RV 機能障害（急性肺心）へ進展する可能性</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- S2: PEEP の血行動態効果 -->
+      <h3 id="vw-s12" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+        PEEP の血行動態効果と臓器灌流への影響
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">高 PEEP は内臓・腎臓・肝臓の灌流を障害する</h3>
+          <p class="rule-body">肺保護換気戦略においても、PEEP による血行動態的影響は持続する。高 PEEP は以下の複合機序を通じて内臓・肝・腎の灌流を障害する：</p>
+          <ul style="font-size:0.82rem;line-height:1.9;padding-left:1.4em;color:var(--text);">
+            <li>心拍出量（CO）の低下</li>
+            <li>反射性血管収縮（CO 低下への代償）</li>
+            <li>臓器静脈流出圧の上昇（門脈・腎静脈うっ血）</li>
+          </ul>
+          <p class="rule-body">これらの影響は、肺保護換気戦略を用いても消失しない。リクルートメント手技や肺胞過膨張はさらに Zone 1/2 を拡大し、換気血流比不均等・死腔増大・RV 後負荷増加を招く。</p>
+
+          <div class="ie-echo-grid">
+            <div class="ie-echo-box" style="background:#FEF2F2;border-color:#FECACA;">
+              <div class="ie-echo-name" style="color:#DC2626;">急激なリクルートメント時のリスク</div>
+              <div class="ie-echo-body">PA が急上昇 → 肺循環 VW 緩衝能が圧倒される → 静脈還流が急減少 → 心血管虚脱リスク</div>
+            </div>
+            <div class="ie-echo-box" style="background:#FFFBEB;border-color:#FDE68A;">
+              <div class="ie-echo-name" style="color:#B45309;">PEEP-PVR-RV の非線形関係</div>
+              <div class="ie-echo-body">肺胞過膨張と肺胞虚脱の両方が RV 後負荷を悪化させる。最適 PEEP は非線形応答の頂点を探す作業である</div>
+            </div>
+          </div>
+
+          <div class="ie-alpha" style="margin-top:12px;">
+            <div class="ie-alpha-inner">
+              <div class="ie-alpha-header">
+                <span class="ie-alpha-badge">＋α</span>
+                <span class="ie-alpha-title">高度肥満患者でのリクルートメント — 逆説的保護効果</span>
+              </div>
+              <p class="rule-body" style="color:#4C1D95;">高度肥満患者では胸腔内圧（Ppl）が上昇しているため、高圧リクルートメント手技中に肺胞過膨張と心血管虚脱が起きにくく、効果的な肺リクルートメントと心血管安定性が両立できることが示されている。これは Ppl の上昇が「保護的」に機能する例外的な状況であり、ARDS の病態的不均一性を反映している。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- S3: PEEP 滴定の臨床的意義 -->
+      <h3 id="vw-s13" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+        <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>
+        PEEP 滴定の臨床的意義と VW ガイド療法
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">固定 MAP 目標ではなく、灌流勾配の回復を目指す</h3>
+          <p class="rule-body">臨床的意思決定は、固定された MAP 値や充満圧を目標とするのではなく、<span class="mark-green"><strong>有効灌流圧（Pa − Pcrit）と VW 勾配の回復</strong></span>を目指すべきである。輸液・昇圧薬・換気設定の各介入は Pa・Pcrit・Pmsf を異なる方向に変化させるため、同じ介入でも患者によって灌流が改善する場合と悪化する場合がある。</p>
+
+          <div class="ie-flow">
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">1</div>
+              <div style="flex:1;"><p class="rule-body"><strong>PEEP 設定：</strong>肺胞安定性と酸素化を維持できる最低限の PEEP を用いる。血量状態・RV 機能・うっ血の有無に注意を払う</p></div>
+            </div>
+            <div class="ie-flow-arrow">↓</div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">2</div>
+              <div style="flex:1;"><p class="rule-body"><strong>リクルートメント手技：</strong>同じ原則を適用。RV 機能と体静脈還流を監視しながら実施する</p></div>
+            </div>
+            <div class="ie-flow-arrow">↓</div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">3</div>
+              <div style="flex:1;"><p class="rule-body"><strong>血行動態モニタリング：</strong>特に高い駆動圧が必要な場合、門脈血流拍動性・尿量・腸間膜灌流・動的静脈還流指標などを滴定の指標として用いる</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SUMMARY CH4 -->
+      <h3 id="vw-sum4" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+        第4章のキーメッセージ
+      </h3>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+              <span class="rule-body"><strong>PA がPcritとして機能する（Zone 2）：</strong>ARDS では高 PEEP によって広範な Zone 2 が形成され、過剰加圧は Zone 1 シフト（完全血流停止）を招く</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+              <span class="rule-body"><strong>胸腔内圧が Pmsf を超えると体静脈還流が障害：</strong>PEEP ↑ → Ppl ↑ → 胸腔内静脈虚脱 → ウォーターフォール様静脈還流障害が生じる</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+              <span class="rule-body"><strong>高 PEEP は内臓・腎・肝臓灌流を障害：</strong>CO 低下・反射性血管収縮・臓器静脈流出圧上昇の複合機序。肺保護換気でも消失しない</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+              <span class="rule-body"><strong>PEEP-PVR-RV 関係は非線形：</strong>過膨張と虚脱の両方が RV 後負荷を悪化させる。急速なリクルートメントは心血管虚脱を招くリスクがある</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+              <span class="rule-body"><strong>PEEP は最低有効量で：</strong>肺胞安定性と酸素化を維持できる最低 PEEP。血量状態・RV 機能・臓器灌流サロゲート（門脈拍動性・尿量）でモニタリング</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== CHAPTER 5 ===== -->
+      <div id="vw-ch5" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">第5章 将来の方向性と限界</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Future Directions and Limitations</div>
+      </div>
+
+      <!-- S1: 微小血管VW -->
+      <h3 id="vw-s14" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+        微小血管ウォーターフォール
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">毛細血管前括約筋が微小循環のウォーターフォールを形成する</h3>
+          <p class="rule-body">古典的な VW 生理は主に近位抵抗血管（小動脈）における流量制限として理解されてきたが、近年、微小血管ウォーターフォールの概念が提唱されている。毛細血管ツリーの深部に、毛細血管前括約筋によって構造的に制御された<strong>前毛細血管性臨界抵抗セグメント</strong>が存在し、圧力解離が実際の微小循環ネットワーク直前で生じる可能性がある。</p>
+          <p class="rule-body">この局所圧降下は、脳の貫通細動脈と下流微小循環の間で大きく生じ、直接的な動脈圧伝達から毛細血管ネットワークを保護しつつ血流調節を維持するとされる。重要なのは、このウォーターフォール挙動が十分な上流‐下流圧較差が存在するときにのみ発現するという点であり、これはマクロ循環レベルでの VW の定義的特性と同一である。</p>
+
+          <div class="alert-blue">
+            <strong>臨床的意義（仮説段階）：</strong>微小血管 VW の認識は、上流圧の著明な変動にもかかわらず毛細血管灌流が保持されるメカニズムを説明し得る。微小循環構造制御を現代の血行動態フレームワークに組み込む基盤となる可能性がある。
+          </div>
+        </div>
+      </div>
+
+      <!-- S2: 静脈うっ血 -->
+      <h3 id="vw-s15" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+        静脈うっ血のウォーターフォール概念 — 腎臓が最も無防備
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">CVP 上昇への臓器応答の不均一性：静脈 Starling 抵抗体の有無</h3>
+          <p class="rule-body">静脈うっ血は CVP 上昇の一様な結果ではなく、<span class="mark-yellow"><strong>臓器特異的な異質なプロセス</strong></span>として再解釈できる。臓器によって逆行性 CVP 伝達に対する「緩衝機構」の有無が異なるためである。</p>
+
+          <table class="ie-table" style="margin-top:10px;">
+            <colgroup><col style="width:80px;"><col><col></colgroup>
+            <thead><tr><th>臓器</th><th>静脈 Starling 抵抗体の有無</th><th>CVP 上昇への影響</th></tr></thead>
+            <tbody>
+              <tr>
+                <td style="white-space:nowrap;"><strong>肝臓</strong><br><strong>腸管</strong></td>
+                <td>静脈 Starling 抵抗体が<strong>存在する</strong></td>
+                <td>CVP の逆行性伝達が緩衝される → 機能不全の発現が遅延</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;"><span class="mark-red"><strong>腎臓</strong></span></td>
+                <td>同様の防御機構が<strong>欠如している</strong></td>
+                <td>静脈高血圧が直接逆行性に伝達される → Bowman 嚢圧↑ → 濾過障害・酸素供給障害 → <strong>うっ血性腎症・AKI</strong></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <p class="rule-body" style="margin-top:10px;">この非対称性が、同一の CVP 値であっても異なる臓器応答が生じる理由を説明する。腎臓は静脈 Starling 抵抗体による防御がないため、同様の CVP 上昇に対して肝臓や腸管より早く・強く傷害を受ける。これが CVP が直接的な AKI の原因となる「うっ血性腎症（Congestive Nephropathy）」の病態生理的基盤である。</p>
+
+          <div class="alert-red" style="margin-top:10px;">
+            <strong>⚠️ CVP管理上のピットフォール：</strong><br>
+            CVP が同じ値であっても、臓器ごとに受ける「うっ血ストレス」は異なる。腎臓が最も無防備であるため、CVP のわずかな上昇でも腎灌流フィルター圧が著しく低下する可能性がある。エコーを用いたうっ血評価（門脈拍動性・腎静脈波形・IVC変動）がフルード・スチュワードシップの判断に重要である。
+          </div>
+        </div>
+      </div>
+
+      <!-- S3: 限界と展望 -->
+      <h3 id="vw-s16" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+        <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>
+        VW モデルの限界と今後の展望
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">定常状態の仮定という本質的限界</h3>
+          <p class="rule-body">VW モデルには重要な限界がある。モデルは暗黙的に<strong>定常状態条件と固定された Pcrit</strong> を仮定しているが、臨床現場では動的状態が支配的である：心原性・閉塞性・循環血液量減少性ショック、重篤外傷、敗血症、急速な血管緊張・コンプライアンス変化、加齢変化などは、短い時間スケールで Pcrit を著しく変化させる。これらの変動は現時点では不完全にしか解明されておらず、非定常状態での汎化を制約している。</p>
+
+          <table class="ie-table" style="margin-top:10px;">
+            <colgroup><col><col></colgroup>
+            <thead><tr><th>課題</th><th>将来の方向性</th></tr></thead>
+            <tbody>
+              <tr><td>Pcrit のリアルタイム推定が困難</td><td>非侵襲的または低侵襲な Pcrit 連続推定法の開発・検証</td></tr>
+              <tr><td>非定常状態での精度低下</td><td>定常状態外での VW モデル仮定の厳密な評価</td></tr>
+              <tr><td>微小循環との統合不足</td><td>微小血管 VW の構造的特性の解明</td></tr>
+              <tr><td>臓器特異的 VW の評価不足</td><td>静脈 Starling 抵抗体の分布・機能のマッピング</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- SUMMARY CH5 -->
+      <h3 id="vw-sum5" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+        第5章のキーメッセージ
+      </h3>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+              <span class="rule-body"><strong>微小血管VW：</strong>毛細血管前括約筋による前毛細血管性臨界抵抗セグメントがマクロ循環圧変動から毛細血管を保護し、微小循環調節に寄与する可能性がある（現時点では研究段階）</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+              <span class="rule-body"><strong>腎臓はうっ血に最も無防備：</strong>肝臓・腸管は静脈 Starling 抵抗体で CVP 上昇を緩衝するが、腎臓はこの防御機構を欠き、うっ血性腎症・AKI に直結する</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+              <span class="rule-body"><strong>同一 CVP でも臓器応答は異なる：</strong>臓器特異的な静脈 VW の有無によって CVP 上昇への感受性が決まる。エコーを用いた臓器別うっ血評価が重要</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+              <span class="rule-body"><strong>モデルの本質的限界：</strong>定常状態・固定 Pcrit の仮定が動的臨床状態では当てはまらない。非定常状態での Pcrit 変動の解明が今後の課題</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+              <span class="rule-body"><strong>将来展望：</strong>非侵襲的 Pcrit 連続モニタリング・TPP ガイド蘇生・微小血管 VW の解明が、精密血行動態管理の次世代戦略となる可能性がある</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 出典注記 -->
+      <p style="font-size:0.72rem;color:#9CA3AF;margin-top:32px;line-height:1.7;">
+        出典：Castro R, Retamal J, Hernández G, Kattan E, Pinsky MR. Critical closing pressure in the circulation: Understanding the vascular waterfall phenomenon. <em>J Crit Care</em>. 2026;93:155485.<br>
+        DOI：<a href="https://doi.org/10.1016/j.jcrc.2026.155485" target="_blank" rel="noopener" style="color:#60A5FA;">https://doi.org/10.1016/j.jcrc.2026.155485</a><br>
+        本資料は教育目的で作成したサマリーです。診断・治療方針の決定には必ず原典を参照してください。
+      </p>
+      <p style="font-size:0.75rem;color:var(--muted);text-align:right;margin-top:8px;">制作：ICU 関谷</p>
+
+    </div><!-- /main-col -->
+
+    <!-- ===== SIDEBAR ===== -->
+    <aside class="ie-sidebar">
+      <div class="ie-sidebar-card">
+        <div class="ie-sidebar-title">目次</div>
+        <a href="#vw-ch1" class="ie-toc-chapter">第1章 概念的基盤</a>
+        <a href="#vw-s1" class="ie-toc-section">S1 — 古典的モデルの限界</a>
+        <a href="#vw-s2" class="ie-toc-section">S2 — VWの歴史的発展</a>
+        <a href="#vw-s3" class="ie-toc-section">S3 — 肺循環・West Zone</a>
+        <a href="#vw-s4" class="ie-toc-section">S4 — Conradの力学モデル</a>
+        <a href="#vw-ch2" class="ie-toc-chapter">第2章 Pcrit・Pmsf の推定</a>
+        <a href="#vw-s5" class="ie-toc-section">S1 — 毛細血管床の特性</a>
+        <a href="#vw-s6" class="ie-toc-section">S2 — ベッドサイド推定法</a>
+        <a href="#vw-ch3" class="ie-toc-chapter">第3章 ショック臨床応用</a>
+        <a href="#vw-s7" class="ie-toc-section">S1 — オートレギュレーション</a>
+        <a href="#vw-s8" class="ie-toc-section">S2 — ショックのPcrit変動</a>
+        <a href="#vw-s9" class="ie-toc-section">S3 — NE と VW Responder</a>
+        <a href="#vw-s10" class="ie-toc-section">S4 — Eadyn・非カテコラミン</a>
+        <a href="#vw-ch4" class="ie-toc-chapter">第4章 機械的換気・ARDS</a>
+        <a href="#vw-s11" class="ie-toc-section">S1 — PEEP と West Zone</a>
+        <a href="#vw-s12" class="ie-toc-section">S2 — PEEP の血行動態効果</a>
+        <a href="#vw-s13" class="ie-toc-section">S3 — PEEP 滴定の方針</a>
+        <a href="#vw-ch5" class="ie-toc-chapter">第5章 将来の方向性</a>
+        <a href="#vw-s14" class="ie-toc-section">S1 — 微小血管VW</a>
+        <a href="#vw-s15" class="ie-toc-section">S2 — 静脈うっ血とVW</a>
+        <a href="#vw-s16" class="ie-toc-section">S3 — 限界と展望</a>
+      </div>
+    </aside>
+
+  </div><!-- /content-wrap -->
+
+  <script src="../script.js"></script>
+  <script src="../abbr-tooltip.js"></script>
+</body>
+</html>

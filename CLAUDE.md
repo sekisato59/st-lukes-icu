@@ -217,6 +217,14 @@ grep -c 'ie-table\|ie-score-card\|ie-stat-grid' pages/articles-gl-xxxx.html
 - 凡例（白カード/紫カードの説明）を入れない
 - バッジ形式のデザインは使わない（ダサい）
 - シャドウ・過剰な装飾・絵文字は使わない
+- **inline style や inline `<style>` で `word-break: break-word` を指定しない**
+  （非推奨プロパティ。Chrome では `overflow-wrap: anywhere` 相当となり、
+  日本語カッコ「（）」内の英語短語が単独行に切り離される表示崩れの原因になる）
+
+### 日本語の改行規則（global 設定済み）
+- `body { line-break: strict; word-break: normal; overflow-wrap: break-word; }` を [`style-v2.css`](style-v2.css) で全ページ強制
+- `line-break: strict` により CJK 句読点 `（`、`）`、`、`、`。` の前後で不自然な改行を抑制
+- ページ単位やコンポーネント単位で `word-break` / `line-break` を上書きしないこと（やると Vd 単独行問題が再発する）
 
 ### 見出し階層（4レベル）
 1. **大見出し**（テキストボックス外）: 2トーンのグラデーションバナー。番号+タイトル+サブタイトル
