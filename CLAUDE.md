@@ -217,14 +217,14 @@ grep -c 'ie-table\|ie-score-card\|ie-stat-grid' pages/articles-gl-xxxx.html
 - 凡例（白カード/紫カードの説明）を入れない
 - バッジ形式のデザインは使わない（ダサい）
 - シャドウ・過剰な装飾・絵文字は使わない
-- **inline style や inline `<style>` で `word-break: break-word` を指定しない**
-  （非推奨プロパティ。Chrome では `overflow-wrap: anywhere` 相当となり、
-  日本語カッコ「（）」内の英語短語が単独行に切り離される表示崩れの原因になる）
 
-### 日本語の改行規則（global 設定済み）
-- `body { line-break: strict; word-break: normal; overflow-wrap: break-word; }` を [`style-v2.css`](style-v2.css) で全ページ強制
-- `line-break: strict` により CJK 句読点 `（`、`）`、`、`、`。` の前後で不自然な改行を抑制
-- ページ単位やコンポーネント単位で `word-break` / `line-break` を上書きしないこと（やると Vd 単独行問題が再発する）
+### abbr-tooltip と相性のあるレイアウト規則
+- **`<abbr>` を含む可能性のある親要素には `display: flex` / `display: grid` を使わない。**
+  `abbr-tooltip.js` が略語（SCr / AUC / TDM 等）を `<abbr>` で動的にラップするため、
+  flex / grid の場合は各 `<abbr>` が個別の flex item / grid cell に押し出されて
+  「英語短語が単独行になる」表示崩れが出る。
+- ラベル + テキストの行は `display: block` + `<span class="ie-score-pt">` を `inline-block`
+  にするシンプルな inline flow が安全（`.ie-score-item` で実装済み）
 
 ### 見出し階層（4レベル）
 1. **大見出し**（テキストボックス外）: 2トーンのグラデーションバナー。番号+タイトル+サブタイトル
@@ -434,11 +434,8 @@ grep -c 'ie-table\|ie-score-card\|ie-stat-grid' pages/articles-gl-xxxx.html
 - PLASMICスコア・CHA₂DS₂-VAScスコア・qSOFAなど項目数の多いスコアはすべてこの形式を使う
 
 **`.ie-score-*` クラスは [`style-v2.css`](style-v2.css) に既に定義済み。新規ページではページ内 `<style>` で再定義しないこと。**
-
-⚠️ **再定義禁止の理由（過去の事故）**：以前 inline `<style>` で `.ie-score-item` を定義する際に
-`word-break: break-word; overflow-wrap: break-word;` が抜けていたページがあり、
-日本語の長い項目（例「肥満患者への LD（B-II）」）が枠から溢れて表示崩れを起こした。
-グローバル定義には wrap プロパティが入っているので、必ず global を使うこと。
+特に `.ie-score-item` は `display: block` + `inline-block` ラベルのインライン flow になっている
+（abbr-tooltip と共存するため）。 flex / grid に変えると略語が単独行になる。
 
 ```html
 <!-- スコアカードの使い方：ie-score-pt には "+1" や略字を入れる -->
