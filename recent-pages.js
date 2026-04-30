@@ -11,6 +11,20 @@
  */
 const RECENT_PAGES = [
   {
+    title: "血管ウォーターフォールと Pcrit（J Crit Care 2026）",
+    url: "pages/articles-gl-vascular-waterfall-jcc2026.html",
+    date: "2026-05-01",
+    tag: "論文",
+    thumb: "images/朝カンファ風景.webp"
+  },
+  {
+    title: "バンコマイシンTDM 2020（ASHP/IDSA）",
+    url: "pages/articles-gl-vcm-tdm2020.html",
+    date: "2026-05-01",
+    tag: "ガイドライン",
+    thumb: "images/icu-study.jpg"
+  },
+  {
     title: "抗菌薬TDMガイドライン2022",
     url: "pages/articles-gl-tdm-antibiotics2022.html",
     date: "2026-05-01",
