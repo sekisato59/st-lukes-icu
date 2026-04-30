@@ -424,20 +424,13 @@ grep -c 'ie-table\|ie-score-card\|ie-stat-grid' pages/articles-gl-xxxx.html
 
 - テーブルの「構成要素」列に複数項目をカンマ区切りで書くのは禁止
 - PLASMICスコア・CHA₂DS₂-VAScスコア・qSOFAなど項目数の多いスコアはすべてこの形式を使う
-- 各スコアを1枚のカードにまとめ、ページ内 `<style>` に以下を定義する
 
-```html
-<!-- ページ内 <style> に追記 -->
-.ie-score-grid { display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px; }
-@media (max-width:640px) { .ie-score-grid { grid-template-columns:1fr; } }
-.ie-score-card { background:#F8FAFC;border:1px solid var(--border);border-radius:8px;overflow:hidden; }
-.ie-score-head { background:#2D7A4F;color:#fff;padding:8px 14px;font-size:0.82rem;font-weight:800;letter-spacing:0.03em; }
-.ie-score-items { padding:10px 14px; }
-.ie-score-item { display:flex;align-items:baseline;gap:8px;padding:4px 0;border-bottom:1px solid var(--border);font-size:0.8rem;line-height:1.5; }
-.ie-score-item:last-child { border-bottom:none; }
-.ie-score-pt { flex-shrink:0;background:#E0F2E9;color:#2D7A4F;font-size:0.68rem;font-weight:800;padding:1px 6px;border-radius:10px;letter-spacing:0.03em; }
-.ie-score-foot { background:#F0FDF4;border-top:1px solid #BBF7D0;padding:8px 14px;font-size:0.78rem;color:#14532D;line-height:1.6; }
-```
+**`.ie-score-*` クラスは [`style-v2.css`](style-v2.css) に既に定義済み。新規ページではページ内 `<style>` で再定義しないこと。**
+
+⚠️ **再定義禁止の理由（過去の事故）**：以前 inline `<style>` で `.ie-score-item` を定義する際に
+`word-break: break-word; overflow-wrap: break-word;` が抜けていたページがあり、
+日本語の長い項目（例「肥満患者への LD（B-II）」）が枠から溢れて表示崩れを起こした。
+グローバル定義には wrap プロパティが入っているので、必ず global を使うこと。
 
 ```html
 <!-- スコアカードの使い方：ie-score-pt には "+1" や略字を入れる -->
