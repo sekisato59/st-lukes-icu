@@ -273,8 +273,10 @@ grep -c 'ie-table\|ie-score-card\|ie-stat-grid' pages/articles-gl-xxxx.html
 
 **サブページのヒーローは必ず以下の構造を使用する。`subpage-hero-content` や `hero-content` は使用禁止（CSSにmax-widthが異なるため左寄れになる）。**
 
+**`hero-image-bg` は全GLページで必須（`images/free-bg3-desktop.jpg` を背景とする標準ヒーロー）。省略すると青グラデーションになってしまう。**
+
 ```html
-<div class="subpage-hero">
+<div class="subpage-hero hero-image-bg">
   <div class="container">
     <a href="articles-guidelines.html#art-xxx" class="back-link">← 一覧へ戻る</a>
     <h1 class="subpage-title">タイトル</h1>

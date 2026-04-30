@@ -11,6 +11,13 @@
  */
 const RECENT_PAGES = [
   {
+    title: "抗菌薬TDMガイドライン2022",
+    url: "pages/articles-gl-tdm-antibiotics2022.html",
+    date: "2026-05-01",
+    tag: "ガイドライン",
+    thumb: "images/IDICUtop.png"
+  },
+  {
     title: "JIPAD 2024年度 施設別年次レポート",
     url: "pages/articles-gl-jipad2024.html",
     date: "2026-04-27",
