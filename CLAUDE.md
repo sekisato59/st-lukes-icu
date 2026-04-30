@@ -269,6 +269,30 @@ grep -c 'ie-table\|ie-score-card\|ie-stat-grid' pages/articles-gl-xxxx.html
 - サマリー番号: `color:#2D7A4F`
 - 統計ボックスデフォルト: `background:#F0FDF4; border:#BBF7D0; color:#2D7A4F`
 
+### ナビバー（必須テンプレート・全ページ共通）
+
+**全サブページのナビバーは以下の構造で統一する。`<nav class="site-nav">` や `<ul class="nav-links">` などの旧式マークアップは使用禁止（script.js が反応せず、メニューが表示されない／古いリンク切れナビが出る）。**
+
+```html
+<!-- ===== NAVBAR（script.js が menu を差し替える） ===== -->
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <a href="../index.html" class="nav-logo">
+      <img src="../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+      <span class="nav-logo-text">聖路加国際病院ICU</span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-menu" id="navMenu"></ul>
+  </div>
+</nav>
+```
+
+- `<ul id="navMenu"></ul>` は**空のまま**にする。`script.js` が起動時に統一8項目（当院ICUについて／研修される先生へ／学習コンテンツ／講義動画／論文GL(ICU)／論文GL(外来)／疾患マニュアル／検索）を注入する
+- ナビ項目を変えたい時は [`script.js`](script.js) の `navMenu.innerHTML = ...` 1か所だけを編集する
+- ハードコード（`<li><a>...</a></li>`）はしない。JS が動かない環境でフォールバックを出すために空の `<ul>` を残す
+
 ### ヒーローバナー（必須テンプレート）
 
 **サブページのヒーローは必ず以下の構造を使用する。`subpage-hero-content` や `hero-content` は使用禁止（CSSにmax-widthが異なるため左寄れになる）。**
