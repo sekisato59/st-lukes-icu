@@ -1,7 +1,7 @@
 /**
  * 新着論文・ガイドライン 直近50件（articles-guidelines.html から自動生成）
  * recent-all.html で表形式・並び替え可能なテーブルとして表示
- * type: RCT / コホート / 症例対照 / 横断 / メタ解析 / SR / Case / 症例集積 / Review
+ * type: RCT / コホート / 症例対照 / 横断 / メタ解析 / SR / Case / 症例集積 / Review / ガイドライン
  */
 const RECENT_ARTICLES = [
   {
@@ -46,7 +46,7 @@ const RECENT_ARTICLES = [
   },
   {
     "date":      "2026/05/01",
-    "type":      "Review",
+    "type":      "ガイドライン",
     "system":    "感染症",
     "system_id": "art-id",
     "title":     "バンコマイシンTDM改訂コンセンサスガイドライン 2020 — AUC/MICガイド TDM（ASHP/IDSA/PIDS/SIDP 2020）",
@@ -54,7 +54,7 @@ const RECENT_ARTICLES = [
   },
   {
     "date":      "2026/05/01",
-    "type":      "Review",
+    "type":      "ガイドライン",
     "system":    "感染症",
     "system_id": "art-id",
     "title":     "抗菌薬TDM臨床実践ガイドライン 2022 — VCM・TEIC・アミノグリコシド・VRCZ（日本化学療法学会/日本TDM学会 2022）",
@@ -78,7 +78,7 @@ const RECENT_ARTICLES = [
   },
   {
     "date":      "2026/04/24",
-    "type":      "Review",
+    "type":      "ガイドライン",
     "system":    "神経系",
     "system_id": "art-neuro",
     "title":     "機械換気成人ICU患者におけるデクスメデトミジン — ICM Rapid Practice Guideline（ICM 2022）",
@@ -126,7 +126,7 @@ const RECENT_ARTICLES = [
   },
   {
     "date":      "2026/04/19",
-    "type":      "Review",
+    "type":      "ガイドライン",
     "system":    "循環器系",
     "system_id": "art-cardio",
     "title":     "ERC-ESICM 2025 心拍再開後管理（PCAS）ガイドライン",
@@ -142,7 +142,7 @@ const RECENT_ARTICLES = [
   },
   {
     "date":      "2026/04/16",
-    "type":      "Review",
+    "type":      "ガイドライン",
     "system":    "神経系",
     "system_id": "art-neuro",
     "title":     "NCS ガイドライン：神経集中治療患者における脳浮腫の急性期治療 — HTS・マンニトール・コルチコステロイド・非薬物療法（Neurocrit Care 2020）",
@@ -174,7 +174,7 @@ const RECENT_ARTICLES = [
   },
   {
     "date":      "2026/04/16",
-    "type":      "Review",
+    "type":      "ガイドライン",
     "system":    "感染症",
     "system_id": "art-id",
     "title":     "IWGDF/IDSA 2023 糖尿病性足感染症（DFI）診断・治療ガイドライン（Clin Infect Dis 2023）",
@@ -182,7 +182,7 @@ const RECENT_ARTICLES = [
   },
   {
     "date":      "2026/04/15",
-    "type":      "Review",
+    "type":      "ガイドライン",
     "system":    "神経系",
     "system_id": "art-neuro",
     "title":     "ESCMID ガイドライン：急性細菌性髄膜炎の診断と治療（Clin Microbiol Infect 2016）",
@@ -198,7 +198,7 @@ const RECENT_ARTICLES = [
   },
   {
     "date":      "2026/04/15",
-    "type":      "Review",
+    "type":      "ガイドライン",
     "system":    "循環器系",
     "system_id": "art-cardio",
     "title":     "アルブミン製剤使用に関する14の提言 — ICTMG ガイドライン（CHEST 2024）",
@@ -214,7 +214,7 @@ const RECENT_ARTICLES = [
   },
   {
     "date":      "2026/04/15",
-    "type":      "Review",
+    "type":      "ガイドライン",
     "system":    "循環器系",
     "system_id": "art-cardio",
     "title":     "集中治療超音波（CCUS）学習目標 — SOCCA専門家グループ提言（Anesth Analg 2015）",
@@ -222,7 +222,7 @@ const RECENT_ARTICLES = [
   },
   {
     "date":      "2026/04/15",
-    "type":      "Review",
+    "type":      "ガイドライン",
     "system":    "循環器系",
     "system_id": "art-cardio",
     "title":     "2025年改訂版 心不全診療ガイドライン（JCS/JHFS 2025）",
@@ -262,7 +262,7 @@ const RECENT_ARTICLES = [
   },
   {
     "date":      "2026/04/15",
-    "type":      "Review",
+    "type":      "ガイドライン",
     "system":    "呼吸器系",
     "system_id": "art-resp",
     "title":     "ESICM ARDSガイドライン 2023 — 定義・表現型・呼吸サポート戦略（ICM 2023）",
@@ -270,7 +270,7 @@ const RECENT_ARTICLES = [
   },
   {
     "date":      "2026/04/15",
-    "type":      "Review",
+    "type":      "ガイドライン",
     "system":    "呼吸器系",
     "system_id": "art-resp",
     "title":     "ATS ARDS管理ガイドライン 2024 — ステロイド・VV-ECMO・NMBA・PEEP（AJRCCM 2024）",
@@ -286,7 +286,7 @@ const RECENT_ARTICLES = [
   },
   {
     "date":      "2026/04/15",
-    "type":      "Review",
+    "type":      "ガイドライン",
     "system":    "血液系",
     "system_id": "art-heme",
     "title":     "HLH（血球貪食性リンパ組織球症）成人診断・精査ガイドライン（HiHASC / Lancet Rheumatol 2023）",
@@ -310,7 +310,7 @@ const RECENT_ARTICLES = [
   },
   {
     "date":      "2026/04/15",
-    "type":      "Review",
+    "type":      "ガイドライン",
     "system":    "感染症",
     "system_id": "art-id",
     "title":     "細菌性髄膜炎診療ガイドライン 2014 — 第4章 検査（日本神経感染症学会・日本神経学会・日本神経外科学会）",
@@ -318,7 +318,7 @@ const RECENT_ARTICLES = [
   },
   {
     "date":      "2026/04/15",
-    "type":      "Review",
+    "type":      "ガイドライン",
     "system":    "栄養 / 代謝系",
     "system_id": "art-nutrition",
     "title":     "ESPEN 2022 ICU臨床栄養 実践・部分改訂ガイドライン（Clin Nutr 2023）",
@@ -326,7 +326,7 @@ const RECENT_ARTICLES = [
   },
   {
     "date":      "2026/04/15",
-    "type":      "Review",
+    "type":      "ガイドライン",
     "system":    "栄養 / 代謝系",
     "system_id": "art-nutrition",
     "title":     "甲状腺機能亢進症・甲状腺中毒症 診断・管理ガイドライン — ATA 2016（Thyroid 2016）",
@@ -358,7 +358,7 @@ const RECENT_ARTICLES = [
   },
   {
     "date":      "2026/04/12",
-    "type":      "Review",
+    "type":      "ガイドライン",
     "system":    "消化器 / 肝胆道系",
     "system_id": "art-gi",
     "title":     "ACG ガイドライン：急性肝不全の管理（Am J Gastroenterol 2023）",
@@ -374,7 +374,7 @@ const RECENT_ARTICLES = [
   },
   {
     "date":      "2026/04/11",
-    "type":      "Review",
+    "type":      "ガイドライン",
     "system":    "栄養 / 代謝系",
     "system_id": "art-nutrition",
     "title":     "SCCM/ASPEN 2016 重症患者栄養サポートガイドライン（JPEN 2016）",
@@ -398,7 +398,7 @@ const RECENT_ARTICLES = [
   },
   {
     "date":      "2026/04/09",
-    "type":      "Review",
+    "type":      "ガイドライン",
     "system":    "循環器系",
     "system_id": "art-cardio",
     "title":     "標的抗がん療法の心血管毒性 — ACC Concise Clinical Guidance（J Am Coll Cardiol 2026）",
