@@ -11,6 +11,13 @@
  */
 const RECENT_PAGES = [
   {
+    title: "糖尿病（診断・分類・合併症・DKA/HHS・治療薬）",
+    url: "pages/disease-topics/dt-diabetes.html",
+    date: "2026-05-03",
+    tag: "解説",
+    thumb: "images/icu-study.jpg"
+  },
+  {
     title: "ループ利尿薬の正しい処方法（BMJ 2019）",
     url: "pages/articles-gl-loop-diuretics-bmj2019.html",
     date: "2026-05-02",
