@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../style-v2.css?v=202605021400">
+  <link rel="stylesheet" href="../style-v2.css?v=202605021500">
   <style>
     :root {
       --hero-bg: #F4F8FB;
@@ -145,21 +145,79 @@
     <!-- ② 当院ICUの特徴               -->
     <!-- ──────────────────────────── -->
     <style>
-      .feat-stats { display:grid;grid-template-columns:repeat(auto-fit, minmax(190px, 1fr));gap:12px;margin:14px 0 6px; }
-      .feat-stat { background:#F8FAFC;border:1px solid #E5E7EB;border-radius:10px;padding:14px 12px;text-align:center; }
-      .feat-stat-label { font-size:0.74rem;color:#6B7280;font-weight:700;margin-bottom:8px;line-height:1.3; }
+      /* カード共通レイアウト ─ カード自体は CSS変数で色をテーマ化 */
+      .feat-card { margin-bottom:18px;border-top:4px solid var(--feat-color); }
+      .feat-card .card-inner { padding-top:18px; }
+      .feat-card-head {
+        display:flex;align-items:center;gap:10px;margin-bottom:6px;
+      }
+      .feat-card-icon {
+        flex-shrink:0;width:34px;height:34px;border-radius:8px;
+        background:var(--feat-bg);color:var(--feat-color);
+        display:flex;align-items:center;justify-content:center;
+        font-size:1.05rem;font-weight:900;
+      }
+      .feat-card-title {
+        font-size:1rem;font-weight:900;color:var(--feat-color);line-height:1.4;margin:0;
+      }
+      .feat-card-sub {
+        font-size:0.78rem;color:var(--muted);margin:0 0 14px;line-height:1.6;padding-left:44px;
+      }
+
+      /* スタットボックス（カードの色テーマを継承） */
+      .feat-stats { display:grid;grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));gap:12px;margin:6px 0; }
+      .feat-stat {
+        background:var(--feat-bg);border:1px solid var(--feat-border);border-radius:10px;
+        padding:14px 12px;text-align:center;
+      }
+      .feat-stat-label { font-size:0.74rem;color:var(--feat-color);font-weight:800;margin-bottom:8px;line-height:1.3;opacity:0.85; }
       .feat-stat-vals { display:flex;align-items:baseline;justify-content:center;gap:6px;line-height:1.1; }
-      .feat-stat-mine { font-size:1.55rem;font-weight:900;color:var(--blue); }
-      .feat-stat-vs { font-size:0.78rem;color:#9CA3AF;font-weight:700; }
-      .feat-stat-all { font-size:1rem;font-weight:700;color:#9CA3AF; }
+      .feat-stat-mine { font-size:1.55rem;font-weight:900;color:var(--feat-color); }
+      .feat-stat-vs { font-size:0.7rem;color:#9CA3AF;font-weight:700; }
+      .feat-stat-all { font-size:1rem;font-weight:700;color:#9CA3AF;text-decoration:line-through;text-decoration-color:#D1D5DB; }
       .feat-stat-foot { font-size:0.68rem;color:#6B7280;margin-top:6px;line-height:1.45; }
-      .feat-card-note { font-size:0.85rem;color:var(--muted);line-height:1.75;margin:10px 0 0;padding-top:10px;border-top:1px dashed #E5E7EB; }
+
+      /* 補足文（カード下部の解説） */
+      .feat-card-body { font-size:0.85rem;color:var(--text);line-height:1.85;margin:14px 0 0; }
+      .feat-card-body p { margin:0 0 8px; }
+      .feat-card-body p:last-child { margin-bottom:0; }
+      .feat-card-body strong { color:var(--feat-color); }
+      .feat-card-quote {
+        background:var(--feat-bg);border-left:3px solid var(--feat-color);
+        padding:10px 14px;margin-top:10px;border-radius:0 8px 8px 0;
+        font-size:0.82rem;color:var(--text);line-height:1.7;
+      }
+
+      /* 各カードのカラーテーマ（CSS変数） */
+      .feat-card-patients   { --feat-color:#7C3AED; --feat-bg:#F5F3FF; --feat-border:#DDD6FE; }
+      .feat-card-admission  { --feat-color:#EA580C; --feat-bg:#FFF7ED; --feat-border:#FED7AA; }
+      .feat-card-disease    { --feat-color:#DB2777; --feat-bg:#FDF2F8; --feat-border:#FBCFE8; }
+      .feat-card-treatment  { --feat-color:#16A34A; --feat-bg:#F0FDF4; --feat-border:#BBF7D0; }
+      .feat-card-outcome    { --feat-color:#0E7490; --feat-bg:#ECFEFF; --feat-border:#A5F3FC; }
+
+      /* 導入カード */
       .feat-intro {
-        background:#EFF6FF;border:1px solid #DBEAFE;border-radius:10px;
-        padding:14px 16px;margin-bottom:18px;font-size:0.85rem;color:var(--text);line-height:1.8;
+        background:linear-gradient(135deg, #EFF6FF 0%, #F5F3FF 100%);
+        border:1px solid #DBEAFE;border-radius:10px;
+        padding:16px 18px;margin-bottom:20px;font-size:0.86rem;color:var(--text);line-height:1.8;
       }
       .feat-intro a { color:var(--blue);font-weight:700;text-decoration:none; }
       .feat-intro a:hover { text-decoration:underline; }
+      .feat-intro-tag {
+        display:inline-block;background:var(--blue);color:#fff;
+        font-size:0.66rem;font-weight:800;letter-spacing:0.08em;
+        padding:3px 10px;border-radius:999px;margin-right:8px;vertical-align:middle;
+      }
+
+      /* 数値表記の凡例 */
+      .feat-legend {
+        display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+        font-size:0.72rem;color:var(--muted);margin:10px 0 18px;padding:8px 12px;
+        background:#F9FAFB;border:1px solid #F3F4F6;border-radius:8px;
+      }
+      .feat-legend-item { display:flex;align-items:center;gap:6px; }
+      .feat-legend-mine { font-weight:900;color:var(--blue);font-size:0.95rem; }
+      .feat-legend-all { font-weight:700;color:#9CA3AF;font-size:0.85rem;text-decoration:line-through;text-decoration-color:#D1D5DB; }
     </style>
     <section id="features">
       <div class="sec-head">
@@ -168,15 +226,27 @@
       </div>
 
       <p class="feat-intro">
-        JIPAD（日本ICU患者データベース）2024年度施設別レポートから、全国ICUと比較した当院の特徴を抜粋しました。
-        各カードの数値は <strong>聖路加 / 全国</strong> の順で表示しています。詳細は
+        <span class="feat-intro-tag">JIPAD 2024</span>
+        日本ICU患者データベース（JIPAD）2024年度の施設別レポートから、全国ICUと比較した当院の特徴を5つの視点で抜粋しました。
+        当院ICUは <strong>「内科系・血液腫瘍・感染症」を集約する三次医療機関の急性期ICU</strong> という独自の性格を持っており、研修期間中に経験できる症例の傾向もそれを反映しています。詳細は
         <a href="articles-gl-jipad2024.html">JIPAD 2024まとめページ</a> を参照してください。
       </p>
 
-      <!-- 患者像 -->
-      <div class="card" id="ql-feat-patients" style="margin-bottom:16px;">
+      <div class="feat-legend">
+        <span>各カードの数値表記：</span>
+        <div class="feat-legend-item"><span class="feat-legend-mine">●●%</span><span>聖路加（強調表示）</span></div>
+        <div class="feat-legend-item"><span class="feat-legend-all">●●%</span><span>全国平均（参照値）</span></div>
+      </div>
+
+      <!-- ① 患者像 -->
+      <div class="card feat-card feat-card-patients" id="ql-feat-patients">
         <div class="card-inner">
-          <h3 class="card-section-title">患者像 — 若く、内科系・血液腫瘍が多い</h3>
+          <div class="feat-card-head">
+            <div class="feat-card-icon">①</div>
+            <h3 class="feat-card-title">患者像 — 若く、内科系・血液腫瘍が多い</h3>
+          </div>
+          <p class="feat-card-sub">年齢・性別の構成と、当院に集まる慢性疾患の傾向</p>
+
           <div class="feat-stats">
             <div class="feat-stat">
               <div class="feat-stat-label">年齢中央値（歳）</div>
@@ -186,7 +256,7 @@
             <div class="feat-stat">
               <div class="feat-stat-label">男性比率</div>
               <div class="feat-stat-vals"><span class="feat-stat-mine">52.4%</span><span class="feat-stat-vs">vs</span><span class="feat-stat-all">60.8%</span></div>
-              <div class="feat-stat-foot">男性比率は低い</div>
+              <div class="feat-stat-foot">男女比はほぼ均等</div>
             </div>
             <div class="feat-stat">
               <div class="feat-stat-label">免疫抑制患者</div>
@@ -194,19 +264,31 @@
               <div class="feat-stat-foot">血液腫瘍・癌転移・肝硬変も<br>全国より明らかに多い</div>
             </div>
           </div>
-          <p class="feat-card-note">三次医療機関として血液内科・腫瘍内科の高機能を持つことを反映した患者構成。</p>
+
+          <div class="feat-card-body">
+            <p>当院に入室する患者は <strong>全国平均より若年・女性比率が高い</strong> 構成ですが、これは「元気な若年層が多い」という意味ではなく、<strong>血液腫瘍・癌・肝硬変などの重症慢性疾患を持つ若中年層</strong>が三次医療として集約されている結果です。</p>
+            <p>背景疾患の複雑性は一般的な急性期ICUよりも高く、研修医は <strong>併存疾患リストと既往治療歴（化学療法・移植・免疫抑制薬）</strong> に注意して情報収集することが求められます。</p>
+            <div class="feat-card-quote">
+              💡 入室時に「免疫抑制状態か？」「悪性腫瘍の活動性は？」「Goals of Care は誰と決めるか？」を必ず主科に確認しましょう。
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- 入室経路 -->
-      <div class="card" id="ql-feat-admission" style="margin-bottom:16px;">
+      <!-- ② 入室経路 -->
+      <div class="card feat-card feat-card-admission" id="ql-feat-admission">
         <div class="card-inner">
-          <h3 class="card-section-title">入室経路 — 内科系・救急・院内集約型</h3>
+          <div class="feat-card-head">
+            <div class="feat-card-icon">②</div>
+            <h3 class="feat-card-title">入室経路 — 内科系・救急・院内集約型</h3>
+          </div>
+          <p class="feat-card-sub">どこから／どんな経路で患者がICUに入ってくるか</p>
+
           <div class="feat-stats">
             <div class="feat-stat">
               <div class="feat-stat-label">非手術入室</div>
               <div class="feat-stat-vals"><span class="feat-stat-mine">55.8%</span><span class="feat-stat-vs">vs</span><span class="feat-stat-all">35.6%</span></div>
-              <div class="feat-stat-foot">全国の1.6倍</div>
+              <div class="feat-stat-foot">全国の<strong>1.6倍</strong></div>
             </div>
             <div class="feat-stat">
               <div class="feat-stat-label">緊急入室</div>
@@ -216,35 +298,44 @@
             <div class="feat-stat">
               <div class="feat-stat-label">RRT/MET経由</div>
               <div class="feat-stat-vals"><span class="feat-stat-mine">9.2%</span><span class="feat-stat-vs">vs</span><span class="feat-stat-all">3.2%</span></div>
-              <div class="feat-stat-foot">全国の約3倍 — 院内急変対応が活発</div>
+              <div class="feat-stat-foot">全国の<strong>約3倍</strong> — 院内急変対応が活発</div>
             </div>
             <div class="feat-stat">
-              <div class="feat-stat-label">他ICUからの入室</div>
+              <div class="feat-stat-label">他ICU/CCU/HCUからの入室</div>
               <div class="feat-stat-vals"><span class="feat-stat-mine">14.3%</span><span class="feat-stat-vs">vs</span><span class="feat-stat-all">0.4%</span></div>
-              <div class="feat-stat-foot">院内ICU/CCU/HCU間の<br>ステップアップ管理</div>
+              <div class="feat-stat-foot">全国の<strong>35倍</strong> — 院内集約型</div>
             </div>
           </div>
-          <p class="feat-card-note">
-            手術後管理よりも内科系・救急系重症患者の集約が中心。
-            一方、心停止蘇生後の入室は0.6%（全国4.1%）と少ない。
-          </p>
+
+          <div class="feat-card-body">
+            <p>術後管理目的の予定入室はむしろ少なく、<strong>院内RRTコール・救急外来からの緊急入室・他ICUからのステップアップ転棟</strong>が多くを占めます。これは当院ICUが「院内重症化のセーフティネット」として機能していることを示しています。</p>
+            <p>院内RRTが活発なため、<strong>研修医は ICU 入室前段階から急変対応に呼ばれる機会も多く</strong>、トリアージ・初期蘇生・受け入れ判断の経験を早期から積むことができます。</p>
+            <div class="feat-card-quote">
+              💡 入室前情報として「RRTからの紹介か？」「他ICUのステップアップか？」を確認すると患者背景が一気に見えやすくなります。心停止蘇生後入室は0.6%（全国4.1%）と少なめです。
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- 疾患群 -->
-      <div class="card" id="ql-feat-disease" style="margin-bottom:16px;">
+      <!-- ③ 疾患群 -->
+      <div class="card feat-card feat-card-disease" id="ql-feat-disease">
         <div class="card-inner">
-          <h3 class="card-section-title">疾患群 — 心血管少なく、感染症・神経・消化器が多い</h3>
+          <div class="feat-card-head">
+            <div class="feat-card-icon">③</div>
+            <h3 class="feat-card-title">疾患群 — 心血管少なく、感染症・神経・消化器が多い</h3>
+          </div>
+          <p class="feat-card-sub">入室患者の主病名・疾患カテゴリの分布</p>
+
           <div class="feat-stats">
             <div class="feat-stat">
               <div class="feat-stat-label">心血管疾患</div>
               <div class="feat-stat-vals"><span class="feat-stat-mine">12.1%</span><span class="feat-stat-vs">vs</span><span class="feat-stat-all">35.5%</span></div>
-              <div class="feat-stat-foot">全国の約1/3 — 心臓血管手術系<br>の集約は限定的</div>
+              <div class="feat-stat-foot">全国の約<strong>1/3</strong> — 心血管手術系の集約は限定的</div>
             </div>
             <div class="feat-stat">
               <div class="feat-stat-label">感染症病名</div>
               <div class="feat-stat-vals"><span class="feat-stat-mine">24.7%</span><span class="feat-stat-vs">vs</span><span class="feat-stat-all">10.4%</span></div>
-              <div class="feat-stat-foot">全国の2倍以上</div>
+              <div class="feat-stat-foot">全国の<strong>2倍以上</strong></div>
             </div>
             <div class="feat-stat">
               <div class="feat-stat-label">神経系疾患</div>
@@ -252,21 +343,31 @@
               <div class="feat-stat-foot">消化管21.6% / 呼吸器16.1%<br>代謝性8.0% も全国より高い</div>
             </div>
           </div>
-          <p class="feat-card-note">
-            疾患トップ10は術後消化器腫瘍・誤嚥性肺炎・コイル塞栓術・細菌性肺炎・敗血症性ショック・内頚動脈ステントなど独自の構成。
-          </p>
+
+          <div class="feat-card-body">
+            <p>全国の典型的なICUは <strong>心臓血管外科の術後管理が業務の中心（全国35.5%）</strong> ですが、当院ではその割合が <strong>1/3 にとどまります</strong>。代わりに敗血症・誤嚥性肺炎・神経外科術後・代謝性緊急症など、<strong>内科的・救急的重症患者が業務の主軸</strong> です。</p>
+            <p>疾患トップ10は「術後消化器腫瘍／神経系疾患／誤嚥性肺炎／コイル塞栓術／細菌性肺炎／敗血症性ショック／内頚動脈ステント」などの独自構成。<strong>研修期間中に感染症・敗血症・神経救急のマネジメントに繰り返し関わる</strong> ことができます。</p>
+            <div class="feat-card-quote">
+              💡 当院のICU研修は「感染症・神経・代謝・呼吸」の幅広い内科系重症マネジメントを集中的に学べる環境です。心臓血管手術系の経験は他施設での研修も検討するとよいでしょう。
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- 治療戦略 -->
-      <div class="card" id="ql-feat-treatment" style="margin-bottom:16px;">
+      <!-- ④ 治療戦略 -->
+      <div class="card feat-card feat-card-treatment" id="ql-feat-treatment">
         <div class="card-inner">
-          <h3 class="card-section-title">治療戦略 — HFNC積極使用、間欠HD中心</h3>
+          <div class="feat-card-head">
+            <div class="feat-card-icon">④</div>
+            <h3 class="feat-card-title">治療戦略 — HFNC積極使用、間欠HD中心</h3>
+          </div>
+          <p class="feat-card-sub">人工呼吸・呼吸補助・腎代替療法の使用パターン</p>
+
           <div class="feat-stats">
             <div class="feat-stat">
               <div class="feat-stat-label">HFNC使用率</div>
               <div class="feat-stat-vals"><span class="feat-stat-mine">27.4%</span><span class="feat-stat-vs">vs</span><span class="feat-stat-all">12.6%</span></div>
-              <div class="feat-stat-foot">全国の2倍以上 —<br>侵襲的人工呼吸を回避する戦略</div>
+              <div class="feat-stat-foot">全国の<strong>2倍以上</strong> —<br>侵襲的人工呼吸を回避する戦略</div>
             </div>
             <div class="feat-stat">
               <div class="feat-stat-label">人工呼吸実施</div>
@@ -276,19 +377,29 @@
             <div class="feat-stat">
               <div class="feat-stat-label">間欠的腎代替療法</div>
               <div class="feat-stat-vals"><span class="feat-stat-mine">7.9%</span><span class="feat-stat-vs">vs</span><span class="feat-stat-all">4.0%</span></div>
-              <div class="feat-stat-foot">CRRTは0.8%（全国5.9%）<br>と全国と逆転</div>
+              <div class="feat-stat-foot">CRRTは0.8%（全国5.9%）<br>と全国と<strong>逆転</strong></div>
             </div>
           </div>
-          <p class="feat-card-note">
-            循環動態が比較的安定した内科系AKIへの間欠透析中心の管理。IABP・PCPS（VA-ECMO）使用例は極めて少ない。
-          </p>
+
+          <div class="feat-card-body">
+            <p>呼吸管理では <strong>HFNCを積極的に使用して挿管を回避する戦略</strong> が際立っており、人工呼吸実施率は全国より低めです。一方、人工呼吸が必要となった症例の人工呼吸日数中央値は3.8日（全国1.4日）と長い傾向があり、<strong>長期人工呼吸管理・呼吸器離脱（ウィーニング）の経験</strong> も豊富に積めます。</p>
+            <p>腎代替療法は <strong>間欠的HDが中心（CRRTより多い）</strong> という、全国と逆転した使用パターン。これは循環動態が比較的安定した内科系AKIが多いことを反映しています。IABP・PCPS（VA-ECMO）の使用例は極めて少ないので、<strong>機械的循環補助が必要な症例は他施設での経験補完</strong> がおすすめです。</p>
+            <div class="feat-card-quote">
+              💡 当院での研修では、HFNC設定・離脱、SBT、IHD適応判断、長期人工呼吸患者のウィーニングプロトコルなど、<strong>呼吸＆腎の臨床判断</strong> を反復的に経験できます。
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- 転帰 -->
-      <div class="card" id="ql-feat-outcome" style="margin-bottom:16px;">
+      <!-- ⑤ 転帰 -->
+      <div class="card feat-card feat-card-outcome" id="ql-feat-outcome">
         <div class="card-inner">
-          <h3 class="card-section-title">転帰 — 急性期ICU特性、補正後死亡率は全国と同等</h3>
+          <div class="feat-card-head">
+            <div class="feat-card-icon">⑤</div>
+            <h3 class="feat-card-title">転帰 — 急性期ICU特性、補正後死亡率は全国と同等</h3>
+          </div>
+          <p class="feat-card-sub">ICU退室経路と、重症度補正後の死亡率（質指標）</p>
+
           <div class="feat-stats">
             <div class="feat-stat">
               <div class="feat-stat-label">病棟へ直接退室</div>
@@ -306,9 +417,14 @@
               <div class="feat-stat-foot">重症度補正後はほぼ全国平均</div>
             </div>
           </div>
-          <p class="feat-card-note">
-            <strong>難しい症例を多く引き受けながら、全国水準の成績を維持している</strong>と評価できる。
-          </p>
+
+          <div class="feat-card-body">
+            <p>退室パターンを見ると、<strong>HCU を経由せず病棟へ直接戻る比率（86.1%）が全国（76.7%）より高い</strong> のが特徴で、当院ICUは「短期集中型の急性期ICU」として運用されていることが分かります。</p>
+            <p>院内死亡率の絶対値（13.9%）だけ見ると全国（9.9%）より高く見えますが、<strong>これは入室時の重症度（JROD予測死亡率）が全国より高いため</strong> で、重症度を補正した質指標 <strong>JROD-SMR は 1.02 と全国平均と同等</strong> です。</p>
+            <div class="feat-card-quote">
+              💡 数字の解釈に注意：<strong>「難しい症例を多く受け入れながら、全国水準の成績を維持している」</strong> というのが当院ICUの正しい立ち位置です。SMRの詳細解釈は<a href="articles-gl-jipad2024.html#smr-section" style="color:var(--feat-color);font-weight:700;">JIPAD まとめページの該当章</a>を参照してください。
+            </div>
+          </div>
         </div>
       </div>
 
