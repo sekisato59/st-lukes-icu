@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>新着コンテンツ一覧 — 直近50件 | 聖路加ICU</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style-v2.css?v=202605021900">
+  <script src="../recent-articles.js"></script>
+  <style>
+    /* ===== ページレイアウト ===== */
+    .page-wrap {
+      max-width:1294px;margin:0 auto;
+      padding:32px clamp(16px, 0.6rem + 1.4vw, 32px) clamp(40px, 2rem + 1.5vw, 64px);
+      display:grid;
+      grid-template-columns:minmax(0, 1fr) 300px;
+      gap:clamp(20px, 0.8rem + 0.8vw, 28px);
+      justify-content:space-between;align-items:start;
+    }
+    .page-main { min-width:0; }
+
+    /* 戻るボタン */
+    .back-wrapper { position:sticky;top:clamp(70px, 4rem + 0.6vw, 90px);display:flex;flex-direction:column;gap:16px; }
+    .back-btn {
+      display:flex;align-items:center;justify-content:center;
+      padding:12px 16px;
+      background:rgba(255,255,255,0.85);
+      backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+      border:1px solid rgba(255,255,255,0.7);
+      border-radius:12px;
+      font-size:0.82rem;font-weight:800;color:#0D4F8C;
+      text-decoration:none;letter-spacing:0.02em;line-height:1;
+      box-shadow:0 4px 18px rgba(13,79,140,0.08);
+      transition:color .15s, transform .15s, background .15s;
+      box-sizing:border-box;
+    }
+    .back-btn:hover { color:#1269B0;transform:translateY(-1px);background:rgba(255,255,255,0.95); }
+
+    /* フィルタ＆検索 UI */
+    .filter-bar {
+      display:flex;flex-wrap:wrap;gap:10px;align-items:center;
+      background:#fff;border:1px solid var(--border);border-radius:10px;
+      padding:12px 16px;margin-bottom:16px;
+      box-shadow:0 2px 8px rgba(0,0,0,0.04);
+    }
+    .filter-bar label { font-size:0.74rem;font-weight:700;color:var(--muted);margin-right:4px; }
+    .filter-bar select, .filter-bar input[type="search"] {
+      font-family:inherit;font-size:0.82rem;
+      padding:7px 10px;border:1px solid var(--border);border-radius:6px;
+      background:#fff;outline:none;
+    }
+    .filter-bar select:focus, .filter-bar input[type="search"]:focus { border-color:#2D7A4F; }
+    .filter-bar input[type="search"] { flex:1;min-width:160px; }
+    .filter-bar .count { margin-left:auto;font-size:0.74rem;color:var(--muted); }
+    .filter-bar .count strong { color:#2D7A4F;font-weight:800; }
+
+    /* 表 */
+    .recent-table { width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--border);border-radius:10px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.04); }
+    .recent-table thead th {
+      background:#F8FAFC;color:var(--text);font-size:0.74rem;font-weight:800;
+      padding:11px 12px;text-align:left;border-bottom:2px solid var(--border);
+      cursor:pointer;user-select:none;white-space:nowrap;
+      transition:background 0.15s;
+    }
+    .recent-table thead th:hover { background:#EDF2F7; }
+    .recent-table thead th .sort-arrow { font-size:0.6rem;color:#9CA3AF;margin-left:4px; }
+    .recent-table thead th.sort-asc .sort-arrow,
+    .recent-table thead th.sort-desc .sort-arrow { color:#2D7A4F; }
+    .recent-table tbody td {
+      padding:9px 12px;font-size:0.82rem;border-bottom:1px solid #F1F5F9;
+      vertical-align:middle;
+    }
+    .recent-table tbody tr:hover td { background:#F0FDF4; }
+    .recent-table tbody tr:last-child td { border-bottom:none; }
+    .recent-table .col-date { width:90px;font-size:0.72rem;color:#6B7280;font-variant-numeric:tabular-nums;white-space:nowrap; }
+    .recent-table .col-type { width:88px; }
+    .recent-table .col-system { width:128px;font-size:0.74rem;color:#4B5563;white-space:nowrap; }
+    .recent-table .col-title a { color:var(--text);text-decoration:none;font-weight:500; }
+    .recent-table .col-title a:hover { color:#2D7A4F; }
+
+    /* タイプバッジ */
+    .type-badge {
+      display:inline-block;font-size:0.66rem;font-weight:800;
+      padding:3px 9px;border-radius:999px;letter-spacing:0.04em;
+      white-space:nowrap;
+    }
+    .type-paper       { background:#DBEAFE;color:#1E40AF; }
+    .type-guideline   { background:#FEF3C7;color:#92400E; }
+    .type-review      { background:#E9D5FF;color:#6B21A8; }
+
+    /* 空ヒット */
+    .recent-empty { padding:32px;text-align:center;font-size:0.82rem;color:var(--muted); }
+
+    @media (max-width:1100px) {
+      .page-wrap { grid-template-columns:1fr; }
+      .back-wrapper { display:none; }
+    }
+    @media (max-width:640px) {
+      .recent-table .col-system { display:none; }
+      .recent-table thead th.col-system { display:none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="../index.html" class="nav-logo">
+        <img src="../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+        <span class="nav-logo-text">聖路加国際病院ICU</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-menu" id="navMenu"></ul>
+    </div>
+  </nav>
+
+  <!-- ===== PAGE HEADER ===== -->
+  <div class="subpage-hero">
+    <div class="container">
+      <h1 class="subpage-title">新着コンテンツ一覧</h1>
+      <p class="subpage-subtitle">直近 50 件の論文・ガイドライン・解説</p>
+    </div>
+  </div>
+
+  <!-- ===== CONTENT ===== -->
+  <div class="page-wrap">
+    <div class="page-main">
+
+      <!-- フィルタバー -->
+      <div class="filter-bar">
+        <label for="f-system">System：</label>
+        <select id="f-system">
+          <option value="">すべて</option>
+        </select>
+        <label for="f-type">種別：</label>
+        <select id="f-type">
+          <option value="">すべて</option>
+          <option value="論文">論文</option>
+          <option value="ガイドライン">ガイドライン</option>
+          <option value="解説">解説</option>
+        </select>
+        <input id="f-search" type="search" placeholder="タイトル検索（雑誌・年・キーワード）">
+        <span class="count">表示：<strong id="row-count">—</strong> 件</span>
+      </div>
+
+      <!-- 表 -->
+      <table class="recent-table" id="recent-table">
+        <thead>
+          <tr>
+            <th class="col-date sort-desc" data-sort="date">日付<span class="sort-arrow">▼</span></th>
+            <th class="col-type" data-sort="type">種別<span class="sort-arrow">⇅</span></th>
+            <th class="col-system" data-sort="system">System<span class="sort-arrow">⇅</span></th>
+            <th class="col-title" data-sort="title">タイトル<span class="sort-arrow">⇅</span></th>
+          </tr>
+        </thead>
+        <tbody id="recent-body"></tbody>
+      </table>
+      <div class="recent-empty" id="recent-empty" style="display:none;">該当する記事はありません。</div>
+
+    </div>
+
+    <!-- 戻るボタン -->
+    <div class="back-wrapper">
+      <a href="../index.html" class="back-btn">← トップページへ戻る</a>
+    </div>
+  </div>
+
+  <script src="../script.js"></script>
+  <script>
+    (function(){
+      var TYPE_CLASS = {
+        '論文':         'type-paper',
+        'ガイドライン': 'type-guideline',
+        '解説':         'type-review'
+      };
+      var data = (typeof RECENT_ARTICLES !== 'undefined' && Array.isArray(RECENT_ARTICLES)) ? RECENT_ARTICLES.slice() : [];
+      var sortKey = 'date';
+      var sortDir = 'desc';
+
+      var $body  = document.getElementById('recent-body');
+      var $count = document.getElementById('row-count');
+      var $empty = document.getElementById('recent-empty');
+      var $sys   = document.getElementById('f-system');
+      var $type  = document.getElementById('f-type');
+      var $q     = document.getElementById('f-search');
+      var $thead = document.querySelectorAll('#recent-table thead th[data-sort]');
+
+      // System filter optionsを構築
+      var systems = [];
+      data.forEach(function(d){ if (d.system && systems.indexOf(d.system) === -1) systems.push(d.system); });
+      systems.sort();
+      systems.forEach(function(s){
+        var opt = document.createElement('option');
+        opt.value = s; opt.textContent = s;
+        $sys.appendChild(opt);
+      });
+
+      function escape(s){ return String(s).replace(/[&<>"']/g, function(c){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]; }); }
+
+      function applyFilter(){
+        var sysVal  = $sys.value;
+        var typeVal = $type.value;
+        var qVal    = ($q.value || '').toLowerCase().trim();
+        return data.filter(function(d){
+          if (sysVal  && d.system !== sysVal)  return false;
+          if (typeVal && d.type   !== typeVal) return false;
+          if (qVal && (d.title || '').toLowerCase().indexOf(qVal) === -1) return false;
+          return true;
+        });
+      }
+
+      function applySort(rows){
+        var dir = sortDir === 'asc' ? 1 : -1;
+        return rows.slice().sort(function(a, b){
+          var va = a[sortKey] || '';
+          var vb = b[sortKey] || '';
+          if (va < vb) return -1 * dir;
+          if (va > vb) return  1 * dir;
+          return 0;
+        });
+      }
+
+      function render(){
+        var rows = applySort(applyFilter());
+        $count.textContent = rows.length;
+        if (rows.length === 0) {
+          $body.innerHTML = '';
+          $empty.style.display = 'block';
+        } else {
+          $empty.style.display = 'none';
+          $body.innerHTML = rows.map(function(r){
+            var typeCls = TYPE_CLASS[r.type] || '';
+            var dateDisp = (r.date || '').replace(/\//g, '/');
+            var url = '../' + r.url;
+            return '<tr>'
+              + '<td class="col-date">' + escape(dateDisp) + '</td>'
+              + '<td class="col-type"><span class="type-badge ' + typeCls + '">' + escape(r.type) + '</span></td>'
+              + '<td class="col-system">' + escape(r.system || '') + '</td>'
+              + '<td class="col-title"><a href="' + escape(url) + '">' + escape(r.title) + '</a></td>'
+              + '</tr>';
+          }).join('');
+        }
+        // ヘッダの矢印
+        $thead.forEach(function(th){
+          var arrow = th.querySelector('.sort-arrow');
+          if (th.dataset.sort === sortKey) {
+            th.classList.add(sortDir === 'asc' ? 'sort-asc' : 'sort-desc');
+            th.classList.remove(sortDir === 'asc' ? 'sort-desc' : 'sort-asc');
+            arrow.textContent = sortDir === 'asc' ? '▲' : '▼';
+          } else {
+            th.classList.remove('sort-asc', 'sort-desc');
+            arrow.textContent = '⇅';
+          }
+        });
+      }
+
+      $thead.forEach(function(th){
+        th.addEventListener('click', function(){
+          var key = th.dataset.sort;
+          if (sortKey === key) {
+            sortDir = (sortDir === 'asc') ? 'desc' : 'asc';
+          } else {
+            sortKey = key;
+            sortDir = (key === 'date') ? 'desc' : 'asc';
+          }
+          render();
+        });
+      });
+      $sys.addEventListener('change', render);
+      $type.addEventListener('change', render);
+      $q.addEventListener('input', render);
+
+      render();
+    })();
+  </script>
+</body>
+</html>
