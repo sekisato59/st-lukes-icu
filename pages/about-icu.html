@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../style-v2.css?v=202605021500">
+  <link rel="stylesheet" href="../style-v2.css?v=202605021530">
   <style>
     :root {
       --hero-bg: #F4F8FB;
@@ -35,35 +35,52 @@
       mask-image:linear-gradient(to bottom, transparent 0%, #000 10%, #000 90%, transparent 100%);
     }
 
-    /* ===== ページレイアウト：左メイン + 右サイドTOC ===== */
+    /* ===== ページレイアウト：左メイン + 右サイドTOC（pre-rotation-todoと統一） ===== */
     .about-page-body {
       max-width:1294px;margin:0 auto;
-      padding:0 var(--dum-section-px) clamp(40px, 2rem + 1.5vw, 64px);
+      padding:32px clamp(16px, 0.6rem + 1.4vw, 32px) clamp(40px, 2rem + 1.5vw, 64px);
       display:grid;
-      grid-template-columns:minmax(0, 900px) 240px;
-      gap:clamp(24px, 1rem + 1.5vw, 40px);
+      grid-template-columns:minmax(0, 900px) 300px;
+      gap:clamp(20px, 0.8rem + 0.8vw, 28px);
+      justify-content:space-between;
       align-items:start;
     }
     .about-main { min-width:0; }
-    .back-link {
-      display:inline-block;margin:0 0 16px;
-      font-size:0.82rem;color:var(--hero-blue-dark);text-decoration:none;
-      font-weight:700;
-    }
-    .back-link:hover { text-decoration:underline; }
 
-    /* ===== 右サイド 目次（ショートカット） ===== */
-    .about-toc {
+    /* 右側ラッパー：戻るボタン + 目次を縦並びでまとめて sticky */
+    .about-toc-wrapper {
       position:sticky;top:clamp(70px, 4rem + 0.6vw, 90px);
+      display:flex;flex-direction:column;gap:16px;
+    }
+    /* 「トップページへ戻る」ボタン */
+    .about-back-btn {
+      display:flex;align-items:center;justify-content:center;
+      padding:12px 16px;
       background:rgba(255,255,255,0.85);
       backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
       border:1px solid rgba(255,255,255,0.7);
-      border-radius:var(--dum-radius-md);
+      border-radius:12px;
+      font-size:0.82rem;font-weight:800;color:var(--hero-blue-dark);
+      text-decoration:none;letter-spacing:0.02em;line-height:1;
+      box-shadow:0 4px 18px rgba(13,79,140,0.08);
+      transition:color .15s, transform .15s, background .15s;
+      box-sizing:border-box;
+    }
+    .about-back-btn:hover {
+      color:var(--hero-blue);transform:translateY(-1px);
+      background:rgba(255,255,255,0.95);
+    }
+
+    /* ===== 右サイド 目次（ショートカット） ===== */
+    .about-toc {
+      background:rgba(255,255,255,0.85);
+      backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+      border:1px solid rgba(255,255,255,0.7);
+      border-radius:12px;
       padding:14px 16px 12px;
       box-shadow:0 4px 18px rgba(13,79,140,0.08);
-      max-height:calc(100vh - clamp(90px, 5rem + 0.6vw, 110px));
+      max-height:calc(100vh - clamp(160px, 9rem + 1vw, 200px));
       overflow-y:auto;
-      margin-top:32px;
     }
     .about-toc-title {
       font-size:0.78rem;font-weight:900;color:var(--hero-blue-dark);
@@ -87,7 +104,7 @@
 
     @media (max-width:1100px) {
       .about-page-body { grid-template-columns:1fr; }
-      .about-toc { display:none; }
+      .about-toc-wrapper { display:none; }
     }
   </style>
 </head>
@@ -115,7 +132,6 @@
   <!-- ===== 本文 ===== -->
   <main class="about-page-body">
     <div class="about-main">
-    <a href="../index.html" class="back-link">← トップへ戻る</a>
 
     <!-- ──────────────────────────── -->
     <!-- ① はじめに                   -->
@@ -145,23 +161,22 @@
     <!-- ② 当院ICUの特徴               -->
     <!-- ──────────────────────────── -->
     <style>
-      /* カード共通レイアウト ─ カード自体は CSS変数で色をテーマ化 */
-      .feat-card { margin-bottom:18px;border-top:4px solid var(--feat-color); }
-      .feat-card .card-inner { padding-top:18px; }
+      /* カード共通レイアウト ─ 色帯禁止のため見出しとstatのみで色を付ける */
+      .feat-card { margin-bottom:18px; }
       .feat-card-head {
-        display:flex;align-items:center;gap:10px;margin-bottom:6px;
+        display:flex;align-items:center;gap:10px;margin-bottom:4px;
       }
       .feat-card-icon {
-        flex-shrink:0;width:34px;height:34px;border-radius:8px;
+        flex-shrink:0;width:32px;height:32px;border-radius:8px;
         background:var(--feat-bg);color:var(--feat-color);
         display:flex;align-items:center;justify-content:center;
-        font-size:1.05rem;font-weight:900;
+        font-size:1rem;font-weight:900;
       }
       .feat-card-title {
         font-size:1rem;font-weight:900;color:var(--feat-color);line-height:1.4;margin:0;
       }
       .feat-card-sub {
-        font-size:0.78rem;color:var(--muted);margin:0 0 14px;line-height:1.6;padding-left:44px;
+        font-size:0.78rem;color:var(--muted);margin:0 0 14px;line-height:1.6;padding-left:42px;
       }
 
       /* スタットボックス（カードの色テーマを継承） */
@@ -183,8 +198,8 @@
       .feat-card-body p:last-child { margin-bottom:0; }
       .feat-card-body strong { color:var(--feat-color); }
       .feat-card-quote {
-        background:var(--feat-bg);border-left:3px solid var(--feat-color);
-        padding:10px 14px;margin-top:10px;border-radius:0 8px 8px 0;
+        background:var(--feat-bg);
+        padding:10px 14px;margin-top:10px;border-radius:8px;
         font-size:0.82rem;color:var(--text);line-height:1.7;
       }
 
@@ -197,8 +212,7 @@
 
       /* 導入カード */
       .feat-intro {
-        background:linear-gradient(135deg, #EFF6FF 0%, #F5F3FF 100%);
-        border:1px solid #DBEAFE;border-radius:10px;
+        background:#F8FAFC;border:1px solid var(--border);border-radius:10px;
         padding:16px 18px;margin-bottom:20px;font-size:0.86rem;color:var(--text);line-height:1.8;
       }
       .feat-intro a { color:var(--blue);font-weight:700;text-decoration:none; }
@@ -465,26 +479,29 @@
 
     </div><!-- /.about-main -->
 
-    <!-- ===== 右サイド 目次 ===== -->
-    <aside class="about-toc" aria-label="ページ内ショートカット">
-      <h3 class="about-toc-title">目次</h3>
-      <nav>
-        <a href="#intro" class="toc-section">SECTION 01 — はじめに</a>
-        <a href="#ql-vision" class="toc-sub">聖路加ICUが目指すもの</a>
+    <!-- ===== 右サイド：戻るボタン + 目次 ===== -->
+    <div class="about-toc-wrapper">
+      <a href="../index.html" class="about-back-btn">← トップページへ戻る</a>
+      <aside class="about-toc" aria-label="ページ内ショートカット">
+        <h3 class="about-toc-title">目次</h3>
+        <nav>
+          <a href="#intro" class="toc-section">SECTION 01 — はじめに</a>
+          <a href="#ql-vision" class="toc-sub">聖路加ICUが目指すもの</a>
 
-        <a href="#features" class="toc-section">SECTION 02 — 当院ICUの特徴</a>
-        <a href="#ql-feat-patients" class="toc-sub">患者像</a>
-        <a href="#ql-feat-admission" class="toc-sub">入室経路</a>
-        <a href="#ql-feat-disease" class="toc-sub">疾患群</a>
-        <a href="#ql-feat-treatment" class="toc-sub">治療戦略</a>
-        <a href="#ql-feat-outcome" class="toc-sub">転帰</a>
+          <a href="#features" class="toc-section">SECTION 02 — 当院ICUの特徴</a>
+          <a href="#ql-feat-patients" class="toc-sub">患者像</a>
+          <a href="#ql-feat-admission" class="toc-sub">入室経路</a>
+          <a href="#ql-feat-disease" class="toc-sub">疾患群</a>
+          <a href="#ql-feat-treatment" class="toc-sub">治療戦略</a>
+          <a href="#ql-feat-outcome" class="toc-sub">転帰</a>
 
-        <a href="#rules" class="toc-section">SECTION 03 — ICUの方針</a>
-        <a href="#ql-rules" class="toc-sub">ICUのルール</a>
-        <a href="#ql-staff" class="toc-sub">スタッフ紹介・チーム編成</a>
-        <a href="#ql-sets" class="toc-sub">ICUのセット</a>
-      </nav>
-    </aside>
+          <a href="#rules" class="toc-section">SECTION 03 — ICUの方針</a>
+          <a href="#ql-rules" class="toc-sub">ICUのルール</a>
+          <a href="#ql-staff" class="toc-sub">スタッフ紹介・チーム編成</a>
+          <a href="#ql-sets" class="toc-sub">ICUのセット</a>
+        </nav>
+      </aside>
+    </div>
 
   </main>
 
