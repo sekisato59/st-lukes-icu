@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../style-v2.css?v=202605021900">
+  <link rel="stylesheet" href="../style-v2.css?v=202605022030">
   <script src="../recent-articles.js"></script>
   <style>
     /* ===== ページレイアウト ===== */
@@ -82,15 +82,21 @@
     .recent-table .col-title a { color:var(--text);text-decoration:none;font-weight:500; }
     .recent-table .col-title a:hover { color:#2D7A4F; }
 
-    /* タイプバッジ */
+    /* タイプバッジ — 9種類 */
     .type-badge {
       display:inline-block;font-size:0.66rem;font-weight:800;
       padding:3px 9px;border-radius:999px;letter-spacing:0.04em;
       white-space:nowrap;
     }
-    .type-paper       { background:#DBEAFE;color:#1E40AF; }
-    .type-guideline   { background:#FEF3C7;color:#92400E; }
-    .type-review      { background:#E9D5FF;color:#6B21A8; }
+    .type-rct         { background:#DBEAFE;color:#1E40AF; }  /* 青 */
+    .type-cohort      { background:#D1FAE5;color:#065F46; }  /* 緑 */
+    .type-casecontrol { background:#FEF3C7;color:#92400E; }  /* 黄 */
+    .type-cross       { background:#FCE7F3;color:#9D174D; }  /* ピンク */
+    .type-meta        { background:#E0E7FF;color:#3730A3; }  /* インディゴ */
+    .type-sr          { background:#CFFAFE;color:#155E75; }  /* シアン */
+    .type-case        { background:#FFE4E6;color:#9F1239; }  /* ローズ */
+    .type-caseseries  { background:#FED7AA;color:#9A3412; }  /* オレンジ */
+    .type-review      { background:#E9D5FF;color:#6B21A8; }  /* 紫 */
 
     /* 空ヒット */
     .recent-empty { padding:32px;text-align:center;font-size:0.82rem;color:var(--muted); }
@@ -142,9 +148,15 @@
         <label for="f-type">種別：</label>
         <select id="f-type">
           <option value="">すべて</option>
-          <option value="論文">論文</option>
-          <option value="ガイドライン">ガイドライン</option>
-          <option value="解説">解説</option>
+          <option value="RCT">RCT</option>
+          <option value="コホート">コホート</option>
+          <option value="症例対照">症例対照</option>
+          <option value="横断">横断</option>
+          <option value="メタ解析">メタ解析</option>
+          <option value="SR">SR</option>
+          <option value="Case">Case</option>
+          <option value="症例集積">症例集積</option>
+          <option value="Review">Review</option>
         </select>
         <input id="f-search" type="search" placeholder="タイトル検索（雑誌・年・キーワード）">
         <span class="count">表示：<strong id="row-count">—</strong> 件</span>
@@ -176,9 +188,15 @@
   <script>
     (function(){
       var TYPE_CLASS = {
-        '論文':         'type-paper',
-        'ガイドライン': 'type-guideline',
-        '解説':         'type-review'
+        'RCT':       'type-rct',
+        'コホート':   'type-cohort',
+        '症例対照':   'type-casecontrol',
+        '横断':       'type-cross',
+        'メタ解析':   'type-meta',
+        'SR':         'type-sr',
+        'Case':       'type-case',
+        '症例集積':   'type-caseseries',
+        'Review':     'type-review'
       };
       var data = (typeof RECENT_ARTICLES !== 'undefined' && Array.isArray(RECENT_ARTICLES)) ? RECENT_ARTICLES.slice() : [];
       var sortKey = 'date';
