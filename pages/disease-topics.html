@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../style-v2.css?v=202605021230">
+  <link rel="stylesheet" href="../style-v2.css?v=202605021830">
   <style>
     /* ── Article list: Dense Table #9 Stripe ── */
     .art-box { border-radius:10px;overflow:hidden;border:1px solid #E2E8F0;margin-bottom:10px;box-shadow:0 2px 8px rgba(0,0,0,0.07); }
@@ -38,9 +38,23 @@
     .art-title { flex:1;font-weight:500;font-size:0.82rem; }
     .subpage-hero { background: linear-gradient(150deg, #3D1F00 0%, #B45309 55%, #D97706 100%) !important; }
     /* System sidebar */
-    .sys-layout { display:flex;gap:24px;align-items:flex-start;max-width:1294px;margin:0 auto;padding:32px 20px 60px; }
-    .sys-main { flex:1;min-width:0; }
-    .sys-sidebar { width:180px;flex-shrink:0;position:sticky;top:72px; }
+    .sys-layout { display:grid;grid-template-columns:minmax(0, 900px) 300px;gap:28px;justify-content:space-between;align-items:flex-start;max-width:1294px;margin:0 auto;padding:32px 20px 60px; }
+    .sys-main { min-width:0; }
+    .sys-sidebar-wrapper { position:sticky;top:clamp(70px, 4rem + 0.6vw, 90px);display:flex;flex-direction:column;gap:16px; }
+    .sys-back-btn {
+      display:flex;align-items:center;justify-content:center;
+      padding:12px 16px;
+      background:rgba(255,255,255,0.85);
+      backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+      border:1px solid rgba(255,255,255,0.7);
+      border-radius:12px;
+      font-size:0.82rem;font-weight:800;color:#7A4106;
+      text-decoration:none;letter-spacing:0.02em;line-height:1;
+      box-shadow:0 4px 18px rgba(180,83,9,0.10);
+      transition:color .15s, transform .15s, background .15s;
+      box-sizing:border-box;
+    }
+    .sys-back-btn:hover { color:#B45309;transform:translateY(-1px);background:rgba(255,255,255,0.95); }
     .sys-sidebar-card { background:#fff;border:1px solid var(--border);border-radius:10px;padding:16px 14px;box-shadow:0 2px 8px rgba(0,0,0,0.06); }
     .sys-sidebar-title { font-size:0.6rem;font-weight:800;color:#B45309;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid #FDE68A; }
     .sys-sidebar a { display:flex;align-items:center;justify-content:space-between;font-size:0.73rem;color:var(--text);text-decoration:none;padding:7px 10px;border-radius:6px;line-height:1.4;transition:all 0.15s;margin-bottom:2px; }
@@ -51,7 +65,7 @@
     .sys-sidebar a:hover .sys-count { background:#FEF3C7;color:#B45309; }
     .sys-sidebar-footer { margin-top:12px;padding-top:10px;border-top:1px solid var(--border);font-size:0.62rem;color:var(--muted);text-align:center;line-height:1.5; }
     .sys-sidebar-footer strong { color:#B45309;font-size:0.72rem; }
-    @media (max-width:900px) { .sys-sidebar { display:none; } .sys-layout { max-width:900px; } .sys-main { max-width:100%; } }
+    @media (max-width:1100px) { .sys-layout { grid-template-columns:1fr; } .sys-sidebar-wrapper { display:none; } }
   </style>
 </head>
 <body>
@@ -73,7 +87,6 @@
   <!-- ===== PAGE HEADER ===== -->
   <div class="subpage-hero">
     <div class="container">
-      <a href="../index.html" class="back-link">← メインページへ戻る</a>
       <h1 class="subpage-title">【研修医向け】疾患/症候マニュアル</h1>
       <p class="subpage-subtitle">#ICU ESSENTIAL TOPICS</p>
     </div>
@@ -281,20 +294,23 @@
 
     </div><!-- /.sys-main -->
 
-    <!-- System Sidebar -->
-    <aside class="sys-sidebar">
-      <div class="sys-sidebar-card">
-        <div class="sys-sidebar-title">By System</div>
-        <a href="#dt-neuro" data-section="dt-neuro">神経系<span class="sys-count"></span></a>
-        <a href="#dt-cardio" data-section="dt-cardio">循環器系<span class="sys-count"></span></a>
-        <a href="#dt-resp" data-section="dt-resp">呼吸器系<span class="sys-count"></span></a>
-        <a href="#dt-renal" data-section="dt-renal">腎・電解質<span class="sys-count"></span></a>
-        <a href="#dt-heme" data-section="dt-heme">血液系<span class="sys-count"></span></a>
-        <a href="#dt-id" data-section="dt-id">感染症<span class="sys-count"></span></a>
-        <a href="#dt-nutrition" data-section="dt-nutrition">栄養・代謝<span class="sys-count"></span></a>
-        <div class="sys-sidebar-footer">全 <strong id="sys-total">—</strong> テーマ</div>
-      </div>
-    </aside>
+    <!-- System Sidebar — トップへ戻るボタン + By System目次 -->
+    <div class="sys-sidebar-wrapper">
+      <a href="../index.html" class="sys-back-btn">← トップページへ戻る</a>
+      <aside class="sys-sidebar">
+        <div class="sys-sidebar-card">
+          <div class="sys-sidebar-title">By System</div>
+          <a href="#dt-neuro" data-section="dt-neuro">神経系<span class="sys-count"></span></a>
+          <a href="#dt-cardio" data-section="dt-cardio">循環器系<span class="sys-count"></span></a>
+          <a href="#dt-resp" data-section="dt-resp">呼吸器系<span class="sys-count"></span></a>
+          <a href="#dt-renal" data-section="dt-renal">腎・電解質<span class="sys-count"></span></a>
+          <a href="#dt-heme" data-section="dt-heme">血液系<span class="sys-count"></span></a>
+          <a href="#dt-id" data-section="dt-id">感染症<span class="sys-count"></span></a>
+          <a href="#dt-nutrition" data-section="dt-nutrition">栄養・代謝<span class="sys-count"></span></a>
+          <div class="sys-sidebar-footer">全 <strong id="sys-total">—</strong> テーマ</div>
+        </div>
+      </aside>
+    </div>
 
   </div><!-- /.sys-layout -->
 
