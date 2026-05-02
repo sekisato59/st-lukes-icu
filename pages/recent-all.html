@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>新着コンテンツ一覧 — 直近50件 | 聖路加ICU</title>
+  <title>コンテンツ検索 — 全ページ一覧 | 聖路加ICU</title>
   <meta name="robots" content="noindex, nofollow">
   <link rel="icon" type="image/png" href="../images/logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../style-v2.css?v=202605022100">
-  <script src="../recent-articles.js"></script>
+  <script src="../all-pages.js"></script>
   <style>
     /* ===== ページレイアウト ===== */
     .page-wrap {
@@ -55,7 +55,7 @@
     }
     .filter-bar select:focus, .filter-bar input[type="search"]:focus { border-color:#2D7A4F; }
     .filter-bar input[type="search"] { flex:1;min-width:160px; }
-    .filter-bar .count { margin-left:auto;font-size:0.74rem;color:var(--muted); }
+    .filter-bar .count { margin-left:auto;font-size:0.74rem;color:var(--muted);white-space:nowrap; }
     .filter-bar .count strong { color:#2D7A4F;font-weight:800; }
 
     /* 表 */
@@ -76,39 +76,58 @@
     }
     .recent-table tbody tr:hover td { background:#F0FDF4; }
     .recent-table tbody tr:last-child td { border-bottom:none; }
-    .recent-table .col-date { width:90px;font-size:0.72rem;color:#6B7280;font-variant-numeric:tabular-nums;white-space:nowrap; }
-    .recent-table .col-type { width:88px; }
-    .recent-table .col-system { width:128px;font-size:0.74rem;color:#4B5563;white-space:nowrap; }
+    .recent-table .col-date    { width:90px;font-size:0.72rem;color:#6B7280;font-variant-numeric:tabular-nums;white-space:nowrap; }
+    .recent-table .col-genre   { width:108px; }
+    .recent-table .col-type    { width:88px; }
+    .recent-table .col-system  { width:128px;font-size:0.74rem;color:#4B5563;white-space:nowrap; }
     .recent-table .col-title a { color:var(--text);text-decoration:none;font-weight:500; }
     .recent-table .col-title a:hover { color:#2D7A4F; }
 
-    /* タイプバッジ — 10種類 */
+    /* ジャンルバッジ */
+    .genre-badge {
+      display:inline-block;font-size:0.66rem;font-weight:800;
+      padding:3px 9px;border-radius:6px;letter-spacing:0.04em;
+      white-space:nowrap;
+    }
+    .genre-article  { background:#DCFCE7;color:#166534; }  /* 論文・GL: 緑 */
+    .genre-disease  { background:#FFEDD5;color:#9A3412; }  /* 疾患マニュアル: オレンジ */
+    .genre-exam     { background:#E0E7FF;color:#3730A3; }  /* 試験ノート: インディゴ */
+    .genre-staff    { background:#FCE7F3;color:#9D174D; }  /* スタッフ: ピンク */
+    .genre-schedule { background:#FEF3C7;color:#92400E; }  /* スケジュール: 黄 */
+    .genre-rule     { background:#DBEAFE;color:#1E40AF; }  /* ICUルール: 青 */
+    .genre-catalog  { background:#F3F4F6;color:#374151; }  /* カタログ: グレー */
+
+    /* 種別バッジ — 10種類 */
     .type-badge {
       display:inline-block;font-size:0.66rem;font-weight:800;
       padding:3px 9px;border-radius:999px;letter-spacing:0.04em;
       white-space:nowrap;
     }
-    .type-rct         { background:#DBEAFE;color:#1E40AF; }  /* 青 */
-    .type-cohort      { background:#D1FAE5;color:#065F46; }  /* 緑 */
-    .type-casecontrol { background:#FEF3C7;color:#92400E; }  /* 黄 */
-    .type-cross       { background:#FCE7F3;color:#9D174D; }  /* ピンク */
-    .type-meta        { background:#E0E7FF;color:#3730A3; }  /* インディゴ */
-    .type-sr          { background:#CFFAFE;color:#155E75; }  /* シアン */
-    .type-case        { background:#FFE4E6;color:#9F1239; }  /* ローズ */
-    .type-caseseries  { background:#FED7AA;color:#9A3412; }  /* オレンジ */
-    .type-review      { background:#E9D5FF;color:#6B21A8; }  /* 紫 */
-    .type-guideline   { background:#FEE2E2;color:#991B1B; }  /* 赤 */
+    .type-rct         { background:#DBEAFE;color:#1E40AF; }
+    .type-cohort      { background:#D1FAE5;color:#065F46; }
+    .type-casecontrol { background:#FEF3C7;color:#92400E; }
+    .type-cross       { background:#FCE7F3;color:#9D174D; }
+    .type-meta        { background:#E0E7FF;color:#3730A3; }
+    .type-sr          { background:#CFFAFE;color:#155E75; }
+    .type-case        { background:#FFE4E6;color:#9F1239; }
+    .type-caseseries  { background:#FED7AA;color:#9A3412; }
+    .type-review      { background:#E9D5FF;color:#6B21A8; }
+    .type-guideline   { background:#FEE2E2;color:#991B1B; }
+    .type-empty       { color:#D1D5DB;font-weight:400; }
 
-    /* 空ヒット */
     .recent-empty { padding:32px;text-align:center;font-size:0.82rem;color:var(--muted); }
 
     @media (max-width:1100px) {
       .page-wrap { grid-template-columns:1fr; }
       .back-wrapper { display:none; }
     }
-    @media (max-width:640px) {
-      .recent-table .col-system { display:none; }
+    @media (max-width:768px) {
+      .recent-table .col-system,
       .recent-table thead th.col-system { display:none; }
+    }
+    @media (max-width:560px) {
+      .recent-table .col-type,
+      .recent-table thead th.col-type { display:none; }
     }
   </style>
 </head>
@@ -131,8 +150,8 @@
   <!-- ===== PAGE HEADER ===== -->
   <div class="subpage-hero">
     <div class="container">
-      <h1 class="subpage-title">新着コンテンツ一覧</h1>
-      <p class="subpage-subtitle">直近 50 件の論文・ガイドライン・解説</p>
+      <h1 class="subpage-title">コンテンツ検索</h1>
+      <p class="subpage-subtitle">サイト内の全ページ — ジャンル・System・キーワードで絞り込み</p>
     </div>
   </div>
 
@@ -142,8 +161,8 @@
 
       <!-- フィルタバー -->
       <div class="filter-bar">
-        <label for="f-system">System：</label>
-        <select id="f-system">
+        <label for="f-genre">ジャンル：</label>
+        <select id="f-genre">
           <option value="">すべて</option>
         </select>
         <label for="f-type">種別：</label>
@@ -160,8 +179,12 @@
           <option value="Review">Review</option>
           <option value="ガイドライン">ガイドライン</option>
         </select>
-        <input id="f-search" type="search" placeholder="タイトル検索（雑誌・年・キーワード）">
-        <span class="count">表示：<strong id="row-count">—</strong> 件</span>
+        <label for="f-system">System：</label>
+        <select id="f-system">
+          <option value="">すべて</option>
+        </select>
+        <input id="f-search" type="search" placeholder="キーワード検索（タイトル）">
+        <span class="count">表示：<strong id="row-count">—</strong> / <span id="row-total">—</span> 件</span>
       </div>
 
       <!-- 表 -->
@@ -169,6 +192,7 @@
         <thead>
           <tr>
             <th class="col-date sort-desc" data-sort="date">日付<span class="sort-arrow">▼</span></th>
+            <th class="col-genre" data-sort="genre">ジャンル<span class="sort-arrow">⇅</span></th>
             <th class="col-type" data-sort="type">種別<span class="sort-arrow">⇅</span></th>
             <th class="col-system" data-sort="system">System<span class="sort-arrow">⇅</span></th>
             <th class="col-title" data-sort="title">タイトル<span class="sort-arrow">⇅</span></th>
@@ -176,7 +200,7 @@
         </thead>
         <tbody id="recent-body"></tbody>
       </table>
-      <div class="recent-empty" id="recent-empty" style="display:none;">該当する記事はありません。</div>
+      <div class="recent-empty" id="recent-empty" style="display:none;">該当するページはありません。</div>
 
     </div>
 
@@ -201,37 +225,64 @@
         'Review':         'type-review',
         'ガイドライン':   'type-guideline'
       };
-      var data = (typeof RECENT_ARTICLES !== 'undefined' && Array.isArray(RECENT_ARTICLES)) ? RECENT_ARTICLES.slice() : [];
+      var GENRE_CLASS = {
+        '論文・GL':       'genre-article',
+        '疾患マニュアル': 'genre-disease',
+        '試験ノート':     'genre-exam',
+        'スタッフ':       'genre-staff',
+        'スケジュール':   'genre-schedule',
+        'ICUルール':      'genre-rule',
+        'カタログ':       'genre-catalog'
+      };
+
+      var data = (typeof ALL_PAGES !== 'undefined' && Array.isArray(ALL_PAGES)) ? ALL_PAGES.slice() : [];
       var sortKey = 'date';
       var sortDir = 'desc';
 
       var $body  = document.getElementById('recent-body');
       var $count = document.getElementById('row-count');
+      var $total = document.getElementById('row-total');
       var $empty = document.getElementById('recent-empty');
+      var $genre = document.getElementById('f-genre');
       var $sys   = document.getElementById('f-system');
       var $type  = document.getElementById('f-type');
       var $q     = document.getElementById('f-search');
       var $thead = document.querySelectorAll('#recent-table thead th[data-sort]');
 
-      // System filter optionsを構築
+      // genre / system filter optionsを構築（実データから）
+      var genres = [];
       var systems = [];
-      data.forEach(function(d){ if (d.system && systems.indexOf(d.system) === -1) systems.push(d.system); });
+      data.forEach(function(d){
+        if (d.genre  && genres.indexOf(d.genre)   === -1) genres.push(d.genre);
+        if (d.system && systems.indexOf(d.system) === -1) systems.push(d.system);
+      });
+      // ジャンル: 表示順を固定
+      var genreOrder = ['論文・GL', '疾患マニュアル', '試験ノート', 'ICUルール', 'スケジュール', 'スタッフ', 'カタログ'];
+      genres.sort(function(a, b){ return genreOrder.indexOf(a) - genreOrder.indexOf(b); });
+      genres.forEach(function(g){
+        var opt = document.createElement('option');
+        opt.value = g; opt.textContent = g;
+        $genre.appendChild(opt);
+      });
       systems.sort();
       systems.forEach(function(s){
         var opt = document.createElement('option');
         opt.value = s; opt.textContent = s;
         $sys.appendChild(opt);
       });
+      $total.textContent = data.length;
 
       function escape(s){ return String(s).replace(/[&<>"']/g, function(c){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]; }); }
 
       function applyFilter(){
-        var sysVal  = $sys.value;
+        var gVal    = $genre.value;
         var typeVal = $type.value;
+        var sysVal  = $sys.value;
         var qVal    = ($q.value || '').toLowerCase().trim();
         return data.filter(function(d){
-          if (sysVal  && d.system !== sysVal)  return false;
+          if (gVal    && d.genre  !== gVal)    return false;
           if (typeVal && d.type   !== typeVal) return false;
+          if (sysVal  && d.system !== sysVal)  return false;
           if (qVal && (d.title || '').toLowerCase().indexOf(qVal) === -1) return false;
           return true;
         });
@@ -257,18 +308,21 @@
         } else {
           $empty.style.display = 'none';
           $body.innerHTML = rows.map(function(r){
-            var typeCls = TYPE_CLASS[r.type] || '';
-            var dateDisp = (r.date || '').replace(/\//g, '/');
+            var typeCls  = TYPE_CLASS[r.type]   || '';
+            var genreCls = GENRE_CLASS[r.genre] || '';
             var url = '../' + r.url;
+            var typeCell = r.type
+              ? '<span class="type-badge ' + typeCls + '">' + escape(r.type) + '</span>'
+              : '<span class="type-empty">—</span>';
             return '<tr>'
-              + '<td class="col-date">' + escape(dateDisp) + '</td>'
-              + '<td class="col-type"><span class="type-badge ' + typeCls + '">' + escape(r.type) + '</span></td>'
+              + '<td class="col-date">' + escape(r.date || '') + '</td>'
+              + '<td class="col-genre"><span class="genre-badge ' + genreCls + '">' + escape(r.genre || '') + '</span></td>'
+              + '<td class="col-type">' + typeCell + '</td>'
               + '<td class="col-system">' + escape(r.system || '') + '</td>'
               + '<td class="col-title"><a href="' + escape(url) + '">' + escape(r.title) + '</a></td>'
               + '</tr>';
           }).join('');
         }
-        // ヘッダの矢印
         $thead.forEach(function(th){
           var arrow = th.querySelector('.sort-arrow');
           if (th.dataset.sort === sortKey) {
@@ -294,6 +348,7 @@
           render();
         });
       });
+      $genre.addEventListener('change', render);
       $sys.addEventListener('change', render);
       $type.addEventListener('change', render);
       $q.addEventListener('input', render);
