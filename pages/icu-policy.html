@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>診療方針 | 聖路加ICU</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style-v2.css?v=202605022700">
+  <style>
+    :root {
+      --hero-bg: #F4F8FB;
+      --hero-blue: #1269B0;
+      --hero-blue-dark: #0D4F8C;
+      --hero-text-dark: #1F2937;
+      --hero-text-mute: #4B5563;
+      --dum-section-px: clamp(16px, 0.6rem + 1.4vw, 32px);
+    }
+
+    /* ===== ページレイアウト：左メイン + 右サイドTOC ===== */
+    .about-page-body {
+      max-width:1294px;margin:0 auto;
+      padding:32px clamp(16px, 0.6rem + 1.4vw, 32px) clamp(40px, 2rem + 1.5vw, 64px);
+      display:grid;
+      grid-template-columns:minmax(0, 900px) 300px;
+      gap:clamp(20px, 0.8rem + 0.8vw, 28px);
+      justify-content:space-between;
+      align-items:start;
+    }
+    .about-main { min-width:0; }
+    .about-main > section:first-child .sec-head { padding-top:0; }
+
+    .about-toc-wrapper {
+      position:sticky;top:clamp(70px, 4rem + 0.6vw, 90px);
+      display:flex;flex-direction:column;gap:16px;
+    }
+    .about-back-btn {
+      display:flex;align-items:center;justify-content:center;
+      padding:12px 16px;
+      background:rgba(255,255,255,0.85);
+      backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+      border:1px solid rgba(255,255,255,0.7);
+      border-radius:12px;
+      font-size:0.82rem;font-weight:800;color:var(--hero-blue-dark);
+      text-decoration:none;letter-spacing:0.02em;line-height:1;
+      box-shadow:0 4px 18px rgba(13,79,140,0.08);
+      transition:color .15s, transform .15s, background .15s;
+      box-sizing:border-box;
+    }
+    .about-back-btn:hover { color:var(--hero-blue);transform:translateY(-1px);background:rgba(255,255,255,0.95); }
+
+    .about-toc {
+      background:rgba(255,255,255,0.85);
+      backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+      border:1px solid rgba(255,255,255,0.7);
+      border-radius:12px;
+      padding:14px 16px 12px;
+      box-shadow:0 4px 18px rgba(13,79,140,0.08);
+      max-height:calc(100vh - clamp(160px, 9rem + 1vw, 200px));
+      overflow-y:auto;
+    }
+    .about-toc-title {
+      font-size:0.78rem;font-weight:900;color:var(--hero-blue-dark);
+      letter-spacing:0.05em;margin:0 0 8px;
+      padding-bottom:6px;border-bottom:1px solid #E5E7EB;
+    }
+    .about-toc nav { display:flex;flex-direction:column; }
+    .about-toc a {
+      display:block;padding:5px 4px 5px 10px;text-decoration:none;
+      font-size:0.74rem;color:var(--hero-text-mute);line-height:1.5;
+      border-left:2px solid transparent;
+      transition:color .15s, border-color .15s, background .15s;
+    }
+    .about-toc a:hover { color:var(--hero-blue);border-left-color:var(--hero-blue);background:rgba(244,248,251,0.6); }
+    .about-toc a.toc-section { font-weight:800;color:var(--hero-text-dark);margin-top:8px;font-size:0.78rem; }
+    .about-toc a.toc-section:first-child { margin-top:0; }
+    .about-toc a.toc-sub { padding-left:22px;font-size:0.72rem; }
+
+    /* 引用ブロック（Hotel ICU 理念） */
+    .philosophy-quote {
+      font-size:0.95rem;line-height:1.95;color:var(--text);
+      padding:14px 18px;background:#F8FAFC;border-radius:8px;
+      margin:12px 0 6px;
+    }
+    .philosophy-attr { font-size:0.78rem;color:var(--muted);margin:0;text-align:right; }
+
+    @media (max-width:1100px) {
+      .about-page-body { grid-template-columns:1fr; }
+      .about-toc-wrapper { display:none; }
+    }
+  </style>
+</head>
+<body style="background-image:url('../images/背景3.png');background-size:cover;background-position:center top;background-attachment:fixed;background-repeat:no-repeat;background-color:var(--hero-bg);">
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="../index.html" class="nav-logo">
+        <img src="../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+        <span class="nav-logo-text">聖路加国際病院ICU</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-menu" id="navMenu"></ul>
+    </div>
+  </nav>
+
+  <!-- ===== PAGE HEADER ===== -->
+  <div class="subpage-hero">
+    <div class="container">
+      <h1 class="subpage-title">診療方針</h1>
+      <p class="subpage-subtitle">聖路加ICUの理念とチーム医療の基本姿勢</p>
+    </div>
+  </div>
+
+  <!-- ===== CONTENT ===== -->
+  <main class="about-page-body">
+    <div class="about-main">
+
+      <!-- ──────────────────────────── -->
+      <!-- ① 理念                        -->
+      <!-- ──────────────────────────── -->
+      <section id="sec-vision">
+        <div class="sec-head">
+          <span class="sec-en">SECTION 01 · VISION</span>
+          <h2 class="sec-title">聖路加ICUが目指すもの</h2>
+        </div>
+
+        <div class="card" id="ql-hotel-icu">
+          <div class="card-inner">
+            <h3 class="card-section-title">Hotel ICU — 患者様へ最高のケアを</h3>
+            <img src="../images/14.png" alt="聖路加ICUが目指すもの" style="width:70%;border-radius:8px;margin-bottom:16px;display:block;margin-left:auto;margin-right:auto;">
+            <blockquote class="philosophy-quote">
+              「Hotel ICU」はレイアウト変更に代表されるような、ICU環境を整えるという意味だけではなく、患者様に安らぎと最高のケアを提供するという私たちの強い意志を表しています。患者様一人ひとりに合った最高のケアを提供していきましょう！
+            </blockquote>
+            <p class="philosophy-attr">— ICU部長 岡本 洋史 先生　2024年 新年挨拶より</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ──────────────────────────── -->
+      <!-- ② チーム医療                  -->
+      <!-- ──────────────────────────── -->
+      <section id="sec-team">
+        <div class="sec-head">
+          <span class="sec-en">SECTION 02 · TEAM</span>
+          <h2 class="sec-title">チーム医療の基本姿勢</h2>
+        </div>
+
+        <div class="card" id="ql-team-leader" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">ICUリーダーへの情報集約</h3>
+            <ul class="rule-body" style="list-style:disc;padding-left:18px;margin-top:8px;">
+              <li>ICUでは内科病棟と異なり、ICUスタッフがいつも側にいます。</li>
+              <li><span class="mark-red"><strong>すべての情報は最終的に必ずICUリーダーに集約するようにしてください。</strong></span></li>
+              <li>内科病棟と異なり重症な患者が多いため、<span class="mark-red"><strong>病棟長を含め病棟医だけの判断で介入を行うことは禁止</strong></span>しています。必ずスタッフの確認を得てください。</li>
+            </ul>
+            <p class="rule-body" style="margin-top:10px;">参考：<a href="icu-team.html" style="color:var(--blue);font-weight:700;">ICUのチーム編成について</a></p>
+          </div>
+        </div>
+
+        <div class="card" id="ql-team-comm">
+          <div class="card-inner">
+            <h3 class="rule-title">主科・多職種との情報共有</h3>
+            <ul class="rule-body" style="list-style:disc;padding-left:18px;margin-top:8px;">
+              <li>状態が悪い患者ほど、<span class="mark-red"><strong>主科の意向や家族の意向など微妙なニュアンスが重要</strong></span>になります。</li>
+              <li>カルテ記載だけでは情報を拾いきれないため、誤った伝言ゲームとならないよう、関係者と直接コミュニケーションを取りましょう。</li>
+              <li>以下の科では「ICU×主科」の全体チャットで方針相談・情報共有を行います。</li>
+            </ul>
+            <div class="alert-blue">
+              <ul style="list-style:disc;padding-left:18px;margin:0;">
+                <li>呼吸器内科</li>
+                <li>血液内科</li>
+                <li>脳神経外科</li>
+              </ul>
+            </div>
+            <p class="rule-body" style="margin-top:10px;">それ以外の科では、その日のICUリーダーに全ての情報を共有してください。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ──────────────────────────── -->
+      <!-- ③ 患者中心の意思決定           -->
+      <!-- ──────────────────────────── -->
+      <section id="sec-decision">
+        <div class="sec-head">
+          <span class="sec-en">SECTION 03 · DECISION</span>
+          <h2 class="sec-title">患者中心の意思決定</h2>
+        </div>
+
+        <div class="card" id="ql-goc" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">Goals of Care の確認</h3>
+            <ul class="rule-body" style="list-style:disc;padding-left:18px;margin-top:8px;">
+              <li>入室時に <strong>本人の意思・事前指示・家族の意向</strong> を確認し、診療目標を明確にします。</li>
+              <li>長期予後・QOL を考慮した上で、主科とともに侵襲的治療の適応を判断してください。</li>
+              <li>状態の経過に応じて Goals of Care は再評価します。<span class="mark-red"><strong>家族会議の機会を逃さない</strong></span>ようにしましょう。</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card" id="ql-evidence">
+          <div class="card-inner">
+            <h3 class="rule-title">エビデンスに基づいた介入</h3>
+            <ul class="rule-body" style="list-style:disc;padding-left:18px;margin-top:8px;">
+              <li>診療判断は <a href="articles-guidelines.html" style="color:var(--blue);font-weight:700;">最新ガイドライン・注目論文</a> を参照しつつ、当院の実情に合わせて運用します。</li>
+              <li>不確実な状況では <strong>少数のデータ・自分の経験に固執せず、複数のソースを統合</strong> して判断しましょう。</li>
+              <li>新しいエビデンスはチーム内勉強会で共有し、施設のプロトコルに反映します。</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ──────────────────────────── -->
+      <!-- ④ 安全文化・教育               -->
+      <!-- ──────────────────────────── -->
+      <section id="sec-safety">
+        <div class="sec-head">
+          <span class="sec-en">SECTION 04 · SAFETY &amp; EDUCATION</span>
+          <h2 class="sec-title">安全文化と教育の方針</h2>
+        </div>
+
+        <div class="card" id="ql-safety" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">安全第一・心理的安全性</h3>
+            <ul class="rule-body" style="list-style:disc;padding-left:18px;margin-top:8px;">
+              <li><span class="mark-red"><strong>「おかしい」と感じたらすぐ報告</strong></span>。3分後に急変していることはよくあります。伝書鳩で怒る先生はいません。</li>
+              <li>看護師・コメディカルからの「気になる」声は最重要。ベッドサイドの違和感は本物です。</li>
+              <li>ヒヤリハット・インシデントは隠さず共有し、再発予防に活かします。</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card" id="ql-education">
+          <div class="card-inner">
+            <h3 class="rule-title">研修医・ローテーターの育成方針</h3>
+            <ul class="rule-body" style="list-style:disc;padding-left:18px;margin-top:8px;">
+              <li>手技は成功よりも <span class="mark-red"><strong>「適応を提案できる」こと</strong></span> を重視します。</li>
+              <li>主科や担当医とのコミュニケーションを通じて、信頼関係の構築を学んでください。</li>
+              <li>うまくいかなかった手技や判断は、必ず上級医と振り返り、次に活かしましょう。</li>
+              <li>ICUローテ後にも使える <strong>「内科系重症マネジメント」の基礎</strong> を身につけることを目標にします。</li>
+            </ul>
+            <p class="rule-body" style="margin-top:10px;">詳細：<a href="icu-rules.html" style="color:var(--blue);font-weight:700;">ICU独自ルール</a></p>
+          </div>
+        </div>
+      </section>
+
+    </div><!-- /.about-main -->
+
+    <!-- ===== 右サイド：戻るボタン + 目次 ===== -->
+    <div class="about-toc-wrapper">
+      <a href="../index.html" class="about-back-btn">← トップページへ戻る</a>
+      <aside class="about-toc" aria-label="ページ内ショートカット">
+        <h3 class="about-toc-title">目次</h3>
+        <nav>
+          <a href="#sec-vision" class="toc-section">SECTION 01 — 聖路加ICUが目指すもの</a>
+          <a href="#ql-hotel-icu" class="toc-sub">Hotel ICU の理念</a>
+
+          <a href="#sec-team" class="toc-section">SECTION 02 — チーム医療の基本姿勢</a>
+          <a href="#ql-team-leader" class="toc-sub">ICUリーダーへの情報集約</a>
+          <a href="#ql-team-comm" class="toc-sub">主科・多職種との情報共有</a>
+
+          <a href="#sec-decision" class="toc-section">SECTION 03 — 患者中心の意思決定</a>
+          <a href="#ql-goc" class="toc-sub">Goals of Care の確認</a>
+          <a href="#ql-evidence" class="toc-sub">エビデンスに基づいた介入</a>
+
+          <a href="#sec-safety" class="toc-section">SECTION 04 — 安全文化と教育</a>
+          <a href="#ql-safety" class="toc-sub">安全第一・心理的安全性</a>
+          <a href="#ql-education" class="toc-sub">研修医・ローテーターの育成</a>
+        </nav>
+      </aside>
+    </div>
+
+  </main>
+
+  <script src="../script.js"></script>
+</body>
+</html>

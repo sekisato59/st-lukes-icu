@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ICU独自ルール | 聖路加ICU</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style-v2.css?v=202605022700">
+  <style>
+    :root {
+      --hero-bg: #F4F8FB;
+      --hero-blue: #1269B0;
+      --hero-blue-dark: #0D4F8C;
+      --hero-text-dark: #1F2937;
+      --hero-text-mute: #4B5563;
+      --dum-section-px: clamp(16px, 0.6rem + 1.4vw, 32px);
+    }
+
+    /* ===== ページレイアウト：左メイン + 右サイドTOC（about-icu と統一） ===== */
+    .about-page-body {
+      max-width:1294px;margin:0 auto;
+      padding:32px clamp(16px, 0.6rem + 1.4vw, 32px) clamp(40px, 2rem + 1.5vw, 64px);
+      display:grid;
+      grid-template-columns:minmax(0, 900px) 300px;
+      gap:clamp(20px, 0.8rem + 0.8vw, 28px);
+      justify-content:space-between;
+      align-items:start;
+    }
+    .about-main { min-width:0; }
+    .about-main > section:first-child .sec-head { padding-top:0; }
+
+    /* 右側ラッパー */
+    .about-toc-wrapper {
+      position:sticky;top:clamp(70px, 4rem + 0.6vw, 90px);
+      display:flex;flex-direction:column;gap:16px;
+    }
+    .about-back-btn {
+      display:flex;align-items:center;justify-content:center;
+      padding:12px 16px;
+      background:rgba(255,255,255,0.85);
+      backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+      border:1px solid rgba(255,255,255,0.7);
+      border-radius:12px;
+      font-size:0.82rem;font-weight:800;color:var(--hero-blue-dark);
+      text-decoration:none;letter-spacing:0.02em;line-height:1;
+      box-shadow:0 4px 18px rgba(13,79,140,0.08);
+      transition:color .15s, transform .15s, background .15s;
+      box-sizing:border-box;
+    }
+    .about-back-btn:hover { color:var(--hero-blue);transform:translateY(-1px);background:rgba(255,255,255,0.95); }
+
+    .about-toc {
+      background:rgba(255,255,255,0.85);
+      backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+      border:1px solid rgba(255,255,255,0.7);
+      border-radius:12px;
+      padding:14px 16px 12px;
+      box-shadow:0 4px 18px rgba(13,79,140,0.08);
+      max-height:calc(100vh - clamp(160px, 9rem + 1vw, 200px));
+      overflow-y:auto;
+    }
+    .about-toc-title {
+      font-size:0.78rem;font-weight:900;color:var(--hero-blue-dark);
+      letter-spacing:0.05em;margin:0 0 8px;
+      padding-bottom:6px;border-bottom:1px solid #E5E7EB;
+    }
+    .about-toc nav { display:flex;flex-direction:column; }
+    .about-toc a {
+      display:block;padding:5px 4px 5px 10px;text-decoration:none;
+      font-size:0.74rem;color:var(--hero-text-mute);line-height:1.5;
+      border-left:2px solid transparent;
+      transition:color .15s, border-color .15s, background .15s;
+    }
+    .about-toc a:hover { color:var(--hero-blue);border-left-color:var(--hero-blue);background:rgba(244,248,251,0.6); }
+    .about-toc a.toc-section { font-weight:800;color:var(--hero-text-dark);margin-top:8px;font-size:0.78rem; }
+    .about-toc a.toc-section:first-child { margin-top:0; }
+    .about-toc a.toc-sub { padding-left:22px;font-size:0.72rem; }
+
+    @media (max-width:1100px) {
+      .about-page-body { grid-template-columns:1fr; }
+      .about-toc-wrapper { display:none; }
+    }
+  </style>
+</head>
+<body style="background-image:url('../images/背景3.png');background-size:cover;background-position:center top;background-attachment:fixed;background-repeat:no-repeat;background-color:var(--hero-bg);">
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="../index.html" class="nav-logo">
+        <img src="../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+        <span class="nav-logo-text">聖路加国際病院ICU</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-menu" id="navMenu"></ul>
+    </div>
+  </nav>
+
+  <!-- ===== PAGE HEADER ===== -->
+  <div class="subpage-hero">
+    <div class="container">
+      <h1 class="subpage-title">ICU独自ルール</h1>
+      <p class="subpage-subtitle">内科・外科病棟と異なる ICU 業務の遵守事項</p>
+    </div>
+  </div>
+
+  <!-- ===== CONTENT ===== -->
+  <main class="about-page-body">
+    <div class="about-main">
+
+      <!-- ──────────────────────────── -->
+      <!-- ① 内科/外科病棟と異なる点      -->
+      <!-- ──────────────────────────── -->
+      <section id="sec-points">
+        <div class="sec-head">
+          <span class="sec-en">SECTION 01 · KEY POINTS</span>
+          <h2 class="sec-title">内科/外科病棟と異なる点</h2>
+        </div>
+
+        <div class="card" id="rule-point1" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <div class="rule-badge">ポイント①</div>
+            <h3 class="rule-title">看護師への情報伝達</h3>
+            <ul class="rule-body" style="list-style:disc;padding-left:18px;margin-top:8px;">
+              <li>ICUでも一般床と同じように口頭オーダーシートを使用します。</li>
+              <li>口頭でオーダー（追加・変更など）を伝える際には以下を守ります。
+                <ul style="list-style:none;padding-left:12px;margin-top:4px;">
+                  <li>- 患者氏名、IDを記載（患者ラベルでも可）</li>
+                  <li>- 指示した医師の名前、時間を記載</li>
+                </ul>
+              </li>
+              <li><span class="mark-red"><strong>すべてのオーダーシートは受け持ち看護師、またはインチャージNs.に直接手渡してください。</strong></span></li>
+            </ul>
+            <div class="alert-red">
+              <span class="mark-red"><strong>【NG】</strong></span>
+              <ul style="list-style:disc;padding-left:18px;margin:6px 0 0;">
+                <li>記載したオーダーシートを誰にも伝えずパソコン横に置いておく</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" id="rule-point2" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <div class="rule-badge">ポイント②</div>
+            <h3 class="rule-title">手技について</h3>
+            <ul class="rule-body" style="list-style:disc;padding-left:18px;margin-top:8px;">
+              <li>手技を行う際は、<span class="mark-red"><strong>必ず受け持ち看護師と開始時間を決めてください</strong></span>。</li>
+              <li>やむを得ず開始時間を遅らせる場合は、<span class="mark-red"><strong>再度必ず受け持ち看護師に伝えてください</strong></span>。</li>
+              <li>手技は<span class="mark-red"><strong>タイムアウトから30分以内に完遂できない場合には、必ず術者を交代</strong></span>してください。</li>
+              <li><span class="mark-red"><strong>緊急性の高い場合には、30分経過前であっても手技の交代を指示する場合があります、必ずスタッフの指示に従って下さい。</strong></span></li>
+              <li>手技がうまくいかず悔しい思いはとてもよく分かります。しかし！以下の観点からルールは遵守しましょう。</li>
+            </ul>
+            <div class="alert-red" style="margin-top:10px;">
+              <ul style="list-style:disc;padding-left:18px;margin:0;">
+                <li><span class="mark-red"><strong>一般床と異なり、緊急性を要するケースが多いため</strong></span></li>
+                <li><span class="mark-red"><strong>受け持ちの看護師の時間外勤務を増やさないため</strong></span></li>
+                <li><span class="mark-red"><strong>そして何よりも長時間の手技は患者さんの負担が大きいため</strong></span></li>
+              </ul>
+            </div>
+            <ul class="rule-body" style="list-style:disc;padding-left:18px;margin-top:10px;">
+              <li>うまく行かなかった場合は、次こそは成功するよう<span class="mark-red"><strong>失敗の原因を上級医と一緒に振り返りましょう</strong></span>。</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card" id="rule-point3" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <div class="rule-badge">ポイント③</div>
+            <h3 class="rule-title">定期処方とバンコマイシン</h3>
+            <ul class="rule-body" style="list-style:disc;padding-left:18px;margin-top:8px;">
+              <li>定期処方開始日は<span class="mark-red"><strong>木曜日</strong></span>としています（2024/12〜）。</li>
+              <li>バンコマイシンの血中濃度測定日は<span class="mark-red"><strong>投薬オーダーを入れないでください</strong></span>。</li>
+              <li>これはICU患者では、時に急激な腎機能低下をきたすためです。</li>
+              <li><span class="mark-red"><strong>この点は、一般床とルールが異なりますので注意しましょう</strong></span>。</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card" id="rule-point4" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <div class="rule-badge">ポイント④</div>
+            <h3 class="rule-title">ICUセットから展開してオーダー</h3>
+            <ul class="rule-body" style="list-style:disc;padding-left:18px;margin-top:8px;">
+              <li><span class="mark-red"><strong>オーダーエラーを減らすため</strong></span>、注射、内服薬剤は可能な限り<a href="schedule-ward-work.html" style="color:var(--blue);font-weight:700;">ICUセット</a>から展開して下さい。</li>
+              <li>こんなセットがあったらいいな、をぜひ形にしていきましょう！提案があればぜひスタッフまで声をかけて下さいね</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card" id="rule-point5" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <div class="rule-badge">ポイント⑤</div>
+            <h3 class="rule-title">すべての情報はICUリーダーに共有を</h3>
+            <div style="text-align:center;margin:12px 0;">
+              <img src="../images/ICU関係図.png?v=4" alt="日勤のフォーメーション" style="max-width:65%;border-radius:8px;">
+            </div>
+            <ul class="rule-body" style="list-style:disc;padding-left:18px;margin-top:8px;">
+              <li><span class="mark-red"><strong>一般床と異なり、病棟リーダーは病棟長ではなくICU日勤リーダーです。</strong></span></li>
+              <li><span class="mark-red"><strong>重症な患者が多いため、病棟長を含め病棟医だけの判断で介入を行うことは禁止しています。必ずスタッフの確認を得てください。</strong></span></li>
+              <li>ICUではスタッフがシフト制で勤務しており、カルテ上の記載だけでは情報を拾いきれないことがあるため、<span class="mark-red"><strong>誤った情報の伝言ゲームとならないよう、以下を遵守してください。</strong></span>特に、状態が悪い患者ほど、<span class="mark-red"><strong>主科の意向や家族の意向など微妙なニュアンスが重要</strong></span>となっていきます。</li>
+            </ul>
+            <ul class="rule-body" style="list-style:disc;padding-left:18px;margin-top:10px;">
+              <li>以下の科では「ICU×主科」の全体チャットで方針相談や情報共有を行ってください。</li>
+            </ul>
+            <div class="alert-blue">
+              <ul style="list-style:disc;padding-left:18px;margin:0;">
+                <li>呼吸器内科</li>
+                <li>血液内科</li>
+                <li>脳神経外科</li>
+              </ul>
+            </div>
+            <ul class="rule-body" style="list-style:disc;padding-left:18px;margin-top:10px;">
+              <li>それ以外の科ではその日のICUリーダーに全ての情報を共有するようにしてください。</li>
+            </ul>
+            <p class="rule-body" style="margin-top:10px;">参考：<a href="icu-team.html" style="color:var(--blue);font-weight:700;">ICUのチーム編成について</a></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ──────────────────────────── -->
+      <!-- ② 時間外申請について           -->
+      <!-- ──────────────────────────── -->
+      <section id="sec-overtime">
+        <div class="sec-head">
+          <span class="sec-en">SECTION 02 · OVERTIME</span>
+          <h2 class="sec-title">時間外申請について</h2>
+        </div>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">時間外申請のルール</h3>
+            <ul class="rule-body" style="list-style:disc;padding-left:18px;margin-top:8px;">
+              <li><span class="mark-red"><strong>研修医、病棟長を含む専攻医は月80時間以内の残業時間遵守</strong></span>が求められています。</li>
+              <li>ICUは基本的に、紹介状作成などが発生しにくく、半日勤務もあるため残業が月に80時間を超えることはありません。</li>
+              <li>入室や病棟急変がたて込み日中の仕事が残っている場合は、<span class="mark-red"><strong>時間外申請をして全く問題ありません</strong></span>。</li>
+              <li><span class="mark-red"><strong>業務が時間内に終了する日は、夕方の申し送り終了時に必ず打刻</strong></span>をしてください。</li>
+              <li>その後、経験や勉強のために<span class="mark-red"><strong>自己研鑽として病棟に残ったり、夜勤に入室する患者の対応へ参加することは歓迎</strong></span>します。</li>
+            </ul>
+            <div class="alert-red">
+              <span class="mark-red"><strong>以下のような不適切な時間外申請に対しては勤怠管理のため、ローテーション中に面談を行います。</strong></span>
+              <ul style="list-style:disc;padding-left:18px;margin:6px 0 0;">
+                <li>「遅くまでレクチャーを受けたり・経験を積みたいけれど、その分、時間外勤務も申請する」</li>
+                <li>「病院にいる時間はすべて時間外申請をする」</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ──────────────────────────── -->
+      <!-- ③ その他重要事項10点           -->
+      <!-- ──────────────────────────── -->
+      <section id="sec-10points">
+        <div class="sec-head">
+          <span class="sec-en">SECTION 03 · 10 ESSENTIALS</span>
+          <h2 class="sec-title">その他重要事項10点</h2>
+        </div>
+
+        <div class="rules-list">
+          <div class="rule-item">
+            <div class="rule-num">其の1</div>
+            <div class="rule-content">
+              <strong>看護師の声は"神の声"</strong>
+              <p>患者の一番近くにいてくれるのが看護師さん。「おかしい」と感じる時はたいてい本当におかしい。それを肝に銘じましょう。</p>
+            </div>
+          </div>
+
+          <div class="rule-item">
+            <div class="rule-num">其の2</div>
+            <div class="rule-content">
+              <strong>感染防御は"超"徹底！</strong>
+              <p>COVID-19だけでなく、多剤耐性菌・院内感染のリスクが高い。患者・自分・職場のみんなを守るために感染防御を徹底しましょう。</p>
+            </div>
+          </div>
+
+          <div class="rule-item">
+            <div class="rule-num">其の3</div>
+            <div class="rule-content">
+              <strong>異変があったら上級医にすぐ報告</strong>
+              <p>集中治療は初めてで分からなくて当然。何か変・疑問に思ったらすぐ上に報告。3分後には急変しているのはよくある話。伝書鳩で怒る先生はいません。</p>
+            </div>
+          </div>
+
+          <div class="rule-item">
+            <div class="rule-num">其の4</div>
+            <div class="rule-content">
+              <strong>主科・担当医には逐一全て報告</strong>
+              <p>画像検査・抗菌薬変更など、主科の担当医には全て報告・相談。信頼関係の構築につながります。例：脳外科患者で血便 → まず脳外科担当医へ連絡 → CT・消化器内科へ。</p>
+            </div>
+          </div>
+
+          <div class="rule-item">
+            <div class="rule-num">其の5</div>
+            <div class="rule-content">
+              <strong>手技は成功よりも"提案"できる方が大事</strong>
+              <p>「患者の呼吸状態から気管挿管が必要」「今の管理にCVラインが必要」など、適応を提案できることがより重要。手技の成功だけを目標にしない。</p>
+            </div>
+          </div>
+
+          <div class="rule-item">
+            <div class="rule-num">其の6</div>
+            <div class="rule-content">
+              <strong>オーダー類は午前中に終わらせよう</strong>
+              <p>ルーチン業務5点：①血液検査チェック ②胸部写真チェック ③点滴オーダー ④内服オーダー ⑤コメントオーダー確認。午後は術後入室・緊急入院もあるので昼食前に完了。</p>
+            </div>
+          </div>
+
+          <div class="rule-item">
+            <div class="rule-num">其の7</div>
+            <div class="rule-content">
+              <strong>カルテは朝回診後の内容でOK</strong>
+              <p>ICUカルテはBy-systemで量が多いが、「朝回診終了時」の内容記載でOK。夕方の変化はスタッフが記載。ただし、その日の変化の把握・知識整理は必ず行うこと。</p>
+            </div>
+          </div>
+
+          <div class="rule-item">
+            <div class="rule-num">其の8</div>
+            <div class="rule-content">
+              <strong>移動を伴う検査・手技はまず看護師と相談</strong>
+              <p>急に移動・手技はできません。流れ：① インチャージNsにタイミング相談 → ② 検査室に連絡・時間調整 → ③ インチャージNsに再報告。</p>
+            </div>
+          </div>
+
+          <div class="rule-item">
+            <div class="rule-num">其の9</div>
+            <div class="rule-content">
+              <strong>自分の担当患者でなくても対応しよう</strong>
+              <p>急変・イベントが起きたら担当外でもベッドへ駆けつけ一緒に対応。院内急変でスタッフが病棟へ行く時も同行して、ICUローテ後も使える武器を増やしましょう。</p>
+            </div>
+          </div>
+
+          <div class="rule-item">
+            <div class="rule-num">其の10</div>
+            <div class="rule-content">
+              <strong>先生たちは医師だが"社会人2年目"</strong>
+              <p>看護師・コメディカルの方々は丁寧に話してくれるが、ほぼ全員が先輩・上司。そのことを肝に銘じると、自然と自分自身が働きやすい環境ができてくるはず。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ──────────────────────────── -->
+      <!-- ④ 愛されローテーターになるために -->
+      <!-- ──────────────────────────── -->
+      <section id="sec-loved">
+        <div class="sec-head">
+          <span class="sec-en">SECTION 04 · BONUS</span>
+          <h2 class="sec-title">＋α　愛されローテーターになるために</h2>
+        </div>
+
+        <div class="card">
+          <div class="card-inner">
+            <div class="alpha-list">
+              <div class="alpha-item">
+                <span class="alpha-num">①</span>
+                <div>
+                  <strong>名前を覚えよう、名前で呼ぼう</strong>
+                  <p>「看護師さん」ではなく「〇〇さん」と呼ぶようにしましょう</p>
+                </div>
+              </div>
+              <div class="alpha-item">
+                <span class="alpha-num">②</span>
+                <div>
+                  <strong>何もできなくていいから、まず駆けつけよう</strong>
+                  <p>"何かあった時にすぐ来てくれる"は本当に大切です</p>
+                </div>
+              </div>
+              <div class="alpha-item">
+                <span class="alpha-num">③</span>
+                <div>
+                  <strong>電話より、病棟に行って直接伝えよう</strong>
+                  <p>直接なら相手も相談しやすいし、顔も覚えてもらえる。良いことづくし</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div><!-- /.about-main -->
+
+    <!-- ===== 右サイド：戻るボタン + 目次 ===== -->
+    <div class="about-toc-wrapper">
+      <a href="../index.html" class="about-back-btn">← トップページへ戻る</a>
+      <aside class="about-toc" aria-label="ページ内ショートカット">
+        <h3 class="about-toc-title">目次</h3>
+        <nav>
+          <a href="#sec-points" class="toc-section">SECTION 01 — 内科/外科と異なる点</a>
+          <a href="#rule-point1" class="toc-sub">① 看護師への情報伝達</a>
+          <a href="#rule-point2" class="toc-sub">② 手技について</a>
+          <a href="#rule-point3" class="toc-sub">③ 定期処方とバンコマイシン</a>
+          <a href="#rule-point4" class="toc-sub">④ ICUセットから展開してオーダー</a>
+          <a href="#rule-point5" class="toc-sub">⑤ ICUリーダーへの情報共有</a>
+
+          <a href="#sec-overtime" class="toc-section">SECTION 02 — 時間外申請について</a>
+
+          <a href="#sec-10points" class="toc-section">SECTION 03 — その他重要事項10点</a>
+
+          <a href="#sec-loved" class="toc-section">SECTION 04 — ＋α 愛されローテーター</a>
+        </nav>
+      </aside>
+    </div>
+
+  </main>
+
+  <script src="../script.js"></script>
+</body>
+</html>
