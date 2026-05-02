@@ -11,6 +11,13 @@
  */
 const RECENT_PAGES = [
   {
+    title: "成人の急性期気道管理（BMJ 2026）",
+    url: "pages/articles-gl-airway-acute2026.html",
+    date: "2026-05-03",
+    tag: "論文",
+    thumb: "images/icu-study.jpg"
+  },
+  {
     title: "ケタミンの多様な効果（BJA 2025）",
     url: "pages/articles-gl-ketamine-bja2025.html",
     date: "2026-05-02",
