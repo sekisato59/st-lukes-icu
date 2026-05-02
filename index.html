@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="style-v2.css?v=202605021230">
   <script src="search-index.js"></script>
   <script src="recent-pages.js"></script>
-  <link rel="stylesheet" href="style-home.css">
+  <link rel="stylesheet" href="style-home.css?v=202605021300">
 </head>
 <body style="background-image:url('images/背景3.png');background-size:cover;background-position:center top;background-attachment:fixed;background-repeat:no-repeat;background-color:var(--hero-bg);">
 
@@ -468,13 +468,20 @@
       var grid = document.getElementById('dumNewsGrid');
       if (!grid || typeof RECENT_PAGES === 'undefined' || !Array.isArray(RECENT_PAGES)) return;
       var TAG_CLASS = { '解説': 'tag-explain', '論文': 'tag-paper', 'ガイドライン': 'tag-paper' };
+      var TAG_ICON = {
+        '論文':         'images/論文アイコン.png',
+        'ガイドライン': 'images/ガイドラインアイコン.png',
+        '解説':         'images/まとめアイコン.png',
+        '症例':         'images/まとめアイコン.png'
+      };
       function escape(s){ return String(s).replace(/[&<>"']/g, function(c){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]; }); }
       var top3 = RECENT_PAGES.slice().sort(function(a,b){ return (b.date || '').localeCompare(a.date || ''); }).slice(0, 3);
       grid.innerHTML = top3.map(function(p){
         var cls = TAG_CLASS[p.tag] || '';
         var dateDisp = (p.date || '').replace(/-/g, '.');
+        var iconSrc = TAG_ICON[p.tag] || p.thumb;
         return '<a href="' + escape(p.url) + '" class="dum-news-card">'
-          + '<div class="dum-news-thumb"><img src="' + escape(p.thumb) + '" alt=""></div>'
+          + '<div class="dum-news-thumb"><img src="' + escape(iconSrc) + '" alt=""></div>'
           + '<div class="dum-news-body">'
           +   '<span class="dum-news-tag' + (cls ? ' ' + cls : '') + '">' + escape(p.tag) + '</span>'
           +   '<div class="dum-news-title">' + escape(p.title) + '</div>'
