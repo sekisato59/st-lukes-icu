@@ -11,6 +11,20 @@
  */
 const RECENT_PAGES = [
   {
+    title: "ケタミンの多様な効果（BJA 2025）",
+    url: "pages/articles-gl-ketamine-bja2025.html",
+    date: "2026-05-02",
+    tag: "論文",
+    thumb: "images/朝カンファ風景.webp"
+  },
+  {
+    title: "てんかん重積状態の診断と治療（Lancet Neurol 2024）",
+    url: "pages/articles-gl-se-lancetneurol2024.html",
+    date: "2026-05-02",
+    tag: "論文",
+    thumb: "images/icu-study.jpg"
+  },
+  {
     title: "血管ウォーターフォールと Pcrit（J Crit Care 2026）",
     url: "pages/articles-gl-vascular-waterfall-jcc2026.html",
     date: "2026-05-01",
