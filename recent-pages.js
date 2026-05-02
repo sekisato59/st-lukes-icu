@@ -11,6 +11,13 @@
  */
 const RECENT_PAGES = [
   {
+    title: "ループ利尿薬の正しい処方法（BMJ 2019）",
+    url: "pages/articles-gl-loop-diuretics-bmj2019.html",
+    date: "2026-05-02",
+    tag: "論文",
+    thumb: "images/朝カンファ風景.webp"
+  },
+  {
     title: "成人の急性期気道管理（BMJ 2026）",
     url: "pages/articles-gl-airway-acute2026.html",
     date: "2026-05-03",
