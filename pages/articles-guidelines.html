@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../style-v2.css?v=202605021230">
+  <link rel="stylesheet" href="../style-v2.css?v=202605021700">
   <style>
     /* ── Article list: Dense Table #9 Stripe ── */
     .art-box { border-radius:10px;overflow:hidden;border:1px solid #E2E8F0;margin-bottom:10px;box-shadow:0 2px 8px rgba(0,0,0,0.07); }
@@ -55,10 +55,24 @@
       padding: 0; line-height: 0;
     }
     .gl-page-banner img { display: block; width: 100%; height: auto; }
-    /* System sidebar */
-    .sys-layout { display:flex;gap:28px;align-items:flex-start;max-width:1294px;margin:0 auto;padding:32px 20px 60px; }
-    .sys-main { flex:1;min-width:0; }
-    .sys-sidebar { width:180px;flex-shrink:0;position:sticky;top:72px; }
+    /* System sidebar — pre-rotation-todo / about-icu と統一 */
+    .sys-layout { display:grid;grid-template-columns:minmax(0, 900px) 300px;gap:28px;justify-content:space-between;align-items:flex-start;max-width:1294px;margin:0 auto;padding:32px 20px 60px; }
+    .sys-main { min-width:0; }
+    .sys-sidebar-wrapper { position:sticky;top:clamp(70px, 4rem + 0.6vw, 90px);display:flex;flex-direction:column;gap:16px; }
+    .sys-back-btn {
+      display:flex;align-items:center;justify-content:center;
+      padding:12px 16px;
+      background:rgba(255,255,255,0.85);
+      backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+      border:1px solid rgba(255,255,255,0.7);
+      border-radius:12px;
+      font-size:0.82rem;font-weight:800;color:#0D4F8C;
+      text-decoration:none;letter-spacing:0.02em;line-height:1;
+      box-shadow:0 4px 18px rgba(13,79,140,0.08);
+      transition:color .15s, transform .15s, background .15s;
+      box-sizing:border-box;
+    }
+    .sys-back-btn:hover { color:#1269B0;transform:translateY(-1px);background:rgba(255,255,255,0.95); }
     .sys-sidebar-card { background:#fff;border:1px solid var(--border);border-radius:10px;padding:16px 14px;box-shadow:0 2px 8px rgba(0,0,0,0.06); }
     .sys-sidebar-title { font-size:0.6rem;font-weight:800;color:#2D7A4F;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid #D1FAE5; }
     .sys-sidebar a { display:flex;align-items:center;justify-content:space-between;font-size:0.73rem;color:var(--text);text-decoration:none;padding:7px 10px;border-radius:6px;line-height:1.4;transition:all 0.15s;margin-bottom:2px; }
@@ -69,7 +83,7 @@
     .sys-sidebar a:hover .sys-count { background:#D1FAE5;color:#2D7A4F; }
     .sys-sidebar-footer { margin-top:12px;padding-top:10px;border-top:1px solid var(--border);font-size:0.62rem;color:var(--muted);text-align:center;line-height:1.5; }
     .sys-sidebar-footer strong { color:#2D7A4F;font-size:0.72rem; }
-    @media (max-width:900px) { .sys-sidebar { display:none; } .sys-layout { max-width:900px; } .sys-main { max-width:100%; } }
+    @media (max-width:1100px) { .sys-layout { grid-template-columns:1fr; } .sys-sidebar-wrapper { display:none; } }
 
     /* ── モバイル FAB / ドロワー ── */
     .gm-fab { display:none;position:fixed;bottom:24px;right:20px;z-index:900;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#2D7A4F,#1A3A2A);color:#fff;border:none;box-shadow:0 4px 14px rgba(0,0,0,0.3);cursor:pointer;align-items:center;justify-content:center;font-size:1.2rem; }
@@ -138,9 +152,6 @@
     </div>
     <div style="margin-bottom:8px;padding:8px 0;">
 
-      <div class="art-cat">意識障害</div>
-      <div class="art-cat-body"></div>
-
       <div class="art-cat">鎮静薬</div>
       <div class="art-cat-body">
         <div class="art-sub">総論</div>
@@ -150,24 +161,11 @@
         <div class="art-sub">ケタミン</div><div class="art-sub-body">
           <a class="art-link" href="articles-gl-ketamine-bja2025.html"><span class="art-link-date">2026/05/02</span>ケタミンの多様な効果：ジャック・オブ・オールトレーズ — ナラティブレビュー（BJA 2025）</a>
         </div>
-        <div class="art-sub">プロポフォール</div><div class="art-sub-body"></div>
         <div class="art-sub">プレセデックス</div>
         <div class="art-sub-body">
           <a class="art-link" href="articles-gl-dex-icm2022.html"><span class="art-link-date">2026/04/24</span>機械換気成人ICU患者におけるデクスメデトミジン — ICM Rapid Practice Guideline（ICM 2022）</a>
         </div>
       </div>
-
-      <div class="art-cat">鎮痛薬</div>
-      <div class="art-cat-body">
-        <div class="art-sub">レミフェンタニル</div><div class="art-sub-body"></div>
-        <div class="art-sub">局所麻酔中毒</div><div class="art-sub-body"></div>
-      </div>
-
-      <div class="art-cat">睡眠</div>
-      <div class="art-cat-body"></div>
-
-      <div class="art-cat">せん妄</div>
-      <div class="art-cat-body"></div>
 
       <div class="art-cat">発熱</div>
       <div class="art-cat-body">
@@ -207,38 +205,25 @@
         </div>
       </div>
 
-      <div class="art-cat">脳灌流モニタリング</div>
-      <div class="art-cat-body">
-        <div class="art-sub">脳圧</div><div class="art-sub-body"></div>
-        <div class="art-sub">脳血流</div><div class="art-sub-body"></div>
-      </div>
-
       <div class="art-cat">神経疾患</div>
       <div class="art-cat-body">
         <div class="art-sub">脳梗塞</div>
         <div class="art-sub-body">
           <a class="art-link" href="articles-gl-jcs-stroke2025.html"><span class="art-link-date">2026/04/01</span>脳卒中治療ガイドライン 2021〔改訂2025〕（日本脳卒中学会 2025）</a>
         </div>
-        <div class="art-sub">GBS/Fisher症候群</div><div class="art-sub-body"></div>
         <div class="art-sub">アルコール使用障害</div>
         <div class="art-sub-body">
           <a class="art-link" href="articles-gl-aws-ncc2021.html"><span class="art-link-date">2026/03/31</span>アルコール離脱症候群（AWS）の評価と治療（Neurocrit Care 2021）</a>
         </div>
-        <div class="art-sub">脳炎</div><div class="art-sub-body"></div>
         <div class="art-sub">髄膜炎</div>
         <div class="art-sub-body">
           <a class="art-link" href="articles-gl-escmid-bactmening2016.html"><span class="art-link-date">2026/04/15</span>ESCMID ガイドライン：急性細菌性髄膜炎の診断と治療（Clin Microbiol Infect 2016）</a>
         </div>
-        <div class="art-sub">頸髄損傷</div><div class="art-sub-body"></div>
-        <div class="art-sub">セロトニン症候群</div><div class="art-sub-body"></div>
         <div class="art-sub">一過性全健忘（TGA）</div>
         <div class="art-sub-body">
           <a class="art-link" href="articles-gl-tga-uptodate2024.html"><span class="art-link-date">2026/04/24</span>一過性全健忘（TGA）— 疫学・病態生理・診断・画像・鑑別・予後（UpToDate 2024）</a>
         </div>
       </div>
-
-      <div class="art-cat">頭部画像検査</div>
-      <div class="art-cat-body"></div>
 
     </div>
 
@@ -260,8 +245,6 @@
 
       <div class="art-cat">薬剤</div>
       <div class="art-cat-body">
-        <div class="art-sub">アミオダロン</div>
-        <div class="art-sub-body"></div>
         <div class="art-sub">昇圧剤</div>
         <div class="art-sub-body">
         <a class="art-link" href="articles-gl-nishikimi-ne-map2026.html"><span class="art-link-date">2026/04/06</span>初期ノルエピネフリン投与量と分単位のMAP応答（Critical Care 2026）</a>
@@ -273,7 +256,13 @@
         <a class="art-link" href="articles-gl-dyslipidemia2026.html"><span class="art-link-date">2026/03/31</span>脂質異常症管理ガイドライン（ACC/AHA 2026）</a>
         </div>
         <div class="art-sub">アルブミン</div>
-        <div class="art-sub-body"></div>
+        <div class="art-sub-body">
+        <a class="art-link" href="articles-gl-albumin-sepsis2025.html"><span class="art-link-date">2026/03/31</span>敗血症性ショック+腎障害へのアルブミン投与の効果（CHEST 2025）</a>
+        <a class="art-link" href="articles-gl-albumin20-cc2026.html"><span class="art-link-date">2026/03/31</span>アルブミン20%の薬理と臨床応用（Critical Care 2026）</a>
+        <a class="art-link" href="articles-gl-albumin-ictmg2024.html"><span class="art-link-date">2026/04/15</span>アルブミン製剤使用に関する14の提言 — ICTMG ガイドライン（CHEST 2024）</a>
+        <a class="art-link" href="articles-gl-albumin-myths2022.html"><span class="art-link-date">2026/04/06</span>アルブミンにまつわる10の神話（ICM 2022）</a>
+        <a class="art-link" href="articles-gl-ariss2026.html"><span class="art-link-date">2026/04/02</span>敗血症性ショックへのアルブミン補充療法 — ARISS試験（JAMA Netw Open 2026）</a>
+        </div>
         <div class="art-sub">利尿薬</div>
         <div class="art-sub-body">
         <a class="art-link" href="articles-gl-loop-diuretics-bmj2019.html"><span class="art-link-date">2026/05/02</span>ループ利尿薬の正しい処方法 — All-or-none効果・薬剤選択・As-needed投与（BMJ 2019）</a>
@@ -306,8 +295,6 @@
         <div class="art-sub-body">
           <a class="art-link" href="articles-gl-vascular-waterfall-jcc2026.html"><span class="art-link-date">2026/05/01</span>血管ウォーターフォール現象と Critical Closing Pressure — 循環生理の統合的理解（J Crit Care 2026）</a>
         </div>
-        <div class="art-sub">産科危機的出血</div>
-        <div class="art-sub-body"></div>
       </div>
 
       <div class="art-cat">高血圧</div>
@@ -338,8 +325,6 @@
         <a class="art-link" href="articles-gl-takotsubo-jacc2018.html"><span class="art-link-date">2026/04/08</span>ストレス心筋症 診断と治療（JACC State-of-the-Art Review 2018）</a>
         <a class="art-link" href="articles-gl-song-takotsubo2011.html"><span class="art-link-date">2026/04/08</span>逆型たこつぼ心筋症 vs 中部/心尖部型（Clin Cardiol 2011）</a>
         </div>
-        <div class="art-sub">心筋炎</div>
-        <div class="art-sub-body"></div>
         <div class="art-sub">敗血症性心筋症</div>
         <div class="art-sub-body">
           <a class="art-link" href="articles-gl-sicm-chest2025.html"><span class="art-link-date">2026/03/31</span>敗血症性心筋症（SICM）の病態・評価・管理（Chest 2025）</a>
@@ -348,8 +333,6 @@
 
       <div class="art-cat">不整脈</div>
       <div class="art-cat-body">
-        <div class="art-sub">PSVT</div>
-        <div class="art-sub-body"></div>
         <div class="art-sub">心房細動</div>
         <div class="art-sub-body">
         <a class="art-link" href="articles-gl-af-jama2024.html"><span class="art-link-date">2026/04/01</span>心房細動（AF）の診断と管理（JAMA 2024）</a>
@@ -358,21 +341,11 @@
 
       <div class="art-cat">デバイス</div>
       <div class="art-cat-body">
-        <div class="art-sub">LiDCO</div>
-        <div class="art-sub-body"></div>
         <div class="art-sub">右心カテーテル</div>
         <div class="art-sub-body">
         <a class="art-link" href="articles-gl-pac-nejm2013.html"><span class="art-link-date">2026/04/15</span>肺動脈カテーテル（Swan-Ganz）— 挿入手技・波形解釈・血行動態診断（N Engl J Med 2013）</a>
         <a class="art-link" href="articles-gl-rhc-hf2024.html"><span class="art-link-date">2026/04/15</span>右心カテーテルによる血行動態評価 実践ガイド（JACC HF 2024）</a>
         </div>
-        <div class="art-sub">ペースメーカー</div>
-        <div class="art-sub-body"></div>
-        <div class="art-sub">IABP</div>
-        <div class="art-sub-body"></div>
-        <div class="art-sub">ECMO</div>
-        <div class="art-sub-body"></div>
-        <div class="art-sub">REBOA</div>
-        <div class="art-sub-body"></div>
       </div>
 
       <div class="art-cat">静脈血栓塞栓症・肺塞栓症</div>
@@ -408,24 +381,15 @@
         <a class="art-link" href="articles-gl-fentanyl-induction-jic2026.html"><span class="art-link-date">2026/04/27</span>気管挿管導入時のフェンタニル — RCT5件のSR&メタ解析（J Intensive Care 2026）</a>
         <a class="art-link" href="articles-gl-yarnell-imv2023.html"><span class="art-link-date">2026/03/31</span>低酸素性呼吸不全における気管挿管の閾値（AJRCCM 2023）</a>
         </div>
-        <div class="art-sub">気管切開</div>
-        <div class="art-sub-body"></div>
         <div class="art-sub">抜管</div>
         <div class="art-sub-body">
         <a class="art-link" href="articles-gl-enio-extubation2025.html"><span class="art-link-date">2026/04/01</span>ABI患者の抜管予測因子 — ENIO研究（ICM 2025）</a>
         </div>
-        <div class="art-sub">人工呼吸器</div>
-        <div class="art-sub-body"></div>
         <div class="art-sub">PEEP</div>
         <div class="art-sub-body">
         <a class="art-link" href="articles-gl-peep-hysteresis-ards2023.html"><span class="art-link-date">2026/04/01</span>タイダル肺ヒステレシスによるARDS PEEP評価（Critical Care 2023）</a>
         </div>
-        <div class="art-sub">Weaning</div>
-        <div class="art-sub-body"></div>
       </div>
-
-      <div class="art-cat">気管支鏡検査：BF</div>
-      <div class="art-cat-body"></div>
 
       <div class="art-cat">酸素療法</div>
       <div class="art-cat-body">
@@ -434,8 +398,6 @@
         <a class="art-link" href="articles-gl-hfnc-copd-nma2025.html"><span class="art-link-date">2026/04/01</span>AECOPDに対するHFNC流量設定の比較 — NMA（Pulmonology 2025）</a>
         <a class="art-link" href="articles-gl-inspiron2008.html"><span class="art-link-date">2026/03/28</span>インスピロンネブライザーの原理と使い方（看護学雑誌 2008）</a>
         </div>
-        <div class="art-sub">NPPV</div>
-        <div class="art-sub-body"></div>
         <div class="art-sub">Prone Position</div>
         <div class="art-sub-body">
         <a class="art-link" href="articles-gl-prone-icm2024.html"><span class="art-link-date">2026/04/15</span>腹臥位療法（Prone Positioning）— 病態生理・エビデンス・実践（ICM 2024）</a>
@@ -456,9 +418,6 @@
         </div>
       </div>
 
-      <div class="art-cat">去痰薬</div>
-      <div class="art-cat-body"></div>
-
       <div class="art-cat">喀血</div>
       <div class="art-cat-body">
         <div class="art-sub">DAH（びまん性肺胞出血）</div>
@@ -467,39 +426,19 @@
         </div>
       </div>
 
-      <div class="art-cat">咳嗽</div>
-      <div class="art-cat-body"></div>
-
-      <div class="art-cat">Trapped Lung</div>
-      <div class="art-cat-body"></div>
-
       <div class="art-cat">呼吸器疾患</div>
       <div class="art-cat-body">
-        <div class="art-sub">縦隔気腫</div>
-        <div class="art-sub-body"></div>
-        <div class="art-sub">気管支喘息</div>
-        <div class="art-sub-body"></div>
-        <div class="art-sub">COPD</div>
-        <div class="art-sub-body"></div>
-        <div class="art-sub">間質性肺炎</div>
-        <div class="art-sub-body"></div>
         <div class="art-sub">肺炎</div>
         <div class="art-sub-body">
         <a class="art-link" href="articles-gl-steroid-cap2025.html"><span class="art-link-date">2026/04/01</span>市中肺炎へのステロイド補助療法 — SONIA試験（NEJM 2025）</a>
         <a class="art-link" href="articles-gl-scap-icm2025.html"><span class="art-link-date">2026/03/31</span>重症市中肺炎（sCAP）の概念と論争点（ICM 2025）</a>
         </div>
-        <div class="art-sub">上気道狭窄</div>
-        <div class="art-sub-body"></div>
-        <div class="art-sub">COVID-19</div>
-        <div class="art-sub-body"></div>
         <div class="art-sub">気胸</div>
         <div class="art-sub-body">
         <a class="art-link" href="articles-gl-bts-pleural2023.html"><span class="art-link-date">2026/03/31</span>胸水疾患ガイドライン（BTS 2023）</a>
         </div>
       </div>
 
-      <div class="art-cat">手技</div>
-      <div class="art-cat-body"></div>
     </div>
 
     <!-- ═══ #4 腎・電解質系 ═══ -->
@@ -510,57 +449,37 @@
     <div style="margin-bottom:8px;padding:8px 0;">
 
             <div class="art-box">
-                          <div class="art-box-head">急性腎障害</div>
-                          <table>
-                          <tr><td>2026/03/30</td><td><a href="articles-gl-kdigo-aki2026.html">KDIGO 2026 AKI/AKD ガイドライン（Public Review Draft）</a></td></tr>
-                          <tr><td>2026/03/31</td><td><a href="articles-gl-sa-aki2023.html">敗血症関連AKI（SA-AKI）コンセンサスレポート（Nat Rev Nephrol 2023）</a></td></tr>
-                          </table>
-                        </div>
+              <div class="art-box-head">腎臓</div>
+              <table>
+                <tr><td>2026/03/30</td><td><a href="articles-gl-kdigo-aki2026.html">KDIGO 2026 AKI/AKD ガイドライン（Public Review Draft）</a></td></tr>
+                <tr><td>2026/03/31</td><td><a href="articles-gl-sa-aki2023.html">敗血症関連AKI（SA-AKI）コンセンサスレポート（Nat Rev Nephrol 2023）</a></td></tr>
+                <tr><td>2026/04/24</td><td><a href="articles-gl-uf-cc2026.html">重症患者における限外濾過 — パーソナライズドケアの枠組み（Critical Care 2026）</a></td></tr>
+                <tr><td>2026/03/31</td><td><a href="articles-gl-ckd-lancet2026.html">慢性腎臓病（CKD）総説（Lancet 2026）</a></td></tr>
+                <tr><td>2026/03/31</td><td><a href="articles-gl-kdigo-anemia2026.html">KDIGO 2026 CKD貧血管理ガイドライン（Kidney International 2026）</a></td></tr>
+                <tr><td>2026/04/03</td><td><a href="articles-gl-ada-soc2026-ch11.html">ADA 2026 第11章 — 糖尿病患者のCKD・リスク管理（Diabetes Care 2026）</a></td></tr>
+              </table>
+            </div>
 
             <div class="art-box">
-                          <div class="art-box-head">透析・限外濾過</div>
-                          <table>
-                          <tr><td>2026/04/24</td><td><a href="articles-gl-uf-cc2026.html">重症患者における限外濾過 — パーソナライズドケアの枠組み（Critical Care 2026）</a></td></tr>
-                          </table>
-                        </div>
+              <div class="art-box-head">電解質</div>
+              <table>
+                <tr><td>2026/04/01</td><td><a href="articles-gl-hypernatremia-ja2023.html">ICU獲得性高ナトリウム血症 — 経腸フリーウォーター vs D5W（J Anesth 2023）</a></td></tr>
+                <tr><td>2026/04/01</td><td><a href="articles-gl-hypernatremia-meta2025.html">高ナトリウム血症の補正速度と予後 — 系統的レビュー・メタ解析（J Crit Care 2025）</a></td></tr>
+                <tr><td>2026/03/28</td><td><a href="articles-gl-hn2014.html">低ナトリウム血症 診断・治療ガイドライン（ESICM/ESE/ERA-EDTA 2014）</a></td></tr>
+                <tr><td>2026/04/04</td><td><a href="articles-gl-hyponatremia-ndt2024.html">低ナトリウム血症 治療スタンダード 2024（Nephrol Dial Transplant）</a></td></tr>
+                <tr><td>2026/04/04</td><td><a href="articles-gl-hyponatremia-jama2022.html">低ナトリウム血症の診断と管理 — JAMA総説（Adrogué, Tucker, Madias 2022）</a></td></tr>
+                <tr><td>2026/04/07</td><td><a href="articles-gl-csw-uptodate2026.html">脳性塩類喪失症候群（CSW）— UpToDate Review（Palmer BF 2026）</a></td></tr>
+              </table>
+            </div>
 
             <div class="art-box">
-                          <div class="art-box-head">高ナトリウム血症</div>
-                          <table>
-                          <tr><td>2026/04/01</td><td><a href="articles-gl-hypernatremia-ja2023.html">ICU獲得性高ナトリウム血症 — 経腸フリーウォーター vs D5W（J Anesth 2023）</a></td></tr>
-                          <tr><td>2026/04/01</td><td><a href="articles-gl-hypernatremia-meta2025.html">高ナトリウム血症の補正速度と予後 — 系統的レビュー・メタ解析（J Crit Care 2025）</a></td></tr>
-                          </table>
-                        </div>
-
-            <div class="art-box">
-                          <div class="art-box-head">低ナトリウム血症</div>
-                          <table>
-                          <tr><td>2026/03/28</td><td><a href="articles-gl-hn2014.html">低ナトリウム血症 診断・治療ガイドライン（ESICM/ESE/ERA-EDTA 2014）</a></td></tr>
-                          <tr><td>2026/04/04</td><td><a href="articles-gl-hyponatremia-ndt2024.html">低ナトリウム血症 治療スタンダード 2024（Nephrol Dial Transplant）</a></td></tr>
-                          <tr><td>2026/04/04</td><td><a href="articles-gl-hyponatremia-jama2022.html">低ナトリウム血症の診断と管理 — JAMA総説（Adrogué, Tucker, Madias 2022）</a></td></tr>
-                          <tr><td>2026/04/07</td><td><a href="articles-gl-csw-uptodate2026.html">脳性塩類喪失症候群（CSW）— UpToDate Review（Palmer BF 2026）</a></td></tr>
-                          </table>
-                        </div>
-
-            <div class="art-box">
-                          <div class="art-box-head">慢性腎臓病</div>
-                          <table>
-                          <tr><td>2026/03/31</td><td><a href="articles-gl-ckd-lancet2026.html">慢性腎臓病（CKD）総説（Lancet 2026）</a></td></tr>
-                          <tr><td>2026/03/31</td><td><a href="articles-gl-kdigo-anemia2026.html">KDIGO 2026 CKD貧血管理ガイドライン（Kidney International 2026）</a></td></tr>
-                          <tr><td>2026/04/03</td><td><a href="articles-gl-ada-soc2026-ch11.html">ADA 2026 第11章 — 糖尿病患者のCKD・リスク管理（Diabetes Care 2026）</a></td></tr>
-                          </table>
-                        </div>
-
-            <div class="art-box">
-                          <div class="art-box-head">輸液・アルブミン</div>
-                          <table>
-                          <tr><td>2026/03/31</td><td><a href="articles-gl-albumin-sepsis2025.html">敗血症性ショック+腎障害へのアルブミン投与の効果（CHEST 2025）</a></td></tr>
-                          <tr><td>2026/03/31</td><td><a href="articles-gl-albumin20-cc2026.html">アルブミン20%の薬理と臨床応用（Critical Care 2026）</a></td></tr>
-                          <tr><td>2026/04/15</td><td><a href="articles-gl-albumin-ictmg2024.html">アルブミン製剤使用に関する14の提言 — ICTMG ガイドライン（CHEST 2024）</a></td></tr>
-                          <tr><td>2026/04/06</td><td><a href="articles-gl-albumin-myths2022.html">アルブミンにまつわる10の神話（ICM 2022）</a></td></tr>
-                          <tr><td>2026/04/02</td><td><a href="articles-gl-ariss2026.html">敗血症性ショックへのアルブミン補充療法 — ARISS試験（JAMA Netw Open 2026）</a></td></tr>
-                          </table>
-                        </div>
+              <div class="art-box-head">酸塩基平衡</div>
+              <table>
+                <tr><td>2026/04/24</td><td><a href="articles-gl-stewartlight-icm2026.html">Stewart light — 複雑な酸塩基平衡異常への実践的アプローチ（ICM 2026）</a></td></tr>
+                <tr><td>2026/03/30</td><td><a href="articles-gl-metabolic-acidosis2025.html">代謝性アシドーシス 最新エビデンス（ICM 2025）</a></td></tr>
+                <tr><td>2026/03/30</td><td><a href="articles-gl-mixed-acidbase2025.html">混合性酸塩基平衡障害（Am J Kidney Dis 2025）</a></td></tr>
+              </table>
+            </div>
     </div>
 
     <!-- ═══ #5 消化器 / 肝胆道系 ═══ -->
@@ -806,15 +725,6 @@
                         </div>
 
             <div class="art-box">
-                          <div class="art-box-head">酸塩基平衡</div>
-                          <table>
-                          <tr><td>2026/04/24</td><td><a href="articles-gl-stewartlight-icm2026.html">Stewart light — 複雑な酸塩基平衡異常への実践的アプローチ（ICM 2026）</a></td></tr>
-                          <tr><td>2026/03/30</td><td><a href="articles-gl-metabolic-acidosis2025.html">代謝性アシドーシス 最新エビデンス（ICM 2025）</a></td></tr>
-                          <tr><td>2026/03/30</td><td><a href="articles-gl-mixed-acidbase2025.html">混合性酸塩基平衡障害（Am J Kidney Dis 2025）</a></td></tr>
-                          </table>
-                        </div>
-
-            <div class="art-box">
                           <div class="art-box-head">心腎保護・フィネレノン</div>
                           <table>
                           <tr><td>2026/04/03</td><td><a href="articles-gl-fidelity-ehj2022.html">フィネレノンの心腎アウトカム — FIDELITY統合解析（Eur Heart J 2022）</a></td></tr>
@@ -921,24 +831,27 @@
 
     </div><!-- /.sys-main -->
 
-    <!-- System Sidebar -->
-    <aside class="sys-sidebar">
-      <div class="sys-sidebar-card">
-        <div class="sys-sidebar-title">By System</div>
-        <a href="#art-neuro" data-section="art-neuro">神経系<span class="sys-count"></span></a>
-        <a href="#art-cardio" data-section="art-cardio">循環器系<span class="sys-count"></span></a>
-        <a href="#art-resp" data-section="art-resp">呼吸器系<span class="sys-count"></span></a>
-        <a href="#art-renal" data-section="art-renal">腎・電解質<span class="sys-count"></span></a>
-        <a href="#art-gi" data-section="art-gi">消化器<span class="sys-count"></span></a>
-        <a href="#art-heme" data-section="art-heme">血液系<span class="sys-count"></span></a>
-        <a href="#art-id" data-section="art-id">感染症<span class="sys-count"></span></a>
-        <a href="#art-nutrition" data-section="art-nutrition">栄養・代謝<span class="sys-count"></span></a>
-        <a href="#art-msk" data-section="art-msk">筋骨格系<span class="sys-count"></span></a>
-        <a href="#art-ppx" data-section="art-ppx">予防<span class="sys-count"></span></a>
-        <a href="#art-icu-general" data-section="art-icu-general">集中治療総論・質評価<span class="sys-count"></span></a>
-        <div class="sys-sidebar-footer">全 <strong id="sys-total">—</strong> 記事</div>
-      </div>
-    </aside>
+    <!-- System Sidebar — トップへ戻るボタン + By System目次 -->
+    <div class="sys-sidebar-wrapper">
+      <a href="../index.html" class="sys-back-btn">← トップページへ戻る</a>
+      <aside class="sys-sidebar">
+        <div class="sys-sidebar-card">
+          <div class="sys-sidebar-title">By System</div>
+          <a href="#art-neuro" data-section="art-neuro">神経系<span class="sys-count"></span></a>
+          <a href="#art-cardio" data-section="art-cardio">循環器系<span class="sys-count"></span></a>
+          <a href="#art-resp" data-section="art-resp">呼吸器系<span class="sys-count"></span></a>
+          <a href="#art-renal" data-section="art-renal">腎・電解質<span class="sys-count"></span></a>
+          <a href="#art-gi" data-section="art-gi">消化器<span class="sys-count"></span></a>
+          <a href="#art-heme" data-section="art-heme">血液系<span class="sys-count"></span></a>
+          <a href="#art-id" data-section="art-id">感染症<span class="sys-count"></span></a>
+          <a href="#art-nutrition" data-section="art-nutrition">栄養・代謝<span class="sys-count"></span></a>
+          <a href="#art-msk" data-section="art-msk">筋骨格系<span class="sys-count"></span></a>
+          <a href="#art-ppx" data-section="art-ppx">予防<span class="sys-count"></span></a>
+          <a href="#art-icu-general" data-section="art-icu-general">集中治療総論・質評価<span class="sys-count"></span></a>
+          <div class="sys-sidebar-footer">全 <strong id="sys-total">—</strong> 記事</div>
+        </div>
+      </aside>
+    </div>
 
   </div><!-- /.sys-layout -->
 
