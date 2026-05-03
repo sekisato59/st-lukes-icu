@@ -44,9 +44,9 @@
         <li><a href="pages/articles-outpatient.html"><span class="nav-icon dn-ico-gl-op"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><circle cx="12" cy="15" r="2"/></svg></span>論文GL(外来)</a></li>
         <li><a href="pages/disease-topics.html"><span class="nav-icon dn-ico-disease"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></span>疾患マニュアル</a></li>
         <li>
-          <button type="button" class="dum-nav-search-trigger" id="heroSearchTrigger" aria-label="検索を開く">
+          <a href="pages/recent-all.html" class="dum-nav-search-trigger" id="heroSearchTrigger" aria-label="サイト内コンテンツ検索">
             <span class="nav-icon dn-ico-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>検索
-          </button>
+          </a>
         </li>
       </ul>
     </div>
@@ -444,15 +444,9 @@
       var results = document.getElementById('heroSearchResults');
       if (!trigger || !overlay || !input || !results || typeof SEARCH_INDEX === 'undefined') return;
 
-      function openSearch(){
-        overlay.classList.add('active');
-        var menu = document.getElementById('dumNavMenu');
-        if (menu) menu.classList.remove('open');
-        setTimeout(function(){ input.focus(); }, 100);
-      }
       function closeSearch(){ overlay.classList.remove('active'); input.value=''; results.innerHTML=''; }
 
-      trigger.addEventListener('click', function(e){ e.stopPropagation(); openSearch(); });
+      // ナビ「検索」は recent-all.html へ直リンク（href）に変更したためモーダルは bind しない
       close.addEventListener('click', closeSearch);
       overlay.addEventListener('click', function(e){ if (e.target === overlay) closeSearch(); });
       document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeSearch(); });

@@ -26,7 +26,7 @@
     + '<li><a href="' + basePath + 'pages/articles-guidelines.html" class="nav-link">論文GL(ICU)</a></li>'
     + '<li><a href="' + basePath + 'pages/articles-outpatient.html" class="nav-link">論文GL(外来)</a></li>'
     + '<li><a href="' + basePath + 'pages/disease-topics.html" class="nav-link">疾患マニュアル</a></li>'
-    + '<li><button type="button" class="nav-search-trigger" id="globalSearchTrigger" aria-label="検索を開く">検索<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left:4px;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></button></li>';
+    + '<li><a href="' + basePath + 'pages/recent-all.html" class="nav-search-trigger" id="globalSearchTrigger" aria-label="サイト内コンテンツ検索">検索<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left:4px;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></a></li>';
 
   // 検索オーバーレイをbodyに追加
   var overlay = document.createElement('div');
@@ -46,10 +46,9 @@
     // サブページからのURL補正（scriptのパスからルートへの相対パスを算出）
     var urlPrefix = basePath;
 
-    function openS() { ov.classList.add('active'); setTimeout(function(){ inp.focus(); }, 100); }
     function closeS() { ov.classList.remove('active'); inp.value = ''; res.innerHTML = ''; }
 
-    trigger.addEventListener('click', openS);
+    // ナビ「検索」は recent-all.html へ直リンク（href）に変更したためモーダルは bind しない
     cl.addEventListener('click', closeS);
     ov.addEventListener('click', function(e) { if (e.target === ov) closeS(); });
     document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && ov.classList.contains('active')) closeS(); });
