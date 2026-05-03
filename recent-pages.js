@@ -11,6 +11,13 @@
  */
 const RECENT_PAGES = [
   {
+    title: "造血細胞移植後CMV感染症GL（日本造血・免疫細胞療法学会 第5版）",
+    url: "pages/articles-gl-hct-cmv2022.html",
+    date: "2026-05-04",
+    tag: "ガイドライン",
+    thumb: "images/IDICUtop.png"
+  },
+  {
     title: "ID×ICU 板書ノート：CMV感染症",
     url: "pages/id-icu-notes/note-cmv.html",
     date: "2026-05-04",
