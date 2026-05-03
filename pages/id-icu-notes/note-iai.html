@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>腹腔内感染症（IAI）— 板書ノート | ID×ICUカンファレンス | 聖路加ICU</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../style-v2.css?v=202605030010">
+  <style>
+    /* ===== ID×ICU 板書ノート 専用テーマ ===== */
+    .gl-chapter-banner {
+      background: linear-gradient(150deg, #2E1065 0%, #6D28D9 100%) !important;
+    }
+    .section-label.icu { color: #7C3AED; }
+
+    /* ===== バナー画像 + テキストオーバーレイ ===== */
+    .iai-banner {
+      position: relative;
+      width: 100%;
+      max-width: 1294px;
+      margin: 64px auto 0;
+      line-height: 0;
+    }
+    .iai-banner-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 85%, transparent 100%);
+      mask-image: linear-gradient(to bottom, #000 0%, #000 85%, transparent 100%);
+    }
+    .iai-banner-overlay {
+      position: absolute;
+      left: 5%;
+      top: 50%;
+      transform: translateY(-50%);
+      max-width: 55%;
+      line-height: 1.4;
+    }
+    .iai-banner-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+    .iai-banner-tags span {
+      display: inline-block;
+      background: rgba(245,243,255,0.85);
+      color: #4C1D95;
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 4px;
+      letter-spacing: 0.04em;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
+    .iai-banner-title {
+      font-size: clamp(1.1rem, 2.6vw, 1.6rem);
+      font-weight: 900;
+      line-height: 1.35;
+      margin: 0 0 6px;
+      color: #4C1D95;
+    }
+    .iai-banner-sub {
+      font-size: clamp(0.78rem, 1.4vw, 0.92rem);
+      font-weight: 700;
+      color: #6D28D9;
+      margin: 0 0 6px;
+    }
+    .iai-banner-lecturer {
+      font-size: clamp(0.72rem, 1.2vw, 0.82rem);
+      color: #7C3AED;
+      margin: 0;
+    }
+
+    @media (max-width: 900px) {
+      .iai-banner-overlay { max-width: 60%; left: 4%; top: 45%; }
+    }
+    @media (max-width: 600px) {
+      .iai-banner { line-height: 1.4; }
+      .iai-banner-overlay {
+        position: static;
+        transform: none;
+        max-width: 100%;
+        padding: 12px 18px 4px;
+      }
+    }
+
+    /* ====== 見出し階層 ====== */
+    .card-inner h3.rule-title {
+      font-size: 0.98rem;
+      color: var(--text);
+      padding-bottom: 6px;
+      border-bottom: 2px solid #C4B5FD;
+      margin: 0 0 10px;
+    }
+    .card-inner h4.sub-head {
+      font-size: 0.95rem;
+      font-weight: 900;
+      color: #4C1D95;
+      margin: 14px 0 6px;
+      letter-spacing: 0.02em;
+      line-height: 1.4;
+    }
+    .card-inner h4.sub-head::before {
+      content: '●';color: #7C3AED;margin-right: 8px;font-size: 0.78rem;
+      vertical-align: 1px;
+    }
+    .card-inner h4.sub-head:first-child { margin-top: 0; }
+
+    /* ====== 本文 ====== */
+    .card-inner .rule-body,
+    .card-inner ul li,
+    .card-inner ol li,
+    .card-inner p {
+      color: #475569;
+      line-height: 1.7;
+    }
+    .card-inner p { margin: 4px 0; }
+    .card-inner ul, .card-inner ol {
+      list-style: disc;
+      padding-left: 26px;
+      margin: 4px 0 8px;
+    }
+    .card-inner ol { list-style: decimal; }
+    .card-inner ul li, .card-inner ol li {
+      margin-bottom: 3px;
+    }
+    .card-inner ul li::marker { color: #C4B5FD; }
+    .card-inner ol li::marker { color: #7C3AED; font-weight: 700; }
+    .card-inner strong { color: var(--text); font-weight: 700; }
+    .card-inner em { font-style: italic; color: #1F2937; }
+
+    /* 菌名リスト */
+    .organism-list { padding-left: 26px;list-style: disc;margin: 4px 0 8px; }
+    .organism-list li { margin-bottom: 3px;color: #6B7280;line-height: 1.6; }
+    .organism-list li::marker { color: #9CA3AF; }
+    .organism-list li em { font-weight: 600;color: #6B7280;font-style: italic; }
+    .organism-list li strong { color: #374151;font-weight: 800; }
+
+    /* ====== 警告/注意ボックス ====== */
+    .keypoint {
+      background: #FFFBEB;border: 1px solid #FDE68A;border-radius: 6px;
+      padding: 8px 12px;margin: 8px 0;font-size: 0.82rem;line-height: 1.65;color: #78350F;
+    }
+    .keypoint::before {
+      content: '注意';display: inline-block;
+      background: #F59E0B;color: #fff;font-size: 0.64rem;font-weight: 800;
+      padding: 1px 7px;border-radius: 3px;margin-right: 8px;
+      letter-spacing: 0.06em;
+    }
+    .keypoint strong { color: #92400E; }
+
+    .danger {
+      background: #FEF2F2;border: 1px solid #FECACA;border-radius: 6px;
+      padding: 8px 12px;margin: 8px 0;font-size: 0.82rem;line-height: 1.65;color: #7F1D1D;
+    }
+    .danger::before {
+      content: '警告';display: inline-block;
+      background: #DC2626;color: #fff;font-size: 0.64rem;font-weight: 800;
+      padding: 1px 7px;border-radius: 3px;margin-right: 8px;
+      letter-spacing: 0.06em;
+    }
+    .danger strong { color: #7F1D1D; }
+
+    /* ====== トライアルPICOボックス ====== */
+    .trial-block {
+      background: #FAFBFC;border: 1px solid var(--border);border-radius: 10px;
+      margin: 16px 0;overflow: hidden;
+    }
+    .trial-block-head {
+      background: linear-gradient(135deg, #4C1D95, #6D28D9);
+      color: #fff;padding: 12px 18px;
+    }
+    .trial-block-head .trial-jp {
+      font-size: 1rem;font-weight: 800;letter-spacing: 0.02em;
+    }
+    .trial-block-head .trial-en {
+      font-size: 0.78rem;font-weight: 500;color: rgba(255,255,255,0.75);
+      margin-left: 10px;
+    }
+    .trial-block-head .trial-tag {
+      float: right;font-size: 0.7rem;font-weight: 700;
+      background: rgba(255,255,255,0.2);padding: 3px 10px;border-radius: 3px;
+      letter-spacing: 0.04em;
+    }
+    .trial-block-body { padding: 12px 18px; }
+
+    /* ====== 引用 ====== */
+    .citation {
+      font-size: 0.7rem;color: #9CA3AF;font-style: italic;
+      display: block;margin-top: 4px;padding-left: 0;
+    }
+    /* 引用文中の <em>（雑誌名等）はリンク色を継承 */
+    a em { color: inherit !important; font-style: italic; }
+
+    /* ====== ie-table ====== */
+    .card-inner .ie-table td { color: #475569; }
+    .card-inner .ie-table th { color: var(--text); }
+    .card-inner .ie-table strong { color: var(--text); }
+
+    /* ====== 録画ボタン ====== */
+    .note-actions { display: flex;gap: 10px;margin: 0 0 12px;flex-wrap: wrap; }
+    .note-btn-video {
+      display: inline-flex;align-items: center;justify-content: center;gap: 6px;
+      background: linear-gradient(135deg,#6D28D9,#7C3AED);
+      color: #fff;font-size: 0.82rem;font-weight: 700;
+      padding: 9px 18px;border-radius: 8px;text-decoration: none;
+      letter-spacing: 0.04em;line-height: 1;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .note-btn-video:hover {
+      transform: translateY(-1px);box-shadow: 0 4px 10px rgba(124,58,237,0.32);
+    }
+
+    /* ====== Candidaスコアボックス ====== */
+    .score-box {
+      background: #F5F3FF;border: 1px solid #C4B5FD;border-radius: 8px;
+      padding: 10px 14px;margin: 8px 0;
+    }
+    .score-box-title {
+      font-size: 0.84rem;font-weight: 800;color: #4C1D95;
+      margin-bottom: 6px;padding-bottom: 4px;
+      border-bottom: 1px solid #DDD6FE;
+      letter-spacing: 0.04em;
+    }
+    .score-row {
+      display: flex;align-items: baseline;padding: 3px 0;
+      font-size: 0.84rem;color: #1F2937;gap: 10px;
+    }
+    .score-row .pt {
+      display: inline-flex;align-items: center;justify-content: center;
+      min-width: 22px;height: 22px;background: #7C3AED;color: #fff;
+      border-radius: 4px;
+      font-weight: 800;font-size: 0.72rem;
+      font-family: ui-monospace,Menlo,Consolas,monospace;flex-shrink: 0;
+      padding: 0 5px;
+    }
+    .score-foot {
+      margin-top: 8px;font-size: 0.8rem;color: #4C1D95;font-weight: 600;
+      padding-top: 6px;border-top: 1px dashed #C4B5FD;
+    }
+
+    /* card 余白 */
+    .card .card-inner { padding: 14px 18px; }
+    .card { margin-bottom: 12px !important; }
+
+    /* gl-chapter-banner */
+    .gl-chapter-banner { margin-top: 32px !important;padding: 14px 20px !important; }
+    .gl-chapter-banner.first { margin-top: 8px !important; }
+    .gl-chapter-banner .gl-chapter-title { font-size: 1.15rem !important; }
+
+    /* 嫌気性菌カバー表 */
+    .anae-table { width: 100%;border-collapse: collapse;font-size: 0.84rem;margin: 8px 0; }
+    .anae-table th, .anae-table td {
+      border: 1px solid var(--border);padding: 6px 10px;text-align: left;
+    }
+    .anae-table th { background: #F5F3FF;color: #4C1D95;font-weight: 700; }
+    .anae-table .first-line { background: #FEF3C7;color: #92400E;font-weight: 700; }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="../../index.html" class="nav-logo">
+        <img src="../../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+        <span class="nav-logo-text">聖路加国際病院ICU</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-menu" id="navMenu"></ul>
+    </div>
+  </nav>
+
+  <!-- ===== HEADER (バナー画像 + テキストオーバーレイ) ===== -->
+  <div class="iai-banner">
+    <img src="../../images/headerID*ICUpage.png" alt="ID×ICUカンファレンス 板書ノート" class="iai-banner-img">
+    <div class="iai-banner-overlay">
+      <div class="iai-banner-tags">
+        <span>ID×ICU カンファレンス</span>
+        <span>2025年7月2日</span>
+        <span>感染症 / 消化器</span>
+      </div>
+      <h1 class="iai-banner-title">腹腔内感染症（IAI）— 板書ノート</h1>
+      <p class="iai-banner-sub">虫垂炎 ／ 憩室炎 ／ 胆道系感染症 ／ 腸管穿孔 ／ 肝膿瘍 ／ 抗菌薬選択</p>
+      <p class="iai-banner-lecturer">講義：森先生 ／ レジュメ作成：ICU 関谷</p>
+    </div>
+  </div>
+
+  <!-- ===== MAIN CONTAINER ===== -->
+  <div class="container" style="max-width:1294px;margin:0 auto;padding:8px 20px 32px;">
+    <div class="ie-page-flex">
+
+      <!-- ===== MAIN CONTENT ===== -->
+      <div class="ie-main-col">
+
+        <!-- 録画リンク -->
+        <div class="note-actions">
+          <a href="https://lukemcmi-my.sharepoint.com/:v:/g/personal/sekisato_luke_ac_jp/IQChx6ebvXbiRotpUL5pMaV5AYold22zl-or9Dh5I1dHawA?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=LJKV8M" target="_blank" rel="noopener" class="note-btn-video"><span style="font-size:0.7rem;">▶</span>レクチャー動画を視聴</a>
+        </div>
+
+        <!-- 略語一覧 -->
+        <div class="card" style="margin-top:0;margin-bottom:24px;">
+          <div class="card-inner">
+            <h3 class="rule-title">本ページで使用する略語一覧</h3>
+            <table style="width:100%;border-collapse:collapse;font-size:0.78rem;line-height:1.6;color:#475569;">
+              <tbody>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:140px;color:var(--blue);">IAI</td><td style="padding:4px 8px;">Intra-Abdominal Infection — 腹腔内感染症</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">cIAI</td><td style="padding:4px 8px;">complicated Intra-Abdominal Infection — 複雑性腹腔内感染症</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CODA</td><td style="padding:4px 8px;">Comparison of Outcomes of Drug and Appendectomy — 抗菌薬 vs 虫垂切除のRCT</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">DINAMO</td><td style="padding:4px 8px;">DIverticulitis: ANtibiotic outpatient treatMent versus standard ManagemenO — 軽症憩室炎 抗菌薬非投与RCT</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">STOP-IT</td><td style="padding:4px 8px;">Study to Optimize Peritoneal Infection Therapy — 短期抗菌薬投与RCT</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">TG13 / TG18</td><td style="padding:4px 8px;">Tokyo Guidelines 2013 / 2018 — 急性胆道感染症ガイドライン</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">PID</td><td style="padding:4px 8px;">Pelvic Inflammatory Disease — 骨盤内炎症性疾患</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">FHC</td><td style="padding:4px 8px;">Fitz-Hugh-Curtis 症候群 — PIDからのリンパ行性肝周囲炎</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">QOL / EQ-5D</td><td style="padding:4px 8px;">Quality of Life / EuroQol 5 Dimensions — QOL評価尺度</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">GNR</td><td style="padding:4px 8px;">Gram-Negative Rod — グラム陰性桿菌</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">SPACE</td><td style="padding:4px 8px;">Serratia / Pseudomonas / Acinetobacter / Citrobacter / Enterobacter（院内GNR）</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">VGS</td><td style="padding:4px 8px;">Viridans Group Streptococci — 緑色レンサ球菌群</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CTRX</td><td style="padding:4px 8px;">Ceftriaxone — セフトリアキソン</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">MNZ</td><td style="padding:4px 8px;">Metronidazole — メトロニダゾール</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">ABPC/SBT</td><td style="padding:4px 8px;">Ampicillin/Sulbactam — アンピシリン/スルバクタム</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CFPM</td><td style="padding:4px 8px;">Cefepime — セフェピム</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CMZ</td><td style="padding:4px 8px;">Cefmetazole — セフメタゾール</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">PIPC/TAZ</td><td style="padding:4px 8px;">Piperacillin/Tazobactam — ピペラシリン/タゾバクタム</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">DOX</td><td style="padding:4px 8px;">Doxycycline — ドキシサイクリン</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">TPN</td><td style="padding:4px 8px;">Total Parenteral Nutrition — 完全静脈栄養</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CV</td><td style="padding:4px 8px;">Central Venous catheter — 中心静脈カテーテル</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CF</td><td style="padding:4px 8px;">Colonofiberscopy — 大腸内視鏡</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">PV</td><td style="padding:4px 8px;">Portal Vein — 門脈</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">SIS</td><td style="padding:4px 8px;">Surgical Infection Society — 米国外科感染症学会</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">IDSA</td><td style="padding:4px 8px;">Infectious Diseases Society of America — 米国感染症学会</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">RCT</td><td style="padding:4px 8px;">Randomized Controlled Trial — ランダム化比較試験</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">SSI</td><td style="padding:4px 8px;">Surgical Site Infection — 手術部位感染</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">COMS</td><td style="padding:4px 8px;">Criteria for Oral switch of antiMicrobialS — 経口スイッチ基準</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">IVOS</td><td style="padding:4px 8px;">IV-to-Oral Switch — 静注 → 経口切替</td></tr>
+                <tr><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CRP / WBC</td><td style="padding:4px 8px;">C-Reactive Protein / White Blood Cell — 炎症マーカー</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- 第1章 -->
+        <!-- ═══════════════════════════════════════ -->
+        <div id="ch1" class="gl-chapter-banner first">
+          <div class="gl-chapter-title">第1章　急性虫垂炎・憩室炎</div>
+          <div class="gl-chapter-subtitle">Appendicitis & Diverticulitis — Antibiotics-First Strategy</div>
+        </div>
+
+        <h3 id="ch1-s1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 1</span>
+          急性虫垂炎 — CODA Trial
+        </h3>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">CODA Trial の結論</h3>
+            <p class="rule-body">急性虫垂炎に対して <strong>抗菌薬治療は短期的な健康状態・QOL において手術に非劣性</strong>であり、特に <strong>虫垂結石を有さない症例</strong>では有力な選択肢となる。</p>
+            <p class="citation"><a href="https://pubmed.ncbi.nlm.nih.gov/?term=CODA+Collaborative+NEJM+2020+appendicitis+antibiotics+appendectomy" target="_blank" rel="noopener" style="color:#7C3AED;">CODA Collaborative. <em>NEJM</em> 2020; 383(20): 1907-1919 ↗</a></p>
+          </div>
+        </div>
+
+        <div class="trial-block">
+          <div class="trial-block-head">
+            <span class="trial-jp">CODA Trial</span>
+            <span class="trial-en">PICO</span>
+            <span class="trial-tag">RCT</span>
+          </div>
+          <div class="trial-block-body">
+            <table class="ie-table">
+              <tbody>
+                <tr><td style="white-space:nowrap;font-weight:700;color:#7C3AED;width:14%;">P</td><td>18 歳以上の成人、画像診断で確認された <strong>急性虫垂炎</strong>（合併症例除外、ただし一部に虫垂結石例を含む）</td></tr>
+                <tr><td style="white-space:nowrap;font-weight:700;color:#7C3AED;">I</td><td>抗菌薬治療（<strong>静脈内投与 24 時間以上 ＋ 経口投与で計 10 日間</strong>、抗菌薬選択は SIS および IDSA の推奨に準拠）</td></tr>
+                <tr><td style="white-space:nowrap;font-weight:700;color:#7C3AED;">C</td><td>外科的虫垂切除術（主に腹腔鏡下）</td></tr>
+                <tr><td style="white-space:nowrap;font-weight:700;color:#7C3AED;">O</td><td><strong>主要：</strong> 30 日後の健康関連 QOL（EQ-5D スコア）<br><strong>副次：</strong> 30 日以内の有害事象、症状消失、追加入院、ドレナージ施行、30 日以内および 1 年以内の虫垂切除率など</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">主な結果</h3>
+            <ul>
+              <li>主要評価項目である <strong>30 日後の健康状態（EQ-5D スコア）</strong>は、抗菌薬群が虫垂切除群に対して <strong>非劣性</strong>。短期 QOL の観点で手術に劣らない。</li>
+              <li>抗菌薬群のうち、<strong>30 日以内に約 3 割が虫垂切除術</strong>を受ける結果となったが、残りの患者は手術を回避できた。</li>
+              <li>合併症発生率は全体として大きな差はないが、<strong>虫垂結石を有する患者では抗菌薬群の合併症率が高い傾向</strong>。</li>
+              <li>抗菌薬群では再入院・救急外来受診がやや多い傾向だが、初回入院期間は両群同等。</li>
+              <li>安定患者では <strong>外来抗菌薬治療も安全</strong>に実施可能。</li>
+            </ul>
+
+            <div class="keypoint">
+              <strong>臨床応用：</strong> 画像で虫垂結石なし・全身状態安定の急性虫垂炎では「抗菌薬ファースト」を提示する選択肢がある。ただし約 30% は手術移行となる旨を patient consent に含める。
+            </div>
+          </div>
+        </div>
+
+        <h3 id="ch1-s2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 2</span>
+          急性憩室炎 — DINAMO Trial
+        </h3>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">DINAMO Trial の結論</h3>
+            <p class="rule-body"><strong>軽症の急性憩室炎（uncomplicated diverticulitis）に対して、抗菌薬を使用しない外来治療は、従来の抗菌薬投与を含む治療と比較して非劣性</strong>であった。</p>
+            <p class="citation"><a href="https://pubmed.ncbi.nlm.nih.gov/?term=Mora-Lopez+Ann+Surg+2021+DINAMO+diverticulitis+antibiotics+outpatient" target="_blank" rel="noopener" style="color:#7C3AED;">Mora-López L et al. <em>Ann Surg</em> 2021; 274(5): e435-e442 ↗</a></p>
+          </div>
+        </div>
+
+        <div class="trial-block">
+          <div class="trial-block-head">
+            <span class="trial-jp">DINAMO Trial</span>
+            <span class="trial-en">PICO</span>
+            <span class="trial-tag">RCT</span>
+          </div>
+          <div class="trial-block-body">
+            <table class="ie-table">
+              <tbody>
+                <tr><td style="white-space:nowrap;font-weight:700;color:#7C3AED;width:14%;">P</td><td>CT で診断された <strong>軽症（uncomplicated）急性憩室炎</strong>患者（免疫正常、合併症なし、外来管理可能例）</td></tr>
+                <tr><td style="white-space:nowrap;font-weight:700;color:#7C3AED;">I</td><td>抗菌薬を使用しない外来治療（抗炎症薬・対症療法のみ）</td></tr>
+                <tr><td style="white-space:nowrap;font-weight:700;color:#7C3AED;">C</td><td>標準治療（<strong>アモキシシリン/クラブラン酸 875/125 mg を 8 時間ごと</strong>、抗炎症薬・対症療法併用）</td></tr>
+                <tr><td style="white-space:nowrap;font-weight:700;color:#7C3AED;">O</td><td><strong>主要：</strong> 入院率<br><strong>副次：</strong> 救急再受診率、疼痛コントロール、緊急手術率など</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">結果と解釈の注意点</h3>
+            <p class="rule-body">主要評価項目である入院率、再受診率、緊急手術率、疼痛コントロールなどに <strong>有意差はなく</strong>、抗菌薬非使用群でも安全性に問題は認められなかった。</p>
+
+            <div class="keypoint">
+              <strong>解釈の注意：</strong> 試験が組まれたスペインは <strong>耐性菌が多い</strong>地域であり、抗菌薬投与群はそのような環境下でアモキシシリン/クラブラン酸（オーグメンチン）が選択された事実は重要。<strong>抗菌薬投与群でも有効な抗菌薬治療が行えていなかった可能性</strong>は残る（≒ 比較対象群の effective coverage が不十分だった可能性）。
+            </div>
+          </div>
+        </div>
+
+        <h3 id="ch1-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SUMMARY</span>
+          第1章のキーメッセージ
+        </h3>
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+                <span class="rule-body"><strong>CODA Trial：</strong>急性虫垂炎で <strong>抗菌薬は手術に非劣性</strong>。特に <strong>虫垂結石なし</strong>の症例で有力。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+                <span class="rule-body"><strong>抗菌薬群の約 30% は 30 日以内に虫垂切除に移行</strong>する点を必ず患者に説明する。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+                <span class="rule-body"><strong>DINAMO Trial：</strong>軽症憩室炎で <strong>抗菌薬非投与の外来治療</strong>は標準治療に非劣性。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+                <span class="rule-body"><strong>DINAMO の解釈注意：</strong>耐性菌の多いスペインで実施された RCT。比較群の抗菌薬カバーが不十分だった可能性を念頭に。</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- 第2章 -->
+        <!-- ═══════════════════════════════════════ -->
+        <div id="ch2" class="gl-chapter-banner">
+          <div class="gl-chapter-title">第2章　胆道系感染症</div>
+          <div class="gl-chapter-subtitle">Biliary Tract Infection — Tokyo Guidelines & STOP-IT</div>
+        </div>
+
+        <h3 id="ch2-s1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 1</span>
+          Tokyo Guideline — 重症度別の投与期間
+        </h3>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">急性胆嚢炎・胆管炎の抗菌薬投与期間（TG18）</h3>
+            <table class="ie-table">
+              <thead>
+                <tr><th style="width:18%;">重症度</th><th>投与期間</th></tr>
+              </thead>
+              <tbody>
+                <tr><td style="white-space:nowrap;font-weight:700;">Grade Ⅰ・Ⅱ</td><td><strong>術前または術中のみの投与</strong>（感染源コントロール後は短期で終了）</td></tr>
+                <tr><td style="white-space:nowrap;font-weight:700;color:#7C3AED;">Grade Ⅲ</td><td><strong>感染源がコントロールされていれば 4〜7 日間の投与</strong>。重症胆管炎・敗血症性ショック例。</td></tr>
+              </tbody>
+            </table>
+            <p class="rule-body" style="margin-top:8px;font-size:0.82rem;color:var(--muted);">出典：<a href="https://pubmed.ncbi.nlm.nih.gov/?term=Gomi+J+Hepatobiliary+Pancreat+Sci+2018+TG18+antimicrobial+therapy" target="_blank" rel="noopener" style="color:#7C3AED;">Gomi H et al. <em>J Hepatobiliary Pancreat Sci</em> 2018（Tokyo Guidelines 2018）↗</a> ／ TG18 本文 P.139（投与期間）・ P.74-76（重症度判定基準）</p>
+          </div>
+        </div>
+
+        <h3 id="ch2-s2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 2</span>
+          STOP-IT Trial — 短期抗菌薬投与
+        </h3>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">STOP-IT の結論</h3>
+            <p class="rule-body"><strong>胆嚢炎を含む複雑性腹腔内感染症（cIAI）</strong>では、<strong>十分なソースコントロールが達成されれば、抗菌薬投与期間は 4 日間（± 1 日）でよい</strong>（ただし菌血症患者・免疫不全者を除く）。</p>
+            <p class="citation"><a href="https://pubmed.ncbi.nlm.nih.gov/?term=Sawyer+NEJM+2015+intra-abdominal+infection+short+course+antimicrobial" target="_blank" rel="noopener" style="color:#7C3AED;">Sawyer RG et al. <em>NEJM</em> 2015; 372(21): 1996-2005 ↗</a></p>
+          </div>
+        </div>
+
+        <div class="trial-block">
+          <div class="trial-block-head">
+            <span class="trial-jp">STOP-IT Trial</span>
+            <span class="trial-en">PICO</span>
+            <span class="trial-tag">RCT</span>
+          </div>
+          <div class="trial-block-body">
+            <table class="ie-table">
+              <tbody>
+                <tr><td style="white-space:nowrap;font-weight:700;color:#7C3AED;width:14%;">P</td><td><strong>複雑性腹腔内感染症</strong>（十分なドレナージ・ソースコントロールが行われた患者、胆嚢炎を含む）</td></tr>
+                <tr><td style="white-space:nowrap;font-weight:700;color:#7C3AED;">I</td><td><strong>固定短期間抗菌薬投与（4 日間 ± 1 日）</strong></td></tr>
+                <tr><td style="white-space:nowrap;font-weight:700;color:#7C3AED;">C</td><td>臨床的改善（発熱・白血球増多・イレウスの消失）後 2 日まで、最大 10 日間の抗菌薬投与</td></tr>
+                <tr><td style="white-space:nowrap;font-weight:700;color:#7C3AED;">O</td><td>30 日以内の複合エンドポイント（<strong>手術部位感染・腹腔内感染再発・死亡</strong>）</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">結果</h3>
+            <p class="rule-body">十分なドレナージ等のソースコントロールが達成された複雑性腹腔内感染症（胆嚢炎を含む）患者において、<strong>抗菌薬投与期間を固定 4 日間とした群</strong>と、<strong>発熱・白血球増多・イレウスの消失後 2 日間（最大 10 日間）まで継続した群</strong>とで、<strong>30 日以内の手術部位感染・腹腔内感染再発・死亡の複合エンドポイントに有意差は認められなかった</strong>。</p>
+            <p class="rule-body">すなわち、<strong>短期間（約 4 日間）の抗菌薬投与は、従来の臨床的改善までの投与（中央値 8 日間）と比較して、治療成績に劣らない</strong>ことが示された。</p>
+
+            <div class="keypoint">
+              <strong>除外条件：</strong> <strong>菌血症患者・免疫不全者は短期投与の対象外</strong>。これらの症例では従来通り臨床改善までの投与が必要。
+            </div>
+          </div>
+        </div>
+
+        <h3 id="ch2-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SUMMARY</span>
+          第2章のキーメッセージ
+        </h3>
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+                <span class="rule-body"><strong>TG18：</strong>Grade Ⅰ・Ⅱ → 術前/術中のみ／<strong>Grade Ⅲ → 4〜7 日間</strong>（ソースコントロール達成後）。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+                <span class="rule-body"><strong>STOP-IT：</strong>cIAI でソースコントロール達成後は <strong>4 日間（± 1 日）の固定短期投与</strong>で十分。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+                <span class="rule-body"><strong>STOP-IT 適用外：</strong>菌血症患者・免疫不全者は除く（従来通り臨床改善まで）。</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- 第3章 -->
+        <!-- ═══════════════════════════════════════ -->
+        <div id="ch3" class="gl-chapter-banner">
+          <div class="gl-chapter-title">第3章　腸管穿孔と Fitz-Hugh-Curtis 症候群</div>
+          <div class="gl-chapter-subtitle">GI Perforation & Fitz-Hugh-Curtis Syndrome</div>
+        </div>
+
+        <h3 id="ch3-s1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 1</span>
+          腸管穿孔 — 上部 vs 下部消化管
+        </h3>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">穿孔部位による菌叢と抗菌薬選択</h3>
+            <table class="ie-table">
+              <thead>
+                <tr><th style="width:20%;">部位</th><th>主な起因菌</th><th>第1選択</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="white-space:nowrap;font-weight:700;color:#7C3AED;">上部消化管<br><span style="font-size:0.72rem;color:var(--muted);font-weight:500;">Upper GI</span></td>
+                  <td><strong>口腔内嫌気性菌</strong>が中心。GNR や腸由来の嫌気性菌の関与は <strong>乏しい</strong>。</td>
+                  <td><strong>ABPC/SBT</strong> で治療可能<br><span style="font-size:0.78rem;color:var(--muted);">CTRX + MNZ も可</span></td>
+                </tr>
+                <tr>
+                  <td style="white-space:nowrap;font-weight:700;color:#7C3AED;">下部消化管<br><span style="font-size:0.72rem;color:var(--muted);font-weight:500;">Lower GI</span></td>
+                  <td><strong>GNR や嫌気性菌の関与が大きい</strong>（腸内細菌叢由来）。</td>
+                  <td><strong>CTRX + MNZ</strong> で治療可能</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="keypoint">
+              <strong>腸球菌カバー：</strong> 上記レジメンでは <strong>腸球菌（Enterococcus）のカバーが漏れる</strong>が、腸球菌は <strong>弱毒菌</strong>であるため、<strong>培養で検出されてからカバーを加えるのでよい</strong>。
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">下部消化管穿孔と Candida — Candida スコア</h3>
+            <p class="rule-body">下部消化管穿孔では <strong>Candida 感染症</strong>も懸念されるが、ICU では <strong>Candida スコア</strong>に基づきカバーを検討する。</p>
+
+            <div class="score-box">
+              <div class="score-box-title">Candida Score（Léon C et al., 2006）</div>
+              <div class="score-row"><span class="pt">+1</span><span>多部位（multifocal）コロナイゼーション（喀痰、尿からの Candida 陽性）</span></div>
+              <div class="score-row"><span class="pt">+1</span><span>ICU 入室時の外科手術歴</span></div>
+              <div class="score-row"><span class="pt">+1</span><span>中心静脈栄養（TPN）使用</span></div>
+              <div class="score-row"><span class="pt">+2</span><span>重症敗血症（severe sepsis）</span></div>
+              <div class="score-foot">→ 合計スコア ≥ 3 で抗真菌薬カバーを検討</div>
+            </div>
+            <p class="citation"><a href="https://pubmed.ncbi.nlm.nih.gov/?term=Leon+Crit+Care+Med+2006+candida+score+ICU" target="_blank" rel="noopener" style="color:#7C3AED;">León C et al. <em>Crit Care Med</em> 2006; 34(3): 730-7（Candida Score 原著）↗</a></p>
+          </div>
+        </div>
+
+        <h3 id="ch3-s2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 2</span>
+          Fitz-Hugh-Curtis 症候群
+        </h3>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">病態</h3>
+            <p class="rule-body">主に <strong>女性の骨盤内炎症性疾患（PID）</strong>であり、<strong>リンパ行性に肝被膜（Glisson 被膜）およびその周囲腹膜の炎症（perihepatitis）</strong>を指す。</p>
+            <p class="rule-body">画像所見として <strong>"Violin Strings Sign"</strong>（バイオリンの弦のような肝周囲の癒着像）を認めることがある。</p>
+
+            <h4 class="sub-head">起因菌</h4>
+            <ul class="organism-list">
+              <li><em>Chlamydia trachomatis</em><strong> — 古典的代表菌</strong></li>
+              <li><em>Neisseria gonorrhoeae</em><strong> — 古典的代表菌（淋菌）</strong></li>
+              <li>女性の膣内に常在する <strong>嫌気性菌</strong>もなりうる</li>
+            </ul>
+            <div class="keypoint">
+              <strong>注意：</strong> 嫌気性菌の関与もあるため、<strong>患者は必ずしも Sexually Active でなくてよい</strong>。性交渉歴がない女性でも鑑別から外さない。
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">診断と治療</h3>
+            <h4 class="sub-head">検査</h4>
+            <p class="rule-body"><strong>腹部造影 CT 検査で肝被膜の濃染像</strong>が補助診断に有用。</p>
+
+            <h4 class="sub-head">経験的治療（PID として）</h4>
+            <p class="rule-body">PID の経験治療として以下の <strong>3 剤を組み合わせる</strong>。</p>
+            <table class="ie-table">
+              <thead>
+                <tr><th style="width:25%;">カバー対象</th><th>薬剤</th></tr>
+              </thead>
+              <tbody>
+                <tr><td style="white-space:nowrap;font-weight:700;">淋菌</td><td><strong>セフトリアキソン（Ceftriaxone）</strong></td></tr>
+                <tr><td style="white-space:nowrap;font-weight:700;">嫌気性菌</td><td><strong>メトロニダゾール（Metronidazole）</strong></td></tr>
+                <tr><td style="white-space:nowrap;font-weight:700;">Chlamydia</td><td><strong>ドキシサイクリン（Doxycycline）</strong></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <h3 id="ch3-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SUMMARY</span>
+          第3章のキーメッセージ
+        </h3>
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+                <span class="rule-body"><strong>上部消化管穿孔：</strong>口腔内嫌気性菌中心 → <strong>ABPC/SBT</strong>（CTRX + MNZ も可）。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+                <span class="rule-body"><strong>下部消化管穿孔：</strong>GNR + 嫌気性菌 → <strong>CTRX + MNZ</strong>。腸球菌は弱毒のため培養で検出後にカバー追加。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+                <span class="rule-body"><strong>下部GI + ICU 環境：</strong>Candida スコア（multifocal colonization・術歴・TPN・severe sepsis）でカバー判断。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+                <span class="rule-body"><strong>Fitz-Hugh-Curtis：</strong>PID からのリンパ行性肝周囲炎。<strong>CTRX + MNZ + DOX の 3 剤併用</strong>。性交渉歴がなくても鑑別から外さない。</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- 第4章 -->
+        <!-- ═══════════════════════════════════════ -->
+        <div id="ch4" class="gl-chapter-banner">
+          <div class="gl-chapter-title">第4章　肝膿瘍</div>
+          <div class="gl-chapter-subtitle">Liver Abscess — Amebic vs Pyogenic</div>
+        </div>
+
+        <h3 id="ch4-s1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 1</span>
+          アメーバ性肝膿瘍（Entamoeba histolytica）
+        </h3>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">病態とライフサイクル</h3>
+            <ol>
+              <li><strong style="color:#4C1D95;">Cyst</strong> が経肛門的に排泄される</li>
+              <li><strong style="color:#4C1D95;">Cyst を経口摂取して感染</strong>する</li>
+              <li>体内で Cyst が <strong style="color:#4C1D95;">Trophozoite（栄養体）</strong>となり血中に移行 → <strong style="color:#4C1D95;">門脈経由で肝臓</strong>へ</li>
+            </ol>
+            <div class="keypoint">
+              <strong>2 ステージ治療の根拠：</strong> よって <strong>Trophozoite（栄養体）と Cyst の両方に対して治療が必要</strong>である。
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">感染経路</h3>
+            <p class="rule-body"><strong style="color:#4C1D95;">糞口感染</strong>であり、日本では <strong style="color:#4C1D95;">腸管を用いるような性交渉</strong>を機に感染することが多く、<strong>Sexual Commercial Worker</strong> で多い。</p>
+            <p class="rule-body">一般的には健診の <strong style="color:#4C1D95;">CF（大腸内視鏡）で回盲部に白色の潰瘍</strong>を生じて見つかることが多い。</p>
+            <p class="citation"><a href="https://pubmed.ncbi.nlm.nih.gov/?term=Nagata+Endoscopy+2012+amebic+colitis+ileocecal" target="_blank" rel="noopener" style="color:#7C3AED;">Nagata N et al. <em>Endoscopy</em> 2012; 44: 425-8 ↗</a> ／ <a href="https://pubmed.ncbi.nlm.nih.gov/?term=Nagata+Clin+Gastroenterol+Hepatol+2013+amebic+colitis" target="_blank" rel="noopener" style="color:#7C3AED;">Nagata N et al. <em>Clin Gastroenterol Hepatol</em> 2013; 11: 673-80 ↗</a></p>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">検査所見・好発部位</h3>
+            <table class="ie-table">
+              <thead>
+                <tr><th style="width:30%;">特徴</th><th>所見</th></tr>
+              </thead>
+              <tbody>
+                <tr><td style="white-space:nowrap;font-weight:700;color:#7C3AED;">画像所見</td><td><strong>肝右葉に単発性で壁が薄い</strong>ことが多い（細菌性の多発・厚壁・隔壁と対比的）</td></tr>
+                <tr><td style="white-space:nowrap;font-weight:700;color:#7C3AED;">右葉好発の理由</td><td><strong>門脈血流の約 60〜70% が右葉に分布</strong>し、右葉は体積も大きく血流量が多いため、腸管から侵入したアメーバが <strong>最初に到達しやすい部位</strong>のため</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">治療</h3>
+            <table class="ie-table">
+              <thead>
+                <tr><th style="width:32%;">対象</th><th>薬剤・用法</th></tr>
+              </thead>
+              <tbody>
+                <tr><td style="white-space:nowrap;font-weight:700;color:#7C3AED;">Trophozoite（栄養体）</td><td><strong>メトロニダゾール（Metronidazole）750 mg q8h × 7〜10 days</strong></td></tr>
+                <tr><td style="white-space:nowrap;font-weight:700;color:#7C3AED;">Cyst</td><td><strong>パラモマイシン（Paromomycin）</strong></td></tr>
+              </tbody>
+            </table>
+            <div class="keypoint">
+              <strong>2 ステップ治療：</strong> MNZ で Trophozoite を駆除しても <strong>腸管内 Cyst が残存していると再発・他者感染源になる</strong>ため、必ず Paromomycin で Cyst も処理する。
+            </div>
+          </div>
+        </div>
+
+        <h3 id="ch4-s2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 2</span>
+          細菌性肝膿瘍（Pyogenic Liver Abscess）
+        </h3>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">病態と起因菌</h3>
+            <p class="rule-body">門脈（PV: Portal Vein）経由で腸由来の細菌が肝に到達する経路が中心。<strong>VGS（Viridans Group Streptococci）は膿瘍形成をしやすい</strong>ため特に注意。</p>
+
+            <h4 class="sub-head">画像所見</h4>
+            <p class="rule-body"><strong>多発性で隔壁を伴い、壁が厚い</strong>のが特徴。アメーバ性（単発・薄壁）と対比的。</p>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">治療</h3>
+            <table class="ie-table">
+              <thead>
+                <tr><th style="width:30%;">背景</th><th>レジメン</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="white-space:nowrap;font-weight:700;color:#7C3AED;">市中発症</td>
+                  <td><strong>セフトリアキソン（CTRX）+ メトロニダゾール（MNZ）</strong><br><span style="font-size:0.78rem;color:var(--muted);">腸内細菌と嫌気性菌をカバー</span></td>
+                </tr>
+                <tr>
+                  <td style="white-space:nowrap;font-weight:700;color:#7C3AED;">院内感染</td>
+                  <td><strong>セフェピム（CFPM）+ メトロニダゾール（MNZ）</strong><br><span style="font-size:0.78rem;color:var(--muted);">SPACE のカバーを含める</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <h3 id="ch4-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SUMMARY</span>
+          第4章のキーメッセージ
+        </h3>
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+                <span class="rule-body"><strong>アメーバ性：</strong>右葉単発・薄壁。<strong>MNZ 750 mg q8h × 7〜10 日</strong>（栄養体）+ <strong>Paromomycin</strong>（Cyst）の 2 ステップ。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+                <span class="rule-body"><strong>細菌性：</strong>多発・厚壁・隔壁。市中 → <strong>CTRX + MNZ</strong>／院内 → <strong>CFPM + MNZ</strong>。VGS は膿瘍形成しやすい。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+                <span class="rule-body"><strong>右葉好発の理由：</strong>門脈血流の 60〜70% が右葉に分布、容積も大きいため到達しやすい。</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- 第5章 -->
+        <!-- ═══════════════════════════════════════ -->
+        <div id="ch5" class="gl-chapter-banner">
+          <div class="gl-chapter-title">第5章　抗菌薬の嫌気性菌カバーと経口スイッチ</div>
+          <div class="gl-chapter-subtitle">Anaerobic Coverage & COMS Criteria for IV-to-Oral Switch</div>
+        </div>
+
+        <h3 id="ch5-s1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 1</span>
+          抗菌薬の嫌気性菌カバー
+        </h3>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">第1選択薬と Prevotella の特殊性</h3>
+            <p class="rule-body"><strong>嫌気性菌の第1選択（◎）は薬剤や部位ごとに異なる</strong>。特に <strong>Prevotella は横隔膜をまたいで存在</strong>する点に注意（口腔内・腸管両方に分布）。</p>
+
+            <h4 class="sub-head">主な選択肢</h4>
+            <ul>
+              <li><strong>メトロニダゾール（MNZ）</strong> — 嫌気性菌カバーの代表。CTRX 等と組み合わせて使用</li>
+              <li><strong>ABPC/SBT、PIPC/TAZ</strong> — βラクタマーゼ阻害薬配合製剤として嫌気性菌もカバー</li>
+              <li><strong>カルバペネム系</strong> — 広域カバー（重症例・耐性菌懸念例）</li>
+              <li><strong>クリンダマイシン（CLDM）</strong> — 横隔膜より上の嫌気性菌に強い</li>
+            </ul>
+
+            <div class="keypoint">
+              <strong>セフメタゾール（CMZ）の位置づけ：</strong> 腹腔内感染症の治療として一定の有効性があるものの、<strong>国際的なガイドライン（Surgical Infection Society）では第一選択薬としては推奨されていない</strong>。特に <strong>重症例・院内発症例・耐性菌リスクが高い場合は、より広域な抗菌薬の使用が望ましい</strong>。
+            </div>
+          </div>
+        </div>
+
+        <h3 id="ch5-s2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 2</span>
+          COMS Criteria — IV-to-Oral Switch
+        </h3>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">COMS 基準とは</h3>
+            <p class="rule-body"><strong>COMS 基準（Criteria for Oral switch of antiMicrobials）</strong>は、抗菌薬の <strong>静脈内投与から経口投与への切り替え（IV-to-oral switch, IVOS）</strong>を安全かつ効果的に行うための臨床的基準を指す。</p>
+            <p class="rule-body">COMS 基準自体は <strong>国際的な標準用語ではなく、日本国内で用いられることが多い略称</strong>であるが、その内容は欧米の臨床基準とほぼ同様である。</p>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">COMS の 5 項目</h3>
+            <ol>
+              <li><strong>全身状態が安定していること</strong>（例：バイタルサイン安定、意識清明、臓器不全なし）</li>
+              <li><strong>感染症の臨床症状が改善傾向にあること</strong>（例：発熱の消失、白血球数や CRP の改善）</li>
+              <li><strong>経口摂取が可能であり、消化管からの吸収障害がないこと</strong>（例：嘔吐、イレウス、重度の下痢、持続的な胃管吸引がない）</li>
+              <li><strong>重症感染症や経口薬の効果が期待できない感染症でないこと</strong>（例：心内膜炎、中枢神経感染症、菌血症の一部、壊死性筋膜炎などは除外）</li>
+              <li><strong>経口薬で十分な血中・組織濃度が得られること</strong>、および <strong>病原体が経口薬に感受性</strong>を示すこと</li>
+            </ol>
+
+            <div class="keypoint">
+              <strong>臨床的意義：</strong> COMS を満たした時点で経口に切り替えると、<strong>カテーテル関連感染リスクの低下、入院期間短縮、医療費削減</strong>につながる。腹腔内感染症では <strong>STOP-IT</strong> の知見と組み合わせ、<strong>「ソースコントロール → 短期 IV → 早期経口スイッチ」</strong>の流れが標準化されつつある。
+            </div>
+          </div>
+        </div>
+
+        <h3 id="ch5-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SUMMARY</span>
+          第5章のキーメッセージ
+        </h3>
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+                <span class="rule-body"><strong>嫌気性菌の第1選択（◎）は薬剤・部位ごとに異なる。</strong>Prevotella は横隔膜をまたぐ点に注意。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+                <span class="rule-body"><strong>CMZ は SIS GL では第一選択ではない。</strong>重症・院内・耐性菌リスク例ではより広域薬を選択。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+                <span class="rule-body"><strong>COMS 5 項目：</strong>全身安定／感染改善／経口摂取可／除外感染症でない／経口薬で十分な濃度と感受性。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+                <span class="rule-body"><strong>IAI のフロー：</strong>ソースコントロール → 短期 IV（STOP-IT）→ COMS 達成で早期経口スイッチ。</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 出典・注記 -->
+        <p style="font-size:0.72rem;color:#9CA3AF;margin-top:32px;line-height:1.7;">
+          本ページは ID×ICUカンファレンス（森先生 ／ 2025-07-02）の板書ノートです。実際の診療判断は患者個別の状況に応じて行ってください。
+        </p>
+        <p style="font-size:0.72rem;color:#9CA3AF;margin-top:8px;line-height:1.85;">
+          <strong>主な引用文献：</strong><br>
+          ・<a href="https://pubmed.ncbi.nlm.nih.gov/?term=CODA+Collaborative+NEJM+2020+appendicitis+antibiotics+appendectomy" target="_blank" rel="noopener" style="color:#7C3AED;">CODA Collaborative. <em>NEJM</em> 2020; 383(20): 1907-1919（CODA Trial）↗</a><br>
+          ・<a href="https://pubmed.ncbi.nlm.nih.gov/?term=Mora-Lopez+Ann+Surg+2021+DINAMO+diverticulitis+antibiotics+outpatient" target="_blank" rel="noopener" style="color:#7C3AED;">Mora-López L et al. <em>Ann Surg</em> 2021; 274(5): e435-e442（DINAMO Trial）↗</a><br>
+          ・<a href="https://pubmed.ncbi.nlm.nih.gov/?term=Sawyer+NEJM+2015+intra-abdominal+infection+short+course+antimicrobial" target="_blank" rel="noopener" style="color:#7C3AED;">Sawyer RG et al. <em>NEJM</em> 2015; 372(21): 1996-2005（STOP-IT Trial）↗</a><br>
+          ・<a href="https://pubmed.ncbi.nlm.nih.gov/?term=Gomi+J+Hepatobiliary+Pancreat+Sci+2018+TG18+antimicrobial+therapy" target="_blank" rel="noopener" style="color:#7C3AED;">Gomi H et al. <em>J Hepatobiliary Pancreat Sci</em> 2018; 25(1): 3-16（Tokyo Guidelines 2018）↗</a><br>
+          ・<a href="https://pubmed.ncbi.nlm.nih.gov/?term=Leon+Crit+Care+Med+2006+candida+score+ICU" target="_blank" rel="noopener" style="color:#7C3AED;">León C et al. <em>Crit Care Med</em> 2006; 34(3): 730-7（Candida Score）↗</a><br>
+          ・<a href="https://pubmed.ncbi.nlm.nih.gov/?term=Nagata+Endoscopy+2012+amebic+colitis+ileocecal" target="_blank" rel="noopener" style="color:#7C3AED;">Nagata N et al. <em>Endoscopy</em> 2012; 44: 425-8（アメーバ性大腸炎 内視鏡像）↗</a>
+        </p>
+        <p style="font-size:0.75rem;color:var(--muted);text-align:right;margin-top:8px;">講義：森先生 ／ レジュメ作成：ICU 関谷</p>
+
+      </div><!-- /ie-main-col -->
+
+      <!-- ===== SIDEBAR TOC ===== -->
+      <aside class="ie-sidebar">
+        <a href="../schedule-weekly-id-icu.html#id-organ" style="display:flex;align-items:center;justify-content:center;padding:9px 14px;background:rgba(124,58,237,0.08);border:1px solid #C4B5FD;border-radius:8px;font-size:0.78rem;font-weight:700;color:#6D28D9;text-decoration:none;margin-bottom:12px;transition:background 0.15s,color 0.15s;line-height:1;">
+          ← ID×ICUカンファレンス 一覧へ戻る
+        </a>
+        <div class="ie-sidebar-card">
+          <div class="ie-sidebar-title">目次</div>
+          <a href="#ch1" class="ie-toc-chapter">第1章　虫垂炎・憩室炎</a>
+          <a href="#ch1-s1" class="ie-toc-section">S1 — CODA Trial（虫垂炎）</a>
+          <a href="#ch1-s2" class="ie-toc-section">S2 — DINAMO Trial（憩室炎）</a>
+          <a href="#ch1-summary" class="ie-toc-section">SUMMARY</a>
+          <a href="#ch2" class="ie-toc-chapter">第2章　胆道系感染症</a>
+          <a href="#ch2-s1" class="ie-toc-section">S1 — Tokyo Guideline</a>
+          <a href="#ch2-s2" class="ie-toc-section">S2 — STOP-IT Trial</a>
+          <a href="#ch2-summary" class="ie-toc-section">SUMMARY</a>
+          <a href="#ch3" class="ie-toc-chapter">第3章　腸管穿孔・FHC</a>
+          <a href="#ch3-s1" class="ie-toc-section">S1 — 上部 / 下部 GI 穿孔</a>
+          <a href="#ch3-s2" class="ie-toc-section">S2 — Fitz-Hugh-Curtis</a>
+          <a href="#ch3-summary" class="ie-toc-section">SUMMARY</a>
+          <a href="#ch4" class="ie-toc-chapter">第4章　肝膿瘍</a>
+          <a href="#ch4-s1" class="ie-toc-section">S1 — アメーバ性</a>
+          <a href="#ch4-s2" class="ie-toc-section">S2 — 細菌性</a>
+          <a href="#ch4-summary" class="ie-toc-section">SUMMARY</a>
+          <a href="#ch5" class="ie-toc-chapter">第5章　抗菌薬選択・COMS</a>
+          <a href="#ch5-s1" class="ie-toc-section">S1 — 嫌気性菌カバー</a>
+          <a href="#ch5-s2" class="ie-toc-section">S2 — COMS Criteria</a>
+          <a href="#ch5-summary" class="ie-toc-section">SUMMARY</a>
+        </div>
+      </aside>
+
+    </div><!-- /ie-page-flex -->
+  </div>
+
+  <script src="../../script.js"></script>
+  <script src="../../abbr-tooltip.js"></script>
+</body>
+</html>

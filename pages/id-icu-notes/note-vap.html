@@ -17,6 +17,85 @@
     }
     .section-label.icu { color: #7C3AED; }
 
+    /* ===== バナー画像 + テキストオーバーレイ ===== */
+    .vap-banner {
+      position: relative;
+      width: 100%;
+      max-width: 1294px;
+      margin: 64px auto 0;
+      line-height: 0;
+    }
+    .vap-banner-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 85%, transparent 100%);
+      mask-image: linear-gradient(to bottom, #000 0%, #000 85%, transparent 100%);
+    }
+    .vap-banner-overlay {
+      position: absolute;
+      left: 5%;
+      top: 50%;
+      transform: translateY(-50%);
+      max-width: 55%;
+      line-height: 1.4;
+    }
+    .vap-banner-back {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #6D28D9;
+      text-decoration: none;
+      margin-bottom: 12px;
+    }
+    .vap-banner-back:hover { color: #4C1D95; }
+    .vap-banner-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+    .vap-banner-tags span {
+      display: inline-block;
+      background: rgba(245,243,255,0.85);
+      color: #4C1D95;
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 4px;
+      letter-spacing: 0.04em;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
+    .vap-banner-title {
+      font-size: clamp(1.1rem, 2.6vw, 1.6rem);
+      font-weight: 900;
+      line-height: 1.35;
+      margin: 0 0 6px;
+      color: #4C1D95;
+    }
+    .vap-banner-sub {
+      font-size: clamp(0.78rem, 1.4vw, 0.92rem);
+      font-weight: 700;
+      color: #6D28D9;
+      margin: 0 0 6px;
+    }
+    .vap-banner-lecturer {
+      font-size: clamp(0.72rem, 1.2vw, 0.82rem);
+      color: #7C3AED;
+      margin: 0;
+    }
+
+    /* タブレット〜小幅PC：オーバーレイをやや左上寄りに */
+    @media (max-width: 900px) {
+      .vap-banner-overlay { max-width: 60%; left: 4%; top: 45%; }
+    }
+    /* モバイル：オーバーレイ廃止 → 画像下に通常配置 */
+    @media (max-width: 600px) {
+      .vap-banner { line-height: 1.4; }
+      .vap-banner-overlay {
+        position: static;
+        transform: none;
+        max-width: 100%;
+        padding: 12px 18px 4px;
+      }
+    }
+
     /* ====== 見出し階層（Lv2 → Lv3 → Lv4） ====== */
 
     /* Lv2: Section h3（既存）— border-left 4px は h3 で許可 */
@@ -140,13 +219,13 @@
     .card-inner .ie-table strong { color: var(--text); }
 
     /* ====== 録画ボタン ====== */
-    .note-actions { display: flex;gap: 10px;margin: 14px 0 0;flex-wrap: wrap; }
+    .note-actions { display: flex;gap: 10px;margin: 0 0 12px;flex-wrap: wrap; }
     .note-btn-video {
       display: inline-flex;align-items: center;justify-content: center;gap: 6px;
       background: linear-gradient(135deg,#6D28D9,#7C3AED);
       color: #fff;font-size: 0.82rem;font-weight: 700;
-      padding: 10px 22px;border-radius: 6px;text-decoration: none;
-      letter-spacing: 0.04em;line-height: 1.2;
+      padding: 9px 18px;border-radius: 8px;text-decoration: none;
+      letter-spacing: 0.04em;line-height: 1;
       transition: transform 0.15s, box-shadow 0.15s;
     }
     .note-btn-video:hover {
@@ -218,29 +297,23 @@
     </div>
   </nav>
 
-  <!-- ===== HERO ===== -->
-  <section class="subpage-hero hero-image-bg">
-    <div class="container" style="padding:48px 24px 40px;">
-      <div style="max-width:860px;margin:0 auto;">
-        <a href="../schedule-weekly-id-icu.html#id-organ" class="back-link">← ID×ICUカンファレンス 一覧へ戻る</a>
-        <div style="display:flex;flex-wrap:wrap;gap:6px;margin:14px 0 14px;">
-          <span class="ie-badge">ID×ICU カンファレンス</span>
-          <span class="ie-badge">2025年6月18日</span>
-          <span class="ie-badge">感染症 / 呼吸器</span>
-        </div>
-        <h1 style="font-size:clamp(1.2rem,3vw,1.7rem);font-weight:900;line-height:1.4;margin:0 0 10px;">
-          VAP（人工呼吸器関連肺炎）— 板書ノート<br>
-          <span style="font-size:0.85rem;font-weight:600;">起因菌（GNR・GPC・GPR・嫌気性菌・真菌）／ 治療薬選択 ／ 投与期間</span>
-        </h1>
-        <p style="font-size:0.85rem;margin:0;">
-          講義：森先生 ／ レジュメ作成：ICU 関谷
-        </p>
+  <!-- ===== HEADER (バナー画像 + テキストオーバーレイ) ===== -->
+  <div class="vap-banner">
+    <img src="../../images/headerID*ICUpage.png" alt="ID×ICUカンファレンス 板書ノート" class="vap-banner-img">
+    <div class="vap-banner-overlay">
+      <div class="vap-banner-tags">
+        <span>ID×ICU カンファレンス</span>
+        <span>2025年6月18日</span>
+        <span>感染症 / 呼吸器</span>
       </div>
+      <h1 class="vap-banner-title">VAP（人工呼吸器関連肺炎）— 板書ノート</h1>
+      <p class="vap-banner-sub">起因菌（GNR・GPC・GPR・嫌気性菌・真菌）／ 治療薬選択 ／ 投与期間</p>
+      <p class="vap-banner-lecturer">講義：森先生 ／ レジュメ作成：ICU 関谷</p>
     </div>
-  </section>
+  </div>
 
   <!-- ===== MAIN CONTAINER ===== -->
-  <div class="container" style="max-width:1294px;margin:0 auto;padding:32px 20px;">
+  <div class="container" style="max-width:1294px;margin:0 auto;padding:8px 20px 32px;">
     <div class="ie-page-flex">
 
       <!-- ===== MAIN CONTENT ===== -->
@@ -252,7 +325,7 @@
         </div>
 
         <!-- 略語一覧 -->
-        <div class="card" style="margin-top:20px;margin-bottom:24px;">
+        <div class="card" style="margin-top:0;margin-bottom:24px;">
           <div class="card-inner">
             <h3 class="rule-title">本ページで使用する略語一覧</h3>
             <table style="width:100%;border-collapse:collapse;font-size:0.78rem;line-height:1.6;color:#475569;">
@@ -1009,6 +1082,9 @@
 
       <!-- ===== SIDEBAR TOC ===== -->
       <aside class="ie-sidebar">
+        <a href="../schedule-weekly-id-icu.html#id-organ" style="display:flex;align-items:center;justify-content:center;padding:9px 14px;background:rgba(124,58,237,0.08);border:1px solid #C4B5FD;border-radius:8px;font-size:0.78rem;font-weight:700;color:#6D28D9;text-decoration:none;margin-bottom:12px;transition:background 0.15s,color 0.15s;line-height:1;">
+          ← ID×ICUカンファレンス 一覧へ戻る
+        </a>
         <div class="ie-sidebar-card">
           <div class="ie-sidebar-title">目次</div>
           <a href="#ch1" class="ie-toc-chapter">第1章　VAP とは</a>
