@@ -11,6 +11,27 @@
  */
 const RECENT_PAGES = [
   {
+    title: "ID×ICU 板書ノート：CMV感染症",
+    url: "pages/id-icu-notes/note-cmv.html",
+    date: "2026-05-04",
+    tag: "解説",
+    thumb: "images/IDICUtop.png"
+  },
+  {
+    title: "ID×ICU 板書ノート：腹腔内感染症（IAI）",
+    url: "pages/id-icu-notes/note-iai.html",
+    date: "2026-05-03",
+    tag: "解説",
+    thumb: "images/IDICUtop.png"
+  },
+  {
+    title: "免疫不全ICU患者のCMV感染症",
+    url: "pages/articles-gl-cmv-icu2025.html",
+    date: "2026-05-04",
+    tag: "論文",
+    thumb: "images/IDICUtop.png"
+  },
+  {
     title: "糖尿病（診断・分類・合併症・DKA/HHS・治療薬）",
     url: "pages/disease-topics/dt-diabetes.html",
     date: "2026-05-03",
