@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VAP（人工呼吸器関連肺炎）— 板書ノート | ID×ICUカンファレンス | 聖路加ICU</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../style-v2.css?v=202605021230">
+  <style>
+    /* ===== ID×ICU 板書ノート 専用テーマ ===== */
+    .gl-chapter-banner {
+      background: linear-gradient(150deg, #2E1065 0%, #6D28D9 100%) !important;
+    }
+    .section-label.icu { color: #7C3AED; }
+
+    /* ====== 見出し階層（Lv2 → Lv3 → Lv4） ====== */
+
+    /* Lv2: Section h3（既存）— border-left 4px は h3 で許可 */
+    /* Lv3: Card 内の中見出し（rule-title）— 横線（border-bottom）で区切り */
+    .card-inner h3.rule-title {
+      font-size: 0.98rem;
+      color: var(--text);
+      padding-bottom: 6px;
+      border-bottom: 2px solid #C4B5FD;
+      margin: 0 0 10px;
+    }
+    /* Lv4: Card 内の小見出し（h4）— 紫太字 + 紫上線で明確に区別 */
+    .card-inner h4.sub-head {
+      font-size: 0.95rem;
+      font-weight: 900;
+      color: #4C1D95;
+      margin: 18px 0 8px;
+      padding-top: 10px;
+      border-top: 2px solid #DDD6FE;
+      letter-spacing: 0.02em;
+      line-height: 1.4;
+    }
+    .card-inner h4.sub-head::before {
+      content: '●';color: #7C3AED;margin-right: 8px;font-size: 0.78rem;
+      vertical-align: 1px;
+    }
+    .card-inner h4.sub-head:first-child {
+      margin-top: 0;padding-top: 0;border-top: none;
+    }
+
+    /* ====== 本文：余白タイトに ====== */
+    .card-inner .rule-body,
+    .card-inner ul li,
+    .card-inner ol li,
+    .card-inner p {
+      color: #475569;
+      line-height: 1.7;
+    }
+    .card-inner p { margin: 4px 0; }
+    .card-inner ul, .card-inner ol {
+      list-style: disc;
+      padding-left: 26px;
+      margin: 4px 0 8px;
+    }
+    .card-inner ul li, .card-inner ol li {
+      margin-bottom: 3px;
+    }
+    .card-inner ul li::marker { color: #C4B5FD; }
+    .card-inner strong { color: var(--text); font-weight: 700; }
+    .card-inner em { font-style: italic; color: #1F2937; }
+
+    /* 菌名リスト（小さなノート付き） */
+    .organism-list { padding-left: 26px;list-style: disc;margin: 4px 0 8px; }
+    .organism-list li { margin-bottom: 3px;color: #1F2937;line-height: 1.6; }
+    .organism-list li::marker { color: #A78BFA; }
+    .organism-list li em { font-weight: 600;color: #1F2937; }
+    .organism-list li .note-mini {
+      display: inline-block;font-size: 0.74rem;color: #6B7280;
+      margin-left: 8px;font-style: italic;
+    }
+
+    /* ====== 警告/注意ボックス ====== */
+    .keypoint {
+      background: #FFFBEB;border: 1px solid #FDE68A;border-radius: 6px;
+      padding: 8px 12px;margin: 8px 0;font-size: 0.82rem;line-height: 1.65;color: #78350F;
+    }
+    .keypoint::before {
+      content: '注意';display: inline-block;
+      background: #F59E0B;color: #fff;font-size: 0.64rem;font-weight: 800;
+      padding: 1px 7px;border-radius: 3px;margin-right: 8px;
+      letter-spacing: 0.06em;
+    }
+    .keypoint strong { color: #92400E; }
+
+    .danger {
+      background: #FEF2F2;border: 1px solid #FECACA;border-radius: 6px;
+      padding: 8px 12px;margin: 8px 0;font-size: 0.82rem;line-height: 1.65;color: #7F1D1D;
+    }
+    .danger::before {
+      content: '警告';display: inline-block;
+      background: #DC2626;color: #fff;font-size: 0.64rem;font-weight: 800;
+      padding: 1px 7px;border-radius: 3px;margin-right: 8px;
+      letter-spacing: 0.06em;
+    }
+    .danger strong { color: #7F1D1D; }
+
+    /* ====== SPACE 強調ボックス ====== */
+    .space-emph {
+      background: #F5F3FF;border: 1px solid #C4B5FD;border-radius: 8px;
+      padding: 10px 14px;margin: 8px 0;
+    }
+    .space-emph-title {
+      font-size: 0.84rem;font-weight: 800;color: #4C1D95;
+      margin-bottom: 6px;padding-bottom: 4px;
+      border-bottom: 1px solid #DDD6FE;
+      letter-spacing: 0.04em;
+    }
+    .space-row {
+      display: flex;align-items: baseline;padding: 4px 0;
+      font-size: 0.84rem;color: #1F2937;
+    }
+    .space-row:last-of-type { border-bottom: none; }
+    .space-row em { font-weight: 600; }
+    .space-row .acro {
+      display: inline-flex;align-items: center;justify-content: center;
+      width: 22px;height: 22px;background: #7C3AED;color: #fff;
+      border-radius: 4px;margin-right: 10px;
+      font-weight: 800;font-size: 0.78rem;
+      font-family: ui-monospace,Menlo,Consolas,monospace;
+    }
+    .space-foot {
+      margin-top: 10px;font-size: 0.82rem;color: #4C1D95;font-weight: 600;
+    }
+
+    /* ====== 引用 ====== */
+    .citation {
+      font-size: 0.7rem;color: #9CA3AF;font-style: italic;
+      display: block;margin-top: 8px;padding-left: 14px;
+    }
+
+    /* ====== ie-table の本文色を軽量化 ====== */
+    .card-inner .ie-table td { color: #475569; }
+    .card-inner .ie-table th { color: var(--text); }
+    .card-inner .ie-table strong { color: var(--text); }
+
+    /* ====== 録画ボタン ====== */
+    .note-actions { display: flex;gap: 10px;margin: 14px 0 0;flex-wrap: wrap; }
+    .note-btn-video {
+      display: inline-flex;align-items: center;justify-content: center;gap: 6px;
+      background: linear-gradient(135deg,#6D28D9,#7C3AED);
+      color: #fff;font-size: 0.82rem;font-weight: 700;
+      padding: 10px 22px;border-radius: 6px;text-decoration: none;
+      letter-spacing: 0.04em;line-height: 1.2;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .note-btn-video:hover {
+      transform: translateY(-1px);box-shadow: 0 4px 10px rgba(124,58,237,0.32);
+    }
+
+    /* ====== 薬剤テンプレート（DAP / LZD / TZD で共通使用） ====== */
+    .drug-block {
+      background: #FAFBFC;border: 1px solid var(--border);border-radius: 10px;
+      margin: 16px 0;overflow: hidden;
+    }
+    .drug-block-head {
+      background: linear-gradient(135deg, #4C1D95, #6D28D9);
+      color: #fff;padding: 12px 18px;
+    }
+    .drug-block-head .drug-jp {
+      font-size: 1rem;font-weight: 800;letter-spacing: 0.02em;
+    }
+    .drug-block-head .drug-en {
+      font-size: 0.78rem;font-weight: 500;color: rgba(255,255,255,0.75);
+      margin-left: 10px;
+    }
+    .drug-block-head .drug-vap-tag {
+      float: right;font-size: 0.7rem;font-weight: 700;
+      background: rgba(255,255,255,0.2);padding: 3px 10px;border-radius: 3px;
+      letter-spacing: 0.04em;
+    }
+    .drug-block-head .drug-vap-tag.unfit { background: rgba(220,38,38,0.85);color: #fff; }
+    .drug-block-head .drug-vap-tag.fit { background: rgba(34,197,94,0.85);color: #fff; }
+    .drug-block-body { padding: 12px 18px; }
+    .drug-section { margin: 0;padding: 10px 0;border-bottom: 1px dashed #DDD6FE; }
+    .drug-section:first-child { padding-top: 0; }
+    .drug-section:last-child { padding-bottom: 0;border-bottom: none; }
+    .drug-section-title {
+      font-size: 0.92rem;font-weight: 800;color: #4C1D95;
+      margin: 0 0 6px;padding: 0 0 4px;
+      border-bottom: 2px solid #C4B5FD;
+      letter-spacing: 0.02em;
+    }
+    .drug-section-title::before {
+      content: '■';color: #7C3AED;margin-right: 6px;font-size: 0.72rem;
+    }
+
+    /* card-inner padding を詰める */
+    .card .card-inner { padding: 14px 18px; }
+    /* card 間のマージン */
+    .card { margin-bottom: 12px !important; }
+    /* citation 余白 */
+    .citation { margin-top: 4px !important;padding-left: 0 !important; }
+    /* gl-chapter-banner 上余白少し抑える */
+    .gl-chapter-banner { margin-top: 32px !important;padding: 14px 20px !important; }
+    .gl-chapter-banner.first { margin-top: 8px !important; }
+    .gl-chapter-banner .gl-chapter-title { font-size: 1.15rem !important; }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="../../index.html" class="nav-logo">
+        <img src="../../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+        <span class="nav-logo-text">聖路加国際病院ICU</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-menu" id="navMenu"></ul>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="subpage-hero hero-image-bg">
+    <div class="container" style="padding:48px 24px 40px;">
+      <div style="max-width:860px;margin:0 auto;">
+        <a href="../schedule-weekly-id-icu.html#id-organ" class="back-link">← ID×ICUカンファレンス 一覧へ戻る</a>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin:14px 0 14px;">
+          <span class="ie-badge">ID×ICU カンファレンス</span>
+          <span class="ie-badge">2025年6月18日</span>
+          <span class="ie-badge">感染症 / 呼吸器</span>
+        </div>
+        <h1 style="font-size:clamp(1.2rem,3vw,1.7rem);font-weight:900;line-height:1.4;margin:0 0 10px;">
+          VAP（人工呼吸器関連肺炎）— 板書ノート<br>
+          <span style="font-size:0.85rem;font-weight:600;">起因菌（GNR・GPC・GPR・嫌気性菌・真菌）／ 治療薬選択 ／ 投与期間</span>
+        </h1>
+        <p style="font-size:0.85rem;margin:0;">
+          講義：森先生 ／ レジュメ作成：ICU 関谷
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== MAIN CONTAINER ===== -->
+  <div class="container" style="max-width:1294px;margin:0 auto;padding:32px 20px;">
+    <div class="ie-page-flex">
+
+      <!-- ===== MAIN CONTENT ===== -->
+      <div class="ie-main-col">
+
+        <!-- 録画リンク -->
+        <div class="note-actions">
+          <a href="https://lukemcmi-my.sharepoint.com/:v:/g/personal/sekisato_luke_ac_jp/IQDh26QpBZ_KQb2cgq2Jg1dLAYbx9IJhvVo9vO1pLcIFBmE?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=BdTavE" target="_blank" rel="noopener" class="note-btn-video"><span style="font-size:0.7rem;">▶</span>レクチャー動画を視聴</a>
+        </div>
+
+        <!-- 略語一覧 -->
+        <div class="card" style="margin-top:20px;margin-bottom:24px;">
+          <div class="card-inner">
+            <h3 class="rule-title">本ページで使用する略語一覧</h3>
+            <table style="width:100%;border-collapse:collapse;font-size:0.78rem;line-height:1.6;color:#475569;">
+              <tbody>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:140px;color:var(--blue);">VAP</td><td style="padding:4px 8px;">Ventilator-Associated Pneumonia — 人工呼吸器関連肺炎</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">HAP / CAP</td><td style="padding:4px 8px;">Hospital- / Community-Acquired Pneumonia</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">HCAP / NHCAP</td><td style="padding:4px 8px;">Healthcare-Associated / Nursing and HCAP</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">MDR</td><td style="padding:4px 8px;">Multi-Drug Resistant — 多剤耐性</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">GNR / GPC / GPR</td><td style="padding:4px 8px;">Gram-Negative Rod / Positive Coccus / Positive Rod</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">AmpC / ESBL</td><td style="padding:4px 8px;">AmpC β-lactamase / Extended-Spectrum β-Lactamase</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">VGS / CoNS</td><td style="padding:4px 8px;">Viridans Group Streptococci / Coagulase-Negative Staphylococci</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CRBSI / CAUTI</td><td style="padding:4px 8px;">Catheter-Related BSI / Catheter-Associated UTI</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">HIS</td><td style="padding:4px 8px;">Hyper Infection Syndrome — 糞線虫過剰感染症候群</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">HTLV-1</td><td style="padding:4px 8px;">Human T-cell Leukemia Virus type 1</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CAPA / IAPA</td><td style="padding:4px 8px;">COVID-19 / Influenza-Associated Pulmonary Aspergillosis</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">PIPC/TAZ / CFPM</td><td style="padding:4px 8px;">Piperacillin/Tazobactam / Cefepime</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">VCM / LZD / TZD / DAP</td><td style="padding:4px 8px;">Vancomycin / Linezolid / Tedizolid / Daptomycin</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CLDM / ABPC/SBT / MEPM</td><td style="padding:4px 8px;">Clindamycin / Ampicillin/Sulbactam / Meropenem</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">ST / LVFX / MINO</td><td style="padding:4px 8px;">Sulfamethoxazole/Trimethoprim / Levofloxacin / Minocycline</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">PCT / BAL</td><td style="padding:4px 8px;">Procalcitonin / Bronchoalveolar Lavage</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">TSS</td><td style="padding:4px 8px;">Toxic Shock Syndrome</td></tr>
+                <tr><td style="padding:4px 8px;font-weight:700;color:var(--blue);">SSC / SSRI / MAOI</td><td style="padding:4px 8px;">Surviving Sepsis Campaign / Selective SRI / Monoamine Oxidase Inhibitor</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- 第1章 -->
+        <!-- ═══════════════════════════════════════ -->
+        <div id="ch1" class="gl-chapter-banner first">
+          <div class="gl-chapter-title">第1章　VAP とは</div>
+          <div class="gl-chapter-subtitle">Definition & Classification of VAP</div>
+        </div>
+
+        <h3 id="ch1-s1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 1</span>
+          肺炎の分類と VAP の定義
+        </h3>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">VAP の位置づけ</h3>
+            <p class="rule-body">肺炎は発症環境により <strong>CAP（市中肺炎）</strong> と <strong>HAP（院内肺炎）</strong> に大別され、HAP のうち気管挿管・人工呼吸管理下に発症するものを <strong>VAP</strong> と呼ぶ。</p>
+            <table class="ie-table">
+              <thead>
+                <tr><th style="width:18%;">分類</th><th>定義</th></tr>
+              </thead>
+              <tbody>
+                <tr><td style="white-space:nowrap;font-weight:700;">CAP</td><td>市中肺炎。入院前または入院 48 時間以内に発症する肺炎。</td></tr>
+                <tr><td style="white-space:nowrap;font-weight:700;">HAP</td><td>院内肺炎。入院 48 時間以降に発症する肺炎（VAP を含む）。</td></tr>
+                <tr>
+                  <td style="white-space:nowrap;font-weight:700;color:#7C3AED;">VAP</td>
+                  <td><strong>気管挿管下で機械的人工呼吸を開始してから 48 時間以上経過した後に発症する肺炎。</strong>HAP の中でも研究の中心であり、ガイドラインで示される HAP も VAP を指すことが多い。</td>
+                </tr>
+                <tr><td style="white-space:nowrap;font-weight:700;color:var(--muted);">non-VAP HAP</td><td>挿管されていない HAP。VAP より起因菌のスペクトラムが穏やか。</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <h3 id="ch1-s2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 2</span>
+          HCAP / NHCAP 概念の動向
+        </h3>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">HCAP の概念は中止された（IDSA/ATS 2016）</h3>
+            <p class="rule-body">IDSA および ATS は 2016 年の院内肺炎・人工呼吸器関連肺炎ガイドラインで「HCAP（Health Care Associated Pneumonia）」概念の採用を中止した。</p>
+
+            <h4 class="sub-head">中止の理由</h4>
+            <ul>
+              <li><strong>HCAP 基準で定義される患者の多くが必ずしも MDR 菌リスクが高いわけではない</strong></li>
+              <li>患者背景や個別のリスク因子の方が重要</li>
+              <li>一律に広域抗菌薬を投与しても予後改善につながらず、むしろ <strong>過剰治療や耐性菌増加のリスク</strong>が指摘された</li>
+            </ul>
+            <p class="rule-body">日本独自の NHCAP も、HCAP の問題点を踏まえて導入されたが、同様に <strong>患者背景やリスク因子の個別評価が重視される流れ</strong>となっている。</p>
+          </div>
+        </div>
+
+        <h3 id="ch1-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SUMMARY</span>
+          第1章のキーメッセージ
+        </h3>
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+                <span class="rule-body"><strong>VAP の定義：</strong>気管挿管下の機械的人工呼吸開始から <strong>48 時間以降</strong>に発症する肺炎。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+                <span class="rule-body"><strong>HAP ≒ VAP：</strong>研究・ガイドラインの HAP 推奨は実質 VAP を対象とする。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+                <span class="rule-body"><strong>HCAP 概念は中止（IDSA/ATS 2016）：</strong>一律広域投与ではなく <strong>患者背景・個別リスク</strong>の評価が重要。</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- 第2章 -->
+        <!-- ═══════════════════════════════════════ -->
+        <div id="ch2" class="gl-chapter-banner">
+          <div class="gl-chapter-title">第2章　VAP の起因菌</div>
+          <div class="gl-chapter-subtitle">Causative Organisms of VAP</div>
+        </div>
+
+        <h3 id="ch2-s1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 1</span>
+          GNR（グラム陰性桿菌）
+        </h3>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">GNR の主な分類</h3>
+            <p class="rule-body">VAP の GNR は大きく <strong>腸内細菌</strong>（Enterobacteriaceae）と <strong>非発酵菌</strong>（Glucose non-fermenting）に分けられる。</p>
+
+            <h4 class="sub-head">Enterobacteriaceae（腸内細菌）</h4>
+            <ul class="organism-list">
+              <li><em>E. coli</em></li>
+              <li><em>Klebsiella pneumoniae</em><span class="note-mini">oxytoca / granulomatis</span></li>
+              <li><em>Proteus mirabilis</em><span class="note-mini">vulgaris、swarming で培地に円を描く</span></li>
+            </ul>
+
+            <h4 class="sub-head">Glucose non-fermenting（ブドウ糖非発酵菌）</h4>
+            <ul class="organism-list">
+              <li><em>Pseudomonas aeruginosa</em><span class="note-mini">オキシダーゼ陽性</span></li>
+              <li><em>Acinetobacter baumannii</em></li>
+              <li><em>Stenotrophomonas maltophilia</em><span class="note-mini">MEPM 耐性、1st ST 合剤、2nd LVFX/MINO</span></li>
+            </ul>
+
+            <h4 class="sub-head">医療関連感染で問題となる GNR</h4>
+            <ul class="organism-list">
+              <li><em>Serratia</em></li>
+              <li><em>Pseudomonas</em></li>
+              <li><em>Acinetobacter</em></li>
+              <li><em>Citrobacter</em></li>
+              <li><em>Enterobacter</em></li>
+            </ul>
+            <p class="rule-body" style="margin-top:6px;">→ <strong>SPACE</strong> として暗記（次の項目）</p>
+
+            <h4 class="sub-head">AmpC 産生菌</h4>
+            <ul class="organism-list">
+              <li><em>Acinetobacter</em></li>
+              <li><em>Morganella morganii</em></li>
+              <li><em>Pseudomonas</em></li>
+              <li><em>Providencia</em></li>
+              <li><em>Citrobacter</em></li>
+              <li><em>Hafnia</em></li>
+              <li><em>Enterobacter</em></li>
+              <li><em>Serratia</em></li>
+            </ul>
+            <div class="keypoint" style="margin-top:8px;">
+              <strong>第3世代セフェム耐性となるため、CFPM（第4世代）またはカルバペネムを選択する。</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">SPACE — VAP で押さえるべき GNR</h3>
+            <p class="rule-body">医療関連感染の原因となる GNR は <strong>SPACE</strong> の頭文字で覚える。さらに <em>Stenotrophomonas maltophilia</em> も VAP で重要。</p>
+            <div class="space-emph">
+              <div class="space-emph-title">✓ SPACE</div>
+              <div class="space-row"><span class="acro">S</span><em>Serratia</em></div>
+              <div class="space-row"><span class="acro">P</span><em>Pseudomonas aeruginosa</em></div>
+              <div class="space-row"><span class="acro">A</span><em>Acinetobacter</em></div>
+              <div class="space-row"><span class="acro">C</span><em>Citrobacter</em></div>
+              <div class="space-row"><span class="acro">E</span><em>Enterobacter</em></div>
+              <div class="space-foot">＋ <em>Stenotrophomonas maltophilia</em>（非発酵菌）</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">大腸菌 + 糞線虫（Strongyloides）— Hyper Infection Syndrome</h3>
+            <p class="rule-body"><em>E. coli</em> が <strong>喀痰培養や髄液培養など予期せぬ培養から検出された場合</strong>、糞線虫（Strongyloides）の関与を考える。</p>
+
+            <h4 class="sub-head">糞線虫の特徴</h4>
+            <ul>
+              <li><strong>沖縄出身</strong>に多い（地域歴を必ず確認）</li>
+              <li><strong>経皮感染</strong>をする → 腸管に生息</li>
+              <li>感染すると腸管に生息</li>
+            </ul>
+
+            <h4 class="sub-head">HIS（Hyper Infection Syndrome）</h4>
+            <p class="rule-body">免疫抑制（ステロイド・HTLV-1・造血幹細胞移植・臓器移植・悪性腫瘍など細胞性免疫低下）を契機に <strong>自家感染サイクルが急激に亢進</strong>。腸管および肺を中心に幼虫が著増する重篤病態。糞線虫に付着した <em>E. coli</em> が臓器に移動するため、予期せぬ培養から検出される。</p>
+
+            <h4 class="sub-head">対応</h4>
+            <ul>
+              <li>疑わしい場合は <strong>BAL</strong>（気管支肺胞洗浄）を行う</li>
+              <li>BAL が行えない施設では <strong>イベルメクチン投与</strong></li>
+            </ul>
+            <p class="citation" style="margin-top:4px;"><a href="https://pubmed.ncbi.nlm.nih.gov/?term=Buonfrate+D+Clin+Microbiol+Rev+2023+strongyloides+hyperinfection" target="_blank" rel="noopener" style="color:#7C3AED;font-weight:600;">Buonfrate D et al. Clin Microbiol Rev 2023; 36(4): e0003323 ↗</a></p>
+          </div>
+        </div>
+
+        <h3 id="ch2-s2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 2</span>
+          GPC（グラム陽性球菌）
+        </h3>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">GPC の系統分類 — Cluster vs Chain</h3>
+            <p class="rule-body">グラム染色での配列と溶血パターンで属を分類する。VAP で重要なのは <strong>S. aureus（MSSA / MRSA）</strong>、<strong>S. pneumoniae</strong>、<strong>VGS</strong>。</p>
+
+            <h4 class="sub-head">Cluster — Staphylococcus（ブドウ状）</h4>
+            <ul class="organism-list">
+              <li><strong>S. aureus（MSSA / MRSA）</strong><span class="note-mini">コアグラーゼ陽性、VAP の重要起因菌</span></li>
+              <li><em>S. epidermidis</em><span class="note-mini">CoNS、皮膚常在菌</span></li>
+              <li><em>S. saprophyticus</em><span class="note-mini">CoNS、若年女性の UTI</span></li>
+              <li><em>S. lugdunensis</em><span class="note-mini">CoNS だが S. aureus に近似する病原性</span></li>
+            </ul>
+
+            <h4 class="sub-head">Chain — Streptococcus α 溶血（不完全）</h4>
+            <ul class="organism-list">
+              <li><strong>S. pneumoniae</strong></li>
+              <li><em>S. anginosus</em><span class="note-mini">膿瘍を形成しやすい</span></li>
+              <li><em>S. constellatus</em></li>
+              <li><em>S. intermedius</em></li>
+              <li><em>S. mitis</em></li>
+              <li><em>S. sanguinis</em></li>
+              <li><em>S. gordonii</em></li>
+              <li><em>S. oralis</em></li>
+              <li><em>S. mutans</em></li>
+              <li><em>S. sobrinus</em></li>
+              <li><em>S. salivarius</em></li>
+              <li><em>S. bovis</em></li>
+            </ul>
+            <p class="rule-body" style="margin-top:4px;font-size:0.82rem;">上記をまとめて <strong>VGS（Viridans Group Streptococci）</strong>と呼ぶ。</p>
+
+            <h4 class="sub-head">Chain — Streptococcus β 溶血（完全）</h4>
+            <ul class="organism-list">
+              <li><strong>Group A（GAS）</strong> <em>S. pyogenes</em><span class="note-mini">咽頭炎・蜂窩織炎</span></li>
+              <li><strong>Group B（GBS）</strong> <em>S. agalactiae</em><span class="note-mini">新生児・成人重症化</span></li>
+              <li><strong>Group C（GCS）</strong></li>
+              <li><strong>Group G（GGS）</strong> <em>S. dysgalactiae</em></li>
+            </ul>
+
+            <h4 class="sub-head">Chain — Streptococcus γ 溶血（非溶血）</h4>
+            <ul class="organism-list">
+              <li><em>Enterococcus faecalis</em><span class="note-mini">1st: ABPC</span></li>
+              <li><em>Enterococcus faecium</em><span class="note-mini">1st: VCM</span></li>
+              <li><em>S. gallolyticus</em><span class="note-mini">大腸癌との関連 — 検出時は必ず大腸癌を検索</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <h3 id="ch2-s3" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 3</span>
+          GPR — Corynebacterium 検出時の対応
+        </h3>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">主な菌種</h3>
+            <ul class="organism-list">
+              <li><em>Corynebacterium striatum</em><span class="note-mini">VAP・院内感染で問題となる主要菌</span></li>
+              <li><em>Corynebacterium jeikeium</em><span class="note-mini">カテーテル関連感染・免疫不全患者で問題</span></li>
+              <li><em>Corynebacterium ulcerans</em><span class="note-mini">ジフテリア様病態</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">検出時の対応 — Contamination か True Infection か</h3>
+            <p class="rule-body">前提として <strong>皮膚・口腔内の常在菌</strong>。血液培養陽性となっても患者を死に至らしめる程の毒性はない。</p>
+
+            <h4 class="sub-head">対応フロー</h4>
+            <ul>
+              <li>喀痰のみ → <strong>contamination として様子見</strong></li>
+              <li>抗菌薬投与後も検出継続 + 免疫抑制患者 + VAP がある場合
+                <ul style="list-style:circle;padding-left:24px;margin-top:4px;">
+                  <li>特に <em>C. striatum</em> / <em>jeikeium</em> → <strong>VCM 投与を検討</strong></li>
+                </ul>
+              </li>
+              <li>血液培養 <strong>複数本陽性</strong> → True Infection として治療</li>
+              <li>CRBSI / CAUTI の起因菌になることもある</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3 id="ch2-s4" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 4</span>
+          嫌気性菌
+        </h3>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">VAP で関与する嫌気性菌</h3>
+            <ul class="organism-list">
+              <li><em>Peptostreptococcus</em></li>
+              <li><em>Peptococcus</em></li>
+              <li><em>Fusobacterium</em><span class="note-mini">Lemierre 症候群の原因菌（下記）</span></li>
+              <li><em>Actinomyces</em></li>
+              <li><em>Clostridium</em></li>
+              <li><em>Bacteroides</em></li>
+              <li><em>Prevotella</em></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">Lemierre 症候群</h3>
+            <p class="rule-body">咽頭炎などの感染症を先行感染として、<strong>内頸静脈の化膿性血栓性静脈炎</strong>や敗血症、さらには肺・関節などの遠隔臓器への <strong>転移性感染</strong>をきたす症候群。</p>
+
+            <h4 class="sub-head">原因菌</h4>
+            <ul>
+              <li><em>Fusobacterium</em>（主因）</li>
+              <li>他の嫌気性菌、Streptococcus 属も原因となる</li>
+            </ul>
+
+            <h4 class="sub-head">治療</h4>
+            <p class="rule-body"><strong>ABPC/SBT が著効</strong>する。</p>
+          </div>
+        </div>
+
+        <h3 id="ch2-s5" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 5</span>
+          真菌
+        </h3>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">Candida vs Aspergillus</h3>
+
+            <h4 class="sub-head">Candida</h4>
+            <p class="rule-body">血液内科の移植後患者で報告があるものの、<strong>通常は VAP の起因菌とはならない</strong>。喀痰培養での Candida は基本的に治療しない。</p>
+
+            <h4 class="sub-head">Aspergillus</h4>
+            <p class="rule-body">ICU 領域においては、以下の病態で問題となる。</p>
+            <ul>
+              <li><strong>CAPA</strong>（COVID-19-Associated Pulmonary Aspergillosis）</li>
+              <li><strong>IAPA</strong>（Influenza-Associated Pulmonary Aspergillosis）</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3 id="ch2-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SUMMARY</span>
+          第2章のキーメッセージ
+        </h3>
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+                <span class="rule-body"><strong>SPACE（Serratia / Pseudomonas / Acinetobacter / Citrobacter / Enterobacter）+ Stenotrophomonas</strong> が VAP の重要 GNR。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+                <span class="rule-body"><strong>大腸菌が予期せぬ培養から検出されたら糞線虫を疑う：</strong>沖縄歴・免疫抑制歴を確認、BAL またはイベルメクチン。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+                <span class="rule-body"><strong>GPC で重要：</strong>S. aureus、S. pneumoniae、VGS。<em>S. gallolyticus</em> は大腸癌検索。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+                <span class="rule-body"><strong>Corynebacterium：</strong>原則 contamination。<strong>免疫抑制 + VAP かつ抗菌薬投与後も検出継続</strong>なら VCM 検討。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+                <span class="rule-body"><strong>Lemierre 症候群（Fusobacterium）：</strong>咽頭炎 → 内頸静脈血栓性静脈炎 → 転移性肺感染。<strong>ABPC/SBT 著効</strong>。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑥</span>
+                <span class="rule-body"><strong>真菌：</strong>Candida は VAP 起因菌ではない。Aspergillus は <strong>CAPA / IAPA</strong> として問題。</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- 第3章 -->
+        <!-- ═══════════════════════════════════════ -->
+        <div id="ch3" class="gl-chapter-banner">
+          <div class="gl-chapter-title">第3章　VAP の治療薬</div>
+          <div class="gl-chapter-subtitle">Antibiotics for VAP</div>
+        </div>
+
+        <h3 id="ch3-s1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 1</span>
+          GNR への治療薬
+        </h3>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">経験的 GNR カバー</h3>
+            <p class="rule-body">VAP の経験的治療では <strong>PIPC/TAZ または CFPM</strong> を選択する。SPACE/AmpC 産生菌に対し第3世代セフェムでは耐性誘導されるため、第4世代（CFPM）または PIPC/TAZ を用いる。</p>
+            <table class="ie-table">
+              <thead>
+                <tr><th style="width:34%;">薬剤</th><th>カバースペクトラム</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="white-space:nowrap;font-weight:700;">PIPC/TAZ<br><span style="font-size:0.72rem;color:var(--muted);font-weight:400;">ピペラシリン/タゾバクタム</span></td>
+                  <td>緑膿菌を含む GNR + βLI 併用で嫌気性菌・βラクタマーゼ産生菌</td>
+                </tr>
+                <tr>
+                  <td style="white-space:nowrap;font-weight:700;">CFPM<br><span style="font-size:0.72rem;color:var(--muted);font-weight:400;">セフェピム</span></td>
+                  <td>緑膿菌・SPACE/AmpC 産生菌をカバー（第4世代セフェム）</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <h3 id="ch3-s2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 2</span>
+          GPC への治療薬（DAP / LZD / TZD）
+        </h3>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">3 剤の使い分け早見表</h3>
+            <table class="ie-table">
+              <thead>
+                <tr><th style="width:20%;">薬剤</th><th style="width:22%;">VAP 適応</th><th>備考</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="white-space:nowrap;font-weight:700;">Daptomycin</td>
+                  <td style="color:#DC2626;font-weight:700;">不適</td>
+                  <td>肺サーファクタントで不活化される</td>
+                </tr>
+                <tr>
+                  <td style="white-space:nowrap;font-weight:700;">Linezolid</td>
+                  <td style="color:#16A34A;font-weight:700;">適応あり</td>
+                  <td>BA 100%、髄液移行最高、副作用に注意</td>
+                </tr>
+                <tr>
+                  <td style="white-space:nowrap;font-weight:700;">Tedizolid</td>
+                  <td style="color:#16A34A;font-weight:700;">適応あり</td>
+                  <td>1日1回投与、副作用少ない</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <!-- ─── 共通テンプレート 1：Daptomycin ─── -->
+            <div class="drug-block">
+              <div class="drug-block-head">
+                <span class="drug-jp">Daptomycin</span><span class="drug-en">ダプトマイシン</span>
+                <span class="drug-vap-tag unfit">VAP 不適</span>
+              </div>
+              <div class="drug-block-body">
+                <div class="drug-section">
+                  <div class="drug-section-title">特徴</div>
+                  <ul>
+                    <li>Gram 陽性菌の <strong>細胞膜に作用し脱分極を誘導</strong> → 蛋白・DNA・RNA 合成を阻害</li>
+                    <li>肺への移行性は良い（血行感染による肺感染症には有効）</li>
+                  </ul>
+                </div>
+                <div class="drug-section">
+                  <div class="drug-section-title">VAP での使用</div>
+                  <div class="danger">
+                    <strong>肺サーファクタントで不活化されるため、経気道感染をする VAP では治療選択肢にならない。</strong>
+                  </div>
+                </div>
+                <div class="drug-section">
+                  <div class="drug-section-title">副作用</div>
+                  <ul>
+                    <li>好酸球性肺炎（原因不明の発熱・呼吸状態悪化で考慮）</li>
+                    <li>CK 上昇（横紋筋融解症リスク）</li>
+                    <li>INR 偽延長（検査値解釈に注意）</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- ─── 共通テンプレート 2：Linezolid ─── -->
+            <div class="drug-block">
+              <div class="drug-block-head">
+                <span class="drug-jp">Linezolid</span><span class="drug-en">リネゾリド</span>
+                <span class="drug-vap-tag fit">VAP 適応</span>
+              </div>
+              <div class="drug-block-body">
+                <div class="drug-section">
+                  <div class="drug-section-title">特徴</div>
+                  <ul>
+                    <li>CLDM 同様 TSS で <strong>毒素産生を抑える</strong>効果</li>
+                    <li><strong>Bioavailability 100%</strong>（経口・静注同等）</li>
+                    <li><strong>髄液移行性は全抗菌薬中最高（90%）</strong></li>
+                    <li>溶媒 1 回 300 mL と多く、<strong>1 日 2 回投与が原則</strong></li>
+                  </ul>
+                </div>
+                <div class="drug-section">
+                  <div class="drug-section-title">副作用</div>
+                  <table class="ie-table">
+                    <thead>
+                      <tr><th style="width:32%;">副作用</th><th style="width:24%;">出現時期</th><th>備考</th></tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td style="font-weight:700;color:#DC2626;">血小板減少</td>
+                        <td>7 日以上で有意上昇<br>10/14 日でさらに増加</td>
+                        <td>長期投与時は連日 PLT モニタリング</td>
+                      </tr>
+                      <tr>
+                        <td style="font-weight:700;color:#DC2626;">視神経炎・失明</td>
+                        <td>長期投与</td>
+                        <td><strong>不可逆性</strong>のため早期発見が重要</td>
+                      </tr>
+                      <tr>
+                        <td style="font-weight:700;color:#DC2626;">セロトニン症候群</td>
+                        <td>早期</td>
+                        <td>SSRI / MAOI との併用は <strong>禁忌</strong></td>
+                      </tr>
+                      <tr>
+                        <td style="font-weight:700;">消化器症状・皮疹</td>
+                        <td>—</td>
+                        <td>頻度は低い</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="drug-section">
+                  <div class="drug-section-title">臨床試験：VCM vs LZD（Zephyr 試験）</div>
+                  <p class="rule-body">リネゾリドが MRSA 院内肺炎において <strong>臨床的有効性が有意に高い</strong>ことが示された。</p>
+                  <table class="ie-table">
+                    <thead>
+                      <tr><th style="width:38%;">アウトカム</th><th>結果</th></tr>
+                    </thead>
+                    <tbody>
+                      <tr><td style="font-weight:700;">治癒率（Clinical success）</td><td><strong>LZD 57.6% vs VCM 46.6%（P = 0.042）</strong> — LZD 優位</td></tr>
+                      <tr><td style="font-weight:700;">腎毒性</td><td><strong>LZD 8.4% vs VCM 18.2%</strong> — LZD 優位</td></tr>
+                      <tr><td style="font-weight:700;">60 日全死亡率</td><td>両群で有意差なし</td></tr>
+                    </tbody>
+                  </table>
+                  <p class="citation" style="margin-top:4px;"><a href="https://pubmed.ncbi.nlm.nih.gov/?term=Chavanet+Med+Mal+Infect+2013+ZEPHyR+linezolid+vancomycin+pneumonia" target="_blank" rel="noopener" style="color:#7C3AED;font-weight:600;">Chavanet P. Med Mal Infect 2013; 43(11-12): 451-5（Zephyr 試験）↗</a></p>
+                </div>
+                <div class="drug-section">
+                  <div class="drug-section-title">臨床試験：LZD vs TZD（VITAL 試験）</div>
+                  <p class="rule-body">テジゾリドのリネゾリドに対する <strong>28 日全死亡率では非劣性</strong>が示されたが、TOC 治癒率では非劣性が証明されなかった。</p>
+                  <table class="ie-table">
+                    <thead>
+                      <tr><th style="width:42%;">アウトカム</th><th style="width:14%;">TZD</th><th style="width:14%;">LZD</th><th>差（CI）</th></tr>
+                    </thead>
+                    <tbody>
+                      <tr><td style="font-weight:700;">28 日 ACM</td><td>28.1%</td><td>26.4%</td><td><strong>−1.8%（−8.2 〜 4.7）</strong> 非劣性</td></tr>
+                      <tr><td style="font-weight:700;">TOC 治癒率</td><td>56.3%</td><td>63.9%</td><td>−7.6%（−15.7 〜 0.5）— 非劣性証明されず</td></tr>
+                      <tr><td style="font-weight:700;">薬剤関連有害事象</td><td>8.1%</td><td>11.9%</td><td>—</td></tr>
+                    </tbody>
+                  </table>
+                  <div class="keypoint">
+                    投薬日数の違い（TZD 7 日 vs LZD 10 日）など、研究設計にツッコミどころがある。
+                  </div>
+                  <p class="citation" style="margin-top:4px;"><a href="https://pubmed.ncbi.nlm.nih.gov/?term=Wunderink+Clin+Infect+Dis+2021+VITAL+tedizolid+linezolid+nosocomial+pneumonia" target="_blank" rel="noopener" style="color:#7C3AED;font-weight:600;">Wunderink RG et al. Clin Infect Dis 2021; 73(3): e710-e718（VITAL 試験）↗</a></p>
+                </div>
+              </div>
+            </div>
+
+            <!-- ─── 共通テンプレート 3：Tedizolid ─── -->
+            <div class="drug-block">
+              <div class="drug-block-head">
+                <span class="drug-jp">Tedizolid</span><span class="drug-en">テジゾリド</span>
+                <span class="drug-vap-tag fit">VAP 適応</span>
+              </div>
+              <div class="drug-block-body">
+                <div class="drug-section">
+                  <div class="drug-section-title">特徴</div>
+                  <ul>
+                    <li><strong>1 日 1 回投与</strong>でよいため、リネゾリドと比較すると <strong>溶媒の輸液負荷が軽減</strong>される</li>
+                    <li><strong>血小板減少などの副作用がリネゾリドと比較して少ない</strong></li>
+                  </ul>
+                </div>
+                <div class="drug-section">
+                  <div class="drug-section-title">VAP での使用</div>
+                  <p class="rule-body">VITAL 試験で 28 日 ACM 非劣性が示されたが、TOC 治癒率では LZD に対する非劣性は証明されていない（上記参照）。</p>
+                </div>
+                <div class="drug-section">
+                  <div class="drug-section-title">副作用</div>
+                  <p class="rule-body">リネゾリドと同系統のため副作用プロファイルは類似するが、<strong>頻度は LZD より低い</strong>。</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h3 id="ch3-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SUMMARY</span>
+          第3章のキーメッセージ
+        </h3>
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+                <span class="rule-body"><strong>GNR 経験的：</strong>PIPC/TAZ または CFPM。SPACE/AmpC を考慮し第3世代セフェムは避ける。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+                <span class="rule-body"><strong>Daptomycin は VAP 不適：</strong>肺移行性は良いが肺サーファクタントで不活化される。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+                <span class="rule-body"><strong>Linezolid：</strong>BA 100%、髄液 90%。副作用は <strong>血小板減少（7日以上↑）・視神経炎（不可逆）・セロトニン症候群（SSRI/MAOI 禁）</strong>。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+                <span class="rule-body"><strong>Zephyr 試験（VCM vs LZD）：</strong>治癒率 57.6% vs 46.6%、腎毒性 8.4% vs 18.2% で <strong>LZD が優位</strong>。60日死亡率は差なし。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+                <span class="rule-body"><strong>Tedizolid：</strong>1 日 1 回・血小板減少が少ない。VITAL 試験は 28日 ACM 非劣性、TOC 治癒率では非劣性証明されず。</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- 第4章 -->
+        <!-- ═══════════════════════════════════════ -->
+        <div id="ch4" class="gl-chapter-banner">
+          <div class="gl-chapter-title">第4章　治療期間と PCT による de-escalation</div>
+          <div class="gl-chapter-subtitle">Treatment Duration & PCT-guided De-escalation</div>
+        </div>
+
+        <h3 id="ch4-s1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 1</span>
+          抗菌薬投与期間
+        </h3>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">原則 7 日間 — 非発酵性 GNR は 14 日考慮</h3>
+            <table class="ie-table">
+              <thead>
+                <tr><th style="width:34%;">対象</th><th style="width:18%;">期間</th><th>根拠</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="white-space:nowrap;font-weight:700;">VAP 一般</td>
+                  <td style="white-space:nowrap;font-weight:700;color:#7C3AED;">7 日間</td>
+                  <td>標準。短期と長期で予後に差なし。</td>
+                </tr>
+                <tr>
+                  <td style="white-space:nowrap;font-weight:700;">非発酵性 GNR<br><span style="font-size:0.72rem;color:var(--muted);font-weight:400;">P. aeruginosa<br>Acinetobacter spp.</span></td>
+                  <td style="white-space:nowrap;font-weight:700;color:#DC2626;">14 日考慮</td>
+                  <td><strong>短期治療群で再発率がやや高い傾向</strong>。</td>
+                </tr>
+              </tbody>
+            </table>
+            <p class="citation" style="margin-top:4px;"><a href="https://pubmed.ncbi.nlm.nih.gov/?term=Chastre+JAMA+2003+ventilator+associated+pneumonia+8+15+days+duration" target="_blank" rel="noopener" style="color:#7C3AED;font-weight:600;">Chastre J et al. JAMA 2003; 290(19): 2588-2598 ↗</a></p>
+            <div class="keypoint">
+              <strong>誤嚥性肺炎では嫌気性菌カバーを含めない</strong>のが世界的トレンド（腸内細菌叢の多様性が失われるため）。<strong>VAP 発症予防の抗菌薬投与は行わない</strong>。
+            </div>
+          </div>
+        </div>
+
+        <h3 id="ch4-s2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 2</span>
+          PCT による de-escalation
+        </h3>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">SSC GL の立場と実用的な使い方</h3>
+
+            <h4 class="sub-head">SSC ガイドラインの推奨</h4>
+            <p class="rule-body">抗菌薬の中止判断において、米国 IDSA / SCCM の <strong>Surviving Sepsis Campaign ガイドライン</strong>では、<strong>PCT を抗菌薬開始の指標として routine で用いることは推奨されていない</strong>。</p>
+
+            <h4 class="sub-head">投与期間短縮の目安</h4>
+            <p class="rule-body">ただし、PCT 値の低下を目安にすることで <strong>抗菌薬投与期間を短縮できる可能性</strong>があり、患者アウトカムに悪影響を及ぼさないことが <strong>複数のランダム化比較試験で示唆</strong>されている。</p>
+            <table class="ie-table">
+              <thead>
+                <tr><th style="width:40%;">指標</th><th>カットオフ</th></tr>
+              </thead>
+              <tbody>
+                <tr><td style="font-weight:700;">PCT 絶対値</td><td><strong>&lt; 0.5 ng/mL</strong></td></tr>
+                <tr><td style="font-weight:700;">PCT ピーク値からの低下率</td><td><strong>≥ 80% 減少</strong></td></tr>
+              </tbody>
+            </table>
+            <p class="citation" style="margin-top:4px;"><a href="https://pubmed.ncbi.nlm.nih.gov/?term=Stolz+Eur+Respir+J+2009+procalcitonin+ventilator+associated+pneumonia" target="_blank" rel="noopener" style="color:#7C3AED;font-weight:600;">Stolz D et al. Eur Respir J 2009; 34(6): 1364-75 ↗</a></p>
+            <div class="keypoint">
+              <strong>PCT は単独で用いず、必ず臨床所見・微生物学的検査と組み合わせて総合的に判断</strong>する。
+            </div>
+          </div>
+        </div>
+
+        <h3 id="ch4-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SUMMARY</span>
+          第4章のキーメッセージ
+        </h3>
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+                <span class="rule-body"><strong>VAP の標準投与期間は 7 日間（Chastre 2003）。</strong></span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+                <span class="rule-body"><strong>非発酵性 GNR（Pseudomonas、Acinetobacter）では 14 日考慮</strong>（再発率が高い傾向）。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+                <span class="rule-body"><strong>誤嚥性肺炎で嫌気性菌カバーは含めない</strong>（腸内細菌叢の多様性保護）。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+                <span class="rule-body"><strong>VAP 発症予防の抗菌薬投与は行わない。</strong></span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+                <span class="rule-body"><strong>SSC GL では PCT routine 使用は非推奨。</strong>抗菌薬開始の指標としては用いない。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑥</span>
+                <span class="rule-body"><strong>de-escalation の目安：PCT &lt; 0.5 ng/mL またはピーク値から 80% 以上減少</strong>。臨床所見・培養と総合判断。</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 出典・注記 -->
+        <p style="font-size:0.72rem;color:#9CA3AF;margin-top:32px;line-height:1.7;">
+          本ページは ID×ICUカンファレンス（森先生 ／ 2025-06-18）の板書ノートです。実際の診療判断は患者個別の状況に応じて行ってください。
+        </p>
+        <p style="font-size:0.72rem;color:#9CA3AF;margin-top:8px;line-height:1.85;">
+          <strong>主な引用文献：</strong><br>
+          ・<a href="https://pubmed.ncbi.nlm.nih.gov/?term=Chastre+JAMA+2003+ventilator+associated+pneumonia+8+15+days+duration" target="_blank" rel="noopener" style="color:#7C3AED;">Chastre J et al. <em>JAMA</em> 2003; 290(19): 2588-2598 ↗</a><br>
+          ・<a href="https://pubmed.ncbi.nlm.nih.gov/?term=Chavanet+Med+Mal+Infect+2013+ZEPHyR+linezolid+vancomycin+pneumonia" target="_blank" rel="noopener" style="color:#7C3AED;">Chavanet P. <em>Med Mal Infect</em> 2013; 43(11-12): 451-5（Zephyr 試験）↗</a><br>
+          ・<a href="https://pubmed.ncbi.nlm.nih.gov/?term=Stolz+Eur+Respir+J+2009+procalcitonin+ventilator+associated+pneumonia" target="_blank" rel="noopener" style="color:#7C3AED;">Stolz D et al. <em>Eur Respir J</em> 2009; 34(6): 1364-75（PCT ガイド）↗</a><br>
+          ・<a href="https://pubmed.ncbi.nlm.nih.gov/?term=Wunderink+Clin+Infect+Dis+2021+VITAL+tedizolid+linezolid+nosocomial+pneumonia" target="_blank" rel="noopener" style="color:#7C3AED;">Wunderink RG et al. <em>Clin Infect Dis</em> 2021; 73(3): e710-e718（VITAL 試験）↗</a><br>
+          ・<a href="https://pubmed.ncbi.nlm.nih.gov/?term=Buonfrate+D+Clin+Microbiol+Rev+2023+strongyloides+hyperinfection" target="_blank" rel="noopener" style="color:#7C3AED;">Buonfrate D et al. <em>Clin Microbiol Rev</em> 2023; 36(4): e0003323（糞線虫 HIS）↗</a>
+        </p>
+        <p style="font-size:0.75rem;color:var(--muted);text-align:right;margin-top:8px;">講義：森先生 ／ レジュメ作成：ICU 関谷</p>
+
+      </div><!-- /ie-main-col -->
+
+      <!-- ===== SIDEBAR TOC ===== -->
+      <aside class="ie-sidebar">
+        <div class="ie-sidebar-card">
+          <div class="ie-sidebar-title">目次</div>
+          <a href="#ch1" class="ie-toc-chapter">第1章　VAP とは</a>
+          <a href="#ch1-s1" class="ie-toc-section">S1 — 肺炎の分類と VAP の定義</a>
+          <a href="#ch1-s2" class="ie-toc-section">S2 — HCAP / NHCAP の動向</a>
+          <a href="#ch1-summary" class="ie-toc-section">SUMMARY</a>
+          <a href="#ch2" class="ie-toc-chapter">第2章　VAP の起因菌</a>
+          <a href="#ch2-s1" class="ie-toc-section">S1 — GNR（SPACE・糞線虫）</a>
+          <a href="#ch2-s2" class="ie-toc-section">S2 — GPC（系統分類）</a>
+          <a href="#ch2-s3" class="ie-toc-section">S3 — GPR（Corynebacterium）</a>
+          <a href="#ch2-s4" class="ie-toc-section">S4 — 嫌気性菌（Lemierre）</a>
+          <a href="#ch2-s5" class="ie-toc-section">S5 — 真菌（CAPA / IAPA）</a>
+          <a href="#ch2-summary" class="ie-toc-section">SUMMARY</a>
+          <a href="#ch3" class="ie-toc-chapter">第3章　VAP の治療薬</a>
+          <a href="#ch3-s1" class="ie-toc-section">S1 — GNR への治療薬</a>
+          <a href="#ch3-s2" class="ie-toc-section">S2 — GPC（DAP / LZD / TZD）</a>
+          <a href="#ch3-summary" class="ie-toc-section">SUMMARY</a>
+          <a href="#ch4" class="ie-toc-chapter">第4章　治療期間と PCT</a>
+          <a href="#ch4-s1" class="ie-toc-section">S1 — 抗菌薬投与期間</a>
+          <a href="#ch4-s2" class="ie-toc-section">S2 — PCT de-escalation</a>
+          <a href="#ch4-summary" class="ie-toc-section">SUMMARY</a>
+        </div>
+      </aside>
+
+    </div><!-- /ie-page-flex -->
+  </div>
+
+  <script src="../../script.js"></script>
+  <script src="../../abbr-tooltip.js"></script>
+</body>
+</html>
