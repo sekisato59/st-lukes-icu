@@ -246,6 +246,78 @@
     .drug-block-body .keypoint,
     .drug-block-body .danger { font-size: 0.82rem; }
 
+    /* ====== 腎機能補正テーブル（GCV / FOS） ====== */
+    .renal-block {
+      background: #FAFBFC;
+      border: 1px solid #DDD6FE;
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin: 8px 0;
+    }
+    .renal-block-title {
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: #4C1D95;
+      margin-bottom: 6px;
+      padding-bottom: 4px;
+      border-bottom: 1px solid #DDD6FE;
+      letter-spacing: 0.02em;
+    }
+    .renal-block-title::before {
+      content: '腎';
+      display: inline-block;
+      background: #7C3AED;color: #fff;
+      font-size: 0.62rem;font-weight: 800;
+      padding: 1px 6px;border-radius: 3px;
+      margin-right: 8px;
+      letter-spacing: 0.04em;
+      vertical-align: 1px;
+    }
+    table.renal-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.78rem;
+      line-height: 1.55;
+      margin: 4px 0;
+    }
+    table.renal-table thead th {
+      background: #F5F3FF;
+      color: #4C1D95;
+      font-weight: 800;
+      padding: 5px 8px;
+      text-align: left;
+      border-bottom: 1px solid #C4B5FD;
+      font-size: 0.74rem;
+    }
+    table.renal-table tbody td {
+      padding: 5px 8px;
+      border-bottom: 1px dashed #E9D5FF;
+      vertical-align: top;
+      color: #475569;
+    }
+    table.renal-table tbody tr:last-child td { border-bottom: none; }
+    table.renal-table tbody tr:hover td { background: #FAFAFC; }
+    table.renal-table .crcl {
+      font-family: ui-monospace,Menlo,Consolas,monospace;
+      font-weight: 700;
+      color: #4C1D95;
+      white-space: nowrap;
+    }
+    table.renal-table .dose-warning {
+      color: #DC2626;
+      font-weight: 700;
+    }
+    .renal-source {
+      font-size: 0.7rem;
+      color: var(--muted);
+      margin-top: 6px;
+      padding-top: 6px;
+      border-top: 1px dotted #E9D5FF;
+      line-height: 1.5;
+    }
+    .renal-source a { color: #7C3AED;text-decoration: none; }
+    .renal-source a:hover { text-decoration: underline; }
+
     /* card 余白 */
     .card .card-inner { padding:14px 18px; }
     .card { margin-bottom:12px !important; }
@@ -753,12 +825,33 @@
               <p><strong style="color:#DC2626;">骨髄抑制による血球減少</strong>が主な副作用。</p>
             </div>
             <div class="drug-section">
-              <div class="drug-section-title">用法・用量</div>
+              <div class="drug-section-title">用法・用量（標準腎機能）</div>
               <ul>
                 <li><strong>初期治療：</strong>5 mg/kg を 12 時間毎、1 日 2 回、2〜3 週間</li>
                 <li><strong>維持治療：</strong>5 mg/kg を週に 7 日、1 日 1 回 ／ または 6 mg/kg を週に 5 日、1 日 1 回</li>
-                <li>腎機能に応じて投与量を調整する</li>
               </ul>
+            </div>
+            <div class="drug-section">
+              <div class="drug-section-title">腎機能別 用量調整（CrCl ベース）</div>
+              <div class="renal-block">
+                <div class="renal-block-title">Ganciclovir CrCl 別投与量（mL/min）</div>
+                <table class="renal-table">
+                  <thead>
+                    <tr><th style="width:24%;">CrCl</th><th>初期治療</th><th>維持治療</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td class="crcl">≥ 70</td><td>5 mg/kg q12h</td><td>5 mg/kg q24h</td></tr>
+                    <tr><td class="crcl">50–69</td><td>2.5 mg/kg q12h</td><td>2.5 mg/kg q24h</td></tr>
+                    <tr><td class="crcl">25–49</td><td>2.5 mg/kg q24h</td><td>1.25 mg/kg q24h</td></tr>
+                    <tr><td class="crcl">10–24</td><td>1.25 mg/kg q24h</td><td>0.625 mg/kg q24h</td></tr>
+                    <tr><td class="crcl">&lt; 10</td><td>1.25 mg/kg<br>週 3 回</td><td>0.625 mg/kg<br>週 3 回</td></tr>
+                    <tr><td class="crcl">HD</td><td colspan="2">1.25 mg/kg 週 3 回（初期）／ 0.625 mg/kg 週 3 回（維持）— <strong>透析後に投与</strong></td></tr>
+                  </tbody>
+                </table>
+                <div class="renal-source">
+                  出典：<a href="https://hokuto.app/antibacterialDrug/NUvyXBXWbHizO7U6Jvq1" target="_blank" rel="noopener">HOKUTO 腎機能別投与量ツール</a>（Sanford Guide 2021・デノシン®添付文書ベース）。実際の投与は施設プロトコル・添付文書を確認すること。
+                </div>
+              </div>
             </div>
             <div class="drug-section">
               <div class="drug-section-title">投与方法</div>
@@ -790,20 +883,49 @@
               </div>
             </div>
             <div class="drug-section">
-              <div class="drug-section-title">用法・用量（造血幹細胞移植における CMV 血症）</div>
-              <ul>
-                <li><strong>初期療法：</strong>60 mg/kg を 12 時間毎に 1 日 2 回、1 時間以上かけて、1〜2 週間点滴静注</li>
-                <li><strong>維持療法：</strong>90〜120 mg/kg を 1 日 1 回、2 時間以上かけて点滴静注</li>
-                <li>維持療法中の再発時は初期療法の用法・用量で再投与可</li>
-                <li>腎機能に応じて投与量を調整する</li>
-              </ul>
+              <div class="drug-section-title">用法・用量（標準腎機能 — 造血幹細胞移植）</div>
+              <table class="ie-table" style="margin-top:6px;">
+                <thead>
+                  <tr><th style="width:32%;">適応</th><th>初期療法</th><th>維持療法</th></tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td style="font-weight:700;color:#7C3AED;white-space:nowrap;">CMV 血症</td>
+                    <td>60 mg/kg q12h（1 時間以上かけて）×1〜2 週</td>
+                    <td>90〜120 mg/kg q24h（2 時間以上かけて）</td>
+                  </tr>
+                  <tr>
+                    <td style="font-weight:700;color:#7C3AED;white-space:nowrap;">CMV 感染症</td>
+                    <td>90 mg/kg q12h（2 時間以上）<br>または 60 mg/kg q8h（1 時間以上）×1〜2 週</td>
+                    <td>90〜120 mg/kg q24h（2 時間以上）</td>
+                  </tr>
+                </tbody>
+              </table>
+              <p style="margin-top:6px;font-size:0.78rem;color:var(--muted);">維持療法中の再発時は初期療法の用法・用量で再投与可。</p>
             </div>
             <div class="drug-section">
-              <div class="drug-section-title">用法・用量（造血幹細胞移植における CMV 感染症）</div>
-              <ul>
-                <li><strong>初期療法：</strong>90 mg/kg を 12 時間毎に 1 日 2 回、2 時間以上かけて<br>または 60 mg/kg を 8 時間毎に 1 日 3 回、1 時間以上かけて 1〜2 週間点滴静注</li>
-                <li><strong>維持療法：</strong>90〜120 mg/kg を 1 日 1 回、2 時間以上かけて点滴静注</li>
-              </ul>
+              <div class="drug-section-title">腎機能別 用量調整（CrCl/体重 ベース）</div>
+              <div class="renal-block">
+                <div class="renal-block-title">Foscarnet CrCl/体重 別投与量（mL/min/kg）</div>
+                <table class="renal-table">
+                  <thead>
+                    <tr><th style="width:18%;">CrCl/kg</th><th>初期療法（2 レジメンから選択）</th><th>維持療法</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td class="crcl">&gt; 1.4</td><td>60 mg/kg q8h ／ 90 mg/kg q12h</td><td>90〜120 mg/kg q24h</td></tr>
+                    <tr><td class="crcl">1.0–1.4</td><td>45 mg/kg q8h ／ 70 mg/kg q12h</td><td>70〜90 mg/kg q24h</td></tr>
+                    <tr><td class="crcl">0.8–1.0</td><td>35 mg/kg q8h ／ 50 mg/kg q12h</td><td>50〜65 mg/kg q24h</td></tr>
+                    <tr><td class="crcl">0.6–0.8</td><td>40 mg/kg q12h ／ 80 mg/kg q24h</td><td>80〜105 mg/kg <strong>q48h</strong></td></tr>
+                    <tr><td class="crcl">0.5–0.6</td><td>30 mg/kg q12h ／ 60 mg/kg q24h</td><td>60〜80 mg/kg q48h</td></tr>
+                    <tr><td class="crcl">0.4–0.5</td><td>25 mg/kg q12h ／ 50 mg/kg q24h</td><td>50〜65 mg/kg q48h</td></tr>
+                    <tr><td class="crcl dose-warning">&lt; 0.4</td><td colspan="2" class="dose-warning"><strong>投与禁止</strong>（腎機能回復まで休薬）</td></tr>
+                  </tbody>
+                </table>
+                <div class="renal-source">
+                  出典：<a href="https://hokuto.app/antibacterialDrug/GjH95HJncKwybyRef8fp" target="_blank" rel="noopener">HOKUTO 腎機能別投与量ツール</a>（ホスカビル®添付文書 第13版／2024年10月改訂ベース）。<br>
+                  <strong>モニタリング：</strong>初期療法期は <strong>少なくとも隔日</strong>、維持療法期は <strong>週に 1 回</strong>の血清クレアチニン測定が必要。<strong>腎保護策：</strong>毎回の投与時に生理食塩水 0.5〜1 L で hydration（最大 2.5 L/日）。
+                </div>
+              </div>
             </div>
           </div>
         </div>
