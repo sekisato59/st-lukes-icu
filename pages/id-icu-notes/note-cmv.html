@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CMV 感染症 — 板書ノート | ID×ICUカンファレンス | 聖路加ICU</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../style-v2.css?v=202605041500">
+  <style>
+    /* ===== ID×ICU 板書ノート 専用テーマ ===== */
+    .gl-chapter-banner {
+      background: linear-gradient(150deg, #2E1065 0%, #6D28D9 100%) !important;
+    }
+    .section-label.icu { color: #7C3AED; }
+
+    /* ===== バナー画像 + テキストオーバーレイ ===== */
+    .cmv-banner {
+      position: relative;
+      width: 100%;
+      max-width: 1294px;
+      margin: 64px auto 0;
+      line-height: 0;
+    }
+    .cmv-banner-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 85%, transparent 100%);
+      mask-image: linear-gradient(to bottom, #000 0%, #000 85%, transparent 100%);
+    }
+    .cmv-banner-overlay {
+      position: absolute;
+      left: 5%;
+      top: 50%;
+      transform: translateY(-50%);
+      max-width: 55%;
+      line-height: 1.4;
+    }
+    .cmv-banner-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+    .cmv-banner-tags span {
+      display: inline-block;
+      background: rgba(245,243,255,0.85);
+      color: #4C1D95;
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 4px;
+      letter-spacing: 0.04em;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
+    .cmv-banner-title {
+      font-size: clamp(1.1rem, 2.6vw, 1.6rem);
+      font-weight: 900;
+      line-height: 1.35;
+      margin: 0 0 6px;
+      color: #4C1D95;
+    }
+    .cmv-banner-sub {
+      font-size: clamp(0.78rem, 1.4vw, 0.92rem);
+      font-weight: 700;
+      color: #6D28D9;
+      margin: 0 0 6px;
+    }
+    .cmv-banner-lecturer {
+      font-size: clamp(0.72rem, 1.2vw, 0.82rem);
+      color: #7C3AED;
+      margin: 0;
+    }
+
+    @media (max-width: 900px) {
+      .cmv-banner-overlay { max-width: 60%; left: 4%; top: 45%; }
+    }
+    @media (max-width: 600px) {
+      .cmv-banner { line-height: 1.4; }
+      .cmv-banner-overlay {
+        position: static;
+        transform: none;
+        max-width: 100%;
+        padding: 12px 18px 4px;
+      }
+    }
+
+    /* ====== 見出し階層 ====== */
+    .card-inner h3.rule-title {
+      font-size: 0.98rem;
+      color: var(--text);
+      padding-bottom: 6px;
+      border-bottom: 2px solid #C4B5FD;
+      margin: 0 0 10px;
+    }
+    .card-inner h4.sub-head {
+      font-size: 0.95rem;
+      font-weight: 900;
+      color: #4C1D95;
+      margin: 14px 0 6px;
+      letter-spacing: 0.02em;
+      line-height: 1.4;
+    }
+    .card-inner h4.sub-head::before {
+      content: '●';color: #7C3AED;margin-right: 8px;font-size: 0.78rem;
+      vertical-align: 1px;
+    }
+    .card-inner h4.sub-head:first-child { margin-top: 0; }
+
+    /* ====== 本文 ====== */
+    .card-inner .rule-body,
+    .card-inner ul li,
+    .card-inner ol li,
+    .card-inner p {
+      color: #475569;
+      line-height: 1.7;
+    }
+    .card-inner p { margin: 4px 0; }
+    .card-inner ul, .card-inner ol {
+      list-style: disc;
+      padding-left: 26px;
+      margin: 4px 0 8px;
+    }
+    .card-inner ol { list-style: decimal; }
+    .card-inner ul li, .card-inner ol li { margin-bottom: 3px; }
+    .card-inner ul li::marker { color: #C4B5FD; }
+    .card-inner ol li::marker { color: #7C3AED; font-weight: 700; }
+    .card-inner strong { color: var(--text); font-weight: 700; }
+    .card-inner em { font-style: italic; color: #1F2937; }
+
+    /* ====== 警告/注意ボックス ====== */
+    .keypoint {
+      background: #FFFBEB;border: 1px solid #FDE68A;border-radius: 6px;
+      padding: 8px 12px;margin: 8px 0;font-size: 0.82rem;line-height: 1.65;color: #78350F;
+    }
+    .keypoint::before {
+      content: '注意';display: inline-block;
+      background: #F59E0B;color: #fff;font-size: 0.64rem;font-weight: 800;
+      padding: 1px 7px;border-radius: 3px;margin-right: 8px;
+      letter-spacing: 0.06em;
+    }
+    .keypoint strong { color: #92400E; }
+
+    .danger {
+      background: #FEF2F2;border: 1px solid #FECACA;border-radius: 6px;
+      padding: 8px 12px;margin: 8px 0;font-size: 0.82rem;line-height: 1.65;color: #7F1D1D;
+    }
+    .danger::before {
+      content: '警告';display: inline-block;
+      background: #DC2626;color: #fff;font-size: 0.64rem;font-weight: 800;
+      padding: 1px 7px;border-radius: 3px;margin-right: 8px;
+      letter-spacing: 0.06em;
+    }
+    .danger strong { color: #7F1D1D; }
+
+    /* ====== 引用 ====== */
+    .citation {
+      font-size: 0.7rem;color: #9CA3AF;font-style: italic;
+      display: block;margin-top: 4px;padding-left: 0;
+    }
+    a em { color: inherit !important; font-style: italic; }
+
+    /* ====== ie-table ====== */
+    .card-inner .ie-table td { color: #475569; }
+    .card-inner .ie-table th { color: var(--text); }
+    .card-inner .ie-table strong { color: var(--text); }
+
+    /* ====== リスク分類テーブル（高/中/低 色分け） ====== */
+    .risk-table { width:100%;border-collapse:collapse;font-size:0.8rem;margin:8px 0; }
+    .risk-table th, .risk-table td {
+      border:1px solid var(--border);padding:6px 9px;text-align:left;vertical-align:top;
+      line-height:1.55;
+    }
+    .risk-table thead th { background:#F5F3FF;color:#4C1D95;font-weight:800;font-size:0.78rem; }
+    .risk-table th.risk-high { background:#FEF2F2;color:#7F1D1D; }
+    .risk-table th.risk-mid  { background:#FFFBEB;color:#78350F; }
+    .risk-table th.risk-low  { background:#F0FDF4;color:#14532D; }
+    .risk-table td.cat { background:#FAFBFC;font-weight:700;color:#4C1D95;white-space:nowrap; }
+
+    /* ====== 録画ボタン ====== */
+    .note-actions { display:flex;gap:10px;margin:0 0 12px;flex-wrap:wrap; }
+    .note-btn-video {
+      display:inline-flex;align-items:center;justify-content:center;gap:6px;
+      background:linear-gradient(135deg,#6D28D9,#7C3AED);
+      color:#fff;font-size:0.82rem;font-weight:700;
+      padding:9px 18px;border-radius:8px;text-decoration:none;
+      letter-spacing:0.04em;line-height:1;
+      transition:transform 0.15s, box-shadow 0.15s;
+    }
+    .note-btn-video:hover {
+      transform:translateY(-1px);box-shadow:0 4px 10px rgba(124,58,237,0.32);
+    }
+
+    /* ====== 薬剤テンプレート ====== */
+    .drug-block {
+      background:#FAFBFC;border:1px solid var(--border);border-radius:10px;
+      margin:16px 0;overflow:hidden;
+    }
+    .drug-block-head {
+      background:linear-gradient(135deg, #4C1D95, #6D28D9);
+      color:#fff;padding:12px 18px;
+    }
+    .drug-block-head .drug-jp { font-size:1rem;font-weight:800;letter-spacing:0.02em; }
+    .drug-block-head .drug-en {
+      font-size:0.78rem;font-weight:500;color:rgba(255,255,255,0.75);margin-left:10px;
+    }
+    .drug-block-head .drug-tag {
+      float:right;font-size:0.7rem;font-weight:700;
+      background:rgba(255,255,255,0.2);padding:3px 10px;border-radius:3px;
+      letter-spacing:0.04em;
+    }
+    .drug-block-head .drug-tag.first { background:rgba(34,197,94,0.85);color:#fff; }
+    .drug-block-head .drug-tag.po    { background:rgba(245,158,11,0.85);color:#fff; }
+    .drug-block-head .drug-tag.prev  { background:rgba(59,130,246,0.85);color:#fff; }
+    .drug-block-body { padding:12px 18px; }
+    .drug-section { margin:0;padding:10px 0;border-bottom:1px dashed #DDD6FE; }
+    .drug-section:first-child { padding-top:0; }
+    .drug-section:last-child { padding-bottom:0;border-bottom:none; }
+    .drug-section-title {
+      font-size:0.92rem;font-weight:800;color:#4C1D95;
+      margin:0 0 6px;padding:0 0 4px;
+      border-bottom:2px solid #C4B5FD;letter-spacing:0.02em;
+    }
+    .drug-section-title::before {
+      content:'■';color:#7C3AED;margin-right:6px;font-size:0.72rem;
+    }
+
+    /* card 余白 */
+    .card .card-inner { padding:14px 18px; }
+    .card { margin-bottom:12px !important; }
+
+    /* gl-chapter-banner */
+    .gl-chapter-banner { margin-top:32px !important;padding:14px 20px !important; }
+    .gl-chapter-banner.first { margin-top:8px !important; }
+    .gl-chapter-banner .gl-chapter-title { font-size:1.15rem !important; }
+
+    /* 感度バー */
+    .sens-grid { display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:8px 0; }
+    .sens-card {
+      background:#FAFBFC;border:1px solid var(--border);border-radius:8px;
+      padding:10px 14px;
+    }
+    .sens-organ { font-size:0.85rem;font-weight:800;color:#4C1D95;margin-bottom:4px; }
+    .sens-val { font-size:1.1rem;font-weight:900;color:#7C3AED;font-family:ui-monospace,Menlo,Consolas,monospace; }
+    .sens-note { font-size:0.72rem;color:var(--muted);margin-top:2px; }
+    @media (max-width:600px) { .sens-grid { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="../../index.html" class="nav-logo">
+        <img src="../../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+        <span class="nav-logo-text">聖路加国際病院ICU</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-menu" id="navMenu"></ul>
+    </div>
+  </nav>
+
+  <!-- ===== HEADER ===== -->
+  <div class="cmv-banner">
+    <img src="../../images/headerID*ICUpage.png" alt="ID×ICUカンファレンス 板書ノート" class="cmv-banner-img">
+    <div class="cmv-banner-overlay">
+      <div class="cmv-banner-tags">
+        <span>ID×ICU カンファレンス</span>
+        <span>2025年9月3日</span>
+        <span>感染症 / ウイルス</span>
+      </div>
+      <h1 class="cmv-banner-title">CMV（サイトメガロウイルス）感染症 — 板書ノート</h1>
+      <p class="cmv-banner-sub">好発患者・リスク分類 ／ 感染臓器 ／ 診断（Ag・PCR） ／ 治療薬と作用機序 ／ Letermovir 予防</p>
+      <p class="cmv-banner-lecturer">講義：森先生 ／ レジュメ作成：ICU 関谷</p>
+    </div>
+  </div>
+
+  <!-- ===== MAIN CONTAINER ===== -->
+  <div class="container" style="max-width:1294px;margin:0 auto;padding:8px 20px 32px;">
+    <div class="ie-page-flex">
+
+      <!-- ===== MAIN CONTENT ===== -->
+      <div class="ie-main-col">
+
+        <!-- 録画リンク -->
+        <div class="note-actions">
+          <a href="https://lukemcmi-my.sharepoint.com/:v:/g/personal/sekisato_luke_ac_jp/IQBoiMm7Nc4XRa4galda-KYAAQ3-IGGVZavDTdM2eCYGcIk?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=2cYCip" target="_blank" rel="noopener" class="note-btn-video"><span style="font-size:0.7rem;">▶</span>レクチャー動画を視聴</a>
+        </div>
+
+        <!-- 略語一覧 -->
+        <div class="card" style="margin-top:0;margin-bottom:24px;">
+          <div class="card-inner">
+            <h3 class="rule-title">本ページで使用する略語一覧</h3>
+            <table style="width:100%;border-collapse:collapse;font-size:0.78rem;line-height:1.6;color:#475569;">
+              <tbody>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:160px;color:var(--blue);">CMV</td><td style="padding:4px 8px;">Cytomegalovirus — サイトメガロウイルス</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CMV disease / EOD</td><td style="padding:4px 8px;">CMV End-Organ Disease — 臓器特異的徴候・症状を伴う CMV 感染症</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CMV infection</td><td style="padding:4px 8px;">症状の有無によらず体液・組織からウイルス／タンパク／核酸を検出</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">HSCT / Allo-HSCT</td><td style="padding:4px 8px;">Hematopoietic Stem Cell Transplantation / Allogeneic — 同種造血幹細胞移植</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">Auto-HSCT</td><td style="padding:4px 8px;">Autologous HSCT — 自家造血幹細胞移植</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">SOT</td><td style="padding:4px 8px;">Solid Organ Transplantation — 固形臓器移植</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">D / R</td><td style="padding:4px 8px;">Donor / Recipient — ドナー / レシピエント（血清型 ± 表記）</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">GVHD</td><td style="padding:4px 8px;">Graft-versus-Host Disease — 移植片対宿主病</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">ATG</td><td style="padding:4px 8px;">Anti-Thymocyte Globulin — 抗胸腺細胞グロブリン</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">TBI</td><td style="padding:4px 8px;">Total Body Irradiation — 全身放射線照射</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">mTOR</td><td style="padding:4px 8px;">mechanistic Target of Rapamycin — ラパマイシン標的蛋白</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CPI</td><td style="padding:4px 8px;">Checkpoint Protein Inhibitor antibodies — 免疫チェックポイント阻害薬</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">IBD</td><td style="padding:4px 8px;">Inflammatory Bowel Disease — 炎症性腸疾患</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CMV-Ag</td><td style="padding:4px 8px;">CMV Antigenemia — 白血球内 CMV 抗原（pp65）蛍光染色法</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">C7-HRP / C10-C11</td><td style="padding:4px 8px;">本邦の CMV-Ag 測定系（抗体クローンが異なる 2 系統）</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">PCR</td><td style="padding:4px 8px;">Polymerase Chain Reaction — 核酸増幅検査</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">BAL</td><td style="padding:4px 8px;">Bronchoalveolar Lavage — 気管支肺胞洗浄</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CF</td><td style="padding:4px 8px;">Colonofiberscopy — 大腸内視鏡</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">GCV / VGCV</td><td style="padding:4px 8px;">Ganciclovir / Valganciclovir — ガンシクロビル / バルガンシクロビル</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">FOS</td><td style="padding:4px 8px;">Foscarnet — ホスカルネット</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CDV</td><td style="padding:4px 8px;">Cidofovir — シドフォビル</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">MBV</td><td style="padding:4px 8px;">Maribavir — マリバビル（リブテンシティー®）</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">LMV</td><td style="padding:4px 8px;">Letermovir — レテルモビル（プレバイミス®／予防薬）</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">UL97 / UL54</td><td style="padding:4px 8px;">CMV キナーゼ（薬剤活性化）／ CMV DNA ポリメラーゼ（薬剤標的）</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">PPi</td><td style="padding:4px 8px;">Pyrophosphate — ピロリン酸（FOS の結合部位）</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">GGO</td><td style="padding:4px 8px;">Ground-Glass Opacity — すりガラス影</td></tr>
+                <tr><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CYP3A4</td><td style="padding:4px 8px;">Cytochrome P450 3A4 — 主要薬物代謝酵素（MBV の相互作用）</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- 第1章 -->
+        <!-- ═══════════════════════════════════════ -->
+        <div id="ch1" class="gl-chapter-banner first">
+          <div class="gl-chapter-title">第1章　好発患者と免疫不全別リスク分類</div>
+          <div class="gl-chapter-subtitle">High-Risk Patients & Immunosuppression-Based Risk Stratification</div>
+        </div>
+
+        <h3 id="ch1-s1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 1</span>
+          好発患者の全体像
+        </h3>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">CMV 感染症が問題となる患者群</h3>
+            <p class="rule-body">CMV 感染症は、<strong style="color:#4C1D95;">移植患者</strong>、なかでも <strong>HSCT（造血幹細胞移植）</strong>と <strong>SOT（固形臓器移植）</strong>で頻度が高い。</p>
+            <p class="rule-body">近年、<strong style="color:#4C1D95;">もともと免疫抑制の背景がない ICU 入室患者での発症</strong>に関する報告が増えている（重症敗血症・人工呼吸管理など、ICU における免疫機能変動が関与すると考えられている）。</p>
+            <p class="citation"><a href="https://doi.org/10.1007/s00134-024-07737-5" target="_blank" rel="noopener" style="color:#7C3AED;">Fernández S, Castro P, Azoulay E. <em>Intensive Care Med</em> 2025; 51: 39-61（CMV in immunocompromised ICU patients）↗</a></p>
+          </div>
+        </div>
+
+        <h3 id="ch1-s2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 2</span>
+          免疫不全の機序別 CMV リスク分類
+        </h3>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">免疫抑制タイプ別 高 / 中 / 低リスク分類</h3>
+            <table class="risk-table">
+              <thead>
+                <tr><th>免疫抑制のタイプ</th><th class="risk-high">高リスク</th><th class="risk-mid">中等度リスク</th><th class="risk-low">低リスク</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="cat">血液悪性腫瘍</td>
+                  <td>同種 HSCT（Allo-HSCT）：<br>・D−/R＋、D＋/R＋<br>・<strong>臍帯血 ＞ 骨髄／末梢血</strong><br>・CD34＋選択 / T 細胞除去移植片<br>・<strong>高用量ステロイド</strong>治療<br>・T 細胞抑制療法（ATG、高用量シクロホスファミド）<br>・<strong>GVHD の存在</strong></td>
+                  <td>同種 HSCT：<br>・D＋/R−（高リスク条件なし）<br>自家 HSCT：<br>・CD34＋選択自家移植片<br>非移植患者：<br>・高用量ステロイド、TBI、フルダラビン、ボルテゾミブ、ATG による治療<br>・T 細胞枯渇／機能不全を伴うリンパ系悪性腫瘍</td>
+                  <td>同種 HSCT：<br>・D−/R−（高リスク条件なし）<br>その他：<br>・他の自家 HSCT および非移植患者</td>
+                </tr>
+                <tr>
+                  <td class="cat">固形腫瘍</td>
+                  <td>—</td>
+                  <td>強化化学療法を受ける患者</td>
+                  <td>CPI 免疫関連有害事象に対するステロイド治療</td>
+                </tr>
+                <tr>
+                  <td class="cat">固形臓器移植（SOT）</td>
+                  <td>・<strong>D＋/R−</strong><br>・<strong>肺、小腸、血管化同種移植片組織 ＞ 他の移植片</strong><br>・拒絶反応<br>・アレムツズマブ、ATG、OKT3® モノクローナル抗体による治療<br>・高用量ステロイド<br>・リンパ球枯渇性抗体による治療<br>・高用量維持免疫抑制薬</td>
+                  <td>・D＋/R＋ または D−/R＋（高リスク条件なし）<br>・他の維持免疫抑制薬の代わりに <strong>mTOR 阻害薬</strong>を使用</td>
+                  <td>D−/R−（高リスク条件なし）</td>
+                </tr>
+                <tr>
+                  <td class="cat">HIV 感染症</td>
+                  <td>CD4＋T 細胞数 <strong>≤ 50 / mm³</strong></td>
+                  <td>CD4＋T 細胞数 50–100 / mm³</td>
+                  <td>CD4＋T 細胞数 ＞ 100 / mm³</td>
+                </tr>
+                <tr>
+                  <td class="cat">薬剤性免疫抑制<br>（リウマチ・血管炎・IBD 等）</td>
+                  <td>・<strong>長期または高用量（≥ 0.5 mg/kg/日）ステロイド</strong>または間欠的メチルプレドニゾロンパルス<br>・活動性ステロイド抵抗性 IBD</td>
+                  <td>他の免疫抑制薬：シクロホスファミド、アザチオプリン、ミコフェノール酸、メトトレキサート、チオプリン類</td>
+                  <td>他の免疫抑制療法で管理される全身性炎症性疾患</td>
+                </tr>
+                <tr>
+                  <td class="cat">原発性免疫不全</td>
+                  <td>NK 細胞欠損の有無を問わず T 細胞免疫不全</td>
+                  <td>免疫抑制治療の有無を問わず複合免疫不全症</td>
+                  <td>その他の原発性免疫不全症</td>
+                </tr>
+              </tbody>
+            </table>
+            <p class="rule-body" style="font-size:0.78rem;color:var(--muted);margin-top:8px;">出典：<a href="https://doi.org/10.1007/s00134-024-07737-5" target="_blank" rel="noopener" style="color:#7C3AED;">Fernández S et al. <em>Intensive Care Med</em> 2025（Table 1 を翻訳・要約）↗</a></p>
+          </div>
+        </div>
+
+        <h3 id="ch1-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SUMMARY</span>
+          第1章のキーメッセージ
+        </h3>
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+                <span class="rule-body"><strong>CMV 感染症の基盤：</strong>Allo-HSCT・SOT が中心。近年は <strong>非免疫不全 ICU 患者</strong>での発症報告も増加。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+                <span class="rule-body"><strong>HSCT 高リスク：</strong>D−/R＋・D＋/R＋／<strong>臍帯血</strong>／T 細胞除去／<strong>GVHD 存在</strong>／高用量ステロイド。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+                <span class="rule-body"><strong>SOT 高リスク：</strong><strong>D＋/R−</strong>／<strong>肺・小腸・血管化移植片</strong>／拒絶反応／高用量ステロイド。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+                <span class="rule-body"><strong>HIV 高リスク：</strong>CD4＋ <strong>≤ 50 / mm³</strong>。<strong>薬剤性：</strong>≥ 0.5 mg/kg/日のステロイド長期投与。</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- 第2章 -->
+        <!-- ═══════════════════════════════════════ -->
+        <div id="ch2" class="gl-chapter-banner">
+          <div class="gl-chapter-title">第2章　感染臓器と CMV disease の概念</div>
+          <div class="gl-chapter-subtitle">End-Organ Involvement & CMV disease vs CMV infection</div>
+        </div>
+
+        <h3 id="ch2-s1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 1</span>
+          主な感染臓器
+        </h3>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">CMV が標的とする臓器</h3>
+            <table class="ie-table">
+              <thead>
+                <tr><th style="width:22%;">臓器</th><th>主な臨床像</th></tr>
+              </thead>
+              <tbody>
+                <tr><td style="white-space:nowrap;font-weight:700;color:#7C3AED;">肺炎<br><span style="font-size:0.72rem;color:var(--muted);font-weight:500;">Pneumonia</span></td><td>移植後の代表的な合併症。死亡率が高く要警戒</td></tr>
+                <tr><td style="white-space:nowrap;font-weight:700;color:#7C3AED;">消化管<br><span style="font-size:0.72rem;color:var(--muted);font-weight:500;">Upper / Lower GI</span></td><td><strong>ICU 入室患者で最も頻度が高い</strong>。Lower GI への感染による下痢・血便が多い</td></tr>
+                <tr><td style="white-space:nowrap;font-weight:700;color:#7C3AED;">網膜炎<br><span style="font-size:0.72rem;color:var(--muted);font-weight:500;">Retinitis</span></td><td>HIV/AIDS 患者で典型的（CD4 低下例）</td></tr>
+                <tr><td style="white-space:nowrap;font-weight:700;color:#7C3AED;">脳炎<br><span style="font-size:0.72rem;color:var(--muted);font-weight:500;">Encephalitis (peri-ventriculitis)</span></td><td>脳室周囲の炎症（peri-ventriculitis）が特徴</td></tr>
+              </tbody>
+            </table>
+
+            <div class="keypoint">
+              <strong>ICU での重要ポイント：</strong> ICU 入室患者では <strong>背景に免疫抑制がなくても CMV 感染症を発症する報告が多い</strong>。最頻は <strong>Lower GI への感染による下痢・血便</strong>。
+            </div>
+          </div>
+        </div>
+
+        <h3 id="ch2-s2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 2</span>
+          CMV disease（EOD）vs CMV infection
+        </h3>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">概念の違いと臨床的意義</h3>
+            <table class="ie-table">
+              <thead>
+                <tr><th style="width:24%;">用語</th><th>定義</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="white-space:nowrap;font-weight:700;color:#DC2626;">CMV disease<br>（CMV EOD）</td>
+                  <td><strong>CMV 感染によって臨床的に臓器特異的な徴候・症状を伴うもの</strong>（CMV end-organ disease）。治療対象。</td>
+                </tr>
+                <tr>
+                  <td style="white-space:nowrap;font-weight:700;color:#7C3AED;">CMV infection</td>
+                  <td><strong>症状の有無にかかわらず</strong>、任意の体液または組織検体において、ウイルス分離（ウイルス血症）／ウイルスタンパク検出（抗原血症）／核酸検出（DNA 血症・RNA 血症）が陽性。</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="keypoint">
+              <strong>注意：</strong> 両者は <strong>異なる概念</strong>。CMV infection があっても症状がなければ CMV disease ではない。治療判断は <strong>臓器障害の有無</strong>を必ず確認する。
+            </div>
+          </div>
+        </div>
+
+        <h3 id="ch2-s3" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 3</span>
+          CMV 肺炎の画像所見
+        </h3>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">HRCT 所見</h3>
+            <p class="rule-body">CMV 肺炎の HRCT 所見は <strong>多彩で「何でもあり」</strong>。以下のパターンが報告されている。</p>
+            <ul>
+              <li><strong style="color:#4C1D95;">両側性のすりガラス影（GGO）</strong> — 最頻パターン</li>
+              <li><strong style="color:#4C1D95;">小葉中心性の小結節（centrilobular nodules）</strong></li>
+              <li><strong style="color:#4C1D95;">斑状またはびまん性の浸潤影（consolidation）</strong></li>
+              <li>小葉間隔壁肥厚、胸水を伴うこともある</li>
+            </ul>
+            <p class="citation"><a href="https://doi.org/10.2214/ajr.181.4.1811059" target="_blank" rel="noopener" style="color:#7C3AED;">Franquet T, Lee KS, Müller NL. <em>AJR Am J Roentgenol</em> 2003; 181(4): 1059-1063 ↗</a></p>
+          </div>
+        </div>
+
+        <h3 id="ch2-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SUMMARY</span>
+          第2章のキーメッセージ
+        </h3>
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+                <span class="rule-body"><strong>4 大感染臓器：</strong>肺炎／消化管／網膜炎／脳炎（peri-ventriculitis）。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+                <span class="rule-body"><strong>ICU 患者で最頻は Lower GI</strong>（下痢・血便）。免疫抑制歴がなくても発症する点に注意。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+                <span class="rule-body"><strong>CMV disease ≠ CMV infection。</strong>治療判断は臓器障害の有無で行う。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+                <span class="rule-body"><strong>CMV 肺炎 HRCT：</strong>GGO 中心 ＋ 小葉中心性結節 ＋ consolidation の混在（"何でもあり"）。</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- 第3章 -->
+        <!-- ═══════════════════════════════════════ -->
+        <div id="ch3" class="gl-chapter-banner">
+          <div class="gl-chapter-title">第3章　診断 — 病理・抗原血症・PCR</div>
+          <div class="gl-chapter-subtitle">Diagnosis — Histology, Antigenemia, and PCR</div>
+        </div>
+
+        <h3 id="ch3-s1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 1</span>
+          診断モダリティ
+        </h3>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">3 つの主な診断手段</h3>
+
+            <h4 class="sub-head">① 病理（Biopsy / BAL）— "ふくろうの目"様細胞</h4>
+            <p class="rule-body">Biopsy 組織標本や BAL 液において <strong style="color:#4C1D95;">巨細胞核内封入体を有する細胞（"ふくろうの目"様細胞）</strong>を検出し、CMV 感染を同定する。CF が困難な場合には <strong>Sigmoidoscopy</strong> なども検討。</p>
+            <div class="keypoint">
+              <strong>感度の限界：</strong> CMV 感染の診断における感度は高くない。ただし <strong>免疫組織染色で CMV 抗原が検出された場合の診断的意義は高い</strong>。
+            </div>
+
+            <h4 class="sub-head">② CMV 抗原血症（CMV-Ag, C7-HRP / C10-C11）</h4>
+            <p class="rule-body"><strong>白血球 5 万個あたりの感染細胞数</strong>を蛍光染色で標識する方法。わが国では、抗体の種類が異なる <strong>2 つの測定系（C7-HRP 法 と C10/C11 法）</strong>がある。</p>
+
+            <h4 class="sub-head">③ CMV PCR — 白血球減少時の主役</h4>
+            <p class="rule-body"><strong>白血球数が少ないときには Ag が行えない</strong>ため、PCR 検査を行う（白血球を担体としない核酸増幅）。</p>
+          </div>
+        </div>
+
+        <h3 id="ch3-s2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 2</span>
+          抗原血症のカットオフと造血幹細胞移植 GL
+        </h3>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">陽性カットオフは患者背景で異なる</h3>
+            <p class="rule-body">CMV アンチゲネミア（C7-HRP）陽性のカットオフ値は <strong style="color:#4C1D95;">患者背景や臨床状況によって異なる</strong>。</p>
+            <p class="rule-body">例えば、<strong>移植患者であれば陽性細胞数 1〜2 でも治療対象となりうる</strong>。これは、肺炎など臓器感染を生じる <strong>Direct effect</strong> だけでなく、CMV が再活性化することで <strong>Graft loss（移植片に対する拒絶）や Invasive Infection（菌血症・アスペルギルス感染症）が増加する Indirect effect</strong> を生じることにも関連する。
+
+            <div class="keypoint">
+              <strong>本邦造血幹細胞移植 GL（第 5 版）</strong>では、CMV モニタリングにおける <strong>高リスク群</strong>を以下のように定義：
+              <ul style="margin-top:6px;">
+                <li>臍帯血移植</li>
+                <li>HLA 不適合移植・HLA 半合致移植</li>
+                <li>移植前治療に ATG・抗 CD52 抗体使用</li>
+                <li>T 細胞除去移植</li>
+                <li>副腎皮質ステロイド（0.5–1.0 mg/kg 以上）投与</li>
+              </ul>
+              これ以外は <strong>低リスク群</strong>として、それぞれに異なる閾値を設定。
+            </div>
+            <p class="citation">出典：日本造血・免疫細胞療法学会「造血細胞移植ガイドライン サイトメガロウイルス感染症（第 5 版）」</p>
+          </div>
+        </div>
+
+        <h3 id="ch3-s3" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 3</span>
+          CMV-Ag の感染臓器別感度
+        </h3>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">臓器別の検出感度</h3>
+            <div class="sens-grid">
+              <div class="sens-card">
+                <div class="sens-organ">肺炎 Pneumonia</div>
+                <div class="sens-val">70–90 %</div>
+                <div class="sens-note">CMV-Ag は肺炎では比較的有用</div>
+              </div>
+              <div class="sens-card">
+                <div class="sens-organ">消化管 GI</div>
+                <div class="sens-val">≤ 30 %</div>
+                <div class="sens-note">陰性でも否定できず、生検が重要</div>
+              </div>
+              <div class="sens-card">
+                <div class="sens-organ">網膜炎 Retinitis</div>
+                <div class="sens-val">Very Low</div>
+                <div class="sens-note">眼底検査・房水 PCR が中心</div>
+              </div>
+              <div class="sens-card">
+                <div class="sens-organ">脳炎 Encephalitis</div>
+                <div class="sens-val">不明</div>
+                <div class="sens-note">ほとんどは <strong>腰椎穿刺（CSF PCR）</strong>で診断</div>
+              </div>
+            </div>
+            <div class="keypoint">
+              <strong>臨床応用：</strong> CMV-Ag 陰性は、<strong>肺炎以外では除外診断にならない</strong>。臓器別に <strong>生検・房水 PCR・髄液 PCR</strong> を併用する。
+            </div>
+          </div>
+        </div>
+
+        <h3 id="ch3-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SUMMARY</span>
+          第3章のキーメッセージ
+        </h3>
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+                <span class="rule-body"><strong>3 つの診断手段：</strong>病理（"ふくろうの目"細胞）／ CMV-Ag（C7-HRP・C10-C11）／ PCR。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+                <span class="rule-body"><strong>白血球が少ないときは PCR を選択。</strong>CMV-Ag は白血球を担体とするため使えない。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+                <span class="rule-body"><strong>移植患者は陽性細胞数 1–2 でも治療対象。</strong>Indirect effect（Graft loss・侵襲性真菌感染）も警戒。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+                <span class="rule-body"><strong>CMV-Ag 感度：</strong>肺炎 70–90% / GI ≤ 30% / 網膜・脳は別モダリティが主役。</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- 第4章 -->
+        <!-- ═══════════════════════════════════════ -->
+        <div id="ch4" class="gl-chapter-banner">
+          <div class="gl-chapter-title">第4章　治療薬と作用機序</div>
+          <div class="gl-chapter-subtitle">Treatment — Antivirals & Mechanism of Action</div>
+        </div>
+
+        <h3 id="ch4-s1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 1</span>
+          抗 CMV 薬の作用機序まとめ
+        </h3>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">5 剤の作用部位（UL97 → UL54 → ターミナーゼ）</h3>
+            <table class="ie-table">
+              <thead>
+                <tr><th style="width:24%;">薬剤</th><th>標的・機序</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="white-space:nowrap;font-weight:700;color:#7C3AED;">Ganciclovir / Valganciclovir<br><span style="font-size:0.72rem;color:var(--muted);font-weight:500;">GCV / VGCV</span></td>
+                  <td><strong>CMV UL97 キナーゼ</strong>でリン酸化 → 宿主細胞キナーゼで更にリン酸化 → ガンシクロビル三リン酸として <strong>CMV DNA ポリメラーゼ（UL54）</strong>を阻害</td>
+                </tr>
+                <tr>
+                  <td style="white-space:nowrap;font-weight:700;color:#7C3AED;">Cidofovir<br><span style="font-size:0.72rem;color:var(--muted);font-weight:500;">CDV</span></td>
+                  <td>宿主細胞キナーゼでのみリン酸化 → シドフォビル二リン酸として <strong>dGTP と UL54 で競合</strong>し DNA 複製を阻害</td>
+                </tr>
+                <tr>
+                  <td style="white-space:nowrap;font-weight:700;color:#7C3AED;">Foscarnet<br><span style="font-size:0.72rem;color:var(--muted);font-weight:500;">FOS</span></td>
+                  <td><strong>UL54 上のピロリン酸（PPi）結合部位を直接阻害</strong>して CMV 複製を阻止（リン酸化不要）</td>
+                </tr>
+                <tr>
+                  <td style="white-space:nowrap;font-weight:700;color:#3B82F6;">Letermovir<br><span style="font-size:0.72rem;color:var(--muted);font-weight:500;">LMV（予防薬）</span></td>
+                  <td><strong>CMV ターミナーゼ複合体</strong>を標的 → ウイルス DNA のパッケージングを阻害</td>
+                </tr>
+                <tr>
+                  <td style="white-space:nowrap;font-weight:700;color:#F59E0B;">Maribavir<br><span style="font-size:0.72rem;color:var(--muted);font-weight:500;">MBV（経口）</span></td>
+                  <td><strong>UL97 キナーゼを阻害</strong>し、核から細胞質へのカプシド輸送（egress）を阻止</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="danger">
+              <strong>併用禁忌：</strong> <strong>Maribavir は UL97 キナーゼを阻害</strong>するため、<strong>ガンシクロビルの活性化を妨げる</strong>。よって <strong>GCV / VGCV と Maribavir は併用できない</strong>。
+            </div>
+          </div>
+        </div>
+
+        <h3 id="ch4-s2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 2</span>
+          各治療薬の特徴・用法・副作用
+        </h3>
+
+        <!-- Ganciclovir -->
+        <div class="drug-block">
+          <div class="drug-block-head">
+            <span class="drug-jp">Ganciclovir（デノシン®）</span>
+            <span class="drug-en">GCV</span>
+            <span class="drug-tag first">第1選択</span>
+          </div>
+          <div class="drug-block-body">
+            <div class="drug-section">
+              <div class="drug-section-title">位置づけ</div>
+              <p>エビデンスも蓄積されており <strong>第 1 選択薬</strong>。</p>
+            </div>
+            <div class="drug-section">
+              <div class="drug-section-title">副作用</div>
+              <p><strong style="color:#DC2626;">骨髄抑制による血球減少</strong>が主な副作用。</p>
+            </div>
+            <div class="drug-section">
+              <div class="drug-section-title">用法・用量</div>
+              <ul>
+                <li><strong>初期治療：</strong>5 mg/kg を 12 時間毎、1 日 2 回、2〜3 週間</li>
+                <li><strong>維持治療：</strong>5 mg/kg を週に 7 日、1 日 1 回 ／ または 6 mg/kg を週に 5 日、1 日 1 回</li>
+                <li>腎機能に応じて投与量を調整する</li>
+              </ul>
+            </div>
+            <div class="drug-section">
+              <div class="drug-section-title">投与方法</div>
+              <p>1 バイアルを注射用水 10 mL に溶解し、1 バイアルあたり 10 mL の補液で希釈する。</p>
+            </div>
+            <div class="drug-section">
+              <div class="drug-section-title">効果不十分時の対応</div>
+              <p>初期治療後も十分な治療効果が得られない場合は <strong>初期治療量の継続を考慮</strong>。維持療法中の再燃時は <strong>初期治療の用法・用量で投与</strong>。</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Foscarnet -->
+        <div class="drug-block">
+          <div class="drug-block-head">
+            <span class="drug-jp">Foscarnet（ホスカビル®）</span>
+            <span class="drug-en">FOS</span>
+          </div>
+          <div class="drug-block-body">
+            <div class="drug-section">
+              <div class="drug-section-title">位置づけ</div>
+              <p>骨髄抑制が問題となるとき、または GCV 耐性時に使用。</p>
+            </div>
+            <div class="drug-section">
+              <div class="drug-section-title">副作用</div>
+              <p><strong style="color:#DC2626;">腎毒性、K / P / Mg 低下</strong>。<strong>骨髄抑制はガンシクロビルと比較して少ない</strong>。</p>
+              <div class="keypoint">
+                <strong>腎保護策：</strong> 投与前後で <strong>生理食塩水の Hydration</strong> を行う。<strong>K、P 混注</strong>をすることもある。
+              </div>
+            </div>
+            <div class="drug-section">
+              <div class="drug-section-title">用法・用量（造血幹細胞移植における CMV 血症）</div>
+              <ul>
+                <li><strong>初期療法：</strong>60 mg/kg を 12 時間毎に 1 日 2 回、1 時間以上かけて、1〜2 週間点滴静注</li>
+                <li><strong>維持療法：</strong>90〜120 mg/kg を 1 日 1 回、2 時間以上かけて点滴静注</li>
+                <li>維持療法中の再発時は初期療法の用法・用量で再投与可</li>
+                <li>腎機能に応じて投与量を調整する</li>
+              </ul>
+            </div>
+            <div class="drug-section">
+              <div class="drug-section-title">用法・用量（造血幹細胞移植における CMV 感染症）</div>
+              <ul>
+                <li><strong>初期療法：</strong>90 mg/kg を 12 時間毎に 1 日 2 回、2 時間以上かけて<br>または 60 mg/kg を 8 時間毎に 1 日 3 回、1 時間以上かけて 1〜2 週間点滴静注</li>
+                <li><strong>維持療法：</strong>90〜120 mg/kg を 1 日 1 回、2 時間以上かけて点滴静注</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Maribavir -->
+        <div class="drug-block">
+          <div class="drug-block-head">
+            <span class="drug-jp">Maribavir（リブテンシティー®）</span>
+            <span class="drug-en">MBV</span>
+            <span class="drug-tag po">経口</span>
+          </div>
+          <div class="drug-block-body">
+            <div class="drug-section">
+              <div class="drug-section-title">特徴</div>
+              <ul>
+                <li><strong>唯一の内服薬剤</strong> — 経口投与可能</li>
+                <li>ただし内服のため <strong style="color:#92400E;">Bioavailability の懸念</strong>あり</li>
+                <li><strong>苦くて飲みにくい</strong>（服薬アドヒアランスの注意）</li>
+                <li><strong>CYP3A4 の薬剤相互作用</strong>がある</li>
+              </ul>
+            </div>
+            <div class="drug-section">
+              <div class="drug-section-title">併用禁忌</div>
+              <div class="danger">
+                UL97 キナーゼ阻害により <strong>GCV / VGCV の活性化を阻害</strong>するため、<strong>ガンシクロビルとは併用禁忌</strong>。
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h3 id="ch4-s3" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 3</span>
+          予防薬 Letermovir（プレバイミス®）
+        </h3>
+
+        <!-- Letermovir -->
+        <div class="drug-block">
+          <div class="drug-block-head">
+            <span class="drug-jp">Letermovir（プレバイミス®）</span>
+            <span class="drug-en">LMV</span>
+            <span class="drug-tag prev">予防薬</span>
+          </div>
+          <div class="drug-block-body">
+            <div class="drug-section">
+              <div class="drug-section-title">血液移植患者（Allo-HSCT）への適応</div>
+              <p>レシピエントが <strong style="color:#4C1D95;">CMV 抗体陽性である同種造血幹細胞移植（Allo-HSCT）患者</strong>に投与。米国移植・細胞治療学会のガイドラインは、CMV 抗体陽性患者には <strong>移植後 28 日以内に Letermovir の予防投与を開始</strong>することを推奨しているが、<strong>コストなどの理由から高リスク患者に限定する</strong>ことも考えられるとしている。</p>
+
+              <div class="keypoint">
+                <strong>特に投与推奨される高リスク患者：</strong> 免疫再構築が遅延する症例
+                <ul style="margin-top:4px;">
+                  <li>T 細胞除去移植</li>
+                  <li>GVHD 治療中</li>
+                  <li>HLA 不一致移植</li>
+                  <li>強力な免疫抑制療法施行例</li>
+                </ul>
+              </div>
+
+              <p><strong>自家移植（Auto）の場合は、免疫再構築の懸念はないため適用とならない。</strong></p>
+            </div>
+
+            <div class="drug-section">
+              <div class="drug-section-title">投与期間</div>
+              <p>投与開始は <strong>移植後早期（通常 day 0〜day 28 以内）</strong>で、標準的には <strong>100 日間</strong>の投与が推奨されるが、<strong>CMV 特異的細胞性免疫の再構築が遅延する場合は延長投与</strong>も検討される。</p>
+              <p>ブレイクスルーにより発症した場合は、上記治療薬（GCV / FOS / MBV）に変更する。GVHD や消化管障害で経口投与が困難な場合は <strong>静脈投与も可能</strong>。</p>
+            </div>
+
+            <div class="drug-section">
+              <div class="drug-section-title">固形臓器移植患者（SOT）への適応</div>
+              <p>FDA では、<strong style="color:#4C1D95;">CMV 陽性ドナーから CMV 陰性レシピエント（D＋/R−）への腎移植患者</strong>に対する CMV 予防目的での使用が承認されている。</p>
+            </div>
+          </div>
+        </div>
+
+        <h3 id="ch4-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SUMMARY</span>
+          第4章のキーメッセージ
+        </h3>
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+                <span class="rule-body"><strong>第 1 選択は Ganciclovir（GCV）</strong>。副作用は <strong>骨髄抑制</strong>。初期 5 mg/kg q12h × 2〜3 週。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+                <span class="rule-body"><strong>Foscarnet</strong> は GCV 不耐・耐性時。<strong>腎毒性・電解質異常</strong>に注意し、生食 Hydration ＋ K/P 補正。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+                <span class="rule-body"><strong>Maribavir</strong> は唯一の経口薬。<strong>CYP3A4 相互作用</strong>と <strong>GCV との併用禁忌</strong>に注意。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+                <span class="rule-body"><strong>Letermovir</strong> は予防薬。Allo-HSCT の R＋ ／ SOT の D＋/R−（腎移植）が主な対象。<strong>Auto-HSCT には不要</strong>。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+                <span class="rule-body"><strong>作用機序の階段：</strong>UL97 キナーゼ（GCV 活性化・MBV 阻害）→ UL54 DNA ポリメラーゼ（GCV / CDV / FOS）→ ターミナーゼ（LMV）。</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 出典・注記 -->
+        <p style="font-size:0.72rem;color:#9CA3AF;margin-top:32px;line-height:1.7;">
+          本ページは ID×ICUカンファレンス（森先生 ／ 2025-09-03）の板書ノートです。実際の診療判断は患者個別の状況に応じて行ってください。
+        </p>
+        <p style="font-size:0.72rem;color:#9CA3AF;margin-top:8px;line-height:1.85;">
+          <strong>主な引用文献・資料：</strong><br>
+          ・<a href="https://doi.org/10.1007/s00134-024-07737-5" target="_blank" rel="noopener" style="color:#7C3AED;">Fernández S, Castro P, Azoulay E. <em>Intensive Care Med</em> 2025; 51: 39-61. What intensivists need to know about cytomegalovirus infection in immunocompromised ICU patients ↗</a><br>
+          ・<a href="https://doi.org/10.2214/ajr.181.4.1811059" target="_blank" rel="noopener" style="color:#7C3AED;">Franquet T, Lee KS, Müller NL. <em>AJR Am J Roentgenol</em> 2003; 181(4): 1059-1063. Thin-section CT findings in 32 immunocompromised patients with CMV pneumonia ↗</a><br>
+          ・日本造血・免疫細胞療法学会「造血細胞移植ガイドライン サイトメガロウイルス感染症（第 5 版）」
+        </p>
+        <p style="font-size:0.75rem;color:var(--muted);text-align:right;margin-top:8px;">講義：森先生 ／ レジュメ作成：ICU 関谷</p>
+
+      </div><!-- /ie-main-col -->
+
+      <!-- ===== SIDEBAR TOC ===== -->
+      <aside class="ie-sidebar">
+        <a href="../schedule-weekly-id-icu.html#id-organ" style="display:flex;align-items:center;justify-content:center;padding:9px 14px;background:rgba(124,58,237,0.08);border:1px solid #C4B5FD;border-radius:8px;font-size:0.78rem;font-weight:700;color:#6D28D9;text-decoration:none;margin-bottom:12px;transition:background 0.15s,color 0.15s;line-height:1;">
+          ← ID×ICUカンファレンス 一覧へ戻る
+        </a>
+        <div class="ie-sidebar-card">
+          <div class="ie-sidebar-title">目次</div>
+          <a href="#ch1" class="ie-toc-chapter">第1章　好発患者・リスク分類</a>
+          <a href="#ch1-s1" class="ie-toc-section">S1 — 好発患者の全体像</a>
+          <a href="#ch1-s2" class="ie-toc-section">S2 — 免疫不全別リスク表</a>
+          <a href="#ch1-summary" class="ie-toc-section">SUMMARY</a>
+          <a href="#ch2" class="ie-toc-chapter">第2章　感染臓器・概念整理</a>
+          <a href="#ch2-s1" class="ie-toc-section">S1 — 4 大感染臓器</a>
+          <a href="#ch2-s2" class="ie-toc-section">S2 — disease vs infection</a>
+          <a href="#ch2-s3" class="ie-toc-section">S3 — CMV 肺炎 HRCT</a>
+          <a href="#ch2-summary" class="ie-toc-section">SUMMARY</a>
+          <a href="#ch3" class="ie-toc-chapter">第3章　診断</a>
+          <a href="#ch3-s1" class="ie-toc-section">S1 — 病理 / Ag / PCR</a>
+          <a href="#ch3-s2" class="ie-toc-section">S2 — Ag カットオフ</a>
+          <a href="#ch3-s3" class="ie-toc-section">S3 — 臓器別感度</a>
+          <a href="#ch3-summary" class="ie-toc-section">SUMMARY</a>
+          <a href="#ch4" class="ie-toc-chapter">第4章　治療薬・予防薬</a>
+          <a href="#ch4-s1" class="ie-toc-section">S1 — 作用機序まとめ</a>
+          <a href="#ch4-s2" class="ie-toc-section">S2 — GCV / FOS / MBV</a>
+          <a href="#ch4-s3" class="ie-toc-section">S3 — Letermovir 予防</a>
+          <a href="#ch4-summary" class="ie-toc-section">SUMMARY</a>
+        </div>
+      </aside>
+
+    </div><!-- /ie-page-flex -->
+  </div>
+
+  <script src="../../script.js"></script>
+  <script src="../../abbr-tooltip.js"></script>
+</body>
+</html>
