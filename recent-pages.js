@@ -32,6 +32,13 @@ const RECENT_PAGES = [
     thumb: "images/IDICUtop.png"
   },
   {
+    title: "ID×ICU 板書ノート：VAP（人工呼吸器関連肺炎）",
+    url: "pages/id-icu-notes/note-vap.html",
+    date: "2026-04-17",
+    tag: "解説",
+    thumb: "images/IDICUtop.png"
+  },
+  {
     title: "免疫不全ICU患者のCMV感染症",
     url: "pages/articles-gl-cmv-icu2025.html",
     date: "2026-05-04",

@@ -11,6 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../style-v2.css?v=202605022330">
   <script src="../all-pages.js"></script>
+  <script src="../recent-pages.js"></script>
   <style>
     /* ===== ページレイアウト（フル幅 1 カラム） ===== */
     .page-wrap {
@@ -90,6 +91,7 @@
     }
     .genre-article  { background:#DCFCE7;color:#166534; }  /* 論文・GL: 緑 */
     .genre-disease  { background:#FFEDD5;color:#9A3412; }  /* 疾患マニュアル: オレンジ */
+    .genre-note     { background:#EDE9FE;color:#5B21B6; }  /* 板書ノート: 紫 */
     .genre-exam     { background:#E0E7FF;color:#3730A3; }  /* 試験ノート: インディゴ */
     .genre-staff    { background:#FCE7F3;color:#9D174D; }  /* スタッフ: ピンク */
     .genre-schedule { background:#FEF3C7;color:#92400E; }  /* スケジュール: 黄 */
@@ -222,6 +224,7 @@
       var GENRE_CLASS = {
         '論文・GL':       'genre-article',
         '疾患マニュアル': 'genre-disease',
+        '板書ノート':     'genre-note',
         '試験ノート':     'genre-exam',
         'スタッフ':       'genre-staff',
         'スケジュール':   'genre-schedule',
@@ -229,7 +232,48 @@
         'カタログ':       'genre-catalog'
       };
 
+      // ===== ALL_PAGES + RECENT_PAGES マージ =====
+      // recent-pages.js に追加された新規ページを自動的に検索 DB に取り込む。
+      // すでに all-pages.js に同じ URL がある場合は all-pages.js のメタを優先（重複防止）。
       var data = (typeof ALL_PAGES !== 'undefined' && Array.isArray(ALL_PAGES)) ? ALL_PAGES.slice() : [];
+
+      function classifyByUrl(url) {
+        // URL パターンから genre / system を推定
+        if (/^pages\/id-icu-notes\//.test(url))     return { genre: '板書ノート', system: 'ID×ICU' };
+        if (/^pages\/disease-topics\//.test(url))   return { genre: '疾患マニュアル', system: '' };
+        if (/^pages\/exam-/.test(url))              return { genre: '試験ノート',   system: '' };
+        if (/^pages\/articles-gl-/.test(url))       return { genre: '論文・GL',     system: '' };
+        if (/^pages\/articles-guidelines\.html/.test(url)) return { genre: 'カタログ', system: '' };
+        if (/^pages\/disease-topics\.html/.test(url))      return { genre: 'カタログ', system: '' };
+        return { genre: '', system: '' };
+      }
+      function tagToType(tag) {
+        if (tag === 'ガイドライン') return 'ガイドライン';
+        if (tag === '症例')         return 'Case';
+        if (tag === '解説')         return 'Review';
+        return ''; // 論文等は明示的な type 不明
+      }
+      function isoToSlash(d) { return (d || '').replace(/-/g, '/'); }
+
+      if (typeof RECENT_PAGES !== 'undefined' && Array.isArray(RECENT_PAGES)) {
+        var existing = {};
+        data.forEach(function(d){ if (d.url) existing[d.url] = true; });
+        RECENT_PAGES.forEach(function(r){
+          if (!r.url || existing[r.url]) return;
+          var cls = classifyByUrl(r.url);
+          data.push({
+            date:      isoToSlash(r.date),
+            genre:     cls.genre,
+            type:      tagToType(r.tag),
+            system:    cls.system,
+            system_id: '',
+            title:     r.title,
+            url:       r.url
+          });
+          existing[r.url] = true;
+        });
+      }
+
       var sortKey = 'date';
       var sortDir = 'desc';
 
@@ -251,7 +295,7 @@
         if (d.system && systems.indexOf(d.system) === -1) systems.push(d.system);
       });
       // ジャンル: 表示順を固定
-      var genreOrder = ['論文・GL', '疾患マニュアル', '試験ノート', 'ICUルール', 'スケジュール', 'スタッフ', 'カタログ'];
+      var genreOrder = ['論文・GL', '疾患マニュアル', '板書ノート', '試験ノート', 'ICUルール', 'スケジュール', 'スタッフ', 'カタログ'];
       genres.sort(function(a, b){ return genreOrder.indexOf(a) - genreOrder.indexOf(b); });
       genres.forEach(function(g){
         var opt = document.createElement('option');
