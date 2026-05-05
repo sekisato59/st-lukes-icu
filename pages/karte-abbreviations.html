@@ -140,63 +140,29 @@
       background:#FEF3C7;color:#78350F;
       padding:0 3px;border-radius:3px;font-weight:600;
       border-bottom:1px dashed #F59E0B;
-      cursor:pointer;transition:background .15s;
+      cursor:text;transition:background .15s;
     }
     #kt-output mark.unknown:hover { background:#FCD34D; }
-
-    /* インラインエディタ（黄色マーカークリック時に表示） */
-    .inline-editor {
+    /* インライン編集中のマーカー */
+    #kt-output mark.unknown.editing {
+      background:#FFFFFF;color:#1F2937;
+      outline:2px solid #7C3AED;outline-offset:1px;
+      border-bottom:none;
+      cursor:text;font-weight:600;
+      box-shadow:0 0 0 4px rgba(124,58,237,0.12);
+      border-radius:3px;
+    }
+    .edit-tip {
       position:absolute;z-index:1000;
-      background:#fff;border:1px solid #DDD6FE;border-radius:10px;
-      box-shadow:0 12px 40px rgba(0,0,0,0.18);
-      padding:14px 16px;width:340px;box-sizing:border-box;
+      background:#1F2937;color:#fff;
+      font-size:0.68rem;padding:4px 8px;border-radius:4px;
+      pointer-events:none;white-space:nowrap;
+      box-shadow:0 4px 12px rgba(0,0,0,0.18);
     }
-    .inline-editor .ie-header {
-      display:flex;justify-content:space-between;align-items:center;
-      margin-bottom:10px;font-size:0.82rem;font-weight:800;color:#4C1D95;
-      padding-bottom:8px;border-bottom:1px solid #DDD6FE;
-    }
-    .inline-editor .ie-close {
-      background:none;border:none;font-size:1.3rem;line-height:1;
-      cursor:pointer;color:var(--muted);padding:0 4px;
-    }
-    .inline-editor .ie-close:hover { color:#7C3AED; }
-    .inline-editor .ie-row { margin-bottom:8px; }
-    .inline-editor .ie-row label {
-      display:block;font-size:0.7rem;font-weight:700;color:var(--muted);
-      margin-bottom:3px;letter-spacing:0.02em;
-    }
-    .inline-editor .ie-row input {
-      width:100%;padding:7px 10px;font-size:0.85rem;
-      border:1px solid #C4B5FD;border-radius:5px;outline:none;
-      box-sizing:border-box;font-family:inherit;background:#fff;
-    }
-    .inline-editor .ie-row input:focus {
-      border-color:#7C3AED;box-shadow:0 0 0 3px rgba(124,58,237,0.15);
-    }
-    .inline-editor .ie-row input[readonly] {
-      background:#F5F3FF;color:#4C1D95;font-weight:700;
-      font-family:ui-monospace,Menlo,Consolas,monospace;
-    }
-    .inline-editor .ie-actions {
-      display:flex;gap:8px;margin-top:12px;justify-content:flex-end;
-    }
-    .inline-editor .ie-actions button {
-      padding:7px 14px;font-size:0.78rem;font-weight:700;
-      border-radius:5px;cursor:pointer;letter-spacing:0.02em;
-      transition:background .15s;
-    }
-    .inline-editor #ie-cancel {
-      background:#fff;color:#4C1D95;border:1px solid #C4B5FD;
-    }
-    .inline-editor #ie-cancel:hover { background:#F5F3FF; }
-    .inline-editor #ie-save {
-      background:#7C3AED;color:#fff;border:1px solid #7C3AED;
-    }
-    .inline-editor #ie-save:hover { background:#6D28D9; }
-    .inline-editor .ie-tip {
-      font-size:0.66rem;color:var(--muted);margin-top:6px;
-      line-height:1.5;
+    .edit-tip::after {
+      content:'';position:absolute;top:-4px;left:10px;
+      width:8px;height:8px;background:#1F2937;
+      transform:rotate(45deg);
     }
     #kt-output mark.donotuse {
       background:#FEE2E2;color:#7F1D1D;
@@ -541,31 +507,6 @@
     <p style="font-size:0.72rem;color:var(--muted);margin-top:24px;line-height:1.7;text-align:right;">
       制作：ICU 関谷 ／ 最終更新：2026-05-05
     </p>
-  </div>
-
-  <!-- インラインエディタ（黄色マーカークリック時に表示） -->
-  <div class="inline-editor" id="inline-editor" style="display:none;">
-    <div class="ie-header">
-      <span>未登録略語を辞書に追加</span>
-      <button type="button" class="ie-close" id="ie-close" aria-label="閉じる">×</button>
-    </div>
-    <div class="ie-row">
-      <label for="ie-abbr">略語</label>
-      <input type="text" id="ie-abbr" readonly>
-    </div>
-    <div class="ie-row">
-      <label for="ie-full">正式名称（必須）</label>
-      <input type="text" id="ie-full" placeholder="例: Acute Kidney Injury">
-    </div>
-    <div class="ie-row">
-      <label for="ie-jp">日本語訳（任意）</label>
-      <input type="text" id="ie-jp" placeholder="例: 急性腎障害">
-    </div>
-    <div class="ie-actions">
-      <button type="button" id="ie-cancel">キャンセル</button>
-      <button type="button" id="ie-save">辞書に追加</button>
-    </div>
-    <p class="ie-tip">追加後すぐに置換が反映されます。Esc キーでキャンセル。</p>
   </div>
 
   <div class="copy-toast" id="copy-toast">クリップボードにコピーしました</div>
@@ -1868,7 +1809,8 @@
         } else {
           // 4) 未登録だが略語ぽい → 黄色マーク
           if (looksLikeAbbr(w)) {
-            html += '<mark class="unknown" title="辞書に未登録：' + htmlEscape(w) + '">' + htmlEscape(w) + '</mark>';
+            // data-start / data-len を付与してその場編集を可能にする
+            html += '<mark class="unknown" data-start="' + p.start + '" data-len="' + w.length + '" title="クリックで修正：' + htmlEscape(w) + '">' + htmlEscape(w) + '</mark>';
             var k3 = w.toUpperCase();
             if (!unknownSet[k3]) unknownSet[k3] = {word:w, count:0};
             unknownSet[k3].count++;
@@ -1962,93 +1904,93 @@
       if (abbr) openDictAndPrefill(abbr);
     });
 
-    // ===== インラインエディタ（黄色マーカー直接クリックで起動）=====
-    var $editor   = document.getElementById('inline-editor');
-    var $eAbbr    = document.getElementById('ie-abbr');
-    var $eFull    = document.getElementById('ie-full');
-    var $eJp      = document.getElementById('ie-jp');
-    var $eClose   = document.getElementById('ie-close');
-    var $eCancel  = document.getElementById('ie-cancel');
-    var $eSave    = document.getElementById('ie-save');
+    // ===== 黄色マーカーのその場編集 =====
+    // 仕組み：未登録マーカーを contenteditable にして直接書き換え可能にする。
+    // Enter / blur で確定 → INPUT テキストの該当位置を新しい単語で置き換え → 再レンダリング。
+    // 修正後の単語が辞書にヒットすれば自動でスペルアウトされる。
+    function startInlineEdit(mark){
+      if (mark.classList.contains('editing')) return;
+      var originalText = mark.textContent;
+      var start = parseInt(mark.getAttribute('data-start'), 10);
+      var len   = parseInt(mark.getAttribute('data-len'), 10);
+      if (isNaN(start) || isNaN(len)) return;
 
-    function showInlineEditor(abbr, anchorEl){
-      $eAbbr.value = abbr;
-      $eFull.value = '';
-      $eJp.value = '';
-      $editor.style.display = 'block';
-      // ポップオーバーの寸法を取得して位置調整
-      var rect = anchorEl.getBoundingClientRect();
-      var popW = $editor.offsetWidth || 340;
-      var popH = $editor.offsetHeight || 240;
+      mark.contentEditable = 'true';
+      mark.classList.add('editing');
+      mark.removeAttribute('title'); // 編集中はツールチップを抑制
+      mark.focus();
+
+      // 中身を全選択（即座に上書きできるよう）
+      try {
+        var range = document.createRange();
+        range.selectNodeContents(mark);
+        var sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+      } catch (err) { /* selection API may be unavailable */ }
+
+      // ヒント表示
+      var tip = document.createElement('div');
+      tip.className = 'edit-tip';
+      tip.textContent = 'Enter で確定 / Esc でキャンセル';
+      document.body.appendChild(tip);
+      var rect = mark.getBoundingClientRect();
       var scrollY = window.pageYOffset || document.documentElement.scrollTop;
-      // 横位置: クリック位置を左端に、画面右はみ出し回避
-      var left = Math.max(8, Math.min(rect.left, window.innerWidth - popW - 8));
-      // 縦位置: 下に余裕があれば下、なければ上
-      var top;
-      if ((window.innerHeight - rect.bottom) >= popH + 12) {
-        top = rect.bottom + scrollY + 8;
-      } else {
-        top = rect.top + scrollY - popH - 8;
+      var scrollX = window.pageXOffset || document.documentElement.scrollLeft;
+      tip.style.left = (rect.left + scrollX) + 'px';
+      tip.style.top  = (rect.bottom + scrollY + 6) + 'px';
+
+      var done = false;
+      function cleanup(){
+        mark.removeEventListener('keydown', onKey);
+        mark.removeEventListener('blur', onBlur);
+        if (tip && tip.parentNode) tip.parentNode.removeChild(tip);
       }
-      $editor.style.left = left + 'px';
-      $editor.style.top = top + 'px';
-      // 正式名称欄にフォーカス
-      setTimeout(function(){ $eFull.focus(); }, 0);
-    }
-    function hideInlineEditor(){
-      $editor.style.display = 'none';
+      function commit(){
+        if (done) return;
+        done = true;
+        var newText = mark.textContent.replace(/ /g, ' '); // nbsp → space
+        cleanup();
+        if (newText === originalText || newText === '') {
+          mark.contentEditable = 'false';
+          mark.classList.remove('editing');
+          if (newText === '') {
+            // 空にしたら元の単語ごと削除する
+            var src0 = $in.value;
+            $in.value = src0.substring(0, start) + src0.substring(start + len);
+            render();
+          }
+          return;
+        }
+        // INPUT テキストの該当位置を置換 → 再レンダリング
+        var src = $in.value;
+        $in.value = src.substring(0, start) + newText + src.substring(start + len);
+        render();
+      }
+      function cancel(){
+        if (done) return;
+        done = true;
+        cleanup();
+        mark.textContent = originalText;
+        mark.contentEditable = 'false';
+        mark.classList.remove('editing');
+      }
+      function onKey(e){
+        if (e.key === 'Enter') { e.preventDefault(); commit(); }
+        else if (e.key === 'Escape') { e.preventDefault(); cancel(); }
+      }
+      function onBlur(){ setTimeout(commit, 0); }
+
+      mark.addEventListener('keydown', onKey);
+      mark.addEventListener('blur', onBlur);
     }
 
-    // 黄色マーカークリックでエディタ起動
+    // 黄色マーカークリックでその場編集開始
     $out.addEventListener('click', function(e){
       var mark = e.target.closest('mark.unknown');
       if (!mark) return;
       e.stopPropagation();
-      var abbr = mark.textContent;
-      showInlineEditor(abbr, mark);
-    });
-
-    function saveInlineEntry(){
-      var abbr = ($eAbbr.value || '').trim();
-      var full = ($eFull.value || '').trim();
-      var jp   = ($eJp.value || '').trim();
-      if (!abbr) { hideInlineEditor(); return; }
-      if (!full) {
-        alert('正式名称を入力してください。');
-        $eFull.focus();
-        return;
-      }
-      // 同じ略語のカスタムエントリを置き換える
-      var keyU = abbr.toUpperCase();
-      customDict = customDict.filter(function(x){ return x.a.toUpperCase() !== keyU; });
-      customDict.push({a: abbr, f: full, j: jp});
-      saveCustom();
-      hideInlineEditor();
-      render();
-      renderDict();
-    }
-
-    $eSave.addEventListener('click', saveInlineEntry);
-    $eCancel.addEventListener('click', hideInlineEditor);
-    $eClose.addEventListener('click', hideInlineEditor);
-
-    // Enter で保存（Shift+Enter は通常の改行用に温存）
-    $eFull.addEventListener('keydown', function(e){
-      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); saveInlineEntry(); }
-    });
-    $eJp.addEventListener('keydown', function(e){
-      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); saveInlineEntry(); }
-    });
-
-    // Esc キー or 外側クリックで閉じる
-    document.addEventListener('keydown', function(e){
-      if (e.key === 'Escape' && $editor.style.display !== 'none') hideInlineEditor();
-    });
-    document.addEventListener('click', function(e){
-      if ($editor.style.display === 'none') return;
-      if (e.target.closest('#inline-editor')) return;
-      if (e.target.closest('mark.unknown')) return;
-      hideInlineEditor();
+      startInlineEdit(mark);
     });
 
     function renderDict(){
