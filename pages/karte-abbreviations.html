@@ -36,7 +36,7 @@
     }
     .back-btn:hover { background:rgba(255,255,255,0.95);transform:translateY(-1px); }
 
-    /* オフライン情報バナー（控えめ） */
+    /* 情報バナー（オフライン処理保証 + 操作ヒント） */
     .offline-badge {
       background:#F8FAFC;
       border:1px solid #E2E8F0;
@@ -44,9 +44,19 @@
       padding:10px 14px;margin-bottom:14px;
       font-size:0.78rem;line-height:1.7;
     }
+    .offline-badge .ob-line {
+      display:flex;align-items:flex-start;gap:8px;
+    }
+    .offline-badge .ob-line + .ob-line {
+      margin-top:6px;padding-top:6px;border-top:1px dashed #E2E8F0;
+    }
     .offline-badge .lock-ico {
-      display:inline-block;width:13px;height:13px;
-      vertical-align:-2px;margin-right:6px;color:#64748B;
+      width:13px;height:13px;flex-shrink:0;
+      color:#64748B;margin-top:3px;
+    }
+    .offline-badge .ob-edit-ico {
+      font-size:0.95rem;line-height:1.3;flex-shrink:0;
+      color:#92400E;width:13px;text-align:center;
     }
     .offline-badge strong { color:#334155;font-weight:700; }
 
@@ -199,18 +209,6 @@
     }
     .settings-bar .stat strong { color:#7C3AED;font-weight:800;font-size:0.92rem;font-family:ui-monospace,Menlo,Consolas,monospace; }
     .settings-bar .stat-warn strong { color:#D97706; }
-
-    /* OUTPUT 直下の使い方ヒント */
-    .output-help {
-      background:#FEF3C7;border:1px solid #FDE68A;border-radius:8px;
-      padding:9px 13px;margin:6px 0 16px;
-      font-size:0.78rem;color:#78350F;line-height:1.6;
-      display:flex;align-items:flex-start;gap:8px;
-    }
-    .output-help .oh-icon {
-      font-size:0.95rem;line-height:1.3;flex-shrink:0;
-    }
-    .output-help strong { color:#92400E;font-weight:800; }
 
     /* 検出された略語一覧 */
     .detected-card {
@@ -384,15 +382,15 @@
     </div>
 
     <div class="offline-badge">
-      <svg class="lock-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-      入力内容は <strong>ブラウザ内のみで処理</strong>され、外部に送信されません。オフラインでも動作し、追加した略語は次回以降も保存されます。
+      <div class="ob-line">
+        <svg class="lock-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        <span>入力内容は <strong>ブラウザ内のみで処理</strong>され、外部に送信されません。オフラインでも動作し、追加した略語は次回以降も保存されます。</span>
+      </div>
+      <div class="ob-line">
+        <span class="ob-edit-ico">✏</span>
+        <span><strong>黄色の未登録略語をクリック</strong>すると、その場で文字を直せます。修正後の単語が辞書にあれば自動でスペルアウトされます。</span>
+      </div>
     </div>
-
-    <p class="output-help">
-      <span class="oh-icon">✏</span>
-      <strong>黄色の未登録略語をクリック</strong>すると、その場で文字を直せます。
-      修正後の単語が辞書にあれば自動でスペルアウトされます。
-    </p>
 
     <!-- 設定バー -->
     <div class="settings-bar">
@@ -1477,7 +1475,10 @@
       {a:'NAd', f:'Noradrenaline', j:'ノルアドレナリン'},
       {a:'Tz', f:'Zucker', j:'糖（血糖値）'},
       // CKD GFR 分類（CKDG3a 等は prefix-split で CKDG+3a に分割される）
-      {a:'CKDG', f:'Chronic Kidney Disease GFR classification', j:'CKD の GFR 分類'}
+      {a:'CKDG', f:'Chronic Kidney Disease GFR classification', j:'CKD の GFR 分類'},
+      // 輸液・電解質
+      {a:'NaCl', f:'Sodium Chloride', j:'塩化ナトリウム'},
+      {a:'NS', f:'Normal Saline', j:'生理食塩水'}
     ];
 
     // ============================================================
@@ -1723,8 +1724,12 @@
       'D40mL/h':1,'F40mL/h':1,'D40mL':1,'F40mL':1,
       // 一般語（追補）
       'Day':1,'DAY':1,'Film':1,'film':1,'FILM':1,'Array':1,'array':1,'ARRAY':1,
+      'Main':1,'main':1,'MAIN':1,'OK':1,'Ok':1,'ok':1,
       // 単位（μ系・水柱）
-      'μg':1,'μL':1,'μmol':1,'μm':1,'cmH':1,'H2O':1
+      'μg':1,'μL':1,'μmol':1,'μm':1,'cmH':1,'H2O':1,
+      // 製剤サフィックス（CR=Controlled Release, SR=Sustained, ER/XR=Extended,
+      // IR=Immediate, OD=口腔内崩壊 等）— 単独表記時は無視
+      'CR':1,'SR':1,'ER':1,'XR':1,'IR':1,'OD':1
     };
     // 病原体属名（細菌・真菌） — 略語ではないため検出対象外
     var PATHOGEN_NAMES = {
