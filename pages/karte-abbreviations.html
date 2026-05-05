@@ -40,7 +40,6 @@
     .offline-badge {
       background:#F8FAFC;
       border:1px solid #E2E8F0;
-      border-left:3px solid #94A3B8;
       color:#475569;border-radius:6px;
       padding:10px 14px;margin-bottom:14px;
       font-size:0.78rem;line-height:1.7;
@@ -100,6 +99,11 @@
       background:#DCFCE7;color:#065F46;
       padding:0 3px;border-radius:3px;font-weight:600;
       border-bottom:1px dashed #16A34A;
+    }
+    #kt-output mark.replaced-repeat {
+      background:#F0FDF4;color:#15803D;
+      padding:0 3px;border-radius:3px;font-weight:600;
+      border-bottom:1px dotted #86EFAC;
     }
     #kt-output mark.unknown {
       background:#FEF3C7;color:#78350F;
@@ -262,13 +266,18 @@
     .dict-table-wrap table { width:100%; }
 
     .copy-toast {
-      position:fixed;left:50%;bottom:30px;transform:translateX(-50%) translateY(60px);
+      position:fixed;left:50%;bottom:30px;transform:translateX(-50%) translateY(120px);
       background:#065F46;color:#fff;padding:11px 22px;border-radius:8px;
       font-size:0.82rem;font-weight:700;letter-spacing:0.02em;
       box-shadow:0 8px 24px rgba(0,0,0,0.18);
-      transition:transform .25s ease;z-index:9999;
+      opacity:0;pointer-events:none;visibility:hidden;
+      transition:transform .25s ease, opacity .25s ease, visibility .25s;
+      z-index:9999;
     }
-    .copy-toast.show { transform:translateX(-50%) translateY(0); }
+    .copy-toast.show {
+      transform:translateX(-50%) translateY(0);
+      opacity:1;pointer-events:auto;visibility:visible;
+    }
   </style>
 </head>
 <body>
@@ -304,9 +313,9 @@
     <div class="settings-bar">
       <label for="fmt">出力形式：</label>
       <select id="fmt">
-        <option value="full-paren-abbr" selected>正式名称（略語）— 推奨</option>
+        <option value="abbr-paren-full" selected>略語（正式名称）— 推奨</option>
+        <option value="full-paren-abbr">正式名称（略語）</option>
         <option value="full-paren-jp-abbr">正式名称（日本語訳, 略語）</option>
-        <option value="abbr-paren-full">略語（正式名称）</option>
         <option value="full-only">正式名称のみ（略語を完全削除）</option>
         <option value="jp-only">日本語訳のみ</option>
       </select>
@@ -341,7 +350,7 @@
       <div class="pane">
         <div class="pane-head">
           <span class="pane-tag" style="background:#10B981;">OUTPUT</span>
-          <span style="font-size:0.78rem;font-weight:600;">緑＝置換済／<span style="color:#1E40AF;">青＝聖路加で使用可</span>／<span style="color:#DC2626;">赤＝禁止表記</span>／<span style="color:#92400E;">黄＝未登録</span></span>
+          <span style="font-size:0.78rem;font-weight:600;">緑＝初回スペルアウト／薄緑＝既出（略語のまま）／<span style="color:#1E40AF;">青＝聖路加で使用可</span>／<span style="color:#DC2626;">赤＝禁止表記</span>／<span style="color:#92400E;">黄＝未登録</span></span>
           <div class="pane-actions">
             <button class="pane-btn primary" id="btn-copy">コピー</button>
           </div>
@@ -1018,7 +1027,54 @@
       {a:'OGT', f:'Orogastric Tube', j:'経口胃管'},
       {a:'POCUS', f:'Point-of-Care Ultrasound', j:'ベッドサイドエコー'},
       {a:'TTE', f:'Transthoracic Echocardiography', j:'経胸壁心エコー'},
-      {a:'TEE', f:'Transesophageal Echocardiography', j:'経食道心エコー'}
+      {a:'TEE', f:'Transesophageal Echocardiography', j:'経食道心エコー'},
+      // ICU 略語追補（聖路加 ICU 略語集 Ver2 準拠）
+      {a:'AMD', f:'Amiodarone', j:'アミオダロン'},
+      {a:'AKA', f:'Alcoholic Ketoacidosis', j:'アルコール性ケトアシドーシス'},
+      {a:'DKA', f:'Diabetic Ketoacidosis', j:'糖尿病性ケトアシドーシス'},
+      {a:'AVP', f:'Arginine Vasopressin', j:'バゾプレッシン'},
+      {a:'NAD', f:'Noradrenaline', j:'ノルアドレナリン'},
+      {a:'ECUM', f:'Extracorporeal Ultrafiltration Method', j:'体外限外濾過法'},
+      {a:'ICU-AW', f:'ICU-Acquired Weakness', j:'ICU関連筋力低下'},
+      {a:'IPC', f:'Intermittent Pneumatic Compression', j:'間欠的空気圧迫療法'},
+      {a:'IVAC', f:'Infection-related Ventilator-Associated Complication', j:'感染関連人工呼吸器関連合併症'},
+      {a:'NIRS', f:'Non-Invasive Respiratory Support', j:'非侵襲的呼吸管理'},
+      {a:'Paf', f:'Paroxysmal Atrial Fibrillation', j:'発作性心房細動'},
+      {a:'PICS', f:'Post-Intensive Care Syndrome', j:'集中治療後症候群'},
+      {a:'PN', f:'Parenteral Nutrition', j:'静脈栄養'},
+      {a:'P-SILI', f:'Patient Self-Inflicted Lung Injury', j:'自発呼吸誘発性肺障害'},
+      {a:'PVAP', f:'Possible Ventilator-Associated Pneumonia', j:'人工呼吸器関連肺炎可能性'},
+      {a:'SDU', f:'Step Down Unit', j:'重症患者対応一般床'},
+      {a:'TLT', f:'Time-Limited Trial', j:'期限を設けた治療施行'},
+      {a:'TPN', f:'Total Parenteral Nutrition', j:'完全静脈栄養'},
+      {a:'VAC', f:'Ventilator-Associated Condition', j:'人工呼吸器関連状態'},
+      {a:'VAE', f:'Ventilator-Associated Event', j:'人工呼吸器関連イベント'},
+      {a:'VILI', f:'Ventilator-Induced Lung Injury', j:'人工呼吸器誘発性肺傷害'},
+      {a:'VFD', f:'Ventilator-Free Days', j:'人工呼吸器離脱日数'},
+      {a:'APACHE', f:'Acute Physiology and Chronic Health Evaluation', j:'APACHEスコア'},
+      {a:'BIPAP', f:'Biphasic Positive Airway Pressure', j:'二相性陽圧呼吸'},
+      {a:'FiO2', f:'Fraction of Inspired Oxygen', j:'吸入酸素濃度'},
+      {a:'HCU', f:'High Care Unit', j:'ハイケア室'},
+      {a:'PaO2', f:'Partial Pressure of Arterial Oxygen', j:'動脈血酸素分圧'},
+      {a:'SpO2', f:'Oxygen Saturation by Pulse Oximetry', j:'経皮的動脈血酸素飽和度'},
+      // 抗菌薬・抗真菌薬 追補
+      {a:'TAZ/PIPC', f:'Tazobactam/Piperacillin', j:'タゾバクタム/ピペラシリン'},
+      {a:'TZP', f:'Tazobactam/Piperacillin', j:'タゾバクタム/ピペラシリン'},
+      {a:'IPM/CS', f:'Imipenem/Cilastatin', j:'イミペネム/シラスタチン'},
+      {a:'DRPM', f:'Doripenem', j:'ドリペネム'},
+      {a:'AMK', f:'Amikacin', j:'アミカシン'},
+      {a:'GM', f:'Gentamicin', j:'ゲンタマイシン'},
+      {a:'TOB', f:'Tobramycin', j:'トブラマイシン'},
+      {a:'DOXY', f:'Doxycycline', j:'ドキシサイクリン'},
+      {a:'AMPC', f:'Amoxicillin', j:'アモキシシリン'},
+      {a:'AMPC/CVA', f:'Amoxicillin/Clavulanate', j:'アモキシシリン/クラブラン酸'},
+      {a:'MFLX', f:'Moxifloxacin', j:'モキシフロキサシン'},
+      {a:'CL', f:'Colistin', j:'コリスチン'},
+      {a:'MCFG', f:'Micafungin', j:'ミカファンギン'},
+      {a:'L-AMB', f:'Liposomal Amphotericin B', j:'リポソームアムホテリシンB'},
+      {a:'VRCZ', f:'Voriconazole', j:'ボリコナゾール'},
+      {a:'F-FLCZ', f:'Fluconazole', j:'フルコナゾール'},
+      {a:'CASF', f:'Caspofungin', j:'カスポファンギン'}
     ];
 
     // ============================================================
@@ -1177,6 +1233,7 @@
       var unknownSet = {}; // 未登録だが略語っぽいもの
 
       var allowedDetected = {}; // 聖路加公式（使用可）
+      var seenSpellouts = {};   // 既にスペルアウト済の略語（2回目以降は略語のまま残す）
 
       var html = '';
       parts.forEach(function(p){
@@ -1209,9 +1266,16 @@
         // 3) スペルアウト辞書検索
         var entry = dictMap[key];
         if (entry) {
-          var disp = formatReplacement(entry, fmt);
-          html += '<mark class="replaced" title="' + htmlEscape(entry.a) + ' = ' + htmlEscape(entry.f) + '">' + htmlEscape(disp) + '</mark>';
           var k2 = entry.a.toUpperCase();
+          if (seenSpellouts[k2]) {
+            // 2回目以降 — 略語のまま（薄緑）。元のテキストの大文字小文字を保持
+            html += '<mark class="replaced-repeat" title="' + htmlEscape(entry.a) + ' = ' + htmlEscape(entry.f) + '（既出のため略語のまま）">' + htmlEscape(w) + '</mark>';
+          } else {
+            // 初回 — フルスペル展開（緑）
+            seenSpellouts[k2] = true;
+            var disp = formatReplacement(entry, fmt);
+            html += '<mark class="replaced" title="' + htmlEscape(entry.a) + ' = ' + htmlEscape(entry.f) + '">' + htmlEscape(disp) + '</mark>';
+          }
           if (!detected[k2]) detected[k2] = {entry:entry, count:0};
           detected[k2].count++;
         } else {
