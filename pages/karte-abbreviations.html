@@ -1112,7 +1112,6 @@
       {a:'PVAP', f:'Possible Ventilator-Associated Pneumonia', j:'人工呼吸器関連肺炎可能性'},
       {a:'SDU', f:'Step Down Unit', j:'重症患者対応一般床'},
       {a:'TLT', f:'Time-Limited Trial', j:'期限を設けた治療施行'},
-      {a:'TPN', f:'Total Parenteral Nutrition', j:'完全静脈栄養'},
       {a:'VAC', f:'Ventilator-Associated Condition', j:'人工呼吸器関連状態'},
       {a:'VAE', f:'Ventilator-Associated Event', j:'人工呼吸器関連イベント'},
       {a:'VILI', f:'Ventilator-Induced Lung Injury', j:'人工呼吸器誘発性肺傷害'},
@@ -1305,7 +1304,81 @@
       // 抗菌薬（追補）
       {a:'CEZ', f:'Cefazolin', j:'セファゾリン（セファメジン）'},
       {a:'CAZ/AVI', f:'Ceftazidime/Avibactam', j:'セフタジジム/アビバクタム（ザビセフタ）'},
-      {a:'CTLZ/TAZ', f:'Ceftolozane/Tazobactam', j:'セフトロザン/タゾバクタム（ザバクサ）'}
+      {a:'CTLZ/TAZ', f:'Ceftolozane/Tazobactam', j:'セフトロザン/タゾバクタム（ザバクサ）'},
+      // 鎮静・血管作動薬の case variant 追加
+      {a:'Nad', f:'Noradrenaline', j:'ノルアドレナリン'},
+      {a:'dex', f:'Dexmedetomidine', j:'デクスメデトミジン（プレセデックス）'},
+      {a:'PRF', f:'Propofol', j:'プロポフォール（ディプリバン）'},
+      // 抗真菌薬（追補）
+      {a:'PSCZ', f:'Posaconazole', j:'ポサコナゾール（ノクサフィル）'},
+      // 真菌マーカー（β記号は tokenizer で除外されるため英字キーで登録）
+      {a:'BDG', f:'beta-D-Glucan', j:'β-Dグルカン（深在性真菌症マーカー）'},
+      // 術後経過・検査
+      {a:'POD', f:'Postoperative Day', j:'術後経過日数'},
+      {a:'P-AMY', f:'Pancreatic Amylase', j:'膵アミラーゼ'},
+      // 糖尿病薬
+      {a:'SGLT2', f:'Sodium-Glucose Co-Transporter 2', j:'ナトリウム・グルコース共輸送体2（SGLT2阻害薬の標的）'},
+      {a:'SGLT-2', f:'Sodium-Glucose Co-Transporter 2', j:'ナトリウム・グルコース共輸送体2（SGLT2阻害薬の標的）'},
+      // 酸素・呼吸
+      {a:'NC', f:'Nasal Cannula', j:'経鼻カニューラ酸素'},
+      // 人工呼吸器設定
+      {a:'Pplat', f:'Plateau Pressure', j:'プラトー圧'},
+      {a:'Crs', f:'Compliance of respiratory system', j:'呼吸系コンプライアンス'},
+      {a:'PRVC', f:'Pressure Regulated Volume Control', j:'圧制御容量規定換気'},
+      {a:'APRV', f:'Airway Pressure Release Ventilation', j:'気道圧開放換気'},
+      {a:'HFOV', f:'High-Frequency Oscillatory Ventilation', j:'高頻度振動換気'},
+      // 手術術式（消化器・肝胆膵）
+      {a:'SSPPD', f:'Subtotal Stomach-Preserving Pancreaticoduodenectomy', j:'亜全胃温存膵頭十二指腸切除術'},
+      {a:'SSPPD-II', f:'Subtotal Stomach-Preserving Pancreaticoduodenectomy type II', j:'亜全胃温存膵頭十二指腸切除術 II型'},
+      {a:'PPPD', f:'Pylorus-Preserving Pancreaticoduodenectomy', j:'幽門輪温存膵頭十二指腸切除術'},
+      {a:'DP', f:'Distal Pancreatectomy', j:'膵体尾部切除術'},
+      {a:'LADG', f:'Laparoscopic Assisted Distal Gastrectomy', j:'腹腔鏡補助下幽門側胃切除術'},
+      {a:'LSG', f:'Laparoscopic Sleeve Gastrectomy', j:'腹腔鏡下スリーブ状胃切除術'},
+      {a:'APR', f:'Abdominoperineal Resection', j:'腹会陰式直腸切断術'},
+      {a:'LAR', f:'Low Anterior Resection', j:'低位前方切除術'},
+      {a:'ISR', f:'Intersphincteric Resection', j:'括約筋間直腸切除術'},
+      // 手術術式（心臓・整形・胸部）
+      {a:'AVR', f:'Aortic Valve Replacement', j:'大動脈弁置換術'},
+      {a:'TKA', f:'Total Knee Arthroplasty', j:'人工膝関節全置換術'},
+      {a:'THA', f:'Total Hip Arthroplasty', j:'人工股関節全置換術'},
+      {a:'RATS', f:'Robot-Assisted Thoracic Surgery', j:'ロボット支援胸部手術'},
+      {a:'TLH', f:'Total Laparoscopic Hysterectomy', j:'腹腔鏡下子宮全摘術'},
+      // 化学療法レジメン（リンパ腫）
+      {a:'EPOCH', f:'Etoposide/Prednisolone/Vincristine/Cyclophosphamide/Doxorubicin', j:'EPOCH 療法'},
+      {a:'DA-EPOCH', f:'Dose-Adjusted EPOCH', j:'用量調整EPOCH 療法（DLBCL等）'},
+      {a:'CHOP', f:'Cyclophosphamide/Doxorubicin/Vincristine/Prednisolone', j:'CHOP 療法'},
+      {a:'R-CHOP', f:'Rituximab + CHOP', j:'R-CHOP 療法（B細胞リンパ腫の標準）'},
+      {a:'R-CVP', f:'Rituximab + Cyclophosphamide/Vincristine/Prednisolone', j:'R-CVP 療法'},
+      {a:'R-DHAP', f:'Rituximab + Dexamethasone/Cytarabine/Cisplatin', j:'R-DHAP 療法（再発リンパ腫）'},
+      {a:'R-ICE', f:'Rituximab + Ifosfamide/Carboplatin/Etoposide', j:'R-ICE 療法（再発リンパ腫）'},
+      {a:'R-Benda', f:'Rituximab + Bendamustine', j:'R-Bendamustine 療法'},
+      {a:'ABVD', f:'Doxorubicin/Bleomycin/Vinblastine/Dacarbazine', j:'ABVD 療法（ホジキンリンパ腫）'},
+      {a:'HyperCVAD', f:'Hyperfractionated Cyclophosphamide/Vincristine/Doxorubicin/Dexamethasone', j:'HyperCVAD 療法（ALL等）'},
+      // 化学療法レジメン（消化器がん）
+      {a:'FOLFOX', f:'5-FU/Leucovorin/Oxaliplatin', j:'FOLFOX 療法（大腸がん等）'},
+      {a:'mFOLFOX6', f:'modified FOLFOX 6', j:'mFOLFOX6 療法'},
+      {a:'FOLFIRI', f:'5-FU/Leucovorin/Irinotecan', j:'FOLFIRI 療法'},
+      {a:'FOLFIRINOX', f:'5-FU/Leucovorin/Irinotecan/Oxaliplatin', j:'FOLFIRINOX 療法（膵がん等）'},
+      {a:'XELOX', f:'Capecitabine/Oxaliplatin', j:'XELOX 療法（CapeOXとも）'},
+      {a:'CapeOX', f:'Capecitabine/Oxaliplatin', j:'CapeOX 療法'},
+      {a:'GnP', f:'Gemcitabine + nab-Paclitaxel', j:'GnP 療法（膵がん）'},
+      {a:'BEP', f:'Bleomycin/Etoposide/Cisplatin', j:'BEP 療法（精巣腫瘍）'},
+      // 血液腫瘍（病名）
+      {a:'DLBCL', f:'Diffuse Large B-Cell Lymphoma', j:'びまん性大細胞型B細胞リンパ腫'},
+      {a:'HL', f:'Hodgkin Lymphoma', j:'ホジキンリンパ腫'},
+      {a:'NHL', f:'Non-Hodgkin Lymphoma', j:'非ホジキンリンパ腫'},
+      {a:'FL', f:'Follicular Lymphoma', j:'濾胞性リンパ腫'},
+      {a:'MZL', f:'Marginal Zone Lymphoma', j:'辺縁帯リンパ腫'},
+      {a:'CLL', f:'Chronic Lymphocytic Leukemia', j:'慢性リンパ性白血病'},
+      {a:'SLL', f:'Small Lymphocytic Lymphoma', j:'小リンパ球性リンパ腫'},
+      {a:'HCL', f:'Hairy Cell Leukemia', j:'有毛細胞白血病'},
+      {a:'WM', f:'Waldenström Macroglobulinemia', j:'ワルデンシュトレーム・マクログロブリン血症'},
+      {a:'MPN', f:'Myeloproliferative Neoplasm', j:'骨髄増殖性腫瘍'},
+      // 脳血管・バイパス手術
+      {a:'STA-MCA', f:'Superficial Temporal Artery to Middle Cerebral Artery bypass', j:'浅側頭動脈・中大脳動脈バイパス術'},
+      {a:'EC-IC', f:'External Carotid - Internal Carotid bypass', j:'外頸動脈・内頸動脈バイパス'},
+      {a:'ACA', f:'Anterior Cerebral Artery', j:'前大脳動脈'},
+      {a:'PCA', f:'Posterior Cerebral Artery', j:'後大脳動脈'}
     ];
 
     // ============================================================
@@ -1527,7 +1600,11 @@
       // GCS の構成スコア（M1〜M6, V1〜V5, E1〜E4 単独表記）
       'M1':1,'M2':1,'M3':1,'M4':1,'M5':1,'M6':1,
       'V1':1,'V2':1,'V3':1,'V4':1,'V5':1,
-      'E1':1,'E2':1,'E3':1,'E4':1
+      'E1':1,'E2':1,'E3':1,'E4':1,
+      // 一般英単語・医学用語
+      'Nadir':1,'nadir':1,'Normal':1,'normal':1,'Room':1,'room':1,'air':1,'Air':1,
+      // 維持輸液製品名（KN1A, KN3A 等）
+      'KN1A':1,'KN2A':1,'KN3A':1,'KN3B':1,'KNMG3':1
     };
     // 病原体属名（細菌・真菌） — 略語ではないため検出対象外
     var PATHOGEN_NAMES = {
