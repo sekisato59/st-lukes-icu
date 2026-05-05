@@ -2081,27 +2081,23 @@
       $rSubmit.disabled = true;
       $rSubmit.textContent = '送信中…';
 
-      // Apps Script は text/plain にすると CORS preflight を回避できる
+      // Apps Script への POST は no-cors モードを使用。
+      // - レスポンスは opaque（読めない）が、リクエストは正常に GAS まで届く
+      // - GAS 側で doPost が実行されシートに行追加される
+      // - CORS preflight も発生しないため Safari/Firefox 等でも安定
       fetch(REQUEST_ENDPOINT, {
         method: 'POST',
+        mode: 'no-cors',
         body: JSON.stringify(payload),
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        redirect: 'follow'
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' }
       })
-        .then(function(res){ return res.text(); })
-        .then(function(text){
-          // GAS は JSON を返すが、parse 失敗してもリクエスト自体は成功している場合が多い
-          var ok = false;
-          try { ok = !!(JSON.parse(text).ok); } catch(_) { ok = true; }
-          if (ok) {
-            showToast('リクエストを送信しました。ありがとうございます！', 2400);
-            $rAbbr.value = '';
-            $rFull.value = '';
-            $rJp.value = '';
-            $rNote.value = '';
-          } else {
-            showToast('送信は完了しましたが、サーバー応答が想定外でした。', 2800);
-          }
+        .then(function(){
+          // opaque response — 成功と仮定
+          showToast('リクエストを送信しました。ありがとうございます！', 2400);
+          $rAbbr.value = '';
+          $rFull.value = '';
+          $rJp.value = '';
+          $rNote.value = '';
         })
         .catch(function(err){
           console.error('リクエスト送信失敗:', err);
