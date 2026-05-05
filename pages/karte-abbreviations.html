@@ -1241,7 +1241,9 @@
       {a:'CPT-11', f:'Irinotecan', j:'イリノテカン'},
       {a:'MTX', f:'Methotrexate', j:'メトトレキサート'},
       {a:'DXR', f:'Doxorubicin', j:'ドキソルビシン（アドリアマイシン）'},
-      {a:'EPI', f:'Epirubicin', j:'エピルビシン'},
+      {a:'EPI', f:'Epidural Anesthesia', j:'硬膜外麻酔'},
+      {a:'Epi', f:'Epidural Anesthesia', j:'硬膜外麻酔'},
+      {a:'EPB', f:'Epirubicin', j:'エピルビシン（ICUでEPI=エピドラルが優先のため別表記）'},
       // 分子標的薬・免疫療法
       {a:'TKI', f:'Tyrosine Kinase Inhibitor', j:'チロシンキナーゼ阻害薬'},
       {a:'ICI', f:'Immune Checkpoint Inhibitor', j:'免疫チェックポイント阻害薬'},
@@ -1267,7 +1269,43 @@
       {a:'Aline', f:'Arterial Line', j:'動脈ライン'},
       {a:'NHFC', f:'High-Flow Nasal Cannula', j:'高流量鼻カニュラ酸素療法（HFNC と同義）'},
       // 不整脈
-      {a:'NSVT', f:'Non-Sustained Ventricular Tachycardia', j:'非持続性心室頻拍'}
+      {a:'NSVT', f:'Non-Sustained Ventricular Tachycardia', j:'非持続性心室頻拍'},
+      {a:'CAVB', f:'Complete Atrioventricular Block', j:'完全房室ブロック（3度AVB）'},
+      {a:'AVB', f:'Atrioventricular Block', j:'房室ブロック'},
+      {a:'AVNRT', f:'AV Nodal Reentrant Tachycardia', j:'房室結節リエントリー性頻拍'},
+      {a:'AVRT', f:'AV Reentrant Tachycardia', j:'房室リエントリー性頻拍'},
+      {a:'WPW', f:'Wolff-Parkinson-White syndrome', j:'WPW症候群'},
+      {a:'LBBB', f:'Left Bundle Branch Block', j:'左脚ブロック'},
+      {a:'RBBB', f:'Right Bundle Branch Block', j:'右脚ブロック'},
+      {a:'LAHB', f:'Left Anterior Hemiblock', j:'左脚前枝ブロック'},
+      {a:'LPHB', f:'Left Posterior Hemiblock', j:'左脚後枝ブロック'},
+      {a:'TdP', f:'Torsades de Pointes', j:'トルサード・ド・ポアンツ'},
+      {a:'VPC', f:'Ventricular Premature Contraction', j:'心室期外収縮'},
+      {a:'PVC', f:'Premature Ventricular Contraction', j:'心室期外収縮'},
+      {a:'APC', f:'Atrial Premature Contraction', j:'心房期外収縮'},
+      {a:'PAC', f:'Premature Atrial Contraction', j:'心房期外収縮'},
+      {a:'SSS', f:'Sick Sinus Syndrome', j:'洞不全症候群'},
+      // 検査・測定（追補）
+      {a:'Cre', f:'Creatinine', j:'クレアチニン（Cr の別表記）'},
+      {a:'BT', f:'Body Temperature', j:'体温'},
+      {a:'AG', f:'Anion Gap', j:'アニオンギャップ'},
+      {a:'DW', f:'Dry Weight', j:'透析後の目標体重（ドライウェイト）'},
+      {a:'vEF', f:'visual Ejection Fraction', j:'目視推定駆出率'},
+      // 体液・栄養
+      {a:'ECF', f:'Extracellular Fluid', j:'細胞外液'},
+      // 内視鏡
+      {a:'CF', f:'Colonofiberscopy', j:'下部消化管内視鏡（大腸内視鏡）'},
+      {a:'GF', f:'Gastrofiberscopy', j:'上部消化管内視鏡（胃内視鏡）'},
+      // 感染症
+      {a:'PRSP', f:'Penicillin-Resistant Streptococcus pneumoniae', j:'ペニシリン耐性肺炎球菌'},
+      {a:'ESBLs', f:'Extended-Spectrum Beta-Lactamases-producing organisms', j:'基質特異性拡張型β-ラクタマーゼ産生菌（複数形）'},
+      {a:'VTE', f:'Venous Thromboembolism', j:'静脈血栓塞栓症（DVT＋PEを含む）'},
+      // 抗痙攣薬（AEDはALLOWED_LISTに「automated external defibrillator」収載のため別表記で登録）
+      {a:'ASM', f:'Anti-Seizure Medication', j:'抗痙攣薬（AED の現代的呼称）'},
+      // 抗菌薬（追補）
+      {a:'CEZ', f:'Cefazolin', j:'セファゾリン（セファメジン）'},
+      {a:'CAZ/AVI', f:'Ceftazidime/Avibactam', j:'セフタジジム/アビバクタム（ザビセフタ）'},
+      {a:'CTLZ/TAZ', f:'Ceftolozane/Tazobactam', j:'セフトロザン/タゾバクタム（ザバクサ）'}
     ];
 
     // ============================================================
@@ -1310,21 +1348,25 @@
     function saveDisabled(){ try { localStorage.setItem(DISABLED_KEY, JSON.stringify(disabledSet)); } catch(e){} }
 
     function getActiveDict(){
+      // 重要：マージキーは元の大文字小文字を保持する。
+      // uppercase で揃えると「DEX」と「Dex」のような case 別エントリが衝突して
+      // 片方しか残らない（DEX を入力しても黄色判定されるバグの原因だった）。
       var merged = {};
-      // default
-      DEFAULT_DICT.forEach(function(e){ merged[e.a.toUpperCase()] = {a:e.a, f:e.f, j:e.j, src:'default'}; });
-      // custom (overrides default)
-      customDict.forEach(function(e){ merged[e.a.toUpperCase()] = {a:e.a, f:e.f, j:e.j, src:'custom'}; });
-      // remove disabled
+      DEFAULT_DICT.forEach(function(e){ merged[e.a] = {a:e.a, f:e.f, j:e.j, src:'default'}; });
+      // カスタム辞書は同一表記なら上書き
+      customDict.forEach(function(e){ merged[e.a] = {a:e.a, f:e.f, j:e.j, src:'custom'}; });
+      // 無効化セットは uppercase キーで判定（DEX を無効化したら Dex も無効化される）
       var arr = [];
-      Object.keys(merged).forEach(function(k){ if (!disabledSet[k]) arr.push(merged[k]); });
+      Object.keys(merged).forEach(function(k){
+        if (!disabledSet[k.toUpperCase()]) arr.push(merged[k]);
+      });
       return arr;
     }
     function getAllDictForUI(){
       var merged = {};
-      DEFAULT_DICT.forEach(function(e){ merged[e.a.toUpperCase()] = {a:e.a, f:e.f, j:e.j, src:'default'}; });
-      customDict.forEach(function(e){ merged[e.a.toUpperCase()] = {a:e.a, f:e.f, j:e.j, src:'custom'}; });
-      return Object.keys(merged).map(function(k){ var v = merged[k]; v.disabled = !!disabledSet[k]; return v; });
+      DEFAULT_DICT.forEach(function(e){ merged[e.a] = {a:e.a, f:e.f, j:e.j, src:'default'}; });
+      customDict.forEach(function(e){ merged[e.a] = {a:e.a, f:e.f, j:e.j, src:'custom'}; });
+      return Object.keys(merged).map(function(k){ var v = merged[k]; v.disabled = !!disabledSet[k.toUpperCase()]; return v; });
     }
 
     // ========== Regex helpers ==========
@@ -1479,7 +1521,13 @@
       // 入出力・排便など標準的な短語
       'In':1,'Out':1,'In/Out':1,'I/O':1,'BM':1,
       // 製品名サフィックス・状態語
-      'REX':1,'off':1,'Off':1,'OFF':1,'on':1,'On':1,'ON':1
+      'REX':1,'off':1,'Off':1,'OFF':1,'on':1,'On':1,'ON':1,
+      // 製品名・分類名
+      'Sedline':1,'Geckler':1,'JAK':1,
+      // GCS の構成スコア（M1〜M6, V1〜V5, E1〜E4 単独表記）
+      'M1':1,'M2':1,'M3':1,'M4':1,'M5':1,'M6':1,
+      'V1':1,'V2':1,'V3':1,'V4':1,'V5':1,
+      'E1':1,'E2':1,'E3':1,'E4':1
     };
     // 病原体属名（細菌・真菌） — 略語ではないため検出対象外
     var PATHOGEN_NAMES = {
