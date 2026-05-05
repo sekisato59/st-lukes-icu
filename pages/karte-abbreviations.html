@@ -1363,9 +1363,32 @@
 
     // よくある「略語ぽい未登録単語」の候補判定
     var COMMON_WORDS = {'A':1,'I':1,'a':1,'i':1,'is':1,'it':1,'in':1,'on':1,'no':1,'or':1,'of':1,'to':1,'and':1,'the':1};
+    // 単位・標準的な短語 — 略語ではないため検出対象外
+    var IGNORE_UNITS = {
+      // 質量・容量
+      'mg':1,'g':1,'kg':1,'mcg':1,'ng':1,'pg':1,'t':1,
+      'mL':1,'ml':1,'L':1,'dL':1,'cc':1,
+      // 濃度・モル
+      'mEq':1,'meq':1,'mol':1,'mmol':1,'nmol':1,
+      // 時間
+      'h':1,'hr':1,'hrs':1,'min':1,'mins':1,'sec':1,'secs':1,
+      'day':1,'days':1,'wk':1,'wks':1,'mo':1,'mos':1,'yr':1,'yrs':1,
+      'am':1,'pm':1,'AM':1,'PM':1,
+      // 長さ
+      'mm':1,'cm':1,'m':1,'nm':1,
+      // 圧力
+      'mmHg':1,'cmH2O':1,'kPa':1,'Pa':1,
+      // 速度・濃度の組み合わせ（lower 系は length>=4 ですでに除外。slash/uppercase 含む組合せだけ列挙）
+      'mL/h':1,'mg/dL':1,'mEq/L':1,'mEq/h':1,'mmol/L':1,
+      'mcg/kg/min':1,'mcg/kg/h':1,'mcg/kg/day':1,
+      'mg/kg/h':1,'mg/kg/min':1,'mg/kg/day':1,
+      // 一般的な短語
+      'pt':1,'pts':1,'No':1,'vs':1,'VS':1,'eg':1,'ie':1
+    };
     function looksLikeAbbr(w){
       if (w.length < 2) return false;
       if (COMMON_WORDS[w]) return false;
+      if (IGNORE_UNITS[w]) return false;
       // 全角記号や日本語が混入している → 既に tokenize で弾いてある
       // 小文字のみ＆4文字以上のラテン語は通常略語ではない
       if (/^[a-z]+$/.test(w) && w.length >= 4) return false;
