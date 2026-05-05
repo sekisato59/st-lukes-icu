@@ -323,68 +323,48 @@
       margin-bottom:10px;letter-spacing:0.02em;
     }
     .dict-head .dict-toggle { font-family:monospace;font-size:1.1rem; }
-    .dict-add {
-      display:grid;grid-template-columns:140px 1fr 1fr 80px;gap:8px;
-      align-items:end;margin-bottom:14px;padding-bottom:14px;
+    /* リクエストフォーム */
+    .req-intro {
+      font-size:0.82rem;color:var(--text);line-height:1.7;
+      margin:0 0 14px;padding-bottom:12px;
       border-bottom:1px dashed #DDD6FE;
     }
-    .dict-add label { font-size:0.7rem;font-weight:700;color:var(--muted);display:block;margin-bottom:3px; }
-    .dict-add input {
-      width:100%;font-family:inherit;font-size:0.85rem;
-      padding:7px 10px;border:1px solid #C4B5FD;border-radius:5px;
-      background:#fff;outline:none;box-sizing:border-box;
+    .req-form { display:flex;flex-direction:column;gap:10px; }
+    .req-row label {
+      display:block;font-size:0.78rem;font-weight:700;color:#4C1D95;
+      margin-bottom:4px;letter-spacing:0.02em;
     }
-    .dict-add input:focus { border-color:#7C3AED;box-shadow:0 0 0 3px rgba(124,58,237,0.15); }
-    .dict-add button {
-      font-size:0.78rem;font-weight:700;color:#fff;
+    .req-required {
+      background:#DC2626;color:#fff;font-size:0.6rem;
+      padding:1px 5px;border-radius:3px;margin-left:4px;
+      font-weight:800;letter-spacing:0.04em;vertical-align:1px;
+    }
+    .req-row input,
+    .req-row textarea {
+      width:100%;font-family:inherit;font-size:0.88rem;
+      padding:8px 11px;border:1px solid #C4B5FD;border-radius:5px;
+      background:#fff;outline:none;box-sizing:border-box;
+      line-height:1.5;
+    }
+    .req-row textarea { resize:vertical;min-height:60px; }
+    .req-row input:focus,
+    .req-row textarea:focus {
+      border-color:#7C3AED;box-shadow:0 0 0 3px rgba(124,58,237,0.15);
+    }
+    .req-actions {
+      display:flex;justify-content:flex-end;margin-top:6px;
+    }
+    #r-submit {
+      font-size:0.85rem;font-weight:700;color:#fff;
       background:#7C3AED;border:none;border-radius:5px;
-      padding:8px 12px;cursor:pointer;letter-spacing:0.02em;
+      padding:9px 22px;cursor:pointer;letter-spacing:0.02em;
       transition:background .15s;
     }
-    .dict-add button:hover { background:#6D28D9; }
-    @media (max-width:680px) { .dict-add { grid-template-columns:1fr;} }
-
-    .dict-search {
-      width:100%;font-family:inherit;font-size:0.88rem;
-      padding:8px 12px;border:1px solid #C4B5FD;border-radius:5px;
-      background:#fff;outline:none;box-sizing:border-box;margin-bottom:10px;
+    #r-submit:hover { background:#6D28D9; }
+    .req-tip {
+      font-size:0.7rem;color:var(--muted);margin:14px 0 0;line-height:1.6;
+      padding-top:12px;border-top:1px dashed #DDD6FE;
     }
-    .dict-search:focus { border-color:#7C3AED;box-shadow:0 0 0 3px rgba(124,58,237,0.15); }
-
-    table.dict-table { width:100%;border-collapse:collapse;font-size:0.8rem; }
-    table.dict-table thead th {
-      background:#F5F3FF;color:#4C1D95;font-weight:800;font-size:0.72rem;
-      padding:6px 9px;text-align:left;border-bottom:1px solid #DDD6FE;
-    }
-    table.dict-table tbody td {
-      padding:6px 9px;border-bottom:1px solid #F1F5F9;color:#475569;
-      vertical-align:middle;
-    }
-    table.dict-table tbody tr:hover td { background:#FAFAFC; }
-    table.dict-table .col-abbr {
-      font-family:ui-monospace,Menlo,Consolas,monospace;font-weight:800;
-      color:#4C1D95;width:120px;white-space:nowrap;
-    }
-    table.dict-table .col-action { width:60px;text-align:right; }
-    .dict-source-default {
-      font-size:0.6rem;color:#94A3B8;font-weight:500;margin-left:6px;
-      letter-spacing:0.04em;
-    }
-    .dict-source-custom {
-      font-size:0.6rem;color:#7C3AED;font-weight:700;margin-left:6px;
-      background:#EDE9FE;padding:1px 5px;border-radius:3px;letter-spacing:0.04em;
-    }
-    .btn-del {
-      font-size:0.7rem;font-weight:700;color:#DC2626;
-      background:#FFF;border:1px solid #FECACA;border-radius:4px;
-      padding:3px 8px;cursor:pointer;
-    }
-    .btn-del:hover { background:#FEE2E2; }
-    .btn-del.disabled { color:#CBD5E1;border-color:#E2E8F0;cursor:not-allowed;background:#fff; }
-
-    /* テーブル スクロール */
-    .dict-table-wrap { max-height:380px;overflow-y:auto;border:1px solid #DDD6FE;border-radius:6px; }
-    .dict-table-wrap table { width:100%; }
 
     .copy-toast {
       position:fixed;left:50%;bottom:30px;transform:translateX(-50%) translateY(120px);
@@ -516,50 +496,41 @@
       </div>
     </div>
 
-    <!-- 辞書編集 -->
+    <!-- 用語追加リクエスト -->
     <div class="dict-card">
       <div class="dict-head" id="dict-head">
-        <span>略語辞書（カスタム追加・編集）</span>
+        <span>用語追加リクエスト</span>
         <span class="dict-toggle" id="dict-toggle">＋</span>
       </div>
       <div id="dict-content" style="display:none;">
-        <div class="dict-add">
-          <div>
-            <label for="d-abbr">略語</label>
-            <input id="d-abbr" type="text" placeholder="例: NICU">
+        <p class="req-intro">
+          辞書に追加してほしい略語があれば、こちらからリクエストできます。
+          管理者（ICU 関谷）にメールで通知され、確認後にサイト全体の辞書へ反映されます。
+        </p>
+        <div class="req-form">
+          <div class="req-row">
+            <label for="r-abbr">略語 <span class="req-required">必須</span></label>
+            <input id="r-abbr" type="text" placeholder="例: VEXUS">
           </div>
-          <div>
-            <label for="d-full">正式名称（英語など）</label>
-            <input id="d-full" type="text" placeholder="例: Neonatal Intensive Care Unit">
+          <div class="req-row">
+            <label for="r-full">正式名称（英語など） <span class="req-required">必須</span></label>
+            <input id="r-full" type="text" placeholder="例: Venous Excess Ultrasound">
           </div>
-          <div>
-            <label for="d-jp">日本語訳（任意）</label>
-            <input id="d-jp" type="text" placeholder="例: 新生児集中治療室">
+          <div class="req-row">
+            <label for="r-jp">日本語訳（任意）</label>
+            <input id="r-jp" type="text" placeholder="例: 静脈うっ血超音波スコア">
           </div>
-          <div>
-            <label>&nbsp;</label>
-            <button id="d-add">追加</button>
+          <div class="req-row">
+            <label for="r-note">補足・使用文脈（任意）</label>
+            <textarea id="r-note" rows="3" placeholder="例: 心エコーで頻用、輸液反応性評価に使用"></textarea>
+          </div>
+          <div class="req-actions">
+            <button type="button" id="r-submit">メールで送信</button>
           </div>
         </div>
-
-        <input type="search" id="dict-search" class="dict-search" placeholder="辞書を検索（略語・正式名称・日本語）">
-
-        <div class="dict-table-wrap">
-          <table class="dict-table">
-            <thead>
-              <tr>
-                <th class="col-abbr">略語</th>
-                <th>正式名称</th>
-                <th>日本語訳</th>
-                <th class="col-action">操作</th>
-              </tr>
-            </thead>
-            <tbody id="dict-body"></tbody>
-          </table>
-        </div>
-
-        <p style="font-size:0.7rem;color:var(--muted);margin-top:10px;line-height:1.6;">
-          ※ デフォルト略語は削除できません（無効化のみ）。<strong>カスタム追加</strong>した略語のみ削除可能。データはあなたのブラウザに保存されます（localStorage）。
+        <p class="req-tip">
+          送信ボタンを押すと、お使いのメールアプリが起動して内容が自動入力されます。
+          そのまま送信してください。返信は不要です（管理者が辞書反映後、皆さんに新しい辞書が配信されます）。
         </p>
       </div>
     </div>
@@ -2051,45 +2022,91 @@
       $detCard.style.display = (donotHtml || allowedHtml || replacedHtml || unknownHtml) ? 'block' : 'none';
     }
 
-    // ========== Dictionary editor UI ==========
+    // ========== 用語追加リクエストフォーム（mailto: 方式）==========
     var $dHead   = document.getElementById('dict-head');
     var $dContent= document.getElementById('dict-content');
     var $dToggle = document.getElementById('dict-toggle');
-    var $dAbbr   = document.getElementById('d-abbr');
-    var $dFull   = document.getElementById('d-full');
-    var $dJp     = document.getElementById('d-jp');
-    var $dAdd    = document.getElementById('d-add');
-    var $dSearch = document.getElementById('dict-search');
-    var $dBody   = document.getElementById('dict-body');
+    var $rAbbr   = document.getElementById('r-abbr');
+    var $rFull   = document.getElementById('r-full');
+    var $rJp     = document.getElementById('r-jp');
+    var $rNote   = document.getElementById('r-note');
+    var $rSubmit = document.getElementById('r-submit');
 
     $dHead.addEventListener('click', function(){
       var open = $dContent.style.display !== 'none';
       $dContent.style.display = open ? 'none' : 'block';
       $dToggle.textContent = open ? '＋' : '−';
-      if (!open) renderDict();
     });
 
-    function openDictAndPrefill(abbr){
-      // 辞書カードが閉じていれば開く
+    function openRequestFormPrefill(abbr){
       if ($dContent.style.display === 'none' || $dContent.style.display === '') {
         $dContent.style.display = 'block';
         $dToggle.textContent = '−';
-        renderDict();
       }
-      $dAbbr.value = abbr;
-      // フルスペル入力欄にフォーカス
-      var $dFull = document.getElementById('d-full');
-      if ($dFull) $dFull.focus();
-      // スクロール
+      $rAbbr.value = abbr;
+      if ($rFull) $rFull.focus();
       document.getElementById('dict-head').scrollIntoView({behavior:'smooth', block:'start'});
     }
 
-    // 未登録チップのクリックで辞書追加フォームへ
+    // 未登録チップのクリックでリクエストフォームへ（略語 prefill）
     $listUnknown.addEventListener('click', function(e){
       var chip = e.target.closest('.detected-chip[data-act="add-unknown"]');
       if (!chip) return;
       var abbr = chip.getAttribute('data-abbr');
-      if (abbr) openDictAndPrefill(abbr);
+      if (abbr) openRequestFormPrefill(abbr);
+    });
+
+    // 送信処理：mailto: で管理者に通知
+    function submitRequest(){
+      var abbr = ($rAbbr.value || '').trim();
+      var full = ($rFull.value || '').trim();
+      var jp   = ($rJp.value   || '').trim();
+      var note = ($rNote.value || '').trim();
+
+      if (!abbr) { alert('略語を入力してください。'); $rAbbr.focus(); return; }
+      if (!full) { alert('正式名称を入力してください。'); $rFull.focus(); return; }
+
+      // メール送信先を JS で組み立てて HTML 上での露出を抑制
+      var mailUser = 'sekiyasatoru59';
+      var mailDomain = 'gmail.com';
+      var to = mailUser + '@' + mailDomain;
+
+      var subject = '[カルテ略語ツール] 用語追加リクエスト：' + abbr;
+      var body = [
+        '以下の略語の追加をリクエストします。',
+        '',
+        '■ 略語：' + abbr,
+        '■ 正式名称：' + full,
+        '■ 日本語訳：' + (jp || '（なし）'),
+        '■ 補足：' + (note || '（なし）'),
+        '',
+        '---',
+        'カルテ略語対策ページから送信',
+        'URL: ' + window.location.href
+      ].join('\n');
+
+      var mailto = 'mailto:' + to
+        + '?subject=' + encodeURIComponent(subject)
+        + '&body=' + encodeURIComponent(body);
+
+      window.location.href = mailto;
+
+      // 送信トースト＆フォームクリア
+      showToast('メールアプリを起動しました。そのまま送信してください。');
+      setTimeout(function(){
+        $rAbbr.value = '';
+        $rFull.value = '';
+        $rJp.value = '';
+        $rNote.value = '';
+      }, 600);
+    }
+
+    $rSubmit.addEventListener('click', submitRequest);
+    // Enter（Shift+Enter は改行を温存）
+    [$rAbbr, $rFull, $rJp].forEach(function(el){
+      el.addEventListener('keydown', function(e){
+        if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); submitRequest(); }
+      });
     });
 
     // ===== 黄色マーカーのその場編集 =====
@@ -2262,72 +2279,6 @@
     });
     document.addEventListener('keydown', function(e){
       if (e.key === 'Escape' && $replaceMenu.style.display !== 'none') hideReplaceMenu();
-    });
-
-    function renderDict(){
-      var q = ($dSearch.value || '').toLowerCase().trim();
-      var entries = getAllDictForUI()
-        .sort(function(a,b){ return a.a.localeCompare(b.a); })
-        .filter(function(e){
-          if (!q) return true;
-          var hay = (e.a + ' ' + e.f + ' ' + (e.j||'')).toLowerCase();
-          return hay.indexOf(q) !== -1;
-        });
-      $dBody.innerHTML = entries.map(function(e){
-        var srcTag = e.src === 'custom'
-          ? '<span class="dict-source-custom">カスタム</span>'
-          : '<span class="dict-source-default">DEFAULT</span>';
-        var disabledStyle = e.disabled ? 'opacity:0.45;text-decoration:line-through;' : '';
-        var toggleLabel = e.disabled ? '有効化' : '無効化';
-        var delBtn = e.src === 'custom'
-          ? '<button class="btn-del" data-act="del" data-abbr="' + htmlEscape(e.a) + '">削除</button>'
-          : '<button class="btn-del disabled" disabled title="デフォルト略語は無効化のみ可能">削除不可</button>';
-        return '<tr style="' + disabledStyle + '">'
-          + '<td class="col-abbr">' + htmlEscape(e.a) + srcTag + '</td>'
-          + '<td>' + htmlEscape(e.f) + '</td>'
-          + '<td>' + htmlEscape(e.j || '') + '</td>'
-          + '<td class="col-action"><button class="btn-del" data-act="toggle" data-abbr="' + htmlEscape(e.a) + '" style="color:#7C3AED;border-color:#C4B5FD;">' + toggleLabel + '</button> ' + delBtn + '</td>'
-          + '</tr>';
-      }).join('');
-    }
-
-    $dBody.addEventListener('click', function(e){
-      var btn = e.target.closest('button.btn-del');
-      if (!btn) return;
-      var act = btn.getAttribute('data-act');
-      var abbr = btn.getAttribute('data-abbr');
-      if (!abbr) return;
-      var key = abbr.toUpperCase();
-      if (act === 'del') {
-        if (!confirm('カスタム略語「' + abbr + '」を削除しますか？')) return;
-        customDict = customDict.filter(function(x){ return x.a.toUpperCase() !== key; });
-        saveCustom();
-      } else if (act === 'toggle') {
-        if (disabledSet[key]) delete disabledSet[key];
-        else disabledSet[key] = true;
-        saveDisabled();
-      }
-      renderDict();
-      render();
-    });
-
-    $dSearch.addEventListener('input', renderDict);
-
-    $dAdd.addEventListener('click', function(){
-      var a = ($dAbbr.value || '').trim();
-      var f = ($dFull.value || '').trim();
-      var j = ($dJp.value || '').trim();
-      if (!a || !f) { alert('略語と正式名称は必須です。'); return; }
-      // 既存カスタムを上書き
-      var key = a.toUpperCase();
-      customDict = customDict.filter(function(x){ return x.a.toUpperCase() !== key; });
-      customDict.push({a:a, f:f, j:j});
-      saveCustom();
-      // 無効化解除
-      if (disabledSet[key]) { delete disabledSet[key]; saveDisabled(); }
-      $dAbbr.value = ''; $dFull.value = ''; $dJp.value = '';
-      renderDict();
-      render();
     });
 
     // ========== Events ==========
