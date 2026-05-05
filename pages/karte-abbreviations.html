@@ -112,6 +112,11 @@
       border-bottom:2px solid #DC2626;
       text-decoration:line-through;text-decoration-color:#DC2626;
     }
+    #kt-output mark.allowed {
+      background:#DBEAFE;color:#1E3A8A;
+      padding:0 3px;border-radius:3px;font-weight:600;
+      border-bottom:1px dotted #2563EB;
+    }
     #kt-output:empty::before {
       content:'左側にカルテ文を貼り付けると、ここに置換結果が表示されます。';
       color:#94A3B8;font-style:italic;
@@ -164,6 +169,11 @@
     }
     .detected-chip.donotuse .chip-full { color:#991B1B;font-weight:700; }
     .detected-chip.donotuse .chip-count { background:#DC2626; }
+    .detected-chip.allowed {
+      background:#DBEAFE;border-color:#BFDBFE;color:#1E3A8A;
+    }
+    .detected-chip.allowed .chip-full { color:#1E40AF;font-weight:600; }
+    .detected-chip.allowed .chip-count { background:#2563EB; }
     .detected-chip .chip-abbr {
       font-family:ui-monospace,Menlo,Consolas,monospace;font-weight:800;
     }
@@ -306,7 +316,8 @@
         <option value="ci">大小文字を区別しない</option>
       </select>
       <span class="stat">
-        辞書登録：<strong id="stat-dict">—</strong> 件 ／
+        スペルアウト辞書：<strong id="stat-dict">—</strong> 件 ／
+        公式略語集：<strong id="stat-allowed">—</strong> 件 ／
         検出済：<strong id="stat-detected">0</strong> 種類（<strong id="stat-count">0</strong> 箇所）
       </span>
     </div>
@@ -330,7 +341,7 @@
       <div class="pane">
         <div class="pane-head">
           <span class="pane-tag" style="background:#10B981;">OUTPUT</span>
-          <span style="font-size:0.78rem;font-weight:600;">緑＝置換済／<span style="color:#DC2626;">赤＝禁止表記</span>／<span style="color:#92400E;">黄＝辞書未登録</span></span>
+          <span style="font-size:0.78rem;font-weight:600;">緑＝置換済／<span style="color:#1E40AF;">青＝聖路加で使用可</span>／<span style="color:#DC2626;">赤＝禁止表記</span>／<span style="color:#92400E;">黄＝未登録</span></span>
           <div class="pane-actions">
             <button class="pane-btn primary" id="btn-copy">コピー</button>
           </div>
@@ -413,10 +424,11 @@
 
     // ============================================================
     // 聖路加国際病院 公式略語集（第15回改定 2025-12-01 準拠）
-    // 「略語使用規定」に掲載された略語のみを収載。原文を忠実に転記。
+    // この一覧の略語は院内で「使用可」と認められているため、
+    // スペルアウトせず青ハイライトで「使用可」と表示する。
     // a=略語 / f=英訳 / j=日訳
     // ============================================================
-    var DEFAULT_DICT = [
+    var ALLOWED_LIST = [
       {a:'ABG', f:'arterial blood gas', j:'動脈血ガス分析'},
       {a:'ABI', f:'ankle brachial index', j:'足首-上腕血圧比'},
       {a:'ACE', f:'angiotensin converting enzyme', j:'アンジオテンシン変換酵素'},
@@ -827,6 +839,189 @@
     ];
 
     // ============================================================
+    // ICU でよく使う略語（聖路加公式リスト外 — スペルアウトすべき略語）
+    // ALLOWED_LIST と重複した場合は ALLOWED_LIST が優先される。
+    // a=略語 / f=英訳（フルスペル）/ j=日訳
+    // ============================================================
+    var DEFAULT_DICT = [
+      // 循環
+      {a:'AF', f:'Atrial Fibrillation', j:'心房細動'},
+      {a:'AFL', f:'Atrial Flutter', j:'心房粗動'},
+      {a:'PSVT', f:'Paroxysmal Supraventricular Tachycardia', j:'発作性上室頻拍'},
+      {a:'VT', f:'Ventricular Tachycardia', j:'心室頻拍'},
+      {a:'VF', f:'Ventricular Fibrillation', j:'心室細動'},
+      {a:'AMI', f:'Acute Myocardial Infarction', j:'急性心筋梗塞'},
+      {a:'STEMI', f:'ST-Elevation Myocardial Infarction', j:'ST上昇型心筋梗塞'},
+      {a:'NSTEMI', f:'Non-ST-Elevation Myocardial Infarction', j:'非ST上昇型心筋梗塞'},
+      {a:'CHF', f:'Congestive Heart Failure', j:'うっ血性心不全'},
+      {a:'HFrEF', f:'Heart Failure with reduced Ejection Fraction', j:'駆出率低下型心不全'},
+      {a:'HFpEF', f:'Heart Failure with preserved Ejection Fraction', j:'駆出率保持型心不全'},
+      {a:'IE', f:'Infective Endocarditis', j:'感染性心内膜炎'},
+      {a:'PCI', f:'Percutaneous Coronary Intervention', j:'経皮的冠動脈形成術'},
+      {a:'CABG', f:'Coronary Artery Bypass Grafting', j:'冠動脈バイパス術'},
+      {a:'TAVI', f:'Transcatheter Aortic Valve Implantation', j:'経カテーテル大動脈弁植込み'},
+      {a:'ECMO', f:'Extracorporeal Membrane Oxygenation', j:'体外式膜型人工肺'},
+      {a:'VA-ECMO', f:'Veno-Arterial ECMO', j:'静脈-動脈式 ECMO'},
+      {a:'VV-ECMO', f:'Veno-Venous ECMO', j:'静脈-静脈式 ECMO'},
+      {a:'IABP', f:'Intra-Aortic Balloon Pumping', j:'大動脈内バルーンパンピング'},
+      // 呼吸
+      {a:'COPD', f:'Chronic Obstructive Pulmonary Disease', j:'慢性閉塞性肺疾患'},
+      {a:'ARDS', f:'Acute Respiratory Distress Syndrome', j:'急性呼吸窮迫症候群'},
+      {a:'CAP', f:'Community-Acquired Pneumonia', j:'市中肺炎'},
+      {a:'HAP', f:'Hospital-Acquired Pneumonia', j:'院内肺炎'},
+      {a:'VAP', f:'Ventilator-Associated Pneumonia', j:'人工呼吸器関連肺炎'},
+      {a:'PE', f:'Pulmonary Embolism', j:'肺塞栓症'},
+      {a:'NPPV', f:'Non-invasive Positive Pressure Ventilation', j:'非侵襲的陽圧換気'},
+      {a:'HFNC', f:'High-Flow Nasal Cannula', j:'高流量鼻カニュラ酸素療法'},
+      {a:'SBT', f:'Spontaneous Breathing Trial', j:'自発呼吸トライアル'},
+      {a:'PEEP', f:'Positive End-Expiratory Pressure', j:'呼気終末陽圧'},
+      {a:'PCV', f:'Pressure Controlled Ventilation', j:'圧規定換気'},
+      {a:'VCV', f:'Volume Controlled Ventilation', j:'量規定換気'},
+      {a:'PSV', f:'Pressure Support Ventilation', j:'圧支持換気'},
+      {a:'SIMV', f:'Synchronized Intermittent Mandatory Ventilation', j:'同期式間欠的強制換気'},
+      {a:'BAL', f:'Bronchoalveolar Lavage', j:'気管支肺胞洗浄'},
+      {a:'NIV', f:'Non-Invasive Ventilation', j:'非侵襲的換気'},
+      {a:'PCP', f:'Pneumocystis Pneumonia', j:'ニューモシスチス肺炎'},
+      // 腎
+      {a:'AKI', f:'Acute Kidney Injury', j:'急性腎障害'},
+      {a:'CKD', f:'Chronic Kidney Disease', j:'慢性腎臓病'},
+      {a:'RRT', f:'Renal Replacement Therapy', j:'腎代替療法'},
+      {a:'CRRT', f:'Continuous Renal Replacement Therapy', j:'持続的腎代替療法'},
+      {a:'IHD', f:'Intermittent Hemodialysis', j:'間欠的血液透析'},
+      {a:'CHDF', f:'Continuous Hemodiafiltration', j:'持続的血液濾過透析'},
+      {a:'ESRD', f:'End-Stage Renal Disease', j:'末期腎不全'},
+      {a:'GFR', f:'Glomerular Filtration Rate', j:'糸球体濾過量'},
+      {a:'eGFR', f:'estimated Glomerular Filtration Rate', j:'推算糸球体濾過量'},
+      {a:'CrCl', f:'Creatinine Clearance', j:'クレアチニンクリアランス'},
+      {a:'FENa', f:'Fractional Excretion of Sodium', j:'ナトリウム排泄率'},
+      {a:'HUS', f:'Hemolytic Uremic Syndrome', j:'溶血性尿毒症症候群'},
+      {a:'TTP', f:'Thrombotic Thrombocytopenic Purpura', j:'血栓性血小板減少性紫斑病'},
+      {a:'TMA', f:'Thrombotic Microangiopathy', j:'血栓性微小血管症'},
+      {a:'SIAD', f:'Syndrome of Inappropriate Antidiuresis', j:'抗利尿不適切症候群'},
+      {a:'SIADH', f:'Syndrome of Inappropriate Antidiuretic Hormone secretion', j:'抗利尿ホルモン不適切分泌症候群'},
+      // 神経
+      {a:'GCS', f:'Glasgow Coma Scale', j:'グラスゴー昏睡スケール'},
+      {a:'JCS', f:'Japan Coma Scale', j:'日本昏睡スケール'},
+      {a:'CVA', f:'Cerebrovascular Accident', j:'脳血管障害'},
+      {a:'TIA', f:'Transient Ischemic Attack', j:'一過性脳虚血発作'},
+      {a:'SAH', f:'Subarachnoid Hemorrhage', j:'くも膜下出血'},
+      {a:'ICH', f:'Intracerebral Hemorrhage', j:'脳内出血'},
+      {a:'IVH', f:'Intraventricular Hemorrhage', j:'脳室内出血'},
+      {a:'SE', f:'Status Epilepticus', j:'てんかん重積状態'},
+      {a:'CIM', f:'Critical Illness Myopathy', j:'重症患者ミオパチー'},
+      {a:'CIP', f:'Critical Illness Polyneuropathy', j:'重症患者多発神経障害'},
+      {a:'ICP', f:'Intracranial Pressure', j:'頭蓋内圧'},
+      {a:'CPP', f:'Cerebral Perfusion Pressure', j:'脳灌流圧'},
+      {a:'ODS', f:'Osmotic Demyelination Syndrome', j:'浸透圧性脱髄症候群'},
+      // 感染
+      {a:'MRSA', f:'Methicillin-Resistant Staphylococcus aureus', j:'メチシリン耐性黄色ブドウ球菌'},
+      {a:'MSSA', f:'Methicillin-Susceptible Staphylococcus aureus', j:'メチシリン感受性黄色ブドウ球菌'},
+      {a:'VRE', f:'Vancomycin-Resistant Enterococcus', j:'バンコマイシン耐性腸球菌'},
+      {a:'ESBL', f:'Extended-Spectrum Beta-Lactamase-producing organism', j:'基質特異性拡張型β-ラクタマーゼ産生菌'},
+      {a:'CRE', f:'Carbapenem-Resistant Enterobacterales', j:'カルバペネム耐性腸内細菌科菌'},
+      {a:'CPE', f:'Carbapenemase-Producing Enterobacterales', j:'カルバペネマーゼ産生腸内細菌科菌'},
+      {a:'GNR', f:'Gram-Negative Rod', j:'グラム陰性桿菌'},
+      {a:'GPC', f:'Gram-Positive Coccus', j:'グラム陽性球菌'},
+      {a:'GPR', f:'Gram-Positive Rod', j:'グラム陽性桿菌'},
+      {a:'CRBSI', f:'Catheter-Related Bloodstream Infection', j:'カテーテル関連血流感染'},
+      {a:'CLABSI', f:'Central Line-Associated Bloodstream Infection', j:'中心静脈ライン関連血流感染'},
+      {a:'CAUTI', f:'Catheter-Associated Urinary Tract Infection', j:'カテーテル関連尿路感染'},
+      {a:'IAI', f:'Intra-Abdominal Infection', j:'腹腔内感染症'},
+      {a:'CMV', f:'Cytomegalovirus', j:'サイトメガロウイルス'},
+      {a:'EBV', f:'Epstein-Barr Virus', j:'EBウイルス'},
+      {a:'HSV', f:'Herpes Simplex Virus', j:'単純ヘルペスウイルス'},
+      {a:'VZV', f:'Varicella Zoster Virus', j:'水痘帯状疱疹ウイルス'},
+      {a:'CDI', f:'Clostridioides difficile Infection', j:'クロストリディオイデス・ディフィシル感染症'},
+      {a:'SSI', f:'Surgical Site Infection', j:'手術部位感染'},
+      {a:'PEP', f:'Post-Exposure Prophylaxis', j:'曝露後予防内服'},
+      {a:'BSI', f:'Bloodstream Infection', j:'血流感染'},
+      // 消化
+      {a:'GERD', f:'Gastroesophageal Reflux Disease', j:'胃食道逆流症'},
+      {a:'PUD', f:'Peptic Ulcer Disease', j:'消化性潰瘍'},
+      {a:'IBD', f:'Inflammatory Bowel Disease', j:'炎症性腸疾患'},
+      {a:'UGIB', f:'Upper Gastrointestinal Bleeding', j:'上部消化管出血'},
+      {a:'LGIB', f:'Lower Gastrointestinal Bleeding', j:'下部消化管出血'},
+      {a:'ERCP', f:'Endoscopic Retrograde Cholangiopancreatography', j:'内視鏡的逆行性胆管膵管造影'},
+      {a:'ALF', f:'Acute Liver Failure', j:'急性肝不全'},
+      {a:'ACLF', f:'Acute on Chronic Liver Failure', j:'慢性肝不全急性増悪'},
+      {a:'NASH', f:'Non-Alcoholic Steatohepatitis', j:'非アルコール性脂肪肝炎'},
+      {a:'EN', f:'Enteral Nutrition', j:'経腸栄養'},
+      // 血液
+      {a:'HIT', f:'Heparin-Induced Thrombocytopenia', j:'ヘパリン起因性血小板減少症'},
+      {a:'ITP', f:'Immune Thrombocytopenia', j:'免疫性血小板減少症'},
+      {a:'PT-INR', f:'Prothrombin Time International Normalized Ratio', j:'プロトロンビン時間国際標準化比'},
+      {a:'DOAC', f:'Direct Oral Anticoagulant', j:'直接経口抗凝固薬'},
+      {a:'VKA', f:'Vitamin K Antagonist', j:'ビタミンK拮抗薬'},
+      {a:'HSCT', f:'Hematopoietic Stem Cell Transplantation', j:'造血幹細胞移植'},
+      {a:'GVHD', f:'Graft-versus-Host Disease', j:'移植片対宿主病'},
+      // 内分泌
+      {a:'HHS', f:'Hyperosmolar Hyperglycemic State', j:'高浸透圧高血糖状態'},
+      {a:'CIRCI', f:'Critical Illness-Related Corticosteroid Insufficiency', j:'重症患者関連副腎機能不全'},
+      // ICU・モニタ
+      {a:'EtCO2', f:'End-Tidal Carbon Dioxide', j:'呼気終末二酸化炭素分圧'},
+      {a:'SOFA', f:'Sequential Organ Failure Assessment', j:'臓器不全評価スコア'},
+      {a:'qSOFA', f:'quick Sequential Organ Failure Assessment', j:'簡易臓器不全評価'},
+      {a:'APACHE-II', f:'Acute Physiology and Chronic Health Evaluation II', j:'重症度評価スコア'},
+      {a:'RASS', f:'Richmond Agitation-Sedation Scale', j:'リッチモンド興奮鎮静スケール'},
+      {a:'CAM-ICU', f:'Confusion Assessment Method for the ICU', j:'ICU せん妄評価法'},
+      {a:'NRS', f:'Numerical Rating Scale', j:'数値評価スケール'},
+      {a:'BPS', f:'Behavioral Pain Scale', j:'行動的疼痛評価スケール'},
+      {a:'CPOT', f:'Critical-Care Pain Observation Tool', j:'重症患者用疼痛行動評価ツール'},
+      {a:'DNAR', f:'Do Not Attempt Resuscitation', j:'蘇生措置拒否'},
+      // 薬剤・処方
+      {a:'q4h', f:'every 4 hours', j:'4時間ごと'},
+      {a:'q6h', f:'every 6 hours', j:'6時間ごと'},
+      {a:'q8h', f:'every 8 hours', j:'8時間ごと'},
+      {a:'q12h', f:'every 12 hours', j:'12時間ごと'},
+      {a:'q24h', f:'every 24 hours', j:'24時間ごと'},
+      {a:'TDM', f:'Therapeutic Drug Monitoring', j:'薬物血中濃度モニタリング'},
+      {a:'AUC', f:'Area Under the Curve', j:'血中濃度時間曲線下面積'},
+      {a:'NSAID', f:'Non-Steroidal Anti-Inflammatory Drug', j:'非ステロイド性抗炎症薬'},
+      {a:'SSRI', f:'Selective Serotonin Reuptake Inhibitor', j:'選択的セロトニン再取り込み阻害薬'},
+      {a:'SNRI', f:'Serotonin-Norepinephrine Reuptake Inhibitor', j:'セロトニン・ノルアドレナリン再取り込み阻害薬'},
+      // 抗菌薬
+      {a:'VCM', f:'Vancomycin', j:'バンコマイシン'},
+      {a:'MEPM', f:'Meropenem', j:'メロペネム'},
+      {a:'CFPM', f:'Cefepime', j:'セフェピム'},
+      {a:'CTRX', f:'Ceftriaxone', j:'セフトリアキソン'},
+      {a:'CTX', f:'Cefotaxime', j:'セフォタキシム'},
+      {a:'CAZ', f:'Ceftazidime', j:'セフタジジム'},
+      {a:'CMZ', f:'Cefmetazole', j:'セフメタゾール'},
+      {a:'PIPC/TAZ', f:'Piperacillin/Tazobactam', j:'ピペラシリン/タゾバクタム'},
+      {a:'ABPC/SBT', f:'Ampicillin/Sulbactam', j:'アンピシリン/スルバクタム'},
+      {a:'ABPC', f:'Ampicillin', j:'アンピシリン'},
+      {a:'PCG', f:'Penicillin G', j:'ペニシリン G'},
+      {a:'CLDM', f:'Clindamycin', j:'クリンダマイシン'},
+      {a:'MNZ', f:'Metronidazole', j:'メトロニダゾール'},
+      {a:'LZD', f:'Linezolid', j:'リネゾリド'},
+      {a:'TZD', f:'Tedizolid', j:'テジゾリド'},
+      {a:'DAP', f:'Daptomycin', j:'ダプトマイシン'},
+      {a:'MINO', f:'Minocycline', j:'ミノサイクリン'},
+      {a:'LVFX', f:'Levofloxacin', j:'レボフロキサシン'},
+      {a:'CPFX', f:'Ciprofloxacin', j:'シプロフロキサシン'},
+      {a:'AZM', f:'Azithromycin', j:'アジスロマイシン'},
+      {a:'GCV', f:'Ganciclovir', j:'ガンシクロビル'},
+      {a:'VGCV', f:'Valganciclovir', j:'バルガンシクロビル'},
+      {a:'FOS', f:'Foscarnet', j:'ホスカルネット'},
+      {a:'MBV', f:'Maribavir', j:'マリバビル'},
+      {a:'LMV', f:'Letermovir', j:'レテルモビル'},
+      {a:'DEX', f:'Dexmedetomidine', j:'デクスメデトミジン'},
+      // 検査
+      {a:'PCT', f:'Procalcitonin', j:'プロカルシトニン'},
+      {a:'NT-proBNP', f:'N-Terminal pro Brain Natriuretic Peptide', j:'N末端プロ脳性ナトリウム利尿ペプチド'},
+      {a:'TnI', f:'Troponin I', j:'トロポニン I'},
+      {a:'TnT', f:'Troponin T', j:'トロポニン T'},
+      {a:'CK-MB', f:'Creatine Kinase MB fraction', j:'クレアチンキナーゼ MB 分画'},
+      {a:'VBG', f:'Venous Blood Gas', j:'静脈血液ガス'},
+      // 手技
+      {a:'ETI', f:'Endotracheal Intubation', j:'気管挿管'},
+      {a:'OGT', f:'Orogastric Tube', j:'経口胃管'},
+      {a:'POCUS', f:'Point-of-Care Ultrasound', j:'ベッドサイドエコー'},
+      {a:'TTE', f:'Transthoracic Echocardiography', j:'経胸壁心エコー'},
+      {a:'TEE', f:'Transesophageal Echocardiography', j:'経食道心エコー'}
+    ];
+
+    // ============================================================
     // 使用してはならない略語・表記（Do Not Use List）
     // 聖路加 略語使用規定 第3章 / The Joint Commission 2022 準拠
     // 検出時は赤色で警告表示し、推奨表記を提示する。
@@ -897,6 +1092,7 @@
     var $fmt      = document.getElementById('fmt');
     var $caseMode = document.getElementById('case-mode');
     var $statDict = document.getElementById('stat-dict');
+    var $statAllowed = document.getElementById('stat-allowed');
     var $statDet  = document.getElementById('stat-detected');
     var $statCnt  = document.getElementById('stat-count');
     var $detCard  = document.getElementById('detected-card');
@@ -954,11 +1150,16 @@
       var dictMap = {};
       dict.forEach(function(e){ dictMap[caseInsensitive ? e.a.toUpperCase() : e.a] = e; });
 
+      // 聖路加公式略語集（使用可リスト）— 常に case-insensitive で照合
+      var allowedMap = {};
+      ALLOWED_LIST.forEach(function(e){ allowedMap[e.a.toUpperCase()] = e; });
+
       // Do Not Use List のマップ（常に case-sensitive 完全一致のみ — qd ≠ QD で誤りパターンが異なる）
       var donotMap = {};
       DO_NOT_USE.forEach(function(e){ donotMap[e.a] = e; });
 
       $statDict.textContent = dict.length;
+      $statAllowed.textContent = ALLOWED_LIST.length;
 
       if (!src) {
         $out.innerHTML = '';
@@ -974,6 +1175,8 @@
       var detected = {};   // key → {entry, count}
       var donotDetected = {}; // 禁止表記
       var unknownSet = {}; // 未登録だが略語っぽいもの
+
+      var allowedDetected = {}; // 聖路加公式（使用可）
 
       var html = '';
       parts.forEach(function(p){
@@ -992,8 +1195,18 @@
           return;
         }
 
+        // 2) 聖路加公式略語集（使用可）→ そのまま、青ハイライト
+        var alEntry = allowedMap[w.toUpperCase()];
+        if (alEntry) {
+          html += '<mark class="allowed" title="' + htmlEscape(alEntry.a) + ' = ' + htmlEscape(alEntry.f) + ' — 聖路加公式略語集に収載のためスペルアウト不要">' + htmlEscape(w) + '</mark>';
+          var ka = alEntry.a.toUpperCase();
+          if (!allowedDetected[ka]) allowedDetected[ka] = {entry:alEntry, count:0};
+          allowedDetected[ka].count++;
+          return;
+        }
+
         var key = caseInsensitive ? w.toUpperCase() : w;
-        // 2) 通常の辞書検索
+        // 3) スペルアウト辞書検索
         var entry = dictMap[key];
         if (entry) {
           var disp = formatReplacement(entry, fmt);
@@ -1002,7 +1215,7 @@
           if (!detected[k2]) detected[k2] = {entry:entry, count:0};
           detected[k2].count++;
         } else {
-          // 3) 未登録だが略語ぽい → 黄色マーク
+          // 4) 未登録だが略語ぽい → 黄色マーク
           if (looksLikeAbbr(w)) {
             html += '<mark class="unknown" title="辞書に未登録：' + htmlEscape(w) + '">' + htmlEscape(w) + '</mark>';
             var k3 = w.toUpperCase();
@@ -1016,18 +1229,25 @@
 
       $out.innerHTML = html;
 
-      // 統計
-      var detectedTypes = Object.keys(detected).length;
+      // 統計（4カテゴリの合計）
+      var detectedTypes = Object.keys(detected).length + Object.keys(allowedDetected).length + Object.keys(donotDetected).length + Object.keys(unknownSet).length;
       var detectedCount = 0;
       Object.keys(detected).forEach(function(k){ detectedCount += detected[k].count; });
+      Object.keys(allowedDetected).forEach(function(k){ detectedCount += allowedDetected[k].count; });
+      Object.keys(donotDetected).forEach(function(k){ detectedCount += donotDetected[k].count; });
+      Object.keys(unknownSet).forEach(function(k){ detectedCount += unknownSet[k].count; });
       $statDet.textContent = detectedTypes;
       $statCnt.textContent = detectedCount;
 
-      // 検出チップ表示（赤＝禁止表記を最初に、続いて緑＝置換済、最後に黄＝未登録）
+      // 検出チップ表示（赤＝禁止 → 青＝使用可 → 緑＝置換済 → 黄＝未登録 の順）
       var chipHtml = '';
       Object.keys(donotDetected).sort().forEach(function(k){
         var d = donotDetected[k];
         chipHtml += '<span class="detected-chip donotuse" title="' + htmlEscape(d.entry.rec) + '"><span class="chip-abbr">' + htmlEscape(d.entry.a) + '</span><span class="chip-full">禁止表記 → ' + htmlEscape(d.entry.rec) + '</span><span class="chip-count">' + d.count + '</span></span>';
+      });
+      Object.keys(allowedDetected).sort().forEach(function(k){
+        var a = allowedDetected[k];
+        chipHtml += '<span class="detected-chip allowed" title="' + htmlEscape(a.entry.f) + '"><span class="chip-abbr">' + htmlEscape(a.entry.a) + '</span><span class="chip-full">聖路加で使用可 — ' + htmlEscape(a.entry.j || a.entry.f) + '</span><span class="chip-count">' + a.count + '</span></span>';
       });
       Object.keys(detected).sort().forEach(function(k){
         var d = detected[k];
