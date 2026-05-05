@@ -154,10 +154,12 @@
     }
     #kt-output mark.unknown:hover { background:#FCD34D; }
     /* インライン編集中のマーカー */
-    #kt-output mark.unknown.editing {
+    #kt-output mark.unknown.editing,
+    #kt-output mark.donotuse.editing {
       background:#FFFFFF;color:#1F2937;
       outline:2px solid #7C3AED;outline-offset:1px;
       border-bottom:none;
+      text-decoration:none;
       cursor:text;font-weight:600;
       box-shadow:0 0 0 4px rgba(124,58,237,0.12);
       border-radius:3px;
@@ -1571,6 +1573,10 @@
       {a:'MgSO4',  mean:'magnesium sulfate（硫酸マグネシウム）', rec:'Full Term「硫酸マグネシウム」で記載 — MSO4 と誤りやすい', alt:['硫酸マグネシウム', 'magnesium sulfate']}
     ];
 
+    // DO_NOT_USE のグローバルマップ（render() 外からも参照するため module 直下で構築）
+    var DONOT_MAP = {};
+    DO_NOT_USE.forEach(function(e){ DONOT_MAP[e.a] = e; });
+
     var STORAGE_KEY = 'karte-abbr-v1';
     var DISABLED_KEY = 'karte-abbr-disabled-v1';
 
@@ -2196,7 +2202,7 @@
       var start = parseInt(mark.getAttribute('data-start'), 10);
       var len   = parseInt(mark.getAttribute('data-len'), 10);
       if (isNaN(start) || isNaN(len)) return;
-      var dnEntry = donotMap[abbr];
+      var dnEntry = DONOT_MAP[abbr];
       if (!dnEntry) return;
       var alts = dnEntry.alt || [];
 
