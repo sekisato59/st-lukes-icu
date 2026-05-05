@@ -36,21 +36,20 @@
     }
     .back-btn:hover { background:rgba(255,255,255,0.95);transform:translateY(-1px); }
 
-    /* オフライン保証バッジ */
+    /* オフライン情報バナー（控えめ） */
     .offline-badge {
-      background:linear-gradient(135deg,#065F46,#10B981);
-      color:#fff;border-radius:8px;
-      padding:11px 16px;margin-bottom:14px;
-      font-size:0.84rem;line-height:1.65;
-      box-shadow:0 2px 12px rgba(16,185,129,0.18);
+      background:#F8FAFC;
+      border:1px solid #E2E8F0;
+      border-left:3px solid #94A3B8;
+      color:#475569;border-radius:6px;
+      padding:10px 14px;margin-bottom:14px;
+      font-size:0.78rem;line-height:1.7;
     }
-    .offline-badge::before {
-      content:'完全ローカル処理';
-      display:inline-block;background:rgba(255,255,255,0.22);
-      font-size:0.66rem;font-weight:800;padding:3px 9px;border-radius:4px;
-      margin-right:10px;letter-spacing:0.06em;vertical-align:1px;
+    .offline-badge .lock-ico {
+      display:inline-block;width:13px;height:13px;
+      vertical-align:-2px;margin-right:6px;color:#64748B;
     }
-    .offline-badge strong { color:#FEF3C7; }
+    .offline-badge strong { color:#334155;font-weight:700; }
 
     /* メイン2ペイン */
     .convert-grid {
@@ -107,6 +106,12 @@
       padding:0 3px;border-radius:3px;font-weight:600;
       border-bottom:1px dashed #F59E0B;
     }
+    #kt-output mark.donotuse {
+      background:#FEE2E2;color:#7F1D1D;
+      padding:0 3px;border-radius:3px;font-weight:700;
+      border-bottom:2px solid #DC2626;
+      text-decoration:line-through;text-decoration-color:#DC2626;
+    }
     #kt-output:empty::before {
       content:'左側にカルテ文を貼り付けると、ここに置換結果が表示されます。';
       color:#94A3B8;font-style:italic;
@@ -154,6 +159,11 @@
     .detected-chip.unknown {
       background:#FEF3C7;border-color:#FDE68A;color:#78350F;
     }
+    .detected-chip.donotuse {
+      background:#FEE2E2;border-color:#FECACA;color:#7F1D1D;
+    }
+    .detected-chip.donotuse .chip-full { color:#991B1B;font-weight:700; }
+    .detected-chip.donotuse .chip-count { background:#DC2626; }
     .detected-chip .chip-abbr {
       font-family:ui-monospace,Menlo,Consolas,monospace;font-weight:800;
     }
@@ -276,8 +286,8 @@
     </div>
 
     <div class="offline-badge">
-      <strong>患者情報を含むテキストはブラウザ内のみで処理</strong>します。<br>
-      入力内容は <strong>サーバー・Claude・外部 API に一切送信されません</strong>。ページ読み込み後はオフラインでも動作します。略語辞書はあなたのブラウザ（localStorage）に保存され、追加した略語は次回以降も使えます。
+      <svg class="lock-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      入力内容は <strong>ブラウザ内のみで処理</strong>され、外部に送信されません。オフラインでも動作し、追加した略語は次回以降も保存されます。
     </div>
 
     <!-- 設定バー -->
@@ -320,7 +330,7 @@
       <div class="pane">
         <div class="pane-head">
           <span class="pane-tag" style="background:#10B981;">OUTPUT</span>
-          <span>置換結果（緑＝置換済 ／ 黄＝候補だが辞書未登録）</span>
+          <span style="font-size:0.78rem;font-weight:600;">緑＝置換済／<span style="color:#DC2626;">赤＝禁止表記</span>／<span style="color:#92400E;">黄＝辞書未登録</span></span>
           <div class="pane-actions">
             <button class="pane-btn primary" id="btn-copy">コピー</button>
           </div>
@@ -401,249 +411,441 @@
     // 辞書: デフォルト + localStorage カスタム
     // ============================================================
 
-    // デフォルト辞書 (a=略語, f=正式名称, j=日本語)
+    // ============================================================
+    // 聖路加国際病院 公式略語集（第15回改定 2025-12-01 準拠）
+    // 「略語使用規定」に掲載された略語のみを収載。原文を忠実に転記。
+    // a=略語 / f=英訳 / j=日訳
+    // ============================================================
     var DEFAULT_DICT = [
-      // 循環
-      {a:'AF', f:'Atrial Fibrillation', j:'心房細動'},
-      {a:'AFL', f:'Atrial Flutter', j:'心房粗動'},
-      {a:'PSVT', f:'Paroxysmal Supraventricular Tachycardia', j:'発作性上室頻拍'},
-      {a:'VT', f:'Ventricular Tachycardia', j:'心室頻拍'},
-      {a:'VF', f:'Ventricular Fibrillation', j:'心室細動'},
-      {a:'AMI', f:'Acute Myocardial Infarction', j:'急性心筋梗塞'},
-      {a:'STEMI', f:'ST-Elevation Myocardial Infarction', j:'ST上昇型心筋梗塞'},
-      {a:'NSTEMI', f:'Non-ST-Elevation Myocardial Infarction', j:'非ST上昇型心筋梗塞'},
-      {a:'CHF', f:'Congestive Heart Failure', j:'うっ血性心不全'},
-      {a:'HFrEF', f:'Heart Failure with reduced Ejection Fraction', j:'駆出率低下型心不全'},
-      {a:'HFpEF', f:'Heart Failure with preserved Ejection Fraction', j:'駆出率保持型心不全'},
-      {a:'IE', f:'Infective Endocarditis', j:'感染性心内膜炎'},
-      {a:'PCI', f:'Percutaneous Coronary Intervention', j:'経皮的冠動脈形成術'},
-      {a:'CABG', f:'Coronary Artery Bypass Grafting', j:'冠動脈バイパス術'},
-      {a:'TAVI', f:'Transcatheter Aortic Valve Implantation', j:'経カテーテル大動脈弁植込み'},
-      {a:'ECMO', f:'Extracorporeal Membrane Oxygenation', j:'体外式膜型人工肺'},
-      {a:'VA-ECMO', f:'Veno-Arterial ECMO', j:'静脈-動脈式 ECMO'},
-      {a:'VV-ECMO', f:'Veno-Venous ECMO', j:'静脈-静脈式 ECMO'},
-      {a:'IABP', f:'Intra-Aortic Balloon Pumping', j:'大動脈内バルーンパンピング'},
-      // 呼吸
-      {a:'COPD', f:'Chronic Obstructive Pulmonary Disease', j:'慢性閉塞性肺疾患'},
+      {a:'ABG', f:'arterial blood gas', j:'動脈血ガス分析'},
+      {a:'ABI', f:'ankle brachial index', j:'足首-上腕血圧比'},
+      {a:'ACE', f:'angiotensin converting enzyme', j:'アンジオテンシン変換酵素'},
+      {a:'ACJ', f:'acromioclavicular joint', j:'肩鎖関節'},
+      {a:'ACL', f:'anterior cruciate ligament', j:'前十字靱帯'},
+      {a:'Acom', f:'anterior communicating artery', j:'前交通動脈'},
+      {a:'ACS', f:'acute coronary syndrome', j:'急性冠症候群'},
+      {a:'ACTH', f:'adrenocorticotropic hormone', j:'副腎皮質刺激ホルモン'},
+      {a:'ADL', f:'activities of daily living', j:'日常生活動作'},
+      {a:'ADP', f:'adenosine diphosphate', j:'アデノシン三リン酸'},
+      {a:'AED', f:'automated external defibrillator', j:'自動体外式除細動器'},
+      {a:'AF', f:'atrial fibrillation', j:'心房細動'},
+      {a:'AFD', f:'appropriate for date', j:'妊娠期間に比して適当な大きさの児'},
+      {a:'AFP', f:'alpha-fetoprotein', j:'アルファフェトプロテイン'},
+      {a:'AHF', f:'acute heart failure', j:'急性心不全'},
+      {a:'AIH', f:'artificial insemination of husband', j:'人工授精'},
+      {a:'AIHA', f:'autoimmune hemolytic anemia', j:'自己免疫性溶血性貧血'},
+      {a:'AKI', f:'acute kidney injury', j:'急性腎障害'},
+      {a:'ALB', f:'albumin', j:'アルブミン'},
+      {a:'ALL', f:'acute lymphoblastic leukemia', j:'急性リンパ球性白血病'},
+      {a:'ALP', f:'alkaline phosphatase', j:'アルカリホスファターゼ'},
+      {a:'ALT', f:'alanine aminotransferase', j:'アラニンアミノトランスフェラーゼ'},
+      {a:'AMI', f:'acute myocardial infarction', j:'急性心筋梗塞'},
+      {a:'AML', f:'acute myelogenous leukemia', j:'急性骨髄性白血病'},
+      {a:'AMY', f:'amylase', j:'アミラーゼ'},
+      {a:'ANA', f:'antinuclear antibody', j:'抗核抗体'},
+      {a:'ANCA', f:'antineutrophil cytoplasmic antibody', j:'抗好中球細胞質抗体'},
+      {a:'AP', f:'angina pectoris', j:'狭心症'},
+      {a:'APC', f:'atrial premature contraction', j:'心房性期外収縮'},
+      {a:'APL', f:'acute promyelocytic leukemia', j:'急性前骨髄球性白血病'},
+      {a:'APS', f:'anti-phospholipid syndrome', j:'抗リン脂質抗体症候群'},
+      {a:'APTT', f:'activated partial thromboplastin time', j:'活性化部分トロンボプラスチン時間'},
+      {a:'AR', f:'aortic regurgitation', j:'大動脈弁閉鎖不全'},
+      {a:'ARB', f:'angiotensin receptor bloker', j:'アンギオテンシン受容体拮抗薬'},
       {a:'ARDS', f:'Acute Respiratory Distress Syndrome', j:'急性呼吸窮迫症候群'},
-      {a:'CAP', f:'Community-Acquired Pneumonia', j:'市中肺炎'},
-      {a:'HAP', f:'Hospital-Acquired Pneumonia', j:'院内肺炎'},
-      {a:'VAP', f:'Ventilator-Associated Pneumonia', j:'人工呼吸器関連肺炎'},
-      {a:'PE', f:'Pulmonary Embolism', j:'肺塞栓症'},
-      {a:'NPPV', f:'Non-invasive Positive Pressure Ventilation', j:'非侵襲的陽圧換気'},
-      {a:'HFNC', f:'High-Flow Nasal Cannula', j:'高流量鼻カニュラ酸素療法'},
-      {a:'SBT', f:'Spontaneous Breathing Trial', j:'自発呼吸トライアル'},
-      {a:'PEEP', f:'Positive End-Expiratory Pressure', j:'呼気終末陽圧'},
-      {a:'PCV', f:'Pressure Controlled Ventilation', j:'圧規定換気'},
-      {a:'VCV', f:'Volume Controlled Ventilation', j:'量規定換気'},
-      {a:'PSV', f:'Pressure Support Ventilation', j:'圧支持換気'},
-      {a:'SIMV', f:'Synchronized Intermittent Mandatory Ventilation', j:'同期式間欠的強制換気'},
-      {a:'BAL', f:'Bronchoalveolar Lavage', j:'気管支肺胞洗浄'},
-      {a:'NIV', f:'Non-Invasive Ventilation', j:'非侵襲的換気'},
-      {a:'PCP', f:'Pneumocystis Pneumonia', j:'ニューモシスチス肺炎'},
-      // 腎
-      {a:'AKI', f:'Acute Kidney Injury', j:'急性腎障害'},
-      {a:'CKD', f:'Chronic Kidney Disease', j:'慢性腎臓病'},
-      {a:'RRT', f:'Renal Replacement Therapy', j:'腎代替療法'},
-      {a:'CRRT', f:'Continuous Renal Replacement Therapy', j:'持続的腎代替療法'},
-      {a:'IHD', f:'Intermittent Hemodialysis', j:'間欠的血液透析'},
-      {a:'CHDF', f:'Continuous Hemodiafiltration', j:'持続的血液濾過透析'},
-      {a:'ESRD', f:'End-Stage Renal Disease', j:'末期腎不全'},
-      {a:'GFR', f:'Glomerular Filtration Rate', j:'糸球体濾過量'},
-      {a:'eGFR', f:'estimated Glomerular Filtration Rate', j:'推算糸球体濾過量'},
-      {a:'CrCl', f:'Creatinine Clearance', j:'クレアチニンクリアランス'},
-      {a:'FENa', f:'Fractional Excretion of Sodium', j:'ナトリウム排泄率'},
-      {a:'HUS', f:'Hemolytic Uremic Syndrome', j:'溶血性尿毒症症候群'},
-      {a:'TTP', f:'Thrombotic Thrombocytopenic Purpura', j:'血栓性血小板減少性紫斑病'},
-      {a:'TMA', f:'Thrombotic Microangiopathy', j:'血栓性微小血管症'},
-      {a:'SIAD', f:'Syndrome of Inappropriate Antidiuresis', j:'抗利尿不適切症候群'},
-      {a:'SIADH', f:'Syndrome of Inappropriate Antidiuretic Hormone secretion', j:'抗利尿ホルモン不適切分泌症候群'},
-      // 神経
-      {a:'GCS', f:'Glasgow Coma Scale', j:'グラスゴー昏睡スケール'},
-      {a:'JCS', f:'Japan Coma Scale', j:'日本昏睡スケール'},
-      {a:'CVA', f:'Cerebrovascular Accident', j:'脳血管障害'},
-      {a:'TIA', f:'Transient Ischemic Attack', j:'一過性脳虚血発作'},
-      {a:'SAH', f:'Subarachnoid Hemorrhage', j:'くも膜下出血'},
-      {a:'ICH', f:'Intracerebral Hemorrhage', j:'脳内出血'},
-      {a:'IVH', f:'Intraventricular Hemorrhage', j:'脳室内出血'},
-      {a:'SE', f:'Status Epilepticus', j:'てんかん重積状態'},
-      {a:'CIM', f:'Critical Illness Myopathy', j:'重症患者ミオパチー'},
-      {a:'CIP', f:'Critical Illness Polyneuropathy', j:'重症患者多発神経障害'},
-      {a:'ICP', f:'Intracranial Pressure', j:'頭蓋内圧'},
-      {a:'CPP', f:'Cerebral Perfusion Pressure', j:'脳灌流圧'},
-      {a:'ODS', f:'Osmotic Demyelination Syndrome', j:'浸透圧性脱髄症候群'},
-      // 感染
-      {a:'MRSA', f:'Methicillin-Resistant Staphylococcus aureus', j:'メチシリン耐性黄色ブドウ球菌'},
-      {a:'MSSA', f:'Methicillin-Susceptible Staphylococcus aureus', j:'メチシリン感受性黄色ブドウ球菌'},
-      {a:'VRE', f:'Vancomycin-Resistant Enterococcus', j:'バンコマイシン耐性腸球菌'},
-      {a:'ESBL', f:'Extended-Spectrum Beta-Lactamase-producing organism', j:'基質特異性拡張型β-ラクタマーゼ産生菌'},
-      {a:'CRE', f:'Carbapenem-Resistant Enterobacterales', j:'カルバペネム耐性腸内細菌科菌'},
-      {a:'CPE', f:'Carbapenemase-Producing Enterobacterales', j:'カルバペネマーゼ産生腸内細菌科菌'},
-      {a:'GNR', f:'Gram-Negative Rod', j:'グラム陰性桿菌'},
-      {a:'GPC', f:'Gram-Positive Coccus', j:'グラム陽性球菌'},
-      {a:'GPR', f:'Gram-Positive Rod', j:'グラム陽性桿菌'},
-      {a:'CRBSI', f:'Catheter-Related Bloodstream Infection', j:'カテーテル関連血流感染'},
-      {a:'CLABSI', f:'Central Line-Associated Bloodstream Infection', j:'中心静脈ライン関連血流感染'},
-      {a:'CAUTI', f:'Catheter-Associated Urinary Tract Infection', j:'カテーテル関連尿路感染'},
-      {a:'IAI', f:'Intra-Abdominal Infection', j:'腹腔内感染症'},
-      {a:'CMV', f:'Cytomegalovirus', j:'サイトメガロウイルス'},
-      {a:'EBV', f:'Epstein-Barr Virus', j:'EBウイルス'},
-      {a:'HSV', f:'Herpes Simplex Virus', j:'単純ヘルペスウイルス'},
-      {a:'VZV', f:'Varicella Zoster Virus', j:'水痘帯状疱疹ウイルス'},
-      {a:'TB', f:'Tuberculosis', j:'結核'},
-      {a:'CDI', f:'Clostridioides difficile Infection', j:'クロストリディオイデス・ディフィシル感染症'},
-      {a:'SSI', f:'Surgical Site Infection', j:'手術部位感染'},
-      {a:'PEP', f:'Post-Exposure Prophylaxis', j:'曝露後予防内服'},
-      {a:'UTI', f:'Urinary Tract Infection', j:'尿路感染症'},
-      {a:'BSI', f:'Bloodstream Infection', j:'血流感染'},
-      // 消化
-      {a:'GERD', f:'Gastroesophageal Reflux Disease', j:'胃食道逆流症'},
-      {a:'PUD', f:'Peptic Ulcer Disease', j:'消化性潰瘍'},
-      {a:'IBD', f:'Inflammatory Bowel Disease', j:'炎症性腸疾患'},
-      {a:'UGIB', f:'Upper Gastrointestinal Bleeding', j:'上部消化管出血'},
-      {a:'LGIB', f:'Lower Gastrointestinal Bleeding', j:'下部消化管出血'},
-      {a:'ERCP', f:'Endoscopic Retrograde Cholangiopancreatography', j:'内視鏡的逆行性胆管膵管造影'},
-      {a:'ALF', f:'Acute Liver Failure', j:'急性肝不全'},
-      {a:'ACLF', f:'Acute on Chronic Liver Failure', j:'慢性肝不全急性増悪'},
-      {a:'NASH', f:'Non-Alcoholic Steatohepatitis', j:'非アルコール性脂肪肝炎'},
-      {a:'TPN', f:'Total Parenteral Nutrition', j:'完全静脈栄養'},
-      {a:'EN', f:'Enteral Nutrition', j:'経腸栄養'},
-      // 血液
-      {a:'DIC', f:'Disseminated Intravascular Coagulation', j:'播種性血管内凝固'},
-      {a:'HIT', f:'Heparin-Induced Thrombocytopenia', j:'ヘパリン起因性血小板減少症'},
-      {a:'ITP', f:'Immune Thrombocytopenia', j:'免疫性血小板減少症'},
-      {a:'aPTT', f:'activated Partial Thromboplastin Time', j:'活性化部分トロンボプラスチン時間'},
-      {a:'PT-INR', f:'Prothrombin Time International Normalized Ratio', j:'プロトロンビン時間国際標準化比'},
-      {a:'DOAC', f:'Direct Oral Anticoagulant', j:'直接経口抗凝固薬'},
-      {a:'VKA', f:'Vitamin K Antagonist', j:'ビタミンK拮抗薬'},
-      {a:'HSCT', f:'Hematopoietic Stem Cell Transplantation', j:'造血幹細胞移植'},
-      {a:'GVHD', f:'Graft-versus-Host Disease', j:'移植片対宿主病'},
-      // 内分泌
-      {a:'DM', f:'Diabetes Mellitus', j:'糖尿病'},
-      {a:'DKA', f:'Diabetic Ketoacidosis', j:'糖尿病性ケトアシドーシス'},
-      {a:'HHS', f:'Hyperosmolar Hyperglycemic State', j:'高浸透圧高血糖状態'},
-      {a:'TSH', f:'Thyroid-Stimulating Hormone', j:'甲状腺刺激ホルモン'},
-      {a:'ACTH', f:'Adrenocorticotropic Hormone', j:'副腎皮質刺激ホルモン'},
-      {a:'CIRCI', f:'Critical Illness-Related Corticosteroid Insufficiency', j:'重症患者関連副腎機能不全'},
-      // ICU・モニタ
-      {a:'MAP', f:'Mean Arterial Pressure', j:'平均動脈圧'},
-      {a:'CVP', f:'Central Venous Pressure', j:'中心静脈圧'},
-      {a:'SpO2', f:'peripheral capillary Oxygen Saturation', j:'経皮的動脈血酸素飽和度'},
-      {a:'SaO2', f:'arterial Oxygen Saturation', j:'動脈血酸素飽和度'},
-      {a:'PaO2', f:'arterial partial pressure of Oxygen', j:'動脈血酸素分圧'},
-      {a:'PaCO2', f:'arterial partial pressure of Carbon Dioxide', j:'動脈血二酸化炭素分圧'},
-      {a:'EtCO2', f:'End-Tidal Carbon Dioxide', j:'呼気終末二酸化炭素分圧'},
-      {a:'SOFA', f:'Sequential Organ Failure Assessment', j:'臓器不全評価スコア'},
-      {a:'qSOFA', f:'quick Sequential Organ Failure Assessment', j:'簡易臓器不全評価'},
-      {a:'APACHE-II', f:'Acute Physiology and Chronic Health Evaluation II', j:'重症度評価スコア'},
-      {a:'RASS', f:'Richmond Agitation-Sedation Scale', j:'リッチモンド興奮鎮静スケール'},
-      {a:'CAM-ICU', f:'Confusion Assessment Method for the ICU', j:'ICU せん妄評価法'},
-      {a:'NRS', f:'Numerical Rating Scale', j:'数値評価スケール'},
-      {a:'VAS', f:'Visual Analog Scale', j:'視覚的アナログスケール'},
-      {a:'BPS', f:'Behavioral Pain Scale', j:'行動的疼痛評価スケール'},
-      {a:'CPOT', f:'Critical-Care Pain Observation Tool', j:'重症患者用疼痛行動評価ツール'},
-      {a:'NPO', f:'Nil Per Os', j:'絶飲食'},
-      {a:'DNAR', f:'Do Not Attempt Resuscitation', j:'蘇生措置拒否'},
-      {a:'DNR', f:'Do Not Resuscitate', j:'蘇生措置拒否'},
-      {a:'EOL', f:'End of Life', j:'終末期'},
-      {a:'ADL', f:'Activities of Daily Living', j:'日常生活動作'},
-      {a:'ROS', f:'Review of Systems', j:'システム別問診'},
-      // 薬剤
-      {a:'qd', f:'quaque die (once daily)', j:'1日1回'},
-      {a:'bid', f:'bis in die (twice daily)', j:'1日2回'},
-      {a:'tid', f:'ter in die (three times daily)', j:'1日3回'},
-      {a:'qid', f:'quater in die (four times daily)', j:'1日4回'},
-      {a:'q4h', f:'every 4 hours', j:'4時間ごと'},
-      {a:'q6h', f:'every 6 hours', j:'6時間ごと'},
-      {a:'q8h', f:'every 8 hours', j:'8時間ごと'},
-      {a:'q12h', f:'every 12 hours', j:'12時間ごと'},
-      {a:'q24h', f:'every 24 hours', j:'24時間ごと'},
-      {a:'prn', f:'pro re nata (as needed)', j:'頓用（必要時）'},
-      {a:'IV', f:'Intravenous', j:'静脈内投与'},
-      {a:'IM', f:'Intramuscular', j:'筋肉内投与'},
-      {a:'SC', f:'Subcutaneous', j:'皮下投与'},
-      {a:'PO', f:'per os (oral)', j:'経口投与'},
-      {a:'DIV', f:'Drip Intravenous infusion', j:'点滴静注'},
-      {a:'TDM', f:'Therapeutic Drug Monitoring', j:'薬物血中濃度モニタリング'},
-      {a:'AUC', f:'Area Under the Curve', j:'血中濃度時間曲線下面積'},
-      {a:'NSAID', f:'Non-Steroidal Anti-Inflammatory Drug', j:'非ステロイド性抗炎症薬'},
-      {a:'PPI', f:'Proton Pump Inhibitor', j:'プロトンポンプ阻害薬'},
-      {a:'SSRI', f:'Selective Serotonin Reuptake Inhibitor', j:'選択的セロトニン再取り込み阻害薬'},
-      {a:'SNRI', f:'Serotonin-Norepinephrine Reuptake Inhibitor', j:'セロトニン・ノルアドレナリン再取り込み阻害薬'},
-      // 抗菌薬
-      {a:'VCM', f:'Vancomycin', j:'バンコマイシン'},
-      {a:'MEPM', f:'Meropenem', j:'メロペネム'},
-      {a:'CFPM', f:'Cefepime', j:'セフェピム'},
-      {a:'CTRX', f:'Ceftriaxone', j:'セフトリアキソン'},
-      {a:'CTX', f:'Cefotaxime', j:'セフォタキシム'},
-      {a:'CAZ', f:'Ceftazidime', j:'セフタジジム'},
-      {a:'CMZ', f:'Cefmetazole', j:'セフメタゾール'},
-      {a:'PIPC/TAZ', f:'Piperacillin/Tazobactam', j:'ピペラシリン/タゾバクタム'},
-      {a:'ABPC/SBT', f:'Ampicillin/Sulbactam', j:'アンピシリン/スルバクタム'},
-      {a:'ABPC', f:'Ampicillin', j:'アンピシリン'},
-      {a:'PCG', f:'Penicillin G', j:'ペニシリン G'},
-      {a:'CLDM', f:'Clindamycin', j:'クリンダマイシン'},
-      {a:'MNZ', f:'Metronidazole', j:'メトロニダゾール'},
-      {a:'LZD', f:'Linezolid', j:'リネゾリド'},
-      {a:'TZD', f:'Tedizolid', j:'テジゾリド'},
-      {a:'DAP', f:'Daptomycin', j:'ダプトマイシン'},
-      {a:'MINO', f:'Minocycline', j:'ミノサイクリン'},
-      {a:'LVFX', f:'Levofloxacin', j:'レボフロキサシン'},
-      {a:'CPFX', f:'Ciprofloxacin', j:'シプロフロキサシン'},
-      {a:'AZM', f:'Azithromycin', j:'アジスロマイシン'},
-      {a:'ST', f:'Sulfamethoxazole/Trimethoprim', j:'ST合剤'},
-      {a:'GCV', f:'Ganciclovir', j:'ガンシクロビル'},
-      {a:'VGCV', f:'Valganciclovir', j:'バルガンシクロビル'},
-      {a:'FOS', f:'Foscarnet', j:'ホスカルネット'},
-      {a:'MBV', f:'Maribavir', j:'マリバビル'},
-      {a:'LMV', f:'Letermovir', j:'レテルモビル'},
-      {a:'DEX', f:'Dexmedetomidine', j:'デクスメデトミジン'},
-      // 検査
-      {a:'CBC', f:'Complete Blood Count', j:'全血球計算'},
-      {a:'WBC', f:'White Blood Cell count', j:'白血球数'},
-      {a:'RBC', f:'Red Blood Cell count', j:'赤血球数'},
-      {a:'PLT', f:'Platelet count', j:'血小板数'},
-      {a:'Hb', f:'Hemoglobin', j:'ヘモグロビン'},
-      {a:'Ht', f:'Hematocrit', j:'ヘマトクリット'},
-      {a:'BUN', f:'Blood Urea Nitrogen', j:'尿素窒素'},
-      {a:'Cr', f:'Creatinine', j:'クレアチニン'},
-      {a:'AST', f:'Aspartate Aminotransferase', j:'アスパラギン酸アミノトランスフェラーゼ'},
-      {a:'ALT', f:'Alanine Aminotransferase', j:'アラニンアミノトランスフェラーゼ'},
-      {a:'ALP', f:'Alkaline Phosphatase', j:'アルカリホスファターゼ'},
-      {a:'CK', f:'Creatine Kinase', j:'クレアチンキナーゼ'},
-      {a:'CK-MB', f:'Creatine Kinase MB fraction', j:'クレアチンキナーゼ MB 分画'},
-      {a:'TnI', f:'Troponin I', j:'トロポニン I'},
-      {a:'TnT', f:'Troponin T', j:'トロポニン T'},
-      {a:'BNP', f:'Brain Natriuretic Peptide', j:'脳性ナトリウム利尿ペプチド'},
-      {a:'NT-proBNP', f:'N-Terminal pro Brain Natriuretic Peptide', j:'N末端プロ脳性ナトリウム利尿ペプチド'},
-      {a:'CRP', f:'C-Reactive Protein', j:'C反応性蛋白'},
-      {a:'PCT', f:'Procalcitonin', j:'プロカルシトニン'},
-      {a:'ABG', f:'Arterial Blood Gas', j:'動脈血液ガス'},
-      {a:'VBG', f:'Venous Blood Gas', j:'静脈血液ガス'},
-      {a:'BE', f:'Base Excess', j:'塩基余剰'},
-      {a:'AG', f:'Anion Gap', j:'アニオンギャップ'},
-      {a:'HbA1c', f:'Hemoglobin A1c', j:'糖化ヘモグロビン'},
-      // 手技
+      {a:'AS', f:'aortic stenosis', j:'大動脈弁狭窄症'},
+      {a:'ASA', f:'(5-)-aminosalicylate', j:'5-アミノサリチル酸'},
+      {a:'ASD', f:'atrioseptal defect', j:'心房中隔欠損症'},
+      {a:'ASO', f:'arteriosclerosis obliterans', j:'閉塞性動脈硬化症'},
+      {a:'AST', f:'aspartate aminotransferase', j:'アスパラギン酸アミノトランスフェラーゼ'},
+      {a:'ATH', f:'abdominal total hysterectomy', j:'腹式単純子宮全摘出術'},
+      {a:'ATL', f:'adult T-cell leukemia', j:'成人T細胞性白血病'},
+      {a:'ATLA', f:'adult T-cell leukemia antibody', j:'成人T細胞白血病抗体'},
+      {a:'ATR', f:'Achilles tendon reflex', j:'アキレス腱反射'},
+      {a:'AVF', f:'arteriovenous fistula', j:'動静脈瘻'},
+      {a:'AVM', f:'arteriovenous malformation', j:'動静脈奇形'},
+      {a:'BBD', f:'bladder bowel dysfunction', j:'膀胱直腸障害'},
+      {a:'BBT', f:'basal body temperature', j:'基礎体温'},
+      {a:'BCC', f:'basal cell carcinoma', j:'基底細胞癌'},
+      {a:'BCG', f:'bacille de Calmette et Guerin', j:'カルメット・ゲラン桿菌(BCG)'},
+      {a:'BE', f:'barium enema', j:'バリウム注腸'},
+      {a:'BiPAP', f:'biphasic positive airway pressure', j:'二相性陽圧呼吸'},
+      {a:'BK', f:'below knee', j:'膝下'},
+      {a:'BMD', f:'bone mineral density', j:'骨密度'},
+      {a:'BMI', f:'body mass index', j:'肥満指数'},
+      {a:'BNP', f:'brain natriuretic peptide', j:'脳性ナトリウム利尿ペプチド'},
+      {a:'BPH', f:'benign prostatic hypertrophy', j:'良性前立腺肥大'},
+      {a:'bpm', f:'beat per minute', j:'1分間拍動数'},
+      {a:'BPPV', f:'benign paroxysmal positional vertigo', j:'良性発作性頭位変換性めまい'},
+      {a:'BS', f:'blood sugar', j:'血糖'},
+      {a:'BUN', f:'blood urea nitrogen', j:'血清尿素窒素'},
+      {a:'BW', f:'body weight', j:'体重'},
+      {a:'Bx', f:'biopsy', j:'生検'},
+      {a:'Ca', f:'carcinoma', j:'癌'},
+      {a:'CAG', f:'coronary angiography', j:'冠動脈造影'},
+      {a:'CBC', f:'complete blood count', j:'血算'},
+      {a:'CC', f:'chief complaint', j:'主訴'},
+      {a:'CCB', f:'calcium channel blocker', j:'カルシウムチャネル拮抗薬'},
+      {a:'CCM', f:'critical care medicine', j:'集中治療室'},
+      {a:'Ccr', f:'creatinine clearance', j:'クレアチニンクリアランス'},
+      {a:'CCU', f:'coronary care unit', j:'冠疾患集中治療室'},
+      {a:'CD', f:'Clostridium difficile', j:'クロストリジウム・ディフィシル'},
+      {a:'CHF', f:'congestive heart failure', j:'うっ血性心不全'},
+      {a:'CHO', f:'cholesterol', j:'コレステロール'},
+      {a:'CI', f:'cardiac index', j:'心(拍出量)係数'},
+      {a:'CIS', f:'carcinoma in situ', j:'上皮内癌'},
+      {a:'CK', f:'creatine kinase', j:'クレアチンキナーゼ'},
+      {a:'CKD', f:'chronic kidney disease', j:'慢性腎臓病'},
+      {a:'CML', f:'chronic myelocytic leukemia', j:'慢性骨髄性白血病'},
+      {a:'CMV', f:'cytomegalovirus', j:'サイトメガロウイルス'},
+      {a:'CNS', f:'central nervous system', j:'中枢神経系'},
+      {a:'CO', f:'cardiac output', j:'心拍出量'},
+      {a:'COPD', f:'chronic obstructive pulmonary disease', j:'慢性閉塞性肺疾患'},
+      {a:'COVID', f:'coronavirus disease', j:'新型コロナウイルス感染症'},
+      {a:'CP', f:'capsule', j:'カプセル'},
+      {a:'CPA', f:'cardiopulmonary arrest', j:'心肺機能停止(例)'},
+      {a:'CPAP', f:'contimuous positive airway pressure', j:'持続気道内陽圧'},
       {a:'CPR', f:'Cardiopulmonary Resuscitation', j:'心肺蘇生'},
-      {a:'ACLS', f:'Advanced Cardiovascular Life Support', j:'二次救命処置'},
-      {a:'BLS', f:'Basic Life Support', j:'一次救命処置'},
-      {a:'ETT', f:'Endotracheal Tube', j:'気管チューブ'},
-      {a:'ETI', f:'Endotracheal Intubation', j:'気管挿管'},
-      {a:'NGT', f:'Nasogastric Tube', j:'経鼻胃管'},
-      {a:'OGT', f:'Orogastric Tube', j:'経口胃管'},
-      {a:'PICC', f:'Peripherally Inserted Central Catheter', j:'末梢挿入中心静脈カテーテル'},
-      {a:'POCUS', f:'Point-of-Care Ultrasound', j:'ベッドサイドエコー'},
-      {a:'TTE', f:'Transthoracic Echocardiography', j:'経胸壁心エコー'},
-      {a:'TEE', f:'Transesophageal Echocardiography', j:'経食道心エコー'},
-      {a:'LP', f:'Lumbar Puncture', j:'腰椎穿刺'},
-      {a:'CV', f:'Central Venous catheter', j:'中心静脈カテーテル'},
-      // その他
-      {a:'PMH', f:'Past Medical History', j:'既往歴'},
-      {a:'FH', f:'Family History', j:'家族歴'},
-      {a:'SH', f:'Social History', j:'社会歴'},
-      {a:'CC', f:'Chief Complaint', j:'主訴'},
-      {a:'HPI', f:'History of Present Illness', j:'現病歴'},
-      {a:'SOAP', f:'Subjective, Objective, Assessment, Plan', j:'カルテ記載構造'}
+      {a:'CRBBB', f:'complete right bundle branch block', j:'完全右脚ブロック'},
+      {a:'CRNN', f:'creatinine', j:'クレアチニン'},
+      {a:'CRP', f:'C-reactive protein', j:'C反応性タンパク'},
+      {a:'CS', f:'cesarean section', j:'帝王切開術'},
+      {a:'CT', f:'computed tomography', j:'コンピューター断層撮影'},
+      {a:'CTR', f:'cardio-thoracic ratio', j:'心胸郭比'},
+      {a:'CVA', f:'cerebrovascular accident', j:'脳血管障害'},
+      {a:'CVC', f:'Central Venous Catheter', j:'中心静脈カテーテル'},
+      {a:'CXR', f:'chest X ray', j:'胸部単純写真'},
+      {a:'DBP', f:'diastolic blood pressure', j:'拡張期血圧'},
+      {a:'DCIS', f:'ductal carcinoma in situ', j:'非浸潤性乳管癌'},
+      {a:'DDx', f:'diffenrential diagnosis', j:'鑑別診断'},
+      {a:'DEXA', f:'Duel energy X ray absorptiometry', j:'二重エネルギーX線吸収法'},
+      {a:'DI', f:'Diabetes insipidus', j:'尿崩症'},
+      {a:'DIC', f:'disseminated intravascular coagulation', j:'播種性血管内凝固症候群'},
+      {a:'DLE', f:'discoid lupus erythematodes', j:'円盤状エリテマトーデス'},
+      {a:'DM', f:'diabetes mellitus', j:'糖尿病'},
+      {a:'DMARD', f:'disease-modifying antirheumatic drug', j:'疾患修飾性抗リウマチ薬'},
+      {a:'DNA', f:'deoxyribonucleic acid', j:'デオキシリボ核酸'},
+      {a:'DNR', f:'do not resuscitate', j:'蘇生をしない'},
+      {a:'do', f:'dictus (ditto)', j:'前回と同じ'},
+      {a:'DOA', f:'dopamine', j:'ドパミン'},
+      {a:'DOB', f:'dobutamine', j:'ドブタミン'},
+      {a:'DOE', f:'dyspnea on exertion', j:'労作時呼吸困難'},
+      {a:'DTR', f:'deep tenton reflex', j:'深部腱反射'},
+      {a:'DV', f:'domestic violence', j:'ドメスティック・バイオレンス'},
+      {a:'DVT', f:'deep vein thrombosis', j:'(下肢)深部静脈血栓症'},
+      {a:'Dx', f:'diagnosis', j:'診断'},
+      {a:'EBV', f:'Epsterin Barr virsu', j:'エプスタイン・バー ウイルス'},
+      {a:'ECG', f:'electrocardiogram', j:'心電図'},
+      {a:'ECHO', f:'echography', j:'超音波検査法'},
+      {a:'ECMO', f:'extracorporeal membrane oxygenation', j:'体外式膜型人工肺'},
+      {a:'EEG', f:'electroencephalogram', j:'脳波'},
+      {a:'EF', f:'ejection fraction', j:'駆出率'},
+      {a:'EMR', f:'endoscopic mucosal resection', j:'内視鏡的粘膜切除術'},
+      {a:'EN', f:'Enteral Nutrition', j:'経腸栄養'},
+      {a:'ENT', f:'ear, nose and throat', j:'耳鼻咽喉'},
+      {a:'EO', f:'eosinophil', j:'好酸球'},
+      {a:'EPO', f:'erythropoietin', j:'エリスロポエチン'},
+      {a:'ER', f:'emergency room', j:'救急室'},
+      {a:'ESD', f:'endoscopic submucosaldissection', j:'内視鏡的粘膜下層剥離術'},
+      {a:'ESR', f:'erythrocyte sedimentation rate', j:'赤血球沈降速度'},
+      {a:'ESRD', f:'endstage renal disease', j:'末期腎不全'},
+      {a:'FBG', f:'fibrinogen', j:'フィブリノゲン'},
+      {a:'FBS', f:'fasting blood sugar', j:'空腹時血糖'},
+      {a:'FDA', f:'Food and Drug Administration', j:'米国食品医薬品局'},
+      {a:'FDP', f:'fibrin fibirinogen degradation product', j:'フィブリン・フィブリノゲン分解産物'},
+      {a:'FENA', f:'fractional excretion of sodium', j:'Na排泄分画'},
+      {a:'FGR', f:'fetal growth restriction', j:'胎児発育不全'},
+      {a:'FGS', f:'focal glomerulosclerosis', j:'巣状糸球体硬化症'},
+      {a:'FH', f:'familial history', j:'家族歴'},
+      {a:'FHR', f:'fetal heart rate', j:'胎児心拍数'},
+      {a:'FMS', f:'fibromyalgia syndrome', j:'線維筋痛症'},
+      {a:'FRN', f:'ferritin', j:'フェリチン'},
+      {a:'Fx', f:'fracture', j:'骨折'},
+      {a:'GBS', f:'group B streptococcus', j:'B群溶連菌'},
+      {a:'GCS', f:'glasgow coma scale', j:'グラスゴー・コーマ・スケール'},
+      {a:'GCU', f:'growing care unit', j:'継続保育室'},
+      {a:'GERD', f:'gastro-esophageal reflux disease', j:'胃食道逆流性疾患'},
+      {a:'GFR', f:'glomerular filtration rate', j:'糸球体濾過値'},
+      {a:'GI', f:'gastro-intestinal', j:'胃腸'},
+      {a:'GIF', f:'gastorointestinal fiberscope', j:'消化管ファイバースコープ'},
+      {a:'GIST', f:'gastrointestinal stromal tumor', j:'消化管間質腫瘍'},
+      {a:'GLU', f:'glucose', j:'グルコース'},
+      {a:'GNR', f:'Gram negative rods', j:'グラム陰性桿菌'},
+      {a:'GnRH', f:'Gonadotropin releasing hormone', j:'性腺刺激ホルモン放出ホルモン'},
+      {a:'GnRHA', f:'gonadotropic releasing hormone agonist', j:'性腺刺激ホルモン受容体アゴニスト'},
+      {a:'GTT', f:'glucose tolerance test', j:'ブドウ糖負荷試験'},
+      {a:'GVHD', f:'graft-versus-host disease', j:'移植片宿主相関病(移植片対宿主病)'},
+      {a:'Gy', f:'Gray', j:'グレイ'},
+      {a:'GYN', f:'gynecology', j:'婦人科'},
+      {a:'HANP', f:'human atrial natriuretic peptide', j:'ヒト心房性ナトリウム利尿ペプチド'},
+      {a:'HC', f:'hepatitis C', j:'C型肝炎'},
+      {a:'HCC', f:'hepatocellular carcinoma', j:'肝癌'},
+      {a:'HCG', f:'human chorionic gonadotropin', j:'ヒト絨毛性ゴナドトロピン'},
+      {a:'HCT', f:'hematocrit', j:'ヘマトクリット'},
+      {a:'HCU', f:'high care unit', j:'ハイケア室'},
+      {a:'HCV', f:'hepatitis C virus', j:'C型肝炎ウイルス'},
+      {a:'HCVAb', f:'hepatitis C virus antibody', j:'抗HCV抗体'},
+      {a:'HD', f:'hemodialysis', j:'血液透析'},
+      {a:'HDS', f:'Hasegawa dementia scale', j:'長谷川式簡易知能評価スケール'},
+      {a:'HEENT', f:'Head, Eye, Ear, Nose and Throat', j:'顔、目、耳、鼻、咽頭'},
+      {a:'HGB', f:'hemoglobin', j:'ヘモグロビン'},
+      {a:'HIV', f:'human immunodeficiency virus', j:'ヒト免疫不全ウイルス'},
+      {a:'HLA', f:'human leukocyte antigen', j:'ヒト白血球抗原'},
+      {a:'HoLEP', f:'Holmium laser enucleation of the prostate', j:'ホルミウムレーザー前立腺核出術'},
+      {a:'HOT', f:'home oxygen therapy', j:'在宅酸素療法'},
+      {a:'HP', f:'helicobacter pylori', j:'ヘリコバクターピロリ'},
+      {a:'HPV', f:'human papilloma virus', j:'ヒトパピローマウイルス'},
+      {a:'HR', f:'heart rate', j:'心拍動数'},
+      {a:'HRT', f:'hormone replacement therapy', j:'ホルモン補充療法'},
+      {a:'HSV', f:'herpes simplex virus', j:'単純ヘルペスウイルス'},
+      {a:'HT', f:'height', j:'身長'},
+      {a:'HTN', f:'hypertension', j:'高血圧'},
+      {a:'Hx', f:'history', j:'病歴'},
+      {a:'HZ', f:'herpes zoster', j:'帯状疱疹'},
+      {a:'IABP', f:'intraaortic balloon counterpulsation', j:'大動脈内バルーンパンピング'},
+      {a:'IBD', f:'inflammatory bowel disease', j:'炎症性腸疾患'},
+      {a:'IBS', f:'irritable bowel syndrome', j:'過敏性腸症候群'},
+      {a:'IC', f:'informed consent', j:'インフォームコンセント'},
+      {a:'ICA', f:'internal carotid artery', j:'内頸動脈'},
+      {a:'ICCU', f:'intentive cardiac care unit', j:'心血管センターICU'},
+      {a:'ICH', f:'intracerebral hemorrhage', j:'脳内出血'},
+      {a:'ICP', f:'intracranial cerebral pressure', j:'頭蓋内圧'},
+      {a:'ICU', f:'intensive care unit', j:'集中治療室'},
+      {a:'ID', f:'identification number', j:'ID番号'},
+      {a:'IDA', f:'iron deficiency anemia', j:'鉄欠乏性貧血'},
+      {a:'IE', f:'infective endocarditis', j:'感染性心内膜炎'},
+      {a:'IgA', f:'Imunoglobulin A', j:'免疫グロブリンA'},
+      {a:'IgE', f:'Imunoglobulin E', j:'免疫グロブリンE'},
+      {a:'IgG', f:'Imunoglobulin G', j:'免疫グロブリンG'},
+      {a:'IgM', f:'Imunoglobulin M', j:'免疫グロブリンM'},
+      {a:'IM', f:'intramuscular', j:'筋肉内'},
+      {a:'IMCU', f:'intermediate care unite', j:'step-down ICU'},
+      {a:'INR', f:'(prothrombin) time international normalized ratio', j:'プロトロンビン時間国際標準値比'},
+      {a:'IP', f:'interstitial pneumonia', j:'間質性肺炎'},
+      {a:'IPSS', f:'International prostate symptom score', j:'国際前立腺症状スコア'},
+      {a:'IRBBB', f:'incomplete right bundle branch block', j:'不完全右脚ブロック'},
+      {a:'ITP', f:'idiopathic thrombocytopemia', j:'免疫性血小板減少症'},
+      {a:'IUD', f:'intrauterine device', j:'子宮内避妊具'},
+      {a:'IUFD', f:'intrauterine fetal death', j:'子宮内胎児死亡'},
+      {a:'IUI', f:'intra uterine insemination', j:'配偶者間人工授精'},
+      {a:'IV', f:'intravenous injection', j:'静脈内注射'},
+      {a:'IVC', f:'inferior vena cava', j:'下大静脈'},
+      {a:'IVD', f:'intravenous infusion by drip', j:'点滴'},
+      {a:'IVF', f:'in vitro fertilization', j:'体外受精'},
+      {a:'IVIG', f:'intravenous immunoglobulin', j:'免疫グロブリン静脈内投与療法'},
+      {a:'IVR', f:'Interventional Radiology', j:'放射線診断技術の治療的応用'},
+      {a:'JCS', f:'Japan coma scale', j:'3-3-9方式、ジャパン-コーマ-スケール'},
+      {a:'KCl', f:'potassium chloride', j:'塩化カリウム'},
+      {a:'KOH', f:'potassium hydroxide', j:'水酸化カリウム'},
+      {a:'KUB', f:'Kidney, Ureter, Bladder', j:'腎尿管膀胱撮影'},
+      {a:'LA', f:'left atrium', j:'左心房'},
+      {a:'LAC', f:'lupus anticoagulant', j:'ループスアンチコアグラント'},
+      {a:'LAD', f:'left anterior descending coronary artery', j:'左冠動脈前下行枝'},
+      {a:'LC', f:'liver cirrhosis', j:'肝硬変症'},
+      {a:'LCL', f:'lateral collateral ligament', j:'外側側副靱帯'},
+      {a:'LCX', f:'left circumflex coronary artery', j:'左冠動脈回旋枝'},
+      {a:'LDH', f:'lactate dehydrogenase', j:'乳酸脱水素酵素'},
+      {a:'LDL', f:'low density lipoprotein', j:'低比重リポ蛋白'},
+      {a:'LDR', f:'labor-delivery room', j:'日本語訳なし'},
+      {a:'LE', f:'Lupus erythematosus', j:'エリテマトーデス'},
+      {a:'LFD', f:'large for date', j:'妊娠期間に比して大きすぎる児'},
+      {a:'LFT', f:'liver function tests', j:'肝機能検査'},
+      {a:'LH', f:'luteinizing hormone', j:'黄体形成ホルモン'},
+      {a:'LITA', f:'left internal thoracic artery', j:'左内胸動脈'},
+      {a:'LMD', f:'local medical doctor', j:'近医'},
+      {a:'LN', f:'lymph node', j:'リンパ節'},
+      {a:'LSCS', f:'lumbar spinal canal stenosis', j:'腰部脊柱管狭窄症'},
+      {a:'LV', f:'left ventricle', j:'左室'},
+      {a:'LVAD', f:'left ventricular assist device', j:'左心室補助装置'},
+      {a:'LVDd', f:'left ventricular end-diastolic diameter', j:'左心室拡張期径'},
+      {a:'LVH', f:'left ventricular hypertrophy', j:'左室肥大'},
+      {a:'Lymph', f:'lymph node', j:'リンパ節'},
+      {a:'MALT', f:'mucosa-associated lympoid tissue', j:'粘膜関連リンパ組織'},
+      {a:'MAP', f:'mean arterial pressure', j:'平均動脈圧'},
+      {a:'MCA', f:'middle cerebral artery', j:'中大脳動脈'},
+      {a:'MCL', f:'medial collateral ligament', j:'内側側副靭帯'},
+      {a:'MCTD', f:'mixed connective tissue disease', j:'混合性結合組織病'},
+      {a:'MCV', f:'mean corpuscular volume', j:'赤血球平均容量'},
+      {a:'MD', f:'medical doctor', j:'医師'},
+      {a:'MDS', f:'myelodysplastic syndrome', j:'骨髄異形成症候群'},
+      {a:'MI', f:'Myocardial infarction', j:'心筋梗塞'},
+      {a:'MM', f:'multiple myeloma', j:'多発性骨髄腫'},
+      {a:'MMG', f:'mammography', j:'マンモグラフィ'},
+      {a:'MONO', f:'monocyte', j:'単球'},
+      {a:'MP', f:'metacarpophalangeal', j:'中手指間'},
+      {a:'MPJ', f:'metacarpophalangeal joint', j:'中手指節関節'},
+      {a:'MR', f:'mitral regurgitation', j:'僧帽弁閉鎖不全症'},
+      {a:'MRA', f:'magnetic resonance angiograpohy', j:'磁気共鳴血管造影'},
+      {a:'MRCP', f:'magnetic resonance cholangiopancreatography', j:'MRIによる胆嚢胆管膵管撮影'},
+      {a:'MRI', f:'magnetic resonance imaging', j:'核磁気共鳴画像'},
+      {a:'MRSA', f:'methicillin-resistant Staphylococcus aureus', j:'メチシリン耐性黄色ブドウ球菌'},
+      {a:'MRSE', f:'methicillin-resistant Staphylococcus epidermidis', j:'メチシリン耐性表皮ブドウ球菌'},
+      {a:'MS', f:'mitral stenosis', j:'僧帽弁狭窄'},
+      {a:'MSSA', f:'methicillin-sensitive staphylococcus aureus', j:'メチシリン感受性黄色ブドウ球菌'},
+      {a:'MVP', f:'mitral valve prolapse', j:'僧帽弁逸脱'},
+      {a:'MVR', f:'mitral valve replacement', j:'僧帽弁置換術'},
+      {a:'NE', f:'neutrophil', j:'好中球'},
+      {a:'NG', f:'nasogastric tube', j:'経鼻胃管'},
+      {a:'NICU', f:'neonatal intensive care unit', j:'新生児集中治療室'},
+      {a:'NO', f:'nitric oxide', j:'一酸化窒素'},
+      {a:'NPH', f:'normal pressure hydrocephalus', j:'正常圧水頭症'},
+      {a:'NRS', f:'Numerical Rating Scale', j:'数値評価スケール'},
+      {a:'NSAID', f:'non steroidal anti-inflammatory drug', j:'非ステロイド性消炎剤'},
+      {a:'NYHA', f:"New York Heart Association's Classification", j:'NYHA分類'},
+      {a:'OA', f:'osteoarthrosis', j:'変形性関節症'},
+      {a:'OAB', f:'overactive bladder', j:'過活動膀胱'},
+      {a:'OABSS', f:'overactive bladder syndrome score', j:'過活動膀胱症状質問表'},
+      {a:'OB', f:'occult blood', j:'潜血'},
+      {a:'OGTT', f:'oral glucose tolerance test', j:'経口ブドウ糖負荷試験'},
+      {a:'OMI', f:'old myocardial infarction', j:'陳旧性心筋梗塞'},
+      {a:'OP', f:'operation', j:'手術'},
+      {a:'OPCABG', f:'off-pump coronary artery bypass grafitng', j:'人工心肺非使用冠動脈バイパス術'},
+      {a:'OR', f:'operation room', j:'手術室'},
+      {a:'OT', f:'occupational therapist', j:'作業療法士'},
+      {a:'OTC', f:'over the counter', j:'市販薬'},
+      {a:'OYL', f:'Ossification of yellow ligament', j:'黄靱帯骨化症'},
+      {a:'PA', f:'pulmonary artery', j:'肺動脈'},
+      {a:'PAC', f:'premature atrial contraction', j:'心房性期外収縮'},
+      {a:'PAD', f:'peripheral artery disease', j:'末梢動脈疾患'},
+      {a:'PAF', f:'paroxysmal atrial fibrillation', j:'発作性心房細動'},
+      {a:'PAH', f:'pulmonary arterial hypertension', j:'肺高血圧症'},
+      {a:'PAN', f:'polyarteritis nodosa', j:'結節性多発動脈炎'},
+      {a:'PAP', f:'Papanicollaou staining', j:'パパニコロー染色'},
+      {a:'PBC', f:'primary billiary cirrhosis', j:'原発性胆汁性肝硬変'},
+      {a:'PBX', f:'prostatic biopsy', j:'前立腺生検'},
+      {a:'PCL', f:'posterior cruciate ligament', j:'後十字靭帯'},
+      {a:'PCR', f:'Polymerase Chain Reaction', j:'ポリメラーゼ連鎖反応'},
+      {a:'PD', f:'peritoneal dialysis', j:'腹膜透析法'},
+      {a:'PDA', f:'patent ductus arteriosus', j:'動脈管開存'},
+      {a:'PE', f:'pulmonary embolism', j:'肺塞栓症'},
+      {a:'PEEP', f:'positive end-expiratory (airway) pressure', j:'終末呼気陽圧換気法'},
+      {a:'PERRLA', f:'pupils are equally round & reactive to light & acomodation', j:'瞳孔正円同大　対光反射正常　調節障害なし'},
+      {a:'PET', f:'positron emission tomography', j:'ポジトロン断層撮影'},
+      {a:'PFO', f:'patent foramen ovale', j:'卵円孔開存'},
+      {a:'PG', f:'prostaglandin', j:'プロスタグランジン'},
+      {a:'PGE', f:'prostaglandin E', j:'プロスタグランジンE'},
+      {a:'PH', f:'past history', j:'既往歴'},
+      {a:'PICA', f:'posterior inferior cerebellar artery', j:'後下小脳動脈'},
+      {a:'PICC', f:'peripherally inserted central catheter', j:'末梢挿入中心静脈カテーテル'},
+      {a:'PID', f:'pelvic infectious disease', j:'骨盤内感染症'},
+      {a:'PIP', f:'proximal interphalangeal', j:'近位指節間'},
+      {a:'PIPJ', f:'proximal interphalangeal joint', j:'近位指骨間関節、近位趾骨間関節'},
+      {a:'PLT', f:'platelet', j:'血小板'},
+      {a:'PM', f:'polymyositis', j:'多発性筋炎'},
+      {a:'PMHx', f:'past medical history', j:'既往歴'},
+      {a:'PMR', f:'polymyalgia rheumatica', j:'リウマチ性多発筋痛症'},
+      {a:'PN', f:'polyarteritis nodosa', j:'結節性多発動脈炎'},
+      {a:'PPI', f:'proton pump inhibitor', j:'プロトンポンプインヒビター'},
+      {a:'PRL', f:'prolactin', j:'プロラクチン'},
+      {a:'PRN', f:'pro re nata', j:'必要時'},
+      {a:'PS', f:'performance status', j:'パフォーマンスステイタス'},
+      {a:'PSA', f:'prostate specific antigen', j:'前立腺特異抗原'},
+      {a:'PSHx', f:'past surgical history', j:'手術歴'},
+      {a:'PTCD', f:'percutaneous transhepatic cholangiography and drainage', j:'経皮径肝胆管ドレナージ'},
+      {a:'PTH', f:'parathyroid hormone', j:'副甲状腺ホルモン'},
+      {a:'PTR', f:'patellar tendon reflex', j:'膝蓋腱反射'},
+      {a:'PVC', f:'premature ventricular contraction', j:'心室期外収縮'},
+      {a:'QOL', f:'quarity of life', j:'生活の質'},
+      {a:'QTc', f:'QTc', j:'QTc(心電図の指標の一つ)'},
+      {a:'RA', f:'Rheumatoid arthritis', j:'関節リウマチ'},
+      {a:'RBC', f:'red blood cell', j:'赤血球'},
+      {a:'RCA', f:'right cornary artery', j:'右冠動脈'},
+      {a:'RET', f:'reticulocyte', j:'網状赤血球'},
+      {a:'RF', f:'rheumatoid factor', j:'リウマトイド因子'},
+      {a:'RFA', f:'radiofrequency ablation therapy', j:'ラジオ波焼灼療法'},
+      {a:'RFP', f:'rifampicin', j:'リファンピシン'},
+      {a:'RI', f:'radioisotope', j:'放射性同位元素'},
+      {a:'RN', f:'registered nurse', j:'公認看護師'},
+      {a:'RNA', f:'ribonucleic acid', j:'リボ核酸'},
+      {a:'ROM', f:'range of motion', j:'可動域'},
+      {a:'ROS', f:'review of system', j:'日本語訳なし'},
+      {a:'RPR', f:'rapid plasma reagin', j:'急速血漿レアギン試験'},
+      {a:'RR', f:'raspiratory rate', j:'呼吸回数'},
+      {a:'RVAD', f:'right ventricular assist device', j:'右心室補助装置'},
+      {a:'RVG', f:'right ventriclography', j:'右心室造影'},
+      {a:'Rx', f:'recipe', j:'処方'},
+      {a:'SAH', f:'sabarachnoid hemorrhage', j:'くも膜下出血'},
+      {a:'SARS', f:'serious acute respiratory syndrome', j:'重症急性呼吸器症候群'},
+      {a:'SAS', f:'sleep apnea syndrome', j:'睡眠時無呼吸症候群'},
+      {a:'SAT', f:'saturation', j:'酸素飽和度'},
+      {a:'SBO', f:'small bowel obstruction', j:'小腸閉塞'},
+      {a:'SBP', f:'systolic blood pressure', j:'収縮期血圧'},
+      {a:'SCC', f:'squamous cell carcinoma', j:'有棘細胞癌'},
+      {a:'SCS', f:'spinal canal stenosis', j:'脊柱管狭窄症'},
+      {a:'SDH', f:'subdural hematoma', j:'硬膜下血腫'},
+      {a:'SEG', f:'segmented neutrophil', j:'分葉好中球'},
+      {a:'SFD', f:'small for date', j:'妊娠期間に比して小さすぎる児'},
+      {a:'SH', f:'social history', j:'社会歴'},
+      {a:'SJS', f:'Stevens-Johnson syndrome', j:'スティーブンズ-ジョンソン症候群'},
+      {a:'SLE', f:'systemic lupus erythematosus', j:'全身性エリテマトーデス'},
+      {a:'SLR', f:'straight leg raising', j:'下肢伸展挙上試験'},
+      {a:'SOB', f:'shortness of breath', j:'息切れ'},
+      {a:'SR', f:'sinus rhythm', j:'洞調律'},
+      {a:'SSD', f:'social service department', j:'医療社会事業部'},
+      {a:'SSI', f:'surgical site infection', j:'手術創感染'},
+      {a:'ST', f:'Speech-Language-Hearing Therapist', j:'言語療法士'},
+      {a:'STAB', f:'stab cell', j:'桿状好中球'},
+      {a:'TAE', f:'trans arterial embolization', j:'動脈塞栓術'},
+      {a:'TB', f:'tuberculosis', j:'結核'},
+      {a:'TEE', f:'transesophageal echocardiography', j:'経食道心エコー'},
+      {a:'TF', f:'tube feeding', j:'経管栄養'},
+      {a:'TG', f:'triglyceride', j:'トリグリセリド'},
+      {a:'THR', f:'total hip replacement', j:'人工股関節全置換術'},
+      {a:'TIA', f:'transient ischimic attack', j:'一過性虚血性疾患'},
+      {a:'TIBC', f:'total iron binding capacity', j:'総鉄結合能'},
+      {a:'TMJ', f:'temporomandibular joint', j:'顎関節'},
+      {a:'TNF', f:'tumor necorosis factor', j:'腫瘍壊死因子'},
+      {a:'TPHA', f:'treponema pallidum Latex Agglutination', j:'梅毒血球凝集反応'},
+      {a:'TPN', f:'Total Parenteral Nutrition', j:'中心静脈栄養'},
+      {a:'TR', f:'tricuspid regurgitation', j:'三尖弁逆流(症)'},
+      {a:'TRAb', f:'TSH receptor antibody', j:'TSH受容体抗体'},
+      {a:'TSH', f:'thyroid stimulating hormone', j:'甲状腺刺激ホルモン'},
+      {a:'TTE', f:'transthoracic echocardiography', j:'経胸壁心エコー'},
+      {a:'TV', f:'tidal volume', j:'1回換気量'},
+      {a:'Tx', f:'treatment', j:'治療'},
+      {a:'UA', f:'uric acid', j:'尿酸'},
+      {a:'UBT', f:'urea breath test', j:'尿素呼気試験'},
+      {a:'UC', f:'ulcerative colitis', j:'潰瘍性大腸炎'},
+      {a:'URI', f:'upper respiratory infection', j:'上気道感染'},
+      {a:'US', f:'ultrasonography', j:'超音波検査'},
+      {a:'UTI', f:'urinary tract infection', j:'尿路感染'},
+      {a:'UV', f:'ultraviolet', j:'紫外線'},
+      {a:'UVA', f:'ultraviolet A', j:'A波長紫外線'},
+      {a:'UVB', f:'ultraviolet B', j:'中波長紫外線'},
+      {a:'VA', f:'vertebral artery', j:'椎骨動脈'},
+      {a:'VAS', f:'visual analog scale', j:'視覚的アナログスケール'},
+      {a:'VATS', f:'video-assisted thoracic surgery', j:'ビデオ補助下胸部手術'},
+      {a:'VC', f:'vital capacity', j:'肺活量'},
+      {a:'VS', f:'vital signs', j:'バイタルサイン'},
+      {a:'VSD', f:'ventricular septal defect', j:'心室中隔欠損'},
+      {a:'VT', f:'ventricular tachycardia', j:'心室頻拍'},
+      {a:'WBC', f:'white blood cell', j:'白血球'},
+      {a:'WNL', f:'within normal limits', j:'正常範囲内'},
+      {a:'WT', f:'weight', j:'体重'},
+      {a:'XP', f:'x-ray photograph', j:'X線写真'},
+      {a:'XR', f:'x-ray', j:'X線'},
+      {a:'Zn', f:'Zinc', j:'亜鉛'}
+    ];
+
+    // ============================================================
+    // 使用してはならない略語・表記（Do Not Use List）
+    // 聖路加 略語使用規定 第3章 / The Joint Commission 2022 準拠
+    // 検出時は赤色で警告表示し、推奨表記を提示する。
+    // ============================================================
+    var DO_NOT_USE = [
+      {a:'MT',     mean:'Mund Therapy（ムンテラ）',          rec:'IC（Informed Consent）と記載'},
+      {a:'U',      mean:'unit（単位）',                       rec:'Full Term「unit」で記載 — 数字 0/4/cc と誤りやすい'},
+      {a:'u',      mean:'unit（単位）',                       rec:'Full Term「unit」で記載 — 数字 0/4/cc と誤りやすい'},
+      {a:'IU',     mean:'International Unit',                 rec:'Full Term「International Unit」で記載 — IV/数字10と誤りやすい'},
+      {a:'Q.D.',   mean:'daily（毎日）',                      rec:'「毎日」と記載 — Q.O.D. と誤りやすい'},
+      {a:'QD',     mean:'daily（毎日）',                      rec:'「毎日」と記載 — QOD と誤りやすい'},
+      {a:'q.d.',   mean:'daily（毎日）',                      rec:'「毎日」と記載 — q.o.d. と誤りやすい'},
+      {a:'qd',     mean:'daily（毎日）',                      rec:'「毎日」と記載 — qod と誤りやすい'},
+      {a:'Q.O.D.', mean:'every other day（隔日）',            rec:'「隔日」と記載 — Q.D. と誤りやすい'},
+      {a:'QOD',    mean:'every other day（隔日）',            rec:'「隔日」と記載 — QD と誤りやすい'},
+      {a:'q.o.d.', mean:'every other day（隔日）',            rec:'「隔日」と記載 — q.d. と誤りやすい'},
+      {a:'qod',    mean:'every other day（隔日）',            rec:'「隔日」と記載 — qd と誤りやすい'},
+      {a:'MSO4',   mean:'morphine sulfate（モルヒネ硫酸塩）', rec:'Full Term「モルヒネ硫酸塩」で記載 — MgSO4 と誤りやすい'},
+      {a:'MgSO4',  mean:'magnesium sulfate（硫酸マグネシウム）', rec:'Full Term「硫酸マグネシウム」で記載 — MSO4 と誤りやすい'}
     ];
 
     var STORAGE_KEY = 'karte-abbr-v1';
@@ -752,6 +954,10 @@
       var dictMap = {};
       dict.forEach(function(e){ dictMap[caseInsensitive ? e.a.toUpperCase() : e.a] = e; });
 
+      // Do Not Use List のマップ（常に case-sensitive 完全一致のみ — qd ≠ QD で誤りパターンが異なる）
+      var donotMap = {};
+      DO_NOT_USE.forEach(function(e){ donotMap[e.a] = e; });
+
       $statDict.textContent = dict.length;
 
       if (!src) {
@@ -766,6 +972,7 @@
       // 戦略: tokenize 後、各 word トークンを「dict キーに最長で前方一致するか」をチェック
       var parts = tokenize(src);
       var detected = {};   // key → {entry, count}
+      var donotDetected = {}; // 禁止表記
       var unknownSet = {}; // 未登録だが略語っぽいもの
 
       var html = '';
@@ -775,13 +982,19 @@
           return;
         }
         var w = p.val;
+
+        // 1) Do Not Use チェックを最優先（case-sensitive 完全一致）
+        var dnEntry = donotMap[w];
+        if (dnEntry) {
+          html += '<mark class="donotuse" title="使用禁止：' + htmlEscape(dnEntry.mean) + ' → ' + htmlEscape(dnEntry.rec) + '">' + htmlEscape(w) + '</mark>';
+          if (!donotDetected[w]) donotDetected[w] = {entry:dnEntry, count:0};
+          donotDetected[w].count++;
+          return;
+        }
+
         var key = caseInsensitive ? w.toUpperCase() : w;
-
-        // 正確一致
+        // 2) 通常の辞書検索
         var entry = dictMap[key];
-
-        // スラッシュ含む辞書キー（例: PIPC/TAZ）への対応：
-        //   tokenize は w に / を含めるので key 自体に / が入っている可能性あり → そのまま検索済
         if (entry) {
           var disp = formatReplacement(entry, fmt);
           html += '<mark class="replaced" title="' + htmlEscape(entry.a) + ' = ' + htmlEscape(entry.f) + '">' + htmlEscape(disp) + '</mark>';
@@ -789,7 +1002,7 @@
           if (!detected[k2]) detected[k2] = {entry:entry, count:0};
           detected[k2].count++;
         } else {
-          // 未登録だが略語ぽい → 黄色マーク
+          // 3) 未登録だが略語ぽい → 黄色マーク
           if (looksLikeAbbr(w)) {
             html += '<mark class="unknown" title="辞書に未登録：' + htmlEscape(w) + '">' + htmlEscape(w) + '</mark>';
             var k3 = w.toUpperCase();
@@ -810,8 +1023,12 @@
       $statDet.textContent = detectedTypes;
       $statCnt.textContent = detectedCount;
 
-      // 検出チップ表示
+      // 検出チップ表示（赤＝禁止表記を最初に、続いて緑＝置換済、最後に黄＝未登録）
       var chipHtml = '';
+      Object.keys(donotDetected).sort().forEach(function(k){
+        var d = donotDetected[k];
+        chipHtml += '<span class="detected-chip donotuse" title="' + htmlEscape(d.entry.rec) + '"><span class="chip-abbr">' + htmlEscape(d.entry.a) + '</span><span class="chip-full">禁止表記 → ' + htmlEscape(d.entry.rec) + '</span><span class="chip-count">' + d.count + '</span></span>';
+      });
       Object.keys(detected).sort().forEach(function(k){
         var d = detected[k];
         chipHtml += '<span class="detected-chip"><span class="chip-abbr">' + htmlEscape(d.entry.a) + '</span><span class="chip-full">→ ' + htmlEscape(d.entry.f) + '</span><span class="chip-count">' + d.count + '</span></span>';
@@ -923,7 +1140,7 @@
       $in.focus();
     });
     document.getElementById('btn-sample').addEventListener('click', function(){
-      $in.value = '【ID×ICU カンファレンス サマリ】\n70歳男性、PMH に DM・CKD stage 3。AMI 後 ICU 入室、PCI 施行。\n\n#1 MRSA 菌血症（CRBSI 疑い）\n  → VCM 1g IV q12h、TDM で AUC 400-600 目標。\n  → CV 抜去、TEE で IE 否定。\n\n#2 AKI（KDIGO stage 2）\n  → 利尿薬反応乏しく CHDF 開始。BUN/Cr 改善傾向。\n\n#3 VAP（人工呼吸 5日目）\n  → BAL 提出、empiric に MEPM 1g q8h で開始。CRP/PCT 推移を follow。\n  → SBT 不可、気管切開を検討中。\n\nA&P: 循環安定後 RASS -2 維持、PaO2/FiO2 280。CAM-ICU + でせん妄管理開始。';
+      $in.value = '【ICU 入室サマリ】\n70歳男性、PH に DM・CKD・HTN。AMI 発症後 ER 経由で ICU 入室、PCI 施行。\nMT で家族へ病状説明済み。\n\n#1 MRSA 菌血症（疑い CRBSI）\n  → VCM 1g IV qd 開始、TDM 予定。\n  → CVC 抜去、TEE で IE 否定。\n\n#2 AKI（Cr 上昇）\n  → 利尿薬反応乏しく HD 検討。BUN/Cr 推移 follow。\n\n#3 ARDS 疑い、人工呼吸管理中\n  → CXR でびまん性浸潤影。BAL 提出、CRP/PCT 推移 follow。\n  → PEEP 10、PaO2/FiO2 比 200。\n\nDx: ACS post PCI + MRSA BSI + AKI\nTx: 抗菌薬・透析・支持療法。NPO 継続。\nNYHA III、PS 3。RR 22、HR 95。\n\n※ Do Not Use 検出例：MT・qd・U などは赤マークで警告されます。';
       render();
     });
 
