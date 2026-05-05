@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>カルテ略語対策 | 聖路加ICU 便利ツール</title>
+  <title>カルテ略語 自動スペルアウト | 聖路加ICU 便利ツール</title>
   <meta name="robots" content="noindex, nofollow">
   <link rel="icon" type="image/png" href="../images/logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../style-v2.css?v=202605050100">
+  <link rel="stylesheet" href="../style-v2.css?v=202605050200">
   <style>
     .tools-banner {
       width:100%;max-width:1294px;margin:64px auto 0;padding:0;line-height:0;
@@ -36,86 +36,219 @@
     }
     .back-btn:hover { background:rgba(255,255,255,0.95);transform:translateY(-1px); }
 
-    .filter-bar {
-      display:flex;flex-wrap:wrap;gap:10px;align-items:center;
+    /* オフライン保証バッジ */
+    .offline-badge {
+      background:linear-gradient(135deg,#065F46,#10B981);
+      color:#fff;border-radius:8px;
+      padding:11px 16px;margin-bottom:14px;
+      font-size:0.84rem;line-height:1.65;
+      box-shadow:0 2px 12px rgba(16,185,129,0.18);
+    }
+    .offline-badge::before {
+      content:'完全ローカル処理';
+      display:inline-block;background:rgba(255,255,255,0.22);
+      font-size:0.66rem;font-weight:800;padding:3px 9px;border-radius:4px;
+      margin-right:10px;letter-spacing:0.06em;vertical-align:1px;
+    }
+    .offline-badge strong { color:#FEF3C7; }
+
+    /* メイン2ペイン */
+    .convert-grid {
+      display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px;
+    }
+    @media (max-width:900px) { .convert-grid { grid-template-columns:1fr; } }
+
+    .pane {
+      background:#fff;border:1px solid #DDD6FE;border-radius:12px;
+      box-shadow:0 2px 12px rgba(124,58,237,0.06);overflow:hidden;
+    }
+    .pane-head {
+      background:#F5F3FF;color:#4C1D95;
+      padding:9px 14px;font-size:0.82rem;font-weight:800;
+      letter-spacing:0.02em;border-bottom:1px solid #DDD6FE;
+      display:flex;align-items:center;gap:10px;
+    }
+    .pane-head .pane-tag {
+      background:#7C3AED;color:#fff;font-size:0.62rem;font-weight:800;
+      padding:2px 8px;border-radius:3px;letter-spacing:0.04em;
+    }
+    .pane-head .pane-actions { margin-left:auto;display:flex;gap:8px; }
+    .pane-btn {
+      font-size:0.72rem;font-weight:700;color:#4C1D95;
+      background:#fff;border:1px solid #C4B5FD;border-radius:5px;
+      padding:4px 10px;cursor:pointer;letter-spacing:0.02em;
+      transition:background .15s, color .15s;
+    }
+    .pane-btn:hover { background:#7C3AED;color:#fff; }
+    .pane-btn.primary { background:#7C3AED;color:#fff;border-color:#7C3AED; }
+    .pane-btn.primary:hover { background:#6D28D9;border-color:#6D28D9; }
+    .pane-body { padding:0; }
+
+    textarea#kt-input {
+      width:100%;min-height:340px;
+      border:none;outline:none;resize:vertical;
+      font-family:inherit;font-size:0.9rem;line-height:1.75;color:#1F2937;
+      padding:14px 16px;box-sizing:border-box;
+      background:#FAFBFC;
+    }
+    #kt-output {
+      min-height:340px;padding:14px 16px;
+      font-size:0.9rem;line-height:1.75;color:#1F2937;
+      background:#FAFBFC;white-space:pre-wrap;word-break:break-word;
+      box-sizing:border-box;
+    }
+    #kt-output mark.replaced {
+      background:#DCFCE7;color:#065F46;
+      padding:0 3px;border-radius:3px;font-weight:600;
+      border-bottom:1px dashed #16A34A;
+    }
+    #kt-output mark.unknown {
+      background:#FEF3C7;color:#78350F;
+      padding:0 3px;border-radius:3px;font-weight:600;
+      border-bottom:1px dashed #F59E0B;
+    }
+    #kt-output:empty::before {
+      content:'左側にカルテ文を貼り付けると、ここに置換結果が表示されます。';
+      color:#94A3B8;font-style:italic;
+    }
+
+    /* 設定バー */
+    .settings-bar {
       background:#fff;border:1px solid #DDD6FE;border-radius:10px;
-      padding:12px 16px;margin-bottom:16px;
-      box-shadow:0 2px 8px rgba(124,58,237,0.06);
+      padding:11px 14px;margin-bottom:14px;
+      display:flex;flex-wrap:wrap;gap:14px;align-items:center;
+      font-size:0.82rem;
     }
-    .filter-bar label { font-size:0.74rem;font-weight:700;color:#4C1D95;margin-right:4px; }
-    .filter-bar select, .filter-bar input[type="search"] {
+    .settings-bar > label { font-weight:700;color:#4C1D95;letter-spacing:0.02em; }
+    .settings-bar select {
       font-family:inherit;font-size:0.85rem;
-      padding:8px 11px;border:1px solid #DDD6FE;border-radius:6px;
-      background:#fff;outline:none;
+      padding:6px 10px;border:1px solid #C4B5FD;border-radius:5px;
+      background:#fff;outline:none;color:#1F2937;
     }
-    .filter-bar select:focus, .filter-bar input[type="search"]:focus {
-      border-color:#7C3AED;box-shadow:0 0 0 3px rgba(124,58,237,0.15);
+    .settings-bar select:focus { border-color:#7C3AED;box-shadow:0 0 0 3px rgba(124,58,237,0.15); }
+    .settings-bar .stat {
+      margin-left:auto;font-size:0.78rem;color:var(--muted);font-weight:600;
     }
-    .filter-bar input[type="search"] {
-      flex:1;min-width:200px;font-size:0.92rem;font-weight:600;
-    }
-    .filter-bar .count {
-      margin-left:auto;font-size:0.74rem;color:var(--muted);white-space:nowrap;
-    }
-    .filter-bar .count strong { color:#7C3AED;font-weight:800; }
+    .settings-bar .stat strong { color:#7C3AED;font-weight:800;font-size:0.92rem;font-family:ui-monospace,Menlo,Consolas,monospace; }
+    .settings-bar .stat-warn strong { color:#D97706; }
 
-    .abbr-table { width:100%;border-collapse:collapse;background:#fff;
-      border:1px solid var(--border);border-radius:10px;overflow:hidden;
-      box-shadow:0 2px 8px rgba(0,0,0,0.04);
+    /* 検出された略語一覧 */
+    .detected-card {
+      background:#fff;border:1px solid #DDD6FE;border-radius:12px;
+      padding:14px 18px;margin-bottom:18px;
+      box-shadow:0 2px 8px rgba(124,58,237,0.04);
     }
-    .abbr-table thead th {
-      background:#F5F3FF;color:#4C1D95;font-size:0.74rem;font-weight:800;
-      padding:10px 12px;text-align:left;border-bottom:2px solid #DDD6FE;
-      white-space:nowrap;
+    .detected-card h3 {
+      font-size:0.88rem;font-weight:800;color:#4C1D95;
+      margin:0 0 10px;padding-bottom:6px;
+      border-bottom:1px solid #DDD6FE;letter-spacing:0.02em;
     }
-    .abbr-table tbody td {
-      padding:9px 12px;font-size:0.84rem;border-bottom:1px solid #F1F5F9;
-      vertical-align:middle;color:#475569;line-height:1.6;
+    .detected-list {
+      display:flex;flex-wrap:wrap;gap:8px;
     }
-    .abbr-table tbody tr:hover td { background:#FAFAFC; }
-    .abbr-table tbody tr:last-child td { border-bottom:none; }
-    .abbr-table .col-abbr {
-      font-family:ui-monospace,Menlo,Consolas,monospace;
-      font-weight:800;color:#4C1D95;font-size:0.92rem;width:140px;white-space:nowrap;
+    .detected-chip {
+      display:inline-flex;align-items:center;gap:6px;
+      background:#F5F3FF;border:1px solid #C4B5FD;border-radius:18px;
+      padding:5px 11px;font-size:0.78rem;color:#4C1D95;
     }
-    .abbr-table .col-cat { width:120px; }
-    .abbr-table .col-full { font-weight:600;color:#1F2937; }
-    .abbr-table .col-jp   { color:#475569; }
-    .cat-badge {
-      display:inline-block;font-size:0.66rem;font-weight:800;
-      padding:3px 9px;border-radius:6px;letter-spacing:0.04em;
-      white-space:nowrap;
+    .detected-chip.unknown {
+      background:#FEF3C7;border-color:#FDE68A;color:#78350F;
     }
-    .cat-circ   { background:#FEE2E2;color:#991B1B; }
-    .cat-resp   { background:#DBEAFE;color:#1E40AF; }
-    .cat-renal  { background:#FEF3C7;color:#92400E; }
-    .cat-neuro  { background:#E9D5FF;color:#6B21A8; }
-    .cat-id     { background:#DCFCE7;color:#166534; }
-    .cat-gi     { background:#FFEDD5;color:#9A3412; }
-    .cat-heme   { background:#FECDD3;color:#9F1239; }
-    .cat-endo   { background:#CFFAFE;color:#155E75; }
-    .cat-icu    { background:#F3F4F6;color:#374151; }
-    .cat-drug   { background:#EDE9FE;color:#5B21B6; }
-    .cat-proc   { background:#FCE7F3;color:#9D174D; }
-    .cat-lab    { background:#E0E7FF;color:#3730A3; }
+    .detected-chip .chip-abbr {
+      font-family:ui-monospace,Menlo,Consolas,monospace;font-weight:800;
+    }
+    .detected-chip .chip-full { font-size:0.72rem;color:#6D28D9; }
+    .detected-chip.unknown .chip-full { color:#92400E;font-weight:600; }
+    .detected-chip .chip-count {
+      background:#7C3AED;color:#fff;font-size:0.66rem;font-weight:700;
+      padding:1px 7px;border-radius:10px;
+    }
+    .detected-chip.unknown .chip-count { background:#F59E0B; }
 
-    .empty-msg {
-      padding:32px;text-align:center;font-size:0.85rem;color:var(--muted);
-      background:#fff;border:1px solid var(--border);border-radius:10px;
+    /* 辞書編集セクション */
+    .dict-card {
+      background:#fff;border:1px solid #DDD6FE;border-radius:12px;
+      padding:14px 18px;margin-bottom:18px;
+      box-shadow:0 2px 8px rgba(124,58,237,0.04);
     }
-    .global-tip {
-      background:#F5F3FF;border:1px solid #C4B5FD;border-radius:8px;
-      padding:11px 16px;margin-bottom:14px;font-size:0.82rem;color:#4C1D95;line-height:1.7;
+    .dict-head {
+      display:flex;justify-content:space-between;align-items:center;
+      cursor:pointer;font-size:0.88rem;font-weight:800;color:#4C1D95;
+      padding-bottom:8px;border-bottom:1px solid #DDD6FE;
+      margin-bottom:10px;letter-spacing:0.02em;
     }
-    .global-tip::before {
-      content:'TIP';display:inline-block;background:#7C3AED;color:#fff;
-      font-size:0.62rem;font-weight:800;padding:2px 8px;border-radius:3px;
-      margin-right:8px;letter-spacing:0.04em;vertical-align:1px;
+    .dict-head .dict-toggle { font-family:monospace;font-size:1.1rem; }
+    .dict-add {
+      display:grid;grid-template-columns:140px 1fr 1fr 80px;gap:8px;
+      align-items:end;margin-bottom:14px;padding-bottom:14px;
+      border-bottom:1px dashed #DDD6FE;
     }
-    @media (max-width:680px) {
-      .abbr-table .col-cat,
-      .abbr-table thead th.col-cat { display:none; }
+    .dict-add label { font-size:0.7rem;font-weight:700;color:var(--muted);display:block;margin-bottom:3px; }
+    .dict-add input {
+      width:100%;font-family:inherit;font-size:0.85rem;
+      padding:7px 10px;border:1px solid #C4B5FD;border-radius:5px;
+      background:#fff;outline:none;box-sizing:border-box;
     }
+    .dict-add input:focus { border-color:#7C3AED;box-shadow:0 0 0 3px rgba(124,58,237,0.15); }
+    .dict-add button {
+      font-size:0.78rem;font-weight:700;color:#fff;
+      background:#7C3AED;border:none;border-radius:5px;
+      padding:8px 12px;cursor:pointer;letter-spacing:0.02em;
+      transition:background .15s;
+    }
+    .dict-add button:hover { background:#6D28D9; }
+    @media (max-width:680px) { .dict-add { grid-template-columns:1fr;} }
+
+    .dict-search {
+      width:100%;font-family:inherit;font-size:0.88rem;
+      padding:8px 12px;border:1px solid #C4B5FD;border-radius:5px;
+      background:#fff;outline:none;box-sizing:border-box;margin-bottom:10px;
+    }
+    .dict-search:focus { border-color:#7C3AED;box-shadow:0 0 0 3px rgba(124,58,237,0.15); }
+
+    table.dict-table { width:100%;border-collapse:collapse;font-size:0.8rem; }
+    table.dict-table thead th {
+      background:#F5F3FF;color:#4C1D95;font-weight:800;font-size:0.72rem;
+      padding:6px 9px;text-align:left;border-bottom:1px solid #DDD6FE;
+    }
+    table.dict-table tbody td {
+      padding:6px 9px;border-bottom:1px solid #F1F5F9;color:#475569;
+      vertical-align:middle;
+    }
+    table.dict-table tbody tr:hover td { background:#FAFAFC; }
+    table.dict-table .col-abbr {
+      font-family:ui-monospace,Menlo,Consolas,monospace;font-weight:800;
+      color:#4C1D95;width:120px;white-space:nowrap;
+    }
+    table.dict-table .col-action { width:60px;text-align:right; }
+    .dict-source-default {
+      font-size:0.6rem;color:#94A3B8;font-weight:500;margin-left:6px;
+      letter-spacing:0.04em;
+    }
+    .dict-source-custom {
+      font-size:0.6rem;color:#7C3AED;font-weight:700;margin-left:6px;
+      background:#EDE9FE;padding:1px 5px;border-radius:3px;letter-spacing:0.04em;
+    }
+    .btn-del {
+      font-size:0.7rem;font-weight:700;color:#DC2626;
+      background:#FFF;border:1px solid #FECACA;border-radius:4px;
+      padding:3px 8px;cursor:pointer;
+    }
+    .btn-del:hover { background:#FEE2E2; }
+    .btn-del.disabled { color:#CBD5E1;border-color:#E2E8F0;cursor:not-allowed;background:#fff; }
+
+    /* テーブル スクロール */
+    .dict-table-wrap { max-height:380px;overflow-y:auto;border:1px solid #DDD6FE;border-radius:6px; }
+    .dict-table-wrap table { width:100%; }
+
+    .copy-toast {
+      position:fixed;left:50%;bottom:30px;transform:translateX(-50%) translateY(60px);
+      background:#065F46;color:#fff;padding:11px 22px;border-radius:8px;
+      font-size:0.82rem;font-weight:700;letter-spacing:0.02em;
+      box-shadow:0 8px 24px rgba(0,0,0,0.18);
+      transition:transform .25s ease;z-index:9999;
+    }
+    .copy-toast.show { transform:translateX(-50%) translateY(0); }
   </style>
 </head>
 <body>
@@ -134,7 +267,7 @@
   </nav>
 
   <div class="tools-banner">
-    <img src="../images/header便利ツール.png" alt="便利ツール — カルテ略語対策">
+    <img src="../images/header便利ツール.png" alt="便利ツール — カルテ略語 自動スペルアウト">
   </div>
 
   <div class="page-wrap">
@@ -142,281 +275,684 @@
       <a href="../index.html" class="back-btn">← トップページへ戻る</a>
     </div>
 
-    <div class="global-tip">
-      ICU・救急・各専門科のカルテで頻用される略語を検索できます。<strong>キーワード検索（略語・正式名称・日本語訳のいずれでも）</strong>と <strong>カテゴリ絞り込み</strong>を併用してください。
+    <div class="offline-badge">
+      <strong>患者情報を含むテキストはブラウザ内のみで処理</strong>します。<br>
+      入力内容は <strong>サーバー・Claude・外部 API に一切送信されません</strong>。ページ読み込み後はオフラインでも動作します。略語辞書はあなたのブラウザ（localStorage）に保存され、追加した略語は次回以降も使えます。
     </div>
 
-    <div class="filter-bar">
-      <label for="f-cat">カテゴリ：</label>
-      <select id="f-cat">
-        <option value="">すべて</option>
-        <option value="循環">循環</option>
-        <option value="呼吸">呼吸</option>
-        <option value="腎">腎</option>
-        <option value="神経">神経</option>
-        <option value="感染">感染</option>
-        <option value="消化">消化</option>
-        <option value="血液">血液</option>
-        <option value="内分泌">内分泌</option>
-        <option value="ICU">ICU・モニタ</option>
-        <option value="薬剤">薬剤</option>
-        <option value="検査">検査</option>
-        <option value="手技">手技</option>
+    <!-- 設定バー -->
+    <div class="settings-bar">
+      <label for="fmt">出力形式：</label>
+      <select id="fmt">
+        <option value="full-paren-abbr" selected>正式名称（略語）— 推奨</option>
+        <option value="full-paren-jp-abbr">正式名称（日本語訳, 略語）</option>
+        <option value="abbr-paren-full">略語（正式名称）</option>
+        <option value="full-only">正式名称のみ（略語を完全削除）</option>
+        <option value="jp-only">日本語訳のみ</option>
       </select>
-      <input id="f-search" type="search" placeholder="略語・正式名称・日本語で検索（例: NPPV、bid、デクスメデトミジン）">
-      <span class="count">表示：<strong id="row-count">—</strong> / <span id="row-total">—</span> 件</span>
+      <label for="case-mode">大文字小文字：</label>
+      <select id="case-mode">
+        <option value="exact" selected>完全一致のみ（推奨）</option>
+        <option value="ci">大小文字を区別しない</option>
+      </select>
+      <span class="stat">
+        辞書登録：<strong id="stat-dict">—</strong> 件 ／
+        検出済：<strong id="stat-detected">0</strong> 種類（<strong id="stat-count">0</strong> 箇所）
+      </span>
     </div>
 
-    <table class="abbr-table" id="abbr-table">
-      <thead>
-        <tr>
-          <th class="col-abbr">略語</th>
-          <th class="col-cat">カテゴリ</th>
-          <th class="col-full">正式名称（英語）</th>
-          <th class="col-jp">日本語訳・補足</th>
-        </tr>
-      </thead>
-      <tbody id="abbr-body"></tbody>
-    </table>
-    <div class="empty-msg" id="empty-msg" style="display:none;">該当する略語がありません。</div>
+    <!-- メイン入力・出力 -->
+    <div class="convert-grid">
+      <div class="pane">
+        <div class="pane-head">
+          <span class="pane-tag">INPUT</span>
+          <span>カルテ文を貼り付け</span>
+          <div class="pane-actions">
+            <button class="pane-btn" id="btn-clear">クリア</button>
+            <button class="pane-btn" id="btn-sample">サンプル投入</button>
+          </div>
+        </div>
+        <div class="pane-body">
+          <textarea id="kt-input" placeholder="例:&#10;70歳男性。AMI 後 ICU 入室。MRSA 菌血症あり VCM 1g q12h で TDM 中。AKI に対し CHDF 開始。SBT 不可で気管切開を予定。"></textarea>
+        </div>
+      </div>
+
+      <div class="pane">
+        <div class="pane-head">
+          <span class="pane-tag" style="background:#10B981;">OUTPUT</span>
+          <span>置換結果（緑＝置換済 ／ 黄＝候補だが辞書未登録）</span>
+          <div class="pane-actions">
+            <button class="pane-btn primary" id="btn-copy">コピー</button>
+          </div>
+        </div>
+        <div class="pane-body">
+          <div id="kt-output"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 検出された略語チップ一覧 -->
+    <div class="detected-card" id="detected-card" style="display:none;">
+      <h3>検出された略語</h3>
+      <div class="detected-list" id="detected-list"></div>
+    </div>
+
+    <!-- 辞書編集 -->
+    <div class="dict-card">
+      <div class="dict-head" id="dict-head">
+        <span>略語辞書（カスタム追加・編集）</span>
+        <span class="dict-toggle" id="dict-toggle">＋</span>
+      </div>
+      <div id="dict-content" style="display:none;">
+        <div class="dict-add">
+          <div>
+            <label for="d-abbr">略語</label>
+            <input id="d-abbr" type="text" placeholder="例: NICU">
+          </div>
+          <div>
+            <label for="d-full">正式名称（英語など）</label>
+            <input id="d-full" type="text" placeholder="例: Neonatal Intensive Care Unit">
+          </div>
+          <div>
+            <label for="d-jp">日本語訳（任意）</label>
+            <input id="d-jp" type="text" placeholder="例: 新生児集中治療室">
+          </div>
+          <div>
+            <label>&nbsp;</label>
+            <button id="d-add">追加</button>
+          </div>
+        </div>
+
+        <input type="search" id="dict-search" class="dict-search" placeholder="辞書を検索（略語・正式名称・日本語）">
+
+        <div class="dict-table-wrap">
+          <table class="dict-table">
+            <thead>
+              <tr>
+                <th class="col-abbr">略語</th>
+                <th>正式名称</th>
+                <th>日本語訳</th>
+                <th class="col-action">操作</th>
+              </tr>
+            </thead>
+            <tbody id="dict-body"></tbody>
+          </table>
+        </div>
+
+        <p style="font-size:0.7rem;color:var(--muted);margin-top:10px;line-height:1.6;">
+          ※ デフォルト略語は削除できません（無効化のみ）。<strong>カスタム追加</strong>した略語のみ削除可能。データはあなたのブラウザに保存されます（localStorage）。
+        </p>
+      </div>
+    </div>
 
     <p style="font-size:0.72rem;color:var(--muted);margin-top:24px;line-height:1.7;text-align:right;">
       制作：ICU 関谷 ／ 最終更新：2026-05-05
     </p>
   </div>
 
+  <div class="copy-toast" id="copy-toast">クリップボードにコピーしました</div>
+
   <script src="../script.js"></script>
   <script>
-    // ===== 略語データベース =====
-    var ABBREVIATIONS = [
+    // ============================================================
+    // カルテ略語 自動スペルアウト — 完全クライアントサイド
+    // ============================================================
+    // データは一切外部送信されません。
+    // 辞書: デフォルト + localStorage カスタム
+    // ============================================================
+
+    // デフォルト辞書 (a=略語, f=正式名称, j=日本語)
+    var DEFAULT_DICT = [
       // 循環
-      {a:'AF',     c:'循環', f:'Atrial Fibrillation', j:'心房細動'},
-      {a:'AFL',    c:'循環', f:'Atrial Flutter', j:'心房粗動'},
-      {a:'PSVT',   c:'循環', f:'Paroxysmal Supraventricular Tachycardia', j:'発作性上室頻拍'},
-      {a:'VT',     c:'循環', f:'Ventricular Tachycardia', j:'心室頻拍'},
-      {a:'VF',     c:'循環', f:'Ventricular Fibrillation', j:'心室細動'},
-      {a:'AMI / STEMI / NSTEMI', c:'循環', f:'Acute / ST-Elevation / Non-STE Myocardial Infarction', j:'急性 / ST上昇型 / 非ST上昇型 心筋梗塞'},
-      {a:'CHF',    c:'循環', f:'Congestive Heart Failure', j:'うっ血性心不全'},
-      {a:'HFrEF / HFpEF', c:'循環', f:'HF with reduced / preserved EF', j:'駆出率低下/保持型心不全'},
-      {a:'IE',     c:'循環', f:'Infective Endocarditis', j:'感染性心内膜炎'},
-      {a:'PCI',    c:'循環', f:'Percutaneous Coronary Intervention', j:'経皮的冠動脈形成術'},
-      {a:'CABG',   c:'循環', f:'Coronary Artery Bypass Grafting', j:'冠動脈バイパス術'},
-      {a:'TAVI',   c:'循環', f:'Transcatheter Aortic Valve Implantation', j:'経カテーテル大動脈弁植込み'},
-      {a:'ECMO / VA-ECMO / VV-ECMO', c:'循環', f:'Extracorporeal Membrane Oxygenation', j:'膜型人工肺（VA: 心肺補助 / VV: 呼吸補助）'},
-      {a:'IABP',   c:'循環', f:'Intra-Aortic Balloon Pumping', j:'大動脈内バルーンパンピング'},
-      {a:'Impella','c':'循環', f:'Impella (axial flow pump)', j:'インペラ（経皮的補助循環）'},
-
+      {a:'AF', f:'Atrial Fibrillation', j:'心房細動'},
+      {a:'AFL', f:'Atrial Flutter', j:'心房粗動'},
+      {a:'PSVT', f:'Paroxysmal Supraventricular Tachycardia', j:'発作性上室頻拍'},
+      {a:'VT', f:'Ventricular Tachycardia', j:'心室頻拍'},
+      {a:'VF', f:'Ventricular Fibrillation', j:'心室細動'},
+      {a:'AMI', f:'Acute Myocardial Infarction', j:'急性心筋梗塞'},
+      {a:'STEMI', f:'ST-Elevation Myocardial Infarction', j:'ST上昇型心筋梗塞'},
+      {a:'NSTEMI', f:'Non-ST-Elevation Myocardial Infarction', j:'非ST上昇型心筋梗塞'},
+      {a:'CHF', f:'Congestive Heart Failure', j:'うっ血性心不全'},
+      {a:'HFrEF', f:'Heart Failure with reduced Ejection Fraction', j:'駆出率低下型心不全'},
+      {a:'HFpEF', f:'Heart Failure with preserved Ejection Fraction', j:'駆出率保持型心不全'},
+      {a:'IE', f:'Infective Endocarditis', j:'感染性心内膜炎'},
+      {a:'PCI', f:'Percutaneous Coronary Intervention', j:'経皮的冠動脈形成術'},
+      {a:'CABG', f:'Coronary Artery Bypass Grafting', j:'冠動脈バイパス術'},
+      {a:'TAVI', f:'Transcatheter Aortic Valve Implantation', j:'経カテーテル大動脈弁植込み'},
+      {a:'ECMO', f:'Extracorporeal Membrane Oxygenation', j:'体外式膜型人工肺'},
+      {a:'VA-ECMO', f:'Veno-Arterial ECMO', j:'静脈-動脈式 ECMO'},
+      {a:'VV-ECMO', f:'Veno-Venous ECMO', j:'静脈-静脈式 ECMO'},
+      {a:'IABP', f:'Intra-Aortic Balloon Pumping', j:'大動脈内バルーンパンピング'},
       // 呼吸
-      {a:'COPD',   c:'呼吸', f:'Chronic Obstructive Pulmonary Disease', j:'慢性閉塞性肺疾患'},
-      {a:'ARDS',   c:'呼吸', f:'Acute Respiratory Distress Syndrome', j:'急性呼吸窮迫症候群'},
-      {a:'CAP / HAP / VAP', c:'呼吸', f:'Community / Hospital / Ventilator-Associated Pneumonia', j:'市中 / 院内 / 人工呼吸器関連 肺炎'},
-      {a:'PE',     c:'呼吸', f:'Pulmonary Embolism', j:'肺塞栓症'},
-      {a:'NPPV',   c:'呼吸', f:'Non-invasive Positive Pressure Ventilation', j:'非侵襲的陽圧換気'},
-      {a:'HFNC',   c:'呼吸', f:'High-Flow Nasal Cannula', j:'高流量鼻カニュラ酸素療法'},
-      {a:'SBT',    c:'呼吸', f:'Spontaneous Breathing Trial', j:'自発呼吸トライアル'},
-      {a:'PEEP',   c:'呼吸', f:'Positive End-Expiratory Pressure', j:'呼気終末陽圧'},
-      {a:'PCV / VCV', c:'呼吸', f:'Pressure / Volume Controlled Ventilation', j:'圧 / 量規定換気'},
-      {a:'PSV',    c:'呼吸', f:'Pressure Support Ventilation', j:'圧支持換気'},
-      {a:'SIMV',   c:'呼吸', f:'Synchronized Intermittent Mandatory Ventilation', j:'同期式間欠的強制換気'},
-      {a:'P/F比',  c:'呼吸', f:'PaO2/FiO2 ratio', j:'酸素化指標（ARDS分類に使用）'},
-      {a:'BAL',    c:'呼吸', f:'Bronchoalveolar Lavage', j:'気管支肺胞洗浄'},
-      {a:'NIV',    c:'呼吸', f:'Non-Invasive Ventilation', j:'非侵襲的換気（NPPV/HFNC含む）'},
-      {a:'PCP',    c:'呼吸', f:'Pneumocystis Pneumonia', j:'ニューモシスチス肺炎'},
-
+      {a:'COPD', f:'Chronic Obstructive Pulmonary Disease', j:'慢性閉塞性肺疾患'},
+      {a:'ARDS', f:'Acute Respiratory Distress Syndrome', j:'急性呼吸窮迫症候群'},
+      {a:'CAP', f:'Community-Acquired Pneumonia', j:'市中肺炎'},
+      {a:'HAP', f:'Hospital-Acquired Pneumonia', j:'院内肺炎'},
+      {a:'VAP', f:'Ventilator-Associated Pneumonia', j:'人工呼吸器関連肺炎'},
+      {a:'PE', f:'Pulmonary Embolism', j:'肺塞栓症'},
+      {a:'NPPV', f:'Non-invasive Positive Pressure Ventilation', j:'非侵襲的陽圧換気'},
+      {a:'HFNC', f:'High-Flow Nasal Cannula', j:'高流量鼻カニュラ酸素療法'},
+      {a:'SBT', f:'Spontaneous Breathing Trial', j:'自発呼吸トライアル'},
+      {a:'PEEP', f:'Positive End-Expiratory Pressure', j:'呼気終末陽圧'},
+      {a:'PCV', f:'Pressure Controlled Ventilation', j:'圧規定換気'},
+      {a:'VCV', f:'Volume Controlled Ventilation', j:'量規定換気'},
+      {a:'PSV', f:'Pressure Support Ventilation', j:'圧支持換気'},
+      {a:'SIMV', f:'Synchronized Intermittent Mandatory Ventilation', j:'同期式間欠的強制換気'},
+      {a:'BAL', f:'Bronchoalveolar Lavage', j:'気管支肺胞洗浄'},
+      {a:'NIV', f:'Non-Invasive Ventilation', j:'非侵襲的換気'},
+      {a:'PCP', f:'Pneumocystis Pneumonia', j:'ニューモシスチス肺炎'},
       // 腎
-      {a:'AKI',    c:'腎', f:'Acute Kidney Injury', j:'急性腎障害'},
-      {a:'CKD',    c:'腎', f:'Chronic Kidney Disease', j:'慢性腎臓病'},
-      {a:'RRT / CRRT / IHD', c:'腎', f:'Renal Replacement Therapy / Continuous RRT / Intermittent HD', j:'腎代替療法 / 持続的 / 間欠的'},
-      {a:'CHDF',   c:'腎', f:'Continuous Hemodiafiltration', j:'持続的血液濾過透析'},
-      {a:'ESRD',   c:'腎', f:'End-Stage Renal Disease', j:'末期腎不全'},
-      {a:'GFR / eGFR', c:'腎', f:'(Estimated) Glomerular Filtration Rate', j:'糸球体濾過量（推算値）'},
-      {a:'CrCl',   c:'腎', f:'Creatinine Clearance', j:'クレアチニンクリアランス'},
-      {a:'FENa / FEUN', c:'腎', f:'Fractional Excretion of Na / Urea N', j:'Na / 尿素窒素 排泄率'},
-      {a:'HUS / TTP / TMA', c:'腎', f:'Hemolytic Uremic Syndrome / Thrombotic TP / Thrombotic Microangiopathy', j:'溶血性尿毒症症候群 / 血栓性血小板減少性紫斑病 / 血栓性微小血管症'},
-      {a:'SIAD / SIADH', c:'腎', f:'Syndrome of Inappropriate Antidiuresis (Hormone)', j:'抗利尿ホルモン不適切分泌症候群'},
-
+      {a:'AKI', f:'Acute Kidney Injury', j:'急性腎障害'},
+      {a:'CKD', f:'Chronic Kidney Disease', j:'慢性腎臓病'},
+      {a:'RRT', f:'Renal Replacement Therapy', j:'腎代替療法'},
+      {a:'CRRT', f:'Continuous Renal Replacement Therapy', j:'持続的腎代替療法'},
+      {a:'IHD', f:'Intermittent Hemodialysis', j:'間欠的血液透析'},
+      {a:'CHDF', f:'Continuous Hemodiafiltration', j:'持続的血液濾過透析'},
+      {a:'ESRD', f:'End-Stage Renal Disease', j:'末期腎不全'},
+      {a:'GFR', f:'Glomerular Filtration Rate', j:'糸球体濾過量'},
+      {a:'eGFR', f:'estimated Glomerular Filtration Rate', j:'推算糸球体濾過量'},
+      {a:'CrCl', f:'Creatinine Clearance', j:'クレアチニンクリアランス'},
+      {a:'FENa', f:'Fractional Excretion of Sodium', j:'ナトリウム排泄率'},
+      {a:'HUS', f:'Hemolytic Uremic Syndrome', j:'溶血性尿毒症症候群'},
+      {a:'TTP', f:'Thrombotic Thrombocytopenic Purpura', j:'血栓性血小板減少性紫斑病'},
+      {a:'TMA', f:'Thrombotic Microangiopathy', j:'血栓性微小血管症'},
+      {a:'SIAD', f:'Syndrome of Inappropriate Antidiuresis', j:'抗利尿不適切症候群'},
+      {a:'SIADH', f:'Syndrome of Inappropriate Antidiuretic Hormone secretion', j:'抗利尿ホルモン不適切分泌症候群'},
       // 神経
-      {a:'GCS',    c:'神経', f:'Glasgow Coma Scale', j:'意識レベル評価'},
-      {a:'JCS',    c:'神経', f:'Japan Coma Scale', j:'日本式意識レベル'},
-      {a:'CVA',    c:'神経', f:'Cerebrovascular Accident', j:'脳血管障害'},
-      {a:'TIA',    c:'神経', f:'Transient Ischemic Attack', j:'一過性脳虚血発作'},
-      {a:'SAH',    c:'神経', f:'Subarachnoid Hemorrhage', j:'くも膜下出血'},
-      {a:'ICH / IVH', c:'神経', f:'Intracerebral / Intraventricular Hemorrhage', j:'脳内 / 脳室内出血'},
-      {a:'SE',     c:'神経', f:'Status Epilepticus', j:'てんかん重積状態'},
-      {a:'CIM / CIP', c:'神経', f:'Critical Illness Myopathy / Polyneuropathy', j:'重症患者 ミオパチー / 多発神経障害（ICU-AW）'},
-      {a:'ICP',    c:'神経', f:'Intracranial Pressure', j:'頭蓋内圧'},
-      {a:'CPP',    c:'神経', f:'Cerebral Perfusion Pressure', j:'脳灌流圧（=MAP−ICP）'},
-      {a:'ODS',    c:'神経', f:'Osmotic Demyelination Syndrome', j:'浸透圧性脱髄症候群'},
-
+      {a:'GCS', f:'Glasgow Coma Scale', j:'グラスゴー昏睡スケール'},
+      {a:'JCS', f:'Japan Coma Scale', j:'日本昏睡スケール'},
+      {a:'CVA', f:'Cerebrovascular Accident', j:'脳血管障害'},
+      {a:'TIA', f:'Transient Ischemic Attack', j:'一過性脳虚血発作'},
+      {a:'SAH', f:'Subarachnoid Hemorrhage', j:'くも膜下出血'},
+      {a:'ICH', f:'Intracerebral Hemorrhage', j:'脳内出血'},
+      {a:'IVH', f:'Intraventricular Hemorrhage', j:'脳室内出血'},
+      {a:'SE', f:'Status Epilepticus', j:'てんかん重積状態'},
+      {a:'CIM', f:'Critical Illness Myopathy', j:'重症患者ミオパチー'},
+      {a:'CIP', f:'Critical Illness Polyneuropathy', j:'重症患者多発神経障害'},
+      {a:'ICP', f:'Intracranial Pressure', j:'頭蓋内圧'},
+      {a:'CPP', f:'Cerebral Perfusion Pressure', j:'脳灌流圧'},
+      {a:'ODS', f:'Osmotic Demyelination Syndrome', j:'浸透圧性脱髄症候群'},
       // 感染
-      {a:'MRSA',   c:'感染', f:'Methicillin-Resistant Staphylococcus aureus', j:'メチシリン耐性黄色ブドウ球菌'},
-      {a:'VRE',    c:'感染', f:'Vancomycin-Resistant Enterococcus', j:'バンコマイシン耐性腸球菌'},
-      {a:'ESBL',   c:'感染', f:'Extended-Spectrum β-Lactamase', j:'基質特異性拡張型β-ラクタマーゼ産生菌'},
-      {a:'CRE / CPE', c:'感染', f:'Carbapenem-Resistant Enterobacterales / Producing Enterobacterales', j:'カルバペネム耐性 / 産生 腸内細菌科菌'},
-      {a:'GNR / GPC / GPR', c:'感染', f:'Gram-Negative Rod / Positive Coccus / Positive Rod', j:'グラム陰性桿菌 / 陽性球菌 / 陽性桿菌'},
-      {a:'CRBSI / CLABSI', c:'感染', f:'Catheter-Related / Central Line-Associated Bloodstream Infection', j:'カテーテル関連 / 中心静脈ライン関連 血流感染'},
-      {a:'CAUTI',  c:'感染', f:'Catheter-Associated Urinary Tract Infection', j:'カテーテル関連尿路感染'},
-      {a:'IAI',    c:'感染', f:'Intra-Abdominal Infection', j:'腹腔内感染症'},
-      {a:'CMV',    c:'感染', f:'Cytomegalovirus', j:'サイトメガロウイルス'},
-      {a:'EBV',    c:'感染', f:'Epstein-Barr Virus', j:'EBウイルス'},
-      {a:'HSV / VZV', c:'感染', f:'Herpes Simplex / Varicella Zoster Virus', j:'単純ヘルペス / 水痘帯状疱疹 ウイルス'},
-      {a:'TB',     c:'感染', f:'Tuberculosis', j:'結核'},
-      {a:'CDI',    c:'感染', f:'Clostridioides difficile Infection', j:'C. ディフィシル感染症'},
-      {a:'SSI',    c:'感染', f:'Surgical Site Infection', j:'手術部位感染'},
-      {a:'PEP',    c:'感染', f:'Post-Exposure Prophylaxis', j:'曝露後予防内服'},
-
+      {a:'MRSA', f:'Methicillin-Resistant Staphylococcus aureus', j:'メチシリン耐性黄色ブドウ球菌'},
+      {a:'MSSA', f:'Methicillin-Susceptible Staphylococcus aureus', j:'メチシリン感受性黄色ブドウ球菌'},
+      {a:'VRE', f:'Vancomycin-Resistant Enterococcus', j:'バンコマイシン耐性腸球菌'},
+      {a:'ESBL', f:'Extended-Spectrum Beta-Lactamase-producing organism', j:'基質特異性拡張型β-ラクタマーゼ産生菌'},
+      {a:'CRE', f:'Carbapenem-Resistant Enterobacterales', j:'カルバペネム耐性腸内細菌科菌'},
+      {a:'CPE', f:'Carbapenemase-Producing Enterobacterales', j:'カルバペネマーゼ産生腸内細菌科菌'},
+      {a:'GNR', f:'Gram-Negative Rod', j:'グラム陰性桿菌'},
+      {a:'GPC', f:'Gram-Positive Coccus', j:'グラム陽性球菌'},
+      {a:'GPR', f:'Gram-Positive Rod', j:'グラム陽性桿菌'},
+      {a:'CRBSI', f:'Catheter-Related Bloodstream Infection', j:'カテーテル関連血流感染'},
+      {a:'CLABSI', f:'Central Line-Associated Bloodstream Infection', j:'中心静脈ライン関連血流感染'},
+      {a:'CAUTI', f:'Catheter-Associated Urinary Tract Infection', j:'カテーテル関連尿路感染'},
+      {a:'IAI', f:'Intra-Abdominal Infection', j:'腹腔内感染症'},
+      {a:'CMV', f:'Cytomegalovirus', j:'サイトメガロウイルス'},
+      {a:'EBV', f:'Epstein-Barr Virus', j:'EBウイルス'},
+      {a:'HSV', f:'Herpes Simplex Virus', j:'単純ヘルペスウイルス'},
+      {a:'VZV', f:'Varicella Zoster Virus', j:'水痘帯状疱疹ウイルス'},
+      {a:'TB', f:'Tuberculosis', j:'結核'},
+      {a:'CDI', f:'Clostridioides difficile Infection', j:'クロストリディオイデス・ディフィシル感染症'},
+      {a:'SSI', f:'Surgical Site Infection', j:'手術部位感染'},
+      {a:'PEP', f:'Post-Exposure Prophylaxis', j:'曝露後予防内服'},
+      {a:'UTI', f:'Urinary Tract Infection', j:'尿路感染症'},
+      {a:'BSI', f:'Bloodstream Infection', j:'血流感染'},
       // 消化
-      {a:'GERD',   c:'消化', f:'Gastroesophageal Reflux Disease', j:'胃食道逆流症'},
-      {a:'PUD',    c:'消化', f:'Peptic Ulcer Disease', j:'消化性潰瘍'},
-      {a:'IBD',    c:'消化', f:'Inflammatory Bowel Disease', j:'炎症性腸疾患（UC/CD）'},
-      {a:'UGIB / LGIB', c:'消化', f:'Upper / Lower Gastrointestinal Bleeding', j:'上部 / 下部 消化管出血'},
-      {a:'ERCP',   c:'消化', f:'Endoscopic Retrograde Cholangiopancreatography', j:'内視鏡的逆行性胆管膵管造影'},
-      {a:'ALF / ACLF', c:'消化', f:'Acute Liver Failure / Acute on Chronic LF', j:'急性 / 慢性肝不全急性増悪'},
-      {a:'NASH / MASLD', c:'消化', f:'Non-Alcoholic Steatohepatitis / MAFLD', j:'非アルコール性脂肪肝炎 / 代謝関連脂肪肝'},
-      {a:'TPN / EN', c:'消化', f:'Total Parenteral Nutrition / Enteral Nutrition', j:'完全静脈栄養 / 経腸栄養'},
-
+      {a:'GERD', f:'Gastroesophageal Reflux Disease', j:'胃食道逆流症'},
+      {a:'PUD', f:'Peptic Ulcer Disease', j:'消化性潰瘍'},
+      {a:'IBD', f:'Inflammatory Bowel Disease', j:'炎症性腸疾患'},
+      {a:'UGIB', f:'Upper Gastrointestinal Bleeding', j:'上部消化管出血'},
+      {a:'LGIB', f:'Lower Gastrointestinal Bleeding', j:'下部消化管出血'},
+      {a:'ERCP', f:'Endoscopic Retrograde Cholangiopancreatography', j:'内視鏡的逆行性胆管膵管造影'},
+      {a:'ALF', f:'Acute Liver Failure', j:'急性肝不全'},
+      {a:'ACLF', f:'Acute on Chronic Liver Failure', j:'慢性肝不全急性増悪'},
+      {a:'NASH', f:'Non-Alcoholic Steatohepatitis', j:'非アルコール性脂肪肝炎'},
+      {a:'TPN', f:'Total Parenteral Nutrition', j:'完全静脈栄養'},
+      {a:'EN', f:'Enteral Nutrition', j:'経腸栄養'},
       // 血液
-      {a:'DIC',    c:'血液', f:'Disseminated Intravascular Coagulation', j:'播種性血管内凝固'},
-      {a:'HIT',    c:'血液', f:'Heparin-Induced Thrombocytopenia', j:'ヘパリン起因性血小板減少症'},
-      {a:'ITP',    c:'血液', f:'Immune Thrombocytopenia', j:'免疫性血小板減少症'},
-      {a:'PT-INR / aPTT', c:'血液', f:'Prothrombin Time-INR / activated Partial Thromboplastin Time', j:'プロトロンビン時間 / 活性化部分トロンボプラスチン時間'},
-      {a:'DOAC / NOAC', c:'血液', f:'Direct / Novel Oral Anticoagulant', j:'直接経口抗凝固薬'},
-      {a:'VKA',    c:'血液', f:'Vitamin K Antagonist', j:'ビタミンK拮抗薬（ワルファリン）'},
-      {a:'HSCT / Allo-HSCT / Auto-HSCT', c:'血液', f:'Hematopoietic Stem Cell Transplantation / Allogeneic / Autologous', j:'造血幹細胞移植 / 同種 / 自家'},
-      {a:'GVHD',   c:'血液', f:'Graft-versus-Host Disease', j:'移植片対宿主病'},
-
+      {a:'DIC', f:'Disseminated Intravascular Coagulation', j:'播種性血管内凝固'},
+      {a:'HIT', f:'Heparin-Induced Thrombocytopenia', j:'ヘパリン起因性血小板減少症'},
+      {a:'ITP', f:'Immune Thrombocytopenia', j:'免疫性血小板減少症'},
+      {a:'aPTT', f:'activated Partial Thromboplastin Time', j:'活性化部分トロンボプラスチン時間'},
+      {a:'PT-INR', f:'Prothrombin Time International Normalized Ratio', j:'プロトロンビン時間国際標準化比'},
+      {a:'DOAC', f:'Direct Oral Anticoagulant', j:'直接経口抗凝固薬'},
+      {a:'VKA', f:'Vitamin K Antagonist', j:'ビタミンK拮抗薬'},
+      {a:'HSCT', f:'Hematopoietic Stem Cell Transplantation', j:'造血幹細胞移植'},
+      {a:'GVHD', f:'Graft-versus-Host Disease', j:'移植片対宿主病'},
       // 内分泌
-      {a:'DM',     c:'内分泌', f:'Diabetes Mellitus', j:'糖尿病'},
-      {a:'DKA',    c:'内分泌', f:'Diabetic Ketoacidosis', j:'糖尿病性ケトアシドーシス'},
-      {a:'HHS',    c:'内分泌', f:'Hyperosmolar Hyperglycemic State', j:'高浸透圧高血糖状態'},
-      {a:'TSH / FT4 / FT3', c:'内分泌', f:'Thyroid-Stimulating Hormone / Free T4 / Free T3', j:'甲状腺刺激ホルモン / 遊離 T4 / T3'},
-      {a:'ACTH',   c:'内分泌', f:'Adrenocorticotropic Hormone', j:'副腎皮質刺激ホルモン'},
-      {a:'GC',     c:'内分泌', f:'Glucocorticoid', j:'グルココルチコイド（副腎皮質ステロイド）'},
-      {a:'CIRCI',  c:'内分泌', f:'Critical Illness-Related Corticosteroid Insufficiency', j:'重症患者関連副腎機能不全'},
-
+      {a:'DM', f:'Diabetes Mellitus', j:'糖尿病'},
+      {a:'DKA', f:'Diabetic Ketoacidosis', j:'糖尿病性ケトアシドーシス'},
+      {a:'HHS', f:'Hyperosmolar Hyperglycemic State', j:'高浸透圧高血糖状態'},
+      {a:'TSH', f:'Thyroid-Stimulating Hormone', j:'甲状腺刺激ホルモン'},
+      {a:'ACTH', f:'Adrenocorticotropic Hormone', j:'副腎皮質刺激ホルモン'},
+      {a:'CIRCI', f:'Critical Illness-Related Corticosteroid Insufficiency', j:'重症患者関連副腎機能不全'},
       // ICU・モニタ
-      {a:'MAP',    c:'ICU', f:'Mean Arterial Pressure', j:'平均動脈圧'},
-      {a:'CVP',    c:'ICU', f:'Central Venous Pressure', j:'中心静脈圧'},
-      {a:'SpO2 / SaO2 / PaO2', c:'ICU', f:'Pulse oximetry / Arterial O2 Saturation / Partial pressure', j:'パルスオキシメトリ / 動脈血酸素飽和度 / 分圧'},
-      {a:'PaCO2 / EtCO2', c:'ICU', f:'Arterial CO2 partial pressure / End-Tidal CO2', j:'動脈血CO2分圧 / 呼気終末CO2'},
-      {a:'SOFA / qSOFA / SAPS-II / APACHE-II', c:'ICU', f:'Sequential Organ Failure Assessment / quick / Simplified Acute Physiology / Acute Physiology and Chronic Health Eval', j:'重症度スコア各種'},
-      {a:'RASS',   c:'ICU', f:'Richmond Agitation-Sedation Scale', j:'鎮静・興奮スケール'},
-      {a:'CAM-ICU','c':'ICU', f:'Confusion Assessment Method for the ICU', j:'ICU せん妄評価'},
-      {a:'NRS / VAS', c:'ICU', f:'Numerical Rating / Visual Analog Scale', j:'痛みスケール（11段階 / 視覚アナログ）'},
-      {a:'BPS / CPOT', c:'ICU', f:'Behavioral Pain Scale / Critical-Care Pain Observation Tool', j:'非言語下痛み評価ツール'},
-      {a:'A-line / V-line / CV', c:'ICU', f:'Arterial / Venous line / Central Venous catheter', j:'動脈ライン / 静脈ライン / 中心静脈カテーテル'},
-      {a:'ABCDEF',  c:'ICU', f:'Awakening, Breathing, Coordination, Delirium, Early mobility, Family', j:'ABCDEFバンドル（人工呼吸器離脱促進）'},
-      {a:'I/O',    c:'ICU', f:'Intake / Output', j:'水分出納（インアウト）'},
-      {a:'NPO',    c:'ICU', f:'Nil per os', j:'絶飲食'},
-
-      // 薬剤（投与・処方）
-      {a:'qd / bid / tid / qid', c:'薬剤', f:'quaque die / bis in die / ter in die / quater in die', j:'1日1回 / 2回 / 3回 / 4回'},
-      {a:'q4h / q6h / q8h / q12h', c:'薬剤', f:'every 4 / 6 / 8 / 12 hours', j:'4時間 / 6時間 / 8時間 / 12時間 ごと'},
-      {a:'prn',    c:'薬剤', f:'pro re nata', j:'頓用（必要時）'},
-      {a:'IV / IM / SC / PO', c:'薬剤', f:'Intravenous / Intramuscular / Subcutaneous / Per Os', j:'静注 / 筋注 / 皮下注 / 経口'},
-      {a:'DIV',    c:'薬剤', f:'Drip Intravenous Infusion', j:'点滴静注'},
-      {a:'IVPB',   c:'薬剤', f:'Intravenous Piggyback', j:'側管点滴'},
-      {a:'TDM',    c:'薬剤', f:'Therapeutic Drug Monitoring', j:'薬物血中濃度モニタリング'},
-      {a:'AUC',    c:'薬剤', f:'Area Under the Curve', j:'薬物濃度時間曲線下面積'},
-      {a:'NSAID',  c:'薬剤', f:'Non-Steroidal Anti-Inflammatory Drug', j:'非ステロイド性抗炎症薬'},
-      {a:'PPI',    c:'薬剤', f:'Proton Pump Inhibitor', j:'プロトンポンプ阻害薬'},
-      {a:'SSRI / SNRI / NaSSA', c:'薬剤', f:'Selective Serotonin / Serotonin-NE / Noradrenergic Specific Serotonergic Antidepressant', j:'抗うつ薬の作用機序別分類'},
-      {a:'DEX',    c:'薬剤', f:'Dexmedetomidine', j:'デクスメデトミジン（鎮静）'},
-      {a:'NAD / Adr / DOA / DOB', c:'薬剤', f:'Noradrenaline / Adrenaline / Dopamine / Dobutamine', j:'昇圧薬・強心薬'},
-
+      {a:'MAP', f:'Mean Arterial Pressure', j:'平均動脈圧'},
+      {a:'CVP', f:'Central Venous Pressure', j:'中心静脈圧'},
+      {a:'SpO2', f:'peripheral capillary Oxygen Saturation', j:'経皮的動脈血酸素飽和度'},
+      {a:'SaO2', f:'arterial Oxygen Saturation', j:'動脈血酸素飽和度'},
+      {a:'PaO2', f:'arterial partial pressure of Oxygen', j:'動脈血酸素分圧'},
+      {a:'PaCO2', f:'arterial partial pressure of Carbon Dioxide', j:'動脈血二酸化炭素分圧'},
+      {a:'EtCO2', f:'End-Tidal Carbon Dioxide', j:'呼気終末二酸化炭素分圧'},
+      {a:'SOFA', f:'Sequential Organ Failure Assessment', j:'臓器不全評価スコア'},
+      {a:'qSOFA', f:'quick Sequential Organ Failure Assessment', j:'簡易臓器不全評価'},
+      {a:'APACHE-II', f:'Acute Physiology and Chronic Health Evaluation II', j:'重症度評価スコア'},
+      {a:'RASS', f:'Richmond Agitation-Sedation Scale', j:'リッチモンド興奮鎮静スケール'},
+      {a:'CAM-ICU', f:'Confusion Assessment Method for the ICU', j:'ICU せん妄評価法'},
+      {a:'NRS', f:'Numerical Rating Scale', j:'数値評価スケール'},
+      {a:'VAS', f:'Visual Analog Scale', j:'視覚的アナログスケール'},
+      {a:'BPS', f:'Behavioral Pain Scale', j:'行動的疼痛評価スケール'},
+      {a:'CPOT', f:'Critical-Care Pain Observation Tool', j:'重症患者用疼痛行動評価ツール'},
+      {a:'NPO', f:'Nil Per Os', j:'絶飲食'},
+      {a:'DNAR', f:'Do Not Attempt Resuscitation', j:'蘇生措置拒否'},
+      {a:'DNR', f:'Do Not Resuscitate', j:'蘇生措置拒否'},
+      {a:'EOL', f:'End of Life', j:'終末期'},
+      {a:'ADL', f:'Activities of Daily Living', j:'日常生活動作'},
+      {a:'ROS', f:'Review of Systems', j:'システム別問診'},
+      // 薬剤
+      {a:'qd', f:'quaque die (once daily)', j:'1日1回'},
+      {a:'bid', f:'bis in die (twice daily)', j:'1日2回'},
+      {a:'tid', f:'ter in die (three times daily)', j:'1日3回'},
+      {a:'qid', f:'quater in die (four times daily)', j:'1日4回'},
+      {a:'q4h', f:'every 4 hours', j:'4時間ごと'},
+      {a:'q6h', f:'every 6 hours', j:'6時間ごと'},
+      {a:'q8h', f:'every 8 hours', j:'8時間ごと'},
+      {a:'q12h', f:'every 12 hours', j:'12時間ごと'},
+      {a:'q24h', f:'every 24 hours', j:'24時間ごと'},
+      {a:'prn', f:'pro re nata (as needed)', j:'頓用（必要時）'},
+      {a:'IV', f:'Intravenous', j:'静脈内投与'},
+      {a:'IM', f:'Intramuscular', j:'筋肉内投与'},
+      {a:'SC', f:'Subcutaneous', j:'皮下投与'},
+      {a:'PO', f:'per os (oral)', j:'経口投与'},
+      {a:'DIV', f:'Drip Intravenous infusion', j:'点滴静注'},
+      {a:'TDM', f:'Therapeutic Drug Monitoring', j:'薬物血中濃度モニタリング'},
+      {a:'AUC', f:'Area Under the Curve', j:'血中濃度時間曲線下面積'},
+      {a:'NSAID', f:'Non-Steroidal Anti-Inflammatory Drug', j:'非ステロイド性抗炎症薬'},
+      {a:'PPI', f:'Proton Pump Inhibitor', j:'プロトンポンプ阻害薬'},
+      {a:'SSRI', f:'Selective Serotonin Reuptake Inhibitor', j:'選択的セロトニン再取り込み阻害薬'},
+      {a:'SNRI', f:'Serotonin-Norepinephrine Reuptake Inhibitor', j:'セロトニン・ノルアドレナリン再取り込み阻害薬'},
+      // 抗菌薬
+      {a:'VCM', f:'Vancomycin', j:'バンコマイシン'},
+      {a:'MEPM', f:'Meropenem', j:'メロペネム'},
+      {a:'CFPM', f:'Cefepime', j:'セフェピム'},
+      {a:'CTRX', f:'Ceftriaxone', j:'セフトリアキソン'},
+      {a:'CTX', f:'Cefotaxime', j:'セフォタキシム'},
+      {a:'CAZ', f:'Ceftazidime', j:'セフタジジム'},
+      {a:'CMZ', f:'Cefmetazole', j:'セフメタゾール'},
+      {a:'PIPC/TAZ', f:'Piperacillin/Tazobactam', j:'ピペラシリン/タゾバクタム'},
+      {a:'ABPC/SBT', f:'Ampicillin/Sulbactam', j:'アンピシリン/スルバクタム'},
+      {a:'ABPC', f:'Ampicillin', j:'アンピシリン'},
+      {a:'PCG', f:'Penicillin G', j:'ペニシリン G'},
+      {a:'CLDM', f:'Clindamycin', j:'クリンダマイシン'},
+      {a:'MNZ', f:'Metronidazole', j:'メトロニダゾール'},
+      {a:'LZD', f:'Linezolid', j:'リネゾリド'},
+      {a:'TZD', f:'Tedizolid', j:'テジゾリド'},
+      {a:'DAP', f:'Daptomycin', j:'ダプトマイシン'},
+      {a:'MINO', f:'Minocycline', j:'ミノサイクリン'},
+      {a:'LVFX', f:'Levofloxacin', j:'レボフロキサシン'},
+      {a:'CPFX', f:'Ciprofloxacin', j:'シプロフロキサシン'},
+      {a:'AZM', f:'Azithromycin', j:'アジスロマイシン'},
+      {a:'ST', f:'Sulfamethoxazole/Trimethoprim', j:'ST合剤'},
+      {a:'GCV', f:'Ganciclovir', j:'ガンシクロビル'},
+      {a:'VGCV', f:'Valganciclovir', j:'バルガンシクロビル'},
+      {a:'FOS', f:'Foscarnet', j:'ホスカルネット'},
+      {a:'MBV', f:'Maribavir', j:'マリバビル'},
+      {a:'LMV', f:'Letermovir', j:'レテルモビル'},
+      {a:'DEX', f:'Dexmedetomidine', j:'デクスメデトミジン'},
       // 検査
-      {a:'CBC',    c:'検査', f:'Complete Blood Count', j:'全血球計算'},
-      {a:'WBC / RBC / PLT / Hb / Ht', c:'検査', f:'White / Red Blood Cell / Platelet / Hemoglobin / Hematocrit', j:'白血球 / 赤血球 / 血小板 / ヘモグロビン / ヘマトクリット'},
-      {a:'BUN / Cr', c:'検査', f:'Blood Urea Nitrogen / Creatinine', j:'尿素窒素 / クレアチニン'},
-      {a:'AST / ALT / γ-GTP / ALP', c:'検査', f:'Aspartate / Alanine Aminotransferase / γ-Glutamyltransferase / Alkaline Phosphatase', j:'肝胆道系酵素'},
-      {a:'CK / CK-MB / TnI / TnT', c:'検査', f:'Creatine Kinase / -MB fraction / Troponin I / T', j:'心筋逸脱酵素'},
-      {a:'BNP / NT-proBNP', c:'検査', f:'(N-Terminal) Brain Natriuretic Peptide', j:'脳性ナトリウム利尿ペプチド'},
-      {a:'CRP',    c:'検査', f:'C-Reactive Protein', j:'C反応性蛋白'},
-      {a:'PCT',    c:'検査', f:'Procalcitonin', j:'プロカルシトニン（細菌感染マーカー）'},
-      {a:'ABG / VBG', c:'検査', f:'Arterial / Venous Blood Gas', j:'動脈 / 静脈 血液ガス'},
-      {a:'BE / AG', c:'検査', f:'Base Excess / Anion Gap', j:'塩基余剰 / アニオンギャップ'},
-      {a:'HbA1c',  c:'検査', f:'Hemoglobin A1c', j:'糖化ヘモグロビン'},
-
+      {a:'CBC', f:'Complete Blood Count', j:'全血球計算'},
+      {a:'WBC', f:'White Blood Cell count', j:'白血球数'},
+      {a:'RBC', f:'Red Blood Cell count', j:'赤血球数'},
+      {a:'PLT', f:'Platelet count', j:'血小板数'},
+      {a:'Hb', f:'Hemoglobin', j:'ヘモグロビン'},
+      {a:'Ht', f:'Hematocrit', j:'ヘマトクリット'},
+      {a:'BUN', f:'Blood Urea Nitrogen', j:'尿素窒素'},
+      {a:'Cr', f:'Creatinine', j:'クレアチニン'},
+      {a:'AST', f:'Aspartate Aminotransferase', j:'アスパラギン酸アミノトランスフェラーゼ'},
+      {a:'ALT', f:'Alanine Aminotransferase', j:'アラニンアミノトランスフェラーゼ'},
+      {a:'ALP', f:'Alkaline Phosphatase', j:'アルカリホスファターゼ'},
+      {a:'CK', f:'Creatine Kinase', j:'クレアチンキナーゼ'},
+      {a:'CK-MB', f:'Creatine Kinase MB fraction', j:'クレアチンキナーゼ MB 分画'},
+      {a:'TnI', f:'Troponin I', j:'トロポニン I'},
+      {a:'TnT', f:'Troponin T', j:'トロポニン T'},
+      {a:'BNP', f:'Brain Natriuretic Peptide', j:'脳性ナトリウム利尿ペプチド'},
+      {a:'NT-proBNP', f:'N-Terminal pro Brain Natriuretic Peptide', j:'N末端プロ脳性ナトリウム利尿ペプチド'},
+      {a:'CRP', f:'C-Reactive Protein', j:'C反応性蛋白'},
+      {a:'PCT', f:'Procalcitonin', j:'プロカルシトニン'},
+      {a:'ABG', f:'Arterial Blood Gas', j:'動脈血液ガス'},
+      {a:'VBG', f:'Venous Blood Gas', j:'静脈血液ガス'},
+      {a:'BE', f:'Base Excess', j:'塩基余剰'},
+      {a:'AG', f:'Anion Gap', j:'アニオンギャップ'},
+      {a:'HbA1c', f:'Hemoglobin A1c', j:'糖化ヘモグロビン'},
       // 手技
-      {a:'CPR',    c:'手技', f:'Cardiopulmonary Resuscitation', j:'心肺蘇生'},
-      {a:'ACLS',   c:'手技', f:'Advanced Cardiovascular Life Support', j:'二次救命処置'},
-      {a:'BLS',    c:'手技', f:'Basic Life Support', j:'一次救命処置'},
-      {a:'DC / Defib', c:'手技', f:'Direct Current Cardioversion / Defibrillation', j:'除細動 / カルディオバージョン'},
-      {a:'ETT / ETI', c:'手技', f:'Endotracheal Tube / Intubation', j:'気管チューブ / 気管挿管'},
-      {a:'TC',     c:'手技', f:'Tracheostomy', j:'気管切開'},
-      {a:'NGT / OGT', c:'手技', f:'Nasogastric / Orogastric Tube', j:'経鼻 / 経口 胃管'},
-      {a:'PICC',   c:'手技', f:'Peripherally Inserted Central Catheter', j:'末梢挿入中心静脈カテーテル'},
-      {a:'POCUS',  c:'手技', f:'Point-of-Care Ultrasound', j:'ベッドサイドエコー'},
-      {a:'TTE / TEE', c:'手技', f:'Transthoracic / Transesophageal Echocardiography', j:'経胸壁 / 経食道 心エコー'},
-      {a:'LP',     c:'手技', f:'Lumbar Puncture', j:'腰椎穿刺'},
-
-      // その他のよく使う
-      {a:'DNAR / DNR', c:'ICU', f:'Do Not Attempt Resuscitation / Do Not Resuscitate', j:'蘇生措置拒否'},
-      {a:'EOL',    c:'ICU', f:'End of Life', j:'終末期'},
-      {a:'ADL',    c:'ICU', f:'Activities of Daily Living', j:'日常生活動作'},
-      {a:'PMH / FH / SH', c:'ICU', f:'Past Medical / Family / Social History', j:'既往歴 / 家族歴 / 社会歴'},
-      {a:'CC / HPI', c:'ICU', f:'Chief Complaint / History of Present Illness', j:'主訴 / 現病歴'},
-      {a:'ROS',    c:'ICU', f:'Review of Systems', j:'システム別問診'},
-      {a:'PE / Px', c:'ICU', f:'Physical Examination', j:'身体所見'},
-      {a:'A&P',    c:'ICU', f:'Assessment & Plan', j:'評価と計画（SOAPのA・P）'},
-      {a:'SOAP',   c:'ICU', f:'Subjective, Objective, Assessment, Plan', j:'カルテ記載構造'}
+      {a:'CPR', f:'Cardiopulmonary Resuscitation', j:'心肺蘇生'},
+      {a:'ACLS', f:'Advanced Cardiovascular Life Support', j:'二次救命処置'},
+      {a:'BLS', f:'Basic Life Support', j:'一次救命処置'},
+      {a:'ETT', f:'Endotracheal Tube', j:'気管チューブ'},
+      {a:'ETI', f:'Endotracheal Intubation', j:'気管挿管'},
+      {a:'NGT', f:'Nasogastric Tube', j:'経鼻胃管'},
+      {a:'OGT', f:'Orogastric Tube', j:'経口胃管'},
+      {a:'PICC', f:'Peripherally Inserted Central Catheter', j:'末梢挿入中心静脈カテーテル'},
+      {a:'POCUS', f:'Point-of-Care Ultrasound', j:'ベッドサイドエコー'},
+      {a:'TTE', f:'Transthoracic Echocardiography', j:'経胸壁心エコー'},
+      {a:'TEE', f:'Transesophageal Echocardiography', j:'経食道心エコー'},
+      {a:'LP', f:'Lumbar Puncture', j:'腰椎穿刺'},
+      {a:'CV', f:'Central Venous catheter', j:'中心静脈カテーテル'},
+      // その他
+      {a:'PMH', f:'Past Medical History', j:'既往歴'},
+      {a:'FH', f:'Family History', j:'家族歴'},
+      {a:'SH', f:'Social History', j:'社会歴'},
+      {a:'CC', f:'Chief Complaint', j:'主訴'},
+      {a:'HPI', f:'History of Present Illness', j:'現病歴'},
+      {a:'SOAP', f:'Subjective, Objective, Assessment, Plan', j:'カルテ記載構造'}
     ];
 
-    var CAT_CLASS = {
-      '循環':'cat-circ','呼吸':'cat-resp','腎':'cat-renal','神経':'cat-neuro',
-      '感染':'cat-id','消化':'cat-gi','血液':'cat-heme','内分泌':'cat-endo',
-      'ICU':'cat-icu','薬剤':'cat-drug','検査':'cat-lab','手技':'cat-proc'
-    };
+    var STORAGE_KEY = 'karte-abbr-v1';
+    var DISABLED_KEY = 'karte-abbr-disabled-v1';
 
-    var $body  = document.getElementById('abbr-body');
-    var $count = document.getElementById('row-count');
-    var $total = document.getElementById('row-total');
-    var $empty = document.getElementById('empty-msg');
-    var $cat   = document.getElementById('f-cat');
-    var $q     = document.getElementById('f-search');
+    // ========== State ==========
+    var customDict = [];
+    var disabledSet = {}; // 略語のキー -> true で無効化
 
-    $total.textContent = ABBREVIATIONS.length;
+    try {
+      var raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) customDict = JSON.parse(raw);
+      var disRaw = localStorage.getItem(DISABLED_KEY);
+      if (disRaw) disabledSet = JSON.parse(disRaw);
+    } catch (e) { /* ignore */ }
 
-    function escape(s){ return String(s).replace(/[&<>"']/g, function(c){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]; }); }
-    function highlight(text, q){
-      if (!q) return escape(text);
-      var safe = escape(text);
-      var re = new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
-      return safe.replace(re, '<mark style="background:#FEF3C7;color:#78350F;padding:0 2px;border-radius:2px;">$1</mark>');
+    function saveCustom(){ try { localStorage.setItem(STORAGE_KEY, JSON.stringify(customDict)); } catch(e){} }
+    function saveDisabled(){ try { localStorage.setItem(DISABLED_KEY, JSON.stringify(disabledSet)); } catch(e){} }
+
+    function getActiveDict(){
+      var merged = {};
+      // default
+      DEFAULT_DICT.forEach(function(e){ merged[e.a.toUpperCase()] = {a:e.a, f:e.f, j:e.j, src:'default'}; });
+      // custom (overrides default)
+      customDict.forEach(function(e){ merged[e.a.toUpperCase()] = {a:e.a, f:e.f, j:e.j, src:'custom'}; });
+      // remove disabled
+      var arr = [];
+      Object.keys(merged).forEach(function(k){ if (!disabledSet[k]) arr.push(merged[k]); });
+      return arr;
+    }
+    function getAllDictForUI(){
+      var merged = {};
+      DEFAULT_DICT.forEach(function(e){ merged[e.a.toUpperCase()] = {a:e.a, f:e.f, j:e.j, src:'default'}; });
+      customDict.forEach(function(e){ merged[e.a.toUpperCase()] = {a:e.a, f:e.f, j:e.j, src:'custom'}; });
+      return Object.keys(merged).map(function(k){ var v = merged[k]; v.disabled = !!disabledSet[k]; return v; });
+    }
+
+    // ========== Regex helpers ==========
+    function escapeRegex(s){ return s.replace(/[.*+?^${}()|[\]\\\/]/g, '\\$&'); }
+    // 略語の境界判定:
+    //   - 半角英数字に隣接していたら NG（例: AKI が AKIRA の一部）
+    //   - 日本語・記号・空白に隣接していたら OK
+    //   - スラッシュ含む略語（PIPC/TAZ）も対応
+    function isAlnum(ch){ return /[A-Za-z0-9]/.test(ch); }
+
+    // ========== Render output ==========
+    var $in       = document.getElementById('kt-input');
+    var $out      = document.getElementById('kt-output');
+    var $fmt      = document.getElementById('fmt');
+    var $caseMode = document.getElementById('case-mode');
+    var $statDict = document.getElementById('stat-dict');
+    var $statDet  = document.getElementById('stat-detected');
+    var $statCnt  = document.getElementById('stat-count');
+    var $detCard  = document.getElementById('detected-card');
+    var $detList  = document.getElementById('detected-list');
+
+    function htmlEscape(s){ return s.replace(/[&<>"']/g, function(c){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]; }); }
+    function formatReplacement(entry, fmt){
+      var f = entry.f, j = entry.j || '', a = entry.a;
+      switch (fmt) {
+        case 'full-paren-jp-abbr': return j ? f + '（' + j + ', ' + a + '）' : f + '（' + a + '）';
+        case 'abbr-paren-full':    return a + '（' + f + '）';
+        case 'full-only':          return f;
+        case 'jp-only':            return j || f;
+        default:                   return f + '（' + a + '）'; // full-paren-abbr
+      }
+    }
+
+    function tokenize(text){
+      // 入力を分解：略語候補（半角英数+一部記号）と それ以外
+      // 略語候補の正規表現: アルファベット/数字/スラッシュ/ハイフンを含む2文字以上の塊
+      var parts = [];
+      var re = /[A-Za-z][A-Za-z0-9\/\-]*[A-Za-z0-9]/g;
+      var lastIdx = 0;
+      var m;
+      while ((m = re.exec(text)) !== null) {
+        if (m.index > lastIdx) parts.push({type:'text', val:text.slice(lastIdx, m.index)});
+        parts.push({type:'word', val:m[0], start:m.index});
+        lastIdx = m.index + m[0].length;
+      }
+      if (lastIdx < text.length) parts.push({type:'text', val:text.slice(lastIdx)});
+      return parts;
+    }
+
+    // よくある「略語ぽい未登録単語」の候補判定
+    var COMMON_WORDS = {'A':1,'I':1,'a':1,'i':1,'is':1,'it':1,'in':1,'on':1,'no':1,'or':1,'of':1,'to':1,'and':1,'the':1};
+    function looksLikeAbbr(w){
+      if (w.length < 2) return false;
+      if (COMMON_WORDS[w]) return false;
+      // 全角記号や日本語が混入している → 既に tokenize で弾いてある
+      // 小文字のみ＆4文字以上のラテン語は通常略語ではない
+      if (/^[a-z]+$/.test(w) && w.length >= 4) return false;
+      // 大文字を含む or 短い小文字略語（bid, tid, prn 等）
+      if (/[A-Z]/.test(w)) return true;
+      if (w.length <= 3) return true;
+      return false;
     }
 
     function render(){
-      var qVal = ($q.value || '').trim().toLowerCase();
-      var cVal = $cat.value;
-      var rows = ABBREVIATIONS.filter(function(d){
-        if (cVal && d.c !== cVal) return false;
-        if (qVal) {
-          var hay = (d.a + ' ' + d.f + ' ' + d.j).toLowerCase();
-          if (hay.indexOf(qVal) === -1) return false;
+      var src = $in.value;
+      var fmt = $fmt.value;
+      var caseInsensitive = ($caseMode.value === 'ci');
+
+      var dict = getActiveDict();
+      // 略語キーをアップサート
+      var dictMap = {};
+      dict.forEach(function(e){ dictMap[caseInsensitive ? e.a.toUpperCase() : e.a] = e; });
+
+      $statDict.textContent = dict.length;
+
+      if (!src) {
+        $out.innerHTML = '';
+        $statDet.textContent = '0';
+        $statCnt.textContent = '0';
+        $detCard.style.display = 'none';
+        return;
+      }
+
+      // 略語（スラッシュ含む）にも対応するため、辞書中の最長一致を優先する
+      // 戦略: tokenize 後、各 word トークンを「dict キーに最長で前方一致するか」をチェック
+      var parts = tokenize(src);
+      var detected = {};   // key → {entry, count}
+      var unknownSet = {}; // 未登録だが略語っぽいもの
+
+      var html = '';
+      parts.forEach(function(p){
+        if (p.type === 'text') {
+          html += htmlEscape(p.val);
+          return;
         }
-        return true;
+        var w = p.val;
+        var key = caseInsensitive ? w.toUpperCase() : w;
+
+        // 正確一致
+        var entry = dictMap[key];
+
+        // スラッシュ含む辞書キー（例: PIPC/TAZ）への対応：
+        //   tokenize は w に / を含めるので key 自体に / が入っている可能性あり → そのまま検索済
+        if (entry) {
+          var disp = formatReplacement(entry, fmt);
+          html += '<mark class="replaced" title="' + htmlEscape(entry.a) + ' = ' + htmlEscape(entry.f) + '">' + htmlEscape(disp) + '</mark>';
+          var k2 = entry.a.toUpperCase();
+          if (!detected[k2]) detected[k2] = {entry:entry, count:0};
+          detected[k2].count++;
+        } else {
+          // 未登録だが略語ぽい → 黄色マーク
+          if (looksLikeAbbr(w)) {
+            html += '<mark class="unknown" title="辞書に未登録：' + htmlEscape(w) + '">' + htmlEscape(w) + '</mark>';
+            var k3 = w.toUpperCase();
+            if (!unknownSet[k3]) unknownSet[k3] = {word:w, count:0};
+            unknownSet[k3].count++;
+          } else {
+            html += htmlEscape(w);
+          }
+        }
       });
-      $count.textContent = rows.length;
-      if (rows.length === 0) {
-        $body.innerHTML = '';
-        $empty.style.display = 'block';
-        document.getElementById('abbr-table').style.display = 'none';
+
+      $out.innerHTML = html;
+
+      // 統計
+      var detectedTypes = Object.keys(detected).length;
+      var detectedCount = 0;
+      Object.keys(detected).forEach(function(k){ detectedCount += detected[k].count; });
+      $statDet.textContent = detectedTypes;
+      $statCnt.textContent = detectedCount;
+
+      // 検出チップ表示
+      var chipHtml = '';
+      Object.keys(detected).sort().forEach(function(k){
+        var d = detected[k];
+        chipHtml += '<span class="detected-chip"><span class="chip-abbr">' + htmlEscape(d.entry.a) + '</span><span class="chip-full">→ ' + htmlEscape(d.entry.f) + '</span><span class="chip-count">' + d.count + '</span></span>';
+      });
+      Object.keys(unknownSet).sort().forEach(function(k){
+        var u = unknownSet[k];
+        chipHtml += '<span class="detected-chip unknown"><span class="chip-abbr">' + htmlEscape(u.word) + '</span><span class="chip-full">未登録 — 必要なら下の辞書に追加</span><span class="chip-count">' + u.count + '</span></span>';
+      });
+      if (chipHtml) {
+        $detCard.style.display = 'block';
+        $detList.innerHTML = chipHtml;
       } else {
-        $empty.style.display = 'none';
-        document.getElementById('abbr-table').style.display = 'table';
-        $body.innerHTML = rows.map(function(r){
-          var cls = CAT_CLASS[r.c] || 'cat-icu';
-          return '<tr>'
-            + '<td class="col-abbr">' + highlight(r.a, qVal) + '</td>'
-            + '<td class="col-cat"><span class="cat-badge ' + cls + '">' + escape(r.c) + '</span></td>'
-            + '<td class="col-full">' + highlight(r.f, qVal) + '</td>'
-            + '<td class="col-jp">'   + highlight(r.j, qVal) + '</td>'
-            + '</tr>';
-        }).join('');
+        $detCard.style.display = 'none';
       }
     }
-    $cat.addEventListener('change', render);
-    $q.addEventListener('input', render);
+
+    // ========== Dictionary editor UI ==========
+    var $dHead   = document.getElementById('dict-head');
+    var $dContent= document.getElementById('dict-content');
+    var $dToggle = document.getElementById('dict-toggle');
+    var $dAbbr   = document.getElementById('d-abbr');
+    var $dFull   = document.getElementById('d-full');
+    var $dJp     = document.getElementById('d-jp');
+    var $dAdd    = document.getElementById('d-add');
+    var $dSearch = document.getElementById('dict-search');
+    var $dBody   = document.getElementById('dict-body');
+
+    $dHead.addEventListener('click', function(){
+      var open = $dContent.style.display !== 'none';
+      $dContent.style.display = open ? 'none' : 'block';
+      $dToggle.textContent = open ? '＋' : '−';
+      if (!open) renderDict();
+    });
+
+    function renderDict(){
+      var q = ($dSearch.value || '').toLowerCase().trim();
+      var entries = getAllDictForUI()
+        .sort(function(a,b){ return a.a.localeCompare(b.a); })
+        .filter(function(e){
+          if (!q) return true;
+          var hay = (e.a + ' ' + e.f + ' ' + (e.j||'')).toLowerCase();
+          return hay.indexOf(q) !== -1;
+        });
+      $dBody.innerHTML = entries.map(function(e){
+        var srcTag = e.src === 'custom'
+          ? '<span class="dict-source-custom">カスタム</span>'
+          : '<span class="dict-source-default">DEFAULT</span>';
+        var disabledStyle = e.disabled ? 'opacity:0.45;text-decoration:line-through;' : '';
+        var toggleLabel = e.disabled ? '有効化' : '無効化';
+        var delBtn = e.src === 'custom'
+          ? '<button class="btn-del" data-act="del" data-abbr="' + htmlEscape(e.a) + '">削除</button>'
+          : '<button class="btn-del disabled" disabled title="デフォルト略語は無効化のみ可能">削除不可</button>';
+        return '<tr style="' + disabledStyle + '">'
+          + '<td class="col-abbr">' + htmlEscape(e.a) + srcTag + '</td>'
+          + '<td>' + htmlEscape(e.f) + '</td>'
+          + '<td>' + htmlEscape(e.j || '') + '</td>'
+          + '<td class="col-action"><button class="btn-del" data-act="toggle" data-abbr="' + htmlEscape(e.a) + '" style="color:#7C3AED;border-color:#C4B5FD;">' + toggleLabel + '</button> ' + delBtn + '</td>'
+          + '</tr>';
+      }).join('');
+    }
+
+    $dBody.addEventListener('click', function(e){
+      var btn = e.target.closest('button.btn-del');
+      if (!btn) return;
+      var act = btn.getAttribute('data-act');
+      var abbr = btn.getAttribute('data-abbr');
+      if (!abbr) return;
+      var key = abbr.toUpperCase();
+      if (act === 'del') {
+        if (!confirm('カスタム略語「' + abbr + '」を削除しますか？')) return;
+        customDict = customDict.filter(function(x){ return x.a.toUpperCase() !== key; });
+        saveCustom();
+      } else if (act === 'toggle') {
+        if (disabledSet[key]) delete disabledSet[key];
+        else disabledSet[key] = true;
+        saveDisabled();
+      }
+      renderDict();
+      render();
+    });
+
+    $dSearch.addEventListener('input', renderDict);
+
+    $dAdd.addEventListener('click', function(){
+      var a = ($dAbbr.value || '').trim();
+      var f = ($dFull.value || '').trim();
+      var j = ($dJp.value || '').trim();
+      if (!a || !f) { alert('略語と正式名称は必須です。'); return; }
+      // 既存カスタムを上書き
+      var key = a.toUpperCase();
+      customDict = customDict.filter(function(x){ return x.a.toUpperCase() !== key; });
+      customDict.push({a:a, f:f, j:j});
+      saveCustom();
+      // 無効化解除
+      if (disabledSet[key]) { delete disabledSet[key]; saveDisabled(); }
+      $dAbbr.value = ''; $dFull.value = ''; $dJp.value = '';
+      renderDict();
+      render();
+    });
+
+    // ========== Events ==========
+    $in.addEventListener('input', render);
+    $fmt.addEventListener('change', render);
+    $caseMode.addEventListener('change', render);
+
+    document.getElementById('btn-clear').addEventListener('click', function(){
+      $in.value = '';
+      render();
+      $in.focus();
+    });
+    document.getElementById('btn-sample').addEventListener('click', function(){
+      $in.value = '【ID×ICU カンファレンス サマリ】\n70歳男性、PMH に DM・CKD stage 3。AMI 後 ICU 入室、PCI 施行。\n\n#1 MRSA 菌血症（CRBSI 疑い）\n  → VCM 1g IV q12h、TDM で AUC 400-600 目標。\n  → CV 抜去、TEE で IE 否定。\n\n#2 AKI（KDIGO stage 2）\n  → 利尿薬反応乏しく CHDF 開始。BUN/Cr 改善傾向。\n\n#3 VAP（人工呼吸 5日目）\n  → BAL 提出、empiric に MEPM 1g q8h で開始。CRP/PCT 推移を follow。\n  → SBT 不可、気管切開を検討中。\n\nA&P: 循環安定後 RASS -2 維持、PaO2/FiO2 280。CAM-ICU + でせん妄管理開始。';
+      render();
+    });
+
+    document.getElementById('btn-copy').addEventListener('click', function(){
+      // テキストのみ（HTML タグなし）でコピー
+      var plain = $out.innerText || $out.textContent || '';
+      if (!plain) { alert('コピー対象がありません。'); return; }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(plain).then(function(){ showToast(); });
+      } else {
+        // フォールバック
+        var ta = document.createElement('textarea');
+        ta.value = plain;
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); showToast(); } catch(e){ alert('コピーに失敗しました'); }
+        document.body.removeChild(ta);
+      }
+    });
+
+    var $toast = document.getElementById('copy-toast');
+    var toastTimer = null;
+    function showToast(){
+      $toast.classList.add('show');
+      if (toastTimer) clearTimeout(toastTimer);
+      toastTimer = setTimeout(function(){ $toast.classList.remove('show'); }, 1800);
+    }
+
+    // ========== 初回レンダリング ==========
     render();
   </script>
 </body>
