@@ -71,6 +71,14 @@
       padding:2px 8px;border-radius:3px;letter-spacing:0.04em;
     }
     .pane-head .pane-actions { margin-left:auto;display:flex;gap:8px; }
+    .pane-head .legend {
+      display:inline-flex;flex-wrap:wrap;gap:4px 8px;align-items:center;
+      font-size:0.62rem;font-weight:700;color:#6B7280;letter-spacing:0;
+    }
+    .pane-head .lg-item { display:inline-flex;align-items:center;gap:3px;white-space:nowrap; }
+    .pane-head .lg-dot {
+      display:inline-block;width:7px;height:7px;border-radius:2px;
+    }
     .pane-btn {
       font-size:0.72rem;font-weight:700;color:#4C1D95;
       background:#fff;border:1px solid #C4B5FD;border-radius:5px;
@@ -152,11 +160,18 @@
       padding:14px 18px;margin-bottom:18px;
       box-shadow:0 2px 8px rgba(124,58,237,0.04);
     }
-    .detected-card h3 {
-      font-size:0.88rem;font-weight:800;color:#4C1D95;
-      margin:0 0 10px;padding-bottom:6px;
-      border-bottom:1px solid #DDD6FE;letter-spacing:0.02em;
+    .detected-section { margin-bottom:14px; }
+    .detected-section:last-child { margin-bottom:0; }
+    .detected-card h3.sec-title {
+      font-size:0.78rem;font-weight:800;
+      margin:0 0 8px;padding:3px 0 6px;
+      letter-spacing:0.02em;
+      border-bottom:1px solid #E5E7EB;
     }
+    .sec-title.sec-donot     { color:#7F1D1D;border-bottom-color:#FECACA; }
+    .sec-title.sec-allowed   { color:#1E3A8A;border-bottom-color:#BFDBFE; }
+    .sec-title.sec-replaced  { color:#065F46;border-bottom-color:#A7F3D0; }
+    .sec-title.sec-unknown   { color:#92400E;border-bottom-color:#FDE68A; }
     .detected-list {
       display:flex;flex-wrap:wrap;gap:8px;
     }
@@ -167,7 +182,13 @@
     }
     .detected-chip.unknown {
       background:#FEF3C7;border-color:#FDE68A;color:#78350F;
+      cursor:pointer;transition:background .15s, transform .1s, box-shadow .15s;
     }
+    .detected-chip.unknown:hover {
+      background:#FDE68A;transform:translateY(-1px);
+      box-shadow:0 2px 6px rgba(245,158,11,0.25);
+    }
+    .detected-chip.unknown:active { transform:translateY(0); }
     .detected-chip.donotuse {
       background:#FEE2E2;border-color:#FECACA;color:#7F1D1D;
     }
@@ -350,7 +371,13 @@
       <div class="pane">
         <div class="pane-head">
           <span class="pane-tag" style="background:#10B981;">OUTPUT</span>
-          <span style="font-size:0.78rem;font-weight:600;">緑＝初回スペルアウト／薄緑＝既出（略語のまま）／<span style="color:#1E40AF;">青＝聖路加で使用可</span>／<span style="color:#DC2626;">赤＝禁止表記</span>／<span style="color:#92400E;">黄＝未登録</span></span>
+          <span class="legend">
+            <span class="lg-item"><span class="lg-dot" style="background:#16A34A;"></span>初回</span>
+            <span class="lg-item"><span class="lg-dot" style="background:#86EFAC;"></span>既出</span>
+            <span class="lg-item"><span class="lg-dot" style="background:#2563EB;"></span>使用可</span>
+            <span class="lg-item"><span class="lg-dot" style="background:#DC2626;"></span>禁止</span>
+            <span class="lg-item"><span class="lg-dot" style="background:#F59E0B;"></span>未登録</span>
+          </span>
           <div class="pane-actions">
             <button class="pane-btn primary" id="btn-copy">コピー</button>
           </div>
@@ -363,8 +390,22 @@
 
     <!-- 検出された略語チップ一覧 -->
     <div class="detected-card" id="detected-card" style="display:none;">
-      <h3>検出された略語</h3>
-      <div class="detected-list" id="detected-list"></div>
+      <div class="detected-section" id="sec-donot" style="display:none;">
+        <h3 class="sec-title sec-donot">禁止表記</h3>
+        <div class="detected-list" id="list-donot"></div>
+      </div>
+      <div class="detected-section" id="sec-allowed" style="display:none;">
+        <h3 class="sec-title sec-allowed">聖路加で使用可（スペルアウト不要）</h3>
+        <div class="detected-list" id="list-allowed"></div>
+      </div>
+      <div class="detected-section" id="sec-replaced" style="display:none;">
+        <h3 class="sec-title sec-replaced">スペルアウトした略語</h3>
+        <div class="detected-list" id="list-replaced"></div>
+      </div>
+      <div class="detected-section" id="sec-unknown" style="display:none;">
+        <h3 class="sec-title sec-unknown">未登録 — クリックで辞書に追加</h3>
+        <div class="detected-list" id="list-unknown"></div>
+      </div>
     </div>
 
     <!-- 辞書編集 -->
@@ -1152,7 +1193,14 @@
     var $statDet  = document.getElementById('stat-detected');
     var $statCnt  = document.getElementById('stat-count');
     var $detCard  = document.getElementById('detected-card');
-    var $detList  = document.getElementById('detected-list');
+    var $secDonot     = document.getElementById('sec-donot');
+    var $listDonot    = document.getElementById('list-donot');
+    var $secAllowed   = document.getElementById('sec-allowed');
+    var $listAllowed  = document.getElementById('list-allowed');
+    var $secReplaced  = document.getElementById('sec-replaced');
+    var $listReplaced = document.getElementById('list-replaced');
+    var $secUnknown   = document.getElementById('sec-unknown');
+    var $listUnknown  = document.getElementById('list-unknown');
 
     function htmlEscape(s){ return s.replace(/[&<>"']/g, function(c){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]; }); }
     function formatReplacement(entry, fmt){
@@ -1303,30 +1351,34 @@
       $statDet.textContent = detectedTypes;
       $statCnt.textContent = detectedCount;
 
-      // 検出チップ表示（赤＝禁止 → 青＝使用可 → 緑＝置換済 → 黄＝未登録 の順）
-      var chipHtml = '';
+      // 検出チップ表示（4セクションに分割：禁止／使用可／スペルアウト／未登録）
+      var donotHtml = '', allowedHtml = '', replacedHtml = '', unknownHtml = '';
       Object.keys(donotDetected).sort().forEach(function(k){
         var d = donotDetected[k];
-        chipHtml += '<span class="detected-chip donotuse" title="' + htmlEscape(d.entry.rec) + '"><span class="chip-abbr">' + htmlEscape(d.entry.a) + '</span><span class="chip-full">禁止表記 → ' + htmlEscape(d.entry.rec) + '</span><span class="chip-count">' + d.count + '</span></span>';
+        donotHtml += '<span class="detected-chip donotuse" title="' + htmlEscape(d.entry.rec) + '"><span class="chip-abbr">' + htmlEscape(d.entry.a) + '</span><span class="chip-full">→ ' + htmlEscape(d.entry.rec) + '</span><span class="chip-count">' + d.count + '</span></span>';
       });
       Object.keys(allowedDetected).sort().forEach(function(k){
         var a = allowedDetected[k];
-        chipHtml += '<span class="detected-chip allowed" title="' + htmlEscape(a.entry.f) + '"><span class="chip-abbr">' + htmlEscape(a.entry.a) + '</span><span class="chip-full">聖路加で使用可 — ' + htmlEscape(a.entry.j || a.entry.f) + '</span><span class="chip-count">' + a.count + '</span></span>';
+        allowedHtml += '<span class="detected-chip allowed" title="' + htmlEscape(a.entry.f) + '"><span class="chip-abbr">' + htmlEscape(a.entry.a) + '</span><span class="chip-full">' + htmlEscape(a.entry.j || a.entry.f) + '</span><span class="chip-count">' + a.count + '</span></span>';
       });
       Object.keys(detected).sort().forEach(function(k){
         var d = detected[k];
-        chipHtml += '<span class="detected-chip"><span class="chip-abbr">' + htmlEscape(d.entry.a) + '</span><span class="chip-full">→ ' + htmlEscape(d.entry.f) + '</span><span class="chip-count">' + d.count + '</span></span>';
+        replacedHtml += '<span class="detected-chip"><span class="chip-abbr">' + htmlEscape(d.entry.a) + '</span><span class="chip-full">→ ' + htmlEscape(d.entry.f) + '</span><span class="chip-count">' + d.count + '</span></span>';
       });
       Object.keys(unknownSet).sort().forEach(function(k){
         var u = unknownSet[k];
-        chipHtml += '<span class="detected-chip unknown"><span class="chip-abbr">' + htmlEscape(u.word) + '</span><span class="chip-full">未登録 — 必要なら下の辞書に追加</span><span class="chip-count">' + u.count + '</span></span>';
+        unknownHtml += '<span class="detected-chip unknown" data-act="add-unknown" data-abbr="' + htmlEscape(u.word) + '" title="クリックで辞書に追加：' + htmlEscape(u.word) + '"><span class="chip-abbr">' + htmlEscape(u.word) + '</span><span class="chip-full">＋ 辞書に追加</span><span class="chip-count">' + u.count + '</span></span>';
       });
-      if (chipHtml) {
-        $detCard.style.display = 'block';
-        $detList.innerHTML = chipHtml;
-      } else {
-        $detCard.style.display = 'none';
-      }
+
+      $listDonot.innerHTML    = donotHtml;
+      $listAllowed.innerHTML  = allowedHtml;
+      $listReplaced.innerHTML = replacedHtml;
+      $listUnknown.innerHTML  = unknownHtml;
+      $secDonot.style.display    = donotHtml    ? 'block' : 'none';
+      $secAllowed.style.display  = allowedHtml  ? 'block' : 'none';
+      $secReplaced.style.display = replacedHtml ? 'block' : 'none';
+      $secUnknown.style.display  = unknownHtml  ? 'block' : 'none';
+      $detCard.style.display = (donotHtml || allowedHtml || replacedHtml || unknownHtml) ? 'block' : 'none';
     }
 
     // ========== Dictionary editor UI ==========
@@ -1345,6 +1397,29 @@
       $dContent.style.display = open ? 'none' : 'block';
       $dToggle.textContent = open ? '＋' : '−';
       if (!open) renderDict();
+    });
+
+    function openDictAndPrefill(abbr){
+      // 辞書カードが閉じていれば開く
+      if ($dContent.style.display === 'none' || $dContent.style.display === '') {
+        $dContent.style.display = 'block';
+        $dToggle.textContent = '−';
+        renderDict();
+      }
+      $dAbbr.value = abbr;
+      // フルスペル入力欄にフォーカス
+      var $dFull = document.getElementById('d-full');
+      if ($dFull) $dFull.focus();
+      // スクロール
+      document.getElementById('dict-head').scrollIntoView({behavior:'smooth', block:'start'});
+    }
+
+    // 未登録チップのクリックで辞書追加フォームへ
+    $listUnknown.addEventListener('click', function(e){
+      var chip = e.target.closest('.detected-chip[data-act="add-unknown"]');
+      if (!chip) return;
+      var abbr = chip.getAttribute('data-abbr');
+      if (abbr) openDictAndPrefill(abbr);
     });
 
     function renderDict(){
