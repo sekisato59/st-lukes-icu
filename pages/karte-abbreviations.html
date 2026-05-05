@@ -1378,7 +1378,25 @@
       {a:'STA-MCA', f:'Superficial Temporal Artery to Middle Cerebral Artery bypass', j:'浅側頭動脈・中大脳動脈バイパス術'},
       {a:'EC-IC', f:'External Carotid - Internal Carotid bypass', j:'外頸動脈・内頸動脈バイパス'},
       {a:'ACA', f:'Anterior Cerebral Artery', j:'前大脳動脈'},
-      {a:'PCA', f:'Posterior Cerebral Artery', j:'後大脳動脈'}
+      {a:'PCA', f:'Posterior Cerebral Artery', j:'後大脳動脈'},
+      // 緩和・終末期
+      {a:'BSC', f:'Best Supportive Care', j:'ベスト・サポーティブ・ケア（緩和医療）'},
+      // NIV 設定
+      {a:'IPAP', f:'Inspiratory Positive Airway Pressure', j:'吸気陽圧（NIV設定）'},
+      {a:'EPAP', f:'Expiratory Positive Airway Pressure', j:'呼気陽圧（NIV設定）'},
+      // 投与経路・バイタル
+      {a:'CSI', f:'Continuous Subcutaneous Injection', j:'持続皮下注射'},
+      {a:'BP', f:'Blood Pressure', j:'血圧'},
+      // 透析
+      {a:'UFR', f:'Ultrafiltration Rate', j:'限外濾過率'},
+      // 慢性疾患
+      {a:'DMN', f:'Diabetic Nephropathy', j:'糖尿病性腎症'},
+      // 画像
+      {a:'GGO', f:'Ground-Glass Opacity', j:'すりガラス影'},
+      // 呼吸生理
+      {a:'Cstat', f:'Static Compliance', j:'静的コンプライアンス'},
+      // 抗凝固
+      {a:'NFM', f:'Nafamostat', j:'ナファモスタット（フサン）'}
     ];
 
     // ============================================================
@@ -1604,7 +1622,11 @@
       // 一般英単語・医学用語
       'Nadir':1,'nadir':1,'Normal':1,'normal':1,'Room':1,'room':1,'air':1,'Air':1,
       // 維持輸液製品名（KN1A, KN3A 等）
-      'KN1A':1,'KN2A':1,'KN3A':1,'KN3B':1,'KNMG3':1
+      'KN':1,'KN1A':1,'KN2A':1,'KN3A':1,'KN3B':1,'KNMG3':1,
+      // それ単体で通じる英単語（略語ではない）
+      'Free':1,'free':1,'FREE':1,'Rate':1,'rate':1,'RATE':1,
+      'Wheeze':1,'wheeze':1,'WHEEZE':1,
+      'Stat':1,'stat':1,'STAT':1
     };
     // 病原体属名（細菌・真菌） — 略語ではないため検出対象外
     var PATHOGEN_NAMES = {
@@ -1635,6 +1657,12 @@
     // GCS 表記：E_V_M_ / E_V_T_M_ (T は挿管時のV置換)
     // 例: E3V5M6, E4V5T6, E1VTM1, E2V1T, E4V5
     var GCS_RE = /^E[1-4]V(?:[1-5]|T)[MT]?(?:[1-6]|T)?$/;
+    // 大文字 1 字 + 数字 1〜2 桁（K4=カリウム値、T1/L5/C2=椎骨、B12=ビタミン、
+    // D40=輸液製品サフィックス 等）— ほぼ全て略語ではないので除外
+    var SINGLE_LETTER_NUM_RE = /^[A-Z]\d{1,2}$/;
+    // Title Case で 6 文字以上の英単語（Wheeze, Patient, Remifentanyl 等のスペル
+    // 出し済の単語） — 略語ではないため除外
+    var TITLE_CASE_WORD_RE = /^[A-Z][a-z]{5,}$/;
 
     function looksLikeAbbr(w){
       if (w.length < 2) return false;
@@ -1642,6 +1670,8 @@
       if (IGNORE_UNITS[w]) return false;
       if (PATHOGEN_NAMES[w]) return false;
       if (GCS_RE.test(w)) return false;
+      if (SINGLE_LETTER_NUM_RE.test(w)) return false;
+      if (TITLE_CASE_WORD_RE.test(w)) return false;
       // 全角記号や日本語が混入している → 既に tokenize で弾いてある
       // 小文字のみ＆4文字以上のラテン語は通常略語ではない
       if (/^[a-z]+$/.test(w) && w.length >= 4) return false;
