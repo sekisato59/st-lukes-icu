@@ -505,7 +505,8 @@
       <div id="dict-content" style="display:none;">
         <p class="req-intro">
           辞書に追加してほしい略語があれば、こちらからリクエストできます。
-          管理者（ICU 関谷）にメールで通知され、確認後にサイト全体の辞書へ反映されます。
+          管理者（ICU 関谷）が確認次第、サイト全体の辞書へ反映されます。
+          メール起動なし・このサイト内で送信完結。
         </p>
         <div class="req-form">
           <div class="req-row">
@@ -525,12 +526,12 @@
             <textarea id="r-note" rows="3" placeholder="例: 心エコーで頻用、輸液反応性評価に使用"></textarea>
           </div>
           <div class="req-actions">
-            <button type="button" id="r-submit">メールで送信</button>
+            <button type="button" id="r-submit">リクエスト送信</button>
           </div>
         </div>
         <p class="req-tip">
-          送信ボタンを押すと、お使いのメールアプリが起動して内容が自動入力されます。
-          そのまま送信してください。返信は不要です（管理者が辞書反映後、皆さんに新しい辞書が配信されます）。
+          リクエストはサーバーに保存され、管理者の確認後にサイト全体の辞書へ反映されます。
+          反映後は全員のページで新しい略語が自動的に使えるようになります。
         </p>
       </div>
     </div>
@@ -2022,7 +2023,9 @@
       $detCard.style.display = (donotHtml || allowedHtml || replacedHtml || unknownHtml) ? 'block' : 'none';
     }
 
-    // ========== 用語追加リクエストフォーム（mailto: 方式）==========
+    // ========== 用語追加リクエストフォーム（Google Apps Script + Sheets）==========
+    // Google スプレッドシートに直接保存。管理者はシートを開いて閲覧。
+    var REQUEST_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyfUheyawQiHlv5FUweFRk5NURTTbN8V5HjneNCptM9bCRNFU-Oz7-pcsYpxBqW1TO0/exec';
     var $dHead   = document.getElementById('dict-head');
     var $dContent= document.getElementById('dict-content');
     var $dToggle = document.getElementById('dict-toggle');
@@ -2056,7 +2059,7 @@
       if (abbr) openRequestFormPrefill(abbr);
     });
 
-    // 送信処理：mailto: で管理者に通知
+    // 送信処理：Apps Script 経由で Google スプレッドシートに保存
     function submitRequest(){
       var abbr = ($rAbbr.value || '').trim();
       var full = ($rFull.value || '').trim();
@@ -2066,39 +2069,49 @@
       if (!abbr) { alert('略語を入力してください。'); $rAbbr.focus(); return; }
       if (!full) { alert('正式名称を入力してください。'); $rFull.focus(); return; }
 
-      // メール送信先を JS で組み立てて HTML 上での露出を抑制
-      var mailUser = 'sekiyasatoru59';
-      var mailDomain = 'gmail.com';
-      var to = mailUser + '@' + mailDomain;
+      var payload = {
+        abbr: abbr,
+        full: full,
+        jp: jp,
+        note: note,
+        url: window.location.href,
+        userAgent: navigator.userAgent
+      };
 
-      var subject = '[カルテ略語ツール] 用語追加リクエスト：' + abbr;
-      var body = [
-        '以下の略語の追加をリクエストします。',
-        '',
-        '■ 略語：' + abbr,
-        '■ 正式名称：' + full,
-        '■ 日本語訳：' + (jp || '（なし）'),
-        '■ 補足：' + (note || '（なし）'),
-        '',
-        '---',
-        'カルテ略語対策ページから送信',
-        'URL: ' + window.location.href
-      ].join('\n');
+      var origLabel = $rSubmit.textContent;
+      $rSubmit.disabled = true;
+      $rSubmit.textContent = '送信中…';
 
-      var mailto = 'mailto:' + to
-        + '?subject=' + encodeURIComponent(subject)
-        + '&body=' + encodeURIComponent(body);
-
-      window.location.href = mailto;
-
-      // 送信トースト＆フォームクリア
-      showToast('メールアプリを起動しました。そのまま送信してください。');
-      setTimeout(function(){
-        $rAbbr.value = '';
-        $rFull.value = '';
-        $rJp.value = '';
-        $rNote.value = '';
-      }, 600);
+      // Apps Script は text/plain にすると CORS preflight を回避できる
+      fetch(REQUEST_ENDPOINT, {
+        method: 'POST',
+        body: JSON.stringify(payload),
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        redirect: 'follow'
+      })
+        .then(function(res){ return res.text(); })
+        .then(function(text){
+          // GAS は JSON を返すが、parse 失敗してもリクエスト自体は成功している場合が多い
+          var ok = false;
+          try { ok = !!(JSON.parse(text).ok); } catch(_) { ok = true; }
+          if (ok) {
+            showToast('リクエストを送信しました。ありがとうございます！', 2400);
+            $rAbbr.value = '';
+            $rFull.value = '';
+            $rJp.value = '';
+            $rNote.value = '';
+          } else {
+            showToast('送信は完了しましたが、サーバー応答が想定外でした。', 2800);
+          }
+        })
+        .catch(function(err){
+          console.error('リクエスト送信失敗:', err);
+          showToast('送信に失敗しました。ネットワーク接続をご確認ください。', 3000);
+        })
+        .then(function(){
+          $rSubmit.disabled = false;
+          $rSubmit.textContent = origLabel;
+        });
     }
 
     $rSubmit.addEventListener('click', submitRequest);
@@ -2314,11 +2327,13 @@
     });
 
     var $toast = document.getElementById('copy-toast');
+    var TOAST_DEFAULT = $toast.textContent; // 「クリップボードにコピーしました」
     var toastTimer = null;
-    function showToast(){
+    function showToast(msg, durationMs){
+      $toast.textContent = msg || TOAST_DEFAULT;
       $toast.classList.add('show');
       if (toastTimer) clearTimeout(toastTimer);
-      toastTimer = setTimeout(function(){ $toast.classList.remove('show'); }, 1800);
+      toastTimer = setTimeout(function(){ $toast.classList.remove('show'); }, durationMs || 1800);
     }
 
     // ========== 初回レンダリング ==========
