@@ -200,6 +200,18 @@
     .settings-bar .stat strong { color:#7C3AED;font-weight:800;font-size:0.92rem;font-family:ui-monospace,Menlo,Consolas,monospace; }
     .settings-bar .stat-warn strong { color:#D97706; }
 
+    /* OUTPUT 直下の使い方ヒント */
+    .output-help {
+      background:#FEF3C7;border:1px solid #FDE68A;border-radius:8px;
+      padding:9px 13px;margin:6px 0 16px;
+      font-size:0.78rem;color:#78350F;line-height:1.6;
+      display:flex;align-items:flex-start;gap:8px;
+    }
+    .output-help .oh-icon {
+      font-size:0.95rem;line-height:1.3;flex-shrink:0;
+    }
+    .output-help strong { color:#92400E;font-weight:800; }
+
     /* 検出された略語一覧 */
     .detected-card {
       background:#fff;border:1px solid #DDD6FE;border-radius:12px;
@@ -420,11 +432,11 @@
         <div class="pane-head">
           <span class="pane-tag" style="background:#10B981;">OUTPUT</span>
           <span class="legend">
-            <span class="lg-item"><span class="lg-dot" style="background:#16A34A;"></span>初回</span>
-            <span class="lg-item"><span class="lg-dot" style="background:#94A3B8;"></span>既出</span>
-            <span class="lg-item"><span class="lg-dot" style="background:#2563EB;"></span>使用可</span>
-            <span class="lg-item"><span class="lg-dot" style="background:#DC2626;"></span>禁止</span>
-            <span class="lg-item"><span class="lg-dot" style="background:#F59E0B;"></span>未登録</span>
+            <span class="lg-item" title="略語が初出時にフルスペルへ展開"><span class="lg-dot" style="background:#16A34A;"></span>初回展開</span>
+            <span class="lg-item" title="2回目以降は略語のまま表示"><span class="lg-dot" style="background:#94A3B8;"></span>既出（略語のまま）</span>
+            <span class="lg-item" title="聖路加公式略語集に収載 — スペルアウト不要"><span class="lg-dot" style="background:#2563EB;"></span>公式（そのまま使用可）</span>
+            <span class="lg-item" title="Joint Commission の Do Not Use List — 別表記推奨"><span class="lg-dot" style="background:#DC2626;"></span>使用禁止表記</span>
+            <span class="lg-item" title="辞書未登録 — クリックでその場修正できます"><span class="lg-dot" style="background:#F59E0B;"></span>未登録（クリックで訂正）</span>
           </span>
           <div class="pane-actions">
             <button class="pane-btn primary" id="btn-copy">コピー</button>
@@ -435,6 +447,12 @@
         </div>
       </div>
     </div>
+
+    <p class="output-help">
+      <span class="oh-icon">✏</span>
+      <strong>黄色の未登録略語をクリック</strong>すると、その場で文字を直せます。
+      修正後の単語が辞書にあれば自動でスペルアウトされます。
+    </p>
 
     <!-- 検出された略語チップ一覧 -->
     <div class="detected-card" id="detected-card" style="display:none;">
@@ -1438,7 +1456,23 @@
       {a:'FBG', f:'Fibrinogen', j:'フィブリノーゲン'},
       // β-Dグルカン（Greek 対応で β を含む形でも登録可）
       {a:'β-DG', f:'beta-D-Glucan', j:'β-Dグルカン（深在性真菌症マーカー）'},
-      {a:'βDG', f:'beta-D-Glucan', j:'β-Dグルカン（深在性真菌症マーカー）'}
+      {a:'βDG', f:'beta-D-Glucan', j:'β-Dグルカン（深在性真菌症マーカー）'},
+      // 心エコー指標
+      {a:'LVEF', f:'Left Ventricular Ejection Fraction', j:'左室駆出率'},
+      {a:'Dd', f:'Diastolic Dimension', j:'拡張末期径'},
+      {a:'Ds', f:'Systolic Dimension', j:'収縮末期径'},
+      {a:'LVDs', f:'Left Ventricular end-Systolic Diameter', j:'左室収縮末期径'},
+      {a:'TRPG', f:'Tricuspid Regurgitation Pressure Gradient', j:'三尖弁逆流圧較差（肺動脈圧推定に使用）'},
+      {a:'IVS', f:'Interventricular Septum', j:'心室中隔'},
+      {a:'LVPW', f:'Left Ventricular Posterior Wall', j:'左室後壁'},
+      {a:'TAPSE', f:'Tricuspid Annular Plane Systolic Excursion', j:'三尖弁輪収縮期移動距離'},
+      {a:'AoD', f:'Aortic Diameter', j:'大動脈径'},
+      {a:'RV', f:'Right Ventricle', j:'右心室'},
+      {a:'UCG', f:'Echocardiography', j:'心臓超音波検査（心エコー）'},
+      // 酸塩基平衡（追補）
+      {a:'HAGMA', f:'High Anion-Gap Metabolic Acidosis', j:'高アニオンギャップ代謝性アシドーシス'},
+      // 抗菌薬（追補）
+      {a:'AZT', f:'Aztreonam', j:'アズトレオナム（アザクタム）'}
     ];
 
     // ============================================================
@@ -1681,7 +1715,11 @@
       // 製品名・固有名詞
       'McGrath':1,'McGRATH':1,'Lasix':1,'LASIX':1,'Mac':1,'MAC':1,
       // よく出る Title Case の輸液製品サフィックス併記
-      'D40mL/h':1,'F40mL/h':1,'D40mL':1,'F40mL':1
+      'D40mL/h':1,'F40mL/h':1,'D40mL':1,'F40mL':1,
+      // 一般語（追補）
+      'Day':1,'DAY':1,'Film':1,'film':1,'FILM':1,'Array':1,'array':1,'ARRAY':1,
+      // 単位（μ系・水柱）
+      'μg':1,'μL':1,'μmol':1,'μm':1,'cmH':1,'H2O':1
     };
     // 病原体属名（細菌・真菌） — 略語ではないため検出対象外
     var PATHOGEN_NAMES = {
