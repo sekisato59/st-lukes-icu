@@ -52,9 +52,32 @@
 
     /* メイン2ペイン */
     .convert-grid {
-      display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px;
+      display:grid;
+      grid-template-columns:1fr 10px 1fr;
+      gap:0;column-gap:10px;
+      margin-bottom:18px;
     }
-    @media (max-width:900px) { .convert-grid { grid-template-columns:1fr; } }
+    .splitter {
+      background:transparent;
+      cursor:col-resize;
+      position:relative;
+      border-radius:4px;
+      transition:background .15s;
+      align-self:stretch;
+    }
+    .splitter::before {
+      content:'';position:absolute;top:50%;left:50%;
+      transform:translate(-50%,-50%);
+      width:4px;height:48px;
+      background:#C4B5FD;border-radius:4px;
+      transition:background .15s, height .15s;
+    }
+    .splitter:hover::before { background:#7C3AED;height:64px; }
+    .splitter.dragging::before { background:#6D28D9;height:80px; }
+    @media (max-width:900px) {
+      .convert-grid { grid-template-columns:1fr;column-gap:0;row-gap:14px; }
+      .splitter { display:none; }
+    }
 
     .pane {
       background:#fff;border:1px solid #DDD6FE;border-radius:12px;
@@ -353,7 +376,7 @@
     </div>
 
     <!-- メイン入力・出力 -->
-    <div class="convert-grid">
+    <div class="convert-grid" id="convert-grid">
       <div class="pane">
         <div class="pane-head">
           <span class="pane-tag">INPUT</span>
@@ -367,6 +390,8 @@
           <textarea id="kt-input" placeholder="例:&#10;70歳男性。AMI 後 ICU 入室。MRSA 菌血症あり VCM 1g q12h で TDM 中。AKI に対し CHDF 開始。SBT 不可で気管切開を予定。"></textarea>
         </div>
       </div>
+
+      <div class="splitter" id="splitter" role="separator" aria-orientation="vertical" aria-label="INPUT/OUTPUT 幅調整" title="ドラッグで幅を調整／ダブルクリックでリセット"></div>
 
       <div class="pane">
         <div class="pane-head">
@@ -1183,6 +1208,72 @@
     //   - スラッシュ含む略語（PIPC/TAZ）も対応
     function isAlnum(ch){ return /[A-Za-z0-9]/.test(ch); }
 
+    // ========== Splitter drag (INPUT/OUTPUT 幅調整) ==========
+    (function setupSplitter(){
+      var $grid = document.getElementById('convert-grid');
+      var $splitter = document.getElementById('splitter');
+      if (!$grid || !$splitter) return;
+      var SPLIT_KEY = 'karte-split-ratio-v1';
+      var GAP = 10; // splitter 幅
+      var dragging = false;
+
+      function applyRatio(ratio){
+        // ratio = 左ペインの割合 (0.2 〜 0.8)
+        ratio = Math.max(0.2, Math.min(0.8, ratio));
+        $grid.style.gridTemplateColumns = 'minmax(0,' + ratio + 'fr) ' + GAP + 'px minmax(0,' + (1 - ratio) + 'fr)';
+      }
+      // 復元
+      try {
+        var saved = parseFloat(localStorage.getItem(SPLIT_KEY));
+        if (!isNaN(saved)) applyRatio(saved);
+      } catch(e){}
+
+      function startDrag(e){
+        if (window.matchMedia('(max-width:900px)').matches) return;
+        dragging = true;
+        $splitter.classList.add('dragging');
+        document.body.style.cursor = 'col-resize';
+        document.body.style.userSelect = 'none';
+        e.preventDefault();
+      }
+      function onMove(clientX){
+        if (!dragging) return;
+        var rect = $grid.getBoundingClientRect();
+        var x = clientX - rect.left;
+        var ratio = (x - GAP/2) / (rect.width - GAP);
+        ratio = Math.max(0.2, Math.min(0.8, ratio));
+        applyRatio(ratio);
+        try { localStorage.setItem(SPLIT_KEY, ratio.toFixed(3)); } catch(e){}
+      }
+      function endDrag(){
+        if (!dragging) return;
+        dragging = false;
+        $splitter.classList.remove('dragging');
+        document.body.style.cursor = '';
+        document.body.style.userSelect = '';
+      }
+
+      $splitter.addEventListener('mousedown', startDrag);
+      document.addEventListener('mousemove', function(e){ onMove(e.clientX); });
+      document.addEventListener('mouseup', endDrag);
+
+      // タッチ対応
+      $splitter.addEventListener('touchstart', function(e){
+        startDrag(e);
+      }, {passive:false});
+      document.addEventListener('touchmove', function(e){
+        if (!dragging) return;
+        if (e.touches && e.touches[0]) onMove(e.touches[0].clientX);
+      }, {passive:false});
+      document.addEventListener('touchend', endDrag);
+
+      // ダブルクリックで 50/50 にリセット
+      $splitter.addEventListener('dblclick', function(){
+        applyRatio(0.5);
+        try { localStorage.removeItem(SPLIT_KEY); } catch(e){}
+      });
+    })();
+
     // ========== Render output ==========
     var $in       = document.getElementById('kt-input');
     var $out      = document.getElementById('kt-output');
@@ -1499,7 +1590,7 @@
       $in.focus();
     });
     document.getElementById('btn-sample').addEventListener('click', function(){
-      $in.value = '【ICU 入室サマリ】\n70歳男性、PH に DM・CKD・HTN。AMI 発症後 ER 経由で ICU 入室、PCI 施行。\nMT で家族へ病状説明済み。\n\n#1 MRSA 菌血症（疑い CRBSI）\n  → VCM 1g IV qd 開始、TDM 予定。\n  → CVC 抜去、TEE で IE 否定。\n\n#2 AKI（Cr 上昇）\n  → 利尿薬反応乏しく HD 検討。BUN/Cr 推移 follow。\n\n#3 ARDS 疑い、人工呼吸管理中\n  → CXR でびまん性浸潤影。BAL 提出、CRP/PCT 推移 follow。\n  → PEEP 10、PaO2/FiO2 比 200。\n\nDx: ACS post PCI + MRSA BSI + AKI\nTx: 抗菌薬・透析・支持療法。NPO 継続。\nNYHA III、PS 3。RR 22、HR 95。\n\n※ Do Not Use 検出例：MT・qd・U などは赤マークで警告されます。';
+      $in.value = '【ICU 入室サマリ】\n70歳男性、PH に DM・CKD・HTN。AMI 発症後 ER 経由で ICU 入室、PCI 施行。\nMT で家族へ病状説明済み。\n\n#1 MRSA 菌血症（疑い CRBSI）\n  → VCM 1g IV qd 開始、TDM 予定。\n  → CVC 抜去、TEE で IE 否定。\n\n#2 AKI（Cr 上昇）\n  → 利尿薬反応乏しく HD 検討。\n\n#3 ARDS 疑い、人工呼吸管理中\n  → PEEP 10、PaO2/FiO2 比 200。';
       render();
     });
 
