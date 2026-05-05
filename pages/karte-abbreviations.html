@@ -1180,7 +1180,29 @@
       // 抗菌薬（追補）
       {a:'S/T', f:'Sulfamethoxazole/Trimethoprim', j:'ST合剤（バクタ）'},
       // 検査値（HbはALLOWED_LISTに「HGB」のみで「Hb」表記がないため追加）
-      {a:'Hb', f:'Hemoglobin', j:'ヘモグロビン'}
+      {a:'Hb', f:'Hemoglobin', j:'ヘモグロビン'},
+      {a:'Cr', f:'Creatinine', j:'クレアチニン'},
+      {a:'TZ', f:'Zucker', j:'糖（血糖値）'},
+      {a:'P/F', f:'PaO2/FiO2 ratio', j:'P/F 比'},
+      // 酸塩基平衡
+      {a:'AGMA', f:'Anion-Gap Metabolic Acidosis', j:'AG開大代謝性アシドーシス'},
+      {a:'NAGMA', f:'Non-Anion-Gap Metabolic Acidosis', j:'非AG開大代謝性アシドーシス'},
+      // 神経・内分泌
+      {a:'NTI', f:'Non-Thyroidal Illness', j:'非甲状腺疾患症候群（low T3 syndrome）'},
+      {a:'BDZ', f:'Benzodiazepine', j:'ベンゾジアゼピン系'},
+      {a:'LEV', f:'Levetiracetam', j:'レベチラセタム（イーケプラ）'},
+      // 栄養・血糖
+      {a:'SS', f:'Sliding Scale', j:'スライディングスケール（インスリン補正）'},
+      {a:'VitB1', f:'Vitamin B1', j:'ビタミンB1（チアミン）'},
+      // 呼吸器モード
+      {a:'SPONT', f:'Spontaneous (PSV equivalent)', j:'自発呼吸モード（PSV相当）'},
+      // 抗菌薬（PIPC/TAZ の別表記）
+      {a:'T/P', f:'Tazobactam/Piperacillin', j:'タゾバクタム/ピペラシリン'},
+      {a:'P/T', f:'Piperacillin/Tazobactam', j:'ピペラシリン/タゾバクタム'},
+      // 感染症
+      {a:'cUTI', f:'complicated Urinary Tract Infection', j:'複雑性尿路感染症'},
+      // ライン関連（CVCはALLOWED_LIST掲載済、CV単独はカテーテルではなく中心静脈そのもの）
+      {a:'CV', f:'Central Vein', j:'中心静脈'}
     ];
 
     // ============================================================
@@ -1383,12 +1405,47 @@
       'mcg/kg/min':1,'mcg/kg/h':1,'mcg/kg/day':1,
       'mg/kg/h':1,'mg/kg/min':1,'mg/kg/day':1,
       // 一般的な短語
-      'pt':1,'pts':1,'No':1,'vs':1,'VS':1,'eg':1,'ie':1
+      'pt':1,'pts':1,'No':1,'vs':1,'VS':1,'eg':1,'ie':1,
+      // 電解質元素記号（単独で使用される場合）
+      'Na':1,'K':1,'Cl':1,'Mg':1,'Fe':1,
+      // 入出力・排便など標準的な短語
+      'In':1,'Out':1,'In/Out':1,'I/O':1,'BM':1
     };
+    // 病原体属名（細菌・真菌） — 略語ではないため検出対象外
+    var PATHOGEN_NAMES = {
+      // 細菌（グラム陽性）
+      'Staphylococcus':1,'Staph':1,'Streptococcus':1,'Strep':1,'Enterococcus':1,
+      'Listeria':1,'Corynebacterium':1,'Bacillus':1,'Lactobacillus':1,
+      'Clostridium':1,'Clostridioides':1,'Peptostreptococcus':1,'Actinomyces':1,
+      // 細菌（グラム陰性腸内菌科）
+      'Escherichia':1,'Klebsiella':1,'Enterobacter':1,'Citrobacter':1,'Serratia':1,
+      'Proteus':1,'Salmonella':1,'Shigella':1,'Yersinia':1,'Morganella':1,'Hafnia':1,
+      // 細菌（その他グラム陰性）
+      'Pseudomonas':1,'Acinetobacter':1,'Stenotrophomonas':1,'Burkholderia':1,
+      'Haemophilus':1,'Moraxella':1,'Neisseria':1,'Legionella':1,'Bordetella':1,
+      'Brucella':1,'Vibrio':1,'Aeromonas':1,'Eikenella':1,'Pasteurella':1,'Capnocytophaga':1,
+      'Helicobacter':1,'Campylobacter':1,
+      // 細菌（嫌気性・スピロヘータ・抗酸菌等）
+      'Bacteroides':1,'Prevotella':1,'Fusobacterium':1,'Porphyromonas':1,
+      'Mycobacterium':1,'Nocardia':1,'Treponema':1,'Borrelia':1,'Leptospira':1,
+      'Mycoplasma':1,'Chlamydia':1,'Chlamydophila':1,'Rickettsia':1,'Coxiella':1,
+      // 真菌
+      'Candida':1,'Aspergillus':1,'Cryptococcus':1,'Pneumocystis':1,'Mucor':1,'Rhizopus':1,
+      'Histoplasma':1,'Blastomyces':1,'Coccidioides':1,'Trichophyton':1,'Malassezia':1,
+      'Fusarium':1,'Scedosporium':1,'Trichosporon':1,
+      // ウイルス属名
+      'Adenovirus':1,'Rhinovirus':1,'Enterovirus':1,'Coxsackievirus':1,
+      'Norovirus':1,'Rotavirus':1,'Influenza':1,'Coronavirus':1,'Cytomegalovirus':1
+    };
+    // GCS 表記（E_V_M_ または E_V_T_）
+    var GCS_RE = /^E[1-4]V[1-5][MT]?[1-6]?$/;
+
     function looksLikeAbbr(w){
       if (w.length < 2) return false;
       if (COMMON_WORDS[w]) return false;
       if (IGNORE_UNITS[w]) return false;
+      if (PATHOGEN_NAMES[w]) return false;
+      if (GCS_RE.test(w)) return false;
       // 全角記号や日本語が混入している → 既に tokenize で弾いてある
       // 小文字のみ＆4文字以上のラテン語は通常略語ではない
       if (/^[a-z]+$/.test(w) && w.length >= 4) return false;
