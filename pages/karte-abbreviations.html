@@ -176,54 +176,6 @@
       width:8px;height:8px;background:#1F2937;
       transform:rotate(45deg);
     }
-
-    /* オートコンプリート（編集中の予測変換） */
-    .ac-dropdown {
-      position:absolute;z-index:1001;
-      background:#fff;border:1px solid #C4B5FD;border-radius:8px;
-      box-shadow:0 10px 32px rgba(124,58,237,0.18);
-      min-width:240px;max-width:380px;max-height:280px;overflow-y:auto;
-    }
-    .ac-dropdown .ac-head {
-      font-size:0.65rem;font-weight:800;color:#6D28D9;
-      padding:6px 12px 4px;letter-spacing:0.04em;
-      border-bottom:1px solid #DDD6FE;
-      background:#F5F3FF;
-      position:sticky;top:0;
-    }
-    .ac-dropdown .ac-item {
-      padding:7px 12px;cursor:pointer;
-      border-bottom:1px solid #F1F5F9;
-      display:flex;flex-direction:column;gap:2px;
-      transition:background .12s;
-    }
-    .ac-dropdown .ac-item:last-child { border-bottom:none; }
-    .ac-dropdown .ac-item:hover,
-    .ac-dropdown .ac-item.active {
-      background:#EDE9FE;
-    }
-    .ac-dropdown .ac-row {
-      display:flex;align-items:baseline;gap:8px;
-    }
-    .ac-dropdown .ac-abbr {
-      font-family:ui-monospace,Menlo,Consolas,monospace;font-weight:800;
-      color:#4C1D95;font-size:0.85rem;
-    }
-    .ac-dropdown .ac-src {
-      font-size:0.6rem;color:#fff;background:#2563EB;
-      padding:1px 5px;border-radius:3px;font-weight:700;
-      letter-spacing:0.04em;
-    }
-    .ac-dropdown .ac-src.ac-src-allowed { background:#2563EB; }
-    .ac-dropdown .ac-src.ac-src-default { background:#7C3AED; }
-    .ac-dropdown .ac-src.ac-src-custom { background:#10B981; }
-    .ac-dropdown .ac-full {
-      font-size:0.72rem;color:#475569;line-height:1.4;
-    }
-    .ac-dropdown .ac-empty {
-      padding:14px 12px;font-size:0.74rem;color:var(--muted);
-      text-align:center;font-style:italic;
-    }
     #kt-output mark.donotuse {
       background:#FEE2E2;color:#7F1D1D;
       padding:0 3px;border-radius:3px;font-weight:700;
@@ -2168,79 +2120,19 @@
       // ヒント表示
       var tip = document.createElement('div');
       tip.className = 'edit-tip';
-      tip.textContent = '↑↓ で候補選択 / Enter で確定 / Esc でキャンセル';
+      tip.textContent = 'Enter で確定 / Esc でキャンセル';
       document.body.appendChild(tip);
-
-      // オートコンプリートドロップダウン
-      var dropdown = document.createElement('div');
-      dropdown.className = 'ac-dropdown';
-      dropdown.style.display = 'none';
-      document.body.appendChild(dropdown);
-      var currentSuggestions = [];
-      var activeIdx = 0;
-
-      function positionFloats(){
-        var r = mark.getBoundingClientRect();
-        var sY = window.pageYOffset || document.documentElement.scrollTop;
-        var sX = window.pageXOffset || document.documentElement.scrollLeft;
-        tip.style.left = (r.left + sX) + 'px';
-        tip.style.top  = (r.bottom + sY + 6) + 'px';
-        dropdown.style.left = (r.left + sX) + 'px';
-        dropdown.style.top  = (r.bottom + sY + 26) + 'px';
-      }
-      positionFloats();
-
-      function renderSuggestions(){
-        if (!currentSuggestions.length) {
-          dropdown.style.display = 'none';
-          return;
-        }
-        var dh = '<div class="ac-head">候補（クリックまたは ↑↓→Enter で選択）</div>';
-        currentSuggestions.forEach(function(r, i){
-          var e = r.entry;
-          var srcLabel = r.src === 'allowed' ? '公式' : (r.src === 'custom' ? 'カスタム' : '辞書');
-          var srcClass = 'ac-src-' + r.src;
-          var jp = e.j ? '（' + htmlEscape(e.j) + '）' : '';
-          dh += '<div class="ac-item' + (i === activeIdx ? ' active' : '') + '" data-idx="' + i + '" data-abbr="' + htmlEscape(e.a) + '">'
-            + '<div class="ac-row"><span class="ac-abbr">' + htmlEscape(e.a) + '</span><span class="ac-src ' + srcClass + '">' + srcLabel + '</span></div>'
-            + '<div class="ac-full">' + htmlEscape(e.f) + jp + '</div>'
-            + '</div>';
-        });
-        dropdown.innerHTML = dh;
-        dropdown.style.display = 'block';
-        positionFloats();
-      }
-      function updateSuggestions(){
-        var query = mark.textContent.trim();
-        currentSuggestions = searchAbbrevs(query, 8);
-        activeIdx = 0;
-        renderSuggestions();
-      }
-
-      // mousedown で blur 抑止 → click で選択
-      dropdown.addEventListener('mousedown', function(ev){ ev.preventDefault(); });
-      dropdown.addEventListener('click', function(ev){
-        var item = ev.target.closest('.ac-item');
-        if (!item) return;
-        var abbr = item.getAttribute('data-abbr');
-        if (abbr != null) selectSuggestion(abbr);
-      });
+      var rect = mark.getBoundingClientRect();
+      var scrollY = window.pageYOffset || document.documentElement.scrollTop;
+      var scrollX = window.pageXOffset || document.documentElement.scrollLeft;
+      tip.style.left = (rect.left + scrollX) + 'px';
+      tip.style.top  = (rect.bottom + scrollY + 6) + 'px';
 
       var done = false;
       function cleanup(){
         mark.removeEventListener('keydown', onKey);
-        mark.removeEventListener('input', updateSuggestions);
         mark.removeEventListener('blur', onBlur);
         if (tip && tip.parentNode) tip.parentNode.removeChild(tip);
-        if (dropdown && dropdown.parentNode) dropdown.parentNode.removeChild(dropdown);
-      }
-      function selectSuggestion(abbr){
-        if (done) return;
-        done = true;
-        cleanup();
-        var src = $in.value;
-        $in.value = src.substring(0, start) + abbr + src.substring(start + len);
-        render();
       }
       function commit(){
         if (done) return;
@@ -2272,98 +2164,13 @@
         mark.classList.remove('editing');
       }
       function onKey(e){
-        if (e.key === 'Escape') { e.preventDefault(); cancel(); return; }
-        if (e.key === 'Enter') {
-          e.preventDefault();
-          if (currentSuggestions.length && currentSuggestions[activeIdx]) {
-            selectSuggestion(currentSuggestions[activeIdx].entry.a);
-          } else {
-            commit();
-          }
-          return;
-        }
-        if (e.key === 'ArrowDown' && currentSuggestions.length) {
-          e.preventDefault();
-          activeIdx = (activeIdx + 1) % currentSuggestions.length;
-          renderSuggestions();
-          return;
-        }
-        if (e.key === 'ArrowUp' && currentSuggestions.length) {
-          e.preventDefault();
-          activeIdx = (activeIdx - 1 + currentSuggestions.length) % currentSuggestions.length;
-          renderSuggestions();
-          return;
-        }
-        if (e.key === 'Tab' && currentSuggestions.length) {
-          e.preventDefault();
-          selectSuggestion(currentSuggestions[activeIdx].entry.a);
-          return;
-        }
+        if (e.key === 'Enter') { e.preventDefault(); commit(); }
+        else if (e.key === 'Escape') { e.preventDefault(); cancel(); }
       }
-      // mousedown on dropdown を待つため blur を遅らせる
-      function onBlur(){ setTimeout(commit, 150); }
+      function onBlur(){ setTimeout(commit, 0); }
 
       mark.addEventListener('keydown', onKey);
-      mark.addEventListener('input', updateSuggestions);
       mark.addEventListener('blur', onBlur);
-
-      // 初期候補（元の単語で検索）
-      updateSuggestions();
-    }
-
-    // Levenshtein 編集距離（タイポ検出用）
-    function levenshtein(a, b){
-      if (a === b) return 0;
-      if (!a.length) return b.length;
-      if (!b.length) return a.length;
-      var d = [];
-      for (var i = 0; i <= a.length; i++) d[i] = [i];
-      for (var j = 0; j <= b.length; j++) d[0][j] = j;
-      for (i = 1; i <= a.length; i++) {
-        for (j = 1; j <= b.length; j++) {
-          d[i][j] = (a.charAt(i-1) === b.charAt(j-1))
-            ? d[i-1][j-1]
-            : Math.min(d[i-1][j-1], d[i-1][j], d[i][j-1]) + 1;
-        }
-      }
-      return d[a.length][b.length];
-    }
-
-    // 辞書全体（DEFAULT_DICT + ALLOWED_LIST + custom）から検索
-    function searchAbbrevs(query, maxResults){
-      if (!query || query.length === 0) return [];
-      var q = query.toLowerCase();
-      var seen = {};
-      var results = [];
-      function tryAdd(entry, src){
-        var key = entry.a;
-        if (seen[key]) return;
-        var aLow = entry.a.toLowerCase();
-        var fLow = (entry.f || '').toLowerCase();
-        var jStr = entry.j || '';
-        var score = 0;
-        if (aLow === q) score = 100;
-        else if (aLow.indexOf(q) === 0) score = 80;
-        else if (aLow.indexOf(q) !== -1) score = 60;
-        else if (fLow.indexOf(q) === 0) score = 50;
-        else if (fLow.indexOf(q) !== -1) score = 35;
-        else if (jStr.indexOf(query) !== -1) score = 40;
-        else if (q.length >= 3 && q.length <= 7 && Math.abs(aLow.length - q.length) <= 2) {
-          // タイポ検出（編集距離 1〜2）— 短い略語のみ対象、長さ差 2 以内
-          var dist = levenshtein(aLow, q);
-          if (dist === 1) score = 28;
-          else if (dist === 2 && q.length >= 4) score = 15;
-        }
-        if (score > 0) {
-          seen[key] = true;
-          results.push({entry:entry, src:src, score:score});
-        }
-      }
-      ALLOWED_LIST.forEach(function(e){ tryAdd(e, 'allowed'); });
-      DEFAULT_DICT.forEach(function(e){ tryAdd(e, 'default'); });
-      customDict.forEach(function(e){ tryAdd(e, 'custom'); });
-      results.sort(function(a, b){ return b.score - a.score; });
-      return results.slice(0, maxResults || 8);
     }
 
     // 黄色マーカークリックでその場編集開始
