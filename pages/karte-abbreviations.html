@@ -1437,6 +1437,11 @@
       var allowedDetected = {}; // 聖路加公式（使用可）
       var seenSpellouts = {};   // 既にスペルアウト済の略語（2回目以降は略語のまま残す）
 
+      // 任意のリストに該当するか
+      function inAnyDict(x){
+        return !!(donotMap[x] || allowedMap[x.toUpperCase()] || dictMap[caseInsensitive ? x.toUpperCase() : x]);
+      }
+
       var html = '';
       parts.forEach(function(p){
         if (p.type === 'text') {
@@ -1444,6 +1449,17 @@
           return;
         }
         var w = p.val;
+        var rest = '';
+
+        // 略語と数値が連結したケース（例: NAD0.5γ → "NAD0" として一語化される）への対応。
+        // 直接マッチしない場合、末尾の数値以降を切り出して接頭辞でマッチを試みる。
+        if (!inAnyDict(w)) {
+          var m = w.match(/^([A-Za-z][A-Za-z0-9\/\-]*?)([0-9].*)$/);
+          if (m && m[1].length >= 2 && inAnyDict(m[1])) {
+            rest = m[2];
+            w = m[1];
+          }
+        }
 
         // 1) Do Not Use チェックを最優先（case-sensitive 完全一致）
         var dnEntry = donotMap[w];
@@ -1451,6 +1467,7 @@
           html += '<mark class="donotuse" title="使用禁止：' + htmlEscape(dnEntry.mean) + ' → ' + htmlEscape(dnEntry.rec) + '">' + htmlEscape(w) + '</mark>';
           if (!donotDetected[w]) donotDetected[w] = {entry:dnEntry, count:0};
           donotDetected[w].count++;
+          if (rest) html += htmlEscape(rest);
           return;
         }
 
@@ -1461,6 +1478,7 @@
           var ka = alEntry.a.toUpperCase();
           if (!allowedDetected[ka]) allowedDetected[ka] = {entry:alEntry, count:0};
           allowedDetected[ka].count++;
+          if (rest) html += htmlEscape(rest);
           return;
         }
 
@@ -1480,6 +1498,7 @@
           }
           if (!detected[k2]) detected[k2] = {entry:entry, count:0};
           detected[k2].count++;
+          if (rest) html += htmlEscape(rest);
         } else {
           // 4) 未登録だが略語ぽい → 黄色マーク
           if (looksLikeAbbr(w)) {
@@ -1490,6 +1509,7 @@
           } else {
             html += htmlEscape(w);
           }
+          if (rest) html += htmlEscape(rest);
         }
       });
 
