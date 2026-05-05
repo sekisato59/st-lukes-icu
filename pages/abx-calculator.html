@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>抗菌薬投与量 一発計算 | 聖路加ICU 便利ツール</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style-v2.css?v=202605050100">
+  <style>
+    /* ===== 便利ツール 共通テーマ（青） ===== */
+    .tools-banner {
+      width:100%;max-width:1294px;margin:64px auto 0;padding:0;line-height:0;
+    }
+    .tools-banner img {
+      width:100%;height:auto;display:block;
+      -webkit-mask-image:linear-gradient(to bottom, #000 0%, #000 85%, transparent 100%);
+      mask-image:linear-gradient(to bottom, #000 0%, #000 85%, transparent 100%);
+    }
+    .page-wrap {
+      max-width:1100px;margin:0 auto;
+      padding:0 clamp(16px,0.6rem+1.4vw,32px) clamp(40px,2rem+1.5vw,64px);
+    }
+    .back-wrapper { display:flex;align-items:center;margin:6px 0 12px; }
+    .back-btn {
+      display:inline-flex;align-items:center;justify-content:center;
+      padding:9px 16px;background:rgba(255,255,255,0.85);
+      backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+      border:1px solid rgba(255,255,255,0.7);border-radius:10px;
+      font-size:0.78rem;font-weight:800;color:#0369A1;text-decoration:none;
+      letter-spacing:0.02em;line-height:1;
+      box-shadow:0 4px 18px rgba(3,105,161,0.08);
+      transition:transform .15s, background .15s;box-sizing:border-box;
+    }
+    .back-btn:hover { background:rgba(255,255,255,0.95);transform:translateY(-1px); }
+
+    /* ===== 入力カード ===== */
+    .input-card {
+      background:#fff;border:1px solid var(--border);border-radius:12px;
+      padding:18px 22px;margin-bottom:18px;
+      box-shadow:0 2px 12px rgba(3,105,161,0.06);
+    }
+    .input-card-title {
+      font-size:0.95rem;font-weight:900;color:#0369A1;
+      margin:0 0 12px;padding-bottom:8px;
+      border-bottom:2px solid #BAE6FD;letter-spacing:0.02em;
+    }
+    .input-card-title::before {
+      content:'入力';display:inline-block;
+      background:#0369A1;color:#fff;font-size:0.62rem;font-weight:800;
+      padding:2px 7px;border-radius:3px;margin-right:8px;
+      letter-spacing:0.04em;vertical-align:1px;
+    }
+    .form-grid {
+      display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+      gap:12px;align-items:end;
+    }
+    .form-field { display:flex;flex-direction:column;gap:4px; }
+    .form-field label {
+      font-size:0.74rem;font-weight:700;color:var(--muted);letter-spacing:0.02em;
+    }
+    .form-field input,
+    .form-field select {
+      font-family:inherit;font-size:0.92rem;
+      padding:8px 10px;border:1px solid var(--border);border-radius:6px;
+      background:#fff;outline:none;box-sizing:border-box;width:100%;
+      transition:border-color .15s;
+    }
+    .form-field input:focus,
+    .form-field select:focus { border-color:#0EA5E9;box-shadow:0 0 0 3px rgba(14,165,233,0.15); }
+    .form-unit { font-size:0.7rem;color:var(--muted);font-weight:500;margin-left:2px; }
+
+    /* ===== 計算結果カード ===== */
+    .result-card {
+      background:linear-gradient(135deg,#F0F9FF 0%,#E0F2FE 100%);
+      border:1px solid #BAE6FD;border-radius:12px;
+      padding:18px 22px;margin-bottom:18px;
+    }
+    .result-grid {
+      display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+      gap:12px;
+    }
+    .result-item {
+      background:#fff;border-radius:8px;padding:10px 14px;
+      border:1px solid #BAE6FD;
+    }
+    .result-label {
+      font-size:0.7rem;font-weight:700;color:#0369A1;letter-spacing:0.04em;
+      text-transform:uppercase;margin-bottom:2px;
+    }
+    .result-val {
+      font-size:1.4rem;font-weight:900;color:#0C4A6E;
+      font-family:ui-monospace,Menlo,Consolas,monospace;line-height:1.2;
+    }
+    .result-unit {
+      font-size:0.74rem;color:#0369A1;font-weight:500;margin-left:4px;
+    }
+    .result-empty { color:#94A3B8;font-style:italic; }
+
+    /* ===== 薬剤カード ===== */
+    .drug-card {
+      background:#fff;border:1px solid var(--border);border-radius:12px;
+      margin-bottom:14px;overflow:hidden;
+      box-shadow:0 2px 8px rgba(0,0,0,0.04);
+    }
+    .drug-card-head {
+      background:linear-gradient(135deg,#0369A1,#0EA5E9);
+      color:#fff;padding:11px 18px;display:flex;align-items:baseline;gap:10px;
+    }
+    .drug-card-jp { font-size:1rem;font-weight:800;letter-spacing:0.02em; }
+    .drug-card-en { font-size:0.78rem;font-weight:500;color:rgba(255,255,255,0.78); }
+    .drug-card-cat {
+      margin-left:auto;font-size:0.66rem;font-weight:700;
+      background:rgba(255,255,255,0.22);padding:2px 9px;border-radius:3px;
+      letter-spacing:0.04em;
+    }
+    .drug-card-body { padding:14px 18px;font-size:0.85rem;color:#475569;line-height:1.7; }
+    .dose-line {
+      display:flex;align-items:baseline;gap:10px;
+      padding:8px 12px;margin:6px 0;
+      background:#F0F9FF;border-left:3px solid #0EA5E9;border-radius:4px;
+    }
+    .dose-label {
+      font-size:0.74rem;font-weight:800;color:#0369A1;
+      letter-spacing:0.02em;flex-shrink:0;min-width:80px;
+    }
+    .dose-text { flex:1; }
+    .dose-text strong { color:#0C4A6E; }
+    .dose-calc {
+      display:inline-block;background:#0EA5E9;color:#fff;
+      font-family:ui-monospace,Menlo,Consolas,monospace;
+      font-weight:800;font-size:0.92rem;
+      padding:2px 9px;border-radius:4px;margin-left:4px;
+    }
+    .dose-table { width:100%;border-collapse:collapse;margin-top:8px;font-size:0.8rem; }
+    .dose-table th {
+      background:#F0F9FF;color:#0369A1;font-weight:800;
+      padding:6px 9px;text-align:left;border-bottom:1px solid #BAE6FD;font-size:0.74rem;
+    }
+    .dose-table td {
+      padding:6px 9px;border-bottom:1px dashed #BAE6FD;color:#475569;
+    }
+    .dose-table .crcl {
+      font-family:ui-monospace,Menlo,Consolas,monospace;
+      font-weight:700;color:#0C4A6E;white-space:nowrap;
+    }
+    .dose-warn { color:#DC2626;font-weight:700; }
+
+    /* ===== 注釈・出典 ===== */
+    .note-box {
+      background:#FEF3C7;border:1px solid #FDE68A;border-radius:6px;
+      padding:8px 12px;margin:8px 0;font-size:0.78rem;color:#78350F;line-height:1.65;
+    }
+    .note-box::before {
+      content:'注意';display:inline-block;background:#F59E0B;color:#fff;
+      font-size:0.62rem;font-weight:800;padding:1px 6px;border-radius:3px;
+      margin-right:6px;letter-spacing:0.04em;
+    }
+    .src-line {
+      font-size:0.7rem;color:var(--muted);margin-top:6px;
+      padding-top:6px;border-top:1px dotted var(--border);
+    }
+    .section-h {
+      font-size:1rem;font-weight:900;color:#0C4A6E;
+      margin:24px 0 12px;padding-left:12px;
+      border-left:4px solid #0EA5E9;line-height:1.4;
+    }
+
+    .global-disclaimer {
+      background:#FEF2F2;border:1px solid #FECACA;border-radius:8px;
+      padding:12px 16px;margin-bottom:18px;
+      font-size:0.82rem;color:#7F1D1D;line-height:1.7;
+    }
+    .global-disclaimer::before {
+      content:'重要';display:inline-block;background:#DC2626;color:#fff;
+      font-size:0.66rem;font-weight:800;padding:2px 8px;border-radius:3px;
+      margin-right:8px;letter-spacing:0.04em;vertical-align:1px;
+    }
+    .global-disclaimer strong { color:#991B1B; }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="../index.html" class="nav-logo">
+        <img src="../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+        <span class="nav-logo-text">聖路加国際病院ICU</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-menu" id="navMenu"></ul>
+    </div>
+  </nav>
+
+  <!-- ===== HEADER ===== -->
+  <div class="tools-banner">
+    <img src="../images/header便利ツール.png" alt="便利ツール — 抗菌薬投与量 一発計算">
+  </div>
+
+  <!-- ===== CONTENT ===== -->
+  <div class="page-wrap">
+
+    <div class="back-wrapper">
+      <a href="../index.html" class="back-btn">← トップページへ戻る</a>
+    </div>
+
+    <div class="global-disclaimer">
+      本ツールは <strong>研修医・ICU医の概算サポート用</strong>です。実際の処方は <strong>必ず最新の添付文書・施設プロトコル・抗菌薬コンサルト</strong>で確認してください。CrCl は Cockcroft-Gault 式に基づく推定値で、急性腎障害例・極端な体型・小児では誤差が大きくなります。
+    </div>
+
+    <!-- ===== Step 1: 患者情報入力 ===== -->
+    <div class="input-card">
+      <h3 class="input-card-title">患者情報を入力（CrCl・IBW を自動計算）</h3>
+      <div class="form-grid">
+        <div class="form-field">
+          <label for="age">年齢<span class="form-unit">歳</span></label>
+          <input id="age" type="number" min="0" max="120" step="1" placeholder="例: 70">
+        </div>
+        <div class="form-field">
+          <label for="sex">性別</label>
+          <select id="sex">
+            <option value="M">男性</option>
+            <option value="F">女性</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label for="height">身長<span class="form-unit">cm</span></label>
+          <input id="height" type="number" min="100" max="220" step="0.1" placeholder="例: 165">
+        </div>
+        <div class="form-field">
+          <label for="weight">実体重<span class="form-unit">kg</span></label>
+          <input id="weight" type="number" min="20" max="200" step="0.1" placeholder="例: 60">
+        </div>
+        <div class="form-field">
+          <label for="scr">血清Cr<span class="form-unit">mg/dL</span></label>
+          <input id="scr" type="number" min="0.1" max="20" step="0.01" placeholder="例: 0.9">
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== Step 2: 計算結果（CrCl, IBW, AdjBW） ===== -->
+    <div class="result-card">
+      <h3 class="input-card-title" style="border-bottom-color:#7DD3FC;">基本パラメータ（自動計算）</h3>
+      <div class="result-grid">
+        <div class="result-item">
+          <div class="result-label">CrCl (Cockcroft-Gault)</div>
+          <div class="result-val" id="r-crcl"><span class="result-empty">—</span></div>
+        </div>
+        <div class="result-item">
+          <div class="result-label">理想体重 (IBW)</div>
+          <div class="result-val" id="r-ibw"><span class="result-empty">—</span></div>
+        </div>
+        <div class="result-item">
+          <div class="result-label">補正体重 (AdjBW)</div>
+          <div class="result-val" id="r-adjbw"><span class="result-empty">—</span></div>
+        </div>
+        <div class="result-item">
+          <div class="result-label">投与量計算用体重</div>
+          <div class="result-val" id="r-dosing-bw"><span class="result-empty">—</span></div>
+        </div>
+      </div>
+      <p style="font-size:0.74rem;color:#0369A1;margin-top:10px;line-height:1.6;">
+        <strong>計算式：</strong>
+        Cockcroft-Gault: (140−年齢) × 体重 ÷ (72×Cr)、女性は ×0.85<br>
+        Devine IBW: 男性 50 + 2.3×(身長in−60) ／ 女性 45.5 + 2.3×(身長in−60)<br>
+        AdjBW: IBW + 0.4×(実体重−IBW)（実体重が IBW の 1.2 倍超のとき採用）
+      </p>
+    </div>
+
+    <!-- ===== Step 3: 薬剤別 投与量 ===== -->
+    <h3 class="section-h">主要 ICU 抗菌薬 — 推奨投与量</h3>
+    <p style="font-size:0.82rem;color:var(--muted);margin-bottom:14px;">
+      ※ 各薬剤の <strong>標準腎機能投与量</strong>と <strong>CrCl 別の調整</strong>を表示します。実体重に応じた具体的な投与量も自動計算されます。
+    </p>
+
+    <!-- VCM -->
+    <div class="drug-card">
+      <div class="drug-card-head">
+        <span class="drug-card-jp">バンコマイシン</span>
+        <span class="drug-card-en">Vancomycin (VCM)</span>
+        <span class="drug-card-cat">グリコペプチド</span>
+      </div>
+      <div class="drug-card-body">
+        <div class="dose-line">
+          <span class="dose-label">負荷用量</span>
+          <span class="dose-text"><strong>25〜30 mg/kg</strong>（実体重、最大 3,000 mg）→ <span id="d-vcm-load" class="dose-calc">— mg</span></span>
+        </div>
+        <div class="dose-line">
+          <span class="dose-label">維持用量</span>
+          <span class="dose-text"><strong>15〜20 mg/kg q8〜12h</strong>（実体重、CrCl で調整、TDM 必須）→ <span id="d-vcm-maint" class="dose-calc">— mg</span> / 回</span>
+        </div>
+        <div class="note-box">
+          <strong>TDM 目標：</strong>AUC₀₋₂₄ <strong>400〜600 mg·h/L</strong>（重症 MRSA は 400〜600 を維持）。トラフ値は AUC 推定の代替指標として 15〜20 μg/mL を目安に運用される施設が多い。
+        </div>
+        <div class="src-line">出典：抗菌薬TDMガイドライン 2022（日本化学療法学会）／ ASHP-IDSA Vancomycin Consensus Guideline 2020</div>
+      </div>
+    </div>
+
+    <!-- MEPM -->
+    <div class="drug-card">
+      <div class="drug-card-head">
+        <span class="drug-card-jp">メロペネム</span>
+        <span class="drug-card-en">Meropenem (MEPM)</span>
+        <span class="drug-card-cat">カルバペネム</span>
+      </div>
+      <div class="drug-card-body">
+        <div class="dose-line">
+          <span class="dose-label">標準</span>
+          <span class="dose-text"><strong>1 g q8h</strong>（30 分以上かけて点滴）／ 重症は <strong>2 g q8h</strong> 検討</span>
+        </div>
+        <table class="dose-table">
+          <thead><tr><th>CrCl (mL/min)</th><th>用量</th></tr></thead>
+          <tbody>
+            <tr><td class="crcl">&gt; 50</td><td>1 g q8h</td></tr>
+            <tr><td class="crcl">25–50</td><td>1 g q12h</td></tr>
+            <tr><td class="crcl">10–25</td><td>500 mg q12h</td></tr>
+            <tr><td class="crcl">&lt; 10</td><td>500 mg q24h</td></tr>
+            <tr><td class="crcl">HD</td><td>500 mg q24h（透析後）</td></tr>
+          </tbody>
+        </table>
+        <div class="note-box">
+          重症感染症・MIC 高値・髄膜炎では <strong>2 g q8h（3 時間延長点滴）</strong>を検討。
+        </div>
+        <div class="src-line">出典：メロペン®点滴用 添付文書 ／ Sanford Guide</div>
+      </div>
+    </div>
+
+    <!-- PIPC/TAZ -->
+    <div class="drug-card">
+      <div class="drug-card-head">
+        <span class="drug-card-jp">ピペラシリン/タゾバクタム</span>
+        <span class="drug-card-en">Piperacillin/Tazobactam (PIPC/TAZ, ゾシン®)</span>
+        <span class="drug-card-cat">βラクタム/βLI</span>
+      </div>
+      <div class="drug-card-body">
+        <div class="dose-line">
+          <span class="dose-label">標準</span>
+          <span class="dose-text"><strong>4.5 g q8h</strong>（30 分点滴）／ 重症は <strong>4.5 g q6h</strong> または <strong>3〜4 時間延長点滴</strong></span>
+        </div>
+        <table class="dose-table">
+          <thead><tr><th>CrCl (mL/min)</th><th>用量</th></tr></thead>
+          <tbody>
+            <tr><td class="crcl">&gt; 40</td><td>4.5 g q8h（重症 q6h）</td></tr>
+            <tr><td class="crcl">20–40</td><td>3.375 g q6h または 4.5 g q8h</td></tr>
+            <tr><td class="crcl">&lt; 20</td><td>2.25 g q6h または 3.375 g q8h</td></tr>
+            <tr><td class="crcl">HD</td><td>2.25 g q8h（透析日は透析後 0.75 g 追加）</td></tr>
+          </tbody>
+        </table>
+        <div class="src-line">出典：ゾシン®静注用 添付文書 ／ Sanford Guide</div>
+      </div>
+    </div>
+
+    <!-- CFPM -->
+    <div class="drug-card">
+      <div class="drug-card-head">
+        <span class="drug-card-jp">セフェピム</span>
+        <span class="drug-card-en">Cefepime (CFPM)</span>
+        <span class="drug-card-cat">第4世代セフェム</span>
+      </div>
+      <div class="drug-card-body">
+        <div class="dose-line">
+          <span class="dose-label">標準</span>
+          <span class="dose-text"><strong>2 g q8〜12h</strong>（重症・好中球減少・緑膿菌は <strong>2 g q8h</strong>）</span>
+        </div>
+        <table class="dose-table">
+          <thead><tr><th>CrCl (mL/min)</th><th>用量</th></tr></thead>
+          <tbody>
+            <tr><td class="crcl">&gt; 60</td><td>2 g q8〜12h</td></tr>
+            <tr><td class="crcl">30–60</td><td>2 g q12h</td></tr>
+            <tr><td class="crcl">11–29</td><td>2 g q24h</td></tr>
+            <tr><td class="crcl">&lt; 11</td><td>1 g q24h</td></tr>
+            <tr><td class="crcl">HD</td><td>1 g q24h（透析後）</td></tr>
+          </tbody>
+        </table>
+        <div class="note-box">
+          高用量＋腎機能低下で <strong>セフェピム脳症（CIN）</strong>に注意。混乱・ミオクローヌス・痙攣の出現時は中止＋透析を検討。
+        </div>
+        <div class="src-line">出典：マキシピーム®静注用 添付文書 ／ Sanford Guide</div>
+      </div>
+    </div>
+
+    <!-- ABPC/SBT -->
+    <div class="drug-card">
+      <div class="drug-card-head">
+        <span class="drug-card-jp">アンピシリン/スルバクタム</span>
+        <span class="drug-card-en">Ampicillin/Sulbactam (ABPC/SBT, ユナシン®)</span>
+        <span class="drug-card-cat">βラクタム/βLI</span>
+      </div>
+      <div class="drug-card-body">
+        <div class="dose-line">
+          <span class="dose-label">標準</span>
+          <span class="dose-text"><strong>3 g q6h</strong>（誤嚥性肺炎・腹腔内感染）</span>
+        </div>
+        <table class="dose-table">
+          <thead><tr><th>CrCl (mL/min)</th><th>用量</th></tr></thead>
+          <tbody>
+            <tr><td class="crcl">&gt; 30</td><td>3 g q6h</td></tr>
+            <tr><td class="crcl">15–30</td><td>3 g q8h</td></tr>
+            <tr><td class="crcl">5–15</td><td>3 g q12h</td></tr>
+            <tr><td class="crcl">&lt; 5 / HD</td><td>3 g q24h（HD は透析後）</td></tr>
+          </tbody>
+        </table>
+        <div class="src-line">出典：ユナシン®-S 静注用 添付文書</div>
+      </div>
+    </div>
+
+    <!-- CTRX -->
+    <div class="drug-card">
+      <div class="drug-card-head">
+        <span class="drug-card-jp">セフトリアキソン</span>
+        <span class="drug-card-en">Ceftriaxone (CTRX)</span>
+        <span class="drug-card-cat">第3世代セフェム</span>
+      </div>
+      <div class="drug-card-body">
+        <div class="dose-line">
+          <span class="dose-label">標準</span>
+          <span class="dose-text"><strong>2 g q24h</strong>（重症は <strong>2 g q12h</strong> 髄膜炎）</span>
+        </div>
+        <div class="note-box">
+          胆汁排泄が主のため <strong>腎機能調整は基本不要</strong>（高度肝障害＋腎障害のみ最大 2 g/日に減量）。Ca 含有輸液との混注は新生児で禁忌（成人でも 48 時間以内の混注は避ける）。
+        </div>
+        <div class="src-line">出典：ロセフィン®静注用 添付文書</div>
+      </div>
+    </div>
+
+    <!-- GCV -->
+    <div class="drug-card">
+      <div class="drug-card-head">
+        <span class="drug-card-jp">ガンシクロビル</span>
+        <span class="drug-card-en">Ganciclovir (GCV, デノシン®)</span>
+        <span class="drug-card-cat">抗 CMV</span>
+      </div>
+      <div class="drug-card-body">
+        <div class="dose-line">
+          <span class="dose-label">初期</span>
+          <span class="dose-text"><strong>5 mg/kg q12h</strong> × 2〜3 週 → <span id="d-gcv-ind" class="dose-calc">— mg</span> / 回</span>
+        </div>
+        <div class="dose-line">
+          <span class="dose-label">維持</span>
+          <span class="dose-text"><strong>5 mg/kg q24h</strong>（または 6 mg/kg 週5日）→ <span id="d-gcv-maint" class="dose-calc">— mg</span> / 回</span>
+        </div>
+        <table class="dose-table">
+          <thead><tr><th>CrCl (mL/min)</th><th>初期</th><th>維持</th></tr></thead>
+          <tbody>
+            <tr><td class="crcl">≥ 70</td><td>5 mg/kg q12h</td><td>5 mg/kg q24h</td></tr>
+            <tr><td class="crcl">50–69</td><td>2.5 mg/kg q12h</td><td>2.5 mg/kg q24h</td></tr>
+            <tr><td class="crcl">25–49</td><td>2.5 mg/kg q24h</td><td>1.25 mg/kg q24h</td></tr>
+            <tr><td class="crcl">10–24</td><td>1.25 mg/kg q24h</td><td>0.625 mg/kg q24h</td></tr>
+            <tr><td class="crcl">&lt; 10</td><td>1.25 mg/kg 週3回</td><td>0.625 mg/kg 週3回</td></tr>
+            <tr><td class="crcl">HD</td><td colspan="2">同上、<strong>透析後に投与</strong></td></tr>
+          </tbody>
+        </table>
+        <div class="note-box">
+          副作用は <strong>骨髄抑制</strong>。WBC・ANC・PLT を週 2〜3 回モニタリング。
+        </div>
+        <div class="src-line">出典：デノシン®点滴静注用 添付文書 ／ Sanford Guide 2021</div>
+      </div>
+    </div>
+
+    <!-- FOS -->
+    <div class="drug-card">
+      <div class="drug-card-head">
+        <span class="drug-card-jp">ホスカルネット</span>
+        <span class="drug-card-en">Foscarnet (FOS, ホスカビル®)</span>
+        <span class="drug-card-cat">抗 CMV</span>
+      </div>
+      <div class="drug-card-body">
+        <div class="dose-line">
+          <span class="dose-label">初期</span>
+          <span class="dose-text"><strong>60 mg/kg q8h または 90 mg/kg q12h</strong> → <span id="d-fos-ind" class="dose-calc">— mg</span> / 回（q12h）</span>
+        </div>
+        <div class="dose-line">
+          <span class="dose-label">維持</span>
+          <span class="dose-text"><strong>90〜120 mg/kg q24h</strong> → <span id="d-fos-maint" class="dose-calc">— mg</span> / 回</span>
+        </div>
+        <table class="dose-table">
+          <thead><tr><th>CrCl/kg (mL/min/kg)</th><th>初期</th><th>維持</th></tr></thead>
+          <tbody>
+            <tr><td class="crcl">&gt; 1.4</td><td>60 mg/kg q8h ／ 90 mg/kg q12h</td><td>90〜120 mg/kg q24h</td></tr>
+            <tr><td class="crcl">1.0–1.4</td><td>45 mg/kg q8h ／ 70 mg/kg q12h</td><td>70〜90 mg/kg q24h</td></tr>
+            <tr><td class="crcl">0.8–1.0</td><td>35 mg/kg q8h ／ 50 mg/kg q12h</td><td>50〜65 mg/kg q24h</td></tr>
+            <tr><td class="crcl">0.6–0.8</td><td>40 mg/kg q12h ／ 80 mg/kg q24h</td><td>80〜105 mg/kg q48h</td></tr>
+            <tr><td class="crcl">0.5–0.6</td><td>30 mg/kg q12h ／ 60 mg/kg q24h</td><td>60〜80 mg/kg q48h</td></tr>
+            <tr><td class="crcl">0.4–0.5</td><td>25 mg/kg q12h ／ 50 mg/kg q24h</td><td>50〜65 mg/kg q48h</td></tr>
+            <tr><td class="crcl dose-warn">&lt; 0.4</td><td colspan="2" class="dose-warn"><strong>投与禁止</strong>（腎機能回復まで休薬）</td></tr>
+          </tbody>
+        </table>
+        <div class="note-box">
+          <strong>腎毒性・電解質異常</strong>に注意。投与時は生食 0.5〜1 L で hydration（最大 2.5 L/日）。Cr は初期 <strong>隔日</strong>、維持 <strong>週1</strong> 測定。
+        </div>
+        <div class="src-line">出典：ホスカビル®点滴静注用 添付文書（第13版／2024年10月改訂）</div>
+      </div>
+    </div>
+
+    <!-- 略語凡例 -->
+    <h3 class="section-h">略語</h3>
+    <div class="input-card">
+      <div class="card-inner" style="padding:0;">
+        <table style="width:100%;border-collapse:collapse;font-size:0.78rem;line-height:1.6;color:#475569;">
+          <tbody>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:140px;color:#0369A1;">CrCl</td><td style="padding:4px 8px;">Creatinine Clearance — クレアチニンクリアランス</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:#0369A1;">IBW / AdjBW</td><td style="padding:4px 8px;">Ideal / Adjusted Body Weight — 理想体重 / 補正体重</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:#0369A1;">TDM</td><td style="padding:4px 8px;">Therapeutic Drug Monitoring — 薬物血中濃度モニタリング</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:#0369A1;">AUC</td><td style="padding:4px 8px;">Area Under the Curve — 薬物濃度時間曲線下面積</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:#0369A1;">HD</td><td style="padding:4px 8px;">Hemodialysis — 血液透析</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:#0369A1;">βLI</td><td style="padding:4px 8px;">β-Lactamase Inhibitor — βラクタマーゼ阻害薬</td></tr>
+            <tr><td style="padding:4px 8px;font-weight:700;color:#0369A1;">CIN</td><td style="padding:4px 8px;">Cefepime-Induced Neurotoxicity — セフェピム脳症</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <p style="font-size:0.72rem;color:var(--muted);margin-top:24px;line-height:1.7;text-align:right;">
+      制作：ICU 関谷 ／ 最終更新：2026-05-05
+    </p>
+
+  </div>
+
+  <script src="../script.js"></script>
+  <script>
+    // ===== 計算ロジック =====
+    (function(){
+      var $age   = document.getElementById('age');
+      var $sex   = document.getElementById('sex');
+      var $h     = document.getElementById('height');
+      var $w     = document.getElementById('weight');
+      var $scr   = document.getElementById('scr');
+
+      var $crcl  = document.getElementById('r-crcl');
+      var $ibw   = document.getElementById('r-ibw');
+      var $adjbw = document.getElementById('r-adjbw');
+      var $dbw   = document.getElementById('r-dosing-bw');
+
+      var fmtN = function(v, d){ return Math.round(v * Math.pow(10, d || 1)) / Math.pow(10, d || 1); };
+      var empty = '<span class="result-empty">—</span>';
+
+      function ibwDevine(heightCm, sex){
+        if (!heightCm) return null;
+        var heightIn = heightCm / 2.54;
+        var base = sex === 'F' ? 45.5 : 50;
+        var v = base + 2.3 * Math.max(0, heightIn - 60);
+        return v;
+      }
+      function adjBW(actual, ibw){
+        if (!actual || !ibw) return null;
+        if (actual > ibw * 1.2) return ibw + 0.4 * (actual - ibw);
+        return actual;
+      }
+      function crclCG(age, sex, weight, scr){
+        if (!age || !weight || !scr) return null;
+        var v = ((140 - age) * weight) / (72 * scr);
+        if (sex === 'F') v *= 0.85;
+        return v;
+      }
+
+      function setHTML(el, html){ el.innerHTML = html; }
+      function setVal(el, val, unit){
+        if (val == null || isNaN(val)) { setHTML(el, empty); return; }
+        setHTML(el, fmtN(val, 1) + ' <span class="result-unit">' + unit + '</span>');
+      }
+      function setDose(elId, mg){
+        var el = document.getElementById(elId);
+        if (!el) return;
+        if (mg == null || isNaN(mg)) { el.textContent = '— mg'; return; }
+        el.textContent = Math.round(mg) + ' mg';
+      }
+
+      function recalc(){
+        var age = parseFloat($age.value) || null;
+        var sex = $sex.value;
+        var h   = parseFloat($h.value) || null;
+        var w   = parseFloat($w.value) || null;
+        var scr = parseFloat($scr.value) || null;
+
+        var ibw  = ibwDevine(h, sex);
+        var adj  = adjBW(w, ibw);
+        var crcl = crclCG(age, sex, w, scr);
+
+        setVal($crcl, crcl, 'mL/min');
+        setVal($ibw,  ibw,  'kg');
+        setVal($adjbw, (adj !== w ? adj : null), 'kg');
+        setVal($dbw,  (adj || w), 'kg（投与計算用）');
+
+        var dosingBW = adj || w;
+
+        // VCM
+        setDose('d-vcm-load',  dosingBW ? dosingBW * 25 : null);
+        setDose('d-vcm-maint', dosingBW ? dosingBW * 17.5 : null);
+
+        // GCV (5 mg/kg)
+        setDose('d-gcv-ind',   dosingBW ? dosingBW * 5 : null);
+        setDose('d-gcv-maint', dosingBW ? dosingBW * 5 : null);
+
+        // FOS (initial 90 mg/kg, maint 100 mg/kg)
+        setDose('d-fos-ind',   dosingBW ? dosingBW * 90 : null);
+        setDose('d-fos-maint', dosingBW ? dosingBW * 100 : null);
+      }
+
+      [$age,$sex,$h,$w,$scr].forEach(function(el){
+        el.addEventListener('input', recalc);
+        el.addEventListener('change', recalc);
+      });
+      recalc();
+    })();
+  </script>
+</body>
+</html>
