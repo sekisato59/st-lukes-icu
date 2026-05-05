@@ -1252,7 +1252,22 @@
       {a:'Atezo', f:'Atezolizumab', j:'アテゾリズマブ（テセントリク）'},
       {a:'Durva', f:'Durvalumab', j:'デュルバルマブ（イミフィンジ）'},
       // 免疫療法関連有害事象
-      {a:'irAE', f:'immune-related Adverse Events', j:'免疫関連有害事象'}
+      {a:'irAE', f:'immune-related Adverse Events', j:'免疫関連有害事象'},
+      // 検査値・血液製剤
+      {a:'NH3', f:'Ammonia', j:'アンモニア'},
+      {a:'FFP', f:'Fresh Frozen Plasma', j:'新鮮凍結血漿'},
+      {a:'Lab', f:'Laboratory Data', j:'検査データ'},
+      // 心エコー
+      {a:'LVOT', f:'Left Ventricular Outflow Tract', j:'左室流出路'},
+      {a:'VTI', f:'Velocity Time Integral', j:'速度時間積分'},
+      {a:'LVOT-VTI', f:'Left Ventricular Outflow Tract Velocity Time Integral', j:'左室流出路速度時間積分（一回拍出量推定）'},
+      {a:'LVOT_VTI', f:'Left Ventricular Outflow Tract Velocity Time Integral', j:'左室流出路速度時間積分（一回拍出量推定）'},
+      // ライン・呼吸
+      {a:'A-line', f:'Arterial Line', j:'動脈ライン'},
+      {a:'Aline', f:'Arterial Line', j:'動脈ライン'},
+      {a:'NHFC', f:'High-Flow Nasal Cannula', j:'高流量鼻カニュラ酸素療法（HFNC と同義）'},
+      // 不整脈
+      {a:'NSVT', f:'Non-Sustained Ventricular Tachycardia', j:'非持続性心室頻拍'}
     ];
 
     // ============================================================
@@ -1421,7 +1436,7 @@
       // 入力を分解：略語候補（半角英数+一部記号）と それ以外
       // 略語候補の正規表現: アルファベット/数字/スラッシュ/ハイフンを含む2文字以上の塊
       var parts = [];
-      var re = /[A-Za-z][A-Za-z0-9\/\-]*[A-Za-z0-9]/g;
+      var re = /[A-Za-z][A-Za-z0-9\/\-_]*[A-Za-z0-9]/g;
       var lastIdx = 0;
       var m;
       while ((m = re.exec(text)) !== null) {
@@ -1564,11 +1579,12 @@
         var w = p.val;
         var rest = '';
 
-        // 略語と数値が連結したケース（例: NAD0.5γ → "NAD0" として一語化される）への対応。
-        // 直接マッチしない場合、末尾の数値以降を切り出して接頭辞でマッチを試みる。
+        // 略語と数値が連結したケース（例: NAD0.5γ → "NAD0", PRF5 → "PRF5" として一語化される）への対応。
+        // 直接マッチしない場合、末尾の数値以降を必ず切り出す（接頭辞が辞書に無くても分割する）。
+        // これにより未登録略語も「未登録チップ → クリックで辞書追加」の動線に乗せられる。
         if (!inAnyDict(w)) {
-          var m = w.match(/^([A-Za-z][A-Za-z0-9\/\-]*?)([0-9].*)$/);
-          if (m && m[1].length >= 2 && inAnyDict(m[1])) {
+          var m = w.match(/^([A-Za-z][A-Za-z0-9\/\-_]*?)([0-9].*)$/);
+          if (m && m[1].length >= 2) {
             rest = m[2];
             w = m[1];
           }
