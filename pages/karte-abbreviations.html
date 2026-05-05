@@ -1202,7 +1202,28 @@
       // 感染症
       {a:'cUTI', f:'complicated Urinary Tract Infection', j:'複雑性尿路感染症'},
       // ライン関連（CVCはALLOWED_LIST掲載済、CV単独はカテーテルではなく中心静脈そのもの）
-      {a:'CV', f:'Central Vein', j:'中心静脈'}
+      {a:'CV', f:'Central Vein', j:'中心静脈'},
+      // 抗凝固薬（追補：HEPの別表記）
+      {a:'He', f:'Heparin', j:'ヘパリン'},
+      {a:'HeCa', f:'Heparin Calcium', j:'ヘパリンカルシウム'},
+      // 内視鏡・超音波
+      {a:'BF', f:'Bronchofiberscope', j:'気管支ファイバースコープ'},
+      {a:'BFS', f:'Bronchofiberscope', j:'気管支ファイバースコープ'},
+      {a:'VEXUS', f:'Venous Excess Ultrasound', j:'静脈うっ血超音波スコア'},
+      // 血漿交換（PEはALLOWED_LIST「pulmonary embolism」と衝突するため別表記で登録）
+      {a:'PEX', f:'Plasma Exchange', j:'血漿交換'},
+      {a:'PLEX', f:'Plasma Exchange', j:'血漿交換'},
+      {a:'TPE', f:'Therapeutic Plasma Exchange', j:'治療的血漿交換'},
+      // 喘息・COPD 吸入薬
+      {a:'SABA', f:'Short-Acting Beta-Agonist', j:'短時間作用型β2刺激薬'},
+      {a:'LABA', f:'Long-Acting Beta-Agonist', j:'長時間作用型β2刺激薬'},
+      {a:'ICS', f:'Inhaled Corticosteroid', j:'吸入ステロイド'},
+      {a:'SAMA', f:'Short-Acting Muscarinic Antagonist', j:'短時間作用型抗コリン薬'},
+      {a:'LAMA', f:'Long-Acting Muscarinic Antagonist', j:'長時間作用型抗コリン薬'},
+      {a:'LTRA', f:'Leukotriene Receptor Antagonist', j:'ロイコトリエン受容体拮抗薬'},
+      {a:'ICS/LABA', f:'Inhaled Corticosteroid + Long-Acting Beta-Agonist', j:'ICS/LABA 配合剤'},
+      {a:'LABA/LAMA', f:'Long-Acting Beta-Agonist + Long-Acting Muscarinic Antagonist', j:'LABA/LAMA 配合剤'},
+      {a:'ICS/LABA/LAMA', f:'ICS + LABA + LAMA Triple Combination', j:'トリプル配合剤'}
     ];
 
     // ============================================================
@@ -1409,7 +1430,9 @@
       // 電解質元素記号（単独で使用される場合）
       'Na':1,'K':1,'Cl':1,'Mg':1,'Fe':1,
       // 入出力・排便など標準的な短語
-      'In':1,'Out':1,'In/Out':1,'I/O':1,'BM':1
+      'In':1,'Out':1,'In/Out':1,'I/O':1,'BM':1,
+      // 製品名サフィックス・状態語
+      'REX':1,'off':1,'Off':1,'OFF':1,'on':1,'On':1,'ON':1
     };
     // 病原体属名（細菌・真菌） — 略語ではないため検出対象外
     var PATHOGEN_NAMES = {
@@ -1437,8 +1460,9 @@
       'Adenovirus':1,'Rhinovirus':1,'Enterovirus':1,'Coxsackievirus':1,
       'Norovirus':1,'Rotavirus':1,'Influenza':1,'Coronavirus':1,'Cytomegalovirus':1
     };
-    // GCS 表記（E_V_M_ または E_V_T_）
-    var GCS_RE = /^E[1-4]V[1-5][MT]?[1-6]?$/;
+    // GCS 表記：E_V_M_ / E_V_T_M_ (T は挿管時のV置換)
+    // 例: E3V5M6, E4V5T6, E1VTM1, E2V1T, E4V5
+    var GCS_RE = /^E[1-4]V(?:[1-5]|T)[MT]?(?:[1-6]|T)?$/;
 
     function looksLikeAbbr(w){
       if (w.length < 2) return false;
