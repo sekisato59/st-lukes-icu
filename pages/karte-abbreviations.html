@@ -179,6 +179,48 @@
       padding:0 3px;border-radius:3px;font-weight:700;
       border-bottom:2px solid #DC2626;
       text-decoration:line-through;text-decoration-color:#DC2626;
+      cursor:pointer;transition:background .15s;
+    }
+    #kt-output mark.donotuse:hover { background:#FCA5A5; }
+
+    /* 禁止表記置換メニュー（赤マーカークリック時に表示） */
+    .replace-menu {
+      position:absolute;z-index:1000;
+      background:#fff;border:1px solid #FECACA;border-radius:8px;
+      box-shadow:0 8px 24px rgba(220,38,38,0.15);
+      padding:8px;min-width:200px;max-width:340px;
+    }
+    .replace-menu .rm-head {
+      font-size:0.7rem;font-weight:800;color:#991B1B;
+      padding:0 4px 6px;border-bottom:1px solid #FECACA;
+      margin-bottom:6px;letter-spacing:0.02em;
+    }
+    .replace-menu .rm-btn {
+      display:block;width:100%;text-align:left;
+      padding:7px 10px;font-size:0.8rem;font-weight:600;
+      background:#fff;border:1px solid transparent;border-radius:5px;
+      cursor:pointer;color:#1F2937;line-height:1.4;
+      font-family:inherit;
+      transition:background .12s;
+    }
+    .replace-menu .rm-btn:hover {
+      background:#FEE2E2;color:#991B1B;border-color:#FECACA;
+    }
+    .replace-menu .rm-btn .rm-arrow {
+      color:#DC2626;font-weight:800;margin-right:6px;
+    }
+    .replace-menu .rm-edit {
+      color:#4C1D95;font-style:italic;
+    }
+    .replace-menu .rm-edit:hover {
+      background:#F5F3FF;color:#4C1D95;border-color:#DDD6FE;
+    }
+    .replace-menu .rm-cancel {
+      color:var(--muted);font-size:0.72rem;
+      text-align:center;padding:5px;
+    }
+    .replace-menu .rm-cancel:hover {
+      background:#F1F5F9;color:#475569;border-color:#E2E8F0;
     }
     #kt-output mark.allowed {
       background:#DBEAFE;color:#1E3A8A;
@@ -524,6 +566,9 @@
       制作：ICU 関谷 ／ 最終更新：2026-05-05
     </p>
   </div>
+
+  <!-- 禁止表記の置換メニュー -->
+  <div class="replace-menu" id="replace-menu" style="display:none;"></div>
 
   <div class="copy-toast" id="copy-toast">クリップボードにコピーしました</div>
 
@@ -1478,7 +1523,29 @@
       {a:'CKDG', f:'Chronic Kidney Disease GFR classification', j:'CKD の GFR 分類'},
       // 輸液・電解質
       {a:'NaCl', f:'Sodium Chloride', j:'塩化ナトリウム'},
-      {a:'NS', f:'Normal Saline', j:'生理食塩水'}
+      {a:'NS', f:'Normal Saline', j:'生理食塩水'},
+      // 真菌マーカー（追補）
+      {a:'βD', f:'beta-D-Glucan', j:'β-Dグルカン（深在性真菌症マーカー）'},
+      // 人工呼吸器モード（PC/VC × A/C, CMV, SIMV）
+      {a:'PC-A/C', f:'Pressure Control Assist/Control', j:'圧制御アシスト・コントロール（PCV と同義）'},
+      {a:'VC-A/C', f:'Volume Control Assist/Control', j:'容量制御アシスト・コントロール（VCV と同義）'},
+      {a:'PC-CMV', f:'Pressure Control Continuous Mandatory Ventilation', j:'圧制御強制換気'},
+      {a:'VC-CMV', f:'Volume Control Continuous Mandatory Ventilation', j:'容量制御強制換気'},
+      {a:'PC-SIMV', f:'Pressure Control Synchronized Intermittent Mandatory Ventilation', j:'圧制御 SIMV'},
+      {a:'VC-SIMV', f:'Volume Control Synchronized Intermittent Mandatory Ventilation', j:'容量制御 SIMV'},
+      {a:'ASV', f:'Adaptive Support Ventilation', j:'適応的補助換気'},
+      // 人工呼吸器設定（時間）
+      {a:'Ti', f:'Inspiratory Time', j:'吸気時間'},
+      {a:'Te', f:'Expiratory Time', j:'呼気時間'},
+      {a:'I:E', f:'Inspiratory to Expiratory ratio', j:'吸気呼気比'},
+      // 神経 / 脳外
+      {a:'ROSC', f:'Return of Spontaneous Circulation', j:'自己心拍再開'},
+      {a:'CSF', f:'Cerebrospinal Fluid', j:'脳脊髄液'},
+      {a:'EVD', f:'External Ventricular Drain', j:'脳室ドレナージ'},
+      {a:'EDH', f:'Epidural Hematoma', j:'硬膜外血腫'},
+      {a:'TBI', f:'Traumatic Brain Injury', j:'外傷性脳損傷'},
+      // 微生物検査
+      {a:'C/S', f:'Culture and Sensitivity', j:'培養・感受性検査'}
     ];
 
     // ============================================================
@@ -1486,21 +1553,22 @@
     // 聖路加 略語使用規定 第3章 / The Joint Commission 2022 準拠
     // 検出時は赤色で警告表示し、推奨表記を提示する。
     // ============================================================
+    // a=禁止表記 / mean=意味 / rec=説明文 / alt=クリック置換用の推奨表記（複数候補は配列）
     var DO_NOT_USE = [
-      {a:'MT',     mean:'Mund Therapy（ムンテラ）',          rec:'IC（Informed Consent）と記載'},
-      {a:'U',      mean:'unit（単位）',                       rec:'Full Term「unit」で記載 — 数字 0/4/cc と誤りやすい'},
-      {a:'u',      mean:'unit（単位）',                       rec:'Full Term「unit」で記載 — 数字 0/4/cc と誤りやすい'},
-      {a:'IU',     mean:'International Unit',                 rec:'Full Term「International Unit」で記載 — IV/数字10と誤りやすい'},
-      {a:'Q.D.',   mean:'daily（毎日）',                      rec:'「毎日」と記載 — Q.O.D. と誤りやすい'},
-      {a:'QD',     mean:'daily（毎日）',                      rec:'「毎日」と記載 — QOD と誤りやすい'},
-      {a:'q.d.',   mean:'daily（毎日）',                      rec:'「毎日」と記載 — q.o.d. と誤りやすい'},
-      {a:'qd',     mean:'daily（毎日）',                      rec:'「毎日」と記載 — qod と誤りやすい'},
-      {a:'Q.O.D.', mean:'every other day（隔日）',            rec:'「隔日」と記載 — Q.D. と誤りやすい'},
-      {a:'QOD',    mean:'every other day（隔日）',            rec:'「隔日」と記載 — QD と誤りやすい'},
-      {a:'q.o.d.', mean:'every other day（隔日）',            rec:'「隔日」と記載 — q.d. と誤りやすい'},
-      {a:'qod',    mean:'every other day（隔日）',            rec:'「隔日」と記載 — qd と誤りやすい'},
-      {a:'MSO4',   mean:'morphine sulfate（モルヒネ硫酸塩）', rec:'Full Term「モルヒネ硫酸塩」で記載 — MgSO4 と誤りやすい'},
-      {a:'MgSO4',  mean:'magnesium sulfate（硫酸マグネシウム）', rec:'Full Term「硫酸マグネシウム」で記載 — MSO4 と誤りやすい'}
+      {a:'MT',     mean:'Mund Therapy（ムンテラ）',           rec:'IC（Informed Consent）と記載',                            alt:['IC']},
+      {a:'U',      mean:'unit（単位）',                       rec:'Full Term「unit」で記載 — 数字 0/4/cc と誤りやすい',       alt:['unit', 'units']},
+      {a:'u',      mean:'unit（単位）',                       rec:'Full Term「unit」で記載 — 数字 0/4/cc と誤りやすい',       alt:['unit', 'units']},
+      {a:'IU',     mean:'International Unit',                 rec:'Full Term「International Unit」で記載 — IV/数字10と誤りやすい', alt:['International Unit']},
+      {a:'Q.D.',   mean:'daily（毎日）',                      rec:'「毎日」と記載 — Q.O.D. と誤りやすい',                      alt:['毎日', 'daily']},
+      {a:'QD',     mean:'daily（毎日）',                      rec:'「毎日」と記載 — QOD と誤りやすい',                          alt:['毎日', 'daily']},
+      {a:'q.d.',   mean:'daily（毎日）',                      rec:'「毎日」と記載 — q.o.d. と誤りやすい',                      alt:['毎日', 'daily']},
+      {a:'qd',     mean:'daily（毎日）',                      rec:'「毎日」と記載 — qod と誤りやすい',                          alt:['毎日', 'daily']},
+      {a:'Q.O.D.', mean:'every other day（隔日）',            rec:'「隔日」と記載 — Q.D. と誤りやすい',                        alt:['隔日', 'every other day']},
+      {a:'QOD',    mean:'every other day（隔日）',            rec:'「隔日」と記載 — QD と誤りやすい',                          alt:['隔日', 'every other day']},
+      {a:'q.o.d.', mean:'every other day（隔日）',            rec:'「隔日」と記載 — q.d. と誤りやすい',                        alt:['隔日', 'every other day']},
+      {a:'qod',    mean:'every other day（隔日）',            rec:'「隔日」と記載 — qd と誤りやすい',                          alt:['隔日', 'every other day']},
+      {a:'MSO4',   mean:'morphine sulfate（モルヒネ硫酸塩）', rec:'Full Term「モルヒネ硫酸塩」で記載 — MgSO4 と誤りやすい',  alt:['モルヒネ硫酸塩', 'morphine sulfate']},
+      {a:'MgSO4',  mean:'magnesium sulfate（硫酸マグネシウム）', rec:'Full Term「硫酸マグネシウム」で記載 — MSO4 と誤りやすい', alt:['硫酸マグネシウム', 'magnesium sulfate']}
     ];
 
     var STORAGE_KEY = 'karte-abbr-v1';
@@ -1884,7 +1952,8 @@
         // 1) Do Not Use チェックを最優先（case-sensitive 完全一致）
         var dnEntry = donotMap[w];
         if (dnEntry) {
-          html += '<mark class="donotuse" title="使用禁止：' + htmlEscape(dnEntry.mean) + ' → ' + htmlEscape(dnEntry.rec) + '">' + htmlEscape(w) + '</mark>';
+          // data-start / data-len / data-abbr を付与してクリック置換を可能にする
+          html += '<mark class="donotuse" data-start="' + p.start + '" data-len="' + w.length + '" data-abbr="' + htmlEscape(w) + '" title="使用禁止：' + htmlEscape(dnEntry.mean) + ' — クリックで置換">' + htmlEscape(w) + '</mark>';
           if (!donotDetected[w]) donotDetected[w] = {entry:dnEntry, count:0};
           donotDetected[w].count++;
           if (rest) html += htmlEscape(rest);
@@ -2101,9 +2170,92 @@
     // 黄色マーカークリックでその場編集開始
     $out.addEventListener('click', function(e){
       var mark = e.target.closest('mark.unknown');
-      if (!mark) return;
-      e.stopPropagation();
-      startInlineEdit(mark);
+      if (mark) {
+        e.stopPropagation();
+        startInlineEdit(mark);
+        return;
+      }
+      var dnMark = e.target.closest('mark.donotuse');
+      if (dnMark) {
+        e.stopPropagation();
+        showReplaceMenu(dnMark);
+        return;
+      }
+    });
+
+    // ===== 禁止表記の置換メニュー =====
+    var $replaceMenu = document.getElementById('replace-menu');
+
+    function hideReplaceMenu(){
+      $replaceMenu.style.display = 'none';
+      $replaceMenu.innerHTML = '';
+    }
+
+    function showReplaceMenu(mark){
+      var abbr = mark.getAttribute('data-abbr');
+      var start = parseInt(mark.getAttribute('data-start'), 10);
+      var len   = parseInt(mark.getAttribute('data-len'), 10);
+      if (isNaN(start) || isNaN(len)) return;
+      var dnEntry = donotMap[abbr];
+      if (!dnEntry) return;
+      var alts = dnEntry.alt || [];
+
+      // メニュー HTML 構築
+      var html = '<div class="rm-head">' + htmlEscape(abbr) + ' は使用禁止 — 推奨表記に置換</div>';
+      alts.forEach(function(alt){
+        html += '<button type="button" class="rm-btn" data-alt="' + htmlEscape(alt) + '"><span class="rm-arrow">→</span>' + htmlEscape(alt) + '</button>';
+      });
+      html += '<button type="button" class="rm-btn rm-edit" data-act="edit">✏ 別の表記で編集…</button>';
+      html += '<button type="button" class="rm-btn rm-cancel" data-act="cancel">キャンセル</button>';
+      $replaceMenu.innerHTML = html;
+      $replaceMenu.style.display = 'block';
+
+      // 位置調整（マーカー直下、画面端を回避）
+      var rect = mark.getBoundingClientRect();
+      var menuW = $replaceMenu.offsetWidth || 240;
+      var menuH = $replaceMenu.offsetHeight || 160;
+      var scrollX = window.pageXOffset || document.documentElement.scrollLeft;
+      var scrollY = window.pageYOffset || document.documentElement.scrollTop;
+      var left = Math.max(8, Math.min(rect.left + scrollX, window.innerWidth - menuW - 8));
+      var top;
+      if ((window.innerHeight - rect.bottom) >= menuH + 12) {
+        top = rect.bottom + scrollY + 6;
+      } else {
+        top = rect.top + scrollY - menuH - 6;
+      }
+      $replaceMenu.style.left = left + 'px';
+      $replaceMenu.style.top = top + 'px';
+
+      // 置換ボタンのクリック
+      $replaceMenu.querySelectorAll('.rm-btn').forEach(function(btn){
+        btn.addEventListener('click', function(ev){
+          ev.stopPropagation();
+          var act = btn.getAttribute('data-act');
+          if (act === 'cancel') { hideReplaceMenu(); return; }
+          if (act === 'edit') {
+            hideReplaceMenu();
+            startInlineEdit(mark); // 黄色と同じ編集 UI を再利用
+            return;
+          }
+          var alt = btn.getAttribute('data-alt');
+          if (alt == null) return;
+          var src = $in.value;
+          $in.value = src.substring(0, start) + alt + src.substring(start + len);
+          hideReplaceMenu();
+          render();
+        });
+      });
+    }
+
+    // 外側クリック / Esc でメニューを閉じる
+    document.addEventListener('click', function(e){
+      if ($replaceMenu.style.display === 'none') return;
+      if (e.target.closest('#replace-menu')) return;
+      if (e.target.closest('mark.donotuse')) return;
+      hideReplaceMenu();
+    });
+    document.addEventListener('keydown', function(e){
+      if (e.key === 'Escape' && $replaceMenu.style.display !== 'none') hideReplaceMenu();
     });
 
     function renderDict(){
