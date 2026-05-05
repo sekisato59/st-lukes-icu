@@ -1419,7 +1419,26 @@
       // 呼吸生理
       {a:'Cstat', f:'Static Compliance', j:'静的コンプライアンス'},
       // 抗凝固
-      {a:'NFM', f:'Nafamostat', j:'ナファモスタット（フサン）'}
+      {a:'NFM', f:'Nafamostat', j:'ナファモスタット（フサン）'},
+      // 鎮痛
+      {a:'IV-PCA', f:'Intravenous Patient-Controlled Analgesia', j:'経静脈的患者管理鎮痛'},
+      {a:'IVPCA', f:'Intravenous Patient-Controlled Analgesia', j:'経静脈的患者管理鎮痛'},
+      // 呼吸生理（追補）
+      {a:'Pi', f:'Inspiratory Pressure', j:'吸気圧'},
+      {a:'ΔP', f:'Driving Pressure', j:'駆動圧（Pplat − PEEP）'},
+      // 鎮静モニタ
+      {a:'PSI', f:'Patient State Index', j:'鎮静深度指数（SedLine モニタ）'},
+      {a:'PSi', f:'Patient State Index', j:'鎮静深度指数（SedLine モニタ）'},
+      // 抗真菌薬（追補）
+      {a:'ISCZ', f:'Isavuconazole', j:'イサブコナゾール（クレセンバ）'},
+      // 腹腔内圧
+      {a:'IAP', f:'Intra-abdominal Pressure', j:'腹腔内圧'},
+      // 凝固
+      {a:'Fib', f:'Fibrinogen', j:'フィブリノーゲン'},
+      {a:'FBG', f:'Fibrinogen', j:'フィブリノーゲン'},
+      // β-Dグルカン（Greek 対応で β を含む形でも登録可）
+      {a:'β-DG', f:'beta-D-Glucan', j:'β-Dグルカン（深在性真菌症マーカー）'},
+      {a:'βDG', f:'beta-D-Glucan', j:'β-Dグルカン（深在性真菌症マーカー）'}
     ];
 
     // ============================================================
@@ -1592,7 +1611,9 @@
       // 入力を分解：略語候補（半角英数+一部記号）と それ以外
       // 略語候補の正規表現: アルファベット/数字/スラッシュ/ハイフンを含む2文字以上の塊
       var parts = [];
-      var re = /[A-Za-z][A-Za-z0-9\/\-_]*[A-Za-z0-9]/g;
+      // Greek 小文字 (α-ω) と大文字 (Α-Ω) も語の構成文字として扱う
+      // ΔP（駆動圧）、β-DG（β-Dグルカン）等のため
+      var re = /[A-Za-zα-ωΑ-Ω][A-Za-zα-ωΑ-Ω0-9\/\-_]*[A-Za-zα-ωΑ-Ω0-9]/g;
       var lastIdx = 0;
       var m;
       while ((m = re.exec(text)) !== null) {
@@ -1625,6 +1646,9 @@
       'mL/h':1,'mg/dL':1,'mEq/L':1,'mEq/h':1,'mmol/L':1,
       'mcg/kg/min':1,'mcg/kg/h':1,'mcg/kg/day':1,
       'mg/kg/h':1,'mg/kg/min':1,'mg/kg/day':1,
+      'mL/kg/h':1,'mL/kg/min':1,'mL/kg/day':1,
+      'mEq/day':1,'mEq/kg':1,'mEq/kg/day':1,
+      'g/h':1,'g/day':1,'g/kg':1,'g/kg/day':1,
       'L/min':1,'L/h':1,'L/day':1,
       // 一般的な英単語（ボリューム・量など）
       'Volume':1,'volume':1,'Vol':1,'vol':1,
@@ -1649,7 +1673,15 @@
       // それ単体で通じる英単語（略語ではない）
       'Free':1,'free':1,'FREE':1,'Rate':1,'rate':1,'RATE':1,
       'Wheeze':1,'wheeze':1,'WHEEZE':1,
-      'Stat':1,'stat':1,'STAT':1
+      'Stat':1,'stat':1,'STAT':1,
+      // 敬称・人称
+      'Dr':1,'Dr.':1,'Mr':1,'Mr.':1,'Ms':1,'Ms.':1,'Mrs':1,'Mrs.':1,'Pt':1,'pt':1,
+      // ヘッダ・体位など
+      'IN':1,'OUT':1,'in':1,'out':1,'Head':1,'head':1,'up':1,'Up':1,'UP':1,'down':1,'Down':1,'DOWN':1,
+      // 製品名・固有名詞
+      'McGrath':1,'McGRATH':1,'Lasix':1,'LASIX':1,'Mac':1,'MAC':1,
+      // よく出る Title Case の輸液製品サフィックス併記
+      'D40mL/h':1,'F40mL/h':1,'D40mL':1,'F40mL':1
     };
     // 病原体属名（細菌・真菌） — 略語ではないため検出対象外
     var PATHOGEN_NAMES = {
@@ -1680,9 +1712,9 @@
     // GCS 表記：E_V_M_ / E_V_T_M_ (T は挿管時のV置換)
     // 例: E3V5M6, E4V5T6, E1VTM1, E2V1T, E4V5
     var GCS_RE = /^E[1-4]V(?:[1-5]|T)[MT]?(?:[1-6]|T)?$/;
-    // 大文字 1 字 + 数字 1〜2 桁（K4=カリウム値、T1/L5/C2=椎骨、B12=ビタミン、
-    // D40=輸液製品サフィックス 等）— ほぼ全て略語ではないので除外
-    var SINGLE_LETTER_NUM_RE = /^[A-Z]\d{1,2}$/;
+    // 大文字 1 字 + 数字 1〜3 桁 + 任意の単位サフィックス（K4=カリウム値、T1/L5/C2=椎骨、
+    // B12=ビタミン、D40=輸液製品サフィックス、D40mL=製品+流量 等）— ほぼ全て略語ではないので除外
+    var SINGLE_LETTER_NUM_RE = /^[A-Z]\d{1,3}[a-zA-Z]{0,4}$/;
     // Title Case で 6 文字以上の英単語（Wheeze, Patient, Remifentanyl 等のスペル
     // 出し済の単語） — 略語ではないため除外
     var TITLE_CASE_WORD_RE = /^[A-Z][a-z]{5,}$/;
@@ -1735,7 +1767,7 @@
 
       // 略語（スラッシュ含む）にも対応するため、辞書中の最長一致を優先する
       // 戦略: tokenize 後、各 word トークンを「dict キーに最長で前方一致するか」をチェック
-      var parts = tokenize(src);
+      var rawParts = tokenize(src);
       var detected = {};   // key → {entry, count}
       var donotDetected = {}; // 禁止表記
       var unknownSet = {}; // 未登録だが略語っぽいもの
@@ -1747,6 +1779,29 @@
       function inAnyDict(x){
         return !!(donotMap[x] || allowedMap[x.toUpperCase()] || dictMap[caseInsensitive ? x.toUpperCase() : x]);
       }
+
+      // スラッシュ分割の前処理：辞書にも IGNORE_UNITS にも該当しない slash 入り単語は
+      // 個別の word に分割する（例: P18/PEEP8/FiO2 → P18, PEEP8, FiO2）。
+      // PIPC/TAZ や mL/h など辞書 / 単位リストにあるものはそのまま。
+      var parts = [];
+      rawParts.forEach(function(p){
+        if (p.type !== 'word' || p.val.indexOf('/') === -1 || inAnyDict(p.val) || IGNORE_UNITS[p.val]) {
+          parts.push(p);
+          return;
+        }
+        var segments = p.val.split('/');
+        var pos = p.start;
+        segments.forEach(function(seg, idx){
+          if (idx > 0) {
+            parts.push({type:'text', val:'/'});
+            pos += 1;
+          }
+          if (seg.length > 0) {
+            parts.push({type:'word', val:seg, start:pos});
+            pos += seg.length;
+          }
+        });
+      });
 
       var html = '';
       parts.forEach(function(p){
@@ -1761,10 +1816,20 @@
         // 直接マッチしない場合、末尾の数値以降を必ず切り出す（接頭辞が辞書に無くても分割する）。
         // これにより未登録略語も「未登録チップ → クリックで辞書追加」の動線に乗せられる。
         if (!inAnyDict(w)) {
-          var m = w.match(/^([A-Za-z][A-Za-z0-9\/\-_]*?)([0-9].*)$/);
+          var m = w.match(/^([A-Za-zα-ωΑ-Ω][A-Za-zα-ωΑ-Ω0-9\/\-_]*?)([0-9].*)$/);
           if (m && m[1].length >= 2) {
-            rest = m[2];
-            w = m[1];
+            var prefix = m[1];
+            var suffix = m[2];
+            // 末尾のハイフン・スラッシュ・アンダースコアは suffix 側に移す
+            // 例: RASS-5 → m[1]="RASS-", m[2]="5" → prefix="RASS", suffix="-5"
+            while (prefix.length > 0 && /[-\/_]$/.test(prefix)) {
+              suffix = prefix.slice(-1) + suffix;
+              prefix = prefix.slice(0, -1);
+            }
+            if (prefix.length >= 2) {
+              rest = suffix;
+              w = prefix;
+            }
           }
         }
 
