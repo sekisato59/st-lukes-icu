@@ -11,15 +11,15 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../style-v2.css?v=202605050100">
   <style>
-    /* ===== 数字専用フォントを Unicode-range でオーバーレイ
-       Noto Sans JP の数字幅にバラつきがあるため、digits (0-9) と . , : / -
-       だけを等幅 sans-serif で描画して 1 と 8 を完全同幅にする ===== */
+    /* ===== ASCII 全域を一括して同じ system sans で描画
+       digits だけ別フォントだと Latin 文字 (g, q, h 等) と太さが食い違って
+       見えるため、ASCII 印字範囲 (U+0020-007E) を丸ごと取り込む ===== */
     @font-face {
-      font-family: 'TabularNum';
+      font-family: 'AsciiUnified';
       src: local('SF Pro Text'), local('SF Pro Display'), local('-apple-system'),
            local('Segoe UI'), local('Helvetica Neue'), local('Roboto'),
            local('Arial'), sans-serif;
-      unicode-range: U+0030-0039, U+002C, U+002E, U+003A, U+002F, U+002D;
+      unicode-range: U+0020-007E;
       font-display: swap;
       font-weight: 100 900;
     }
@@ -37,8 +37,9 @@
     .page-wrap {
       max-width:1100px;margin:0 auto;
       padding:0 clamp(16px,0.6rem+1.4vw,32px) clamp(40px,2rem+1.5vw,64px);
-      /* TabularNum (digits only) を最優先 → 0-9 だけ等幅、漢字は Noto Sans JP のまま */
-      font-family:'TabularNum','Noto Sans JP','Hiragino Kaku Gothic ProN','Hiragino Sans','Yu Gothic',sans-serif;
+      /* AsciiUnified を最優先 → ASCII (digits + Latin) は system sans で
+         一貫描画、漢字・かなは Noto Sans JP にフォールバック */
+      font-family:'AsciiUnified','Noto Sans JP','Hiragino Kaku Gothic ProN','Hiragino Sans','Yu Gothic',sans-serif;
       font-variant-numeric:tabular-nums;
       font-feature-settings:'tnum' 1;
     }
@@ -378,11 +379,11 @@
       width:200px;color:#0891B2;font-weight:700;font-size:0.8rem;
       white-space:nowrap;letter-spacing:0;
     }
-    /* 用量列: ページ既定フォント + ティール色で統一・太字一本 */
+    /* 用量列: 赤字で統一・太字一本 */
     .dose-summary-table .ds-dose,
     .dose-summary-table .ds-dose strong {
       font-family:inherit;
-      color:#0F766E;font-weight:700;letter-spacing:0;
+      color:#DC2626;font-weight:700;letter-spacing:0;
       font-variant-numeric:tabular-nums;
     }
     .dose-summary-table .ds-dose { font-size:0.84rem; }
