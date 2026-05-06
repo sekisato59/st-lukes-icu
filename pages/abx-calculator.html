@@ -392,6 +392,123 @@
       font-size:0.72rem;color:#0369A1;margin-top:10px;line-height:1.7;
     }
     .dose-summary-note strong { color:#0C4A6E; }
+
+    /* ===== モバイル対応 (≤768px / ≤480px) =====
+       横スクロールを発生させず、各要素を縦積み + 文字折り返しで収める */
+    @media (max-width: 768px) {
+      /* ページ全体の横はみ出し防止 */
+      html, body { overflow-x: hidden; }
+      .page-wrap { overflow-x: hidden; }
+
+      /* 患者情報: 3 列に */
+      .form-grid-1row { grid-template-columns:repeat(3, minmax(0,1fr)) !important; }
+      .form-grid-1row .form-field input,
+      .form-grid-1row .form-field select { width:100%; min-width:0; }
+
+      /* サマリー表をカード積み (テーブル → block) */
+      .dose-summary-card { padding:14px 14px 16px; }
+      .dose-summary-head {
+        font-size:0.88rem;gap:8px;
+      }
+      .dose-summary-title { flex:1 1 100%; }
+      .dose-summary-crcl { font-size:0.84rem;padding:5px 14px; }
+      .ds-disease-wrap { font-size:0.74rem; }
+      .ds-disease-wrap select { font-size:0.82rem;padding:5px 26px 5px 10px; }
+
+      .dose-summary-table {
+        display:block;font-size:0.84rem;
+        background:transparent;border:none;border-radius:0;overflow:visible;
+      }
+      .dose-summary-table thead { display:none; }
+      .dose-summary-table tbody { display:block; }
+      .dose-summary-table tbody tr {
+        display:block;
+        padding:10px 12px;margin-bottom:8px;
+        background:#fff;border:1px solid #BAE6FD;border-radius:8px;
+      }
+      .dose-summary-table tbody tr:hover td { background:transparent; }
+      .dose-summary-table tbody td {
+        display:block;width:auto !important;max-width:none;
+        padding:2px 0;border-bottom:none;white-space:normal;
+      }
+      .dose-summary-table .ds-name {
+        display:inline-block;width:auto;font-size:0.95rem;
+        margin-right:8px;
+      }
+      .dose-summary-table .ds-jp {
+        display:inline-block;width:auto;font-size:0.78rem;
+      }
+      .dose-summary-table .ds-dose { font-size:0.86rem;margin-top:6px; }
+      .dose-summary-table .ds-dose strong { font-size:1rem; }
+      .dose-summary-table .ds-main { white-space:normal; }
+      .dose-summary-table .ds-note-cell { font-size:0.72rem;margin-top:4px; }
+
+      /* 薬剤詳細カード */
+      .drug-card-head {
+        flex-wrap:wrap;gap:8px;padding:10px 14px;
+      }
+      .drug-card-jp { font-size:0.95rem; }
+      .drug-card-en { font-size:0.74rem;flex-basis:100%;order:2; }
+      .drug-card-cat {
+        margin-left:0;font-size:0.66rem;padding:2px 9px;
+      }
+      .drug-card-body { padding:12px 14px;font-size:0.82rem; }
+
+      /* dose-line: ラベル + テキストを縦積み */
+      .dose-line {
+        flex-direction:column;align-items:flex-start;gap:4px;
+        padding:9px 12px;
+      }
+      .dose-label { min-width:0; }
+      .dose-text { font-size:0.85rem; }
+      .dose-calc { font-size:0.88rem;padding:2px 9px; }
+
+      /* dose-table: 折返し許可 + 詰める */
+      .dose-table { font-size:0.78rem; }
+      .dose-table th { padding:6px 8px;font-size:0.72rem; }
+      .dose-table td { padding:7px 8px; }
+      .dose-table .crcl { font-size:0.78rem; }
+      .dose-table tr.active-band td { font-size:0.84rem; }
+      .dose-table tr.active-band td.crcl { font-size:0.86rem; }
+
+      /* note-box・src-line */
+      .note-box { font-size:0.76rem;padding:8px 10px; }
+      .src-line { font-size:0.66rem; }
+
+      /* セクション見出し */
+      .section-h { font-size:0.95rem;margin:24px 0 12px; }
+
+      /* 計算式モーダル: 横余白を縮める */
+      .formula-modal { padding:18px 16px; }
+      .formula-row strong { display:block;min-width:0;margin-bottom:2px; }
+
+      /* 略語凡例 (略語表) */
+      .input-card .card-inner table {
+        font-size:0.74rem;
+      }
+    }
+
+    /* さらに狭い画面 (≤480px) */
+    @media (max-width: 480px) {
+      .form-grid-1row { grid-template-columns:repeat(2, minmax(0,1fr)) !important; }
+      .form-field.result-field { grid-column:1 / -1; }  /* CrCl 結果は横一列 */
+
+      .dose-summary-table tbody tr { padding:9px 10px; }
+      .dose-summary-table .ds-name { font-size:0.92rem; }
+      .dose-summary-table .ds-jp { font-size:0.74rem; }
+      .dose-summary-table .ds-dose { font-size:0.82rem; }
+      .dose-summary-table .ds-dose strong { font-size:0.94rem; }
+
+      .dose-summary-head { font-size:0.84rem; }
+      .dose-summary-crcl { font-size:0.78rem;padding:4px 12px; }
+
+      .drug-card-jp { font-size:0.9rem; }
+      .drug-card-cat { font-size:0.62rem;padding:1px 7px; }
+
+      .dose-table { font-size:0.74rem; }
+      .dose-table th { font-size:0.68rem;padding:5px 6px; }
+      .dose-table td { padding:6px 6px; }
+    }
   </style>
 </head>
 <body>
