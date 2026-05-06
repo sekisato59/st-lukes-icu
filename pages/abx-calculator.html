@@ -8,10 +8,24 @@
   <link rel="icon" type="image/png" href="../images/logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=M+PLUS+Rounded+1c:wght@500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../style-v2.css?v=202605050100">
   <style>
-    /* ===== 便利ツール 共通テーマ（青） ===== */
+    /* ===== 数字専用フォントを Unicode-range でオーバーレイ
+       Noto Sans JP の数字幅にバラつきがあるため、digits (0-9) と . , : / -
+       だけを等幅 sans-serif で描画して 1 と 8 を完全同幅にする ===== */
+    @font-face {
+      font-family: 'TabularNum';
+      src: local('SF Pro Text'), local('SF Pro Display'), local('-apple-system'),
+           local('Segoe UI'), local('Helvetica Neue'), local('Roboto'),
+           local('Arial'), sans-serif;
+      unicode-range: U+0030-0039, U+002C, U+002E, U+003A, U+002F, U+002D;
+      font-display: swap;
+      font-weight: 100 900;
+    }
+
+    /* ===== 便利ツール 共通テーマ(青) ===== */
+    /* コンセプト：左色帯・バッジ・過剰な装飾なし。背景・タイポ・色トーンで構造を表現 */
     .tools-banner {
       width:100%;max-width:1294px;margin:64px auto 0;padding:0;line-height:0;
     }
@@ -23,6 +37,10 @@
     .page-wrap {
       max-width:1100px;margin:0 auto;
       padding:0 clamp(16px,0.6rem+1.4vw,32px) clamp(40px,2rem+1.5vw,64px);
+      /* TabularNum (digits only) を最優先 → 0-9 だけ等幅、漢字は Noto Sans JP のまま */
+      font-family:'TabularNum','Noto Sans JP','Hiragino Kaku Gothic ProN','Hiragino Sans','Yu Gothic',sans-serif;
+      font-variant-numeric:tabular-nums;
+      font-feature-settings:'tnum' 1;
     }
     .back-wrapper { display:flex;align-items:center;margin:6px 0 12px; }
     .back-btn {
@@ -37,7 +55,7 @@
     }
     .back-btn:hover { background:rgba(255,255,255,0.95);transform:translateY(-1px); }
 
-    /* ===== 入力カード ===== */
+    /* ===== カード共通 ===== */
     .input-card {
       background:#fff;border:1px solid var(--border);border-radius:12px;
       padding:18px 22px;margin-bottom:18px;
@@ -45,60 +63,138 @@
     }
     .input-card-title {
       font-size:0.95rem;font-weight:900;color:#0369A1;
-      margin:0 0 12px;padding-bottom:8px;
+      margin:0 0 14px;padding-bottom:10px;
       border-bottom:2px solid #BAE6FD;letter-spacing:0.02em;
-    }
-    .input-card-title::before {
-      content:'入力';display:inline-block;
-      background:#0369A1;color:#fff;font-size:0.62rem;font-weight:800;
-      padding:2px 7px;border-radius:3px;margin-right:8px;
-      letter-spacing:0.04em;vertical-align:1px;
     }
     .form-grid {
       display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
-      gap:12px;align-items:end;
+      gap:14px;align-items:end;
     }
-    .form-field { display:flex;flex-direction:column;gap:4px; }
+    /* 患者情報を1行で完結させるレイアウト
+       - 数値入力は中身に合わせて控えめに
+       - 性別/腎機能は中身(ラジオ)が押し出す分だけ確保
+       - CrCl 結果は flex-grow で余白を吸収 */
+    .form-grid-1row {
+      display:grid;
+      grid-template-columns:
+        110px      /* 年齢: 余裕を持たせる */
+        140px      /* 性別: 男性/女性 2 ピル */
+        130px      /* 実体重: 余裕を持たせる */
+        130px      /* 血清Cr: 余裕を持たせる */
+        260px      /* 腎機能: 透析なし/HD/CRRT 3 ピル */
+        150px;     /* CrCl 結果ピル(コンパクト) */
+      gap:12px;align-items:end;justify-content:start;
+    }
+    /* 患者情報フォーム: 項目名は列の中央に */
+    .form-grid-1row .form-field label { text-align:center; }
+    @media (max-width: 1000px) {
+      .form-grid-1row { grid-template-columns:repeat(3,1fr); }
+    }
+    @media (max-width: 600px) {
+      .form-grid-1row { grid-template-columns:repeat(2,1fr); }
+    }
+    .form-field { display:flex;flex-direction:column;gap:5px; }
     .form-field label {
       font-size:0.74rem;font-weight:700;color:var(--muted);letter-spacing:0.02em;
     }
     .form-field input,
     .form-field select {
       font-family:inherit;font-size:0.92rem;
-      padding:8px 10px;border:1px solid var(--border);border-radius:6px;
-      background:#fff;outline:none;box-sizing:border-box;width:100%;
-      transition:border-color .15s;
+      padding:8px 12px;border:1px solid var(--border);border-radius:8px;
+      background:#fff;outline:none;box-sizing:border-box;width:100%;height:38px;
+      transition:border-color .15s, box-shadow .15s;
     }
     .form-field input:focus,
-    .form-field select:focus { border-color:#0EA5E9;box-shadow:0 0 0 3px rgba(14,165,233,0.15); }
+    .form-field select:focus {
+      border-color:#0EA5E9;box-shadow:0 0 0 3px rgba(14,165,233,0.15);
+    }
     .form-unit { font-size:0.7rem;color:var(--muted);font-weight:500;margin-left:2px; }
 
-    /* ===== 計算結果カード ===== */
-    .result-card {
-      background:linear-gradient(135deg,#F0F9FF 0%,#E0F2FE 100%);
-      border:1px solid #BAE6FD;border-radius:12px;
-      padding:18px 22px;margin-bottom:18px;
+    /* CrCl inline 結果ボックス(完全丸ピル・本文と同じ Noto Sans JP・中央寄せ) */
+    .result-inline {
+      font-family:inherit;
+      font-size:1.05rem;font-weight:900;color:#0C4A6E;
+      padding:6px 12px;border:1px solid #7DD3FC;border-radius:999px;
+      background:linear-gradient(135deg,#F0F9FF 0%,#E0F2FE 100%);height:38px;
+      display:flex;align-items:center;justify-content:center;
+      box-sizing:border-box;letter-spacing:0.01em;
+      font-variant-numeric:tabular-nums;
     }
-    .result-grid {
-      display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
-      gap:12px;
+    .result-inline .result-empty { color:#94A3B8;font-style:italic;font-weight:500;font-size:0.95rem; }
+    .result-inline .result-unit { font-size:0.7rem;color:#0369A1;font-weight:600;margin-left:5px; }
+    .form-field.result-field label { color:#0369A1; }
+
+    /* ===== ラジオピル(性別・腎機能)
+       — 全体を1つの枠で囲んでフィールドの範囲を明示 ===== */
+    .radio-group {
+      display:flex;gap:3px;height:38px;
+      padding:3px;
+      background:#F8FAFC;
+      border:1px solid var(--border);
+      border-radius:999px;
+      box-sizing:border-box;
     }
-    .result-item {
-      background:#fff;border-radius:8px;padding:10px 14px;
-      border:1px solid #BAE6FD;
+    .radio-group input[type=radio] {
+      position:absolute;opacity:0;width:0;height:0;pointer-events:none;
     }
-    .result-label {
-      font-size:0.7rem;font-weight:700;color:#0369A1;letter-spacing:0.04em;
-      text-transform:uppercase;margin-bottom:2px;
+    .radio-group label {
+      flex:1;padding:0 10px;border:none;border-radius:999px;
+      font-size:0.84rem;font-weight:700;color:#64748B;cursor:pointer;
+      background:transparent;text-align:center;line-height:1;
+      display:flex;align-items:center;justify-content:center;
+      transition:all .15s;letter-spacing:0.02em;user-select:none;
     }
-    .result-val {
-      font-size:1.4rem;font-weight:900;color:#0C4A6E;
-      font-family:ui-monospace,Menlo,Consolas,monospace;line-height:1.2;
+    .radio-group label:hover { background:#E0F2FE;color:#0369A1; }
+    .radio-group input[type=radio]:checked + label {
+      background:linear-gradient(135deg,#0369A1,#0EA5E9);
+      color:#fff;
+      box-shadow:0 1px 4px rgba(3,105,161,0.25);
     }
-    .result-unit {
-      font-size:0.74rem;color:#0369A1;font-weight:500;margin-left:4px;
+    .radio-group input[type=radio]:focus + label {
+      outline:2px solid #0EA5E9;outline-offset:1px;
     }
-    .result-empty { color:#94A3B8;font-style:italic; }
+
+    /* 計算式ボタン & モーダル */
+    .formula-btn {
+      font-family:inherit;font-size:0.78rem;font-weight:700;
+      color:#0369A1;background:#F0F9FF;
+      border:1px solid #BAE6FD;border-radius:999px;
+      padding:7px 16px;cursor:pointer;letter-spacing:0.02em;
+      transition:background .15s, border-color .15s;
+    }
+    .formula-btn:hover { background:#E0F2FE;border-color:#7DD3FC; }
+    .formula-modal-bg {
+      position:fixed;inset:0;background:rgba(15,23,42,0.55);
+      z-index:1000;display:none;justify-content:center;align-items:center;
+      padding:20px;backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);
+    }
+    .formula-modal-bg.show { display:flex; }
+    .formula-modal {
+      background:#fff;border-radius:10px;padding:22px 26px;
+      max-width:560px;width:100%;max-height:85vh;overflow-y:auto;
+      border:1px solid var(--border);
+      box-shadow:0 12px 40px rgba(15,23,42,0.18);
+    }
+    .formula-modal-head {
+      display:flex;justify-content:space-between;align-items:center;
+      margin-bottom:14px;padding-bottom:12px;border-bottom:2px solid #BAE6FD;
+    }
+    .formula-modal-title { font-size:1rem;font-weight:900;color:#0369A1;margin:0; }
+    .formula-modal-close {
+      background:transparent;border:none;font-size:1.6rem;color:#64748B;
+      cursor:pointer;line-height:1;padding:0 4px;
+    }
+    .formula-modal-close:hover { color:#0C4A6E; }
+    .formula-row {
+      padding:12px 0;border-bottom:1px solid var(--border);
+      font-size:0.86rem;color:#334155;line-height:1.7;
+    }
+    .formula-row:last-child { border-bottom:none; }
+    .formula-row strong { color:#0369A1;display:inline-block;min-width:120px; }
+    .formula-row code {
+      background:#F0F9FF;color:#0C4A6E;padding:1px 6px;border-radius:3px;
+      font-family:ui-monospace,Menlo,Consolas,monospace;font-size:0.84rem;
+    }
 
     /* ===== 薬剤カード ===== */
     .drug-card {
@@ -108,78 +204,194 @@
     }
     .drug-card-head {
       background:linear-gradient(135deg,#0369A1,#0EA5E9);
-      color:#fff;padding:11px 18px;display:flex;align-items:baseline;gap:10px;
+      color:#fff;padding:12px 20px;display:flex;align-items:baseline;gap:12px;
     }
     .drug-card-jp { font-size:1rem;font-weight:800;letter-spacing:0.02em; }
     .drug-card-en { font-size:0.78rem;font-weight:500;color:rgba(255,255,255,0.78); }
     .drug-card-cat {
-      margin-left:auto;font-size:0.66rem;font-weight:700;
-      background:rgba(255,255,255,0.22);padding:2px 9px;border-radius:3px;
-      letter-spacing:0.04em;
+      margin-left:auto;font-size:0.68rem;font-weight:700;
+      background:rgba(255,255,255,0.22);color:#fff;
+      padding:3px 12px;border-radius:999px;letter-spacing:0.04em;
     }
-    .drug-card-body { padding:14px 18px;font-size:0.85rem;color:#475569;line-height:1.7; }
+    .drug-card-body { padding:16px 20px;font-size:0.85rem;color:#475569;line-height:1.7; }
+
+    /* dose-line：背景色のみで強調(左色帯なし) */
     .dose-line {
-      display:flex;align-items:baseline;gap:10px;
-      padding:8px 12px;margin:6px 0;
-      background:#F0F9FF;border-left:3px solid #0EA5E9;border-radius:4px;
+      display:flex;align-items:baseline;gap:12px;
+      padding:10px 14px;margin:7px 0;
+      background:#F0F9FF;border-radius:8px;
     }
     .dose-label {
       font-size:0.74rem;font-weight:800;color:#0369A1;
-      letter-spacing:0.02em;flex-shrink:0;min-width:80px;
+      letter-spacing:0.02em;flex-shrink:0;min-width:84px;
     }
-    .dose-text { flex:1; }
-    .dose-text strong { color:#0C4A6E; }
+    .dose-text { flex:1;font-size:0.9rem; }
+    /* 重要数値：太字＋濃色＋わずかに大きめで強調(マーカー無し) */
+    .dose-text strong {
+      color:#0C4A6E;font-weight:900;font-size:1.05em;
+    }
     .dose-calc {
-      display:inline-block;background:#0EA5E9;color:#fff;
-      font-family:ui-monospace,Menlo,Consolas,monospace;
-      font-weight:800;font-size:0.92rem;
-      padding:2px 9px;border-radius:4px;margin-left:4px;
+      display:inline-block;background:linear-gradient(135deg,#0369A1,#0EA5E9);color:#fff;
+      font-family:inherit;
+      font-weight:900;font-size:0.98rem;
+      padding:3px 12px;border-radius:999px;margin-left:6px;
+      box-shadow:0 2px 6px rgba(3,105,161,0.18);
     }
-    .dose-table { width:100%;border-collapse:collapse;margin-top:8px;font-size:0.8rem; }
+
+    /* dose-table：CrCl 別投与量テーブル — 全セル同色で統一感 */
+    .dose-table {
+      width:100%;border-collapse:collapse;margin-top:12px;font-size:0.85rem;
+      font-variant-numeric:tabular-nums;  /* 等幅数字 */
+    }
     .dose-table th {
-      background:#F0F9FF;color:#0369A1;font-weight:800;
-      padding:6px 9px;text-align:left;border-bottom:1px solid #BAE6FD;font-size:0.74rem;
+      background:#F8FAFC;color:#64748B;font-weight:600;
+      padding:8px 12px;text-align:left;border-bottom:1px solid var(--border);
+      font-size:0.78rem;letter-spacing:0;
     }
     .dose-table td {
-      padding:6px 9px;border-bottom:1px dashed #BAE6FD;color:#475569;
+      padding:9px 12px;border-bottom:1px solid #E2E8F0;color:#1E293B;
+      transition:background .15s;
     }
+    .dose-table tr:last-child td { border-bottom:none; }
+    /* CrCl 列・用量列・strong 全部同じ色。差は太さだけ */
     .dose-table .crcl {
-      font-family:ui-monospace,Menlo,Consolas,monospace;
-      font-weight:700;color:#0C4A6E;white-space:nowrap;
+      font-family:inherit;
+      font-weight:800;color:#1E293B;white-space:nowrap;font-size:0.86rem;
     }
-    .dose-warn { color:#DC2626;font-weight:700; }
+    .dose-table td strong { color:#1E293B;font-weight:800; }
+    .dose-warn { color:#DC2626;font-weight:800; }
 
-    /* ===== 注釈・出典 ===== */
+    /* 該当 CrCl の行をマーカー強調(緑塗り＋白文字で全セル統一) */
+    .dose-table tr.active-band td {
+      background:#16A34A;color:#fff;font-weight:800;font-size:0.92rem;
+    }
+    .dose-table tr.active-band td.crcl { color:#fff;font-weight:900;font-size:0.95rem; }
+    .dose-table tr.active-band td strong { color:#fff;font-weight:900; }
+
+    /* ===== ノート(黄)／出典 ===== */
     .note-box {
       background:#FEF3C7;border:1px solid #FDE68A;border-radius:6px;
-      padding:8px 12px;margin:8px 0;font-size:0.78rem;color:#78350F;line-height:1.65;
+      padding:10px 14px;margin:10px 0;font-size:0.8rem;color:#78350F;line-height:1.7;
     }
-    .note-box::before {
-      content:'注意';display:inline-block;background:#F59E0B;color:#fff;
-      font-size:0.62rem;font-weight:800;padding:1px 6px;border-radius:3px;
-      margin-right:6px;letter-spacing:0.04em;
-    }
+    .note-box strong { color:#92400E; }
     .src-line {
-      font-size:0.7rem;color:var(--muted);margin-top:6px;
-      padding-top:6px;border-top:1px dotted var(--border);
-    }
-    .section-h {
-      font-size:1rem;font-weight:900;color:#0C4A6E;
-      margin:24px 0 12px;padding-left:12px;
-      border-left:4px solid #0EA5E9;line-height:1.4;
+      font-size:0.7rem;color:var(--muted);margin-top:10px;
+      padding-top:8px;border-top:1px dotted var(--border);
     }
 
+    /* ===== セクション見出し(h3 のみ border-left 許可) ===== */
+    .section-h {
+      font-size:1rem;font-weight:900;color:#0C4A6E;
+      margin:28px 0 14px;padding-left:14px;
+      border-left:4px solid #0EA5E9;line-height:1.4;letter-spacing:0.02em;
+    }
+
+    /* ===== グローバル注意(赤背景) ===== */
     .global-disclaimer {
       background:#FEF2F2;border:1px solid #FECACA;border-radius:8px;
-      padding:12px 16px;margin-bottom:18px;
-      font-size:0.82rem;color:#7F1D1D;line-height:1.7;
-    }
-    .global-disclaimer::before {
-      content:'重要';display:inline-block;background:#DC2626;color:#fff;
-      font-size:0.66rem;font-weight:800;padding:2px 8px;border-radius:3px;
-      margin-right:8px;letter-spacing:0.04em;vertical-align:1px;
+      padding:13px 16px;margin-bottom:18px;
+      font-size:0.82rem;color:#7F1D1D;line-height:1.75;
     }
     .global-disclaimer strong { color:#991B1B; }
+
+    /* ===== このCrClでの推奨用量 サマリー表 ===== */
+    .dose-summary-card {
+      background:linear-gradient(135deg,#F0F9FF 0%,#E0F2FE 100%);
+      border:1px solid #7DD3FC;border-radius:12px;
+      padding:16px 20px 18px;margin-bottom:20px;
+    }
+    .dose-summary-head {
+      font-size:0.95rem;font-weight:900;color:#0369A1;
+      margin:0 0 12px;padding-bottom:10px;
+      border-bottom:2px solid #BAE6FD;letter-spacing:0.02em;
+      display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+    }
+    .dose-summary-title { flex:1; }  /* 疾患選択と CrCl ピルを右端へ */
+    /* 疾患選択ドロップダウン */
+    .ds-disease-wrap {
+      display:inline-flex;align-items:center;gap:8px;
+      font-size:0.78rem;font-weight:700;color:#475569;letter-spacing:0.02em;
+    }
+    .ds-disease-wrap select {
+      font-family:inherit;font-size:0.86rem;font-weight:700;
+      color:#0369A1;background:#fff;
+      border:1px solid #BAE6FD;border-radius:8px;
+      padding:6px 30px 6px 12px;cursor:pointer;outline:none;
+      appearance:none;-webkit-appearance:none;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path fill='none' stroke='%230369A1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' d='M3 4.5l3 3 3-3'/></svg>");
+      background-repeat:no-repeat;background-position:right 10px center;
+      transition:border-color .15s, box-shadow .15s;
+    }
+    .ds-disease-wrap select:hover { border-color:#7DD3FC; }
+    .ds-disease-wrap select:focus { border-color:#0369A1;box-shadow:0 0 0 3px rgba(3,105,161,0.12); }
+    .dose-summary-crcl {
+      font-family:inherit;
+      font-size:0.95rem;color:#fff;font-weight:900;
+      background:linear-gradient(135deg,#0369A1,#0EA5E9);
+      padding:6px 18px;border-radius:999px;letter-spacing:0.02em;
+      box-shadow:0 2px 8px rgba(3,105,161,0.22);
+      display:inline-flex;align-items:center;gap:4px;
+    }
+    .dose-summary-crcl .ds-crcl-label { font-size:0.66rem;font-weight:700;opacity:0.85;letter-spacing:0.06em; }
+    .dose-summary-crcl .ds-crcl-mode { font-size:0.78rem;font-weight:800;letter-spacing:0.04em; }
+    .dose-summary-empty {
+      padding:18px 4px;font-size:0.84rem;color:#64748B;
+      font-style:italic;text-align:center;
+      background:#fff;border-radius:8px;border:1px solid #BAE6FD;
+    }
+    .dose-summary-table {
+      width:100%;border-collapse:collapse;font-size:0.82rem;
+      background:#fff;border-radius:8px;overflow:hidden;
+      border:1px solid #BAE6FD;
+      font-variant-numeric:tabular-nums;  /* 等幅数字: 2 と 8 が同幅 */
+    }
+    /* ヘッダーは控えめなラベル(細め・グレー寄り・letter-spacing なし) */
+    .dose-summary-table thead th {
+      background:#F8FAFC;color:#64748B;font-weight:600;
+      padding:8px 14px;text-align:left;font-size:0.74rem;
+      letter-spacing:0;border-bottom:1px solid var(--border);
+    }
+    .dose-summary-table tbody tr {
+      cursor:pointer;transition:background .15s;
+    }
+    .dose-summary-table tbody td {
+      padding:9px 14px;border-bottom:1px solid #E0F2FE;
+      vertical-align:middle;line-height:1.4;
+    }
+    /* メイン用量(1 行) */
+    .dose-summary-table .ds-main { white-space:nowrap; }
+    /* 注釈は独立した 4 列目のセル */
+    .dose-summary-table .ds-note-cell {
+      color:#64748B;font-size:0.74rem;font-weight:500;
+      letter-spacing:0;white-space:normal;line-height:1.4;
+      max-width:280px;
+    }
+    .dose-summary-table tbody tr:last-child td { border-bottom:none; }
+    .dose-summary-table tbody tr:hover td { background:#F0F9FF; }
+    /* サマリー表は全列同じ font-weight (700) で統一 — bold 混在をやめる */
+    .dose-summary-table .ds-name {
+      width:96px;color:#0C4A6E;font-weight:700;
+      font-family:inherit;
+      white-space:nowrap;font-size:0.92rem;letter-spacing:0;
+    }
+    .dose-summary-table .ds-jp {
+      width:200px;color:#0891B2;font-weight:700;font-size:0.8rem;
+      white-space:nowrap;letter-spacing:0;
+    }
+    /* 用量列だけ丸ゴシック (M PLUS Rounded 1c) + 深いティール色で差別化 */
+    .dose-summary-table .ds-dose,
+    .dose-summary-table .ds-dose strong {
+      font-family:'M PLUS Rounded 1c','Hiragino Maru Gothic ProN','TabularNum','Noto Sans JP',sans-serif;
+      color:#0F766E;font-weight:700;letter-spacing:0;
+      font-variant-numeric:tabular-nums;
+    }
+    .dose-summary-table .ds-dose { font-size:0.84rem; }
+    .dose-summary-table .ds-dose strong { font-size:1.02rem; }
+    .dose-summary-table .ds-warn { color:#DC2626;font-weight:900; }
+    .dose-summary-note {
+      font-size:0.72rem;color:#0369A1;margin-top:10px;line-height:1.7;
+    }
+    .dose-summary-note strong { color:#0C4A6E; }
   </style>
 </head>
 <body>
@@ -214,63 +426,76 @@
       本ツールは <strong>研修医・ICU医の概算サポート用</strong>です。実際の処方は <strong>必ず最新の添付文書・施設プロトコル・抗菌薬コンサルト</strong>で確認してください。CrCl は Cockcroft-Gault 式に基づく推定値で、急性腎障害例・極端な体型・小児では誤差が大きくなります。
     </div>
 
-    <!-- ===== Step 1: 患者情報入力 ===== -->
+    <!-- ===== 患者情報入力 + CrCl 自動計算 ===== -->
     <div class="input-card">
-      <h3 class="input-card-title">患者情報を入力（CrCl・IBW を自動計算）</h3>
-      <div class="form-grid">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin:0 0 12px;padding-bottom:8px;border-bottom:2px solid #BAE6FD;">
+        <h3 class="input-card-title" style="margin:0;padding:0;border:none;">患者情報を入力</h3>
+        <button class="formula-btn" type="button" id="open-formula">計算式</button>
+      </div>
+      <div class="form-grid-1row">
         <div class="form-field">
           <label for="age">年齢<span class="form-unit">歳</span></label>
-          <input id="age" type="number" min="0" max="120" step="1" placeholder="例: 70">
+          <input id="age" type="number" min="0" max="120" step="1">
         </div>
         <div class="form-field">
-          <label for="sex">性別</label>
-          <select id="sex">
-            <option value="M">男性</option>
-            <option value="F">女性</option>
-          </select>
-        </div>
-        <div class="form-field">
-          <label for="height">身長<span class="form-unit">cm</span></label>
-          <input id="height" type="number" min="100" max="220" step="0.1" placeholder="例: 165">
+          <label>性別</label>
+          <div class="radio-group" id="sex-group">
+            <input type="radio" id="sex-m" name="sex" value="M" checked>
+            <label for="sex-m">男性</label>
+            <input type="radio" id="sex-f" name="sex" value="F">
+            <label for="sex-f">女性</label>
+          </div>
         </div>
         <div class="form-field">
           <label for="weight">実体重<span class="form-unit">kg</span></label>
-          <input id="weight" type="number" min="20" max="200" step="0.1" placeholder="例: 60">
+          <input id="weight" type="number" min="20" max="200" step="0.1">
         </div>
         <div class="form-field">
           <label for="scr">血清Cr<span class="form-unit">mg/dL</span></label>
-          <input id="scr" type="number" min="0.1" max="20" step="0.01" placeholder="例: 0.9">
+          <input id="scr" type="number" min="0.1" max="20" step="0.01">
+        </div>
+        <div class="form-field">
+          <label>腎機能</label>
+          <div class="radio-group" id="renal-group">
+            <input type="radio" id="rm-auto" name="renal" value="auto" checked>
+            <label for="rm-auto">透析なし</label>
+            <input type="radio" id="rm-hd" name="renal" value="hd">
+            <label for="rm-hd">HD</label>
+            <input type="radio" id="rm-crrt" name="renal" value="crrt">
+            <label for="rm-crrt">CRRT</label>
+          </div>
+        </div>
+        <div class="form-field result-field">
+          <label>CrCl<span class="form-unit">mL/min</span></label>
+          <div class="result-inline" id="r-crcl"><span class="result-empty">—</span></div>
         </div>
       </div>
     </div>
 
-    <!-- ===== Step 2: 計算結果（CrCl, IBW, AdjBW） ===== -->
-    <div class="result-card">
-      <h3 class="input-card-title" style="border-bottom-color:#7DD3FC;">基本パラメータ（自動計算）</h3>
-      <div class="result-grid">
-        <div class="result-item">
-          <div class="result-label">CrCl (Cockcroft-Gault)</div>
-          <div class="result-val" id="r-crcl"><span class="result-empty">—</span></div>
+    <!-- ===== 計算式 モーダル ===== -->
+    <div class="formula-modal-bg" id="formula-modal">
+      <div class="formula-modal">
+        <div class="formula-modal-head">
+          <h3 class="formula-modal-title">使用している計算式</h3>
+          <button class="formula-modal-close" id="close-formula" aria-label="閉じる">×</button>
         </div>
-        <div class="result-item">
-          <div class="result-label">理想体重 (IBW)</div>
-          <div class="result-val" id="r-ibw"><span class="result-empty">—</span></div>
+        <div class="formula-row">
+          <strong>Cockcroft-Gault</strong><br>
+          <code>CrCl = (140 − 年齢) × 体重 ÷ (72 × Cr)</code>、女性は <code>× 0.85</code>
         </div>
-        <div class="result-item">
-          <div class="result-label">補正体重 (AdjBW)</div>
-          <div class="result-val" id="r-adjbw"><span class="result-empty">—</span></div>
+        <div class="formula-row">
+          <strong>Devine IBW</strong><br>
+          男性：<code>50 + 2.3 × (身長in − 60)</code><br>
+          女性：<code>45.5 + 2.3 × (身長in − 60)</code>
         </div>
-        <div class="result-item">
-          <div class="result-label">投与量計算用体重</div>
-          <div class="result-val" id="r-dosing-bw"><span class="result-empty">—</span></div>
+        <div class="formula-row">
+          <strong>AdjBW</strong><br>
+          <code>IBW + 0.4 × (実体重 − IBW)</code>（実体重が IBW の 1.2 倍超のとき採用）
         </div>
+        <p style="font-size:0.75rem;color:var(--muted);margin-top:14px;line-height:1.6;">
+          ※ 本ツールは <strong>CrCl のみ</strong>を自動計算します。IBW・AdjBW が必要な症例（高度肥満等）では本式に従って手計算してください。
+        </p>
       </div>
-      <p style="font-size:0.74rem;color:#0369A1;margin-top:10px;line-height:1.6;">
-        <strong>計算式：</strong>
-        Cockcroft-Gault: (140−年齢) × 体重 ÷ (72×Cr)、女性は ×0.85<br>
-        Devine IBW: 男性 50 + 2.3×(身長in−60) ／ 女性 45.5 + 2.3×(身長in−60)<br>
-        AdjBW: IBW + 0.4×(実体重−IBW)（実体重が IBW の 1.2 倍超のとき採用）
-      </p>
     </div>
 
     <!-- ===== Step 3: 薬剤別 投与量 ===== -->
@@ -279,8 +504,62 @@
       ※ 各薬剤の <strong>標準腎機能投与量</strong>と <strong>CrCl 別の調整</strong>を表示します。実体重に応じた具体的な投与量も自動計算されます。
     </p>
 
+    <!-- ===== このCrClでの推奨用量 サマリー ===== -->
+    <div class="dose-summary-card">
+      <div class="dose-summary-head">
+        <span class="dose-summary-title">推奨投与量サマリー</span>
+        <label class="ds-disease-wrap">
+          疾患
+          <select id="ds-disease-select">
+            <option value="standard">標準</option>
+            <option value="meningitis">髄膜炎</option>
+            <option value="severe">重症 / MIC 高値</option>
+            <option value="uti">UTI</option>
+          </select>
+        </label>
+        <span class="dose-summary-crcl" id="ds-crcl-display">CrCl: —</span>
+      </div>
+      <div class="dose-summary-empty" id="ds-empty">年齢・性別・実体重・血清Cr を入力する、または 腎機能で <strong>HD / CRRT</strong> を選択すると、ここに各抗菌薬の推奨用量が一覧表示されます。</div>
+      <table class="dose-summary-table" id="ds-table" style="display:none;">
+        <thead>
+          <tr><th>略号</th><th>一般名</th><th>このCrCl での投与量</th><th>注釈</th></tr>
+        </thead>
+        <tbody>
+          <tr data-link="#card-vcm"><td class="ds-name">VCM</td><td class="ds-jp">バンコマイシン</td><td class="ds-dose" id="ds-vcm">—</td><td class="ds-note-cell" id="ds-vcm-note"></td></tr>
+          <tr data-link="#card-dap"><td class="ds-name">DAP</td><td class="ds-jp">ダプトマイシン</td><td class="ds-dose" id="ds-dap">—</td><td class="ds-note-cell" id="ds-dap-note"></td></tr>
+          <tr data-link="#card-cez"><td class="ds-name">CEZ</td><td class="ds-jp">セファゾリン</td><td class="ds-dose" id="ds-cez">—</td><td class="ds-note-cell" id="ds-cez-note"></td></tr>
+          <tr data-link="#card-cmz"><td class="ds-name">CMZ</td><td class="ds-jp">セフメタゾール</td><td class="ds-dose" id="ds-cmz">—</td><td class="ds-note-cell" id="ds-cmz-note"></td></tr>
+          <tr data-link="#card-ctrx"><td class="ds-name">CTRX</td><td class="ds-jp">セフトリアキソン</td><td class="ds-dose" id="ds-ctrx">—</td><td class="ds-note-cell" id="ds-ctrx-note"></td></tr>
+          <tr data-link="#card-cfpm"><td class="ds-name">CFPM</td><td class="ds-jp">セフェピム</td><td class="ds-dose" id="ds-cfpm">—</td><td class="ds-note-cell" id="ds-cfpm-note"></td></tr>
+          <tr data-link="#card-ctlztaz"><td class="ds-name">CTLZ/TAZ</td><td class="ds-jp">セフトロザン/タゾバクタム</td><td class="ds-dose" id="ds-ctlztaz">—</td><td class="ds-note-cell" id="ds-ctlztaz-note"></td></tr>
+          <tr data-link="#card-cfdc"><td class="ds-name">CFDC</td><td class="ds-jp">セフィデロコル</td><td class="ds-dose" id="ds-cfdc">—</td><td class="ds-note-cell" id="ds-cfdc-note"></td></tr>
+          <tr data-link="#card-mepm"><td class="ds-name">MEPM</td><td class="ds-jp">メロペネム</td><td class="ds-dose" id="ds-mepm">—</td><td class="ds-note-cell" id="ds-mepm-note"></td></tr>
+          <tr data-link="#card-abpcsbt"><td class="ds-name">ABPC/SBT</td><td class="ds-jp">アンピシリン/スルバクタム</td><td class="ds-dose" id="ds-abpcsbt">—</td><td class="ds-note-cell" id="ds-abpcsbt-note"></td></tr>
+          <tr data-link="#card-pipctaz"><td class="ds-name">PIPC/TAZ</td><td class="ds-jp">ピペラシリン/タゾバクタム</td><td class="ds-dose" id="ds-pipctaz">—</td><td class="ds-note-cell" id="ds-pipctaz-note"></td></tr>
+          <tr data-link="#card-azt"><td class="ds-name">AZT</td><td class="ds-jp">アズトレオナム</td><td class="ds-dose" id="ds-azt">—</td><td class="ds-note-cell" id="ds-azt-note"></td></tr>
+          <tr data-link="#card-cldm"><td class="ds-name">CLDM</td><td class="ds-jp">クリンダマイシン</td><td class="ds-dose" id="ds-cldm">—</td><td class="ds-note-cell" id="ds-cldm-note"></td></tr>
+          <tr data-link="#card-mnz"><td class="ds-name">MNZ</td><td class="ds-jp">メトロニダゾール</td><td class="ds-dose" id="ds-mnz">—</td><td class="ds-note-cell" id="ds-mnz-note"></td></tr>
+          <tr data-link="#card-st"><td class="ds-name">ST 合剤</td><td class="ds-jp">ST 合剤 (バクトラミン)</td><td class="ds-dose" id="ds-st">—</td><td class="ds-note-cell" id="ds-st-note"></td></tr>
+          <tr data-link="#card-mino"><td class="ds-name">MINO</td><td class="ds-jp">ミノサイクリン</td><td class="ds-dose" id="ds-mino">—</td><td class="ds-note-cell" id="ds-mino-note"></td></tr>
+          <tr data-link="#card-lvfx"><td class="ds-name">LVFX</td><td class="ds-jp">レボフロキサシン</td><td class="ds-dose" id="ds-lvfx">—</td><td class="ds-note-cell" id="ds-lvfx-note"></td></tr>
+          <tr data-link="#card-cpfx"><td class="ds-name">CPFX</td><td class="ds-jp">シプロフロキサシン</td><td class="ds-dose" id="ds-cpfx">—</td><td class="ds-note-cell" id="ds-cpfx-note"></td></tr>
+          <tr data-link="#card-acv"><td class="ds-name">ACV</td><td class="ds-jp">アシクロビル</td><td class="ds-dose" id="ds-acv">—</td><td class="ds-note-cell" id="ds-acv-note"></td></tr>
+          <tr data-link="#card-gcv"><td class="ds-name">GCV</td><td class="ds-jp">ガンシクロビル</td><td class="ds-dose" id="ds-gcv">—</td><td class="ds-note-cell" id="ds-gcv-note"></td></tr>
+          <tr data-link="#card-fos"><td class="ds-name">FOS</td><td class="ds-jp">ホスカルネット</td><td class="ds-dose" id="ds-fos">—</td><td class="ds-note-cell" id="ds-fos-note"></td></tr>
+          <tr data-link="#card-mcfg"><td class="ds-name">MCFG</td><td class="ds-jp">ミカファンギン</td><td class="ds-dose" id="ds-mcfg">—</td><td class="ds-note-cell" id="ds-mcfg-note"></td></tr>
+          <tr data-link="#card-flcz"><td class="ds-name">FLCZ</td><td class="ds-jp">フルコナゾール</td><td class="ds-dose" id="ds-flcz">—</td><td class="ds-note-cell" id="ds-flcz-note"></td></tr>
+          <tr data-link="#card-pscz"><td class="ds-name">PSCZ</td><td class="ds-jp">ポサコナゾール</td><td class="ds-dose" id="ds-pscz">—</td><td class="ds-note-cell" id="ds-pscz-note"></td></tr>
+          <tr data-link="#card-iscz"><td class="ds-name">ISCZ</td><td class="ds-jp">イサブコナゾール</td><td class="ds-dose" id="ds-iscz">—</td><td class="ds-note-cell" id="ds-iscz-note"></td></tr>
+          <tr data-link="#card-lamb"><td class="ds-name">L-AmB</td><td class="ds-jp">リポソーマル AmB</td><td class="ds-dose" id="ds-lamb">—</td><td class="ds-note-cell" id="ds-lamb-note"></td></tr>
+        </tbody>
+      </table>
+      <p class="dose-summary-note">
+        ※ 体重ベース薬剤（VCM・GCV・FOS）は <strong>実体重</strong>から mg 換算しています。重症度・MIC・TDM 結果により増減が必要です。
+      </p>
+    </div>
+
     <!-- VCM -->
-    <div class="drug-card">
+    <div class="drug-card" id="card-vcm">
       <div class="drug-card-head">
         <span class="drug-card-jp">バンコマイシン</span>
         <span class="drug-card-en">Vancomycin (VCM)</span>
@@ -289,21 +568,21 @@
       <div class="drug-card-body">
         <div class="dose-line">
           <span class="dose-label">負荷用量</span>
-          <span class="dose-text"><strong>25〜30 mg/kg</strong>（実体重、最大 3,000 mg）→ <span id="d-vcm-load" class="dose-calc">— mg</span></span>
+          <span class="dose-text"><strong>25-30 mg/kg</strong>（実体重, max 3000 mg）→ <span id="d-vcm-load" class="dose-calc">— mg</span></span>
         </div>
         <div class="dose-line">
           <span class="dose-label">維持用量</span>
-          <span class="dose-text"><strong>15〜20 mg/kg q8〜12h</strong>（実体重、CrCl で調整、TDM 必須）→ <span id="d-vcm-maint" class="dose-calc">— mg</span> / 回</span>
+          <span class="dose-text"><strong>15-20 mg/kg q8-12h</strong>（実体重, CrCl で調整, TDM 必須）→ <span id="d-vcm-maint" class="dose-calc">— mg</span> / 回（範囲）</span>
         </div>
         <div class="note-box">
-          <strong>TDM 目標：</strong>AUC₀₋₂₄ <strong>400〜600 mg·h/L</strong>（重症 MRSA は 400〜600 を維持）。トラフ値は AUC 推定の代替指標として 15〜20 μg/mL を目安に運用される施設が多い。
+          <strong>TDM 目標：</strong>AUC₀₋₂₄ <strong>400-600 mg·h/L</strong>（重症 MRSA は 400-600 を維持）。トラフ値は AUC 推定の代替指標として 15-20 μg/mL を目安に運用される施設が多い。
         </div>
         <div class="src-line">出典：抗菌薬TDMガイドライン 2022（日本化学療法学会）／ ASHP-IDSA Vancomycin Consensus Guideline 2020</div>
       </div>
     </div>
 
     <!-- MEPM -->
-    <div class="drug-card">
+    <div class="drug-card" id="card-mepm">
       <div class="drug-card-head">
         <span class="drug-card-jp">メロペネム</span>
         <span class="drug-card-en">Meropenem (MEPM)</span>
@@ -314,14 +593,15 @@
           <span class="dose-label">標準</span>
           <span class="dose-text"><strong>1 g q8h</strong>（30 分以上かけて点滴）／ 重症は <strong>2 g q8h</strong> 検討</span>
         </div>
-        <table class="dose-table">
+        <table class="dose-table" id="t-mepm">
           <thead><tr><th>CrCl (mL/min)</th><th>用量</th></tr></thead>
           <tbody>
-            <tr><td class="crcl">&gt; 50</td><td>1 g q8h</td></tr>
-            <tr><td class="crcl">25–50</td><td>1 g q12h</td></tr>
-            <tr><td class="crcl">10–25</td><td>500 mg q12h</td></tr>
-            <tr><td class="crcl">&lt; 10</td><td>500 mg q24h</td></tr>
-            <tr><td class="crcl">HD</td><td>500 mg q24h（透析後）</td></tr>
+            <tr data-band="h"><td class="crcl">&gt; 50</td><td><strong>1 g q8h</strong></td></tr>
+            <tr data-band="mh"><td class="crcl">25–50</td><td><strong>1 g q12h</strong></td></tr>
+            <tr data-band="ml"><td class="crcl">10–25</td><td><strong>500 mg q12h</strong></td></tr>
+            <tr data-band="l"><td class="crcl">&lt; 10</td><td><strong>500 mg q24h</strong></td></tr>
+            <tr data-band="hd"><td class="crcl">HD</td><td><strong>500 mg q24h</strong>（透析後）</td></tr>
+            <tr data-band="crrt"><td class="crcl">CRRT</td><td><strong>1 g q12h</strong>（CVVHDF, effluent ~25 mL/kg/h）</td></tr>
           </tbody>
         </table>
         <div class="note-box">
@@ -332,7 +612,7 @@
     </div>
 
     <!-- PIPC/TAZ -->
-    <div class="drug-card">
+    <div class="drug-card" id="card-pipctaz">
       <div class="drug-card-head">
         <span class="drug-card-jp">ピペラシリン/タゾバクタム</span>
         <span class="drug-card-en">Piperacillin/Tazobactam (PIPC/TAZ, ゾシン®)</span>
@@ -341,15 +621,16 @@
       <div class="drug-card-body">
         <div class="dose-line">
           <span class="dose-label">標準</span>
-          <span class="dose-text"><strong>4.5 g q8h</strong>（30 分点滴）／ 重症は <strong>4.5 g q6h</strong> または <strong>3〜4 時間延長点滴</strong></span>
+          <span class="dose-text"><strong>4.5 g q8h</strong>（30 分点滴）／ 重症は <strong>4.5 g q6h</strong> または <strong>3-4 時間延長点滴</strong></span>
         </div>
-        <table class="dose-table">
+        <table class="dose-table" id="t-pipctaz">
           <thead><tr><th>CrCl (mL/min)</th><th>用量</th></tr></thead>
           <tbody>
-            <tr><td class="crcl">&gt; 40</td><td>4.5 g q8h（重症 q6h）</td></tr>
-            <tr><td class="crcl">20–40</td><td>3.375 g q6h または 4.5 g q8h</td></tr>
-            <tr><td class="crcl">&lt; 20</td><td>2.25 g q6h または 3.375 g q8h</td></tr>
-            <tr><td class="crcl">HD</td><td>2.25 g q8h（透析日は透析後 0.75 g 追加）</td></tr>
+            <tr data-band="h"><td class="crcl">&gt; 40</td><td><strong>4.5 g q8h</strong>（重症 q6h）</td></tr>
+            <tr data-band="mh"><td class="crcl">20–40</td><td><strong>3.375 g q6h</strong> または <strong>4.5 g q8h</strong></td></tr>
+            <tr data-band="l"><td class="crcl">&lt; 20</td><td><strong>2.25 g q6h</strong> または <strong>3.375 g q8h</strong></td></tr>
+            <tr data-band="hd"><td class="crcl">HD</td><td><strong>2.25 g q8h</strong>（透析日は透析後 0.75 g 追加）</td></tr>
+            <tr data-band="crrt"><td class="crcl">CRRT</td><td><strong>3.375 g q6h</strong> または <strong>4.5 g q8h</strong>（CVVHDF）</td></tr>
           </tbody>
         </table>
         <div class="src-line">出典：ゾシン®静注用 添付文書 ／ Sanford Guide</div>
@@ -357,7 +638,7 @@
     </div>
 
     <!-- CFPM -->
-    <div class="drug-card">
+    <div class="drug-card" id="card-cfpm">
       <div class="drug-card-head">
         <span class="drug-card-jp">セフェピム</span>
         <span class="drug-card-en">Cefepime (CFPM)</span>
@@ -366,16 +647,17 @@
       <div class="drug-card-body">
         <div class="dose-line">
           <span class="dose-label">標準</span>
-          <span class="dose-text"><strong>2 g q8〜12h</strong>（重症・好中球減少・緑膿菌は <strong>2 g q8h</strong>）</span>
+          <span class="dose-text"><strong>2 g q8-12h</strong>（重症・好中球減少・緑膿菌は <strong>2 g q8h</strong>）</span>
         </div>
-        <table class="dose-table">
+        <table class="dose-table" id="t-cfpm">
           <thead><tr><th>CrCl (mL/min)</th><th>用量</th></tr></thead>
           <tbody>
-            <tr><td class="crcl">&gt; 60</td><td>2 g q8〜12h</td></tr>
-            <tr><td class="crcl">30–60</td><td>2 g q12h</td></tr>
-            <tr><td class="crcl">11–29</td><td>2 g q24h</td></tr>
-            <tr><td class="crcl">&lt; 11</td><td>1 g q24h</td></tr>
-            <tr><td class="crcl">HD</td><td>1 g q24h（透析後）</td></tr>
+            <tr data-band="h"><td class="crcl">&gt; 60</td><td><strong>2 g q8-12h</strong></td></tr>
+            <tr data-band="mh"><td class="crcl">30–60</td><td><strong>2 g q12h</strong></td></tr>
+            <tr data-band="ml"><td class="crcl">11–29</td><td><strong>2 g q24h</strong></td></tr>
+            <tr data-band="l"><td class="crcl">&lt; 11</td><td><strong>1 g q24h</strong></td></tr>
+            <tr data-band="hd"><td class="crcl">HD</td><td><strong>1 g q24h</strong>（透析後）</td></tr>
+            <tr data-band="crrt"><td class="crcl">CRRT</td><td><strong>2 g q12h</strong>（CVVHDF）</td></tr>
           </tbody>
         </table>
         <div class="note-box">
@@ -386,7 +668,7 @@
     </div>
 
     <!-- ABPC/SBT -->
-    <div class="drug-card">
+    <div class="drug-card" id="card-abpcsbt">
       <div class="drug-card-head">
         <span class="drug-card-jp">アンピシリン/スルバクタム</span>
         <span class="drug-card-en">Ampicillin/Sulbactam (ABPC/SBT, ユナシン®)</span>
@@ -397,13 +679,15 @@
           <span class="dose-label">標準</span>
           <span class="dose-text"><strong>3 g q6h</strong>（誤嚥性肺炎・腹腔内感染）</span>
         </div>
-        <table class="dose-table">
+        <table class="dose-table" id="t-abpcsbt">
           <thead><tr><th>CrCl (mL/min)</th><th>用量</th></tr></thead>
           <tbody>
-            <tr><td class="crcl">&gt; 30</td><td>3 g q6h</td></tr>
-            <tr><td class="crcl">15–30</td><td>3 g q8h</td></tr>
-            <tr><td class="crcl">5–15</td><td>3 g q12h</td></tr>
-            <tr><td class="crcl">&lt; 5 / HD</td><td>3 g q24h（HD は透析後）</td></tr>
+            <tr data-band="h"><td class="crcl">&gt; 30</td><td><strong>3 g q6h</strong></td></tr>
+            <tr data-band="mh"><td class="crcl">15–30</td><td><strong>3 g q8h</strong></td></tr>
+            <tr data-band="ml"><td class="crcl">5–15</td><td><strong>3 g q12h</strong></td></tr>
+            <tr data-band="l"><td class="crcl">&lt; 5</td><td><strong>3 g q24h</strong></td></tr>
+            <tr data-band="hd"><td class="crcl">HD</td><td><strong>3 g q24h</strong>（透析後）</td></tr>
+            <tr data-band="crrt"><td class="crcl">CRRT</td><td><strong>3 g q8-12h</strong>（CVVHDF）</td></tr>
           </tbody>
         </table>
         <div class="src-line">出典：ユナシン®-S 静注用 添付文書</div>
@@ -411,7 +695,7 @@
     </div>
 
     <!-- CTRX -->
-    <div class="drug-card">
+    <div class="drug-card" id="card-ctrx">
       <div class="drug-card-head">
         <span class="drug-card-jp">セフトリアキソン</span>
         <span class="drug-card-en">Ceftriaxone (CTRX)</span>
@@ -430,7 +714,7 @@
     </div>
 
     <!-- GCV -->
-    <div class="drug-card">
+    <div class="drug-card" id="card-gcv">
       <div class="drug-card-head">
         <span class="drug-card-jp">ガンシクロビル</span>
         <span class="drug-card-en">Ganciclovir (GCV, デノシン®)</span>
@@ -439,32 +723,33 @@
       <div class="drug-card-body">
         <div class="dose-line">
           <span class="dose-label">初期</span>
-          <span class="dose-text"><strong>5 mg/kg q12h</strong> × 2〜3 週 → <span id="d-gcv-ind" class="dose-calc">— mg</span> / 回</span>
+          <span class="dose-text"><strong>5 mg/kg q12h</strong> × 2-3 週 → <span id="d-gcv-ind" class="dose-calc">— mg</span> / 回</span>
         </div>
         <div class="dose-line">
           <span class="dose-label">維持</span>
           <span class="dose-text"><strong>5 mg/kg q24h</strong>（または 6 mg/kg 週5日）→ <span id="d-gcv-maint" class="dose-calc">— mg</span> / 回</span>
         </div>
-        <table class="dose-table">
+        <table class="dose-table" id="t-gcv">
           <thead><tr><th>CrCl (mL/min)</th><th>初期</th><th>維持</th></tr></thead>
           <tbody>
-            <tr><td class="crcl">≥ 70</td><td>5 mg/kg q12h</td><td>5 mg/kg q24h</td></tr>
-            <tr><td class="crcl">50–69</td><td>2.5 mg/kg q12h</td><td>2.5 mg/kg q24h</td></tr>
-            <tr><td class="crcl">25–49</td><td>2.5 mg/kg q24h</td><td>1.25 mg/kg q24h</td></tr>
-            <tr><td class="crcl">10–24</td><td>1.25 mg/kg q24h</td><td>0.625 mg/kg q24h</td></tr>
-            <tr><td class="crcl">&lt; 10</td><td>1.25 mg/kg 週3回</td><td>0.625 mg/kg 週3回</td></tr>
-            <tr><td class="crcl">HD</td><td colspan="2">同上、<strong>透析後に投与</strong></td></tr>
+            <tr data-band="h"><td class="crcl">≥ 70</td><td><strong>5 mg/kg q12h</strong></td><td><strong>5 mg/kg q24h</strong></td></tr>
+            <tr data-band="mh"><td class="crcl">50–69</td><td><strong>2.5 mg/kg q12h</strong></td><td><strong>2.5 mg/kg q24h</strong></td></tr>
+            <tr data-band="ml"><td class="crcl">25–49</td><td><strong>2.5 mg/kg q24h</strong></td><td><strong>1.25 mg/kg q24h</strong></td></tr>
+            <tr data-band="l"><td class="crcl">10–24</td><td><strong>1.25 mg/kg q24h</strong></td><td><strong>0.625 mg/kg q24h</strong></td></tr>
+            <tr data-band="vl"><td class="crcl">&lt; 10</td><td><strong>1.25 mg/kg 週3回</strong></td><td><strong>0.625 mg/kg 週3回</strong></td></tr>
+            <tr data-band="hd"><td class="crcl">HD</td><td colspan="2">同上、<strong>透析後に投与</strong></td></tr>
+            <tr data-band="crrt"><td class="crcl">CRRT</td><td><strong>2.5 mg/kg q24h</strong></td><td><strong>1.25 mg/kg q24h</strong></td></tr>
           </tbody>
         </table>
         <div class="note-box">
-          副作用は <strong>骨髄抑制</strong>。WBC・ANC・PLT を週 2〜3 回モニタリング。
+          副作用は <strong>骨髄抑制</strong>。WBC・ANC・PLT を週 2-3 回モニタリング。
         </div>
         <div class="src-line">出典：デノシン®点滴静注用 添付文書 ／ Sanford Guide 2021</div>
       </div>
     </div>
 
     <!-- FOS -->
-    <div class="drug-card">
+    <div class="drug-card" id="card-fos">
       <div class="drug-card-head">
         <span class="drug-card-jp">ホスカルネット</span>
         <span class="drug-card-en">Foscarnet (FOS, ホスカビル®)</span>
@@ -477,24 +762,518 @@
         </div>
         <div class="dose-line">
           <span class="dose-label">維持</span>
-          <span class="dose-text"><strong>90〜120 mg/kg q24h</strong> → <span id="d-fos-maint" class="dose-calc">— mg</span> / 回</span>
+          <span class="dose-text"><strong>90-120 mg/kg q24h</strong> → <span id="d-fos-maint" class="dose-calc">— mg</span> / 回</span>
         </div>
-        <table class="dose-table">
+        <table class="dose-table" id="t-fos">
           <thead><tr><th>CrCl/kg (mL/min/kg)</th><th>初期</th><th>維持</th></tr></thead>
           <tbody>
-            <tr><td class="crcl">&gt; 1.4</td><td>60 mg/kg q8h ／ 90 mg/kg q12h</td><td>90〜120 mg/kg q24h</td></tr>
-            <tr><td class="crcl">1.0–1.4</td><td>45 mg/kg q8h ／ 70 mg/kg q12h</td><td>70〜90 mg/kg q24h</td></tr>
-            <tr><td class="crcl">0.8–1.0</td><td>35 mg/kg q8h ／ 50 mg/kg q12h</td><td>50〜65 mg/kg q24h</td></tr>
-            <tr><td class="crcl">0.6–0.8</td><td>40 mg/kg q12h ／ 80 mg/kg q24h</td><td>80〜105 mg/kg q48h</td></tr>
-            <tr><td class="crcl">0.5–0.6</td><td>30 mg/kg q12h ／ 60 mg/kg q24h</td><td>60〜80 mg/kg q48h</td></tr>
-            <tr><td class="crcl">0.4–0.5</td><td>25 mg/kg q12h ／ 50 mg/kg q24h</td><td>50〜65 mg/kg q48h</td></tr>
-            <tr><td class="crcl dose-warn">&lt; 0.4</td><td colspan="2" class="dose-warn"><strong>投与禁止</strong>（腎機能回復まで休薬）</td></tr>
+            <tr data-band="h"><td class="crcl">&gt; 1.4</td><td><strong>60 mg/kg q8h</strong> / <strong>90 mg/kg q12h</strong></td><td><strong>90-120 mg/kg q24h</strong></td></tr>
+            <tr data-band="mh"><td class="crcl">1.0–1.4</td><td><strong>45 mg/kg q8h</strong> / <strong>70 mg/kg q12h</strong></td><td><strong>70-90 mg/kg q24h</strong></td></tr>
+            <tr data-band="m"><td class="crcl">0.8–1.0</td><td><strong>35 mg/kg q8h</strong> / <strong>50 mg/kg q12h</strong></td><td><strong>50-65 mg/kg q24h</strong></td></tr>
+            <tr data-band="ml"><td class="crcl">0.6–0.8</td><td><strong>40 mg/kg q12h</strong> / <strong>80 mg/kg q24h</strong></td><td><strong>80-105 mg/kg q48h</strong></td></tr>
+            <tr data-band="l"><td class="crcl">0.5–0.6</td><td><strong>30 mg/kg q12h</strong> / <strong>60 mg/kg q24h</strong></td><td><strong>60-80 mg/kg q48h</strong></td></tr>
+            <tr data-band="vl"><td class="crcl">0.4–0.5</td><td><strong>25 mg/kg q12h</strong> / <strong>50 mg/kg q24h</strong></td><td><strong>50-65 mg/kg q48h</strong></td></tr>
+            <tr data-band="xl"><td class="crcl dose-warn">&lt; 0.4</td><td colspan="2" class="dose-warn"><strong>投与禁止</strong>（腎機能回復まで休薬）</td></tr>
+            <tr data-band="hd"><td class="crcl">HD</td><td colspan="2"><strong>透析後に投与</strong>、HD 中は中止（CrCl/kg に準じて減量）</td></tr>
+            <tr data-band="crrt"><td class="crcl">CRRT</td><td colspan="2">CRRT 用量は <strong>ID 担当に相談</strong>（透析方式・effluent rate により変動）</td></tr>
           </tbody>
         </table>
         <div class="note-box">
-          <strong>腎毒性・電解質異常</strong>に注意。投与時は生食 0.5〜1 L で hydration（最大 2.5 L/日）。Cr は初期 <strong>隔日</strong>、維持 <strong>週1</strong> 測定。
+          <strong>腎毒性・電解質異常</strong>に注意。投与時は生食 0.5-1 L で hydration（max 2.5 L/日）。Cr は初期 <strong>隔日</strong>、維持 <strong>週1</strong> 測定。
         </div>
         <div class="src-line">出典：ホスカビル®点滴静注用 添付文書（第13版／2024年10月改訂）</div>
+      </div>
+    </div>
+
+    <!-- DAP -->
+    <div class="drug-card" id="card-dap">
+      <div class="drug-card-head">
+        <span class="drug-card-jp">ダプトマイシン</span>
+        <span class="drug-card-en">Daptomycin (DAP, キュビシン®)</span>
+        <span class="drug-card-cat">リポペプチド</span>
+      </div>
+      <div class="drug-card-body">
+        <div class="dose-line">
+          <span class="dose-label">SSTI</span>
+          <span class="dose-text"><strong>4 mg/kg q24h</strong>（実体重）→ <span id="d-dap-ssti" class="dose-calc">— mg</span></span>
+        </div>
+        <div class="dose-line">
+          <span class="dose-label">菌血症 / IE</span>
+          <span class="dose-text"><strong>6-10 mg/kg q24h</strong>（実体重）→ <span id="d-dap-bsi" class="dose-calc">— mg</span></span>
+        </div>
+        <table class="dose-table" id="t-dap">
+          <thead><tr><th>CrCl (mL/min)</th><th>用量</th></tr></thead>
+          <tbody>
+            <tr data-band="h"><td class="crcl">≥ 30</td><td><strong>4-10 mg/kg q24h</strong></td></tr>
+            <tr data-band="l"><td class="crcl">&lt; 30</td><td><strong>4-10 mg/kg q48h</strong></td></tr>
+            <tr data-band="hd"><td class="crcl">HD</td><td><strong>4-10 mg/kg q48h</strong>（透析後）</td></tr>
+            <tr data-band="crrt"><td class="crcl">CRRT</td><td><strong>6-10 mg/kg q24h</strong>（CVVHDF）</td></tr>
+          </tbody>
+        </table>
+        <div class="note-box">
+          <strong>肺サーファクタントで失活</strong> → 肺炎には不可。CK 週 1 回モニタリング、横紋筋融解に注意。スタチン併用時はとくに注意。
+        </div>
+        <div class="src-line">出典：キュビシン®静注用 添付文書 / IDSA MRSA Guideline</div>
+      </div>
+    </div>
+
+    <!-- CEZ -->
+    <div class="drug-card" id="card-cez">
+      <div class="drug-card-head">
+        <span class="drug-card-jp">セファゾリン</span>
+        <span class="drug-card-en">Cefazolin (CEZ)</span>
+        <span class="drug-card-cat">第1世代セフェム</span>
+      </div>
+      <div class="drug-card-body">
+        <div class="dose-line">
+          <span class="dose-label">標準</span>
+          <span class="dose-text"><strong>1-2 g q8h</strong>（MSSA 菌血症は 2 g q8h）</span>
+        </div>
+        <table class="dose-table" id="t-cez">
+          <thead><tr><th>CrCl (mL/min)</th><th>用量</th></tr></thead>
+          <tbody>
+            <tr data-band="h"><td class="crcl">&gt; 55</td><td><strong>1-2 g q8h</strong></td></tr>
+            <tr data-band="mh"><td class="crcl">35-54</td><td><strong>1-2 g q12h</strong></td></tr>
+            <tr data-band="ml"><td class="crcl">11-34</td><td><strong>1-2 g q24h</strong></td></tr>
+            <tr data-band="l"><td class="crcl">&lt; 10</td><td><strong>0.5 g q24h</strong></td></tr>
+            <tr data-band="hd"><td class="crcl">HD</td><td><strong>1 g q24h</strong>（透析後）</td></tr>
+            <tr data-band="crrt"><td class="crcl">CRRT</td><td><strong>1-2 g q8h</strong></td></tr>
+          </tbody>
+        </table>
+        <div class="src-line">出典：セファメジン®α 添付文書 / Sanford Guide</div>
+      </div>
+    </div>
+
+    <!-- CMZ -->
+    <div class="drug-card" id="card-cmz">
+      <div class="drug-card-head">
+        <span class="drug-card-jp">セフメタゾール</span>
+        <span class="drug-card-en">Cefmetazole (CMZ)</span>
+        <span class="drug-card-cat">セファマイシン（嫌気性カバー）</span>
+      </div>
+      <div class="drug-card-body">
+        <div class="dose-line">
+          <span class="dose-label">標準</span>
+          <span class="dose-text"><strong>1 g q6-8h</strong> または <strong>2 g q8-12h</strong>（ESBL 産生菌の選択肢）</span>
+        </div>
+        <table class="dose-table" id="t-cmz">
+          <thead><tr><th>CrCl (mL/min)</th><th>用量</th></tr></thead>
+          <tbody>
+            <tr data-band="h"><td class="crcl">&gt; 50</td><td><strong>1-2 g q8h</strong></td></tr>
+            <tr data-band="mh"><td class="crcl">25-50</td><td><strong>1-2 g q12h</strong></td></tr>
+            <tr data-band="l"><td class="crcl">&lt; 25</td><td><strong>1-2 g q24h</strong></td></tr>
+            <tr data-band="hd"><td class="crcl">HD</td><td><strong>1 g q24h</strong>（透析後）</td></tr>
+            <tr data-band="crrt"><td class="crcl">CRRT</td><td><strong>1-2 g q12h</strong></td></tr>
+          </tbody>
+        </table>
+        <div class="src-line">出典：セフメタゾン® 添付文書</div>
+      </div>
+    </div>
+
+    <!-- CTLZ/TAZ -->
+    <div class="drug-card" id="card-ctlztaz">
+      <div class="drug-card-head">
+        <span class="drug-card-jp">セフトロザン/タゾバクタム</span>
+        <span class="drug-card-en">Ceftolozane/Tazobactam (CTLZ/TAZ, ザバクサ®)</span>
+        <span class="drug-card-cat">第5世代セフェム/βLI</span>
+      </div>
+      <div class="drug-card-body">
+        <div class="dose-line">
+          <span class="dose-label">標準</span>
+          <span class="dose-text"><strong>1.5 g q8h</strong>（複雑性 UTI / 腹腔内）</span>
+        </div>
+        <div class="dose-line">
+          <span class="dose-label">HAP/VAP</span>
+          <span class="dose-text"><strong>3 g q8h</strong>（高用量）</span>
+        </div>
+        <table class="dose-table" id="t-ctlztaz">
+          <thead><tr><th>CrCl (mL/min)</th><th>用量</th></tr></thead>
+          <tbody>
+            <tr data-band="h"><td class="crcl">&gt; 50</td><td><strong>1.5 g q8h</strong>（HAP/VAP は 3 g q8h）</td></tr>
+            <tr data-band="mh"><td class="crcl">30-50</td><td><strong>750 mg q8h</strong>（HAP/VAP は 1.5 g q8h）</td></tr>
+            <tr data-band="ml"><td class="crcl">15-29</td><td><strong>375 mg q8h</strong>（HAP/VAP は 750 mg q8h）</td></tr>
+            <tr data-band="hd"><td class="crcl">HD</td><td><strong>負荷 750 mg → 維持 150 mg q8h</strong>（透析後 750 mg load）</td></tr>
+            <tr data-band="crrt"><td class="crcl">CRRT</td><td><strong>1.5 g q8h</strong></td></tr>
+          </tbody>
+        </table>
+        <div class="note-box">
+          MDR 緑膿菌・ESBL 産生菌の救援薬。空気/腹膜カバーは弱いので嫌気性菌共存時は MNZ 併用。
+        </div>
+        <div class="src-line">出典：ザバクサ®点滴静注用 添付文書 / IDSA AMR Guidance 2024</div>
+      </div>
+    </div>
+
+    <!-- CFDC -->
+    <div class="drug-card" id="card-cfdc">
+      <div class="drug-card-head">
+        <span class="drug-card-jp">セフィデロコル</span>
+        <span class="drug-card-en">Cefiderocol (CFDC, フェトロージャ®)</span>
+        <span class="drug-card-cat">シデロホア セフェム</span>
+      </div>
+      <div class="drug-card-body">
+        <div class="dose-line">
+          <span class="dose-label">標準</span>
+          <span class="dose-text"><strong>2 g q8h</strong>（3 時間延長点滴）</span>
+        </div>
+        <table class="dose-table" id="t-cfdc">
+          <thead><tr><th>CrCl (mL/min)</th><th>用量</th></tr></thead>
+          <tbody>
+            <tr data-band="vh"><td class="crcl">≥ 120</td><td><strong>2 g q6h</strong>（augmented clearance）</td></tr>
+            <tr data-band="h"><td class="crcl">60-119</td><td><strong>2 g q8h</strong></td></tr>
+            <tr data-band="mh"><td class="crcl">30-59</td><td><strong>1.5 g q8h</strong></td></tr>
+            <tr data-band="ml"><td class="crcl">15-29</td><td><strong>1 g q8h</strong></td></tr>
+            <tr data-band="l"><td class="crcl">&lt; 15</td><td><strong>0.75 g q12h</strong></td></tr>
+            <tr data-band="hd"><td class="crcl">HD</td><td><strong>0.75 g q12h</strong>（透析後）</td></tr>
+            <tr data-band="crrt"><td class="crcl">CRRT</td><td><strong>1.5-2 g q8h</strong>（effluent rate により）</td></tr>
+          </tbody>
+        </table>
+        <div class="note-box">
+          <strong>CRE / Stenotrophomonas / 多剤耐性 GNR の最終手段</strong>。Sanford ではセフトロザン無効例の救援。
+        </div>
+        <div class="src-line">出典：フェトロージャ®点滴静注用 添付文書</div>
+      </div>
+    </div>
+
+    <!-- AZT -->
+    <div class="drug-card" id="card-azt">
+      <div class="drug-card-head">
+        <span class="drug-card-jp">アズトレオナム</span>
+        <span class="drug-card-en">Aztreonam (AZT, アザクタム®)</span>
+        <span class="drug-card-cat">モノバクタム</span>
+      </div>
+      <div class="drug-card-body">
+        <div class="dose-line">
+          <span class="dose-label">標準</span>
+          <span class="dose-text"><strong>1-2 g q6-8h</strong>（重症 / 緑膿菌は 2 g q6-8h）</span>
+        </div>
+        <table class="dose-table" id="t-azt">
+          <thead><tr><th>CrCl (mL/min)</th><th>用量</th></tr></thead>
+          <tbody>
+            <tr data-band="h"><td class="crcl">&gt; 30</td><td><strong>1-2 g q6-8h</strong></td></tr>
+            <tr data-band="mh"><td class="crcl">10-30</td><td><strong>負荷 1-2 g → 維持 50%</strong>（同間隔）</td></tr>
+            <tr data-band="l"><td class="crcl">&lt; 10</td><td><strong>負荷 1-2 g → 維持 25%</strong></td></tr>
+            <tr data-band="hd"><td class="crcl">HD</td><td><strong>500 mg-1 g q24h</strong>（透析後追加）</td></tr>
+            <tr data-band="crrt"><td class="crcl">CRRT</td><td><strong>1-2 g q12h</strong></td></tr>
+          </tbody>
+        </table>
+        <div class="note-box">
+          <strong>βラクタムアレルギーの代替薬</strong>として有用（セフタジジムと共通の構造を除いて他のβラクタムと交叉性なし）。グラム陰性のみカバー。
+        </div>
+        <div class="src-line">出典：アザクタム® 添付文書 / Sanford Guide</div>
+      </div>
+    </div>
+
+    <!-- CLDM -->
+    <div class="drug-card" id="card-cldm">
+      <div class="drug-card-head">
+        <span class="drug-card-jp">クリンダマイシン</span>
+        <span class="drug-card-en">Clindamycin (CLDM, ダラシン®)</span>
+        <span class="drug-card-cat">リンコサミド</span>
+      </div>
+      <div class="drug-card-body">
+        <div class="dose-line">
+          <span class="dose-label">標準</span>
+          <span class="dose-text"><strong>600 mg q8h</strong>（重症 / 壊死性軟部組織は <strong>900 mg q8h</strong>）</span>
+        </div>
+        <div class="note-box">
+          <strong>腎機能調整不要</strong>（肝代謝）。重症 GAS / 壊死性軟部組織感染で <strong>毒素産生抑制</strong>目的に併用。<strong>C. difficile 関連下痢</strong>のリスク高。
+        </div>
+        <div class="src-line">出典：ダラシン®S 注射液 添付文書 / Sanford Guide</div>
+      </div>
+    </div>
+
+    <!-- MNZ -->
+    <div class="drug-card" id="card-mnz">
+      <div class="drug-card-head">
+        <span class="drug-card-jp">メトロニダゾール</span>
+        <span class="drug-card-en">Metronidazole (MNZ, アネメトロ®)</span>
+        <span class="drug-card-cat">嫌気性菌・原虫</span>
+      </div>
+      <div class="drug-card-body">
+        <div class="dose-line">
+          <span class="dose-label">標準 IV</span>
+          <span class="dose-text"><strong>500 mg q8h</strong>（嫌気性カバー）</span>
+        </div>
+        <div class="dose-line">
+          <span class="dose-label">CDI</span>
+          <span class="dose-text"><strong>500 mg PO q8h × 10-14 日</strong>（軽中等症の代替, FDX/VCM PO 第一選択）</span>
+        </div>
+        <div class="note-box">
+          <strong>腎機能調整不要</strong>（肝代謝）。HD で除去されるため透析後追加。長期使用で末梢神経障害。<strong>飲酒禁止</strong>（disulfiram 様反応）。
+        </div>
+        <div class="src-line">出典：アネメトロ®点滴静注液 添付文書 / IDSA CDI Guideline</div>
+      </div>
+    </div>
+
+    <!-- ST 合剤 -->
+    <div class="drug-card" id="card-st">
+      <div class="drug-card-head">
+        <span class="drug-card-jp">ST 合剤（バクタ / バクトラミン）</span>
+        <span class="drug-card-en">Sulfamethoxazole/Trimethoprim (SMX/TMP)</span>
+        <span class="drug-card-cat">葉酸合成阻害</span>
+      </div>
+      <div class="drug-card-body">
+        <div class="dose-line">
+          <span class="dose-label">通常感染</span>
+          <span class="dose-text"><strong>TMP 5 mg/kg q8-12h</strong>（≒ バクタ 4錠分2 / 重症は分3）</span>
+        </div>
+        <div class="dose-line">
+          <span class="dose-label">PCP 治療</span>
+          <span class="dose-text"><strong>TMP 15-20 mg/kg/日 を q6-8h 分割</strong> × 21 日</span>
+        </div>
+        <div class="dose-line">
+          <span class="dose-label">PCP 予防</span>
+          <span class="dose-text"><strong>バクタ 1 錠 1 日 1 回</strong> または週 3 回</span>
+        </div>
+        <table class="dose-table" id="t-st">
+          <thead><tr><th>CrCl (mL/min)</th><th>用量</th></tr></thead>
+          <tbody>
+            <tr data-band="h"><td class="crcl">&gt; 30</td><td><strong>標準量</strong></td></tr>
+            <tr data-band="mh"><td class="crcl">15-30</td><td><strong>標準量の 50%</strong></td></tr>
+            <tr data-band="l"><td class="crcl">&lt; 15</td><td><strong>非推奨</strong>（必要時 25-50% で慎重投与）</td></tr>
+            <tr data-band="hd"><td class="crcl">HD</td><td><strong>5 mg/kg q24h</strong>（透析日は透析後）</td></tr>
+            <tr data-band="crrt"><td class="crcl">CRRT</td><td><strong>標準量</strong>（K・Cr・骨髄抑制モニター）</td></tr>
+          </tbody>
+        </table>
+        <div class="note-box">
+          <strong>高 K・Cr 偽性上昇・骨髄抑制・SJS/TEN</strong>に注意。Cr クリアランス過小評価しないため、シスタチン C で評価することも。
+        </div>
+        <div class="src-line">出典：バクタ®配合錠 / バクトラミン®点滴静注 添付文書</div>
+      </div>
+    </div>
+
+    <!-- MINO -->
+    <div class="drug-card" id="card-mino">
+      <div class="drug-card-head">
+        <span class="drug-card-jp">ミノサイクリン</span>
+        <span class="drug-card-en">Minocycline (MINO, ミノマイシン®)</span>
+        <span class="drug-card-cat">テトラサイクリン</span>
+      </div>
+      <div class="drug-card-body">
+        <div class="dose-line">
+          <span class="dose-label">標準</span>
+          <span class="dose-text"><strong>初回 200 mg → 100 mg q12h</strong>（IV / PO）</span>
+        </div>
+        <div class="note-box">
+          <strong>腎機能調整不要</strong>。Stenotrophomonas / Acinetobacter / リケッチア / レプトスピラに有効。妊婦・小児（< 8 歳）原則禁忌。前庭症状（めまい）に注意。
+        </div>
+        <div class="src-line">出典：ミノマイシン® 添付文書</div>
+      </div>
+    </div>
+
+    <!-- LVFX -->
+    <div class="drug-card" id="card-lvfx">
+      <div class="drug-card-head">
+        <span class="drug-card-jp">レボフロキサシン</span>
+        <span class="drug-card-en">Levofloxacin (LVFX, クラビット®)</span>
+        <span class="drug-card-cat">フルオロキノロン</span>
+      </div>
+      <div class="drug-card-body">
+        <div class="dose-line">
+          <span class="dose-label">標準</span>
+          <span class="dose-text"><strong>500 mg q24h</strong>（重症 / 緑膿菌 / 肺炎は <strong>750 mg q24h</strong>）</span>
+        </div>
+        <table class="dose-table" id="t-lvfx">
+          <thead><tr><th>CrCl (mL/min)</th><th>用量</th></tr></thead>
+          <tbody>
+            <tr data-band="h"><td class="crcl">≥ 50</td><td><strong>500-750 mg q24h</strong></td></tr>
+            <tr data-band="mh"><td class="crcl">20-49</td><td><strong>500 mg q24h</strong> または <strong>750 mg q48h</strong></td></tr>
+            <tr data-band="l"><td class="crcl">10-19</td><td><strong>500 mg q48h</strong>（負荷 750 mg）</td></tr>
+            <tr data-band="hd"><td class="crcl">HD</td><td><strong>500 mg q48h</strong>（透析後・負荷 750 mg）</td></tr>
+            <tr data-band="crrt"><td class="crcl">CRRT</td><td><strong>250-500 mg q24h</strong></td></tr>
+          </tbody>
+        </table>
+        <div class="note-box">
+          <strong>QT 延長・腱障害（特に Achilles）・大動脈瘤</strong>に注意。陽イオン（Mg/Al/Ca/Fe）と同時服用で吸収低下。
+        </div>
+        <div class="src-line">出典：クラビット®点滴静注 添付文書</div>
+      </div>
+    </div>
+
+    <!-- CPFX -->
+    <div class="drug-card" id="card-cpfx">
+      <div class="drug-card-head">
+        <span class="drug-card-jp">シプロフロキサシン</span>
+        <span class="drug-card-en">Ciprofloxacin (CPFX, シプロキサン®)</span>
+        <span class="drug-card-cat">フルオロキノロン</span>
+      </div>
+      <div class="drug-card-body">
+        <div class="dose-line">
+          <span class="dose-label">標準 IV</span>
+          <span class="dose-text"><strong>400 mg q8-12h</strong>（重症 / 緑膿菌は q8h）</span>
+        </div>
+        <div class="dose-line">
+          <span class="dose-label">標準 PO</span>
+          <span class="dose-text"><strong>500-750 mg q12h</strong></span>
+        </div>
+        <table class="dose-table" id="t-cpfx">
+          <thead><tr><th>CrCl (mL/min)</th><th>用量 (IV)</th></tr></thead>
+          <tbody>
+            <tr data-band="h"><td class="crcl">&gt; 50</td><td><strong>400 mg q8-12h</strong></td></tr>
+            <tr data-band="mh"><td class="crcl">30-50</td><td><strong>400 mg q12h</strong></td></tr>
+            <tr data-band="l"><td class="crcl">&lt; 30</td><td><strong>400 mg q24h</strong></td></tr>
+            <tr data-band="hd"><td class="crcl">HD</td><td><strong>200-400 mg q24h</strong>（透析後）</td></tr>
+            <tr data-band="crrt"><td class="crcl">CRRT</td><td><strong>200-400 mg q12h</strong></td></tr>
+          </tbody>
+        </table>
+        <div class="note-box">
+          <strong>緑膿菌・腸内細菌に強力</strong>。レボより嫌気性菌弱。LVFX と同様 QT 延長・腱障害に注意。
+        </div>
+        <div class="src-line">出典：シプロキサン®注 添付文書</div>
+      </div>
+    </div>
+
+    <!-- ACV -->
+    <div class="drug-card" id="card-acv">
+      <div class="drug-card-head">
+        <span class="drug-card-jp">アシクロビル</span>
+        <span class="drug-card-en">Acyclovir (ACV, ゾビラックス®)</span>
+        <span class="drug-card-cat">抗 HSV / VZV</span>
+      </div>
+      <div class="drug-card-body">
+        <div class="dose-line">
+          <span class="dose-label">HSV</span>
+          <span class="dose-text"><strong>5 mg/kg q8h</strong>（粘膜・皮膚）→ <span id="d-acv-hsv" class="dose-calc">— mg</span></span>
+        </div>
+        <div class="dose-line">
+          <span class="dose-label">VZV / 脳炎</span>
+          <span class="dose-text"><strong>10-15 mg/kg q8h</strong>（IBW で計算推奨）→ <span id="d-acv-vzv" class="dose-calc">— mg</span></span>
+        </div>
+        <table class="dose-table" id="t-acv">
+          <thead><tr><th>CrCl (mL/min)</th><th>用量</th></tr></thead>
+          <tbody>
+            <tr data-band="h"><td class="crcl">&gt; 50</td><td><strong>5-10 mg/kg q8h</strong></td></tr>
+            <tr data-band="mh"><td class="crcl">25-50</td><td><strong>5-10 mg/kg q12h</strong></td></tr>
+            <tr data-band="ml"><td class="crcl">10-25</td><td><strong>5-10 mg/kg q24h</strong></td></tr>
+            <tr data-band="l"><td class="crcl">&lt; 10</td><td><strong>2.5-5 mg/kg q24h</strong></td></tr>
+            <tr data-band="hd"><td class="crcl">HD</td><td><strong>2.5-5 mg/kg q24h</strong>（透析後）</td></tr>
+            <tr data-band="crrt"><td class="crcl">CRRT</td><td><strong>5-10 mg/kg q24h</strong></td></tr>
+          </tbody>
+        </table>
+        <div class="note-box">
+          <strong>結晶尿による AKI</strong>に注意 → 投与時は十分な輸液（生食で 1 時間以上かけて点滴）。<strong>意識障害・ミオクローヌス</strong>（特に CKD）。
+        </div>
+        <div class="src-line">出典：ゾビラックス®点滴静注用 添付文書 / Sanford Guide</div>
+      </div>
+    </div>
+
+    <!-- MCFG -->
+    <div class="drug-card" id="card-mcfg">
+      <div class="drug-card-head">
+        <span class="drug-card-jp">ミカファンギン</span>
+        <span class="drug-card-en">Micafungin (MCFG, ファンガード®)</span>
+        <span class="drug-card-cat">エキノキャンディン</span>
+      </div>
+      <div class="drug-card-body">
+        <div class="dose-line">
+          <span class="dose-label">カンジデミア</span>
+          <span class="dose-text"><strong>100-150 mg q24h</strong>（C. glabrata 等の AFFA は 150 mg）</span>
+        </div>
+        <div class="dose-line">
+          <span class="dose-label">予防</span>
+          <span class="dose-text"><strong>50 mg q24h</strong>（造血幹細胞移植患者）</span>
+        </div>
+        <div class="note-box">
+          <strong>腎機能調整不要</strong>（胆汁排泄）。HD・CRRT でも調整不要。第一選択（ICU / 好中球減少 / 重症カンジデミア）。
+        </div>
+        <div class="src-line">出典：ファンガード®点滴用 添付文書 / IDSA Candidiasis Guideline 2016</div>
+      </div>
+    </div>
+
+    <!-- FLCZ -->
+    <div class="drug-card" id="card-flcz">
+      <div class="drug-card-head">
+        <span class="drug-card-jp">フルコナゾール</span>
+        <span class="drug-card-en">Fluconazole (FLCZ, ジフルカン®)</span>
+        <span class="drug-card-cat">トリアゾール</span>
+      </div>
+      <div class="drug-card-body">
+        <div class="dose-line">
+          <span class="dose-label">カンジデミア</span>
+          <span class="dose-text"><strong>負荷 12 mg/kg → 維持 6 mg/kg q24h</strong>（≒ 800 mg → 400 mg）</span>
+        </div>
+        <div class="dose-line">
+          <span class="dose-label">クリプト髄膜炎 統合療法</span>
+          <span class="dose-text"><strong>800 mg q24h</strong>（IV/PO 同等）</span>
+        </div>
+        <table class="dose-table" id="t-flcz">
+          <thead><tr><th>CrCl (mL/min)</th><th>用量</th></tr></thead>
+          <tbody>
+            <tr data-band="h"><td class="crcl">&gt; 50</td><td><strong>100% q24h</strong></td></tr>
+            <tr data-band="l"><td class="crcl">≤ 50</td><td><strong>50% q24h</strong>（負荷量は減量しない）</td></tr>
+            <tr data-band="hd"><td class="crcl">HD</td><td><strong>100% を透析後</strong>（HD で除去される）</td></tr>
+            <tr data-band="crrt"><td class="crcl">CRRT</td><td><strong>標準量 (100% q24h)</strong></td></tr>
+          </tbody>
+        </table>
+        <div class="note-box">
+          <strong>QT 延長・肝障害・薬物相互作用（CYP 阻害）</strong>に注意。C. glabrata / krusei は耐性多。
+        </div>
+        <div class="src-line">出典：ジフルカン® 添付文書 / IDSA Candidiasis Guideline 2016</div>
+      </div>
+    </div>
+
+    <!-- PSCZ -->
+    <div class="drug-card" id="card-pscz">
+      <div class="drug-card-head">
+        <span class="drug-card-jp">ポサコナゾール</span>
+        <span class="drug-card-en">Posaconazole (PSCZ, ノクサフィル®)</span>
+        <span class="drug-card-cat">トリアゾール（広域）</span>
+      </div>
+      <div class="drug-card-body">
+        <div class="dose-line">
+          <span class="dose-label">IV/PO 治療</span>
+          <span class="dose-text"><strong>負荷 300 mg q12h × 2 回 → 維持 300 mg q24h</strong></span>
+        </div>
+        <div class="dose-line">
+          <span class="dose-label">予防</span>
+          <span class="dose-text"><strong>300 mg q24h</strong>（造血幹細胞移植 / GVHD / 急性白血病）</span>
+        </div>
+        <div class="note-box">
+          <strong>CrCl &lt; 50 では IV を避ける</strong>（添加剤 SBECD の蓄積によるリスク）。PO 製剤に切替。<strong>TDM 推奨</strong>（trough 1-1.5 μg/mL 治療, 0.7 以上 予防）。
+        </div>
+        <div class="src-line">出典：ノクサフィル® 添付文書 / ECIL Antifungal Guidelines</div>
+      </div>
+    </div>
+
+    <!-- ISCZ -->
+    <div class="drug-card" id="card-iscz">
+      <div class="drug-card-head">
+        <span class="drug-card-jp">イサブコナゾール</span>
+        <span class="drug-card-en">Isavuconazole (ISCZ, クレセンバ®)</span>
+        <span class="drug-card-cat">トリアゾール（侵襲性アスペルギルス・ムコール）</span>
+      </div>
+      <div class="drug-card-body">
+        <div class="dose-line">
+          <span class="dose-label">標準</span>
+          <span class="dose-text"><strong>負荷 200 mg q8h × 6 回（48 時間）→ 維持 200 mg q24h</strong></span>
+        </div>
+        <div class="note-box">
+          <strong>腎機能調整不要</strong>（HD / CRRT でも調整不要）。VRCZ より相互作用・QT 延長が少ない。<strong>QT 短縮</strong>注意。
+        </div>
+        <div class="src-line">出典：クレセンバ® 添付文書 / IDSA Aspergillosis Guideline 2016</div>
+      </div>
+    </div>
+
+    <!-- L-AmB -->
+    <div class="drug-card" id="card-lamb">
+      <div class="drug-card-head">
+        <span class="drug-card-jp">リポソーマル アムホテリシン B</span>
+        <span class="drug-card-en">Liposomal Amphotericin B (L-AmB, アムビゾーム®)</span>
+        <span class="drug-card-cat">ポリエン</span>
+      </div>
+      <div class="drug-card-body">
+        <div class="dose-line">
+          <span class="dose-label">通常</span>
+          <span class="dose-text"><strong>3-5 mg/kg q24h</strong>（実体重）→ <span id="d-lamb" class="dose-calc">— mg</span></span>
+        </div>
+        <div class="dose-line">
+          <span class="dose-label">ムコール</span>
+          <span class="dose-text"><strong>5-10 mg/kg q24h</strong>（高用量）</span>
+        </div>
+        <div class="note-box">
+          <strong>従来型 AmB より腎毒性低い</strong>が、依然として K↓ / Mg↓ / 腎毒性に注意。Infusion reaction → 前投薬（解熱鎮痛剤）併用。
+        </div>
+        <div class="src-line">出典：アムビゾーム®点滴静注用 添付文書 / IDSA Cryptococcosis / Mucormycosis Guidelines</div>
       </div>
     </div>
 
@@ -527,31 +1306,18 @@
     // ===== 計算ロジック =====
     (function(){
       var $age   = document.getElementById('age');
-      var $sex   = document.getElementById('sex');
-      var $h     = document.getElementById('height');
       var $w     = document.getElementById('weight');
       var $scr   = document.getElementById('scr');
-
       var $crcl  = document.getElementById('r-crcl');
-      var $ibw   = document.getElementById('r-ibw');
-      var $adjbw = document.getElementById('r-adjbw');
-      var $dbw   = document.getElementById('r-dosing-bw');
 
       var fmtN = function(v, d){ return Math.round(v * Math.pow(10, d || 1)) / Math.pow(10, d || 1); };
       var empty = '<span class="result-empty">—</span>';
 
-      function ibwDevine(heightCm, sex){
-        if (!heightCm) return null;
-        var heightIn = heightCm / 2.54;
-        var base = sex === 'F' ? 45.5 : 50;
-        var v = base + 2.3 * Math.max(0, heightIn - 60);
-        return v;
+      function getRadio(name){
+        var r = document.querySelector('input[name="'+name+'"]:checked');
+        return r ? r.value : null;
       }
-      function adjBW(actual, ibw){
-        if (!actual || !ibw) return null;
-        if (actual > ibw * 1.2) return ibw + 0.4 * (actual - ibw);
-        return actual;
-      }
+
       function crclCG(age, sex, weight, scr){
         if (!age || !weight || !scr) return null;
         var v = ((140 - age) * weight) / (72 * scr);
@@ -559,10 +1325,9 @@
         return v;
       }
 
-      function setHTML(el, html){ el.innerHTML = html; }
       function setVal(el, val, unit){
-        if (val == null || isNaN(val)) { setHTML(el, empty); return; }
-        setHTML(el, fmtN(val, 1) + ' <span class="result-unit">' + unit + '</span>');
+        if (val == null || isNaN(val)) { el.innerHTML = empty; return; }
+        el.innerHTML = fmtN(val, 1) + ' <span class="result-unit">' + unit + '</span>';
       }
       function setDose(elId, mg){
         var el = document.getElementById(elId);
@@ -570,43 +1335,594 @@
         if (mg == null || isNaN(mg)) { el.textContent = '— mg'; return; }
         el.textContent = Math.round(mg) + ' mg';
       }
+      // 範囲表示 (例: 1500-1800 mg, max 3000 でキャップ可能)
+      function setDoseRange(elId, mgLo, mgHi, capMax){
+        var el = document.getElementById(elId);
+        if (!el) return;
+        if (mgLo == null || mgHi == null || isNaN(mgLo) || isNaN(mgHi)) { el.textContent = '— mg'; return; }
+        var lo = Math.round(capMax ? Math.min(mgLo, capMax) : mgLo);
+        var hi = Math.round(capMax ? Math.min(mgHi, capMax) : mgHi);
+        el.textContent = lo + '-' + hi + ' mg';
+      }
+
+      // ===== 薬剤別 CrCl→用量 ロジック =====
+      var rmg = function(mg){ return Math.round(mg) + ' mg'; };
+
+      // 各薬剤の band 判定(CrCl + mode → band 名)
+      function bandMEPM(crcl, mode){
+        if (mode === 'hd')   return 'hd';
+        if (mode === 'crrt') return 'crrt';
+        if (crcl > 50)  return 'h';
+        if (crcl >= 25) return 'mh';
+        if (crcl >= 10) return 'ml';
+        return 'l';
+      }
+      function bandPIPCTAZ(crcl, mode){
+        if (mode === 'hd')   return 'hd';
+        if (mode === 'crrt') return 'crrt';
+        if (crcl > 40)  return 'h';
+        if (crcl >= 20) return 'mh';
+        return 'l';
+      }
+      function bandCFPM(crcl, mode){
+        if (mode === 'hd')   return 'hd';
+        if (mode === 'crrt') return 'crrt';
+        if (crcl > 60)  return 'h';
+        if (crcl >= 30) return 'mh';
+        if (crcl >= 11) return 'ml';
+        return 'l';
+      }
+      function bandABPCSBT(crcl, mode){
+        if (mode === 'hd')   return 'hd';
+        if (mode === 'crrt') return 'crrt';
+        if (crcl > 30) return 'h';
+        if (crcl >= 15) return 'mh';
+        if (crcl >= 5)  return 'ml';
+        return 'l';
+      }
+      function bandGCV(crcl, mode){
+        if (mode === 'hd')   return 'hd';
+        if (mode === 'crrt') return 'crrt';
+        if (crcl >= 70) return 'h';
+        if (crcl >= 50) return 'mh';
+        if (crcl >= 25) return 'ml';
+        if (crcl >= 10) return 'l';
+        return 'vl';
+      }
+      function bandFOS(crcl, w, mode){
+        if (mode === 'hd')   return 'hd';
+        if (mode === 'crrt') return 'crrt';
+        if (!w) return null;
+        var ckg = crcl / w;
+        if (ckg > 1.4) return 'h';
+        if (ckg >= 1.0) return 'mh';
+        if (ckg >= 0.8) return 'm';
+        if (ckg >= 0.6) return 'ml';
+        if (ckg >= 0.5) return 'l';
+        if (ckg >= 0.4) return 'vl';
+        return 'xl';
+      }
+
+      // テーブル内の該当 band 行をマーカー強調
+      function highlightRow(tableId, band){
+        var t = document.getElementById(tableId);
+        if (!t) return;
+        var rows = t.querySelectorAll('tbody tr');
+        rows.forEach(function(r){
+          if (r.dataset.band === band) r.classList.add('active-band');
+          else r.classList.remove('active-band');
+        });
+      }
+
+      // ===== サマリー用 regimen ロジック =====
+      // 各関数は {main, note} を返す: main = 用量本体, note = 注釈(2 行目)
+      // disease: 'standard' | 'meningitis' | 'severe' | 'uti'
+
+      // mg → g 範囲表示 (例 1500-1800 mg → "1.5-1.8 g")
+      function rangeG(loMg, hiMg){
+        var fmt = function(mg){
+          var g = mg / 1000;
+          return g < 1 ? g.toFixed(2) : g.toFixed(1);
+        };
+        return fmt(loMg) + '-' + fmt(hiMg) + ' g';
+      }
+
+      function regVCM(w, mode, disease){
+        var note;
+        if (mode === 'hd')        note = '透析後・TDM 必須';
+        else if (mode === 'crrt') note = 'CRRT・AUC/TDM';
+        else if (disease === 'meningitis') note = 'TDM (AUC 目標 600)';
+        else if (disease === 'severe')     note = 'TDM (AUC 400-600)・負荷必須';
+        else if (disease === 'uti')        note = 'UTI には通常 VCM 適応外';
+        else                                note = 'TDM 必須・max 3 g';
+
+        var freq = (mode === 'hd' || mode === 'crrt') ? 'q24h' : 'q8-12h';
+        if (!w) {
+          return { main:'負荷 <strong>25-30 mg/kg</strong> → 維持 <strong>15-20 mg/kg ' + freq + '</strong>', note: note };
+        }
+        var loadHi = Math.min(w * 30, 3000);
+        var loadLo = Math.min(w * 25, 3000);
+        var load = rangeG(loadLo, loadHi);
+        var maint = rangeG(w * 15, w * 20);
+        return { main:'負荷 <strong>' + load + '</strong> → 維持 <strong>' + maint + ' ' + freq + '</strong>', note: note };
+      }
+
+      function regMEPM(crcl, mode, disease){
+        if (mode === 'hd')   return { main:'<strong>500 mg q24h</strong>', note:'透析後' };
+        if (mode === 'crrt') return { main:'<strong>1 g q12h</strong>', note:'CVVHDF' };
+        if (disease === 'meningitis')           return { main:'<strong>2 g q8h</strong>', note:'3 時間延長点滴・髄膜炎' };
+        if (disease === 'severe' && crcl > 50)  return { main:'<strong>2 g q8h</strong>', note:'3 時間延長点滴・重症/MIC↑' };
+        if (disease === 'uti'    && crcl > 50)  return { main:'<strong>500 mg q8h</strong> または <strong>1 g q8h</strong>', note:'UTI' };
+        if (crcl > 50)  return { main:'<strong>1 g q8h</strong>', note:'重症は 2 g q8h を検討' };
+        if (crcl >= 25) return { main:'<strong>1 g q12h</strong>' };
+        if (crcl >= 10) return { main:'<strong>500 mg q12h</strong>' };
+        return { main:'<strong>500 mg q24h</strong>' };
+      }
+
+      function regPIPCTAZ(crcl, mode, disease){
+        if (mode === 'hd')   return { main:'<strong>2.25 g q8h</strong>', note:'透析日は透析後 0.75 g 追加' };
+        if (mode === 'crrt') return { main:'<strong>3.375 g q6h</strong> または <strong>4.5 g q8h</strong>', note:'CVVHDF' };
+        if (disease === 'meningitis') return { main:'中枢移行不良 — <strong>第一選択外</strong>', note:'CFPM / MEPM / CTRX を選択' };
+        if (disease === 'severe' && crcl > 40) return { main:'<strong>4.5 g q6h</strong> または <strong>4.5 g q8h × 4 時間延長</strong>', note:'重症' };
+        if (crcl > 40)  return { main:'<strong>4.5 g q8h</strong>', note:'重症は q6h' };
+        if (crcl >= 20) return { main:'<strong>3.375 g q6h</strong> または <strong>4.5 g q8h</strong>' };
+        return { main:'<strong>2.25 g q6h</strong> または <strong>3.375 g q8h</strong>' };
+      }
+
+      function regCFPM(crcl, mode, disease){
+        if (mode === 'hd')   return { main:'<strong>1 g q24h</strong>', note:'透析後' };
+        if (mode === 'crrt') return { main:'<strong>2 g q12h</strong>', note:'CVVHDF' };
+        if (disease === 'meningitis')          return { main:'<strong>2 g q8h</strong>', note:'髄膜炎' };
+        if (disease === 'severe' && crcl > 60) return { main:'<strong>2 g q8h</strong>', note:'緑膿菌 / 重症・延長点滴も検討' };
+        if (disease === 'uti'    && crcl > 60) return { main:'<strong>1 g q12h</strong> または <strong>2 g q12h</strong>', note:'UTI' };
+        if (crcl > 60)  return { main:'<strong>2 g q8-12h</strong>' };
+        if (crcl >= 30) return { main:'<strong>2 g q12h</strong>' };
+        if (crcl >= 11) return { main:'<strong>2 g q24h</strong>' };
+        return { main:'<strong>1 g q24h</strong>' };
+      }
+
+      function regABPCSBT(crcl, mode, disease){
+        if (mode === 'hd')   return { main:'<strong>3 g q24h</strong>', note:'透析後' };
+        if (mode === 'crrt') return { main:'<strong>3 g q8-12h</strong>', note:'CVVHDF' };
+        if (disease === 'meningitis') return { main:'BBB 移行限定 — <strong>ABPC 2 g q4h</strong> 単剤', note:'Listeria 疑い時のみ' };
+        if (disease === 'severe' && crcl > 30) return { main:'<strong>3 g q4h</strong>', note:'重症・max 12 g/日' };
+        if (crcl > 30)  return { main:'<strong>3 g q6h</strong>' };
+        if (crcl >= 15) return { main:'<strong>3 g q8h</strong>' };
+        if (crcl >= 5)  return { main:'<strong>3 g q12h</strong>' };
+        return { main:'<strong>3 g q24h</strong>' };
+      }
+
+      function regCTRX(mode, disease){
+        if (disease === 'meningitis') return { main:'<strong>2 g q12h</strong>', note:'髄膜炎' };
+        if (disease === 'severe')     return { main:'<strong>2 g q12-24h</strong>', note:'重症は q12h を検討' };
+        if (disease === 'uti')        return { main:'<strong>1-2 g q24h</strong>', note:'UTI' };
+        return { main:'<strong>2 g q24h</strong>', note:'腎 / HD / CRRT 調整不要' };
+      }
+
+      function regGCV(crcl, w, mode, disease){
+        if (!w) return { main:'—' };
+        var cmvNote = (disease !== 'standard') ? 'CMV 用量 — 細菌感染には適応外' : '';
+        if (mode === 'hd')   return { main:'初期 <strong>' + rmg(w*1.25) + ' q24h</strong> → 維持 <strong>' + rmg(w*0.625) + ' q24h</strong>', note: cmvNote || '透析後' };
+        if (mode === 'crrt') return { main:'初期 <strong>' + rmg(w*2.5) + ' q24h</strong> → 維持 <strong>' + rmg(w*1.25) + ' q24h</strong>', note: cmvNote || 'CRRT' };
+        var ind, indFreq, m, mFreq;
+        if (crcl >= 70)      { ind=5;    indFreq='q12h';  m=5;    mFreq='q24h'; }
+        else if (crcl >= 50) { ind=2.5;  indFreq='q12h';  m=2.5;  mFreq='q24h'; }
+        else if (crcl >= 25) { ind=2.5;  indFreq='q24h';  m=1.25; mFreq='q24h'; }
+        else if (crcl >= 10) { ind=1.25; indFreq='q24h';  m=0.625;mFreq='q24h'; }
+        else                 { ind=1.25; indFreq='週3回'; m=0.625;mFreq='週3回'; }
+        return { main:'初期 <strong>' + rmg(w*ind) + ' ' + indFreq + '</strong> → 維持 <strong>' + rmg(w*m) + ' ' + mFreq + '</strong>', note: cmvNote };
+      }
+
+      function regFOS(crcl, w, mode, disease){
+        if (!w) return { main:'—' };
+        var cmvNote = (disease !== 'standard') ? 'CMV 用量 — 細菌感染には適応外' : '';
+        if (mode === 'hd')   return { main:'<strong>透析後に投与</strong>, HD 中は中止', note:'CrCl/kg に準じて減量' };
+        if (mode === 'crrt') return { main:'CRRT 用量は <strong>ID 担当に相談</strong>', note:'透析方式により変動' };
+        var ckg = crcl / w;
+        if (ckg < 0.4) return { main:'<span class="ds-warn">投与禁止</span>', note:'CrCl/kg ' + ckg.toFixed(2) + ' < 0.4' };
+        var ind, indFreq, m, mFreq;
+        if      (ckg > 1.4) { ind=90; indFreq='q12h'; m=100; mFreq='q24h'; }
+        else if (ckg >=1.0) { ind=70; indFreq='q12h'; m=80;  mFreq='q24h'; }
+        else if (ckg >=0.8) { ind=50; indFreq='q12h'; m=57;  mFreq='q24h'; }
+        else if (ckg >=0.6) { ind=80; indFreq='q24h'; m=92;  mFreq='q48h'; }
+        else if (ckg >=0.5) { ind=60; indFreq='q24h'; m=70;  mFreq='q48h'; }
+        else                { ind=50; indFreq='q24h'; m=57;  mFreq='q48h'; }
+        var note = cmvNote || ('CrCl/kg = ' + ckg.toFixed(2));
+        return { main:'初期 <strong>' + rmg(w*ind) + ' ' + indFreq + '</strong> → 維持 <strong>' + rmg(w*m) + ' ' + mFreq + '</strong>', note: note };
+      }
+
+      // ===== 追加薬剤 (CEZ, CMZ, MNZ, AZT, CLDM, ST, LVFX, CPFX, CTLZ/TAZ,
+      //                CFDC, MINO, DAP, ACV, MCFG, FLCZ, PSCZ, ISCZ, L-AmB) =====
+
+      function regCEZ(crcl, mode, disease){
+        if (mode === 'hd')   return { main:'<strong>1 g q24h</strong>', note:'透析後' };
+        if (mode === 'crrt') return { main:'<strong>1-2 g q8h</strong>', note:'CVVHDF' };
+        if (disease === 'meningitis') return { main:'BBB 移行不良 — 第一選択外', note:'CTRX/CFPM/MEPM へ' };
+        if (crcl > 55)  return { main:'<strong>1-2 g q8h</strong>', note:'MSSA 菌血症は 2 g' };
+        if (crcl >= 35) return { main:'<strong>1-2 g q12h</strong>' };
+        if (crcl >= 11) return { main:'<strong>1-2 g q24h</strong>' };
+        return { main:'<strong>0.5 g q24h</strong>' };
+      }
+      function bandCEZ(crcl, mode){
+        if (mode === 'hd')   return 'hd';
+        if (mode === 'crrt') return 'crrt';
+        if (crcl > 55)  return 'h';
+        if (crcl >= 35) return 'mh';
+        if (crcl >= 11) return 'ml';
+        return 'l';
+      }
+
+      function regCMZ(crcl, mode, disease){
+        if (mode === 'hd')   return { main:'<strong>1 g q24h</strong>', note:'透析後' };
+        if (mode === 'crrt') return { main:'<strong>1-2 g q12h</strong>', note:'CVVHDF' };
+        if (crcl > 50)  return { main:'<strong>1-2 g q8h</strong>', note:'ESBL 産生菌の選択肢' };
+        if (crcl >= 25) return { main:'<strong>1-2 g q12h</strong>' };
+        return { main:'<strong>1-2 g q24h</strong>' };
+      }
+      function bandCMZ(crcl, mode){
+        if (mode === 'hd')   return 'hd';
+        if (mode === 'crrt') return 'crrt';
+        if (crcl > 50)  return 'h';
+        if (crcl >= 25) return 'mh';
+        return 'l';
+      }
+
+      function regCTLZTAZ(crcl, mode, disease){
+        if (mode === 'hd')   return { main:'<strong>負荷 750 mg → 維持 150 mg q8h</strong>', note:'透析後 750 mg load' };
+        if (mode === 'crrt') return { main:'<strong>1.5 g q8h</strong>', note:'CVVHDF' };
+        if (disease === 'severe' && crcl > 50)  return { main:'<strong>3 g q8h</strong>', note:'HAP/VAP・MDR 緑膿菌' };
+        if (crcl > 50)  return { main:'<strong>1.5 g q8h</strong>', note:'HAP/VAP は 3 g q8h' };
+        if (crcl >= 30) return { main:'<strong>750 mg q8h</strong>', note:'HAP/VAP は 1.5 g q8h' };
+        return { main:'<strong>375 mg q8h</strong>', note:'HAP/VAP は 750 mg q8h' };
+      }
+      function bandCTLZTAZ(crcl, mode){
+        if (mode === 'hd')   return 'hd';
+        if (mode === 'crrt') return 'crrt';
+        if (crcl > 50)  return 'h';
+        if (crcl >= 30) return 'mh';
+        return 'ml';
+      }
+
+      function regCFDC(crcl, mode, disease){
+        if (mode === 'hd')   return { main:'<strong>0.75 g q12h</strong>', note:'透析後' };
+        if (mode === 'crrt') return { main:'<strong>1.5-2 g q8h</strong>', note:'CVVHDF, effluent rate により' };
+        if (crcl >= 120) return { main:'<strong>2 g q6h</strong>', note:'augmented renal clearance' };
+        if (crcl >= 60)  return { main:'<strong>2 g q8h</strong>', note:'3 時間延長点滴' };
+        if (crcl >= 30)  return { main:'<strong>1.5 g q8h</strong>' };
+        if (crcl >= 15)  return { main:'<strong>1 g q8h</strong>' };
+        return { main:'<strong>0.75 g q12h</strong>' };
+      }
+      function bandCFDC(crcl, mode){
+        if (mode === 'hd')   return 'hd';
+        if (mode === 'crrt') return 'crrt';
+        if (crcl >= 120) return 'vh';
+        if (crcl >= 60)  return 'h';
+        if (crcl >= 30)  return 'mh';
+        if (crcl >= 15)  return 'ml';
+        return 'l';
+      }
+
+      function regAZT(crcl, mode, disease){
+        if (mode === 'hd')   return { main:'<strong>500 mg-1 g q24h</strong>', note:'透析後追加' };
+        if (mode === 'crrt') return { main:'<strong>1-2 g q12h</strong>', note:'CVVHDF' };
+        if (disease === 'meningitis') return { main:'BBB 移行不良 — 第一選択外', note:'CTRX/CFPM/MEPM へ' };
+        if (crcl > 30)  return { main:'<strong>1-2 g q6-8h</strong>', note:'重症/緑膿菌は q6h' };
+        if (crcl >= 10) return { main:'<strong>1-2 g 負荷 → 50% 維持</strong>' };
+        return { main:'<strong>1-2 g 負荷 → 25% 維持</strong>' };
+      }
+      function bandAZT(crcl, mode){
+        if (mode === 'hd')   return 'hd';
+        if (mode === 'crrt') return 'crrt';
+        if (crcl > 30)  return 'h';
+        if (crcl >= 10) return 'mh';
+        return 'l';
+      }
+
+      function regCLDM(crcl, mode, disease){
+        var note = (disease === 'severe') ? '壊死性軟部組織は 900 mg q8h・腎調整不要'
+                : '腎/HD/CRRT 調整不要';
+        var main = (disease === 'severe') ? '<strong>900 mg q8h</strong>' : '<strong>600 mg q8h</strong>';
+        return { main: main, note: note };
+      }
+
+      function regMNZ(crcl, mode, disease){
+        return { main:'<strong>500 mg q8h</strong>', note:'腎調整不要・HD で除去 → 透析後追加・飲酒禁忌' };
+      }
+
+      function regST(crcl, mode, disease){
+        if (mode === 'hd')   return { main:'<strong>TMP 5 mg/kg q24h</strong>', note:'透析日は透析後' };
+        if (mode === 'crrt') return { main:'<strong>標準量</strong>', note:'K/Cr/骨髄抑制モニター' };
+        if (crcl > 30)  return { main:'<strong>TMP 5 mg/kg q8-12h</strong>', note:'PCP 治療は 15-20 mg/kg/日 を q6-8h' };
+        if (crcl >= 15) return { main:'<strong>標準量の 50%</strong>' };
+        return { main:'<span class="ds-warn">非推奨</span>', note:'必要時のみ 25-50% で慎重' };
+      }
+      function bandST(crcl, mode){
+        if (mode === 'hd')   return 'hd';
+        if (mode === 'crrt') return 'crrt';
+        if (crcl > 30)  return 'h';
+        if (crcl >= 15) return 'mh';
+        return 'l';
+      }
+
+      function regMINO(crcl, mode, disease){
+        return { main:'<strong>初回 200 mg → 100 mg q12h</strong>', note:'腎調整不要・Stenotrophomonas/Acinetobacter に有効' };
+      }
+
+      function regLVFX(crcl, mode, disease){
+        if (mode === 'hd')   return { main:'<strong>500 mg q48h</strong>', note:'透析後・負荷 750 mg' };
+        if (mode === 'crrt') return { main:'<strong>250-500 mg q24h</strong>', note:'CVVHDF' };
+        var hi = (disease === 'severe') ? '750' : '500-750';
+        if (crcl >= 50) return { main:'<strong>'+hi+' mg q24h</strong>', note:'重症/緑膿菌/肺炎は 750 mg' };
+        if (crcl >= 20) return { main:'<strong>500 mg q24h</strong> または <strong>750 mg q48h</strong>' };
+        return { main:'<strong>500 mg q48h</strong>', note:'負荷 750 mg' };
+      }
+      function bandLVFX(crcl, mode){
+        if (mode === 'hd')   return 'hd';
+        if (mode === 'crrt') return 'crrt';
+        if (crcl >= 50) return 'h';
+        if (crcl >= 20) return 'mh';
+        return 'l';
+      }
+
+      function regCPFX(crcl, mode, disease){
+        if (mode === 'hd')   return { main:'<strong>200-400 mg q24h</strong>', note:'透析後' };
+        if (mode === 'crrt') return { main:'<strong>200-400 mg q12h</strong>', note:'CVVHDF' };
+        if (crcl > 50)  return { main:'<strong>400 mg q8-12h</strong>', note:'重症/緑膿菌は q8h' };
+        if (crcl >= 30) return { main:'<strong>400 mg q12h</strong>' };
+        return { main:'<strong>400 mg q24h</strong>' };
+      }
+      function bandCPFX(crcl, mode){
+        if (mode === 'hd')   return 'hd';
+        if (mode === 'crrt') return 'crrt';
+        if (crcl > 50)  return 'h';
+        if (crcl >= 30) return 'mh';
+        return 'l';
+      }
+
+      function regDAP(crcl, w, mode, disease){
+        var dose = (disease === 'standard') ? '4-10 mg/kg' : '6-10 mg/kg';
+        var mgRange = '';
+        if (w) {
+          var lo = Math.round(w*4), hi = Math.round(w*10);
+          mgRange = ' (' + lo + '-' + hi + ' mg)';
+        }
+        if (mode === 'hd')   return { main:'<strong>'+dose+' q48h'+mgRange+'</strong>', note:'透析後・肺炎には不可' };
+        if (mode === 'crrt') return { main:'<strong>6-10 mg/kg q24h</strong>', note:'CVVHDF・CK モニター' };
+        if (crcl >= 30) return { main:'<strong>'+dose+' q24h'+mgRange+'</strong>', note:'菌血症/IE は 6-10 mg/kg・SSTI は 4 mg/kg・CK モニター' };
+        return { main:'<strong>'+dose+' q48h'+mgRange+'</strong>', note:'CrCl<30・透析後' };
+      }
+      function bandDAP(crcl, mode){
+        if (mode === 'hd')   return 'hd';
+        if (mode === 'crrt') return 'crrt';
+        if (crcl >= 30) return 'h';
+        return 'l';
+      }
+
+      function regACV(crcl, w, mode, disease){
+        var hsv = w ? Math.round(w*5) : null;
+        var vzv = w ? Math.round(w*10) : null;
+        var rangeStr = w ? ' ('+hsv+'-'+vzv+' mg)' : '';
+        if (mode === 'hd')   return { main:'<strong>2.5-5 mg/kg q24h</strong>', note:'透析後' };
+        if (mode === 'crrt') return { main:'<strong>5-10 mg/kg q24h</strong>', note:'CVVHDF' };
+        if (crcl > 50)  return { main:'<strong>5-10 mg/kg q8h'+rangeStr+'</strong>', note:'HSV 5 / VZV・脳炎 10 / 結晶尿に注意・十分な輸液' };
+        if (crcl >= 25) return { main:'<strong>5-10 mg/kg q12h</strong>' };
+        if (crcl >= 10) return { main:'<strong>5-10 mg/kg q24h</strong>' };
+        return { main:'<strong>2.5-5 mg/kg q24h</strong>' };
+      }
+      function bandACV(crcl, mode){
+        if (mode === 'hd')   return 'hd';
+        if (mode === 'crrt') return 'crrt';
+        if (crcl > 50)  return 'h';
+        if (crcl >= 25) return 'mh';
+        if (crcl >= 10) return 'ml';
+        return 'l';
+      }
+
+      function regMCFG(crcl, mode, disease){
+        return { main:'<strong>100-150 mg q24h</strong>', note:'カンジデミア第一選択・腎/HD/CRRT 調整不要・予防は 50 mg q24h' };
+      }
+
+      function regFLCZ(crcl, w, mode, disease){
+        var loadStr = w ? ' (≒'+Math.round(w*12)+' mg / '+Math.round(w*6)+' mg)' : '';
+        if (mode === 'hd')   return { main:'<strong>100% q24h</strong>', note:'透析後・HD で除去される' };
+        if (mode === 'crrt') return { main:'<strong>標準量 (100% q24h)</strong>', note:'CVVHDF' };
+        if (crcl > 50)  return { main:'<strong>負荷 12 mg/kg → 維持 6 mg/kg q24h</strong>'+loadStr, note:'≒ 800 mg → 400 mg' };
+        return { main:'<strong>負荷量は維持・維持量を 50%</strong>', note:'CrCl ≤ 50' };
+      }
+      function bandFLCZ(crcl, mode){
+        if (mode === 'hd')   return 'hd';
+        if (mode === 'crrt') return 'crrt';
+        if (crcl > 50)  return 'h';
+        return 'l';
+      }
+
+      function regPSCZ(crcl, mode, disease){
+        if (mode === 'hd')   return { main:'<strong>PO 300 mg q24h</strong>', note:'IV は SBECD 蓄積のため避ける → PO 切替' };
+        if (mode === 'crrt') return { main:'<strong>PO 300 mg q24h</strong>', note:'CrCl<50 では IV 避ける' };
+        if (crcl < 50) return { main:'<strong>PO 300 mg q24h</strong>', note:'IV 添加剤 (SBECD) 蓄積のため PO 推奨' };
+        return { main:'<strong>負荷 300 mg q12h × 2 → 維持 300 mg q24h</strong>', note:'TDM 推奨 (trough 1-1.5 μg/mL)' };
+      }
+
+      function regISCZ(crcl, mode, disease){
+        return { main:'<strong>負荷 200 mg q8h × 6 回 (48h) → 維持 200 mg q24h</strong>', note:'腎/HD/CRRT 調整不要・QT 短縮注意' };
+      }
+
+      function regLAmB(crcl, w, mode, disease){
+        var standard = w ? Math.round(w*3) + '-' + Math.round(w*5) + ' mg' : '3-5 mg/kg';
+        var mucor = w ? Math.round(w*5) + '-' + Math.round(w*10) + ' mg' : '5-10 mg/kg';
+        var sevText = (disease === 'severe') ? '高用量 ' + mucor + ' q24h (ムコール)' : standard + ' q24h';
+        return { main:'<strong>'+sevText+'</strong>', note:'腎/HD/CRRT 調整不要・K/Mg↓・infusion reaction に注意' };
+      }
+
+      var $dsTable   = document.getElementById('ds-table');
+      var $dsEmpty   = document.getElementById('ds-empty');
+      var $dsCrclDsp = document.getElementById('ds-crcl-display');
+
+      // {main, note} を 2 セル(用量 / 注釈)に振り分けてレンダリング
+      // key 例: 'vcm' → #ds-vcm + #ds-vcm-note
+      function setRegimen(key, reg){
+        var doseEl = document.getElementById('ds-' + key);
+        var noteEl = document.getElementById('ds-' + key + '-note');
+        if (!doseEl) return;
+        var main = '—', note = '';
+        if (reg != null) {
+          if (typeof reg === 'string') main = reg;
+          else { main = reg.main || '—'; note = reg.note || ''; }
+        }
+        doseEl.innerHTML = '<div class="ds-main">' + main + '</div>';
+        if (noteEl) noteEl.innerHTML = note;
+      }
+
+      function clearAllHighlights(){
+        ['t-mepm','t-pipctaz','t-cfpm','t-abpcsbt','t-gcv','t-fos',
+         't-cez','t-cmz','t-ctlztaz','t-cfdc','t-azt','t-st','t-lvfx','t-cpfx',
+         't-dap','t-acv','t-flcz'
+        ].forEach(function(id){
+          highlightRow(id, '__none__');
+        });
+      }
+
+      // 現在選択中の疾患タブ
+      var activeDisease = 'standard';
+
+      function updateSummary(crcl, w, mode, disease){
+        // CrCl 表示テキスト
+        if (mode === 'hd') {
+          $dsCrclDsp.innerHTML = '<span class="ds-crcl-label">腎機能</span>&nbsp;<span class="ds-crcl-mode">HD</span>';
+        } else if (mode === 'crrt') {
+          $dsCrclDsp.innerHTML = '<span class="ds-crcl-label">腎機能</span>&nbsp;<span class="ds-crcl-mode">CRRT</span>';
+        } else if (crcl != null) {
+          $dsCrclDsp.innerHTML = '<span class="ds-crcl-label">CrCl</span>&nbsp;' + fmtN(crcl, 1) + '<span style="font-size:0.66rem;font-weight:700;opacity:0.85;margin-left:3px;">mL/min</span>';
+        } else {
+          $dsCrclDsp.innerHTML = '<span class="ds-crcl-label">CrCl</span>&nbsp;—';
+        }
+
+        // 表示判定
+        var canShow = (mode === 'hd' || mode === 'crrt') || (crcl != null);
+        if (!canShow) {
+          $dsTable.style.display = 'none';
+          $dsEmpty.style.display = 'block';
+          clearAllHighlights();
+          return;
+        }
+        $dsTable.style.display = 'table';
+        $dsEmpty.style.display = 'none';
+
+        setRegimen('vcm',     regVCM(w, mode, disease));
+        setRegimen('dap',     regDAP(crcl, w, mode, disease));
+        setRegimen('cez',     regCEZ(crcl, mode, disease));
+        setRegimen('cmz',     regCMZ(crcl, mode, disease));
+        setRegimen('ctrx',    regCTRX(mode, disease));
+        setRegimen('cfpm',    regCFPM(crcl, mode, disease));
+        setRegimen('ctlztaz', regCTLZTAZ(crcl, mode, disease));
+        setRegimen('cfdc',    regCFDC(crcl, mode, disease));
+        setRegimen('mepm',    regMEPM(crcl, mode, disease));
+        setRegimen('abpcsbt', regABPCSBT(crcl, mode, disease));
+        setRegimen('pipctaz', regPIPCTAZ(crcl, mode, disease));
+        setRegimen('azt',     regAZT(crcl, mode, disease));
+        setRegimen('cldm',    regCLDM(crcl, mode, disease));
+        setRegimen('mnz',     regMNZ(crcl, mode, disease));
+        setRegimen('st',      regST(crcl, mode, disease));
+        setRegimen('mino',    regMINO(crcl, mode, disease));
+        setRegimen('lvfx',    regLVFX(crcl, mode, disease));
+        setRegimen('cpfx',    regCPFX(crcl, mode, disease));
+        setRegimen('acv',     regACV(crcl, w, mode, disease));
+        setRegimen('gcv',     regGCV(crcl, w, mode, disease));
+        setRegimen('fos',     regFOS(crcl, w, mode, disease));
+        setRegimen('mcfg',    regMCFG(crcl, mode, disease));
+        setRegimen('flcz',    regFLCZ(crcl, w, mode, disease));
+        setRegimen('pscz',    regPSCZ(crcl, mode, disease));
+        setRegimen('iscz',    regISCZ(crcl, mode, disease));
+        setRegimen('lamb',    regLAmB(crcl, w, mode, disease));
+
+        // 各薬剤テーブルの該当 band 行をマーカー強調
+        highlightRow('t-mepm',    bandMEPM(crcl, mode));
+        highlightRow('t-pipctaz', bandPIPCTAZ(crcl, mode));
+        highlightRow('t-cfpm',    bandCFPM(crcl, mode));
+        highlightRow('t-abpcsbt', bandABPCSBT(crcl, mode));
+        highlightRow('t-gcv',     bandGCV(crcl, mode));
+        highlightRow('t-fos',     bandFOS(crcl, w, mode));
+        highlightRow('t-cez',     bandCEZ(crcl, mode));
+        highlightRow('t-cmz',     bandCMZ(crcl, mode));
+        highlightRow('t-ctlztaz', bandCTLZTAZ(crcl, mode));
+        highlightRow('t-cfdc',    bandCFDC(crcl, mode));
+        highlightRow('t-azt',     bandAZT(crcl, mode));
+        highlightRow('t-st',      bandST(crcl, mode));
+        highlightRow('t-lvfx',    bandLVFX(crcl, mode));
+        highlightRow('t-cpfx',    bandCPFX(crcl, mode));
+        highlightRow('t-dap',     bandDAP(crcl, mode));
+        highlightRow('t-acv',     bandACV(crcl, mode));
+        highlightRow('t-flcz',    bandFLCZ(crcl, mode));
+      }
 
       function recalc(){
         var age = parseFloat($age.value) || null;
-        var sex = $sex.value;
-        var h   = parseFloat($h.value) || null;
+        var sex = getRadio('sex') || 'M';
+        var mode = getRadio('renal') || 'auto';
         var w   = parseFloat($w.value) || null;
         var scr = parseFloat($scr.value) || null;
 
-        var ibw  = ibwDevine(h, sex);
-        var adj  = adjBW(w, ibw);
+        // CG 計算は常に行う(mode に関わらず参考値として表示)
         var crcl = crclCG(age, sex, w, scr);
-
         setVal($crcl, crcl, 'mL/min');
-        setVal($ibw,  ibw,  'kg');
-        setVal($adjbw, (adj !== w ? adj : null), 'kg');
-        setVal($dbw,  (adj || w), 'kg（投与計算用）');
 
-        var dosingBW = adj || w;
+        // 各薬剤カード内の mg 表示(実体重ベース)
+        setDoseRange('d-vcm-load',  w ? w*25 : null, w ? w*30 : null, 3000);
+        setDoseRange('d-vcm-maint', w ? w*15 : null, w ? w*20 : null);
+        setDose('d-gcv-ind',   w ? w * 5 : null);
+        setDose('d-gcv-maint', w ? w * 5 : null);
+        setDose('d-fos-ind',   w ? w * 90 : null);
+        setDose('d-fos-maint', w ? w * 100 : null);
+        setDose('d-dap-ssti',  w ? w * 4 : null);
+        setDoseRange('d-dap-bsi', w ? w*6 : null, w ? w*10 : null);
+        setDose('d-acv-hsv',   w ? w * 5 : null);
+        setDose('d-acv-vzv',   w ? w * 10 : null);
+        setDoseRange('d-lamb', w ? w*3 : null, w ? w*5 : null);
 
-        // VCM
-        setDose('d-vcm-load',  dosingBW ? dosingBW * 25 : null);
-        setDose('d-vcm-maint', dosingBW ? dosingBW * 17.5 : null);
-
-        // GCV (5 mg/kg)
-        setDose('d-gcv-ind',   dosingBW ? dosingBW * 5 : null);
-        setDose('d-gcv-maint', dosingBW ? dosingBW * 5 : null);
-
-        // FOS (initial 90 mg/kg, maint 100 mg/kg)
-        setDose('d-fos-ind',   dosingBW ? dosingBW * 90 : null);
-        setDose('d-fos-maint', dosingBW ? dosingBW * 100 : null);
+        // このCrCl + 腎機能 mode + 疾患 で推奨用量サマリー＋テーブル行強調
+        updateSummary(crcl, w, mode === 'auto' ? null : mode, activeDisease);
       }
 
-      [$age,$sex,$h,$w,$scr].forEach(function(el){
+      [$age,$w,$scr].forEach(function(el){
         el.addEventListener('input', recalc);
         el.addEventListener('change', recalc);
       });
+      // ラジオ(性別・腎機能)の変更も再計算
+      document.querySelectorAll('input[name="sex"], input[name="renal"]').forEach(function(el){
+        el.addEventListener('change', recalc);
+      });
+      // 疾患ドロップダウン変更 → activeDisease 更新 + 再計算
+      var $diseaseSel = document.getElementById('ds-disease-select');
+      if ($diseaseSel) {
+        $diseaseSel.addEventListener('change', function(){
+          activeDisease = $diseaseSel.value;
+          recalc();
+        });
+      }
       recalc();
+
+      // ===== サマリー行クリック → 該当 drug-card へスムーズスクロール =====
+      document.querySelectorAll('.dose-summary-table tbody tr[data-link]').forEach(function(tr){
+        tr.addEventListener('click', function(){
+          var anchor = tr.dataset.link;
+          var target = anchor && document.querySelector(anchor);
+          if (!target) return;
+          target.scrollIntoView({behavior:'smooth', block:'start'});
+          // 一瞬カードをハイライトして視認性を補助
+          target.style.transition = 'box-shadow .25s';
+          target.style.boxShadow = '0 0 0 3px rgba(14,165,233,0.45)';
+          setTimeout(function(){ target.style.boxShadow = ''; }, 1200);
+        });
+      });
+
+      // ===== 計算式モーダル =====
+      var $modal = document.getElementById('formula-modal');
+      var $open  = document.getElementById('open-formula');
+      var $close = document.getElementById('close-formula');
+      $open.addEventListener('click', function(){ $modal.classList.add('show'); });
+      $close.addEventListener('click', function(){ $modal.classList.remove('show'); });
+      $modal.addEventListener('click', function(e){ if (e.target === $modal) $modal.classList.remove('show'); });
+      document.addEventListener('keydown', function(e){ if (e.key === 'Escape') $modal.classList.remove('show'); });
     })();
   </script>
 </body>
