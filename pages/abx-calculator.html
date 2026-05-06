@@ -1878,6 +1878,9 @@
 
       // {main, note} を 2 セル(用量 / 注釈)に振り分けてレンダリング
       // key 例: 'vcm' → #ds-vcm + #ds-vcm-note
+      // ※ <strong> タグは CSS で全文字 700 weight 統一済みなので意味をなさない
+      //   むしろブラウザによる微妙な weight の違いを生むため、レンダリング前に剥ぎ取る
+      function stripStrong(s){ return (s || '').replace(/<\/?strong[^>]*>/g, ''); }
       function setRegimen(key, reg){
         var doseEl = document.getElementById('ds-' + key);
         var noteEl = document.getElementById('ds-' + key + '-note');
@@ -1887,8 +1890,8 @@
           if (typeof reg === 'string') main = reg;
           else { main = reg.main || '—'; note = reg.note || ''; }
         }
-        doseEl.innerHTML = '<div class="ds-main">' + main + '</div>';
-        if (noteEl) noteEl.innerHTML = note;
+        doseEl.innerHTML = '<div class="ds-main">' + stripStrong(main) + '</div>';
+        if (noteEl) noteEl.innerHTML = stripStrong(note);
       }
 
       function clearAllHighlights(){
