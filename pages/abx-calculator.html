@@ -516,6 +516,75 @@
       .dose-table th { font-size:0.68rem;padding:5px 6px; }
       .dose-table td { padding:6px 6px; }
     }
+
+    /* ===== 嫌気性菌カバー表 (SECTION 1) ===== */
+    .anaerobe-card {
+      background:#fff;border:1px solid var(--border);border-radius:10px;
+      margin-bottom:24px;overflow:hidden;
+    }
+    .anaerobe-table-wrap { overflow-x:auto; }
+    .anaerobe-table {
+      width:100%;border-collapse:collapse;font-size:0.86rem;
+      font-variant-numeric:tabular-nums;
+    }
+    .anaerobe-table th {
+      background:#F8FAFC;color:#64748B;font-weight:600;
+      padding:9px 10px;text-align:center;font-size:0.8rem;
+      border-bottom:1px solid var(--border);letter-spacing:0.02em;
+      white-space:nowrap;
+    }
+    .anaerobe-table th:first-child {
+      text-align:left;padding-left:16px;min-width:200px;
+    }
+    .anaerobe-table td {
+      padding:9px 10px;border-bottom:1px solid #E2E8F0;
+      text-align:center;color:#1E293B;font-weight:500;
+    }
+    .anaerobe-table td:first-child {
+      text-align:left;padding-left:16px;
+      font-style:italic;font-weight:600;color:#0C4A6E;
+    }
+    .anaerobe-table tr:last-child td { border-bottom:none; }
+    /* 横隔膜上下 セクション見出し行 */
+    .anaerobe-table .dia-row td {
+      background:linear-gradient(135deg,#0C4A6E,#0369A1);
+      color:#fff;font-weight:700;text-align:left;
+      font-style:normal;font-size:0.78rem;
+      letter-spacing:0.06em;padding:6px 16px;
+    }
+    /* カバー記号セル */
+    .ana { font-weight:700;font-size:1.05rem;line-height:1; }
+    .ana-best { background:#7DD3FC;color:#0C4A6E; }   /* ◎ 第一選択 */
+    .ana-good { background:#DCFCE7;color:#15803D; }   /* ○ 効果あり */
+    .ana-mid  { background:#FED7AA;color:#9A3412; }   /* △ 限定的 */
+    .ana-low  { background:#FECACA;color:#991B1B;font-size:0.86rem; }   /* △~× 効果に乏しい */
+    .ana-mlow { background:#FEF08A;color:#854D0E;font-size:0.86rem; }   /* △~○ 株により可変 */
+    /* 凡例 */
+    .anaerobe-legend {
+      display:flex;flex-wrap:wrap;gap:14px 18px;
+      padding:12px 16px;font-size:0.76rem;color:#475569;
+      align-items:center;border-top:1px solid var(--border);background:#F8FAFC;
+    }
+    .ana-leg {
+      display:inline-flex;align-items:center;justify-content:center;
+      min-width:32px;height:24px;padding:0 8px;border-radius:4px;
+      font-weight:700;margin-right:6px;font-size:0.86rem;
+    }
+    .anaerobe-src {
+      font-size:0.7rem;color:var(--muted);
+      padding:8px 16px;border-top:1px dotted var(--border);
+      line-height:1.6;
+    }
+    @media (max-width: 768px) {
+      .anaerobe-table { font-size:0.78rem; }
+      .anaerobe-table th { font-size:0.72rem;padding:7px 6px; }
+      .anaerobe-table td { padding:7px 6px;font-size:0.78rem; }
+      .anaerobe-table th:first-child,
+      .anaerobe-table td:first-child { padding-left:10px;min-width:140px; }
+      .ana { font-size:0.95rem; }
+      .ana-low, .ana-mlow { font-size:0.7rem; }
+      .anaerobe-legend { font-size:0.7rem;gap:10px; }
+    }
   </style>
 </head>
 <body>
@@ -622,8 +691,58 @@
       </div>
     </div>
 
-    <!-- ===== Step 3: 薬剤別 投与量 ===== -->
-    <h3 class="section-h">主要 ICU 抗菌薬 — 推奨投与量</h3>
+    <!-- ===== SECTION 1: 抗菌薬の嫌気性菌カバー ===== -->
+    <h3 class="section-h" id="section-anaerobe">
+      <span style="color:#0EA5E9;font-size:0.74rem;letter-spacing:0.1em;display:block;margin-bottom:2px;font-weight:700;">SECTION 1</span>
+      抗菌薬の嫌気性菌カバー
+    </h3>
+    <p style="font-size:0.82rem;color:var(--muted);margin-bottom:14px;">
+      横隔膜上下別の代表的嫌気性菌に対する各抗菌薬のカバー範囲。第一選択を選ぶ際の早見表として使用。
+    </p>
+    <div class="anaerobe-card">
+      <div class="anaerobe-table-wrap">
+        <table class="anaerobe-table">
+          <thead>
+            <tr>
+              <th>菌種</th>
+              <th>CLDM</th>
+              <th>MNZ</th>
+              <th>CMZ</th>
+              <th>A/S</th>
+              <th>P/T</th>
+              <th>MEPM</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="dia-row"><td colspan="7">▲ 横隔膜上 (Above diaphragm)</td></tr>
+            <tr><td>Peptostreptococcus</td><td class="ana ana-good">○</td><td class="ana ana-mlow">△~○</td><td class="ana ana-good">○</td><td class="ana ana-best">◎</td><td class="ana ana-good">○</td><td class="ana ana-good">○</td></tr>
+            <tr><td>Fusobacterium</td><td class="ana ana-good">○</td><td class="ana ana-good">○</td><td class="ana ana-good">○</td><td class="ana ana-best">◎</td><td class="ana ana-good">○</td><td class="ana ana-good">○</td></tr>
+            <tr><td>Prevotella sp.</td><td class="ana ana-low">△~×</td><td class="ana ana-best">◎</td><td class="ana ana-mid">△</td><td class="ana ana-best">◎</td><td class="ana ana-good">○</td><td class="ana ana-good">○</td></tr>
+            <tr class="dia-row"><td colspan="7">▼ 横隔膜下 (Below diaphragm)</td></tr>
+            <tr><td>Bacteroides fragilis</td><td class="ana ana-low">△~×</td><td class="ana ana-best">◎</td><td class="ana ana-mid">△</td><td class="ana ana-good">○</td><td class="ana ana-good">○</td><td class="ana ana-good">○</td></tr>
+            <tr><td>Bacteroides non-fragilis</td><td class="ana ana-low">△~×</td><td class="ana ana-best">◎</td><td class="ana ana-mid">△</td><td class="ana ana-mid">△</td><td class="ana ana-mid">△</td><td class="ana ana-good">○</td></tr>
+            <tr><td>Clostridium perfringens</td><td class="ana ana-good">○</td><td class="ana ana-best">◎</td><td class="ana ana-mid">△</td><td class="ana ana-good">○</td><td class="ana ana-good">○</td><td class="ana ana-good">○</td></tr>
+            <tr><td>Prevotella sp.</td><td class="ana ana-low">△~×</td><td class="ana ana-best">◎</td><td class="ana ana-mid">△</td><td class="ana ana-best">◎</td><td class="ana ana-good">○</td><td class="ana ana-good">○</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="anaerobe-legend">
+        <span><span class="ana-leg ana-best">◎</span>第一選択</span>
+        <span><span class="ana-leg ana-good">○</span>効果あり</span>
+        <span><span class="ana-leg ana-mid">△</span>限定的</span>
+        <span><span class="ana-leg ana-mlow">△~○</span>株により可変</span>
+        <span><span class="ana-leg ana-low">△~×</span>効果に乏しい</span>
+      </div>
+      <div class="anaerobe-src">
+        <strong>略号：</strong>CLDM クリンダマイシン / MNZ メトロニダゾール / CMZ セフメタゾール / A/S アンピシリン·スルバクタム (ABPC/SBT) / P/T ピペラシリン·タゾバクタム (PIPC/TAZ) / MEPM メロペネム
+      </div>
+    </div>
+
+    <!-- ===== SECTION 2: 薬剤別 投与量 ===== -->
+    <h3 class="section-h">
+      <span style="color:#0EA5E9;font-size:0.74rem;letter-spacing:0.1em;display:block;margin-bottom:2px;font-weight:700;">SECTION 2</span>
+      主要 ICU 抗菌薬 — 推奨投与量
+    </h3>
     <p style="font-size:0.82rem;color:var(--muted);margin-bottom:14px;">
       ※ 各薬剤の <strong>標準腎機能投与量</strong>と <strong>CrCl 別の調整</strong>を表示します。実体重に応じた具体的な投与量も自動計算されます。
     </p>
