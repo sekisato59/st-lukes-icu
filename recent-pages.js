@@ -11,6 +11,20 @@
  */
 const RECENT_PAGES = [
   {
+    title: "Hepatitis B: A Review（JAMA 2026）",
+    url: "pages/articles-gl-hbv-review2026.html",
+    date: "2026-05-09",
+    tag: "論文",
+    thumb: "images/IDICUtop.png"
+  },
+  {
+    title: "POC vs 検査室 Na⁺・K⁺測定の乖離（CCM 2026）",
+    url: "pages/articles-gl-poc-electrolytes2026.html",
+    date: "2026-05-09",
+    tag: "論文",
+    thumb: "images/icu-study.jpg"
+  },
+  {
     title: "造血細胞移植後CMV感染症GL（日本造血・免疫細胞療法学会 第5版）",
     url: "pages/articles-gl-hct-cmv2022.html",
     date: "2026-05-04",

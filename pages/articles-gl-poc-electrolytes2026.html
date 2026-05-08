@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ICUにおけるPOC vs 中央検査室 電解質測定の乖離 — CCM 2026 | 聖路加ICU</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style-v2.css?v=202605021800">
+  <style>
+    .alert-yellow { background:#FFFBEB;border:1px solid #FDE68A;border-radius:var(--radius);padding:12px 16px;margin-bottom:14px; }
+    .alert-green  { background:#F0FDF4;border:1px solid #BBF7D0;border-radius:var(--radius);padding:12px 16px;margin-bottom:14px; }
+    .dt-source { text-align:right;margin-top:-10px;margin-bottom:16px;padding-right:4px; }
+    .dt-source a { font-size:0.68rem;color:#9CA3AF;text-decoration:none;transition:color 0.15s; }
+    .dt-source a:hover { color:#2D7A4F; }
+
+    /* figure コンポーネント */
+    .ie-figure { background:#F8FAFC;border:1px solid #E2E8F0;border-radius:10px;padding:16px;margin-bottom:20px; }
+    .ie-figure img { width:100%;height:auto;border-radius:6px;display:block; }
+    .ie-figure-caption { font-size:0.78rem;color:#6B7280;margin-top:10px;line-height:1.65; }
+    .ie-figure-caption strong { color:#374151; }
+
+    /* 医師調査バー */
+    .survey-bar-wrap { margin-bottom:10px; }
+    .survey-bar-label { font-size:0.8rem;font-weight:600;margin-bottom:4px;color:var(--text); }
+    .survey-bar-track { background:#E5E7EB;border-radius:99px;height:22px;position:relative;overflow:hidden; }
+    .survey-bar-fill { height:100%;border-radius:99px;display:flex;align-items:center;justify-content:flex-end;padding-right:8px;transition:width 0.4s; }
+    .survey-bar-val { font-size:0.75rem;font-weight:800;color:#fff; }
+  </style>
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <a href="../index.html" class="nav-logo">
+      <img src="../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+      <span class="nav-logo-text">聖路加国際病院ICU</span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-menu" id="navMenu"></ul>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<div class="subpage-hero hero-image-bg">
+  <div class="container">
+    <a href="articles-guidelines.html#art-renal" class="back-link">← 一覧へ戻る</a>
+    <h1 class="subpage-title">ICUにおけるPOC vs 中央検査室<br>電解質（Na⁺・K⁺）測定の乖離</h1>
+    <p class="subpage-subtitle">#4 Nephrological System — 腎・電解質系</p>
+    <div>
+      <span class="ie-badge">Critical Care Medicine</span>
+      <span class="ie-badge">2026年5月</span>
+      <span class="ie-badge">単施設前向き観察研究</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MAIN LAYOUT ===== -->
+<div class="container" style="display:flex;gap:32px;align-items:flex-start;padding-top:32px;padding-bottom:48px;">
+
+  <!-- メインコンテンツ -->
+  <main style="flex:1;min-width:0;max-width:900px;">
+
+    <!-- ===== 略語一覧 ===== -->
+    <div class="card" style="margin-bottom:24px;">
+      <div class="card-inner">
+        <h3 class="rule-title" style="margin-bottom:10px;">本ページで使用する略語一覧</h3>
+        <table style="width:100%;border-collapse:collapse;font-size:0.8rem;line-height:1.6;">
+          <tbody>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:130px;color:var(--blue);">略語</td><td style="padding:4px 8px;">正式名称 — 日本語訳</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">DP</td><td style="padding:4px 8px;">Direct Potentiometry — 直接電位差法（POC血液ガス装置）</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">IP</td><td style="padding:4px 8px;">Indirect Potentiometry — 間接電位差法（中央検査室、希釈あり）</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">POC</td><td style="padding:4px 8px;">Point-of-Care — ポイントオブケア検査</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">BGA</td><td style="padding:4px 8px;">Blood Gas Analyzer — 血液ガス分析装置</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">ISE</td><td style="padding:4px 8px;">Ion-Selective Electrode — イオン選択性電極</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">Na⁺</td><td style="padding:4px 8px;">Sodium ion — ナトリウムイオン</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">K⁺</td><td style="padding:4px 8px;">Potassium ion — カリウムイオン</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">Lin's CCC</td><td style="padding:4px 8px;">Lin's Concordance Correlation Coefficient — Linの一致相関係数（1.0が完全一致、0.90以上が「強い」一致の目安）</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">PPV</td><td style="padding:4px 8px;">Positive Predictive Value — 陽性予測値</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">NPV</td><td style="padding:4px 8px;">Negative Predictive Value — 陰性予測値</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">H-index</td><td style="padding:4px 8px;">Hemolysis Index — 溶血指数（Alinity分析装置が自動算出）</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">IQR</td><td style="padding:4px 8px;">Interquartile Range — 四分位範囲（25–75パーセンタイル）</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">SAPS II</td><td style="padding:4px 8px;">Simplified Acute Physiology Score II — 重症度スコア</td></tr>
+            <tr><td style="padding:4px 8px;font-weight:700;color:var(--blue);">IFCC</td><td style="padding:4px 8px;">International Federation of Clinical Chemistry and Laboratory Medicine — 国際臨床化学連合</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ===== 章バナー ===== -->
+    <div id="ch1" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:8px;margin-bottom:0;">
+      <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+      <div style="font-size:1.3rem;font-weight:900;position:relative;">研究の背景と概要</div>
+      <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Background and Overview</div>
+    </div>
+
+    <!-- SECTION 1 -->
+    <h3 id="sec-background" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+      ICUで電解質測定に「2つの方法」が存在する理由
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">なぜ2種類の電解質測定法があるのか</h3>
+        <p class="rule-body">ICUでは、Na⁺とK⁺の測定が日常的かつ頻繁に行われる。この測定は主に2つのルートで行われる。ひとつは、中央検査室でのイオン選択性電極（ISE）を用いた<strong>間接電位差法（IP）</strong>、もうひとつはベッドサイドの血液ガス分析装置（BGA）を用いた<strong>直接電位差法（DP）</strong>である。どちらの方法もISEを使用するが、測定の前処理と基質（検体）が異なり、それぞれ固有の長所と落とし穴がある。</p>
+        <p class="rule-body" style="margin-top:8px;">POC機器は検査室スタッフほどの技術的資格のない要員が操作することが多く、迅速な結果が求められるため、分析方法はどうしても中央検査室のものとは異なる。その結果、POC測定値は「ゴールドスタンダードよりも劣る」と見なされる傾向があるが、Na⁺に関してはこの認識は事実と逆である。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">2法の測定原理と特性の違い（Figure 1 概要）</h3>
+        <p class="rule-body">2法の本質的な違いは<strong>「希釈するかどうか」</strong>にある。</p>
+        <ul style="margin:8px 0 0 16px;line-height:1.9;font-size:0.88rem;color:var(--text);">
+          <li><strong>IP（中央検査室）：</strong>血液を遠心分離→血漿を取得→1:24に希釈してISEで測定。タンパク質・脂質濃度が高い場合、希釈に伴う「電解質排除効果（electrolyte exclusion effect）」により、Na⁺が実際より低く（偽性低Na血症）または高く（偽性高Na血症）測定される。溶血は遠心分離後の血漿の外観で検出できる（H-index）。</li>
+          <li><strong>DP（血液ガス装置）：</strong>全血を希釈なしで直接ISEに通す。希釈がないため、タンパク質・脂質による影響をほとんど受けない。ただし、全血での溶血検出が原理的に困難であり、K⁺の偽性高値（偽性高K血症）が見落とされるリスクがある。</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Figure 1 -->
+    <h3 id="fig1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 12px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+      <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">FIGURE 1</span>
+      直接電位差法（DP）と間接電位差法（IP）の比較
+    </h3>
+    <div class="ie-figure" style="margin-bottom:24px;">
+      <img src="../images/poc-electrolytes-fig1.png" alt="Figure 1: DP vs IP 比較表">
+      <div class="ie-figure-caption">
+        <strong>Figure 1.</strong> 直接電位差法（DP）と間接電位差法（IP）の主要な違い・利点・欠点のまとめ。検体（全血 vs 血漿/血清）、希釈の有無、コスト（本施設での実測値：DP 1,230€ vs IP 0.131€）、処理能力、溶血前処理チェックの可否、そしてNa⁺およびK⁺測定への影響がまとめられている。
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">臨床的に問題となる2大シナリオ</h3>
+        <div class="alert-red" style="margin-bottom:12px;">
+          <p class="rule-body" style="margin:0;"><strong>シナリオ① — IP（中央検査室）によるNa⁺の偽値：</strong>高脂血症・高タンパク血症の患者では、IPがNa⁺を実際より低く報告する（偽性低Na血症）。この干渉を見落とすと、ADH不適合分泌症候群（SIADH）と誤診して水制限→症状悪化という経過をたどりうる。本論文には実際にこの経過で高粘度症候群（Waldenström大細胞症）の確定が36時間遅れた症例が報告されている（タンパク濃度 123 g/L、IPでNa⁺ 123 mmol/L、DPでは正常域）。</p>
+        </div>
+        <div class="alert-red">
+          <p class="rule-body" style="margin:0;"><strong>シナリオ② — DP（血液ガス）による偽性高K血症：</strong>POCで測定した全血サンプルに溶血があっても目視確認できない。溶血があれば細胞内K⁺が漏出し、K⁺が実際より高く報告される。この偽値を見落とすと、存在しない高K血症を治療するか、真の低K血症を見逃す可能性がある。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 2 -->
+    <h3 id="sec-methods" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+      研究デザインと患者背景
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">研究概要</h3>
+        <p class="rule-body">フランス・ポワントワーズ（Hôpital NOVO）の30床ICUを対象に、2024年6月〜10月に前向き観察研究として実施。同一採血から得たIPとDP両方の測定値を501ペア（144人）収集した。</p>
+        <table class="ie-table" style="margin-top:12px;">
+          <thead><tr><th>項目</th><th>値</th></tr></thead>
+          <tbody>
+            <tr><td style="white-space:nowrap;">患者数</td><td>144人</td></tr>
+            <tr><td style="white-space:nowrap;">男性 / 女性</td><td>85 / 59（59% / 41%）</td></tr>
+            <tr><td style="white-space:nowrap;">年齢（中央値）</td><td>61歳（IQR 51–72）</td></tr>
+            <tr><td style="white-space:nowrap;">SAPS II（中央値）</td><td>41（IQR 31.7–53.2）</td></tr>
+            <tr><td style="white-space:nowrap;">ICU入室</td><td>115人（79.9%）</td></tr>
+            <tr><td style="white-space:nowrap;">中間病棟（IMC）入室</td><td>29人（20.1%）</td></tr>
+            <tr><td style="white-space:nowrap;">採血ペア数（Na⁺）</td><td>501ペア</td></tr>
+            <tr><td style="white-space:nowrap;">採血ペア数（K⁺）</td><td>498ペア</td></tr>
+            <tr><td style="white-space:nowrap;">患者あたり平均採血回数</td><td>3.5回</td></tr>
+            <tr><td style="white-space:nowrap;">動脈ラインからの採血</td><td>305 / 501（60.9%）</td></tr>
+            <tr><td style="white-space:nowrap;">動脈血（総計）</td><td>468 / 501（93.4%）</td></tr>
+            <tr><td style="white-space:nowrap;">静脈血</td><td>33 / 501（6.6%）</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">臓器障害の内訳</h3>
+        <table class="ie-table">
+          <thead><tr><th>臓器障害</th><th>人数（%）</th></tr></thead>
+          <tbody>
+            <tr><td style="white-space:nowrap;">呼吸器（PaO₂/FiO₂ &lt; 200）</td><td>56人（38.9%）</td></tr>
+            <tr><td style="white-space:nowrap;">循環器（昇圧剤使用）</td><td>44人（30.6%）</td></tr>
+            <tr><td style="white-space:nowrap;">腎臓（KDIGO 3）</td><td>43人（29.9%）</td></tr>
+            <tr><td style="white-space:nowrap;">神経（GCS &lt; 7）</td><td>24人（16.7%）</td></tr>
+            <tr><td style="white-space:nowrap;">代謝性（乳酸 &gt; 3 mmol/L）</td><td>24人（16.7%）</td></tr>
+            <tr><td style="white-space:nowrap;">血液（血小板 &lt; 100 G/L）</td><td>11人（7.6%）</td></tr>
+            <tr><td style="white-space:nowrap;">肝臓（Factor V &lt; 50%）</td><td>7人（4.9%）</td></tr>
+            <tr><td style="white-space:nowrap;">心臓（EF &lt; 30%）</td><td>5人（3.5%）</td></tr>
+            <tr><td style="white-space:nowrap;">人工呼吸管理</td><td>64人（44.4%）</td></tr>
+          </tbody>
+        </table>
+        <p class="rule-body" style="margin-top:10px;font-size:0.82rem;color:var(--muted);">除外基準：高度芽球性白血病（芽球 &gt; 40 G/L）の血液疾患患者（自然溶血による偽性高K血症を避けるため）。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">使用装置</h3>
+        <table class="ie-table">
+          <thead><tr><th>方法</th><th>機器</th><th>検体処理</th></tr></thead>
+          <tbody>
+            <tr>
+              <td style="white-space:nowrap;"><strong>IP（中央検査室）</strong></td>
+              <td>Alinity Ci（Abbott）</td>
+              <td>ヘパリン血を遠心分離→血漿を <strong>1:24希釈</strong> してISEで測定。H-indexで溶血評価</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;"><strong>DP（血液ガス）</strong></td>
+              <td>ABL90 FLEX（Radiometer）</td>
+              <td>ヘパリン全血を <strong>希釈なし</strong> で直接ISEに通す。溶血の評価は不可</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ===== 章バナー ===== -->
+    <div id="ch2" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+      <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+      <div style="font-size:1.3rem;font-weight:900;position:relative;">一致性解析の結果</div>
+      <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Agreement Analysis: Na⁺ and K⁺</div>
+    </div>
+
+    <!-- SECTION 3 -->
+    <h3 id="sec-na" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+      <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>
+      Na⁺測定の一致性 — 「正常域全体を覆う」乖離
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">Na⁺の分布と統計的一致性</h3>
+        <p class="rule-body">501ペアのNa⁺測定において、DPはIPよりも有意に高い値を示した（中央値：Na⁺DP 138 vs Na⁺IP 137 mmol/L、p &lt; 0.0001）。差は小さいが、個々の症例レベルでの乖離は臨床的に大きな問題となりうる。</p>
+        <div class="ie-stat-grid" style="margin-top:12px;">
+          <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+            <div class="ie-stat-val" style="color:#DC2626;">10.48 mmol/L</div>
+            <div class="ie-stat-label">Na⁺の95%一致区間幅<br>（正常域幅 10 mmol/L の≈100%！）</div>
+          </div>
+          <div class="ie-stat">
+            <div class="ie-stat-val">0.90</div>
+            <div class="ie-stat-label">Na⁺の Lin's CCC<br>（95% CI: 0.882–0.915）</div>
+          </div>
+          <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+            <div class="ie-stat-val" style="color:#DC2626;">12.1%</div>
+            <div class="ie-stat-label">Na⁺の分類乖離率<br>（正常 / 低値 / 高値で分類が異なる）</div>
+          </div>
+        </div>
+        <div class="alert-red" style="margin-top:12px;">
+          <p class="rule-body" style="margin:0;"><strong>臨床的なポイント：</strong>Na⁺の正常域は135–145 mmol/L（幅10 mmol/L）である。一方、2法の95%一致区間の幅が10.48 mmol/Lであるということは、個々の測定では正常域全体に相当するほどの差が生じうることを意味する。たとえばIPでNa⁺ 136 mmol/L、DPでは144 mmol/Lという組み合わせが理論上は95%区間内に収まってしまう。</p>
+        </div>
+        <p class="rule-body" style="margin-top:10px;">Bland-Altman解析では、平均バイアスが0.85 mmol/L（DPがIPより高め）、95%一致区間は −4.38〜+6.10 mmol/L であった。区間外の外れ値は4点のみだが、区間の幅そのものが問題である。</p>
+      </div>
+    </div>
+
+    <!-- Figure 2 -->
+    <h3 id="fig2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 12px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+      <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">FIGURE 2</span>
+      Na⁺・K⁺の測定値分布（各測定法別バイオリンプロット）
+    </h3>
+    <div class="ie-figure" style="margin-bottom:24px;">
+      <img src="../images/poc-electrolytes-fig2.png" alt="Figure 2: Na+ K+ 分布バイオリンプロット">
+      <div class="ie-figure-caption">
+        <strong>Figure 2.</strong> Na⁺（上段）およびK⁺（下段）の測定値分布。各点が個別測定値を表し、バイオリンプロットが確率密度を示し、箱ひげ図が25・50・75パーセンタイルを示す。IP（間接電位差法、ティール色）とDP（直接電位差法、赤色）を並べて比較。Na⁺はIPで外れ値が下方向に広がっており（偽性低Na血症）、K⁺はIPで上方向の外れ値が多い（溶血の影響）。
+      </div>
+    </div>
+
+    <!-- SECTION 4 -->
+    <h3 id="sec-k" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+      <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 4</span>
+      K⁺測定の一致性 — 溶血による方向の逆転
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">K⁺の分布と統計的一致性</h3>
+        <p class="rule-body">498ペアのK⁺測定においても、DPとIPで有意差があった（K⁺DP 4.0 vs K⁺IP 4.0 mmol/L中央値は同一だが p &lt; 0.0001）。一致区間の幅はNa⁺ほど極端ではないが、K⁺の正常域（3.5–5.0 mmol/L、幅1.5 mmol/L）の約66%に相当する幅があり、臨床的には十分に問題となる。</p>
+        <div class="ie-stat-grid" style="margin-top:12px;">
+          <div class="ie-stat" style="background:#FFF7ED;border-color:#FED7AA;">
+            <div class="ie-stat-val" style="color:#EA580C;">1.01 mmol/L</div>
+            <div class="ie-stat-label">K⁺の95%一致区間幅<br>（正常域幅 1.5 mmol/L の≈66%）</div>
+          </div>
+          <div class="ie-stat">
+            <div class="ie-stat-val">0.93</div>
+            <div class="ie-stat-label">K⁺の Lin's CCC<br>（95% CI: 0.916–0.939）</div>
+          </div>
+          <div class="ie-stat" style="background:#FFF7ED;border-color:#FED7AA;">
+            <div class="ie-stat-val" style="color:#EA580C;">10.1%</div>
+            <div class="ie-stat-label">K⁺の分類乖離率<br>（低値 / 正常 / 高値で分類が異なる）</div>
+          </div>
+        </div>
+        <p class="rule-body" style="margin-top:12px;">平均バイアスは0.07 mmol/L（IP − DP）と非常に小さく、95%一致区間は −0.43〜+0.58 mmol/Lであった。ただし21点が区間外にあり（Na⁺の4点と比べて多い）、特に高K側の外れ値が顕著であった。</p>
+      </div>
+    </div>
+
+    <!-- Figure 3 -->
+    <h3 id="fig3" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 12px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+      <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">FIGURE 3</span>
+      Bland-Altmanプロット — Na⁺（左）とK⁺（右）
+    </h3>
+    <div class="ie-figure" style="margin-bottom:24px;">
+      <img src="../images/poc-electrolytes-fig3.png" alt="Figure 3: Bland-Altman プロット">
+      <div class="ie-figure-caption">
+        <strong>Figure 3.</strong> Na⁺（左）とK⁺（右）のBland-Altmanプロット。横軸が2法の平均値、縦軸が差（DP − IP または IP − DP）。点線が平均バイアス、実線が95%一致限界を示す。赤点が一致区間外の外れ値。Na⁺では低値域（Na⁺ 110–125 mmol/L）に大きな外れ値が集中しており、高タンパク血症による偽性低Na血症の影響が視覚的に確認できる。
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">一致性解析の要約（Table 2）</h3>
+        <table class="ie-table">
+          <thead><tr><th>パラメータ</th><th>Na⁺</th><th>K⁺</th></tr></thead>
+          <tbody>
+            <tr><td style="white-space:nowrap;">中央値 DP（mmol/L）</td><td>138（133–141）</td><td>4.0（3.6–4.4）</td></tr>
+            <tr><td style="white-space:nowrap;">中央値 IP（mmol/L）</td><td>137（133–140）</td><td>4.0（3.6–4.5）</td></tr>
+            <tr><td style="white-space:nowrap;">p値（Wilcoxon）</td><td>&lt; 0.0001</td><td>&lt; 0.0001</td></tr>
+            <tr><td style="white-space:nowrap;">平均バイアス（mmol/L）</td><td>+0.85（DP高め）</td><td>+0.07（IP高め）</td></tr>
+            <tr><td style="white-space:nowrap;">95%一致区間（mmol/L）</td><td>−4.38 〜 +6.10</td><td>−0.43 〜 +0.58</td></tr>
+            <tr><td style="white-space:nowrap;">95%一致区間の幅</td><td><span class="mark-red"><strong>10.48 mmol/L</strong></span></td><td>1.01 mmol/L</td></tr>
+            <tr><td style="white-space:nowrap;">一致区間外の点数</td><td>4点</td><td>21点</td></tr>
+            <tr><td style="white-space:nowrap;">Lin's CCC（95% CI）</td><td>0.90（0.882–0.915）</td><td>0.93（0.916–0.939）</td></tr>
+          </tbody>
+        </table>
+        <p class="rule-body" style="margin-top:10px;font-size:0.82rem;color:var(--muted);">Spearman相関係数（強い相関）：Na⁺ r = 0.936（95% CI: 0.924–0.946）、K⁺ r = 0.944（95% CI: 0.933–0.953）。相関が強くても一致性は中等度である点に注意。</p>
+      </div>
+    </div>
+
+    <!-- ===== 章バナー ===== -->
+    <div id="ch3" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+      <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+      <div style="font-size:1.3rem;font-weight:900;position:relative;">乖離の原因分析</div>
+      <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Sources of Discrepancy: Proteinemia and Hemolysis</div>
+    </div>
+
+    <!-- SECTION 5 -->
+    <h3 id="sec-protein" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 5</span>
+      Na⁺乖離の主因：血清タンパク質濃度
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">ICUにおける低タンパク血症の高頻度と影響</h3>
+        <p class="rule-body">ICU患者においては低タンパク血症が非常に頻繁にみられる。本研究では総タンパク濃度が高いほど（Na⁺DP − Na⁺IP）の差が大きくなることを確認した（分散分析 p &lt; 0.0001）。すなわち、タンパクが高い（高タンパク血症）とIPがNa⁺を過小評価し、タンパクが低い（低タンパク血症）とIPがNa⁺を過大評価する。</p>
+        <div class="ie-stat-grid" style="margin-top:12px;">
+          <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+            <div class="ie-stat-val" style="color:#DC2626;">52.7%</div>
+            <div class="ie-stat-label">低タンパク血症（総タンパク &lt; 60 g/L）<br>の割合（本研究のICU検体）</div>
+          </div>
+          <div class="ie-stat">
+            <div class="ie-stat-val">4.6%</div>
+            <div class="ie-stat-label">高度低タンパク血症<br>（総タンパク &lt; 45 g/L）</div>
+          </div>
+          <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+            <div class="ie-stat-val" style="color:#DC2626;">84.7%</div>
+            <div class="ie-stat-label">IPによる低Na血症診断のPPV<br>（DPを基準とした場合）</div>
+          </div>
+        </div>
+        <p class="rule-body" style="margin-top:12px;">IPによる低Na血症診断のNPVは96.8%、高Na血症診断のPPVは100%、NPVは94.7%であった。</p>
+        <div class="alert-yellow" style="margin-top:10px;">
+          <p class="rule-body" style="margin:0;"><strong>PPV 84.7%の意味：</strong>IPがNa⁺低値（&lt; 135 mmol/L）を示しても、その15.3%はDPでは正常（偽性低Na血症）である。本研究のICU集団では低タンパク血症が52.7%と高頻度のため、この数値はさらに実臨床に近い。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">分類乖離の内訳（Table 3）— Na⁺</h3>
+        <p class="rule-body">分類乖離（低値・正常・高値で2法の結論が異なる）の詳細を以下に示す。DPを基準として正常域をどう扱うかを確認する。</p>
+        <table class="ie-table" style="margin-top:10px;">
+          <thead>
+            <tr><th>DP（基準）</th><th>IP正常</th><th>IP低値（&lt;135）</th><th>IP高値（&gt;145）</th></tr>
+          </thead>
+          <tbody>
+            <tr><td style="white-space:nowrap;">DP正常（n=322）</td><td>298（92.5%）</td><td><span class="mark-red">24（7.5%）</span></td><td>0</td></tr>
+            <tr><td style="white-space:nowrap;">DP低値（n=144）</td><td><span class="mark-red">11（7.6%）</span></td><td>133（92.4%）</td><td>0</td></tr>
+            <tr><td style="white-space:nowrap;">DP高値（n=35）</td><td><span class="mark-yellow">26（74.3%）</span></td><td>0</td><td>9（25.7%）</td></tr>
+          </tbody>
+        </table>
+        <p class="rule-body" style="margin-top:10px;font-size:0.82rem;"><strong>合計乖離：61 / 501（12.2%）</strong> — DPで正常だがIPで低値が24例、DPで低値だがIPで正常が11例など。特に注目は<span class="mark-red">DPで高Na（&gt;145）と判断した35例のうち26例（74.3%）はIPでは正常域</span>に収まっており、IPが高Na血症を見落としやすいことを示す（低タンパク血症がNa⁺を過大評価するため）。</p>
+      </div>
+    </div>
+
+    <!-- SECTION 6 -->
+    <h3 id="sec-hemolysis" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+      <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 6</span>
+      K⁺乖離の主因：溶血 — そしてIPのほうがより溶血しやすい
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">溶血（H-index）の影響とその非直感的な方向性</h3>
+        <p class="rule-body">溶血（H-index ≥ 0.5）を認めた検体は全体の6.5%（33 / 501）であり、文献上の動脈血での溶血発生率（最大18.1%）と比較して低かった。これは動脈ラインからの採血が60.9%を占め、採血時の溶血リスクが低かったことを反映する。</p>
+        <div class="ie-stat-grid" style="margin-top:12px;">
+          <div class="ie-stat" style="background:#FFF7ED;border-color:#FED7AA;">
+            <div class="ie-stat-val" style="color:#EA580C;">6.5%</div>
+            <div class="ie-stat-label">溶血あり（H-index ≥ 0.5）<br>の検体割合</div>
+          </div>
+          <div class="ie-stat" style="background:#FFF7ED;border-color:#FED7AA;">
+            <div class="ie-stat-val" style="color:#EA580C;">87%</div>
+            <div class="ie-stat-label">溶血検体でK⁺IP &gt; K⁺DP<br>（IP側がより溶血が進行）</div>
+          </div>
+          <div class="ie-stat">
+            <div class="ie-stat-val">0.44 mmol/L</div>
+            <div class="ie-stat-label">溶血検体での平均差<br>（K⁺IP − K⁺DP）</div>
+          </div>
+        </div>
+        <div class="alert-yellow" style="margin-top:12px;">
+          <p class="rule-body" style="margin:0;"><strong>直感に反するポイント：</strong>「DPは全血なので溶血していればK⁺が上がる」と思いがちだが、実際は溶血検体の87%でIPのほうがK⁺が高かった。これは、IP側では①採血後の分析開始まで時間がかかる（遠心分離の待機）、②遠心分離の機械的力そのものが溶血を促進するためと考えられる。つまりIP側でより溶血が進んでK⁺が高くなっていた。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">溶血なし検体でDP &gt; IP のケース</h3>
+        <p class="rule-body">一方、溶血がないにもかかわらずK⁺DP &gt; K⁺IP（差 ≥ 0.3 mmol/L）だった例が25検体（5%）あり、平均差は0.42 mmol/L（最小0.3、最大1.1 mmol/L）であった。これらは全例H-index &lt; 0.5（溶血陰性）であり、溶血以外の機序によるDPのK⁺上昇（例：採血前の指または採血部位のうっ血など）を示唆する。</p>
+        <p class="rule-body" style="margin-top:8px;">なお静脈採血（n=33）と動脈採血（n=468）で溶血率（H-index中央値：0.03 vs 0.04、p=0.81）およびK⁺の乖離（ΔK⁺DP–IP 中央値：0 vs −0.1、p=0.33）に有意差はなかった。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">分類乖離の内訳（Table 3）— K⁺</h3>
+        <table class="ie-table" style="margin-top:8px;">
+          <thead>
+            <tr><th>IP（基準）</th><th>DP正常</th><th>DP低値（&lt;3.5）</th><th>DP高値（&gt;5.0）</th></tr>
+          </thead>
+          <tbody>
+            <tr><td style="white-space:nowrap;">IP正常（n=366）</td><td>346（94.5%）</td><td>18（5.0%）</td><td>2（0.5%）</td></tr>
+            <tr><td style="white-space:nowrap;">IP低値（n=83）</td><td><span class="mark-yellow">15（18.1%）</span></td><td>68（81.9%）</td><td>0</td></tr>
+            <tr><td style="white-space:nowrap;">IP高値（n=48）</td><td><span class="mark-red">15（31.2%）</span></td><td>0</td><td>33（68.8%）</td></tr>
+          </tbody>
+        </table>
+        <p class="rule-body" style="margin-top:10px;font-size:0.82rem;"><strong>合計乖離：50 / 497（10.1%）</strong> — 特にIPで高K（&gt;5.0）とした48例のうち15例（31.2%）はDPでは正常域：これはIPにおける溶血によるK⁺過大評価を反映する。また、IPで低K（&lt;3.5）の83例のうち15例（18.1%）はDPでは正常：DPがK⁺を過大評価（全血での溶血）している可能性を示す。</p>
+      </div>
+    </div>
+
+    <!-- ===== 章バナー ===== -->
+    <div id="ch4" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+      <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+      <div style="font-size:1.3rem;font-weight:900;position:relative;">医師の認識調査と考察</div>
+      <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Physician Awareness Survey and Discussion</div>
+    </div>
+
+    <!-- SECTION 7 -->
+    <h3 id="sec-survey" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 7</span>
+      医師103人の認識調査 — 正しく理解している医師は少ない
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">調査結果の概要</h3>
+        <p class="rule-body">POC電解質パネルを日常診療で使用する医師103人を対象に簡易アンケートを実施。結果は驚くほど知識の不足を明らかにした。</p>
+
+        <div class="survey-bar-wrap" style="margin-top:16px;">
+          <div class="survey-bar-label">「IPによるNa⁺測定のバイアスを認識していた」医師の割合</div>
+          <div class="survey-bar-track">
+            <div class="survey-bar-fill" style="width:31.1%;background:#DC2626;">
+              <span class="survey-bar-val">31.1%</span>
+            </div>
+          </div>
+        </div>
+        <div class="survey-bar-wrap" style="margin-top:10px;">
+          <div class="survey-bar-label">「DPのK⁺はIPと同等以上に信頼できる」と考えていた医師の割合</div>
+          <div class="survey-bar-track">
+            <div class="survey-bar-fill" style="width:45.6%;background:#EA580C;">
+              <span class="survey-bar-val">45.6%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="alert-red" style="margin-top:16px;">
+          <p class="rule-body" style="margin:0;"><strong>解釈：</strong>Na⁺についてはIPの限界を知っていた医師は3人に1人以下。K⁺については約半数がDPをIPと同等に信頼可能と考えていたが、これは溶血非検出の問題を無視した誤った理解である。医師への教育介入が測定法の誤用防止に不可欠である。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 8 -->
+    <h3 id="sec-discussion" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+      <span style="color:#16A34A;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 8</span>
+      考察と臨床提言 — どちらを使うべきか
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">権威性バイアス（Authority Bias）という落とし穴</h3>
+        <p class="rule-body">本論文が指摘する重要な概念として「権威性バイアス」がある。DPがNa⁺を正常と示しても、「中央検査室（IP）のほうが信頼できる」という思い込みから、医師がDPの正常値を疑って確認検査を重ねるケースが起こりうる。実際に提示された症例では、ICU医師がDPのNa⁺正常値を「信用できない」と言い再検査を要求した。</p>
+        <p class="rule-body" style="margin-top:8px;">IFCCは20年以上前から、特に異常なタンパク質・脂質濃度を持つ患者ではDPがより正確で臨床的に適切な方法として推奨している（Clin Chem Lab Med 2000）。にもかかわらず、IPが「本物の検査室の方法」として権威的に扱われ続けている現状がある。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">臨床提言：Na⁺はDP、K⁺はIPを優先する理由</h3>
+        <div class="ie-echo-grid">
+          <div class="ie-echo-box">
+            <div class="ie-echo-name" style="color:#2D7A4F;">Na⁺ → DP（血液ガス）を優先</div>
+            <div class="ie-echo-body">
+              <ul style="margin:4px 0 0 16px;font-size:0.85rem;line-height:1.8;">
+                <li>希釈がないためタンパク質・脂質の影響を受けない</li>
+                <li>ICUでは低タンパク血症が52.7%と高頻度</li>
+                <li>IFCCが20年以上前からDPを推奨</li>
+                <li>特に異常なタンパク/脂質濃度を持つ患者で有用</li>
+              </ul>
+            </div>
+          </div>
+          <div class="ie-echo-box">
+            <div class="ie-echo-name" style="color:#EA580C;">K⁺ → IP（中央検査室）を優先</div>
+            <div class="ie-echo-body">
+              <ul style="margin:4px 0 0 16px;font-size:0.85rem;line-height:1.8;">
+                <li>H-indexで溶血を客観的に検出できる</li>
+                <li>溶血があれば結果を自動的に「要注意」と判断可能</li>
+                <li>DPは全血での溶血非検出が根本的な限界</li>
+                <li>溶血時の偽性高K血症リスクを排除できる</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="alert-yellow" style="margin-top:12px;">
+          <p class="rule-body" style="margin:0;"><strong>重要な留意点：</strong>DPはガス分析と電解質パネルが切り離せない設計（同一測定）のため、Na⁺のためだけにDPを単独で追加注文することは本施設では不可能（コストはIPの約10倍）。実際には同一血液ガス採血でNa⁺をDPから読み、K⁺はIPから確認するという複合的な判断が求められる。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">POCの次世代技術 — 溶血検出の革新</h3>
+        <p class="rule-body">K⁺のDPにおける最大の限界は全血での溶血非検出である。この課題に対し、近年以下の技術的進歩が報告されている：</p>
+        <div class="ie-flow">
+          <div class="ie-flow-item">
+            <div class="ie-flow-num">1</div>
+            <div style="flex:1;"><p class="rule-body"><strong>半自動溶血検出デバイス：</strong>BGA実施前に全血から溶血を半自動で検出する専用デバイスが実用化されつつある（Duhalde et al. 2019）。煩雑な遠心分離を不要とする。</p></div>
+          </div>
+          <div class="ie-flow-arrow">↓</div>
+          <div class="ie-flow-item">
+            <div class="ie-flow-num">2</div>
+            <div style="flex:1;"><p class="rule-body"><strong>次世代BGA内蔵技術（音響流体デバイス）：</strong>音響力を用いたマイクロ流体チップ（acoustofluidic flow cell）が血液細胞を局所分離し、遠心分離なしで血漿の溶血光度測定をBGAと同時に実施できる（Balasubramanian et al. Clin Chem 2024）。これが普及すれば、DPのK⁺信頼性が大幅に向上する。</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUMMARY -->
+    <h3 id="summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+      論文のキーメッセージ
+    </h3>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+            <span class="rule-body"><strong>Na⁺の一致性は「中等度」：</strong>DPとIPのNa⁺測定は強い相関（r=0.936）を示すが、Bland-Altman解析の95%一致区間幅は10.48 mmol/L（正常域幅の約100%）であり、個々の測定では臨床的に大きな乖離が起こりうる。2法は互換ではない。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+            <span class="rule-body"><strong>ICUではNa⁺にDPを優先すべき：</strong>ICU患者の52.7%が低タンパク血症のため、IPによる偽性低Na血症・偽性高Na血症が頻発する。IFCCはタンパク/脂質異常を持つ患者ではDPを推奨しており、本研究はその妥当性を改めて支持した。IPのPPVは低Na血症診断で84.7%にとどまる。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+            <span class="rule-body"><strong>K⁺にはIPを優先すべき：</strong>溶血がある場合、IPのほうがK⁺が高くなることが87%で確認された（DPでなくIP側が遠心分離の遅延と機械的刺激で溶血が進む）。IPはH-indexによる溶血検出が可能であり、結果の信頼性を担保できる。DPでの全血溶血非検出は根本的な限界である。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+            <span class="rule-body"><strong>乖離による分類エラーは約10%：</strong>Na⁺・K⁺いずれも、低値・正常・高値の分類が2法で異なる「乖離」の頻度はそれぞれ12.1%・10.1%であった。つまり10回に1回は2法で「異常 vs 正常」の結論が逆になりうる。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+            <span class="rule-body"><strong>医師教育が急務：</strong>IPのNa⁺バイアスを知っていた医師は31.1%のみ。「中央検査室＝信頼できる」という権威性バイアスは誤診につながりうる。自施設のICU医師を含め、DPとIPそれぞれの長所と限界を正しく理解することが患者安全の向上に直結する。</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 出典 -->
+    <p style="font-size:0.72rem;color:#9CA3AF;margin-top:16px;line-height:1.7;">
+      出典：Nakhil N, Najem S, Driss R, Chaabouni T, Dufour N. Discrepancies Between Point of Care and Central Laboratory Sodium and Potassium Measurements in ICU: Analytical Biases and Physician Awareness. Critical Care Medicine. 2026 May;54(5):1092–1102.<br>
+      DOI：<a href="https://doi.org/10.1097/CCM.0000000000007039" target="_blank" rel="noopener" style="color:#60A5FA;">https://doi.org/10.1097/CCM.0000000000007039</a><br>
+      本資料は教育目的で作成したサマリーです。診断・治療方針の決定には必ず原典を参照してください。
+    </p>
+    <p style="font-size:0.75rem;color:var(--muted);text-align:right;margin-top:8px;">制作：ICU 関谷</p>
+
+  </main><!-- /main -->
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="ie-sidebar">
+    <div class="ie-sidebar-card">
+      <div class="ie-sidebar-title">目次</div>
+
+      <a href="#ch1" class="ie-toc-chapter">研究の背景と概要</a>
+      <a href="#sec-background" class="ie-toc-section">S1 — 2つの電解質測定法</a>
+      <a href="#fig1" class="ie-toc-section">Figure 1 — DP vs IP 比較表</a>
+      <a href="#sec-methods" class="ie-toc-section">S2 — 研究デザイン・患者背景</a>
+
+      <a href="#ch2" class="ie-toc-chapter">一致性解析の結果</a>
+      <a href="#sec-na" class="ie-toc-section">S3 — Na⁺の一致性</a>
+      <a href="#fig2" class="ie-toc-section">Figure 2 — 分布バイオリンプロット</a>
+      <a href="#sec-k" class="ie-toc-section">S4 — K⁺の一致性</a>
+      <a href="#fig3" class="ie-toc-section">Figure 3 — Bland-Altmanプロット</a>
+
+      <a href="#ch3" class="ie-toc-chapter">乖離の原因分析</a>
+      <a href="#sec-protein" class="ie-toc-section">S5 — Na⁺乖離：タンパク質の影響</a>
+      <a href="#sec-hemolysis" class="ie-toc-section">S6 — K⁺乖離：溶血の影響</a>
+
+      <a href="#ch4" class="ie-toc-chapter">医師の認識調査と考察</a>
+      <a href="#sec-survey" class="ie-toc-section">S7 — 医師調査結果</a>
+      <a href="#sec-discussion" class="ie-toc-section">S8 — 臨床提言</a>
+      <a href="#summary" class="ie-toc-section">SUMMARY</a>
+    </div>
+  </aside>
+
+</div><!-- /container -->
+
+<script src="../script.js"></script>
+<script src="../abbr-tooltip.js"></script>
+</body>
+</html>
