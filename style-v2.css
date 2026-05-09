@@ -119,20 +119,70 @@ button { cursor: pointer; font-family: inherit; }
   letter-spacing: -0.03em;
 }
 
-.nav-menu { display: flex; gap: 2px; flex-wrap: nowrap; overflow: hidden; }
+.nav-menu { display: flex; gap: 2px; flex-wrap: nowrap; }
+.nav-menu > li { position: relative; list-style: none; }
 .nav-icon { display: none; }
 
 .nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
   padding: 7px 10px;
   border-radius: 6px;
   font-size: 0.78rem;
   font-weight: 600;
   color: var(--muted);
   white-space: nowrap;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  text-decoration: none;
   transition: background var(--trans), color var(--trans);
 }
 .nav-link:hover,
-.nav-link.active {
+.nav-link.active,
+.nav-item-dd.open > .nav-link-dd {
+  background: var(--blue-pale);
+  color: var(--blue);
+}
+.nav-caret {
+  flex-shrink: 0;
+  opacity: 0.7;
+  transition: transform 0.2s;
+}
+.nav-item-dd.open .nav-caret { transform: rotate(180deg); }
+
+/* ── Dropdown panel (PC) ── */
+.nav-dd-menu {
+  display: none;
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  min-width: 220px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(13,79,140,0.10);
+  padding: 6px;
+  margin: 0;
+  list-style: none;
+  z-index: 1001;
+}
+.nav-item-dd.open .nav-dd-menu { display: block; }
+.nav-dd-menu li { list-style: none; }
+.nav-dd-menu a {
+  display: block;
+  padding: 9px 12px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s;
+}
+.nav-dd-menu a:hover {
   background: var(--blue-pale);
   color: var(--blue);
 }
@@ -227,23 +277,29 @@ button { cursor: pointer; font-family: inherit; }
   max-width: 460px;
 }
 
-/* ── Nav Search Trigger ── */
-.nav-search-trigger {
+/* ── Nav Search Trigger（旧クラス・現行は .nav-link.nav-link-search で統一） ── */
+.nav-search-trigger,
+.nav-link-search {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 7px 10px;          /* .nav-link と完全一致 */
+  border-radius: 6px;
   background: none;
   border: none;
-  color: var(--muted);
   cursor: pointer;
-  padding: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: color 0.2s;
+  color: var(--muted);
   font-family: inherit;
-  font-size: 0.82rem;
-  font-weight: 500;
+  font-size: 0.78rem;          /* .nav-link と完全一致 */
+  font-weight: 600;            /* .nav-link と完全一致 */
+  white-space: nowrap;
+  text-decoration: none;
+  transition: background var(--trans), color var(--trans);
 }
 .nav-search-trigger .nav-icon { display: none; }
-.nav-search-trigger:hover {
+.nav-search-trigger:hover,
+.nav-link-search:hover {
+  background: var(--blue-pale);
   color: var(--blue);
 }
 
@@ -1797,6 +1853,64 @@ a.resource-item:hover .resource-name { color: var(--blue); }
     width: 100%;
   }
   .nav-search-trigger .nav-icon { display: flex !important; }
+
+  /* ── モバイル：縦リスト体裁に統一（4-col grid を 1-col 化） ── */
+  .nav-menu { grid-template-columns: 1fr !important; }
+  .nav-menu > li { grid-column: 1 / -1; width: 100%; }
+  .nav-menu > li > .nav-link {
+    flex-direction: row !important;
+    justify-content: flex-start !important;
+    text-align: left !important;
+    min-height: 0 !important;
+    padding: 12px 14px !important;
+    font-size: 0.85rem !important;
+    background: #F8FAFC;
+    border-radius: 10px !important;
+  }
+  /* ── モバイル：ドロップダウン項目はインラインで折り返し展開 ── */
+  .nav-item-dd { grid-column: 1 / -1; }
+  .nav-link-dd {
+    width: 100%;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    min-height: 0 !important;
+    padding: 12px 14px !important;
+    font-size: 0.85rem !important;
+    text-align: left !important;
+    background: #F8FAFC;
+    border-radius: 10px !important;
+  }
+  .nav-link-dd .nav-caret { width: 14px; height: 14px; opacity: 0.55; }
+  .nav-dd-menu {
+    position: static;
+    display: none;
+    width: 100%;
+    box-shadow: none;
+    border: none;
+    background: transparent;
+    padding: 4px 0 4px 14px;
+    margin: 4px 0 0;
+    min-width: 0;
+  }
+  .nav-item-dd.open .nav-dd-menu { display: block; }
+  .nav-dd-menu li { margin: 2px 0; }
+  .nav-dd-menu a {
+    display: block;
+    padding: 10px 12px;
+    font-size: 0.8rem;
+    border-left: 2px solid var(--blue-pale);
+    border-radius: 0 6px 6px 0;
+    background: #fff;
+  }
+  .nav-link-search {
+    grid-column: 1 / -1;
+    width: 100%;
+    justify-content: center !important;
+    background: var(--blue-pale) !important;
+    color: var(--blue) !important;
+    padding: 12px 14px !important;
+    font-size: 0.85rem !important;
+  }
 }
 
 @media (max-width: 767px) {

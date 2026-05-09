@@ -52,19 +52,22 @@
     }
     .dum-nav-menu {
       display:flex;gap:2px;list-style:none;margin:0;padding:0;flex-wrap:nowrap;
+      align-items:center;
     }
+    .dum-nav-menu > li { position:relative;list-style:none; }
     .dum-nav-menu a, .dum-nav-menu button {
-      display:flex;align-items:center;gap:6px;
+      display:inline-flex;align-items:center;gap:4px;
       color:var(--hero-text-mute);
       font-size:0.78rem;        /* 他サブページの .nav-link と同じ固定サイズに統一 */
       font-weight:600;text-decoration:none;white-space:nowrap;
       padding:7px 10px;border-radius:6px;
       background:none;border:none;cursor:pointer;
       transition:background .2s, color .2s;
-      font-family:inherit;
+      font-family:inherit;line-height:1.2;
     }
     .dum-nav-menu a:hover, .dum-nav-menu button:hover,
-    .dum-nav-menu a.active, .dum-nav-menu button.active {
+    .dum-nav-menu a.active, .dum-nav-menu button.active,
+    .dum-nav-item-dd.open > .dum-nav-dd-btn {
       background:#E1F0FB;color:var(--hero-blue);
     }
     /* PC ではアイコン非表示（モバイルドロワーでのみ表示） */
@@ -72,6 +75,43 @@
     .dum-nav-menu .nav-icon svg {
       width:clamp(14px, 11px + 0.3vw, 18px);
       height:clamp(14px, 11px + 0.3vw, 18px);
+    }
+    /* ドロップダウン親項目のキャレット */
+    .dum-nav-caret {
+      flex-shrink:0;opacity:0.7;transition:transform .2s;
+    }
+    .dum-nav-item-dd.open .dum-nav-caret { transform:rotate(180deg); }
+    /* ドロップダウンパネル（PC） */
+    .dum-nav-dd-menu {
+      display:none;position:absolute;top:calc(100% + 6px);left:0;
+      min-width:220px;background:#fff;
+      border:1px solid #ECECE6;border-radius:10px;
+      box-shadow:0 8px 24px rgba(13,79,140,0.10);
+      padding:6px;margin:0;list-style:none;z-index:101;
+    }
+    .dum-nav-item-dd.open .dum-nav-dd-menu { display:block; }
+    .dum-nav-dd-menu li { list-style:none; }
+    .dum-nav-dd-menu a {
+      display:block;padding:9px 12px;border-radius:6px;
+      font-size:0.8rem;font-weight:600;
+      color:var(--hero-text-dark);white-space:nowrap;
+      transition:background .15s,color .15s;
+    }
+    .dum-nav-dd-menu a:hover {
+      background:#E1F0FB;color:var(--hero-blue);
+    }
+    /* 検索リンクを他のリンクと完全に揃える（旧版で偏っていた問題の修正） */
+    .dum-nav-search-trigger {
+      display:inline-flex !important;align-items:center;gap:4px;
+      padding:7px 10px !important;border-radius:6px;
+      font-size:0.78rem !important;font-weight:600 !important;
+      line-height:1.2 !important;
+      color:var(--hero-text-mute) !important;
+      text-decoration:none;white-space:nowrap;
+      background:none;border:none;cursor:pointer;font-family:inherit;
+    }
+    .dum-nav-search-trigger:hover {
+      background:#E1F0FB !important;color:var(--hero-blue) !important;
     }
 
     /* HERO — content-width image */
@@ -394,8 +434,66 @@
       .dum-nav-menu.open .dn-ico-gl-icu  { background:#D1FAE5; } .dum-nav-menu.open .dn-ico-gl-icu  svg { stroke:#059669; }
       .dum-nav-menu.open .dn-ico-gl-op   { background:#E0F2FE; } .dum-nav-menu.open .dn-ico-gl-op   svg { stroke:#0284C7; }
       .dum-nav-menu.open .dn-ico-disease { background:#FFF7ED; } .dum-nav-menu.open .dn-ico-disease svg { stroke:#EA580C; }
+      .dum-nav-menu.open .dn-ico-tool    { background:#ECFEFF; } .dum-nav-menu.open .dn-ico-tool    svg { stroke:#0891B2; }
       .dum-nav-menu.open .dn-ico-faq     { background:#F3F4F6; } .dum-nav-menu.open .dn-ico-faq     svg { stroke:#6B7280; }
       .dum-nav-menu.open .dn-ico-search  { background:#FCE7F3; } .dum-nav-menu.open .dn-ico-search  svg { stroke:#DB2777; }
+
+      /* モバイル：ドロップダウン項目はインラインで折り返し展開（行全体幅を取る） */
+      .dum-nav-menu.open .dum-nav-item-dd { grid-column:1 / -1;width:100%; }
+      .dum-nav-menu.open .dum-nav-dd-btn {
+        flex-direction:row !important;justify-content:flex-start !important;align-items:center !important;
+        width:100%;min-height:0 !important;padding:12px 14px !important;
+        font-size:0.85rem !important;text-align:left !important;
+        background:#F8FAFC;border-radius:10px !important;
+        gap:10px !important;
+      }
+      .dum-nav-menu.open .dum-nav-dd-btn .nav-icon {
+        width:32px;height:32px;
+      }
+      .dum-nav-menu.open .dum-nav-dd-btn .nav-icon svg { width:18px;height:18px; }
+      .dum-nav-menu.open .dum-nav-dd-btn .dum-nav-caret {
+        margin-left:auto;width:14px;height:14px;display:block !important;
+      }
+      .dum-nav-menu.open .dum-nav-dd-menu {
+        display:none;position:static;width:100%;
+        box-shadow:none;border:none;background:transparent;
+        padding:4px 0 4px 14px;margin:4px 0 0;min-width:0;
+      }
+      .dum-nav-menu.open .dum-nav-item-dd.open .dum-nav-dd-menu { display:block; }
+      .dum-nav-menu.open .dum-nav-dd-menu li { margin:2px 0;width:100%; }
+      .dum-nav-menu.open .dum-nav-dd-menu a {
+        display:block !important;flex-direction:row !important;
+        padding:10px 12px !important;font-size:0.8rem !important;
+        background:#fff;border-left:2px solid #E1F0FB;
+        border-radius:0 6px 6px 0;text-align:left !important;
+        min-height:0 !important;white-space:normal;
+      }
+      /* モバイル：他の単独リンク（疾患マニュアル等）も1行を占有して縦リスト体裁に統一 */
+      .dum-nav-menu.open > li { grid-column:1 / -1;width:100%; }
+      .dum-nav-menu.open > li > a:not(.dum-nav-search-trigger) {
+        flex-direction:row !important;justify-content:flex-start !important;align-items:center !important;
+        width:100%;min-height:0 !important;padding:12px 14px !important;
+        font-size:0.85rem !important;text-align:left !important;
+        background:#F8FAFC;border-radius:10px !important;
+        gap:10px !important;
+      }
+      .dum-nav-menu.open > li > a:not(.dum-nav-search-trigger) .nav-icon {
+        width:32px;height:32px;
+      }
+      .dum-nav-menu.open > li > a:not(.dum-nav-search-trigger) .nav-icon svg { width:18px;height:18px; }
+      /* モバイル：検索ボタンは1行を占有して中央寄せ */
+      .dum-nav-menu.open .dum-nav-search-trigger {
+        grid-column:1 / -1;width:100%;
+        flex-direction:row !important;justify-content:center !important;align-items:center !important;
+        background:#FCE7F3 !important;color:#DB2777 !important;
+        padding:14px !important;font-size:0.9rem !important;font-weight:700 !important;
+        min-height:0 !important;border-radius:10px !important;
+        gap:8px !important;
+      }
+      .dum-nav-menu.open .dum-nav-search-trigger .nav-icon {
+        width:24px;height:24px;background:transparent !important;
+      }
+      .dum-nav-menu.open .dum-nav-search-trigger .nav-icon svg { width:18px;height:18px;stroke:#DB2777 !important; }
     }
     @media (max-width:380px) {
       .dum-nav-menu.open { grid-template-columns:repeat(3, 1fr); }

@@ -18,15 +18,82 @@
   }
 
   // ナビメニュー全体をメインページと同じ統一版に差し替え（テキストのみ）
+  // ─ 各項目は { 親項目, 子リンク } 構造。子リンクなしは単独リンク扱い ─
+  var caret = '<svg class="nav-caret" width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="3 5 6 8 9 5"/></svg>';
+  function dd(label, items) {
+    var lis = items.map(function(it) {
+      return '<li><a href="' + basePath + it.href + '">' + it.label + '</a></li>';
+    }).join('');
+    return '<li class="nav-item-dd">'
+      + '<button type="button" class="nav-link nav-link-dd" aria-expanded="false">' + label + caret + '</button>'
+      + '<ul class="nav-dd-menu">' + lis + '</ul>'
+      + '</li>';
+  }
+  function single(href, label) {
+    return '<li><a href="' + basePath + href + '" class="nav-link">' + label + '</a></li>';
+  }
+
   navMenu.innerHTML = ''
-    + '<li><a href="' + basePath + 'index.html#about" class="nav-link">当院ICUについて</a></li>'
-    + '<li><a href="' + basePath + 'pages/pre-rotation-todo.html" class="nav-link">研修される先生へ</a></li>'
-    + '<li><a href="' + basePath + 'index.html#learning" class="nav-link">学習コンテンツ</a></li>'
-    + '<li><a href="' + basePath + 'index.html#videos" class="nav-link">講義動画</a></li>'
-    + '<li><a href="' + basePath + 'pages/articles-guidelines.html" class="nav-link">論文GL(ICU)</a></li>'
-    + '<li><a href="' + basePath + 'pages/articles-outpatient.html" class="nav-link">論文GL(外来)</a></li>'
-    + '<li><a href="' + basePath + 'pages/disease-topics.html" class="nav-link">疾患マニュアル</a></li>'
-    + '<li><a href="' + basePath + 'pages/recent-all.html" class="nav-search-trigger" id="globalSearchTrigger" aria-label="サイト内コンテンツ検索">検索<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left:4px;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></a></li>';
+    + dd('当院ICUについて', [
+        { href: 'pages/about-icu.html',          label: '当院ICUについて' },
+        { href: 'pages/pre-rotation-todo.html',  label: 'ローテされる先生へ' },
+        { href: 'pages/icu-team.html',           label: 'スタッフ紹介' },
+        { href: 'pages/schedule-ward-daily.html',label: 'スケジュール' },
+        { href: 'pages/icu-policy-rules.html',   label: 'ICUのルール' }
+      ])
+    + dd('学習コンテンツ', [
+        { href: 'pages/icu-passport.html',  label: 'ICU PASSPORT（レクチャーシート）' },
+        { href: 'pages/yoshida-qa.html',    label: '吉田先生のお悩み相談コーナー' },
+        { href: 'pages/icu-core-conf.html', label: 'レジデントのICU資料集' }
+      ])
+    + dd('論文GL', [
+        { href: 'pages/articles-guidelines.html', label: 'ICU' },
+        { href: 'pages/articles-outpatient.html', label: '外来' }
+      ])
+    + single('pages/disease-topics.html', '疾患マニュアル')
+    + dd('講義動画', [
+        { href: 'pages/video-lectures.html',          label: '聖路加ICU動画講座集' },
+        { href: 'pages/schedule-weekly-id-icu.html',  label: 'ID×ICU Conference 動画集' }
+      ])
+    + dd('便利ツール', [
+        { href: 'pages/abx-calculator.html',     label: '抗菌薬投与量 一発計算' },
+        { href: 'pages/karte-abbreviations.html',label: 'カルテ略語対策' }
+      ])
+    + '<li><a href="' + basePath + 'pages/recent-all.html" class="nav-link nav-link-search" id="globalSearchTrigger" aria-label="サイト内コンテンツ検索">検索<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left:4px;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></a></li>';
+
+  // ── ドロップダウンの開閉（クリックで切り替え、外側クリックで閉じる） ──
+  (function bindDropdowns() {
+    var ddBtns = navMenu.querySelectorAll('.nav-link-dd');
+    function closeAll(except) {
+      ddBtns.forEach(function(b) {
+        if (b === except) return;
+        b.setAttribute('aria-expanded', 'false');
+        b.parentElement.classList.remove('open');
+      });
+    }
+    ddBtns.forEach(function(btn) {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var li = btn.parentElement;
+        var isOpen = li.classList.contains('open');
+        closeAll(btn);
+        if (isOpen) {
+          li.classList.remove('open');
+          btn.setAttribute('aria-expanded', 'false');
+        } else {
+          li.classList.add('open');
+          btn.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+    document.addEventListener('click', function(e) {
+      if (!navMenu.contains(e.target)) closeAll(null);
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeAll(null);
+    });
+  })();
 
   // 検索オーバーレイをbodyに追加
   var overlay = document.createElement('div');
@@ -149,26 +216,39 @@
 })();
 
 // ===== Mobile menu toggle =====
+// index.html は dum-nav 構造で navToggle/navMenu を持たないため、null ガード必須
 const navToggle = document.getElementById('navToggle');
 const navMenu   = document.getElementById('navMenu');
 
-navToggle.addEventListener('click', () => {
-  navToggle.classList.toggle('active');
-  navMenu.classList.toggle('active');
-});
-document.querySelectorAll('.nav-link').forEach(link => {
-  link.addEventListener('click', () => {
-    navToggle.classList.remove('active');
-    navMenu.classList.remove('active');
+if (navToggle && navMenu) {
+  navToggle.addEventListener('click', () => {
+    navToggle.classList.toggle('active');
+    navMenu.classList.toggle('active');
   });
-});
+  // 各ナビ項目クリック時にドロワーを閉じる（ただしドロップダウン親ボタンは展開のため除外）
+  document.querySelectorAll('.nav-link:not(.nav-link-dd)').forEach(link => {
+    link.addEventListener('click', () => {
+      navToggle.classList.remove('active');
+      navMenu.classList.remove('active');
+    });
+  });
+  // ドロップダウン内のリンクをタップしたときもドロワーを閉じる
+  document.querySelectorAll('.nav-dd-menu a').forEach(link => {
+    link.addEventListener('click', () => {
+      navToggle.classList.remove('active');
+      navMenu.classList.remove('active');
+    });
+  });
+}
 
 
 // ===== Navbar shadow on scroll =====
 const navbar = document.getElementById('navbar');
-window.addEventListener('scroll', () => {
-  navbar.classList.toggle('scrolled', window.scrollY > 10);
-});
+if (navbar) {
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 10);
+  });
+}
 
 // ===== Scroll-spy: active nav link =====
 const sections = document.querySelectorAll('section[id]');
