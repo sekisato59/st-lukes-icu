@@ -507,13 +507,87 @@
     .dum-nav-toggle svg { width:22px;height:22px; }
     .dum-nav-inner { position:relative; }
 
-    /* ===== フッター（画像のみ・コンテンツ幅に揃える） ===== */
-    .dum-footer-image {
+    /* ===== フッター（画像 + サイトマップ導線オーバーレイ） ===== */
+    /* 画像右側 ~60% は淡い水彩で空いているスペースなので、そこに導線を載せる */
+    .dum-footer-image,
+    .dum-footer {
       display:block;line-height:0;
       max-width:1294px;width:100%;margin:0 auto;
       padding:0 var(--dum-section-px);box-sizing:border-box;
     }
     .dum-footer-image img { display:block;width:100%;height:auto; }
+    .dum-footer-wrap {
+      position:relative;width:100%;line-height:0;
+    }
+    .dum-footer-bg {
+      display:block;width:100%;height:auto;
+    }
+    .dum-footer-cols {
+      position:absolute;
+      top:50%;
+      right:2.5%;
+      transform:translateY(-50%);
+      display:grid;
+      grid-template-columns:repeat(4, minmax(0, 1fr));
+      column-gap:clamp(14px, 0.6rem + 1.4vw, 32px);
+      row-gap:14px;
+      width:62%;
+      max-width:880px;
+      line-height:1.5;
+    }
+    .dum-footer-col { min-width:0; }
+    .dum-footer-h {
+      font-size:clamp(0.66rem, 0.42rem + 0.4vw, 0.82rem);
+      font-weight:900;color:#0D4F8C;
+      margin:0 0 7px;letter-spacing:0.02em;
+      padding-bottom:4px;
+      border-bottom:1px solid rgba(13,79,140,0.28);
+      white-space:nowrap;
+    }
+    .dum-footer-col a {
+      display:block;
+      font-size:clamp(0.62rem, 0.4rem + 0.32vw, 0.78rem);
+      font-weight:600;
+      color:#1E3A5F;
+      text-decoration:none;
+      padding:2px 0;
+      transition:color .15s, transform .15s;
+      white-space:nowrap;text-overflow:ellipsis;overflow:hidden;
+    }
+    .dum-footer-col a:hover {
+      color:#0D4F8C;
+      transform:translateX(2px);
+    }
+
+    /* タブレット：画像内オーバーレイのフォント・余白を縮める */
+    @media (max-width:1024px) {
+      .dum-footer-cols {
+        width:65%;
+        column-gap:12px;
+        row-gap:10px;
+      }
+      .dum-footer-h { font-size:0.62rem;padding-bottom:3px;margin-bottom:5px; }
+      .dum-footer-col a { font-size:0.6rem;padding:1px 0; }
+    }
+
+    /* モバイル：左の建物写真と重なって読めなくなるのでオーバーレイ解除し、
+       画像下に同色テーマの導線セクションを別途設ける */
+    @media (max-width:768px) {
+      .dum-footer-cols {
+        position:static;transform:none;width:100%;max-width:none;
+        margin:14px 0 0;
+        background:linear-gradient(135deg, #E0F2FE 0%, #DBEAFE 60%, #BFDBFE 100%);
+        padding:18px 14px;border-radius:12px;
+        grid-template-columns:repeat(2, 1fr);
+        column-gap:14px;row-gap:14px;
+        box-shadow:0 2px 12px rgba(13,79,140,0.06);
+      }
+      .dum-footer-h { font-size:0.74rem;margin-bottom:6px; }
+      .dum-footer-col a { font-size:0.72rem;white-space:normal; }
+    }
+    @media (max-width:420px) {
+      .dum-footer-cols { grid-template-columns:1fr; }
+    }
 
     /* ===== FAQ：dum 系パネル内では文字サイズを周辺に合わせて縮小（トグル形式は維持） ===== */
     .dum-content-block .faq-question {

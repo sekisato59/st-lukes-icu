@@ -38,7 +38,7 @@
         { href: 'pages/about-icu.html',          label: '当院ICUについて' },
         { href: 'pages/pre-rotation-todo.html',  label: 'ローテされる先生へ' },
         { href: 'pages/icu-team.html',           label: 'スタッフ紹介' },
-        { href: 'pages/schedule-ward-daily.html',label: 'スケジュール' },
+        { href: 'pages/pre-rotation-todo.html#sec-schedule', label: 'スケジュール' },
         { href: 'pages/icu-policy-rules.html',   label: 'ICUのルール' }
       ])
     + dd('学習コンテンツ', [
