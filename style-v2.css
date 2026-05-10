@@ -1927,41 +1927,54 @@ a.resource-item:hover .resource-name { color: var(--blue); }
   /* ===== ページヘッダー画像のモバイル最適化 =====
      原画像は 2976×600 (5:1 超横長) で、左にタイトル文字・右にアイコン/イラストが
      配置されている。アスペクト比を維持して全体を表示する（cropしない）。
-     幅は viewport 内に収まり、横スクロール/オーバーフローを起こさないことを保証。
-     [data-mobile-banner-keep] が付いた banner は除外（=独自挙動を許可）。 */
+     幅は viewport 内に収まり、横スクロール/オーバーフローを起こさないことを保証。 */
+
+  /* ページ全体の横方向オーバーフロー防止（バナー画像のはみ出し原因の根治） */
+  html, body {
+    overflow-x: hidden !important;
+    max-width: 100% !important;
+  }
+
+  /* ラッパー（ヘッダー画像を入れる div）の幅を viewport に強制 */
   .page-banner,
   .gl-page-banner,
   .tools-banner {
     width: 100% !important;
-    max-width: 100vw !important;
+    max-width: 100% !important;
     overflow: hidden !important;
     box-sizing: border-box !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
   }
-  .page-banner img:not([data-mobile-banner-keep]),
-  .gl-page-banner img:not([data-mobile-banner-keep]),
-  .tools-banner img:not([data-mobile-banner-keep]),
-  .iai-banner-img:not([data-mobile-banner-keep]),
-  .cmv-banner-img:not([data-mobile-banner-keep]),
-  .vap-banner-img:not([data-mobile-banner-keep]),
-  div[style*="line-height:0"] > img[src*="header"]:not([data-mobile-banner-keep]),
-  div[style*="line-height: 0"] > img[src*="header"]:not([data-mobile-banner-keep]),
-  div[style*="line-height:0"] > img[src*="banner"]:not([data-mobile-banner-keep]),
-  div[style*="line-height: 0"] > img[src*="banner"]:not([data-mobile-banner-keep]) {
+
+  /* バナー画像本体：width 100% で親に追従し height auto でアスペクト比維持 */
+  .page-banner img,
+  .gl-page-banner img,
+  .tools-banner img,
+  .iai-banner-img,
+  .cmv-banner-img,
+  .vap-banner-img,
+  div[style*="line-height:0"] > img[src*="header"],
+  div[style*="line-height: 0"] > img[src*="header"],
+  div[style*="line-height:0"] > img[src*="banner"],
+  div[style*="line-height: 0"] > img[src*="banner"],
+  div[style*="line-height:0"] > img[src*="Top"],
+  div[style*="line-height: 0"] > img[src*="Top"] {
+    display: block !important;
     width: 100% !important;
     max-width: 100% !important;
     height: auto !important;
+    margin: 0 !important;
     object-fit: contain !important;
-    display: block !important;
   }
-  /* バナー画像を含む可能性のあるラッパーで横はみ出しを防止 */
-  div[style*="line-height:0"]:has(> img[src*="header"]),
-  div[style*="line-height: 0"]:has(> img[src*="header"]),
-  div[style*="line-height:0"]:has(> img[src*="banner"]),
-  div[style*="line-height: 0"]:has(> img[src*="banner"]) {
-    max-width: 100vw !important;
+
+  /* インラインスタイル付き line-height:0 ラッパー（icu-policy-rules・disease-topics 等で使用）も viewport に強制 */
+  div[style*="line-height:0"],
+  div[style*="line-height: 0"] {
+    max-width: 100% !important;
     overflow: hidden !important;
-    padding-left: 0 !important;
-    padding-right: 0 !important;
     box-sizing: border-box !important;
   }
 
