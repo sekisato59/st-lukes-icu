@@ -1,0 +1,1891 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ペースメーカー：機能・トラブルシューティング・管理 | 聖路加ICU</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style-v2.css?v=202605102200">
+  <style>
+    .content-wrap { display:flex;gap:32px;align-items:flex-start;max-width:1294px;margin:0 auto;padding:32px 20px 80px; }
+    .main-col { flex:1;min-width:0;max-width:900px; }
+    .ie-sidebar { width:220px;flex-shrink:0;position:sticky;top:80px; }
+    @media (max-width:900px) { .ie-sidebar { display:none; } }
+    .ie-sidebar-card { background:#F8FAFC;border:1px solid var(--border);border-radius:10px;padding:14px 16px;max-height:80vh;overflow-y:auto; }
+    .ie-sidebar-title { font-size:0.78rem;font-weight:800;color:var(--text);margin-bottom:10px;padding-bottom:6px;border-bottom:2px solid #2D7A4F; }
+    .ie-toc-chapter { display:block;font-size:0.8rem;font-weight:700;color:var(--text);padding:6px 0;border-bottom:1px solid var(--border);text-decoration:none;line-height:1.4; }
+    .ie-toc-section { display:block;font-size:0.75rem;color:var(--muted);padding:4px 0 4px 10px;text-decoration:none;line-height:1.4;border-left:2px solid var(--border); }
+    .ie-toc-chapter:hover,.ie-toc-section:hover { color:#2D7A4F; }
+
+    .ie-table { width:100%;border-collapse:collapse;font-size:0.82rem;margin-top:10px; }
+    .ie-table th { background:#F0FDF4;border:1px solid #BBF7D0;padding:8px 12px;font-weight:700;font-size:0.78rem;text-align:left; }
+    .ie-table td { border:1px solid var(--border);padding:8px 12px;vertical-align:top;line-height:1.7; }
+    .ie-table tr:nth-child(even) td { background:#F8FAFC; }
+
+    .ie-stat-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px; }
+    @media (max-width:520px) { .ie-stat-grid { grid-template-columns:1fr 1fr; } }
+    .ie-stat { background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;padding:14px 12px;text-align:center; }
+    .ie-stat-val { font-size:1.25rem;font-weight:900;color:#2D7A4F;line-height:1.3; }
+    .ie-stat-label { font-size:0.68rem;color:var(--muted);margin-top:5px;line-height:1.5; }
+    .ie-stat.red { background:#FEF2F2;border-color:#FECACA; }
+    .ie-stat.red .ie-stat-val { color:#DC2626; }
+    .ie-stat.orange { background:#FFF7ED;border-color:#FED7AA; }
+    .ie-stat.orange .ie-stat-val { color:#EA580C; }
+
+    .ie-flow { display:flex;flex-direction:column;gap:0; }
+    .ie-flow-item { display:flex;align-items:flex-start;gap:14px;background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:14px 16px; }
+    .ie-flow-arrow { text-align:center;color:#2D7A4F;font-size:1.1rem;font-weight:700;padding:4px 0; }
+    .ie-flow-num { width:28px;height:28px;border-radius:50%;background:#2D7A4F;color:#fff;font-size:0.78rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px; }
+
+    .alert-red  { background:#FEF2F2;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#7F1D1D;line-height:1.7; }
+    .alert-blue { background:#EFF6FF;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#1E3A5F;line-height:1.7; }
+    .alert-yellow { background:#FFFBEB;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#78350F;line-height:1.7; }
+    .alert-green  { background:#F0FDF4;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#14532D;line-height:1.7; }
+
+    .ie-alpha { background:#FAF5FF;border:1px solid #DDD6FE;border-radius:8px;padding:0;overflow:hidden;margin-top:12px; }
+    .ie-alpha-inner { padding:14px 16px; }
+    .ie-alpha-header { display:flex;align-items:center;gap:10px;margin-bottom:8px; }
+    .ie-alpha-badge { background:#7C3AED;color:#fff;font-size:0.65rem;font-weight:800;padding:2px 8px;border-radius:4px;letter-spacing:0.05em;flex-shrink:0; }
+    .ie-alpha-title { font-size:0.88rem;font-weight:800;color:#4C1D95; }
+
+    .ie-score-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-top:10px; }
+    .ie-score-card { background:#F8FAFC;border:1px solid var(--border);border-radius:8px;overflow:hidden; }
+    .ie-score-head { background:#2D7A4F;color:#fff;font-size:0.78rem;font-weight:800;padding:8px 12px; }
+    .ie-score-items { padding:10px 12px; }
+    .ie-score-item { display:block;font-size:0.82rem;padding:4px 0;line-height:1.6; }
+    .ie-score-pt { display:inline-block;background:#2D7A4F;color:#fff;font-size:0.7rem;font-weight:800;width:22px;height:22px;border-radius:4px;text-align:center;line-height:22px;margin-right:6px;flex-shrink:0; }
+    .ie-score-foot { background:#F0FDF4;border-top:1px solid #BBF7D0;font-size:0.75rem;color:#2D7A4F;font-weight:700;padding:7px 12px; }
+
+    .ie-echo-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-top:10px; }
+    .ie-echo-box { background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:12px 14px; }
+    .ie-echo-name { font-size:0.8rem;font-weight:800;color:#2D7A4F;margin-bottom:6px; }
+    .ie-echo-body { font-size:0.82rem;color:var(--text);line-height:1.7; }
+
+    .pm-fig { width:100%;border-radius:8px;margin:10px 0;display:block; }
+    .pm-fig-caption { font-size:0.75rem;color:var(--muted);line-height:1.7;margin-top:4px;padding:8px 12px;background:#F8FAFC;border-radius:0 0 8px 8px; }
+    .pm-fig-wrap { margin-top:12px; }
+
+    .ci-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px; }
+    @media (max-width:600px) { .ci-grid { grid-template-columns:1fr 1fr; } }
+    .ci-img { width:100%;border-radius:6px;display:block; }
+
+    .class-badge { display:inline-block;padding:2px 8px;border-radius:4px;font-size:0.72rem;font-weight:800;margin-right:4px;white-space:nowrap; }
+    .class-i    { background:#D1FAE5;color:#065F46; }
+    .class-iia  { background:#DBEAFE;color:#1E3A8A; }
+    .class-iib  { background:#FEF9C3;color:#78350F; }
+    .class-iii  { background:#FEE2E2;color:#991B1B; }
+  </style>
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <a href="../index.html" class="nav-logo">
+      <img src="../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+      <span class="nav-logo-text">聖路加国際病院ICU</span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-menu" id="navMenu"></ul>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<div class="subpage-hero hero-image-bg">
+  <div class="container">
+    <a href="articles-guidelines.html#art-cardio" class="back-link">← 一覧へ戻る</a>
+    <h1 class="subpage-title">ペースメーカー：機能・トラブルシューティング・管理</h1>
+    <p class="subpage-subtitle">#5 CARDIOVASCULAR</p>
+    <div>
+      <span class="ie-badge">J Am Coll Cardiol 2017</span>
+      <span class="ie-badge">2017年1月</span>
+      <span class="ie-badge">Part 1 of 2</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MAIN ===== -->
+<div class="content-wrap">
+  <div class="main-col">
+
+    <!-- 略語一覧 -->
+    <div class="card" style="margin-bottom:24px;">
+      <div class="card-inner">
+        <h3 class="rule-title" style="margin-bottom:10px;">本ページで使用する略語一覧</h3>
+        <table style="width:100%;border-collapse:collapse;font-size:0.8rem;line-height:1.6;">
+          <tbody>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:90px;color:var(--blue);">略語</td><td style="padding:4px 8px;">正式名称 — 日本語訳</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">PM</td><td style="padding:4px 8px;">Pacemaker — ペースメーカー</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CIED</td><td style="padding:4px 8px;">Cardiac Implantable Electronic Device — 心臓植込み型電気デバイス</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">SND</td><td style="padding:4px 8px;">Sinus Node Dysfunction — 洞不全症候群</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">AV</td><td style="padding:4px 8px;">Atrioventricular — 房室</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">RV / LV</td><td style="padding:4px 8px;">Right / Left Ventricle — 右室 / 左室</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">EMI</td><td style="padding:4px 8px;">Electromagnetic Interference — 電磁干渉</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">PMT</td><td style="padding:4px 8px;">Pacemaker-Mediated Tachycardia — ペースメーカー誘発性頻拍</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">PVARP</td><td style="padding:4px 8px;">Post-Ventricular Atrial Refractory Period — 心室後心房不応期</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">TARP</td><td style="padding:4px 8px;">Total Atrial Refractory Period — 総心房不応期（AV delay + PVARP）</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CMR</td><td style="padding:4px 8px;">Cardiac Magnetic Resonance — 心臓MRI</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">SAR</td><td style="padding:4px 8px;">Specific Absorption Rate — 比吸収率</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CRT</td><td style="padding:4px 8px;">Cardiac Resynchronization Therapy — 心臓再同期療法</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">TV / CS</td><td style="padding:4px 8px;">Tricuspid Valve / Coronary Sinus — 三尖弁 / 冠静脈洞</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">TEE</td><td style="padding:4px 8px;">Transesophageal Echocardiography — 経食道心エコー</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">ERI / EOL</td><td style="padding:4px 8px;">Elective Replacement Indicator / End of Life — 待機的交換指標（残90日）/ 電池終末期</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">AF</td><td style="padding:4px 8px;">Atrial Fibrillation — 心房細動</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">PVC</td><td style="padding:4px 8px;">Premature Ventricular Contraction — 心室期外収縮</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">VA</td><td style="padding:4px 8px;">Ventriculoatrial — 心室→心房（逆行性伝導）</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">LR / URL</td><td style="padding:4px 8px;">Lower Rate / Upper (Tracking) Rate Limit — 下限レート / 上限トラッキングレート</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">EGM</td><td style="padding:4px 8px;">Electrogram — 心内電位記録（デバイス記録のECG）</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">BiV</td><td style="padding:4px 8px;">Biventricular Pacing — 両室ペーシング（CRTで使用）</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">ICD</td><td style="padding:4px 8px;">Implantable Cardioverter-Defibrillator — 植込み型除細動器</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">IE</td><td style="padding:4px 8px;">Infective Endocarditis — 感染性心内膜炎</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">TLE</td><td style="padding:4px 8px;">Transvenous Lead Extraction — 経静脈リード抜去（専門施設で実施）</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">SA / S. aureus</td><td style="padding:4px 8px;">Staphylococcus aureus — 黄色ブドウ球菌</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">PFO</td><td style="padding:4px 8px;">Patent Foramen Ovale — 卵円孔開存</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">HFrEF</td><td style="padding:4px 8px;">Heart Failure with Reduced Ejection Fraction — 駆出率低下心不全</td></tr>
+            <tr><td style="padding:4px 8px;font-weight:700;color:var(--blue);">LBBB / RBBB</td><td style="padding:4px 8px;">Left / Right Bundle Branch Block — 左 / 右脚ブロック</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ===================== 第1章 ===================== -->
+    <div id="pm-ch1" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+      <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+      <div style="font-size:1.3rem;font-weight:900;position:relative;">第1章 歴史と基礎生理</div>
+      <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">History and Basic Physiology of Cardiac Pacing</div>
+    </div>
+
+    <h3 id="pm-s1a" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+      ペースメーカーの歴史的変遷
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">Central Illustration：ペースメーカーの歴史的パラダイムシフト</h3>
+        <p class="rule-body">ペーシングの歴史は1930年代、Hymanの「人工ペースメーカー」（彼自身が命名）に始まる。手回しクランクでDC発電機を駆動し、肋間から右心房に電気刺激を送った。当時Hymanは医療界の懐疑・訴訟・「神の意志への干渉」という非難に直面し、製造企業も見つからなかった。第2次世界大戦後、公衆の認識が変わり、偉大な革新者たちが飛躍的進歩をもたらした。</p>
+        <div class="ci-grid">
+          <img src="../images/pm2017-fig02.png" alt="Central Illustration panel A" class="ci-img">
+          <img src="../images/pm2017-fig03.png" alt="Central Illustration panel B" class="ci-img">
+          <img src="../images/pm2017-fig04.png" alt="Central Illustration panel C" class="ci-img">
+          <img src="../images/pm2017-fig05.png" alt="Central Illustration panel D" class="ci-img">
+          <img src="../images/pm2017-fig06.png" alt="Central Illustration panel E" class="ci-img">
+          <img src="../images/pm2017-fig07.png" alt="Central Illustration panel F" class="ci-img">
+        </div>
+        <p class="pm-fig-caption">Central Illustration：ペースメーカーのパラダイムシフト。外部AC電源式 → 電池駆動「ウェアラブル」型 → 完全植込み型（1958年）→ 現在のリードレス型（2016年）→ 将来のバッテリーレス型（心臓運動からエネルギー収穫）。Mulpuru SK et al. J Am Coll Cardiol. 2017;69(2):189–210より引用。</p>
+
+        <table class="ie-table" style="margin-top:16px;">
+          <thead><tr><th>年</th><th>出来事</th><th>人物</th></tr></thead>
+          <tbody>
+            <tr><td style="white-space:nowrap;">1930年代</td><td>最初の「人工ペースメーカー」（手回し式DC発電機）</td><td>Hyman</td></tr>
+            <tr><td style="white-space:nowrap;">1957年10月31日</td><td>ミネアポリス停電（3時間）→ 乳児死亡 → 翌日、電池式携帯型ペースメーカー開発依頼。Earl Bakken（Medtronic創設者）が2トランジスタ式回路を改造。Medtronic設立</td><td>Lillehei / Bakken</td></tr>
+            <tr><td style="white-space:nowrap;">1960年</td><td>ストックホルムにて初の完全植込み型ペースメーカー移植。初代は8時間で停止。患者Arne Larsson（完全房室ブロック・Adams-Stokes発作）は最終的に20回以上の交換を経て2002年に86歳で死去。術者・設計技師より長生き</td><td>Elmqvist / Senning</td></tr>
+            <tr><td style="white-space:nowrap;">〜2015年</td><td>多チャンバーペーシング・レート適応・サイズ縮小・インターネット遠隔監視・電池寿命延長。ただし「経静脈リード＋体外ジェネレーター」という基本構造は変わらず</td><td>各メーカー</td></tr>
+            <tr><td style="white-space:nowrap;">2016年</td><td>リードレスペースメーカー（デバイス全体を心腔内に配置）が臨床導入</td><td>—</td></tr>
+            <tr><td style="white-space:nowrap;">将来</td><td>バッテリーレス型（心臓運動からエネルギー収穫）、生物学的ペーシング（細胞修飾）が研究中</td><td>—</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3 id="pm-s1b" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+      <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+      基礎生理：刺激閾値・センシング・インピーダンス
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">Figure 1：心臓刺激伝導系の解剖</h3>
+        <div class="pm-fig-wrap">
+          <img src="../images/pm2017-fig08.png" alt="Figure 1: Cardiac Conduction System" class="pm-fig">
+          <div class="pm-fig-caption">（A）洞房結節から始まる興奮伝播。P波（心房脱分極）→AV結節で遅延（表面心電図に反映されない）→ His-Purkinje系を経て心室筋を急速脱分極（QRS複合体）。（B）解剖標本。右房・右室遊離壁除去後の刺激伝導系。洞房結節はSVCと右房接合部の外膜に、AV結節は冠静脈洞（CS）前方・三尖弁（TV）中隔側のKoch三角内に位置する。Hayes DL et al.（参考文献40）より許諾転載。SA=洞房；FO=卵円窩；RAA=右心耳；IVC=下大静脈；SVC=上大静脈。</div>
+        </div>
+        <p class="rule-body" style="margin-top:12px;">正常の心臓活動は洞結節の自動能から始まり、電気的波面が心房を伝播してAV結節を通過し、His-Purkinje系を経て心室へ急速に広がる。洞結節の自動能または伝導の完全性が障害されると、外部からの小さな電気刺激が心筋細胞を閾値まで脱分極させ、隣接細胞へと波面を伝播させる。これがペースメーカーの原理である。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">Figure 2：経静脈ペースメーカーシステムの構成</h3>
+        <div class="pm-fig-wrap">
+          <img src="../images/pm2017-fig09.png" alt="Figure 2: Transvenous Pacemaker System" class="pm-fig">
+          <div class="pm-fig-caption">（A）前胸部皮下に配置された缶（パルスジェネレーター：電池・回路内蔵）とリードの全体像。（B）リードの断面：同軸型（コイル内コイル）と同径型（並列コイル）の2種。（C）リード先端固定：能動固定（穿通ヘリックス）と受動固定（小柱に絡まるタイン）。Hayes DL et al.（参考文献40）より許諾転載。</div>
+        </div>
+        <p class="rule-body" style="margin-top:12px;">ペースメーカーはパルスジェネレーター（缶）とリードから成る。缶には電池と電子回路が密封収納され、リードが心筋に接触してペーシングパルスを届け、固有心活動をセンシングする。絶縁材がコンダクターとリード先端電極を分離する。</p>
+
+        <h3 class="rule-title" style="margin-top:16px;">ペーシングの物理的基礎</h3>
+        <div class="ie-echo-grid">
+          <div class="ie-echo-box">
+            <div class="ie-echo-name">刺激閾値（Stimulation Threshold）</div>
+            <div class="ie-echo-body">心筋を脱分極させる最小エネルギー量。パルス振幅（V）と幅（ms）で規定される。典型的な許容閾値：<strong>≤1.5V（パルス幅0.5ms）</strong>。CSリードはより高い値を許容。</div>
+          </div>
+          <div class="ie-echo-box">
+            <div class="ie-echo-name">強度–持続時間曲線</div>
+            <div class="ie-echo-body">電圧とパルス幅の間には指数関数的関係がある。エネルギー消費は<strong>パルス幅0.4〜0.5msで一定とし、電圧で安全マージンを確保する</strong>のが最小になる。長いパルス幅では必要電圧は下がるが、エネルギー効率は悪化する。</div>
+          </div>
+          <div class="ie-echo-box">
+            <div class="ie-echo-name">インピーダンス（正常値）</div>
+            <div class="ie-echo-body">リード先端電極インピーダンス正常値：<strong>400〜1,200Ω</strong>。高インピーダンス（コンダクター断線）と低インピーダンス（絶縁破損）が主なリード異常。急激な変化（>30%）はリード機能不全を示唆する。</div>
+          </div>
+          <div class="ie-echo-box">
+            <div class="ie-echo-name">バッテリー消費</div>
+            <div class="ie-echo-body">電流消費の<strong>50%がペーシング</strong>に使われ、残り50%はセンシング・ハウスキーピング機能（アルゴリズム・電位記録）に使われる。リード先端電極は高インピーダンス設計（400〜1,200Ω）で電流消費を最小化し電池寿命を延ばす。</div>
+          </div>
+          <div class="ie-echo-box">
+            <div class="ie-echo-name">双極 vs 単極ペーシング</div>
+            <div class="ie-echo-body">双極ペーシング：リード先端（陰極）とリング電極（陽極）間の電位差。<br>単極ペーシング：リード先端とパルスジェネレーター缶の間。双極は胸筋刺激が少なく好まれる。単極は胸壁筋電位のオーバーセンシングが起きやすい。</div>
+          </div>
+          <div class="ie-echo-box">
+            <div class="ie-echo-name">センシング（感度）</div>
+            <div class="ie-echo-body">心房チャンネル感知周波数：<strong>80〜100 Hz</strong>。心室チャンネル：<strong>10〜30 Hz</strong>。正常電位振幅：心房<strong>1.5〜5 mV</strong>、心室<strong>5〜25 mV</strong>。これ以下ではアンダーセンシングとなり不適切なペーシングが生じる。</div>
+          </div>
+        </div>
+
+        <div class="alert-blue" style="margin-top:14px;">
+          <strong>ステロイド溶出型リード：</strong>現在のリードにはステロイド溶出カラーが装備されており、組織‐リード間の線維化とその後の閾値上昇（exit blockとなるほどの）をほぼ完全に防止している。
+        </div>
+      </div>
+    </div>
+
+    <!-- SUMMARY Ch1 -->
+    <h3 id="pm-sum1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>第1章のキーメッセージ
+    </h3>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+            <span class="rule-body"><strong>パラダイムシフト：</strong>1957年のBakken電池式ウェアラブル型 → 1960年Elmqvist/Senningの完全植込み型 → 2016年リードレス型。基本システム（体外ジェネレーター＋経静脈リード）は50年以上変わらなかった。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+            <span class="rule-body"><strong>刺激閾値の目標：</strong>植込み時の許容閾値は≤1.5V（パルス幅0.5ms）。エネルギー効率の最適点はパルス幅0.4〜0.5msで固定し電圧でマージン確保。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+            <span class="rule-body"><strong>リードインピーダンス：</strong>正常400〜1,200Ω。急激な変化（>30%）はリード機能不全の可能性。高インピーダンスは断線、低インピーダンスは絶縁破損を示唆。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+            <span class="rule-body"><strong>センシング基準：</strong>心房1.5〜5 mV、心室5〜25 mV。これ以下の電位はアンダーセンシングの原因となる。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+            <span class="rule-body"><strong>電池消費配分：</strong>全電流消費の50%がペーシング、50%がセンシング・ハウスキーピング。高インピーダンスリード電極設計が電池寿命延長の鍵。</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== 第2章 ===================== -->
+    <div id="pm-ch2" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+      <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+      <div style="font-size:1.3rem;font-weight:900;position:relative;">第2章 ペーシングモードと基本プログラム</div>
+      <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Pacing Modes, Programmable Features, and Rate Response</div>
+    </div>
+
+    <h3 id="pm-s2a" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+      ペーシングモードコード（4〜5文字）
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">ペーシングモードの読み方</h3>
+        <p class="rule-body">ペーシングモードは4〜5文字のコードで表現される（例：DDDR）。</p>
+        <table class="ie-table" style="margin-top:10px;">
+          <thead><tr><th>位置</th><th>意味</th><th>コード</th></tr></thead>
+          <tbody>
+            <tr><td style="white-space:nowrap;">第1文字</td><td>ペーシングチャンバー</td><td>A（心房）/ V（心室）/ D（両方）</td></tr>
+            <tr><td style="white-space:nowrap;">第2文字</td><td>センシングチャンバー</td><td>A / V / D</td></tr>
+            <tr><td style="white-space:nowrap;">第3文字</td><td>センシングへの応答</td><td>I（抑制）/ T（トリガー）/ D（両方）</td></tr>
+            <tr><td style="white-space:nowrap;">第4文字</td><td>レート応答</td><td>R（あり）/ なし</td></tr>
+            <tr><td style="white-space:nowrap;">第5文字</td><td>多部位ペーシング</td><td>A / V / D（使用時のみ）</td></tr>
+          </tbody>
+        </table>
+
+        <h3 class="rule-title" style="margin-top:16px;">主要ペーシングモードと適応</h3>
+        <table class="ie-table">
+          <thead><tr><th style="white-space:nowrap;">モード</th><th>適応</th><th>特記事項</th></tr></thead>
+          <tbody>
+            <tr><td style="white-space:nowrap;font-weight:700;">DDD</td><td>洞機能は正常だがAV伝導障害あり</td><td>洞活動を感知→プログラムされたAV間隔後に心室ペーシング（P同期ペーシング）</td></tr>
+            <tr><td style="white-space:nowrap;font-weight:700;">DDDR</td><td>洞機能とAV結節機能の両方が異常</td><td>レート応答機能が変時不全を補う</td></tr>
+            <tr><td style="white-space:nowrap;font-weight:700;">VVI / VVIR</td><td>慢性AF、まれな洞停止・徐脈</td><td>心房性不整脈のトラッキングリスクなし。レート応答（VVIR）で変時不全補完</td></tr>
+            <tr><td style="white-space:nowrap;font-weight:700;">AAIR</td><td>洞不全症候群のみ（AV伝導は正常）</td><td>心室ペーシング不要。三尖弁を跨ぐリードが不要な単腔ペースメーカーで提供可能</td></tr>
+            <tr><td style="white-space:nowrap;font-weight:700;">VOO / DOO</td><td>EMI（電気メス・CMR）による非同期ペーシング</td><td>固有心活動を認識しない。現在は一時的な過感知防止目的のみ</td></tr>
+          </tbody>
+        </table>
+
+        <div class="alert-blue" style="margin-top:12px;">
+          <strong>DDD動作の原則：</strong>心房でのイベント感知（AS）は心室出力を抑制し、同時にAVクロックを起動する。AV間隔内に固有心室活動がなければ心室ペーシングを実施（VP）。固有心室活動があれば心室出力を抑制（VS）。これにより「心房ペーシング＋固有伝導」「P同期心室ペーシング」「完全AV逐次ペーシング」の3サイクルが状況に応じて切り替わる。
+        </div>
+      </div>
+    </div>
+
+    <h3 id="pm-s2b" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+      <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+      基本プログラム機能：モードスイッチと右室ペーシング回避
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">Figure 4：センシング異常の実例</h3>
+        <div class="pm-fig-wrap">
+          <img src="../images/pm2017-fig10.png" alt="Figure 4: Sensing Abnormalities" class="pm-fig">
+          <div class="pm-fig-caption">（A）VVI設定患者での筋電位オーバーセンシング（★）によるペーシング抑制。（B）ホルター記録での心房アンダーセンシング：5番目の心室複合体の前のP波が感知されず（緑矢印）、直後に心房ペーシングアーティファクト（黒矢印）が発生。心室複合体はクロストーク感知窓で感知され、早期に心室ペーシングアーティファクト（赤矢印）が出現（心室安全ペーシング）。</div>
+        </div>
+
+        <h3 class="rule-title" style="margin-top:16px;">モードスイッチ（Mode Switching）</h3>
+        <p class="rule-body">DDD設定中に心房性頻拍が発生すると、心房イベントが心室でトラッキングされ、上限レート（URL）まで心室ペーシングが加速する。モードスイッチアルゴリズムは心房頻拍を検出し、非トラッキングモード（VVI・DVI・DDI±レート応答）へ自動切替する。心房不整脈終了後は再びトラッキングモードに復帰する。</p>
+        <div class="alert-yellow" style="margin-top:10px;">
+          <strong>臨床的意義：</strong>モードスイッチイベントは心房不整脈の存在を示し、抗凝固療法の必要性の評価につながる。遠隔監視システムでアラートが送信される。不適切モードスイッチの最多原因は<strong>遠視野R波オーバーセンシング</strong>（下図参照）であり、抗凝固療法開始前に電位記録（EGM）を必ず確認する。
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">Figure 6：遠視野R波オーバーセンシング（不適切AF検出の原因）</h3>
+        <div class="pm-fig-wrap">
+          <img src="../images/pm2017-fig11.png" alt="Figure 6: Far-field R-wave oversensing" class="pm-fig">
+          <div class="pm-fig-caption">（上）右心耳（RAA）に配置されたペーシングリードは右室上方に垂れ下がる。リード先端ヘリックスとリング電極の間隔がアンテナサイズを決定し、右室が生成する大きな信号（Vデフレクション）を心房チャンネルが誤感知する。（下）デバイストレーシング例：遠視野R波（*）が心房チャンネルで感知され不適切なモードスイッチ（MS）が生じる。AP=心房ペース、Ab=ブランキング期間中感知、AR=PVARP期間中感知。Seet et al.（参考文献42）より許諾転載。</div>
+        </div>
+
+        <h3 class="rule-title" style="margin-top:16px;">右室ペーシング回避（RV Pacing Avoidance）</h3>
+        <p class="rule-body">孤立した右室ペーシングは、心室中隔を左室外側壁より先に活動化させ（左脚ブロックパターン）、左室収縮の不同期を引き起こす。これは左室機能低下や心不全・死亡などの有害な臨床転帰と関連する。</p>
+        <div class="ie-stat-grid" style="margin-top:10px;">
+          <div class="ie-stat red">
+            <div class="ie-stat-val">最大20%</div>
+            <div class="ie-stat-label">頻繁な右室ペーシングによる<br>右室ペーシング誘発性心筋症の発生率</div>
+          </div>
+          <div class="ie-stat orange">
+            <div class="ie-stat-val">&gt;20%</div>
+            <div class="ie-stat-label">右室ペーシング誘発性心筋症の<br>リスク予測因子：右室ペーシング割合</div>
+          </div>
+          <div class="ie-stat">
+            <div class="ie-stat-val">男性・広QRS</div>
+            <div class="ie-stat-label">右室ペーシング誘発性心筋症の<br>その他の予測因子</div>
+          </div>
+        </div>
+        <p class="rule-body" style="margin-top:12px;">右室ペーシング回避アルゴリズムの基本概念は、必要時に心房ペーシングを届けつつ、固有伝導を促進するためにAV間隔をできる限り延長し、心室ペーシングを排除することである。代表的な実装：AAIR設定でAV伝導失敗時のみDDDへ自動切替、または固有伝導がなければAV間隔を超生理的値まで延長。</p>
+        <div class="alert-red" style="margin-top:10px;">
+          <strong>注意：「疑似ペースメーカー症候群」リスク：</strong>AV間隔を>400 msに延長すると、心房収縮が早期拡張期に起きてcannon A波・血行動態悪化（疑似ペースメーカー症候群）が生じることがある。また、一部の報告ではRV回避アルゴリズムが下限レート以下のペーシングを引き起こし、一時停止依存性心室性不整脈（proarrhythmia）が発生した症例がある。
+        </div>
+      </div>
+    </div>
+
+    <h3 id="pm-s2c" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+      <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>
+      レート応答（Rate-Adaptive Pacing）
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">レート応答の概要</h3>
+        <p class="rule-body">レート応答（レート適応型ペーシング）は、身体的・精神的・感情的な運動に応じてペーシングレートを増加させる機能であり、変時不全（chronotropic incompetence）のある患者の運動耐容能を改善する。変時不全の定義：最大運動時に年齢予測最大心拍数の70%または100 bpmに到達できない状態。</p>
+        <table class="ie-table" style="margin-top:10px;">
+          <thead><tr><th style="white-space:nowrap;">センサー</th><th>特徴</th><th>注意点</th></tr></thead>
+          <tbody>
+            <tr>
+              <td style="white-space:nowrap;font-weight:700;">加速度計<br>（最多）</td>
+              <td>身体運動を速やかに検出。最も広く使用される</td>
+              <td>上肢の動きが必要（トレッドミルで腕振りが少ないとレート反応不良）。中等度運動後のレート急減速あり</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;font-weight:700;">換気量センサー</td>
+              <td>リード先端からジェネレーターに微弱電流を流し、呼吸による肺インピーダンス変化を測定。より生理的</td>
+              <td>肺疾患による頻呼吸では不適切なレート増加。ECGモニターが体内に微弱電流を注入する場合にセンサーエラーが生じることがある</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;font-weight:700;">血液温度・心収縮能</td>
+              <td>より生理的だが遅延が大きい</td>
+              <td>加速度計と組み合わせたブレンドレスポンスとして使用されることが多い</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- SUMMARY Ch2 -->
+    <h3 id="pm-sum2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>第2章のキーメッセージ
+    </h3>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+            <span class="rule-body"><strong>DDDモードの動作：</strong>P波感知→AVクロック起動→固有伝導なければVP。「心房ペーシング＋固有伝導」「P同期VP」「完全逐次ペーシング」の3サイクルを状況に応じて切替。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+            <span class="rule-body"><strong>モードスイッチと不適切検出：</strong>モードスイッチイベントは心房不整脈の存在を示す。不適切なモードスイッチ（遠視野R波オーバーセンシングが最多原因）と本物の心房不整脈の鑑別にはEGM確認が必須。抗凝固療法開始前に必ず確認する。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+            <span class="rule-body"><strong>右室ペーシング誘発性心筋症：</strong>頻繁な右室ペーシング（>20%）で最大20%に発症。男性・広QRS・高RVペーシング割合がリスク因子。回避アルゴリズムでAV間隔を延長するが、>400 msで疑似ペースメーカー症候群に注意。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+            <span class="rule-body"><strong>双極センシング優先：</strong>双極センシングはアンテナが小さく、体外からの過感知を最小化するため推奨される。双極閾値上昇や絶縁破損時は単極への切替を考慮。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+            <span class="rule-body"><strong>換気量センサーの落とし穴：</strong>ECGモニターが体内に微弱電流を注入する場合（ICUでのモニタリング設定によっては生じる）、換気量センサーがこれをレスピレーターとして誤認識し、心拍数を不適切に上昇させる可能性がある。</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== 第3章 ===================== -->
+    <div id="pm-ch3" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+      <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+      <div style="font-size:1.3rem;font-weight:900;position:relative;">第3章 永続的ペースメーカーの適応</div>
+      <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Indications for Permanent Pacemaker Implantation</div>
+    </div>
+
+    <h3 id="pm-s3a" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+      可逆性を確認すること：徐脈の治療可能な原因
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">ペースメーカー植込みの前に除外すべき可逆的原因</h3>
+        <p class="rule-body">徐脈性不整脈が可逆的かどうかの評価が最重要である。可逆的な場合は一時的ペースメーカーが優先される。以下の原因は治療によって回復することが多い。</p>
+        <div class="ie-echo-grid">
+          <div class="ie-echo-box">
+            <div class="ie-echo-name">薬剤性</div>
+            <div class="ie-echo-body">βブロッカー、カルシウム拮抗薬、ほとんどの抗不整脈薬、イバブラジン、その他</div>
+          </div>
+          <div class="ie-echo-box">
+            <div class="ie-echo-name">感染症</div>
+            <div class="ie-echo-body">ライム病、シャーガス病、レジオネラ感染症、オウム病（psittacosis）、Q熱、腸チフス、発疹チフス</div>
+          </div>
+          <div class="ie-echo-box">
+            <div class="ie-echo-name">代謝異常</div>
+            <div class="ie-echo-body">甲状腺機能低下症、神経性食欲不振、低体温症、低酸素</div>
+          </div>
+          <div class="ie-echo-box">
+            <div class="ie-echo-name">自律神経・睡眠</div>
+            <div class="ie-echo-body">閉塞性睡眠時無呼吸症（無呼吸時）、アスリートの高迷走神経緊張、血管迷走神経性発作</div>
+          </div>
+          <div class="ie-echo-box">
+            <div class="ie-echo-name">虚血・構造的</div>
+            <div class="ie-echo-body">下壁心筋虚血（Lyme病や下壁虚血は1週間以内に自然回復することが多い）</div>
+          </div>
+        </div>
+        <div class="alert-blue" style="margin-top:10px;">
+          ライム病や下壁心筋虚血は劇的な徐脈を呈することがあるが、多くは1週間以内に自然回復する。永続的ペースメーカー前に経過観察または一時的ペースメーカー。
+        </div>
+
+        <h3 class="rule-title" style="margin-top:18px;">ICU可逆的徐脈：原因別の対応プロトコル</h3>
+        <p class="rule-body">ICUで徐脈に遭遇した際、以下の表で原因を系統的に検索する。回復可能性が見込まれる場合は、永続デバイス植込みを延期し、必要なら一時的ペーシングで橋渡しする。</p>
+        <table class="ie-table">
+          <thead><tr><th style="white-space:nowrap;">原因</th><th>診断ポイント</th><th>初動・解除</th><th>回復見込み</th></tr></thead>
+          <tbody>
+            <tr>
+              <td style="white-space:nowrap;"><strong>下壁心筋虚血</strong></td>
+              <td>ECGでII/III/aVF ST上昇、トロポニン上昇。AVN動脈（90%は右冠動脈枝）の虚血で迷走神経反射＋AVNブロック。</td>
+              <td>緊急冠動脈再灌流（PCI）。徐脈そのものはアトロピン±一時的経皮ペーシング。</td>
+              <td><strong>多くは48〜72時間で回復。</strong>1週間後も持続なら永続PM検討。</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;"><strong>ライム心炎</strong></td>
+              <td>ライム流行地域曝露歴、erythema migrans既往、II/III度AVB。Lyme血清抗体（IgG/IgM）。</td>
+              <td>セフトリアキソン2g IV q24h × 2-4週、または経口ドキシサイクリン。一時的ペーシング併用。</td>
+              <td><strong>1〜2週間で完全回復が一般的。</strong>永続PMはほぼ不要。</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;"><strong>薬物性徐脈</strong></td>
+              <td>βブロッカー・Ca拮抗薬（特にverapamil/diltiazem）・アミオダロン・ジゴキシン・イバブラジン・クロニジンの服用歴。</td>
+              <td>原因薬剤中止。重症ではグルカゴン（βB過量）、Ca・インスリン高用量療法（CCB過量）、ジゴキシン抗体。アトロピン無効が多い。</td>
+              <td><strong>薬剤半減期で回復。</strong>アミオダロンは半減期長く（数週〜数ヶ月）、永続PM要する場合あり。</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;"><strong>高K血症</strong></td>
+              <td>K&gt;6 mEq/L、ECGで peaked T波・QRS幅広・PR延長・洞停止・AVB。</td>
+              <td>カルシウム製剤IV（膜安定化）→ インスリン+グルコース・β2作動薬・透析。</td>
+              <td><strong>K正常化で即座に回復。</strong></td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;"><strong>甲状腺機能低下症</strong></td>
+              <td>TSH↑↑、FT4↓、徐脈＋低体温・浮腫・粘液水腫昏睡。</td>
+              <td>レボチロキシン IV（粘液水腫昏視昏睡なら200-400 µg loading）+ ヒドロコルチゾン。</td>
+              <td><strong>数日〜数週間で改善。</strong>慢性甲状腺機能低下のSNDは持続することあり。</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;"><strong>低体温症</strong></td>
+              <td>中心体温&lt;35°C、ECGでJ波（Osborn波）、徐脈＋AVB。</td>
+              <td>体外復温（受動 or 能動）。32°C以下では除細動効果も低下。</td>
+              <td><strong>復温で完全回復。</strong></td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;"><strong>閉塞性睡眠時無呼吸（OSA）</strong></td>
+              <td>夜間の無呼吸時に洞停止・AVBが出現。日中は正常。</td>
+              <td>CPAP導入。BMI管理。</td>
+              <td><strong>CPAPで完全消失することが多い。</strong></td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;"><strong>高迷走神経緊張</strong></td>
+              <td>若年運動選手・血管迷走神経反射（疼痛・吐気・排尿時など）。睡眠中の徐脈。</td>
+              <td>誘因回避。重度ならミドドリンや起立失神プログラム。</td>
+              <td><strong>誘因除去で消失。</strong>永続PMはほぼ不要。</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;"><strong>感染症（ICUで遭遇）</strong></td>
+              <td>シャーガス病（中南米）・レジオネラ・オウム病・Q熱・腸チフス・発疹チフス・心内膜炎弁周囲膿瘍によるAV結節障害。</td>
+              <td>標的抗菌薬。心内膜炎弁周囲膿瘍は外科手術 + 一時的ペーシング。</td>
+              <td><strong>原疾患治療で改善。</strong>シャーガス病は晩期にPM要することあり。</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;"><strong>頭蓋内圧亢進</strong></td>
+              <td>Cushing反射（HTN+徐脈+不規則呼吸）、ICU脳卒中・外傷後。</td>
+              <td>頭蓋内圧管理（高浸透圧療法・脳室ドレナージ・頭部挙上）。</td>
+              <td><strong>ICP正常化で改善。</strong></td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;"><strong>術後（特に弁形成・TAVI）</strong></td>
+              <td>大動脈弁置換・TAVR後のAVB（His束周辺障害）。心臓手術直後。</td>
+              <td>心臓外科一時的ペーシング（epicardial wires）で観察。</td>
+              <td><strong>50%以上が1週間以内に回復。</strong>持続なら永続PM。</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="alert-yellow" style="margin-top:12px;">
+          <strong>「とりあえずPM」は禁忌：</strong>ICUで徐脈を見たら、まず可逆的原因を全て除外してから永続PMを考える。Lyme・下壁虚血・薬物・電解質はベッドサイドで容易に除外可能。<strong>原因究明前の永続PMは患者を一生のデバイスフォローに巻き込む</strong>。一時的経皮 or 経静脈ペーシングで時間を稼ぎ、原疾患を治療する。
+        </div>
+      </div>
+    </div>
+
+    <h3 id="pm-s3b" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+      <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+      洞不全症候群（SND）の適応
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">Table 1：SND に対する永続的ペースメーカー植込みの推奨（ACC/AHA）</h3>
+        <table class="ie-table">
+          <thead><tr><th style="width:110px;">クラス</th><th>推奨内容</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><span class="class-badge class-i">Class I</span><span style="font-size:0.75rem;">適応あり</span></td>
+              <td>
+                <ol style="margin:0;padding-left:18px;line-height:1.8;font-size:0.82rem;">
+                  <li>症状を来す徐脈（頻繁な洞停止を含む）が記録されている場合</li>
+                  <li>症状を来す変時不全</li>
+                  <li>必須薬剤（医学的に必要）の結果として生じた症候性洞徐脈</li>
+                </ol>
+              </td>
+            </tr>
+            <tr>
+              <td><span class="class-badge class-iia">Class IIa</span><span style="font-size:0.75rem;">適応あり得る</span></td>
+              <td>
+                <ol style="margin:0;padding-left:18px;line-height:1.8;font-size:0.82rem;">
+                  <li>&lt;40 bpmの洞徐脈と徐脈症状の明確な相関が証明されていないが症状がある場合</li>
+                  <li>電気生理学的検査で洞結節機能異常が証明または誘発された原因不明の失神</li>
+                </ol>
+              </td>
+            </tr>
+            <tr>
+              <td><span class="class-badge class-iib">Class IIb</span><span style="font-size:0.75rem;">考慮可</span></td>
+              <td>
+                <ol style="margin:0;padding-left:18px;line-height:1.8;font-size:0.82rem;">
+                  <li>覚醒時に慢性的に&lt;40 bpmで軽度症状のある患者</li>
+                </ol>
+              </td>
+            </tr>
+            <tr>
+              <td><span class="class-badge class-iii">Class III</span><span style="font-size:0.75rem;">非適応</span></td>
+              <td>
+                <ol style="margin:0;padding-left:18px;line-height:1.8;font-size:0.82rem;">
+                  <li>無症状患者</li>
+                  <li>徐脈なしの状態で症状が出現することが明確に証明されている患者</li>
+                  <li>不要な薬剤療法による症候性徐脈</li>
+                </ol>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3 id="pm-s3c" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+      <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>
+      後天性AV伝導障害・その他の適応
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">Table 2：AV伝導障害に対する永続的ペースメーカー植込みの推奨</h3>
+        <table class="ie-table">
+          <thead><tr><th style="width:110px;">クラス</th><th>推奨内容</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><span class="class-badge class-i">Class I</span></td>
+              <td>
+                <p style="font-size:0.82rem;margin:4px 0 6px;font-weight:700;">第3度または高度第2度AVブロック（次のいずれかを満たす）：</p>
+                <ul style="margin:0;padding-left:18px;line-height:1.8;font-size:0.82rem;">
+                  <li>症状または心室性不整脈を伴う場合</li>
+                  <li>覚醒・無症状であっても：洞調律で≥3.0秒の心停止またはAV結節以下のエスケープ率&lt;40 bpm / AFで1つ以上の>5秒の停止 / 神経筋疾患（筋緊張性ジストロフィー・Kearns-Sayre症候群・Erb型筋ジストロフィー・腓骨筋萎縮症）±症状 / 運動誘発性（心筋虚血なし）/ 覚醒時心室率≥40 bpmで心拡大またはLV機能不全 / AVブロックが結節以下の場合</li>
+                  <li>頸動脈洞刺激によって>3秒の心室停止が再現可能な反復性失神</li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <td><span class="class-badge class-iia">Class IIa</span></td>
+              <td>
+                <ul style="margin:0;padding-left:18px;line-height:1.8;font-size:0.82rem;">
+                  <li>無症状の持続性第3度AVブロックで心拡大なく覚醒時エスケープ率&gt;40 bpmの成人</li>
+                  <li>電気生理学的検査でHV間隔&gt;100 msの無症状第2度AVブロック（His束内または束以下）</li>
+                  <li>ペースメーカー症候群様症状または血行動態障害を伴う第1度または第2度AVブロック</li>
+                  <li>AVブロックが証明されていない失神（他の原因が除外済み）</li>
+                  <li>カルジオインヒビトリー型の神経心原性失神（自然発作または傾斜試験で証明）</li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <td><span class="class-badge class-iib">Class IIb</span></td>
+              <td>
+                <ul style="margin:0;padding-left:18px;line-height:1.8;font-size:0.82rem;">
+                  <li>神経筋疾患（筋緊張性ジストロフィー等）で症状の有無に関わらず任意の度合いのAVブロック（予測不能な進行リスク）</li>
+                  <li>薬剤・薬剤毒性によるAVブロックで薬剤中止後も再発が予想される場合</li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <td><span class="class-badge class-iii">Class III</span></td>
+              <td>
+                <ul style="margin:0;padding-left:18px;line-height:1.8;font-size:0.82rem;">
+                  <li>無症状の第1度・束枝ブロック・AV結節レベルのWenckebach型第2度AVブロック</li>
+                  <li>自然回復が予想されるAVブロック（薬剤毒性・ライム病・睡眠時無呼吸の迷走神経亢進等）</li>
+                  <li>無症状の過感受性頸動脈洞</li>
+                  <li>回避行動が有効で希望されている状況性迷走神経性失神</li>
+                </ul>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3 class="rule-title" style="margin-top:16px;">神経心原性失神・神経筋疾患・心不全</h3>
+        <div class="ie-echo-grid">
+          <div class="ie-echo-box">
+            <div class="ie-echo-name">神経心原性失神（カルジオインヒビトリー型）</div>
+            <div class="ie-echo-body">確認された頸動脈洞過感受性（頸動脈洞圧迫で≥3秒の停止、症状再現）が適応。しかし血管抑制反応が共存する場合が多く、ペーシングの効果は限定的。5年後の失神再発率は最大20%（血管抑制成分による）。</div>
+          </div>
+          <div class="ie-echo-box">
+            <div class="ie-echo-name">神経筋疾患（筋ジストロフィー等）</div>
+            <div class="ie-echo-body">His-Purkinje系への選択的障害があり、病態進行が予測不能。第2度または第3度AVブロックが出現した時点でClass I。</div>
+          </div>
+          <div class="ie-echo-box">
+            <div class="ie-echo-name">うっ血性心不全</div>
+            <div class="ie-echo-body">低左室機能・広QRS・有症状心不全の患者は心臓再同期療法（CRT）で心不全・死亡が減少（Part 2で詳述）。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUMMARY Ch3 -->
+    <h3 id="pm-sum3" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>第3章のキーメッセージ
+    </h3>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+            <span class="rule-body"><strong>可逆性の評価が最重要：</strong>薬剤性・ライム病・下壁虚血などは可逆的で、永続的ペースメーカー前に一時的ペースメーカーで対応する。特にライム病や下壁虚血は1週間以内に自然回復することが多い。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+            <span class="rule-body"><strong>SND Class I：</strong>症状を来す徐脈（洞停止・変時不全・必須薬剤による症候性洞徐脈）が記録されている場合。症状との明確な相関の証明が必要。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+            <span class="rule-body"><strong>AVブロック Class I：</strong>第3度・高度第2度で症状あり、または無症状でも≥3秒の心停止、AFで>5秒停止、神経筋疾患合併、運動誘発性、LV機能不全/心拡大合併のいずれかを満たす場合。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+            <span class="rule-body"><strong>神経心原性失神のPM効果は限定的：</strong>カルジオインヒビトリー型にはPMが有効だが、血管抑制成分が共存する場合が多く、5年後も最大20%で失神が再発する可能性がある。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+            <span class="rule-body"><strong>神経筋疾患は早期介入：</strong>筋ジストロフィー等は心筋・His-Purkinje系への選択的障害があり病態進行が予測不能。第2/3度AVブロックが出現した時点でClass Iとして積極的に介入する。</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== 第4章 ===================== -->
+    <div id="pm-ch4" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+      <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+      <div style="font-size:1.3rem;font-weight:900;position:relative;">第4章 植込み関連合併症</div>
+      <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Implant-Related Complications</div>
+    </div>
+
+    <h3 id="pm-s4a" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+      合併症の頻度と概要
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">Table 3：ペースメーカー関連合併症の頻度</h3>
+        <div class="ie-stat-grid" style="margin-top:10px;">
+          <div class="ie-stat orange">
+            <div class="ie-stat-val">0.9〜1.2%</div>
+            <div class="ie-stat-label">気胸</div>
+          </div>
+          <div class="ie-stat red">
+            <div class="ie-stat-val">&lt;1%</div>
+            <div class="ie-stat-label">心穿孔</div>
+          </div>
+          <div class="ie-stat orange">
+            <div class="ie-stat-val">3.5%</div>
+            <div class="ie-stat-label">手術を要するポケット血腫</div>
+          </div>
+          <div class="ie-stat">
+            <div class="ie-stat-val">1.8%</div>
+            <div class="ie-stat-label">右側リード脱落</div>
+          </div>
+          <div class="ie-stat orange">
+            <div class="ie-stat-val">5.7%</div>
+            <div class="ie-stat-label">LVリード（CS経由）脱落</div>
+          </div>
+          <div class="ie-stat">
+            <div class="ie-stat-val">1〜3%</div>
+            <div class="ie-stat-label">静脈血栓症・閉塞</div>
+          </div>
+          <div class="ie-stat red">
+            <div class="ie-stat-val">1.0〜1.3%</div>
+            <div class="ie-stat-label">CIED感染（デバイス感染）</div>
+          </div>
+        </div>
+        <p class="rule-body" style="margin-top:12px;">合併症率は現在の植込みツール・手技で&lt;1〜6%。即時/手技関連・中期・晩期の3つに大別される。迅速な認識が適時の管理を可能にする。</p>
+      </div>
+    </div>
+
+    <h3 id="pm-s4b" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+      <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+      即時・手技関連合併症
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">Figure 7：植込み即時合併症の実例</h3>
+        <div class="pm-fig-wrap">
+          <img src="../images/pm2017-fig12.png" alt="Figure 7: Immediate Complications" class="pm-fig">
+          <div class="pm-fig-caption">（A）植込み後のX線：気胸（矢印：虚脱した肺の境界）。（B）ポケットからの血液排液による血腫。（C/D）動脈への誤穿刺・リード配置：側面X線（C）でリードが後方を向き、CT（D）で上行大動脈を貫通しているのが確認される。（E）右室リード植込み後に血行動態破綻を来した急性心嚢液貯留（矢印）。</div>
+        </div>
+
+        <h3 class="rule-title" style="margin-top:16px;">Figure 8：リード安定性の植込み時予測因子</h3>
+        <div class="pm-fig-wrap">
+          <img src="../images/pm2017-fig13.png" alt="Figure 8: Lead Stability Predictors" class="pm-fig">
+          <div class="pm-fig-caption">（A）100mm/s掃引速度での典型的な電位（EGM）変化。EGM幅の広がりとST上昇（傷害電流）は長期的なリード固定の良好な予測因子。（B）心穿孔を起こした患者のEGM：リードを右室内に引き戻すに従い陰性傷害電流（ST偏位）が陽性パターンへ変化。van Gelder et al.（参考文献21）より許諾転載。VS=心室感知イベント。</div>
+        </div>
+
+        <p class="rule-body" style="margin-top:12px;">経静脈リード留置には前胸部の静脈穿刺が必要であり、肺尖が血管標的に近接するため、気胸（0.9〜1.2%）および血胸が1%以下で生じる。</p>
+        <div class="ie-flow" style="margin-top:12px;">
+          <div class="ie-flow-item">
+            <div class="ie-flow-num">予防</div>
+            <div style="flex:1;"><p class="rule-body"><strong>気胸・血胸の予防策：</strong>解剖学的ランドマーク法を、頭静脈カットダウン・造影静脈造影・超音波ガイドによる血管視覚化に置き換えることでリスク低減。</p></div>
+          </div>
+          <div class="ie-flow-arrow">↓</div>
+          <div class="ie-flow-item">
+            <div class="ie-flow-num">血腫</div>
+            <div style="flex:1;"><p class="rule-body"><strong>ポケット血腫（手術を要する：3.5%）：</strong>抗凝固薬＋抗血小板薬の併用でリスク増加。ワルファリン継続（中断しない）はヘパリンブリッジングに比べて血腫形成率が低い（参考文献19）。NOACは可能であれば術前2〜3日中断する。</p></div>
+          </div>
+          <div class="ie-flow-arrow">↓</div>
+          <div class="ie-flow-item">
+            <div class="ie-flow-num">穿孔</div>
+            <div style="flex:1;"><p class="rule-body"><strong>心穿孔（心嚢液貯留・心タンポナーデ：&lt;1%）：</strong>リード再位置決めの適応：難治性心膜炎・持続性心嚢液・許容できないペーシング/センシング機能。能動固定リードは受動固定より穿孔リスクが高いが、位置選択の容易さと将来の抜去のしやすさから広く使われる。植込み時のEGMで陰性傷害電流（Figure 8B）は穿孔を示唆。</p></div>
+          </div>
+        </div>
+        <div class="alert-red" style="margin-top:12px;">
+          <strong>動脈誤穿刺の回避：</strong>ガイドワイヤーをまず下大静脈まで進めてからシースを挿入する。右室リードの左室誤留置（卵円孔開存・中心静脈経由）は、ペーシング時に右脚ブロックパターンが出現する場合に疑う。血栓塞栓症リスクのため通常再位置決めが必要。晩期発見の場合は抗凝固療法。
+        </div>
+
+        <h3 class="rule-title" style="margin-top:18px;">PM植込み術前後の抗凝固管理（BRUISE-CONTROL試験ベース）</h3>
+        <p class="rule-body">血腫はPM合併症の中でも頻度が高く（3.5%）、感染リスクも上昇させる。抗凝固薬の周術期管理は出血と血栓のバランスが重要。BRUISE-CONTROL試験以降は<strong>「ワルファリン継続群が、ヘパリンブリッジ群より血腫リスクが約4分の1」</strong>と確立した。</p>
+        <table class="ie-table">
+          <thead><tr><th style="white-space:nowrap;">薬剤</th><th>推奨方針</th><th>具体的タイミング</th></tr></thead>
+          <tbody>
+            <tr>
+              <td style="white-space:nowrap;"><strong>ワルファリン</strong></td>
+              <td><span class="mark-yellow">継続が推奨</span>（INR &lt; 3.0で実施）。ヘパリンブリッジは血腫リスク約4倍に増加（BRUISE-CONTROL）。</td>
+              <td>術前INRチェック。中断は不要。</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;"><strong>DOAC（NOAC）</strong></td>
+              <td>可能なら<strong>術前2〜3日中断</strong>（最終投与後36-48時間以上のtrough）。心原性塞栓症リスクが高ければ短縮も。BRUISE-CONTROL II試験では「中断 vs 継続」で血腫差がない結果。</td>
+              <td>ダビガトラン：腎機能良好なら24-48h前、不良なら48-96h前。リバーロキサバン/アピキサバン：24-48h前。エドキサバン：24h前。</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;"><strong>抗血小板薬（単剤）</strong></td>
+              <td>アスピリン継続可。クロピドグレル単剤も継続可（症例ごと評価）。</td>
+              <td>休薬不要。</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;"><strong>DAPT（2剤併用）</strong></td>
+              <td><span class="mark-red"><b>血腫リスク最高</b></span>。可能なら片方を一時中止。最近のステントなど中止できない場合は厳重なポケット管理。</td>
+              <td>急性期PCI後の必要性により判断。循環器との協議必須。</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;"><strong>ヘパリン</strong></td>
+              <td><span class="mark-red">術中・術後使用は血腫リスク上昇</span>。可能なら術後24h以上避ける。</td>
+              <td>機械弁・最近の塞栓既往でやむを得ない場合のみ。</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="alert-blue" style="margin-top:12px;">
+          <strong>血腫の臨床的意味：</strong>軽度の血腫はそのまま観察で吸収するが、<span class="mark-red"><b>緊張性で疼痛を伴う血腫はCIED感染の温床</b></span>となる。再開創してドレナージしたい誘惑があるが、ポケット再侵入は感染リスクをさらに上げる。膿性所見がない限り保存的管理を優先。<strong>針吸引は禁忌</strong>（感染の温床になる）。
+        </div>
+      </div>
+    </div>
+
+    <h3 id="pm-s4c" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+      <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>
+      中期・晩期合併症
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">Figure 9：Twiddler症候群（高インピーダンスによるcapture不全）</h3>
+        <div class="pm-fig-wrap">
+          <img src="../images/pm2017-fig14.png" alt="Figure 9: Twiddler Syndrome" class="pm-fig">
+          <div class="pm-fig-caption">心室リードに複数のループが形成されておりリードに張力がかかり、断線と高インピーダンスを来している。患者がポケット内のデバイスをいじること（Twiddler）が原因。</div>
+        </div>
+
+        <h3 class="rule-title" style="margin-top:16px;">Figure 10：中期合併症の実例</h3>
+        <div class="pm-fig-wrap">
+          <img src="../images/pm2017-fig15.png" alt="Figure 10: Intermediate-term Complications" class="pm-fig">
+          <div class="pm-fig-caption">（A）植込み後の肥厚性瘢痕。（B）ケロイド形成（ケロイドは表面が盛り上がり、掻痒感・光過敏を伴うことが多い）。（C/D）三尖弁を跨ぐペースメーカーリードが関連した重症三尖弁逆流（矢印）の心エコー画像。</div>
+        </div>
+
+        <h3 class="rule-title" style="margin-top:16px;">三尖弁・静脈合併症と瘢痕</h3>
+        <div class="ie-echo-grid">
+          <div class="ie-echo-box">
+            <div class="ie-echo-name">三尖弁機能不全（CIED-TR）</div>
+            <div class="ie-echo-body">TVを跨ぐリードによる弁尖穿孔・運動制限が原因。慢性線維化でTV腱索の牽引が生じる。軟らかいスタイレット使用とTV通過部位の工夫（中隔側の腱索を避ける）で予防。<strong>PM/ICD植込み患者の20-30%で中等度以上のTR出現</strong>、右心不全による浮腫・腹水・労作時息切れの原因となり、ICUでの心不全増悪精査時に必ず鑑別に入れる。経胸壁エコーで評価、TEEで詳細描出。重症例は外科的TV修復 or 経カテーテル弁置換（TTVR）の対象。</div>
+          </div>
+          <div class="ie-echo-box">
+            <div class="ie-echo-name">リード上フィブリン・血栓</div>
+            <div class="ie-echo-body">線維性素材・血栓の付着物が移動塞栓を繰り返すことで肺高血圧症リスク。PFOがある場合は脳卒中リスクも生じる（参考文献25）。</div>
+          </div>
+          <div class="ie-echo-box">
+            <div class="ie-echo-name">瘢痕・ケロイド</div>
+            <div class="ie-echo-body">肥厚性瘢痕：単独縫合糸・適切な術技・過剰縫合張力の回避で低減。ケロイド治療：瘢痕内ステロイド注射・シリコーンシート・レーザー光線療法。</div>
+          </div>
+          <div class="ie-echo-box">
+            <div class="ie-echo-name">静脈血栓症・SVC症候群</div>
+            <div class="ie-echo-body">多数のリードや植込み時の内皮障害が静脈血栓・狭窄の前提。片側性浮腫やSVC症候群として発症することがある。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">Figure 11：リード機能不全の電気的診断</h3>
+        <div class="pm-fig-wrap">
+          <img src="../images/pm2017-fig16.png" alt="Figure 11: Lead Failure Diagnosis" class="pm-fig">
+          <div class="pm-fig-caption">（A）心室リードインピーダンスの急激な上昇：コンダクター断線と矛盾しない。（B）同患者のペースメーカー電位記録：生理的でない間隔の短い高周波・飽和信号（赤矢印）が出現しており、インピーダンスの急変と合わせると断線確実。DOOモード（強制同期）では感知できない（赤☆）。DDDR復帰後は適切な感知（青▼）が確認される。現代のペースメーカーはノイズを検出して同期モードに切替可能。断線はフィラー（導体細線）の微小断絶が原因であり、X線では検出できないことが多い。</div>
+        </div>
+
+        <h3 class="rule-title" style="margin-top:16px;">Figure 12：晩期合併症</h3>
+        <div class="pm-fig-wrap">
+          <img src="../images/pm2017-fig17.png" alt="Figure 12: Long-term Complications" class="pm-fig">
+          <div class="pm-fig-caption">（A）X線上のリード断線（矢印）：構造的断絶による高インピーダンス。（B）リード絶縁破損：通常低インピーダンスと関連。Kutarski et al.（参考文献43）より許諾転載。（C）リード内カルシウムハイドロキシアパタイト結晶沈着：高閾値・高インピーダンスを来すことがある（機能的）。Marshall et al.（参考文献30）より許諾転載。（D）電極‐心筋界面での線維化：高閾値と感知障害を生じ、exit blockに至る。</div>
+        </div>
+
+        <h3 class="rule-title" style="margin-top:16px;">晩期リード合併症のまとめ</h3>
+        <table class="ie-table">
+          <thead><tr><th>合併症</th><th>インピーダンス</th><th>特徴的所見</th><th>対応</th></tr></thead>
+          <tbody>
+            <tr><td style="white-space:nowrap;font-weight:700;">コンダクター断線</td><td>↑高インピーダンス</td><td>非生理的ノイズ（高周波・飽和EGM、短い非生理的間隔）、急激なインピーダンス上昇。X線では多くが見えない</td><td>リード交換/追加</td></tr>
+            <tr><td style="white-space:nowrap;font-weight:700;">絶縁破損</td><td>↓低インピーダンス</td><td>周囲筋肉（筋電位）のオーバーセンシング、露出導体による信号混入</td><td>リード交換/追加</td></tr>
+            <tr><td style="white-space:nowrap;font-weight:700;">Exit block（線維化・結晶）</td><td>徐々に↑</td><td>数ヶ月かけて閾値・インピーダンスが緩やかに上昇。断線とは区別が重要</td><td>機能的なら経過観察。ステロイド溶出リードで現代はほぼ消失</td></tr>
+            <tr><td style="white-space:nowrap;font-weight:700;">Twiddler症候群</td><td>↑高インピーダンス</td><td>患者が皮下でデバイスを回転させ、リードにループ・張力 → 断線。X線で確認</td><td>リード交換、患者教育</td></tr>
+          </tbody>
+        </table>
+        <div class="alert-yellow" style="margin-top:12px;">
+          <strong>緩やかなインピーダンス上昇 vs リード機能不全：</strong>急激なインピーダンス変化は断線・絶縁破損を示唆し外科的介入が必要になることがある。一方、徐々に進行する上昇（exit block、結晶沈着）は機能的リードで経過観察が可能。両者の区別が重要。
+        </div>
+      </div>
+    </div>
+
+    <h3 id="pm-s4d" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+      <span style="color:#16A34A;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 4</span>
+      CIED感染の管理
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">Figure 13：ポケット感染の所見</h3>
+        <div class="pm-fig-wrap">
+          <img src="../images/pm2017-fig18.png" alt="Figure 13: Pocket Infection Signs" class="pm-fig">
+          <div class="pm-fig-caption">（A）術後2週間で発赤・皮膚変化を呈した患者。（B）ポケット内の膿（排膿）。（C）皮膚びらんを認め、後に全身感染症状が出現した患者。</div>
+        </div>
+
+        <h3 class="rule-title" style="margin-top:16px;">CIED感染のリスク因子と臨床像</h3>
+        <p class="rule-body">CIED感染は主に植込み後数週間以内に発症するが、術後1年まで発症することがある。<strong>初期再手術が最大のリスク因子</strong>である。ポケットへの再穿刺（針吸引・手術）は、腫脹が非常に緊張し痛みを伴う場合を除き回避する。</p>
+        <table class="ie-table" style="margin-top:10px;">
+          <thead><tr><th style="white-space:nowrap;">リスク因子</th><th>臨床像</th></tr></thead>
+          <tbody>
+            <tr><td>糖尿病、心不全、腎不全</td><td rowspan="5" style="vertical-align:middle;">ポケット感染：発赤・膿・びらん・慢性ポケット疼痛・非治癒切開。発熱・悪寒・菌血症・心内膜炎（リードまたは弁）：リード/弁の疣贅あり</td></tr>
+            <tr><td>副腎皮質ステロイド使用</td></tr>
+            <tr><td>術後血腫、抗菌薬予防投与なし</td></tr>
+            <tr><td>経口抗凝固薬、以前のCIED感染</td></tr>
+            <tr><td>ジェネレーター交換、一時的ペースメーカー使用</td></tr>
+          </tbody>
+        </table>
+
+        <h3 class="rule-title" style="margin-top:16px;">Figure 14：CIED感染管理アルゴリズム</h3>
+        <p class="rule-body">抗菌薬期間は画像（TEE）・培養・微生物学・臨床像によって決定される。<strong>専門施設への紹介・完全なデバイス抜去・標的抗菌薬療法の組み合わせ</strong>が良好な転帰と関連する（参考文献32）。</p>
+        <div class="ie-flow" style="margin-top:10px;">
+          <div class="ie-flow-item">
+            <div class="ie-flow-num">評価</div>
+            <div style="flex:1;"><p class="rule-body"><strong>初期評価：</strong>TEE・ポケット所見・血液培養</p></div>
+          </div>
+          <div class="ie-flow-arrow">↓ 評価結果に応じて分岐</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:0;">
+            <div class="ie-flow-item" style="flex-direction:column;gap:6px;">
+              <p class="rule-body" style="font-weight:700;font-size:0.82rem;margin:0;">ポケット感染（血培陰性）</p>
+              <p class="rule-body" style="margin:0;font-size:0.8rem;">抗菌薬 7〜10日間</p>
+            </div>
+            <div class="ie-flow-item" style="flex-direction:column;gap:6px;">
+              <p class="rule-body" style="font-weight:700;font-size:0.82rem;margin:0;">リードびらん（血培陰性）</p>
+              <p class="rule-body" style="margin:0;font-size:0.8rem;">抗菌薬 10〜14日間</p>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;margin-bottom:0;">
+            <div class="ie-flow-item" style="flex-direction:column;gap:6px;">
+              <p class="rule-body" style="font-weight:700;font-size:0.82rem;margin:0;">血培陽性でTEE陰性</p>
+              <p class="rule-body" style="margin:0;font-size:0.8rem;">非SA菌：2週間<br>黄色ブドウ球菌（SA）：2〜4週間</p>
+            </div>
+            <div class="ie-flow-item" style="flex-direction:column;gap:6px;">
+              <p class="rule-body" style="font-weight:700;font-size:0.82rem;margin:0;">弁またはリード心内膜炎</p>
+              <p class="rule-body" style="margin:0;font-size:0.8rem;">AHA心内膜炎ガイドライン<br>（4〜6週間が基本）</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUMMARY Ch4 -->
+    <h3 id="pm-sum4" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>第4章のキーメッセージ
+    </h3>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+            <span class="rule-body"><strong>抗凝固薬管理：</strong>ワルファリンは中断せず継続するほうがヘパリンブリッジングより血腫形成率が低い。NOACは可能であれば術前2〜3日中断。血腫は感染リスクを高めるため最小化が重要。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+            <span class="rule-body"><strong>リード断線 vs Exit block：</strong>急激なインピーダンス変化（特に高周波ノイズ・非生理的EGM）は断線を示し外科介入の検討が必要。徐々に進行するインピーダンス上昇は exit blockや結晶沈着であり機能的なリードでは経過観察が可能。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+            <span class="rule-body"><strong>三尖弁逆流リスク：</strong>リードがTVを跨ぐことで弁尖穿孔・拘束が生じる。植込み時は軟らかいスタイレット使用・TV通過部位の工夫（中隔側腱索の回避）で予防。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+            <span class="rule-body"><strong>CIED感染：最大リスク因子は初期再手術。</strong>専門施設への紹介・完全デバイス抜去・標的抗菌薬療法が良好な転帰と関連。ポケットへの再穿刺は非常に緊張した腫脹を除き回避。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+            <span class="rule-body"><strong>動脈誤留置の確認：</strong>ペーシング時に右脚ブロックパターンが出現する場合、左室誤留置を疑う。X線側面像・CT・心エコーで確認し、通常はリード再位置決めを行う。晩期発見の場合は抗凝固療法。</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== 第5章 ===================== -->
+    <div id="pm-ch5" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+      <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+      <div style="font-size:1.3rem;font-weight:900;position:relative;">第5章 基本的トラブルシューティング</div>
+      <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Basic Pacemaker Troubleshooting</div>
+    </div>
+
+    <h3 id="pm-s5a" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+      バッテリー・リード診断
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">バッテリー状態とリード診断の基礎</h3>
+        <div class="ie-echo-grid">
+          <div class="ie-echo-box">
+            <div class="ie-echo-name">ERI（待機的交換指標）</div>
+            <div class="ie-echo-body">信頼性のある動作があと<strong>90日</strong>残っていることを示す。計画的な交換が必要なタイミング。</div>
+          </div>
+          <div class="ie-echo-box">
+            <div class="ie-echo-name">EOL（電池終末期）</div>
+            <div class="ie-echo-body">電池が枯渇して予測不能な動作の段階。ERIを超えて放置されている危険な状態。</div>
+          </div>
+          <div class="ie-echo-box">
+            <div class="ie-echo-name">双極センシングの優先</div>
+            <div class="ie-echo-body">双極センシング（リード先端→リング電極間）はアンテナが小さいため体外からの過感知を最小化。双極ペーシングは胸筋刺激も最小化する。</div>
+          </div>
+          <div class="ie-echo-box">
+            <div class="ie-echo-name">感度設定の理解</div>
+            <div class="ie-echo-body">感度0.5 mVは1.0 mVの2倍感度が高い（数値が小さいほど敏感）。一般的に安全マージン×2倍を推奨（心房EGM 1.0 mVなら感度を0.5 mVに設定）。</div>
+          </div>
+        </div>
+        <div class="alert-blue" style="margin-top:10px;">
+          リコール（回収）はペースメーカーではICDに比べて稀であり、通常は問題の意図しない結果を修正するためのソフトウェアアップデートで対応されることが多い。
+        </div>
+
+        <h3 class="rule-title" style="margin-top:18px;">リード故障の鑑別と診断フロー</h3>
+        <p class="rule-body">リード関連の問題は、インピーダンス変化のパターン、EGM所見、X線像、臨床経過から鑑別する。<strong>「急激 vs 緩徐」「高インピーダンス vs 低インピーダンス」</strong>の2軸で大半が分類できる。</p>
+        <table class="ie-table">
+          <thead>
+            <tr>
+              <th>所見</th>
+              <th style="white-space:nowrap;">コンダクター断線</th>
+              <th style="white-space:nowrap;">絶縁破損</th>
+              <th style="white-space:nowrap;">Exit block（線維化）</th>
+              <th style="white-space:nowrap;">結晶沈着</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>インピーダンス変化</strong></td>
+              <td><span class="mark-red">急上昇 &gt;3,000 Ω</span></td>
+              <td><span class="mark-red">急低下 &lt;200 Ω</span></td>
+              <td>緩徐に上昇（数ヶ月）</td>
+              <td>緩徐に上昇</td>
+            </tr>
+            <tr>
+              <td><strong>閾値変化</strong></td>
+              <td>不安定・無限大化</td>
+              <td>安定または上昇</td>
+              <td><strong>徐々に上昇</strong></td>
+              <td>徐々に上昇</td>
+            </tr>
+            <tr>
+              <td><strong>EGM所見</strong></td>
+              <td>非生理的高周波ノイズ・飽和波形・短い非生理的間隔</td>
+              <td>筋電位過感知・遠視野信号混入</td>
+              <td>正常（信号は得られる）</td>
+              <td>正常</td>
+            </tr>
+            <tr>
+              <td><strong>X線所見</strong></td>
+              <td>多くは見えない（フィラー微小断絶）。明らかなら矢印で指摘可</td>
+              <td>視覚的検出は困難</td>
+              <td>変化なし</td>
+              <td>変化なし</td>
+            </tr>
+            <tr>
+              <td><strong>主要原因</strong></td>
+              <td>Twiddler症候群、鎖骨下「クラッシュ」、急峻な静脈進入角、若年者</td>
+              <td>同様の機械的応力、シリコーン絶縁、近接する複数リードの摩擦</td>
+              <td>線維化進行、ステロイド未含有リード（旧式）</td>
+              <td>カルシウムハイドロキシアパタイト沈着</td>
+            </tr>
+            <tr>
+              <td><strong>臨床的緊急度</strong></td>
+              <td><span class="mark-red"><b>高（リード機能不全 → ペーシング失敗）</b></span></td>
+              <td><span class="mark-red"><b>高</b></span></td>
+              <td>中（機能維持下では経過観察可）</td>
+              <td>低</td>
+            </tr>
+            <tr>
+              <td><strong>対応</strong></td>
+              <td>リード交換 or 並行リード追加。古いリードは抜去 or 残置の判断（TLE専門施設）</td>
+              <td>リード交換。露出導体は感染温床にもなる</td>
+              <td>機能保たれていれば経過観察。出力増強で対応</td>
+              <td>経過観察</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="alert-yellow" style="margin-top:12px;">
+          <strong>「鎖骨下クラッシュ症候群（subclavian crush）」：</strong>鎖骨と第1肋骨の間でリードが慢性的に圧迫され、内側からの静脈穿刺で発生。腋窩静脈穿刺（または超音波ガイド下）に変更することで予防できる。<strong>リードの「鎖骨直下を斜めに横切る走行」がX線で見えたら、将来の断線リスクとして覚えておく</strong>。患者にも「肩を激しく動かす運動を控える」と指導。
+        </div>
+
+        <h3 class="rule-title" style="margin-top:18px;">リード抜去（Transvenous Lead Extraction; TLE）の適応</h3>
+        <p class="rule-body">不要になった/問題のあるリードを抜去する手技。長期植込みリードは血管壁・心筋に癒着しているため、機械的・レーザー・電気外科的な専用ツール（locking stylets、laser sheaths、rotational sheaths）を使う。専門施設・外科バックアップ下で実施。</p>
+        <table class="ie-table">
+          <thead><tr><th>クラス</th><th>適応</th></tr></thead>
+          <tbody>
+            <tr>
+              <td style="white-space:nowrap;"><span class="class-badge class-i">Class I</span></td>
+              <td>CIED感染（ポケット感染・全身感染・心内膜炎）／重篤なリード関連血栓塞栓症／生命を脅かす不整脈の原因となるリード／同一血管系で複数リードによる三尖弁機能不全</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;"><span class="class-badge class-iia">Class IIa</span></td>
+              <td>慢性疼痛が他の治療に反応しない場合／必要なMRIが代替不能でリードが障害になる場合／使用しないリードの放置が血管アクセスを阻害する場合</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;"><span class="class-badge class-iii">Class III</span></td>
+              <td>無症状で機能保持されている放棄リード／単発の挿入失敗／患者の嗜好による「予防的」抜去（リスクが利益を上回る）</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="alert-red" style="margin-top:12px;">
+          <strong>TLEの主要合併症：</strong>術中死亡 0.4-0.8%、SVC/RV穿孔 0.4%、心タンポナーデ 0.5-1.0%、下肢DVT/PE、塞栓症。緊急開胸が必要な場合に備え<strong>心臓外科スタンバイの体制下</strong>で行う。LExICon registry によると経験豊富施設で完全抜去率96%、major合併症率1.4%。
+        </div>
+      </div>
+    </div>
+
+    <h3 id="pm-s5b" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+      <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+      ペースメーカー誘発性頻拍（PMT）と上限レート動作
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">Figure 15：PMTと上限レート動作（4パネル）</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;">
+          <div>
+            <img src="../images/pm2017-fig19.png" alt="Figure 15A: PMT" class="pm-fig" style="margin:0;">
+          </div>
+          <div>
+            <img src="../images/pm2017-fig20.png" alt="Figure 15B: Upper rate behavior" class="pm-fig" style="margin:0;">
+          </div>
+          <div>
+            <img src="../images/pm2017-fig21.png" alt="Figure 15C: Upper rate behavior" class="pm-fig" style="margin:0;">
+          </div>
+          <div>
+            <img src="../images/pm2017-fig22.png" alt="Figure 15D: Upper rate behavior" class="pm-fig" style="margin:0;">
+          </div>
+        </div>
+        <div class="pm-fig-caption">（A）PMT：AV逐次ペーシング後にPVCが生じ、新たなVA間隔を開始。PVCが逆行性に心房に伝導し、PVARPより外側でP波が感知されると、AV間隔終了後に心室ペーシングが行われ循環するPMTが成立。（B〜E）上限レート動作：上限トラッキングレート130 bpm、PVARP 250 ms、AV間隔150 msに設定された患者。130 bpmまでは1:1トラッキング（B）。洞レートが130 bpmを超えるとPVARPに落ちるP波が出現し、PR延長→ブロックのWenckebach現象（C）。洞レートがTARP（AV+PVARP=400 ms）に達すると2:1ブロックが生じ心室ペーシングが約75 bpmに急落（D/E）。</div>
+
+        <h3 class="rule-title" style="margin-top:16px;">PMTの機序と対処</h3>
+        <p class="rule-body">PMTは、心室イベント（PVCや心室ペーシング）が逆行性に心房に伝導し（VA伝導）、PVARP外でP波が感知されることで「心室ペーシング→逆行性P波→心室ペーシング」の循環ループが形成される頻拍である。心室ペーシングが上限トラッキングレートで持続する。AV解離による血行動態障害と頸部拍動感（cannon A波による）・動悸を来す。</p>
+        <div class="ie-flow" style="margin-top:10px;">
+          <div class="ie-flow-item">
+            <div class="ie-flow-num">1</div>
+            <div style="flex:1;"><p class="rule-body"><strong>磁石適用（最も迅速）：</strong>非同期ペーシングモードとなり、逆行性P波のトラッキングが防止されてループが断ち切られる。</p></div>
+          </div>
+          <div class="ie-flow-arrow">↓</div>
+          <div class="ie-flow-item">
+            <div class="ie-flow-num">2</div>
+            <div style="flex:1;"><p class="rule-body"><strong>PMTアルゴリズム：</strong>上限トラッキングレートでの心室ペーシングを認識し、（a）PVARPを1サイクル延長して機能的心房アンダーセンシングを誘発、または（b）1サイクル心房ペーシングを心室ペーシングと同時実施して心房を逆行性インパルスに対して不応期にする。</p></div>
+          </div>
+        </div>
+
+        <h3 class="rule-title" style="margin-top:16px;">上限レート動作の理解（DDD）</h3>
+        <p class="rule-body">DDD設定での上限レートはTARP（=AV間隔＋PVARP）によって決定される。洞レートが上昇すると：</p>
+        <table class="ie-table" style="margin-top:8px;">
+          <thead><tr><th>洞レート</th><th>動作</th><th>臨床的意義</th></tr></thead>
+          <tbody>
+            <tr><td style="white-space:nowrap;">≤上限トラッキングレート</td><td>1:1トラッキング</td><td>正常</td></tr>
+            <tr><td style="white-space:nowrap;">上限レート〜TARP相当</td><td>進行性PR延長 → Wenckebach様ブロック</td><td>徐々にPVARPに落ちるP波が増加。心室ペーシングレートが段階的に低下</td></tr>
+            <tr><td style="white-space:nowrap;">≥TARPに相当する洞レート</td><td>2:1ブロック（急激な心室レート半減）</td><td>患者が症状を訴えることがある。2:1ブロックレートまでのWenckebach間隔を確保するよう間隔設定の最適化が必要</td></tr>
+          </tbody>
+        </table>
+        <div class="alert-yellow" style="margin-top:10px;">
+          <strong>不適切なモードスイッチ：</strong>遠視野イベントや頻繁な期外収縮で心房カウンターが増加し、心房不整脈と誤認識されることがある。抗凝固療法など治療介入の前に必ずEGMを確認すること。
+        </div>
+      </div>
+    </div>
+
+    <!-- SUMMARY Ch5 -->
+    <h3 id="pm-sum5" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>第5章のキーメッセージ
+    </h3>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+            <span class="rule-body"><strong>ERI vs EOL：</strong>ERI到達で信頼性のある動作が約90日残っている。EOLは予測不能な動作段階。ERI到達時に計画的なジェネレーター交換を手配する。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+            <span class="rule-body"><strong>PMTの診断と処置：</strong>上限レートで規則的な心室ペーシングが持続し、頸部拍動感（cannon A波）を伴う場合はPMTを疑う。磁石適用で即座にループを断ち切れる。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+            <span class="rule-body"><strong>上限レート動作：</strong>TARPを超える洞レートでは2:1ブロックが生じ心室ペーシングが急減する。Wenckebach（1:1上限〜2:1ブロック）区間を確保するよう間隔を最適化する。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+            <span class="rule-body"><strong>感度設定の理解：</strong>「感度0.5 mV」は「感度1.0 mV」より2倍感度が高い（数値が小さいほど小さな信号を感知する）。安全マージン×2倍が一般的推奨。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+            <span class="rule-body"><strong>EGM確認の重要性：</strong>不適切なモードスイッチや心房不整脈検出があった場合、抗凝固療法など治療開始前に必ずEGMで本物の不整脈かどうかを確認する。</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== 第6章 ===================== -->
+    <div id="pm-ch6" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+      <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+      <div style="font-size:1.3rem;font-weight:900;position:relative;">第6章 術前管理と心臓MRI</div>
+      <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Perioperative Management and Cardiac Magnetic Resonance Imaging</div>
+    </div>
+
+    <h3 id="pm-s6a" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+      術前ペースメーカー管理（電気メス・電磁干渉）
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">Figure 16：電流経路とペースメーカー干渉リスク</h3>
+        <div class="pm-fig-wrap">
+          <img src="../images/pm2017-fig23.png" alt="Figure 16: Current Pathway and Interference" class="pm-fig">
+          <div class="pm-fig-caption">（A）高リスク：術前プログラム変更または磁石が必要。（B）低い電磁干渉リスク。単極電気メスを使用する際の電流経路と分散パッドの位置がリスクを左右する。下肢への分散パッド配置かつ下肢手術の場合はほぼリスクなし。</div>
+        </div>
+
+        <h3 class="rule-title" style="margin-top:16px;">電気メス（電気手術）の基礎とEMIのメカニズム</h3>
+        <p class="rule-body">電気手術（電気メス）は100 kHz〜4 MHzの電流で組織の切開・凝固を行う。双極電気メスは両電極がペン先に集中し電流経路が局所にとどまる。単極電気メスは分散パッドとの間で体内を電流が流れ、ペースメーカーリード電極がEMIを感知する可能性がある。</p>
+        <p class="rule-body">心室チャンネルでEMIが感知されると、固有心活動と誤解釈されてペーシングが抑制され、ペースメーカー依存患者では徐脈・心停止を来す。心房リードでのEMI感知は上限レートまでの高速心室ペーシングや不適切モードスイッチを引き起こす可能性がある。</p>
+
+        <h3 class="rule-title" style="margin-top:16px;">Figure 17：術前ペースメーカー管理アルゴリズム</h3>
+        <div class="ie-flow" style="margin-top:10px;">
+          <div class="ie-flow-item">
+            <div class="ie-flow-num">確認</div>
+            <div style="flex:1;"><p class="rule-body"><strong>手術部位を確認：臍より上か下か？</strong></p></div>
+          </div>
+          <div class="ie-flow-arrow">↓</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0;">
+            <div class="ie-flow-item" style="flex-direction:column;gap:4px;background:#F0FDF4;border-color:#BBF7D0;">
+              <p class="rule-body" style="font-weight:700;margin:0;color:#14532D;">臍より下（腹部以下・下肢）</p>
+              <p class="rule-body" style="margin:0;font-size:0.8rem;">分散パッドを下肢に配置。<strong>術前プログラム変更は不要。</strong>（著者らの経験では下肢・股関節手術でのEMIは皆無）</p>
+            </div>
+            <div class="ie-flow-item" style="flex-direction:column;gap:4px;background:#FEF2F2;border-color:#FECACA;">
+              <p class="rule-body" style="font-weight:700;margin:0;color:#7F1D1D;">臍より上（胸部・頭頸部・上肢・腹部）</p>
+              <p class="rule-body" style="margin:0;font-size:0.8rem;">PM依存患者：非同期モード（VOO/AOO/DOO）へ再プログラムまたは磁石を使用。非依存患者でも腹部以上の単極電気メス使用が予想される場合は対応する。</p>
+            </div>
+          </div>
+          <div class="ie-flow-arrow">↓</div>
+          <div class="ie-flow-item">
+            <div class="ie-flow-num">術後</div>
+            <div style="flex:1;"><p class="rule-body"><strong>術後評価：</strong>デバイスを問診して適切な動作を確認し、もとの設定に戻す。</p></div>
+          </div>
+        </div>
+
+        <div class="alert-red" style="margin-top:12px;">
+          <strong>PM依存患者への非同期モードプログラムは絶対的必須：</strong>電気メスEMIが心室チャンネルで感知されると、ペーシング出力が抑制されて心停止を来す危険がある。PM依存患者の臍以上の手術では非同期モード（VOO/AOO/DOO）への再プログラムまたは磁石配置が必須。
+        </div>
+
+        <h3 class="rule-title" style="margin-top:16px;">プロフェッショナル学会の電気手術ガイドライン（HRS/ASA）</h3>
+        <ol style="font-size:0.85rem;line-height:1.9;padding-left:20px;margin:8px 0 0;">
+          <li>可能であれば双極電気メスを使用する</li>
+          <li>単極電気メス使用時は&lt;5秒の短時間照射とし、照射間に&gt;5秒の間隔を空ける</li>
+          <li>分散パッドをペースメーカーとリードから電流経路が遠ざかるよう配置する（下肢に配置するのが理想）</li>
+        </ol>
+      </div>
+    </div>
+
+    <h3 id="pm-s6b" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+      <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+      ペースメーカー患者の心臓MRI
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">心臓MRIの重要性と歴史的背景</h3>
+        <p class="rule-body">CMRは普及し、ペースメーカー植込み患者の<strong>75%が植込み後に何らかのCMRスキャンを必要とする</strong>と推測される。1980年代には、ペースメーカー患者のCMR（多くは知らずに実施）で死亡事例を含む有害事象が発生し、各国の規制当局や学会ガイドラインはCMRを禁忌としていた。その後、メーカーはCMR条件付きペースメーカーを開発した。しかし大多数の植込み患者はレガシー（非CMR条件付き）デバイスを持っている。</p>
+
+        <h3 class="rule-title" style="margin-top:16px;">Table 4：CMRによる潜在的有害事象</h3>
+        <table class="ie-table">
+          <thead>
+            <tr>
+              <th style="white-space:nowrap;">有害事象</th>
+              <th>機序</th>
+              <th>頻度・リスク因子</th>
+              <th>予防策</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="white-space:nowrap;font-weight:700;">デバイス・リードの<br>機械的移動</td>
+              <td>静的磁場によるデバイス・リードの強磁性素材への作用</td>
+              <td>現代のリードは強磁性材がほぼなく、移動は非常に稀。1.5T装置の捻転力は通常問題にならない。リスク：①磁場強度 ②強磁性材量 ③装置からの距離 ④植込みからの期間</td>
+              <td>新規植込みはリード安定化を待つ。CMR条件付きデバイスは強磁性材を最小化。3T CMRは経験不足のため回避。</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;font-weight:700;">電流誘導と<br>リード先端加熱</td>
+              <td>RF・パルス磁場でリードに電流誘導→リード先端組織加熱</td>
+              <td>SAR（比吸収率）が加熱リスクを規定。リード長さ・ループ形状が規定。心外膜・断線・放棄リードで加熱リスク↑。胸部CMRで高リスク。インピーダンス変化・感知低下・閾値上昇が報告されている（長期的変化は稀）</td>
+              <td>SAR最小化（画質確保の範囲内）。心外膜・断線・放棄リードでは実施を避ける。適切なランドマーク選択。CMR直後にリードパラメーター確認。</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;font-weight:700;">EMIによる<br>ペーシング抑制/<br>加速</td>
+              <td>RFパルスが真の心臓信号として感知される</td>
+              <td>PM依存患者でのマグネットモードや停止は稀に報告</td>
+              <td>新型デバイスはEMIシールドが改善。PM依存患者は非同期モードへ再プログラム、非依存患者はデマンドモードへ。スキャン中は継続モニタリング。</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;font-weight:700;">不整脈誘発</td>
+              <td>強力なパルス磁場で心筋電気刺激</td>
+              <td>主に動物実験で示された。臨床的条件で生成される電流は心筋捕捉には不十分</td>
+              <td>心肺蘇生訓練を受けた医療者による継続的なリズムモニタリング。リードの長さ・ループ制限。</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;font-weight:700;">リードスイッチ<br>動作変化</td>
+              <td>静的磁場がリードスイッチを作動させ、非同期ペーシング等が生じる</td>
+              <td>報告頻度0〜38%（装置からの距離に依存）</td>
+              <td>CMR条件付きデバイスにはHallセンサーを採用（より予測可能な動作）。モニタリング中に認識したらスキャン中断。2002年以前のデバイスをPM依存患者に使用する場合は実施回避。</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;font-weight:700;">パワーオンリセット</td>
+              <td>静的・動的RFパルスの組み合わせでデバイス回路に電流が誘導される</td>
+              <td>頻度0.7〜3.5%。2002年以前のデバイスでより頻繁。PM依存患者では危険（VVIモードへの復帰でEMI感知・ペーシング抑制）</td>
+              <td>2002年以降のデバイスを使用。PM依存患者でのスキャンに特に注意。</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="rule-body" style="margin-top:8px;font-size:0.75rem;color:var(--muted);">RF=ラジオ周波数；SAR=比吸収率；EMI=電磁干渉</p>
+
+        <h3 class="rule-title" style="margin-top:16px;">Figure 18：レガシー（非CMR条件付き）デバイスでのCMR実施アルゴリズム</h3>
+        <p class="rule-body">放射線科医・循環器専門医・専門看護師・医学物理士からなる統合チームが確立したプログラムで管理することで、レガシーデバイス患者のほぼ全例でのCMRが安全に実施できる。Mayoクリニックでは1,000例以上のスキャン実績があり、非胸部スキャンの98%以上で臨床的疑問が解決された。</p>
+        <div class="ie-flow" style="margin-top:10px;">
+          <div class="ie-flow-item">
+            <div class="ie-flow-num">確認</div>
+            <div style="flex:1;"><p class="rule-body"><strong>CMR条件付きデバイスか確認。→ Yes: 条件に従い実施可能</strong></p></div>
+          </div>
+          <div class="ie-flow-arrow">↓ No（レガシーデバイス）</div>
+          <div class="ie-flow-item">
+            <div class="ie-flow-num">除外</div>
+            <div style="flex:1;"><p class="rule-body"><strong>以下の場合は実施回避：</strong>一時的PM / 皮下ICD / 回収・勧告対象CIEDでERI到達 / PM依存患者で2002年以前のデバイス / 心外膜・断線・放棄リードがある場合</p></div>
+          </div>
+          <div class="ie-flow-arrow">↓ 上記でなければ実施可能（専門施設プロトコルで）</div>
+          <div class="ie-flow-item">
+            <div class="ie-flow-num">準備</div>
+            <div style="flex:1;"><p class="rule-body"><strong>専門施設プロトコル：</strong>①HRS専門看護師による事前・事後評価 ②放射線科医・医学物理士評価 ③放射線科によるインフォームドコンセント ④放棄リードがある場合はトロポニン測定 ⑤スキャン中継続モニタリング（ACLS訓練を受けた者が実施）</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">CMR条件付きデバイスの要件</h3>
+        <p class="rule-body">主要なデバイスメーカーはすべてCMR条件付きリードとペースメーカー、CRTデバイス、ICDを開発している。CMR条件付きとは「特定のMR条件下で既知のハザードがない」ことを意味する（「CMR安全」=「いかなる条件下でもハザードがない」とは異なり、現在CMR安全なデバイスは存在しない）。</p>
+        <div class="ie-echo-grid">
+          <div class="ie-echo-box">
+            <div class="ie-echo-name">デバイス要件</div>
+            <div class="ie-echo-body">CMR条件付きデバイス＋CMR条件付きリードの組み合わせ。放棄・断線・心外膜リードなし。デバイスは前胸部に留置されている。</div>
+          </div>
+          <div class="ie-echo-box">
+            <div class="ie-echo-name">MRI技術要件</div>
+            <div class="ie-echo-body">静磁場：<strong>1.5 T</strong>（3TはCMR条件付きでも経験不足のため回避）。最大SAR：<strong>≤2 W/kg</strong>。最大傾斜スルーレート：<strong>≤200 T/m/s</strong>。水平閉鎖型マグネット。仰臥位・腹臥位のみ（側臥位不可）。</div>
+          </div>
+          <div class="ie-echo-box">
+            <div class="ie-echo-name">継続モニタリング</div>
+            <div class="ie-echo-body">スキャン中のECG・血行動態・症状の継続的モニタリング（ACLS訓練を受けた者が実施）。スキャン前後のデバイス問診が必須。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ie-alpha">
+      <div class="ie-alpha-inner">
+        <div class="ie-alpha-header">
+          <span class="ie-alpha-badge">＋α</span>
+          <span class="ie-alpha-title">パワーオンリセット（Power-On Reset）：PM依存患者での最大リスク</span>
+        </div>
+        <p class="rule-body" style="color:#4C1D95;">パワーオンリセットは、静的・動的RFパルスの組み合わせによってデバイス回路に電流が誘導され、デバイスがデフォルト出荷設定に戻る現象である（頻度0.7〜3.5%、2002年以前のデバイスで多い）。一部のデバイスではVVIモードに戻ることがあり、PM依存患者でEMIをセンシングすると同期モードでペーシング出力が抑制される危険がある。特定のメーカーの旧型デバイスで報告されており、2002年以前のデバイスをPM依存患者に使用する場合はCMR実施を避けることが推奨されている。</p>
+      </div>
+    </div>
+
+    <!-- SUMMARY Ch6 -->
+    <h3 id="pm-sum6" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>第6章のキーメッセージ
+    </h3>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+            <span class="rule-body"><strong>術前PMリスク評価の鍵は「臍より上か下か」：</strong>臍より下の手術（分散パッドを下肢配置）ではEMIリスクはほぼなくプログラム変更不要。臍より上のPM依存患者は非同期モード（VOO/AOO/DOO）への再プログラムまたは磁石配置が必須。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+            <span class="rule-body"><strong>電気メスの使い方：</strong>双極電気メスを優先。単極使用時は&lt;5秒照射・&gt;5秒間隔・分散パッドをPMから遠ざける（下肢推奨）。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+            <span class="rule-body"><strong>CMR：75%の患者が生涯に必要。</strong>CMR条件付きデバイス患者と、専門施設プロトコルがある場合のレガシーデバイス患者ほぼ全例で安全に実施可能。Mayoシリーズ1,000例超、非胸部スキャンの98%以上で臨床疑問が解決。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+            <span class="rule-body"><strong>CMR条件付きの要件：</strong>1.5T、SAR≤2 W/kg、傾斜スルーレート≤200 T/m/s。CMR条件付きデバイス＋リードの組み合わせ必須。心外膜・断線・放棄リードは禁忌。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+            <span class="rule-body"><strong>レガシーデバイスのCMR最大リスクはパワーオンリセット（0.7〜3.5%）：</strong>PM依存患者ではVVIへの復帰でペーシング抑制の危険。2002年以前のデバイスをPM依存患者に使用する場合はCMRを避ける。専門チームによる継続モニタリングが必須。</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== 第7章 ICU実践 ===================== -->
+    <div id="pm-ch7" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+      <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+      <div style="font-size:1.3rem;font-weight:900;position:relative;">第7章 ICU実践：総合トラブルシューティング</div>
+      <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">ICU Practical Approach: Bedside Troubleshooting and Decision-Making</div>
+    </div>
+
+    <h3 id="pm-s7a" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+      ICU入室時PM患者の評価フロー
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">入室30分以内に確認する5項目</h3>
+        <p class="rule-body">ペースメーカー植込み患者がICUに入室した際、以下5項目を最初の30分以内に確認する。電気メス手術・CMR・心肺蘇生など、その後の全ての管理判断の基礎となる。</p>
+        <div class="ie-flow" style="margin-top:10px;">
+          <div class="ie-flow-item">
+            <div class="ie-flow-num">1</div>
+            <div style="flex:1;"><p class="rule-body"><strong>機種・メーカーの特定：</strong>携帯カードまたは本人/家族から確認。不明時はCXRでデバイス本体のレントゲン不透過マーカーを読影し、メーカー情報源（Cardiac Rhythm Device ID database 等）で照合する。<span class="mark-yellow">機種が分かれば磁石応答・CMR条件・専用プログラマーの特定が可能</span>になる。</p></div>
+          </div>
+          <div class="ie-flow-arrow">↓</div>
+          <div class="ie-flow-item">
+            <div class="ie-flow-num">2</div>
+            <div style="flex:1;"><p class="rule-body"><strong>植込み日・経過年数：</strong>新鮮植込み（&lt;6週）は<strong>リード未安定</strong>のため、CMR実施・激しい上肢運動・大胸筋ストレッチを延期する。経過10年以上ならERI接近の可能性が高く、デバイスチェックを優先。電池消耗の早い患者（高ペーシング閾値、高%ペーシング）はさらに早期に到達する。</p></div>
+          </div>
+          <div class="ie-flow-arrow">↓</div>
+          <div class="ie-flow-item">
+            <div class="ie-flow-num">3</div>
+            <div style="flex:1;"><p class="rule-body"><strong>ペースメーカー依存度の判定：</strong>過去のチェック報告書の「intrinsic rhythm下のレート」を参照。記録がなければ磁石応用または下限レートを徐々に下げて自己心拍を観察する（ICUでは循環器相談下で慎重に）。<span class="mark-red">依存度判定は電気メス手術・経皮的処置・デバイス交換の前提</span>。依存患者では非同期モードへの再プログラムが必須となる。</p></div>
+          </div>
+          <div class="ie-flow-arrow">↓</div>
+          <div class="ie-flow-item">
+            <div class="ie-flow-num">4</div>
+            <div style="flex:1;"><p class="rule-body"><strong>12誘導ECGでペーシングモード判別：</strong>下表参照。スパイクの位置（P波前/QRS前/両方）と数、QRS形態（LBBB様 vs RBBB様）から推定する。</p></div>
+          </div>
+          <div class="ie-flow-arrow">↓</div>
+          <div class="ie-flow-item">
+            <div class="ie-flow-num">5</div>
+            <div style="flex:1;"><p class="rule-body"><strong>最終デバイスチェック報告書の確認：</strong>閾値（A/V）、感度（A/V）、リードインピーダンス（A/V）、電池残量、%ペーシング（A/V）、モードスイッチ回数、治療歴。特に<span class="mark-red"><b>%RV pacing &gt; 40% は右室ペーシング誘発性心筋症のリスク評価対象</b></span>。</p></div>
+          </div>
+        </div>
+
+        <h3 class="rule-title" style="margin-top:18px;">12誘導ECG所見からのモード推定</h3>
+        <table class="ie-table">
+          <thead><tr><th>ECG所見</th><th>推定モード</th><th>解釈と次のアクション</th></tr></thead>
+          <tbody>
+            <tr>
+              <td style="white-space:nowrap;"><strong>P波前のスパイクのみ</strong><br>QRSは正常幅</td>
+              <td>AAI / AAIR</td>
+              <td>洞不全症候群でAV伝導が保たれている。AV伝導悪化時にDDDへ自動切替する設定が一般的。</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;"><strong>QRS前のスパイクのみ</strong><br>QRSはLBBB様で広い<br>P波と独立 or なし</td>
+              <td>VVI / VVIR</td>
+              <td>慢性AF、または洞調律＋AVブロックでDDDが選択されなかった場合。AVシンクロニーがないため心拍出量低下リスクあり。</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;"><strong>P波前・QRS前 両方のスパイク</strong><br>規則的AV間隔</td>
+              <td>DDD（AV逐次ペーシング）</td>
+              <td>洞徐脈＋AVブロック、両方が機能不全。最も高頻度。</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;"><strong>固有P → AV間隔 → QRS前スパイク</strong></td>
+              <td>DDD（P-同期VP）</td>
+              <td>洞機能正常＋AVブロックのみ。患者の自然な心拍数に追従して心室をペースする最も生理的なモード。</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;"><strong>QRS前のスパイクが2つ</strong><br>QRSは左軸偏位 or 正常軸</td>
+              <td>BiV pacing（CRT）</td>
+              <td>右室＋左室（冠静脈洞）リードからの同時ペーシング。心不全＋広QRS患者でCRT適応。</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;"><strong>RBBB様のペースQRS</strong></td>
+              <td>左室誤留置の可能性</td>
+              <td>RV lead が PFO/middle cardiac vein 経由で LV に入った可能性。CXR側面像 + 経胸壁エコーで確認。<span class="mark-red"><b>血栓塞栓リスクのためICU精査必須</b></span>。</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="alert-blue" style="margin-top:12px;">
+          <strong>磁石応答による依存度評価：</strong>磁石を缶上に置くと多くの機種は固定レートでの非同期ペーシング（VOO/AOO/DOO）に切り替わる（典型的レート：Medtronic 85 bpm、Abbott 100 bpm 新→85 bpm ERI、Boston Scientific 100 bpm 電池満→85 bpm ERI、Biotronik 90→80 bpm）。磁石下のレートを観察し、磁石を外した直後の固有心拍を確認する。<strong>磁石下レートの低下はERI到達のサイン</strong>でもある。</div>
+      </div>
+    </div>
+
+    <h3 id="pm-s7b" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+      <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+      ペースメーカー異常 5大トラブルの鑑別と初動
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">ECG所見から逆引きする鑑別表</h3>
+        <p class="rule-body">ICUでペースメーカー異常を疑うECG所見を5つに分類し、機序別に対応する。鑑別の鍵は「スパイクの有無」「スパイク後の捕捉の有無」「自己心拍との関係」である。</p>
+        <table class="ie-table">
+          <thead>
+            <tr>
+              <th style="white-space:nowrap;">トラブル分類</th>
+              <th>ECG所見</th>
+              <th>主な機序</th>
+              <th>初動対応</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="white-space:nowrap;"><strong>① 出力なし</strong><br>(No output)</td>
+              <td>本来出るべきタイミングでペーシングスパイクなし。徐脈＋自己心拍のみ。</td>
+              <td>オーバーセンシング（筋電位・T波・遠視野QRS）/ リード断線 / 電池消耗 (EOL) / コネクター緩み</td>
+              <td>磁石応用→非同期ペーシングが出現すれば「センシング過剰」確定。出ない場合はリード/電池故障。緊急デバイスチェック＋経皮ペーシング準備。</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;"><strong>② 捕捉失敗</strong><br>(Failure to capture)</td>
+              <td>スパイクは出るが直後にQRS/P波が出ない。</td>
+              <td>閾値上昇（exit block・線維化・梗塞）/ リード変位（dislodgement）/ リード断線 / 高K血症 / 抗不整脈薬</td>
+              <td>K値・薬剤確認、CXRでリード位置確認、デバイスチェックで閾値測定。経皮ペーシング準備。リード変位なら再固定手術。</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;"><strong>③ アンダーセンシング</strong><br>(Undersensing)</td>
+              <td>固有P/QRSがあるにもかかわらず不適切なタイミングでスパイクが出現（競合）。</td>
+              <td>感度設定が低い / 信号振幅低下（梗塞・線維化）/ リード絶縁破損 / 電位変化（運動・体位）</td>
+              <td>感度値を下げる（より敏感に）＝設定値を小さく（例：1.0→0.5 mV）。EGM振幅評価。リード問題なら交換検討。</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;"><strong>④ オーバーセンシング</strong><br>(Oversensing)</td>
+              <td>固有心活動でないノイズ（筋電位・T波・遠視野R波・EMI）を心拍として感知 → ペーシング抑制 or 不適切モードスイッチ。</td>
+              <td>筋電位（単極リード使用時に多い）/ T波 / 遠視野R波（心房リード）/ リード断線（高周波ノイズ）/ EMI（電気メス・MRI・電気毛布）</td>
+              <td>感度値を上げる（鈍く）＝設定値を大きく。双極設定への変更。リード断線疑いはX線・EGM確認。EMI源除去。</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;"><strong>⑤ 不適切な高速ペーシング</strong></td>
+              <td>頻脈（しばしば上限トラッキングレートまで）。患者は動悸・低血圧。</td>
+              <td>PMT（逆行性VA伝導）/ 心房頻拍をトラッキング / 加速度計の誤検出（震え・搬送中振動）/ 換気量センサーの誤作動（人工呼吸器・ECGモニター電流）</td>
+              <td>磁石応用→非同期になり頻拍停止すれば「トラッキング」確定。心房頻拍はモードスイッチ・抗不整脈薬・抗凝固。PMTはアルゴリズム作動 or PVARP延長。</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="alert-yellow" style="margin-top:14px;">
+          <strong>マグネットテストは即時診断ツール：</strong>磁石を缶上に置くと多くの機種でセンシングが無効化され固定レートでの非同期ペーシングが開始する。①出力なしが「センシング過剰による抑制」か「ハードウェア故障」かの即時鑑別が可能。⑤頻脈が「トラッキング」か「センサー駆動の不適切レート応答」かも判別できる。<strong>磁石は1機備えてベッドサイドに常置し、緊急時にすぐ使える状態にしておく</strong>。</div>
+      </div>
+    </div>
+
+    <h3 id="pm-s7c" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+      <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>
+      磁石応用の臨床（メーカー別動作）
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">磁石応答の原則</h3>
+        <p class="rule-body">磁石をデバイス缶の真上（電極からは離れた位置）に置くと、内部のreed switch（または最近のHallセンサー）が静磁場を感知し、デバイスは多くの場合<strong>センシングを無効化した固定レートの非同期ペーシング（VOO/AOO/DOO）</strong>に切り替わる。これによりEMI・PMT・筋電位過感知でのペーシング抑制が即座に解除できる。磁石を外すとデバイスはプログラムされた設定に戻る。</p>
+
+        <h3 class="rule-title" style="margin-top:14px;">主要メーカー別の磁石応答（ペースメーカー）</h3>
+        <table class="ie-table">
+          <thead>
+            <tr>
+              <th style="white-space:nowrap;">メーカー</th>
+              <th style="white-space:nowrap;">電池満時のレート</th>
+              <th style="white-space:nowrap;">ERI（要交換）時</th>
+              <th>備考</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td style="white-space:nowrap;">Medtronic</td><td style="white-space:nowrap;">85 bpm</td><td style="white-space:nowrap;">65 bpm</td><td>3拍だけ100 bpmで開始（threshold margin test）するモデルあり。</td></tr>
+            <tr><td style="white-space:nowrap;">Boston Scientific</td><td style="white-space:nowrap;">100 bpm</td><td style="white-space:nowrap;">85 bpm</td><td>磁石応答プログラムがOFF設定の場合は応答なし → 事前確認重要。</td></tr>
+            <tr><td style="white-space:nowrap;">Abbott (St. Jude)</td><td style="white-space:nowrap;">98–100 bpm</td><td style="white-space:nowrap;">86.3 bpm（年代で異なる）</td><td>古い機種ではEPテスト用に「battery test」モード（98.6 bpm）に入る。</td></tr>
+            <tr><td style="white-space:nowrap;">Biotronik</td><td style="white-space:nowrap;">90 bpm</td><td style="white-space:nowrap;">80 bpm</td><td>10拍ごとに段階的に減速する仕様あり。</td></tr>
+          </tbody>
+        </table>
+        <p class="rule-body" style="margin-top:8px;font-size:0.78rem;color:var(--muted);">※ICDの場合は磁石で「治療抑制」（衝撃療法を一時停止）になり、ペーシング機能には影響しない（重要：ICDとPMで磁石応答は全く異なる）。</p>
+
+        <div class="alert-red" style="margin-top:12px;">
+          <strong>磁石を使う前に必ず「ICD/PMの判別」：</strong>ICD患者に磁石を当てると衝撃療法が無効化される。一見徐脈で「PMだろう」と思っても、患者がICD適応疾患（HFrEF・既往VF/VT）を持っていればICDの可能性。CXRでデバイス本体の大きさ・コイル付きリード（ICDショックコイル）の有無を確認してから磁石を使う。</div>
+      </div>
+    </div>
+
+    <h3 id="pm-s7d" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+      <span style="color:#16A34A;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 4</span>
+      PMが動作しない時の緊急対応
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">PM不全による徐脈・心停止：3つの治療層</h3>
+        <p class="rule-body">PM依存患者でデバイス不全（出力なし・捕捉失敗）が発生し血行動態が破綻した場合は、以下の3層で並行して対応する。デバイスチェック・修正は同時に進めるが、まず患者を救命する。</p>
+
+        <div class="ie-flow" style="margin-top:10px;">
+          <div class="ie-flow-item">
+            <div class="ie-flow-num">1</div>
+            <div style="flex:1;"><p class="rule-body"><strong>第一層：薬物療法（即時開始）。</strong>アトロピン 0.5 mg IV 3〜5分ごと（最大3 mg）。AVブロック原因なら効果限定的。エピネフリン 2〜10 μg/min持続点滴、またはイソプロテレノール 2〜10 μg/min。ドーパミン 5〜20 μg/kg/min。</p></div>
+          </div>
+          <div class="ie-flow-arrow">↓ 並行</div>
+          <div class="ie-flow-item">
+            <div class="ie-flow-num">2</div>
+            <div style="flex:1;"><p class="rule-body"><strong>第二層：経皮ペーシング（数分以内）。</strong>多機能除細動器のペーシング機能を使用。前後配置（前胸部 + 背部、デバイスを避ける）が推奨。<strong>出力80〜100 mAから開始</strong>し捕捉確認まで20 mAずつ増加。レート60〜70 bpm。鎮痛・鎮静必須（ベンゾジアゼピン or 短時間オピオイド）。捕捉確認は触知脈拍 + EGMで（ECGアーティファクトに惑わされない）。</p></div>
+          </div>
+          <div class="ie-flow-arrow">↓ 並行</div>
+          <div class="ie-flow-item">
+            <div class="ie-flow-num">3</div>
+            <div style="flex:1;"><p class="rule-body"><strong>第三層：経静脈一時ペーシング（30〜60分以内）。</strong>右内頸静脈または右大腿静脈経由でballoon-tipped pacing catheterを右室に進める。ペーシング閾値1〜5 mA、感度2〜5 mVから開始。長期使用の場合は循環器コンサルトで永続デバイスへの早期移行 or 既存デバイスのリビジョン。</p></div>
+          </div>
+        </div>
+
+        <div class="alert-yellow" style="margin-top:14px;">
+          <strong>経皮ペーシングの落とし穴：</strong>パッドのアーチファクトをECGの捕捉と勘違いしやすい。<strong>必ず触知脈拍（大腿動脈推奨）または動脈圧波形でメカニカル捕捉を確認</strong>する。経皮ペーシング中の患者は強い胸壁筋収縮による疼痛があるため、適切な鎮痛・鎮静は人道的観点だけでなく、患者協力性の観点からも必須。</div>
+      </div>
+    </div>
+
+    <h3 id="pm-s7e" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 5</span>
+      タイミング図の読み方（実例計算）
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">DDDタイミング図：実症例での計算</h3>
+        <p class="rule-body">プログラム値を読んで上限レート動作を予測する力は、ICUでDDD患者の頻脈・徐脈を診た瞬間に役立つ。Figure 15B〜Eの設定例で計算手順を示す。</p>
+
+        <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:6px;padding:14px 18px;margin-top:10px;">
+          <div style="font-weight:800;color:#1E40AF;font-size:0.88rem;margin-bottom:8px;">プログラム設定（症例）</div>
+          <table style="width:100%;font-size:0.85rem;">
+            <tr><td style="padding:3px 0;width:60%;">下限レート（LR）</td><td style="font-weight:700;">60 bpm（=1,000 ms）</td></tr>
+            <tr><td style="padding:3px 0;">上限トラッキングレート（URL）</td><td style="font-weight:700;">130 bpm（=462 ms）</td></tr>
+            <tr><td style="padding:3px 0;">AV間隔</td><td style="font-weight:700;">150 ms</td></tr>
+            <tr><td style="padding:3px 0;">PVARP</td><td style="font-weight:700;">250 ms</td></tr>
+          </table>
+        </div>
+
+        <div style="background:#FFFBEB;border:1px solid #FDE68A;border-radius:6px;padding:14px 18px;margin-top:10px;">
+          <div style="font-weight:800;color:#B45309;font-size:0.88rem;margin-bottom:8px;">計算結果</div>
+          <table style="width:100%;font-size:0.85rem;">
+            <tr><td style="padding:3px 0;width:60%;">TARP（Total Atrial Refractory Period）</td><td style="font-weight:700;">AV + PVARP = 150 + 250 = <strong style="color:#B45309;">400 ms</strong></td></tr>
+            <tr><td style="padding:3px 0;">2:1ブロック開始レート</td><td style="font-weight:700;">60,000 ÷ 400 = <strong style="color:#DC2626;">150 bpm</strong></td></tr>
+            <tr><td style="padding:3px 0;">Wenckebach帯（URL〜2:1）</td><td style="font-weight:700;">130 〜 150 bpm（20 bpm幅）</td></tr>
+          </table>
+        </div>
+
+        <div class="alert-blue" style="margin-top:14px;">
+          <strong>解釈：</strong>洞レートが130 bpmまでは1:1トラッキングで完全な P-同期VP が得られる。131〜149 bpmではPVARPに落ちるP波が増えて progressive PR延長 → ペースメーカーWenckebach。150 bpmに達すると2:1ブロックで心室レートが急に75 bpmへ半減し、患者は<strong>「運動中に急に息切れ・めまい」</strong>と訴える。
+        </div>
+
+        <div class="alert-red" style="margin-top:10px;">
+          <strong>2:1ブロックの臨床的回避：</strong>運動を行う若年患者やrate-responsive需要のある患者では、PVARPを短縮してTARPを縮め、2:1ブロックレートを上げる必要がある。例：PVARP 250→200 msでTARPは350 ms、2:1ブロックは171 bpm。ただしPVARP短縮は<strong>PMTリスクを増やす</strong>ためトレードオフ。多くの現代デバイスはrate-adaptive PVARPで自動調整する。</div>
+
+        <h3 class="rule-title" style="margin-top:14px;">PMT診断のECG基準</h3>
+        <table class="ie-table">
+          <thead><tr><th>所見</th><th>解釈</th></tr></thead>
+          <tbody>
+            <tr><td style="white-space:nowrap;"><strong>規則的な広QRS頻拍</strong></td><td>心室ペーシング由来。LBBB様QRS。</td></tr>
+            <tr><td style="white-space:nowrap;"><strong>レートが上限トラッキングレートに正確に一致</strong></td><td>例：URL 130 bpmなら正確に130 bpm。±2 bpm以内。</td></tr>
+            <tr><td style="white-space:nowrap;"><strong>各QRSにペーシングスパイク</strong></td><td>100% V-paced。</td></tr>
+            <tr><td style="white-space:nowrap;"><strong>QRS直後に逆行性P波</strong></td><td>下壁誘導（II、III、aVF）で陰性、aVRで陽性。VA伝導の証拠。</td></tr>
+            <tr><td style="white-space:nowrap;"><strong>磁石適用で頻拍停止</strong></td><td>非同期モードに切り替わり、逆行性P波のトラッキングが断たれてループ消失。<strong>診断・治療を兼ねた最強ツール</strong>。</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3 id="pm-s7f" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+      <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 6</span>
+      ICU特異的なペースメーカー落とし穴
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">研修医が遭遇する典型的な誤対応7選</h3>
+        <table class="ie-table">
+          <thead><tr><th>シーン</th><th>誤り</th><th>正解</th></tr></thead>
+          <tbody>
+            <tr>
+              <td style="white-space:nowrap;"><strong>① ECGモニター由来の頻拍</strong></td>
+              <td>「不適切な高速ペーシングだ、PMが故障した」と緊急デバイスチェックを依頼。</td>
+              <td>換気量センサー搭載機種ではECGモニターの微弱電流が呼吸由来と誤認識される（CLINICAL PEARL: Mulpuru et al. 言及）。<strong>ECGモニターの導出を切替 or 機種交換で消失するか試す</strong>。</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;"><strong>② リハビリ中の心拍数急上昇</strong></td>
+              <td>「ペースメーカーが暴走している」と中止指示。</td>
+              <td>加速度計はトレッドミル歩行で過剰反応することがあるが、リハ中の生理的レート上昇のことも多い。<span class="mark-yellow">ECG所見でPmtの基準を確認</span>。</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;"><strong>③ 電気メス術後の急激なペーシング抑制</strong></td>
+              <td>「PMが壊れた」と慌てる。</td>
+              <td>EMIによる過感知でペーシング出力が抑制されている可能性。<strong>磁石を缶に置けば即座に非同期ペーシング再開</strong>。術後デバイスチェックで設定を再確認。</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;"><strong>④ 鎖骨下静脈穿刺後の片側上肢腫脹</strong></td>
+              <td>蜂窩織炎を疑い抗菌薬投与。</td>
+              <td>鎖骨下静脈血栓・狭窄の可能性。CTV/MRV/エコーで評価。多リード患者でリスク高。永続抗凝固検討。</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;"><strong>⑤ 高齢PM患者の発熱＋ポケット発赤</strong></td>
+              <td>「軽度の表在感染」と局所抗菌薬。</td>
+              <td><span class="mark-red"><b>CIED感染を疑う：血液培養2セット + 経食道エコーで弁/リード疣贅評価</b></span>。AHAガイドラインで全症例「complete device removal」が推奨。経皮的針吸引は感染を悪化させるため禁忌。</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;"><strong>⑥ 心房細動が新たに検出</strong></td>
+              <td>すぐ抗凝固開始。</td>
+              <td><span class="mark-yellow">「不適切モードスイッチ」（遠視野R波過感知）を必ず除外</span>。EGM確認後に判断。本物のAFなら抗凝固＋抗不整脈/レート制御。</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;"><strong>⑦ MRI予約時に「PMだから禁忌」</strong></td>
+              <td>CMRをキャンセル → 必要な診断ができない。</td>
+              <td>CMR conditional デバイスは1.5 T安全。Legacy デバイスでも専門チーム下で実施可能（98%以上のスキャンで臨床疑問解決）。<strong>「禁忌」ではなく「条件付き可能」</strong>。</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="alert-blue" style="margin-top:14px;">
+          <strong>ICUナースへ伝える3点：</strong>(1) ベッドサイドに磁石を1枚常備、(2) 12誘導ECGは1日1回、ペーシングの様式変化（モードスイッチ・PMT・ペーシング消失）に注意、(3) 電気毛布・経皮神経刺激装置はEMI源になるためPM患者は使用回避。</div>
+      </div>
+    </div>
+
+    <!-- ＋αカード：パドルでの心拍数モニター誤差 -->
+    <div class="ie-alpha" style="margin-bottom:16px;">
+      <div class="ie-alpha-inner">
+        <div class="ie-alpha-header">
+          <span class="ie-alpha-badge">＋α</span>
+          <span class="ie-alpha-title">PMスパイクをモニターが「QRS」と誤算する：心拍数モニターの落とし穴</span>
+        </div>
+        <p class="rule-body" style="color:#4C1D95;">古いベッドサイドモニターでは<strong>ペーシングスパイクをR波として検出してしまい</strong>、実際は捕捉失敗（spike → QRSなし）でも心拍数を「ペーシングレート通り」と表示することがある。患者は実際には徐脈・無脈であっても、モニターは正常レートを示す。<strong>触知脈拍・動脈圧波形・SpO2波形でメカニカル拍動を必ず確認</strong>すること。現代モニターは「pacing artifact suppression」機能で改善されているが、設定や機種により挙動が異なる。CIED患者ICU入室時に必ずモニターのpacing認識を確認しておく。</p>
+      </div>
+    </div>
+
+    <!-- ＋αカード：ペースメーカー症候群 -->
+    <div class="ie-alpha" style="margin-bottom:16px;">
+      <div class="ie-alpha-inner">
+        <div class="ie-alpha-header">
+          <span class="ie-alpha-badge">＋α</span>
+          <span class="ie-alpha-title">ペースメーカー症候群：見逃されがちなVVI患者の不調</span>
+        </div>
+        <p class="rule-body" style="color:#4C1D95;">VVI（心室のみ）ペーシング患者で、VA逆行性伝導があるとペーシングのたびに心房が閉じた房室弁に対して収縮し（cannon A波）、患者は<strong>「動悸・全身倦怠感・労作時息切れ・浮腫・血圧変動」</strong>を訴える。これがペースメーカー症候群（pacemaker syndrome）。原疾患のない患者で症状が新規発症した場合、AVシンクロニーを取り戻すためDDDへのアップグレード（心房リード追加）を検討する。SAVE PACe・MOST試験ではVVIペーシング患者の約20%にこの症候群が発生するとされる。</p>
+      </div>
+    </div>
+
+    <!-- ＋αカード：CIED感染の抗菌薬詳細 -->
+    <div class="ie-alpha" style="margin-bottom:16px;">
+      <div class="ie-alpha-inner">
+        <div class="ie-alpha-header">
+          <span class="ie-alpha-badge">＋α</span>
+          <span class="ie-alpha-title">CIED感染の抗菌薬期間（AHA Figure 14詳細）</span>
+        </div>
+        <p class="rule-body" style="color:#4C1D95;"><strong>必ず「complete device removal（全リード抜去 + 缶摘出）」を実施した上で</strong>、以下の期間で抗菌薬投与：</p>
+        <ul style="font-size:0.84rem;line-height:1.7;color:#4C1D95;padding-left:20px;margin-top:8px;">
+          <li><strong>ポケット感染（血液培養陰性）：</strong>抜去後2週間</li>
+          <li><strong>リード露出（血液培養陰性）：</strong>抜去後7〜10日</li>
+          <li><strong>菌血症（S. aureus以外）：</strong>抜去後2週間</li>
+          <li><strong>菌血症（S. aureus）：</strong>抜去後2〜4週間</li>
+          <li><strong>リード心内膜炎：</strong>抜去後4〜6週間</li>
+          <li><strong>弁膜症心内膜炎：</strong>4〜6週間（IE通常通り）</li>
+        </ul>
+        <p class="rule-body" style="color:#4C1D95;margin-top:8px;">経験的初期治療：vancomycin（MRSAカバー）+ 必要に応じてグラム陰性カバー。培養結果で de-escalation。リード抜去はTLE（transvenous lead extraction）専門施設で実施。デバイス再植込みは血液培養陰性確認後（IE合併では2週間以上後）。</p>
+      </div>
+    </div>
+
+    <!-- SUMMARY Ch7 -->
+    <h3 id="pm-sum7" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>第7章のキーメッセージ
+    </h3>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+            <span class="rule-body"><strong>入室時5項目チェック：</strong>機種・植込み日・依存度・12誘導ECGモード・最終チェック報告書。これら無くしてEMI/CMR/手術の安全な計画はできない。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+            <span class="rule-body"><strong>5大トラブル：</strong>(1)出力なし (2)捕捉失敗 (3)アンダーセンシング (4)オーバーセンシング (5)不適切高速ペーシング。各々の機序と初動を区別する。<strong>磁石は即時診断ツール</strong>。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+            <span class="rule-body"><strong>磁石応答はメーカー依存：</strong>Medtronic 85, Boston 100, Abbott 98–100, Biotronik 90 bpm。ERIで低下するため磁石下レートは電池残量の指標にもなる。<span class="mark-red">ICDとPMで応答が全く異なるため必ず判別してから使用</span>。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+            <span class="rule-body"><strong>緊急対応3層：</strong>薬物（アトロピン→エピネフリン/イソプロテレノール）→経皮ペーシング（80 mA、鎮痛必須）→経静脈ペーシング。捕捉確認は触知脈拍 or 動脈圧波形で。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+            <span class="rule-body"><strong>2:1ブロック計算：</strong>2:1開始レート = 60,000 ÷ TARP。例：URL 130 / AV 150 / PVARP 250 → TARP 400 → 2:1は150 bpmで急発生。Wenckebach帯（URL〜2:1）が短すぎると運動中に急な徐脈化。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑥</span>
+            <span class="rule-body"><strong>ICU特異的落とし穴：</strong>ECGモニター→換気量センサー誤作動／モニターのpacing artifact誤算→徐脈見逃し／電気メスEMI→磁石で即解除／PM患者の発熱+ポケット発赤はCIED感染→針吸引禁忌・全摘出が原則。</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 出典注記 -->
+    <p style="font-size:0.72rem;color:#9CA3AF;margin-top:24px;line-height:1.7;">
+      出典：Mulpuru SK, Madhavan M, McLeod CJ, Cha Y-M, Friedman PA. Cardiac Pacemakers: Function, Troubleshooting, and Management. Part 1 of a 2-Part Series. J Am Coll Cardiol. 2017;69(2):189–210.<br>
+      DOI：<a href="https://doi.org/10.1016/j.jacc.2016.10.061" target="_blank" rel="noopener" style="color:#60A5FA;">https://doi.org/10.1016/j.jacc.2016.10.061</a><br>
+      本資料は教育目的で作成したサマリーです。診断・治療方針の決定には必ず原典ガイドラインを参照してください。
+    </p>
+    <p style="font-size:0.75rem;color:var(--muted);text-align:right;margin-top:8px;">制作：ICU 関谷</p>
+
+  </div><!-- /main-col -->
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="ie-sidebar">
+    <div class="ie-sidebar-card">
+      <div class="ie-sidebar-title">目次</div>
+      <a href="#pm-ch1" class="ie-toc-chapter">第1章 歴史と基礎生理</a>
+      <a href="#pm-s1a" class="ie-toc-section">S1 — 歴史的変遷（Central Illustration）</a>
+      <a href="#pm-s1b" class="ie-toc-section">S2 — 刺激閾値・センシング・インピーダンス</a>
+      <a href="#pm-sum1" class="ie-toc-section">SUMMARY 第1章</a>
+
+      <a href="#pm-ch2" class="ie-toc-chapter">第2章 ペーシングモード</a>
+      <a href="#pm-s2a" class="ie-toc-section">S1 — ペーシングモードコード</a>
+      <a href="#pm-s2b" class="ie-toc-section">S2 — モードスイッチ・RV回避</a>
+      <a href="#pm-s2c" class="ie-toc-section">S3 — レート応答</a>
+      <a href="#pm-sum2" class="ie-toc-section">SUMMARY 第2章</a>
+
+      <a href="#pm-ch3" class="ie-toc-chapter">第3章 植込み適応</a>
+      <a href="#pm-s3a" class="ie-toc-section">S1 — 可逆的原因の除外</a>
+      <a href="#pm-s3b" class="ie-toc-section">S2 — 洞不全症候群（Table 1）</a>
+      <a href="#pm-s3c" class="ie-toc-section">S3 — AV伝導障害・その他（Table 2）</a>
+      <a href="#pm-sum3" class="ie-toc-section">SUMMARY 第3章</a>
+
+      <a href="#pm-ch4" class="ie-toc-chapter">第4章 植込み合併症</a>
+      <a href="#pm-s4a" class="ie-toc-section">S1 — 合併症の頻度（Table 3）</a>
+      <a href="#pm-s4b" class="ie-toc-section">S2 — 即時合併症（Fig 7-8）</a>
+      <a href="#pm-s4c" class="ie-toc-section">S3 — 中期・晩期合併症（Fig 9-12）</a>
+      <a href="#pm-s4d" class="ie-toc-section">S4 — CIED感染（Fig 13-14）</a>
+      <a href="#pm-sum4" class="ie-toc-section">SUMMARY 第4章</a>
+
+      <a href="#pm-ch5" class="ie-toc-chapter">第5章 トラブルシューティング</a>
+      <a href="#pm-s5a" class="ie-toc-section">S1 — バッテリー・リード診断</a>
+      <a href="#pm-s5b" class="ie-toc-section">S2 — PMT・上限レート動作（Fig 15）</a>
+      <a href="#pm-sum5" class="ie-toc-section">SUMMARY 第5章</a>
+
+      <a href="#pm-ch6" class="ie-toc-chapter">第6章 術前管理とCMR</a>
+      <a href="#pm-s6a" class="ie-toc-section">S1 — 術前PM管理（Fig 16-17）</a>
+      <a href="#pm-s6b" class="ie-toc-section">S2 — 心臓MRI（Table 4・Fig 18）</a>
+      <a href="#pm-sum6" class="ie-toc-section">SUMMARY 第6章</a>
+
+      <a href="#pm-ch7" class="ie-toc-chapter">第7章 ICU実践</a>
+      <a href="#pm-s7a" class="ie-toc-section">S1 — 入室時評価フロー</a>
+      <a href="#pm-s7b" class="ie-toc-section">S2 — 5大トラブル鑑別</a>
+      <a href="#pm-s7c" class="ie-toc-section">S3 — 磁石応用（メーカー別）</a>
+      <a href="#pm-s7d" class="ie-toc-section">S4 — 緊急対応（経皮ペーシング）</a>
+      <a href="#pm-s7e" class="ie-toc-section">S5 — タイミング図実例計算</a>
+      <a href="#pm-s7f" class="ie-toc-section">S6 — ICU特異的落とし穴</a>
+      <a href="#pm-sum7" class="ie-toc-section">SUMMARY 第7章</a>
+    </div>
+  </aside>
+
+</div><!-- /content-wrap -->
+
+<script src="../script.js"></script>
+<script src="../abbr-tooltip.js"></script>
+</body>
+</html>

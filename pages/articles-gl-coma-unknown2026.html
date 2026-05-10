@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>原因不明昏睡のステップワイズ診断戦略 | 聖路加ICUガイド</title>
+  <link rel="stylesheet" href="../style-v2.css">
+  <style>
+    .alert-yellow {
+      background: #FFFBEB; border: 1px solid #FDE68A; border-radius: var(--radius);
+      padding: 14px 18px; margin-bottom: 16px;
+    }
+    .alert-green {
+      background: #F0FDF4; border: 1px solid #BBF7D0; border-radius: var(--radius);
+      padding: 14px 18px; margin-bottom: 16px;
+    }
+    .ie-fig-box {
+      background: #F8FAFC; border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 12px; margin: 16px 0;
+    }
+    .ie-fig-box img {
+      width: 100%; height: auto; border-radius: 6px; display: block;
+    }
+    .ie-fig-caption {
+      font-size: 0.78rem; color: var(--muted); margin-top: 8px; line-height: 1.6;
+    }
+    .ie-fig-caption strong { color: var(--text); }
+    .abcd-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px;
+    }
+    @media (max-width: 640px) { .abcd-grid { grid-template-columns: 1fr; } }
+    .abcd-card {
+      background: #fff; border: 1px solid var(--border); border-radius: 8px;
+      padding: 12px 14px;
+    }
+    .abcd-label {
+      font-size: 1.4rem; font-weight: 900; margin-bottom: 4px;
+    }
+    .abcd-freq { font-size: 0.76rem; color: var(--muted); margin-bottom: 6px; }
+    .abcd-body { font-size: 0.84rem; line-height: 1.6; }
+  </style>
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <a href="../index.html" class="nav-logo">
+      <img src="../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+      <span class="nav-logo-text">聖路加国際病院ICU</span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-menu" id="navMenu"></ul>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<div class="subpage-hero hero-image-bg">
+  <div class="container">
+    <a href="articles-guidelines.html#art-neuro" class="back-link">← 一覧へ戻る</a>
+    <h1 class="subpage-title">原因不明昏睡のステップワイズ診断戦略</h1>
+    <p class="subpage-subtitle">#NEURO — Neurocritical Care</p>
+    <div>
+      <span class="ie-badge">Silva et al. Intensive Care Med 2026</span>
+      <span class="ie-badge">Narrative Review</span>
+      <span class="ie-badge">2026年4月</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MAIN LAYOUT ===== -->
+<div class="container" style="display:flex;gap:32px;align-items:flex-start;padding-top:32px;padding-bottom:64px;">
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main style="flex:1;min-width:0;max-width:900px;">
+
+    <!-- 略語一覧 -->
+    <div class="card" style="margin-bottom:24px;">
+      <div class="card-inner">
+        <h3 class="rule-title" style="margin-bottom:10px;">本ページで使用する略語一覧</h3>
+        <table style="width:100%;border-collapse:collapse;font-size:0.8rem;line-height:1.6;">
+          <tbody>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:140px;color:var(--blue);">略語</td><td style="padding:4px 8px;">正式名称 — 日本語訳</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">ARAS</td><td style="padding:4px 8px;">Ascending Reticular Activating System — 上行性網様体賦活系</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">GCS</td><td style="padding:4px 8px;">Glasgow Coma Scale — グラスゴー昏睡スケール</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">FOUR</td><td style="padding:4px 8px;">Full Outline of UnResponsiveness score — 完全無反応アウトライン・スコア</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">EEG</td><td style="padding:4px 8px;">Electroencephalography — 脳波</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">cEEG</td><td style="padding:4px 8px;">Continuous EEG — 持続脳波モニタリング</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">NCSE</td><td style="padding:4px 8px;">Nonconvulsive Status Epilepticus — 非痙攣性てんかん重積状態</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">VS/UWS</td><td style="padding:4px 8px;">Vegetative State / Unresponsive Wakefulness Syndrome — 植物状態/無反応性覚醒症候群</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">MCS</td><td style="padding:4px 8px;">Minimally Conscious State — 最小意識状態</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">CT</td><td style="padding:4px 8px;">Computed Tomography — コンピュータ断層撮影</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">MRI</td><td style="padding:4px 8px;">Magnetic Resonance Imaging — 磁気共鳴画像</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">DWI</td><td style="padding:4px 8px;">Diffusion-Weighted Imaging — 拡散強調画像</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">DTI</td><td style="padding:4px 8px;">Diffusion Tensor Imaging — 拡散テンソル画像</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">FLAIR</td><td style="padding:4px 8px;">Fluid-Attenuated Inversion Recovery — 液体抑制反転回復法</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">CSF</td><td style="padding:4px 8px;">Cerebrospinal Fluid — 脳脊髄液</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">LP</td><td style="padding:4px 8px;">Lumbar Puncture — 腰椎穿刺</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">PRES</td><td style="padding:4px 8px;">Posterior Reversible Encephalopathy Syndrome — 可逆性後頭葉白質脳症</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">CVST</td><td style="padding:4px 8px;">Cerebral Venous Sinus Thrombosis — 脳静脈洞血栓症</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">LPD</td><td style="padding:4px 8px;">Lateralized Periodic Discharges — 一側性周期性放電</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">CMD</td><td style="padding:4px 8px;">Cognitive Motor Dissociation — 認知運動解離（隠れた意識）</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">GPi</td><td style="padding:4px 8px;">Globus Pallidus Interna — 淡蒼球内節</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">CRS-R</td><td style="padding:4px 8px;">Coma Recovery Scale–Revised — 昏睡回復尺度（改訂版）</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">PCR</td><td style="padding:4px 8px;">Polymerase Chain Reaction — ポリメラーゼ連鎖反応</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">TSH</td><td style="padding:4px 8px;">Thyroid-Stimulating Hormone — 甲状腺刺激ホルモン</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">BUN</td><td style="padding:4px 8px;">Blood Urea Nitrogen — 血中尿素窒素</td></tr>
+            <tr><td style="padding:4px 8px;font-weight:700;">AI</td><td style="padding:4px 8px;">Artificial Intelligence — 人工知能</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Visual Abstract -->
+    <div class="card" style="margin-bottom:24px;">
+      <div class="card-inner">
+        <h3 class="rule-title" style="margin-bottom:10px;">Visual Abstract</h3>
+        <div class="ie-fig-box">
+          <img src="../images/coma-visual-abstract.png" alt="Visual Abstract">
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== CHAPTER 1: 病態生理 ===== -->
+    <div id="coma-ch1" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+      <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+      <div style="font-size:1.3rem;font-weight:900;position:relative;">第1章　病態生理学的基礎</div>
+      <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Pathophysiological Underpinnings</div>
+    </div>
+
+    <h3 id="coma-s1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+      昏睡とは何か ― 意識の2次元モデル
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">昏睡の定義と意識の構造</h3>
+        <p class="rule-body">昏睡とは、覚醒（arousal）と認識（awareness）がいずれも完全に失われた、突然発症する一時的な意識障害の病的状態である。Plum と Posner が50年以上前に定義して以来、この概念は神経集中治療の礎となっている。</p>
+        <p class="rule-body">意識は2つの主要な次元で概念化される。<span class="mark-green"><strong>覚醒（arousal）</strong></span>は「起きているという状態」であり、<span class="mark-green"><strong>認識（awareness）</strong></span>は「意識的な体験の内容」を指す。昏睡ではこの両者が完全に失われている。昏睡から回復したのちに覚醒は戻るが認識が戻らない状態が植物状態（VS/UWS）であり、さらに目的のある行動の兆候が出始めた状態が最小意識状態（MCS）と定義される。</p>
+        <p class="rule-body">本レビューが対象とするのは、<span class="mark-red"><strong>外傷性脳損傷・心停止後低酸素脳症・大血管閉塞性脳梗塞を除く、原因不明の重篤な昏睡</strong></span>に限定される。これらは別の病態生理学的機序に基づき、確立した管理経路が存在するためである。</p>
+      </div>
+    </div>
+
+    <h3 id="coma-s2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+      <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+      ARAS とメソサーキット ― 覚醒の神経回路
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">上行性網様体賦活系（ARAS）の役割</h3>
+        <p class="rule-body">覚醒は、脳幹内の異質なコリン作動性・モノアミン作動性・グルタミン酸作動性ニューロン群から構成される ARAS によって媒介される。これらは視床・視床下部・前脳基底部に投射し、皮質の興奮性を調節する。橋出血や びまん性軸索損傷のような脳幹構造への破壊的病変は、これら覚醒経路を断絶することで昏睡を引き起こす。ARAS は覚醒を維持するだけでなく、認識の出現に必要な生理学的基盤を提供している。</p>
+        <p class="rule-body">認識自体は、保存された皮質機能とその白質連絡（特に中央視床との連絡）に依存する。前頭頭頂連合野の広範な皮質機能障害や両側性視床損傷は、感覚統合と高次認知機能を損ない、認識障害をきたす。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">前脳メソサーキット（Fig. 1）</h3>
+        <p class="rule-body">過去20年間の機能的神経画像研究から、昏睡は広範な皮質低代謝・ネットワーク結合性の低下・視床皮質ループの断絶と関連することが明らかになっている。特に、<span class="mark-yellow"><strong>前頭頭頂ネットワークおよび前脳メソサーキット</strong></span>が昏睡において一貫して障害され、その完全性が回復と関連する。</p>
+        <p class="rule-body">メソサーキットは視床（特に板内核）と線条体・前頭皮質との連絡を中核とする。この大脳皮質—線条体—視床—皮質ループ内において、線条体への直接的または間接的な損傷が、淡蒼球内節（GPi）から視床への抑制性出力を強め、視床皮質流出（前頭領域を含む）をさらに低下させる可能性がある。</p>
+        <p class="rule-body">臨床管理の観点から重要な点として、メソサーキット機能の回復——特に薬理学的手段（ゾルピデム・アマンタジン・アポモルフィン等）による中央視床とその皮質投射の再活性化——が、遷延性意識障害（VS/UWS・MCS）患者の神経学的回復と関連することが報告されている。</p>
+        <div class="ie-fig-box">
+          <img src="../images/coma-fig1-mesocircuit.png" alt="Fig.1 メソサーキット前頭頭頂モデル">
+          <div class="ie-fig-caption"><strong>Fig. 1：メソサーキット前頭頭頂モデル。</strong>正常状態では、興奮性の視床皮質投射が前頭皮質からの皮質活動を駆動し、線条体（St）を活性化する（線条体—視床—皮質ループの一部）。線条体出力は GPi への抑制性制御を与え、視床の脱抑制と皮質活性化の促進をもたらす。意識障害では、前頭皮質からの興奮性入力低下による線条体の低活性化が GPi 出力を増大させ、中央視床（cTH）への抑制を強め、前頭頭頂皮質への視床皮質流出を低下させる。PTg: 脚橋被蓋核、ARAS: 上行性網様体賦活系（マゼンタ矢印）。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">代謝性 vs 構造性昏睡 ― 病態生理の違い</h3>
+        <p class="rule-body">昏睡は大きく2つの機序によって生じる。代謝性・中毒性・感染性原因（電解質異常・低血糖・敗血症など）は、皮質と皮質下構造にわたって神経興奮性とシナプス伝達を全体的に抑制することで意識障害をきたす。これらの状態では ARAS および前頭頭頂—視床メソサーキットは解剖学的には完全に保たれているが機能的に抑制されており、局所的な脳破壊を伴わずに覚醒と情報統合が障害される。このため原則として<span class="mark-green"><strong>可逆性</strong></span>が高い。</p>
+        <p class="rule-body">一方、神経学的原因による昏睡は、意識ネットワークの主要構成要素への直接的な構造的損傷から生じる。ARAS（例：橋出血・びまん性軸索損傷）に影響を与える破壊的病変は覚醒経路を断絶し、両側視床損傷や前頭頭頂連合皮質とその白質連絡の広範な損傷は、皮質統合ハブを切断することで認識を障害する。構造的病変は解剖学的断絶あるいは破壊をもたらし、<span class="mark-red"><strong>一般に予後不良で可逆性が低い</strong></span>傾向がある。</p>
+      </div>
+    </div>
+
+    <!-- SUMMARY Ch.1 -->
+    <h3 id="coma-sum1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+      第1章のキーメッセージ
+    </h3>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+            <span class="rule-body"><strong>意識の2次元構造：</strong>昏睡は覚醒（arousal）と認識（awareness）の両者が完全に欠如した状態であり、VS/UWS（覚醒あり・認識なし）や MCS（認識の断片的回復）と区別する。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+            <span class="rule-body"><strong>ARAS の役割：</strong>脳幹から視床・前脳基底部を経由して皮質に至る ARAS が覚醒の主要基盤であり、脳幹病変はその断絶により昏睡を生じさせる。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+            <span class="rule-body"><strong>前脳メソサーキット：</strong>皮質—線条体—視床—皮質ループの破綻が意識障害の共通最終経路であり、病因を問わず全ての昏睡はこの回路の情報フロー障害に収束する。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+            <span class="rule-body"><strong>代謝性 vs 構造性：</strong>代謝性昏睡は機能的抑制（解剖学的に無傷）で可逆性が高く、構造性昏睡は解剖学的断絶・破壊を伴い予後不良の傾向がある。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+            <span class="rule-body"><strong>薬理学的介入：</strong>ゾルピデム・アマンタジン等による中央視床の再活性化がメソサーキット機能の回復をもたらす可能性があり、遷延性意識障害の治療標的として注目される。</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== CHAPTER 2: 臨床評価 ===== -->
+    <div id="coma-ch2" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+      <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+      <div style="font-size:1.3rem;font-weight:900;position:relative;">第2章　ステップワイズ臨床評価</div>
+      <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Targeted Clinical Assessment</div>
+    </div>
+
+    <h3 id="coma-s3" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>
+      診断フローチャートと反復評価（Fig. 2）
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">ステップワイズ診断アルゴリズム</h3>
+        <p class="rule-body">原因不明の新規昏睡に対しては、迅速かつ効率的で構造化された評価が求められる。神経画像や生化学的マーカーへの依存が高まる現代においても、構造化された神経学的診察はベッドサイドでの病変局在同定・診断トリアージ・早期予後推定に不可欠である。</p>
+        <p class="rule-body">昏睡は<span class="mark-red"><strong>動的な臨床状態</strong></span>であり、定期的かつ各介入後に反復評価が必須である。最初の再評価は頻繁に（初期数時間は15〜30分ごとに）行い、状態が安定したのちは臨床的判断により2〜4時間ごとに延長できる。新情報はすべて過去の評価データに統合し、経過変化の可能性を念頭に置く。</p>
+        <div class="ie-fig-box">
+          <img src="../images/coma-fig2-algorithm.png" alt="Fig.2 ステップワイズ診断アルゴリズム">
+          <div class="ie-fig-caption"><strong>Fig. 2：昏睡の診断に向けた焦点化臨床評価に基づくステップワイズアプローチ。</strong>昏睡は動的な臨床状態であり、反復的な再評価ループを繰り返す（例：2時間ごと、各介入後）。ABG: 動脈血ガス、FOUR: Full Outline of UnResponsiveness score、GCS: Glasgow Coma Scale、TnT: トロポニン T。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">初期安定化と病歴聴取</h3>
+        <p class="rule-body">初期昏睡評価では気道・呼吸・循環を優先する。①気道が保護されていなければ必要に応じて確保する。②挿管患者では呼気終末 CO₂を確認しノルモカプニア（PaCO₂ 35〜45 mmHg）を確保する。③心血管不安定があれば等張液による輸液チャレンジを行う。④低血糖を除外・補正する。</p>
+        <p class="rule-body">プレホスピタルから救急部にかけて、家族・目撃者・カルテから焦点を絞った病歴を収集する。中毒・代謝異常・感染症などの可逆的原因を同定するためである。簡潔かつ系統的な神経学的・全身診察を行い、外傷・薬物使用・発熱・呼吸/肝/腎不全の徴候を確認する。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">昏睡のミミックスと交絡因子</h3>
+        <div class="alert-red" style="margin-bottom:12px;">
+          <p class="rule-body" style="margin:0;"><span class="mark-red"><strong>昏睡ミミックス</strong></span>を除外することが診断の大前提：緊張病（catatonia）・閉じ込め症候群（locked-in syndrome）・心因性無反応（psychogenic unresponsiveness）はベッドサイド操作と画像検査で鑑別する。</p>
+        </div>
+        <p class="rule-body">意識を遮蔽しうる交絡因子を同定し対処することが重要である。鎮静薬・鎮痛薬・体温異常・代謝異常は一時的に認識を隠蔽し診断的不確実性をもたらす。反復神経学的評価は、可能な限り鎮静なしで実施し、構造化された意識スコアリングツールを用いるべきである。鎮静・鎮痛薬は診断ワークアップ内の重大な交絡因子となりうるため、鎮静深度を注意深くモニタリングし、必要最小限の量と期間に留めることが重要である。</p>
+      </div>
+    </div>
+
+    <h3 id="coma-s4" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+      <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 4</span>
+      可逆的原因の同定と緊急処置（Table 1）
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">可逆的原因一覧と必要な処置</h3>
+        <p class="rule-body">構造化された神経学的診察に基づく診断ワークアップは早期診断と標的治療を可能にする。以下に示す代謝性・中毒性・感染性・特定の構造的原因は、早期認識と標的治療により意識回復が期待できる。</p>
+        <table class="ie-table" style="margin-top:12px;">
+          <thead>
+            <tr>
+              <th style="white-space:nowrap;">原因</th>
+              <th>必要な処置</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="white-space:nowrap;"><strong>低血糖</strong></td>
+              <td>50%ブドウ糖液 25 g 静注（静脈路確保困難時はグルカゴン筋注/皮下注）</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;"><strong>高血糖</strong></td>
+              <td>静脈内輸液・電解質補正・持続インスリン静注</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;"><strong>Wernicke 脳症</strong><br><span style="font-size:0.72rem;color:var(--muted);">（チアミン欠乏）</span></td>
+              <td>チアミン 500 mg を1日3回静注（特に低栄養・アルコール患者）</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;"><strong>電解質異常</strong></td>
+              <td>重症低ナトリウム血症・高ナトリウム血症などの急速補正</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;"><strong>低酸素/高炭酸ガス</strong></td>
+              <td>気道管理と呼吸不全の補正</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;"><strong>オピオイド中毒</strong></td>
+              <td>ナロキソン 0.4〜1 mg 吸入または静注</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;"><strong>ベンゾジアゼピン中毒</strong></td>
+              <td>フルマゼニル 0.1 mg/min 静注</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;"><strong>一酸化炭素中毒</strong></td>
+              <td>高流量酸素または高気圧酸素療法</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;"><strong>痙攣</strong><br><span style="font-size:0.72rem;color:var(--muted);">（痙攣性/非痙攣性重積）</span></td>
+              <td>即時抗痙攣薬療法</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;"><strong>感染症</strong><br><span style="font-size:0.72rem;color:var(--muted);">（髄膜炎・脳炎）</span></td>
+              <td>腰椎穿刺と経験的抗菌薬療法</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;"><strong>副腎クリーゼ</strong></td>
+              <td>ヒドロコルチゾン 100 mg 静注ボーラス → 200 mg/24h持続、等張液急速輸液、低血糖補正</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;"><strong>粘液水腫性昏睡</strong></td>
+              <td>レボチロキシン負荷量 200〜400 mcg 静注、グルココルチコイド静注、包括的支持療法</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3 id="coma-s5" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+      <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 5</span>
+      神経学的診察と意識スコアリング（Fig. 3）
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">昏睡診察の系統的アプローチ</h3>
+        <p class="rule-body">昏睡患者の診察には、意識レベル・脳幹反射・運動反応・呼吸パターンの系統的評価が必要である（Fig. 3）。GCS は広く使用されているが、挿管患者における言語反応の評価と脳幹機能評価に限界がある。この限界を克服するために、眼球追跡・呼吸パターン・脳幹反射を組み込んだ FOUR スコアの採用が進んでいる。</p>
+        <p class="rule-body">臨床徴候の組み合わせ（特に瞳孔サイズと反応性・注視偏倚・姿勢）は、単独の徴候よりも昏睡の局所的大脳原因を示すうえで有効である。ICU において昏睡と関連する意識障害（VS/UWS・MCS）を早期かつ正確に鑑別するために、CRS-R の短縮版（CRSR-FAST・SECONDs）が最近開発されている。</p>
+        <p class="rule-body">覚醒と反応性の変動により、単回評価に基づく診断は誤診につながりうるため、<span class="mark-yellow"><strong>反復評価が不可欠</strong></span>である。</p>
+        <div class="ie-fig-box">
+          <img src="../images/coma-fig3-localization.png" alt="Fig.3 昏睡における解剖学的脳病変の臨床局在">
+          <div class="ie-fig-caption"><strong>Fig. 3：昏睡における解剖学的脳病変の臨床局在。</strong>A. 主要な解剖学的レベルは、固有（瞳孔）および外在（注視）眼球運動、姿勢・運動反応、呼吸パターンから推定できる。B. 脳幹反射は局在の信頼性の高い指標であり、特に中脳・橋・延髄病変の鑑別に有用である。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">FOUR スコア vs GCS ― 比較（Table 2）</h3>
+        <table class="ie-table">
+          <thead>
+            <tr>
+              <th style="white-space:nowrap;">項目</th>
+              <th style="white-space:nowrap;">GCS</th>
+              <th style="white-space:nowrap;">FOUR スコア</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="white-space:nowrap;">評価ドメイン</td>
+              <td>開眼・言語反応・運動反応</td>
+              <td>眼反応・運動反応・脳幹反射・呼吸パターン</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;">スコア範囲</td>
+              <td>3〜15（3サブスケール）</td>
+              <td>0〜16（各 0〜4 の4サブスケール）</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;">脳幹機能評価</td>
+              <td>間接的</td>
+              <td>瞳孔・角膜・咳反射の直接評価</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;">微細な認識の徴候</td>
+              <td>限定的</td>
+              <td>視覚追跡を直接評価 ― LIS・MCS の診断に有用</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;">呼吸評価</td>
+              <td>評価しない</td>
+              <td>自発呼吸パターンを評価</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;">挿管患者での有用性</td>
+              <td>限定的</td>
+              <td>完全適用可能</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;">予後予測能</td>
+              <td>検証済み；微細な脳幹機能低下への感度は低い</td>
+              <td>ICU 予後推定においてしばしば優れる</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="rule-body" style="margin-top:10px;">FOUR スコアは優れた評価者間一致度を示し、非常に低い GCS スコアの患者において GCS よりも予後予測能が優れることが示されている。</p>
+      </div>
+    </div>
+
+    <!-- SUMMARY Ch.2 -->
+    <h3 id="coma-sum2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+      第2章のキーメッセージ
+    </h3>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+            <span class="rule-body"><strong>反復評価が必須：</strong>昏睡は動的な状態であり、初期数時間は15〜30分ごと、安定後は2〜4時間ごとに神経学的評価を繰り返す。各介入後にも必ず再評価する。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+            <span class="rule-body"><strong>可逆的原因を早期除外：</strong>低血糖・Wernicke 脳症・電解質異常・中毒・NCSE・髄膜炎・副腎クリーゼ・粘液水腫性昏睡は即座の治療介入で意識回復が期待できる。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+            <span class="rule-body"><strong>昏睡ミミックスを忘れない：</strong>緊張病・閉じ込め症候群・心因性無反応はベッドサイド操作と画像で除外する。鎮静薬・鎮痛薬は診断を遮蔽するため必要最小限に。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+            <span class="rule-body"><strong>FOUR スコアの優位性：</strong>挿管患者では脳幹反射・眼球追跡・呼吸パターンを評価できる FOUR スコアが GCS より有用であり、ICU での予後予測能も優れる。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+            <span class="rule-body"><strong>局在診察の価値：</strong>瞳孔反応・注視偏倚・運動パターン・呼吸様式の組み合わせが局所性大脳原因を示すカギとなり、適切な神経画像モダリティの選択を導く。</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== CHAPTER 3: 電気生理学 ===== -->
+    <div id="coma-ch3" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+      <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+      <div style="font-size:1.3rem;font-weight:900;position:relative;">第3章　脳波（EEG）の活用</div>
+      <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Harnessing Electrophysiology</div>
+    </div>
+
+    <h3 id="coma-s6" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 6</span>
+      電気的痙攣発作と NCSE の検出
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">なぜ EEG が昏睡評価に不可欠か</h3>
+        <p class="rule-body">EEG は病因を問わず全ての昏睡の診断・予後評価における中核的要素である。ICU で検出される痙攣発作の大多数は臨床的に無症状であり、このことが適時な診断と管理のために持続 EEG（cEEG）モニタリングの重要性を際立たせる。混合昏睡患者集団において、cEEG は非痙攣性発作を最大 18% の頻度で検出する。早期 EEG 所見（記録開始後1時間以内に得られるもの）はすでに有意義な発作リスク層別化情報を提供するが、発作検出にはしばしば数時間または24時間超の長時間 EEG モニタリングが必要となる。</p>
+        <div class="ie-stat-grid">
+          <div class="ie-stat">
+            <div class="ie-stat-val">最大18%</div>
+            <div class="ie-stat-label">混合昏睡集団での<br>NCSE 検出率（cEEG）</div>
+          </div>
+          <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+            <div class="ie-stat-val" style="color:#DC2626;">2HELPS2B ≥2</div>
+            <div class="ie-stat-label">持続 EEG（≥24h）の<br>適応スコア</div>
+          </div>
+          <div class="ie-stat">
+            <div class="ie-stat-val">0点 → &lt;5%</div>
+            <div class="ie-stat-label">2HELPS2B スコア0の<br>発作リスク</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">2HELPS2B スコアによる cEEG モニタリング期間の決定</h3>
+        <p class="rule-body">2HELPS2B スコアは初回スクリーニング EEG から得られる変数をもとに、入院患者の発作リスクを層別化するものである。</p>
+        <table class="ie-table">
+          <thead>
+            <tr>
+              <th style="white-space:nowrap;">2HELPS2B スコア</th>
+              <th>発作リスク</th>
+              <th>推奨 EEG モニタリング期間</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="white-space:nowrap;"><strong>0点</strong></td>
+              <td>&lt; 5%</td>
+              <td>短時間記録（約1時間）で適切</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;"><strong>1点</strong></td>
+              <td>中程度</td>
+              <td>約12時間のモニタリングが有益</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;"><strong>≥ 2点</strong></td>
+              <td>高リスク</td>
+              <td>持続 EEG（≥24時間）が一般的に妥当</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="rule-body" style="margin-top:10px;">高い痙攣バーデン（累積持続時間または最高てんかん様活動量として定量化）は不良な神経学的転帰と関連する。ACNS および ESICM は、痙攣バーデンの管理を最適化するために昏睡患者の cEEG を検討することを推奨している。ただし、cEEG ガイド下の抗てんかん治療プロトコルが短期・長期神経学的転帰を改善するかは未解明のままである。</p>
+      </div>
+    </div>
+
+    <h3 id="coma-s7" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+      <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 7</span>
+      ABCD 分類 ― 視床皮質断絶の EEG 評価（Fig. 4）
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">ベッドサイド EEG による視床皮質ネットワーク完全性の評価</h3>
+        <p class="rule-body">ベッドサイド EEG が視床皮質ネットワーク完全性を評価できるのは、上行性視床投射と視床皮質ループによって形成される大規模皮質振動を非侵襲的に捉えられるからである。視床と皮質の機能的結合は覚醒と認識の維持に中核的役割を果たすため、ベッドサイド EEG 記録は昏睡重篤度の迅速かつ反復可能な指標を提供する。</p>
+        <p class="rule-body">病因を問わず、昏睡が深くなるにつれてデルタ活動が優位となりより緩徐・持続的になる。さらに増悪すると背景活動は不連続となり、バースト—サプレッションへと進展し、バースト間隔が長くなるほど重篤度が増す。電気的大脳不活動あるいは等電位沈黙まで進行しうる。潜在的な交絡因子のない状態での抑制またはバースト—サプレッション背景（周期性放電の有無を問わず）は、不良転帰の予測因子とみなされる。</p>
+        <div class="ie-fig-box">
+          <img src="../images/coma-fig4-eeg-abcd.png" alt="Fig.4 ABCD EEG 分類">
+          <div class="ie-fig-caption"><strong>Fig. 4：昏睡患者で観察される代表的 EEG パターンとパワースペクトル。</strong>視床皮質回路の段階的障害を示す4種の EEG サンプル。（I）デルタ振動（&lt;4 Hz）が優位な抑制背景（パターン A）— 完全な皮質—視床脱入力；（II）シータ活動（5〜7 Hz）（パターン B）— 皮質—視床入力の低下；（III）シータとベータ（〜15〜40 Hz）の混合（パターン C）— 皮質—視床系の部分的再入力；（IV）アルファ（8〜12 Hz）からベータへと広帯域化（パターン D）— 正常な視床緊張発火と安静時皮質振動。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">ABCD EEG 分類の臨床的意味</h3>
+        <p class="rule-body">ABCD モデルは、EEG スペクトル特徴と視床皮質ネットワークの機能状態を結びつける概念的・実証的な橋梁を提供する。</p>
+        <div class="abcd-grid">
+          <div class="abcd-card">
+            <div class="abcd-label" style="color:#DC2626;">A</div>
+            <div class="abcd-freq">デルタ以上のピークなし（&lt; 4 Hz）</div>
+            <div class="abcd-body"><span class="mark-red">完全な視床皮質断絶</span>を示唆。治療的介入の恩恵が限られる昏睡患者または VS/UWS 患者で観察される。</div>
+          </div>
+          <div class="abcd-card">
+            <div class="abcd-label" style="color:#EA580C;">B</div>
+            <div class="abcd-freq">シータ（4〜8 Hz）ピークあり</div>
+            <div class="abcd-body"><span class="mark-red">重篤な視床皮質断絶</span>を反映。昏睡・VS/UWS・MCS 患者で確認されうる。</div>
+          </div>
+          <div class="abcd-card">
+            <div class="abcd-label" style="color:#D97706;">C</div>
+            <div class="abcd-freq">シータとベータ（13〜24 Hz）の両ピーク</div>
+            <div class="abcd-body"><span class="mark-yellow">中等度の視床皮質断絶</span>を示唆。主として昏睡回復および MCS と関連する。</div>
+          </div>
+          <div class="abcd-card">
+            <div class="abcd-label" style="color:#16A34A;">D</div>
+            <div class="abcd-freq">アルファ（8〜13 Hz）とベータのピーク</div>
+            <div class="abcd-body"><span class="mark-green">正常な視床皮質機能</span>と整合。一般的に意識回復を示す。「アルファ昏睡」（無反応性前頭優位の希少パターン）との鑑別が必要。</div>
+          </div>
+        </div>
+        <p class="rule-body" style="margin-top:12px;">ABCD EEG 分類は、外傷性・無酸素虚血性・くも膜下出血などの特定の構造的脳損傷の文脈において、ABCD グレードの経時的改善が神経学的回復と並行するという最近のエビデンスによって支持されている。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">離散的 EEG パターンと昏睡病因</h3>
+        <p class="rule-body">いくつかの特異的な EEG パターンは昏睡の病因に関する情報を提供し、治療介入や他の画像モダリティによる追加評価を優先するための指針となる。</p>
+        <table class="ie-table">
+          <thead>
+            <tr>
+              <th style="white-space:nowrap;">EEG パターン</th>
+              <th>示唆する病態</th>
+              <th>臨床的意義</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="white-space:nowrap;"><strong>三相波を伴う<br>全般性周期性放電</strong></td>
+              <td>中毒性/代謝性脳症</td>
+              <td>本質的にてんかん性ではないが、代謝異常の指標として重要</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;"><strong>LPD</strong><br><span style="font-size:0.72rem;color:var(--muted);">（一側性周期性放電）</span></td>
+              <td>急性局所皮質病変</td>
+              <td>虚血性ペナンブラ/病変周囲域を反映；興奮毒性と NCSE リスクの指標</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;"><strong>両側性周期性放電</strong></td>
+              <td>両側性または びまん性構造性疾患</td>
+              <td>広範な脳病変を示唆</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;"><strong>後頭優位アルファ昏睡</strong></td>
+              <td>脳幹病変（低酸素性昏睡でも）</td>
+              <td>ABCD 分類のパターン D「アルファ昏睡」との鑑別が必要</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- SUMMARY Ch.3 -->
+    <h3 id="coma-sum3" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+      第3章のキーメッセージ
+    </h3>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+            <span class="rule-body"><strong>EEG は全昏睡に早期実施：</strong>病因を問わず昏睡評価の中核をなし、主目的は NCSE の検出（cEEG で最大18%）と視床皮質ネットワーク完全性の評価である。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+            <span class="rule-body"><strong>2HELPS2B でモニタリング期間を決定：</strong>スコア 0 は &lt;5% のリスクで約1時間、スコア ≥2 は持続 EEG（≥24時間）が妥当。定量的アプローチが発作リスク層別化と医療資源の最適配分を改善する。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+            <span class="rule-body"><strong>ABCD 分類で視床皮質機能を層別化：</strong>パターン A（完全断絶）→ B（重篤断絶）→ C（中等度）→ D（正常機能）の順に意識回復と関連し、縦断的な ABCD 改善が神経学的回復と並行する。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+            <span class="rule-body"><strong>離散的 EEG パターンが病因を示す：</strong>三相波（代謝性）・LPD（急性局所皮質病変）・両側性周期性放電（びまん性構造性）など特異的パターンが診断と治療優先化を導く。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+            <span class="rule-body"><strong>抑制/バースト—サプレッションは不良予後指標：</strong>交絡因子のない状態での抑制またはバースト—サプレッション背景は、周期性放電の有無に関わらず不良転帰と関連する。</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== CHAPTER 4: 神経画像 ===== -->
+    <div id="coma-ch4" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+      <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+      <div style="font-size:1.3rem;font-weight:900;position:relative;">第4章　神経画像の活用</div>
+      <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Neuroimaging Insights</div>
+    </div>
+
+    <h3 id="coma-s8" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 8</span>
+      CT vs MRI ― 選択の基準（Fig. 5）
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">臨床所見に基づく画像モダリティの選択</h3>
+        <p class="rule-body">神経画像モダリティの選択において、臨床診察はいまだ礎石となる。ベッドサイドの神経学的所見は診断仮説を形成するだけでなく、疑われる基礎病理に応じて CT と MRI のどちらを選択すべきかを導く。</p>
+        <div class="ie-fig-box">
+          <img src="../images/coma-fig5-neuroimaging.png" alt="Fig.5 昏睡の病因診断における神経画像">
+          <div class="ie-fig-caption"><strong>Fig. 5：昏睡の病因診断における従来の神経画像。</strong>CT・MRI は構造的原因を迅速に同定または除外する。神経画像の解釈は臨床所見と統合して行わなければならず、正常画像は複数の病因を除外しない。CVST: 脳静脈洞血栓症、PRES: 可逆性後頭葉白質脳症。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">CT の適応と限界</h3>
+        <p class="rule-body">局所神経学的欠損を伴う昏睡では、構造的脳病変を緊急除外しなければならない。このような状況で、ACR および Emergency Neurological Life Support は、迅速な取得・広い利用可能性・安全性・急性出血/圧排効果/水頭症/大きな領域梗塞への高い感度から、<span class="mark-yellow"><strong>非造影 CT を第一選択</strong></span>の画像モダリティとして位置づけている。CT 所見が不確定な場合、病変のさらなる特徴付けのために MRI が続けて示される。</p>
+        <p class="rule-body"><span class="mark-red"><strong>CT が正常でも多くの重篤な病因は除外できない：</strong></span>早期虚血性変化・PRES・静脈血栓症・脳炎・びまん性軸索損傷はしばしば非造影 CT では検出されない。造影 CT（CT アンギオグラフィーや CT パーフュージョン）が必要な場面：①CT アンギオは脳底動脈血栓が疑われる患者に緊急実施（脳幹の CT パーフュージョンは判読が困難）、②CT ベノグラフィーは静脈洞血栓症の評価に要する、③造影は動脈瘤・AVM・腫瘍・脳膿瘍を検出しうる。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">MRI の優位性と適応</h3>
+        <p class="rule-body">MRI は利用可能性の制約と長い撮像時間により主に亜急性評価に用いられるが、CT に対して優れた感度を提供する。<span class="mark-green"><strong>DWI</strong></span> は CT では可視化されない早期虚血性変化および PRES に特徴的な血管性浮腫の検出に非常に感度が高い。<span class="mark-green"><strong>FLAIR</strong></span> は炎症性病変と脳浮腫の同定に有用である。</p>
+        <p class="rule-body">より高度な拡散 MRI（dMRI）、特に拡散テンソル画像（DTI）は、組織環境における水分子の動きを特性化することによって脳の構造的完全性を評価し、損傷後に変化する。これにより病態生理学的な重要な知見が得られ、神経学的回復の予測と予後推定に役立つ。</p>
+        <p class="rule-body">脳底動脈血栓など後頭蓋窩の臨床的異常が観察される場合は、後頭蓋窩構造の詳細評価を優先する画像戦略が求められ、臨床的安定が得られれば DWI を含む MRI が一般的に優先される。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">CT vs MRI ― 選択指針まとめ</h3>
+        <table class="ie-table">
+          <thead>
+            <tr>
+              <th style="white-space:nowrap;">モダリティ</th>
+              <th>適応</th>
+              <th>強み</th>
+              <th>限界</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="white-space:nowrap;"><strong>非造影 CT</strong></td>
+              <td>初期安定化後、構造的原因が疑われる昏睡患者に緊急実施</td>
+              <td>迅速・広く利用可能・出血/圧排効果/水頭症に高感度</td>
+              <td>早期虚血・PRES・静脈血栓症・脳炎・DAI を見逃しうる</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;"><strong>MRI</strong></td>
+              <td>原因不明の亜急性評価；後頭蓋窩病変疑い；既知の頭蓋内疾患（可能時は優先）</td>
+              <td>虚血・小病変・後頭蓋窩病変への優れた感度</td>
+              <td>撮像時間が長い；利用可能性に制約；不安定患者には困難</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;"><strong>非構造性原因疑い</strong><br><span style="font-size:0.72rem;color:var(--muted);">（中毒性・代謝性）</span></td>
+              <td>予期しない構造的病変を除外するため画像は任意</td>
+              <td colspan="2">MRI は適応があれば微細な構造変化を同定しうる</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- SUMMARY Ch.4 -->
+    <h3 id="coma-sum4" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+      第4章のキーメッセージ
+    </h3>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+            <span class="rule-body"><strong>CT が第一選択：</strong>局所神経学的欠損を伴う昏睡では非造影 CT を緊急実施。迅速・汎用・出血/水頭症/大病変に高感度。ただし正常 CT は多くの重篤な病因を除外しない。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+            <span class="rule-body"><strong>脳底動脈血栓には緊急 CT アンギオ：</strong>脳幹臨床像が脳底動脈血栓と整合する場合は CT アンギオを緊急実施。CT パーフュージョンは脳幹では判読が困難。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+            <span class="rule-body"><strong>DWI で早期虚血と PRES を検出：</strong>CT 陰性でも原因不明の場合に MRI/DWI が追加される。FLAIR は炎症性病変・脳浮腫に有用。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+            <span class="rule-body"><strong>DTI が予後推定に新たな視点：</strong>DWI の拡張版である DTI は白質構造的完全性を評価し、脳損傷後の神経学的回復予測に有用な情報を提供する。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+            <span class="rule-body"><strong>神経画像は臨床所見と統合して解釈：</strong>画像所見のみで昏睡診断を完結させず、必ず神経学的診察・EEG・検査所見と統合的に解釈する。</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== CHAPTER 5: 血液・CSF 検査 ===== -->
+    <div id="coma-ch5" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+      <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+      <div style="font-size:1.3rem;font-weight:900;position:relative;">第5章　血液・CSF 検査</div>
+      <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Laboratory Findings and Lumbar Puncture</div>
+    </div>
+
+    <h3 id="coma-s9" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 9</span>
+      ステップワイズ血液検査アプローチ（Fig. 6）
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">第1ステップ：緊急ベッドサイド＋緊急検査パネル</h3>
+        <p class="rule-body">原因不明の昏睡における検査評価には、結果を得るまでの時間と即座の治療判断の必要性のバランスを取ることが求められる。第1ステップとして、ベッドサイド検査（毛細血管血糖と動脈血ガス：電解質含む）と緊急検査パネル（クレアチニン・BUN・肝機能・全血球算定・凝固能・血液培養、必要に応じて CRP・プロカルシトニン）の両方が実施されその結果が確認されていることを確保することが必須である。</p>
+        <div class="ie-fig-box">
+          <img src="../images/coma-fig6-lab-csf.png" alt="Fig.6 血液・CSF 検査のステップワイズアプローチ">
+          <div class="ie-fig-caption"><strong>Fig. 6：末梢血と CSF のステップワイズアプローチ。</strong>第1ステップはベッドサイド検査と緊急検査パネルの確認。以降のステップは昏睡の疫学（頻度の高い疾患を優先）・前ステップの結果・特定の原因（中毒・代謝・感染・炎症/自己免疫）を示す手がかりによって決定される。感染症（細菌性・ウイルス性・真菌性）が疑われる場合や免疫不全患者では CSF 採取をより早期に行う。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">第2ステップ：血中アンモニア・内分泌・毒物スクリーニング</h3>
+        <p class="rule-body">明確な診断方向が得られない場合、第2ステップとして血漿アンモニアを測定する（結果は理想的には1時間以内に得られるべきである）。高アンモニア血症は肝不全（急性肝不全・慢性肝疾患・急性増悪）、あるいは尿素サイクル異常症（オルニチントランスカルバミラーゼ欠損症など）のような稀な先天性代謝異常を示唆し、緊急治療介入が必要である。高アンモニア血症に低酸素の明確な原因のない乳酸上昇が伴う場合は、ミトコンドリア病を疑う。偽高値は起こりうる（疑わしい場合は再測定）が偽正常値は生じない。</p>
+        <p class="rule-body">患者の病歴と臨床評価に基づき、または有意な診断指標がない場合に、内分泌評価（TSH・FT4、アジソン病危機が疑われる場合はコルチゾール）を行う。中毒性脳症では薬物摂取や物質乱用の病歴がないこともあるため、幅広い毒物学的スクリーニング（血液・尿）が必要である。対象薬物はアルコール類・ベンゾジアゼピン・オピオイド（ブプレノルフィン・メサドン）・三環系抗うつ薬・抗てんかん薬（プレガバリン）・MDMA・ケタミン・コカイン・GHB・アンフェタミン系・サリチル酸などである。</p>
+      </div>
+    </div>
+
+    <h3 id="coma-s10" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+      <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 10</span>
+      腰椎穿刺と CSF 解析
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">LP の適応と実施のタイミング</h3>
+        <p class="rule-body">適時に安全に実施される腰椎穿刺（LP）は、多モダリティ診断経路の一環として診断情報を提供し直接治療を導く。LP は原因不明の昏睡評価において礎石をなし、特に CNS 感染症や炎症性疾患の疑いが高い場合（例：亜急性または急性発症の頭痛・発熱・精神状態変化、随伴徴候の有無を問わず）に重要である。</p>
+        <p class="rule-body">LP の禁忌アセスメントは処置前に常に行う。LP 実施前の神経画像による除外が推奨されるのは、<span class="mark-red"><strong>重篤な意識障害と脳ヘルニア疑い・局所神経学的欠損・新規発症痙攣・免疫不全状態</strong></span>の患者に限定される。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">CSF 解析の鑑別診断における役割</h3>
+        <p class="rule-body">複数の CSF パラメーター（開口圧・鑑別を含む細胞数・血清同時測定を伴うグルコース・蛋白・乳酸）が細菌性感染症とウイルス性感染症の鑑別、さらに非感染性病態の示唆に役立つ。グラム染色と細菌培養は系統的に実施し、免疫不全患者にはインド墨汁染色を追加する。</p>
+        <table class="ie-table" style="margin-top:12px;">
+          <thead>
+            <tr>
+              <th style="white-space:nowrap;">病態</th>
+              <th>細胞増多</th>
+              <th>蛋白</th>
+              <th>グルコース</th>
+              <th>備考</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="white-space:nowrap;"><strong>細菌性髄膜炎</strong></td>
+              <td>多核球優位の著明な増多</td>
+              <td>高値</td>
+              <td>低値</td>
+              <td>微妙な異常のみのこともある</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;"><strong>ウイルス性脳炎</strong></td>
+              <td>リンパ球優位の中等度増多</td>
+              <td>軽度上昇</td>
+              <td>正常</td>
+              <td>CSF 細胞増多なしでも否定されない</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;"><strong>自己免疫性脳炎</strong></td>
+              <td>軽度リンパ球性</td>
+              <td>軽度上昇</td>
+              <td>正常</td>
+              <td>IgG 合成↑・オリゴクローナルバンド</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;"><strong>悪性浸潤</strong></td>
+              <td>変動</td>
+              <td>変動</td>
+              <td>低値のことも</td>
+              <td>細胞診・フローサイトメトリーで確認</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">多重 PCR パネルと自己免疫性脳炎の検索</h3>
+        <p class="rule-body">PCR 検査はウイルス・細菌性病原体の検出に革命をもたらし、ヘルペスウイルス・エンテロウイルス・結核菌の迅速かつ感度の高い同定を可能にした。BioFire® FilmArray 髄膜炎/脳炎パネルは14種の一般的な細菌・ウイルス・真菌病原体を約1時間で同時検出する。臨床研究では mPCR が標的治療までの時間を短縮し、不要な抗菌薬曝露を減少させ、感染性と非感染性昏睡の早期鑑別を促進することが示されている。</p>
+        <p class="rule-body">ただし、制限事項として<span class="mark-red"><strong>偽陽性</strong></span>（特にヘルペスウイルス：HHV-6 など臨床的意義が不明瞭なもの）や<span class="mark-red"><strong>偽陰性</strong></span>（特に HSV-1）が報告されている。mPCR 結果は必ず臨床的特徴・従来の微生物検査・神経画像と統合して解釈しなければならない。</p>
+        <p class="rule-body">自己免疫・傍腫瘍性脳炎では、CSF 細胞増多（軽度リンパ球性）・蛋白軽度上昇・髄腔内 IgG 合成・オリゴクローナルバンドが認められることがある。特に<span class="mark-yellow"><strong>抗 NMDA 受容体抗体</strong></span>は血清より CSF の方が感度・特異度が高い。血清と CSF の両方で検証済みの細胞ベースアッセイを用いた自己抗体検査を行う（免疫療法開始前が理想的だが、強く疑われる場合は治療を遅らせない）。初回結果陰性でも疑いが高い場合は再検を検討する。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">CSF 解析の実践的指針まとめ</h3>
+        <div class="alert-blue" style="margin-bottom:0;">
+          <ul style="margin:0;padding-left:1.2em;line-height:2;">
+            <li class="rule-body">CNS 感染症または炎症性疾患が疑われる場合、CSF 解析は原因不明昏睡の診断ワークアップにおける礎石である。LP 前に禁忌を常にアセスメントする</li>
+            <li class="rule-body">CSF 細胞増多の欠如はウイルス性・自己免疫性脳炎を否定しない</li>
+            <li class="rule-body">多重 PCR 結果は偽陽性・偽陰性が生じうるため、臨床文脈と統合して解釈する</li>
+            <li class="rule-body">自己免疫性脳炎疑いでは血清と CSF の対を用いた抗体検査を実施する</li>
+            <li class="rule-body">初回 CSF 所見が非診断的で臨床的疑いが高い場合は再 LP を検討する</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUMMARY Ch.5 -->
+    <h3 id="coma-sum5" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+      第5章のキーメッセージ
+    </h3>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+            <span class="rule-body"><strong>第1ステップは血糖・ABG と緊急パネル：</strong>毛細血管血糖・動脈血ガス（電解質含む）は即座に。クレアチニン・BUN・肝機能・CBC・凝固・血液培養を緊急で実施する。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+            <span class="rule-body"><strong>血中アンモニアは第2ステップの要：</strong>方向性が得られない場合は1時間以内に結果取得を目指す。偽高値はあるが偽正常値はないため、正常ならアンモニア性昏睡を除外できる。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+            <span class="rule-body"><strong>感染症疑いには早期 LP：</strong>髄膜炎・脳炎が疑われる場合は LP をためらわない。禁忌は重篤な意識障害とヘルニア疑い・局所欠損・新規痙攣・免疫不全患者に限定して事前に神経画像を検討。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+            <span class="rule-body"><strong>mPCR は偽陽性・偽陰性に注意：</strong>BioFire® FilmArray は約1時間で14種を同時検出できるが、HHV-6 偽陽性・HSV-1 偽陰性が知られる。必ず臨床文脈と統合して解釈。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+            <span class="rule-body"><strong>自己免疫性脳炎は血清+CSF 対で抗体検索：</strong>抗 NMDA 受容体抗体は CSF がより感度・特異度が高い。強く疑われる場合は免疫療法を待たず治療を開始することを検討する。</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== CHAPTER 6: 将来展望 ===== -->
+    <div id="coma-ch6" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+      <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+      <div style="font-size:1.3rem;font-weight:900;position:relative;">第6章　将来展望と新興技術</div>
+      <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Future Perspectives and Emerging Technologies</div>
+    </div>
+
+    <h3 id="coma-s11" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 11</span>
+      認知運動解離（CMD）と隠れた意識の検出
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">CMD（隠れた意識）とは何か</h3>
+        <p class="rule-body">刺激ベース fMRI と EEG の両方が認知運動解離（CMD）——臨床的には無反応と診断されているが、これらの神経技術を通じた指示に応答して特定の脳領域内で活動を意図的に調節する能力を示す患者——を検出しうる。CMD と安静時脳活動はいずれも転帰および昏睡からの離脱と関連することが示されている。</p>
+        <p class="rule-body">ただし注意点として、<span class="mark-yellow">患者の動き・鎮静・中毒代謝性障害</span>が結合性や CMD 検出を人為的に低下させる可能性がある。保存された結合性や CMD の存在は臨床的改善のための基盤が保たれていることを示す一方、機能的結合性の低下や CMD の欠如は慎重な解釈が必要である。広範な臨床実践への統合には取得・解析のさらなる改善と検証が必要である。</p>
+      </div>
+    </div>
+
+    <div class="ie-alpha">
+      <div class="ie-alpha-inner">
+        <div class="ie-alpha-header">
+          <span class="ie-alpha-badge">＋α</span>
+          <span class="ie-alpha-title">表現型から内表現型へ ― 精密神経集中治療の時代</span>
+        </div>
+        <p class="rule-body" style="color:#4C1D95;">昏睡の多くの研究が、離散的な症候群ラベルは生物学的現実に対応しないことを示している。マルチモーダル評価——神経生理学・神経画像・生化学プロファイリング・ゲノミクス/オミクス・軌跡モデリングを統合——は患者を機械論的に整合した状態にマッピングでき、生物学的複雑性をより正確に捉え、検査と治療を導く。トランスフォーマーベースの基盤モデルにより駆動されるデジタルツインは、臨床ノート・波形・画像・オミクスデータで学習し潜在的な状態を推定し、反事実的介入をシミュレートし回復軌跡を予測する。これらのアプローチは昏睡管理を症候群分類（表現型）から機序的理解（内表現型）へ、エピソード的評価から連続モニタリングへ、集団ベースのプロトコルから個別化精密医療へと変革しうる。</p>
+      </div>
+    </div>
+
+    <div class="ie-alpha" style="margin-top:12px;">
+      <div class="ie-alpha-inner">
+        <div class="ie-alpha-header">
+          <span class="ie-alpha-badge">＋α</span>
+          <span class="ie-alpha-title">構造評価を超えた神経画像 ― ポータブル MRI と機能的接続性</span>
+        </div>
+        <p class="rule-body" style="color:#4C1D95;">ポータブル MRI は構造・拡散画像を ICU に導入し、不安定患者での連続評価を可能にする新興ドメインである。また、連続 2D 加速度計/アクチグラフィー・ウェアラブル・顔/姿勢/動きの動画解析は、覚醒と予後の定量的評価をもたらし、高時間分解能での行動特徴解析によって臨床的に潜在的な現在と将来の状態・治療反応性を明らかにし、介入の実行可能な時間窓を提供する。</p>
+      </div>
+    </div>
+
+    <!-- SUMMARY Ch.6 -->
+    <h3 id="coma-sum6" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+      第6章のキーメッセージ
+    </h3>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+            <span class="rule-body"><strong>CMD が潜在的意識を明らかにする：</strong>臨床的に無反応でも fMRI・EEG で指示への応答が得られる患者（CMD）が存在し、その検出が転帰や昏睡離脱と関連する。ただし鎮静・代謝障害が偽陰性を生じうる点に注意。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+            <span class="rule-body"><strong>多次元データが精密医療を可能にする：</strong>持続 EEG・誘発電位・自動瞳孔測定・NIRS・血液バイオマーカー・ポータブル MRI の統合により、脳状態遷移のリアルタイム評価が近づいている。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+            <span class="rule-body"><strong>AI とデジタルツインが次の診断変革：</strong>トランスフォーマー基盤モデルが波形・画像・オミクスデータを統合し、回復軌跡の予測と反事実的介入のシミュレーションを可能にする。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+            <span class="rule-body"><strong>表現型から内表現型へのパラダイムシフト：</strong>症候群ラベルから病態機序ベースの昏睡分類（内表現型）へ移行し、個別化した治療標的の同定が可能になることが期待される。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+            <span class="rule-body"><strong>臨床実装には標準化と検証が必要：</strong>ほとんどの新興技術は多施設前向き検証前の段階にあり、現時点での標準臨床ケアへの統合は時期尚早。ヒュマン・イン・ザ・ループの監視のもとでの段階的な導入が求められる。</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 出典注記 -->
+    <p style="font-size:0.72rem;color:#9CA3AF;margin-top:32px;line-height:1.7;">
+      出典：Silva S, Treggiari M, Citerio G, et al. Stepwise clinical and diagnostic strategy for coma of unknown origin. Intensive Care Med. 2026.<br>
+      DOI：<a href="https://doi.org/10.1007/s00134-026-08418-1" target="_blank" rel="noopener" style="color:#60A5FA;">https://doi.org/10.1007/s00134-026-08418-1</a><br>
+      本資料は教育目的で作成したサマリーです。診断・治療方針の決定には必ず原典を参照してください。
+    </p>
+    <p style="font-size:0.75rem;color:var(--muted);text-align:right;margin-top:8px;">制作：ICU 関谷</p>
+
+  </main>
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="ie-sidebar">
+    <div class="ie-sidebar-card">
+      <div class="ie-sidebar-title">目次</div>
+      <a href="#coma-ch1" class="ie-toc-chapter">第1章 病態生理学的基礎</a>
+      <a href="#coma-s1" class="ie-toc-section">S1 — 昏睡と意識の2次元モデル</a>
+      <a href="#coma-s2" class="ie-toc-section">S2 — ARAS とメソサーキット</a>
+      <a href="#coma-sum1" class="ie-toc-section">SUMMARY 第1章</a>
+      <a href="#coma-ch2" class="ie-toc-chapter">第2章 ステップワイズ臨床評価</a>
+      <a href="#coma-s3" class="ie-toc-section">S3 — 診断フローチャートと反復評価</a>
+      <a href="#coma-s4" class="ie-toc-section">S4 — 可逆的原因の同定と緊急処置</a>
+      <a href="#coma-s5" class="ie-toc-section">S5 — 神経学的診察と意識スコアリング</a>
+      <a href="#coma-sum2" class="ie-toc-section">SUMMARY 第2章</a>
+      <a href="#coma-ch3" class="ie-toc-chapter">第3章 脳波（EEG）の活用</a>
+      <a href="#coma-s6" class="ie-toc-section">S6 — 電気的痙攣発作と NCSE 検出</a>
+      <a href="#coma-s7" class="ie-toc-section">S7 — ABCD 分類（視床皮質評価）</a>
+      <a href="#coma-sum3" class="ie-toc-section">SUMMARY 第3章</a>
+      <a href="#coma-ch4" class="ie-toc-chapter">第4章 神経画像の活用</a>
+      <a href="#coma-s8" class="ie-toc-section">S8 — CT vs MRI の選択基準</a>
+      <a href="#coma-sum4" class="ie-toc-section">SUMMARY 第4章</a>
+      <a href="#coma-ch5" class="ie-toc-chapter">第5章 血液・CSF 検査</a>
+      <a href="#coma-s9" class="ie-toc-section">S9 — ステップワイズ血液検査</a>
+      <a href="#coma-s10" class="ie-toc-section">S10 — 腰椎穿刺と CSF 解析</a>
+      <a href="#coma-sum5" class="ie-toc-section">SUMMARY 第5章</a>
+      <a href="#coma-ch6" class="ie-toc-chapter">第6章 将来展望と新興技術</a>
+      <a href="#coma-s11" class="ie-toc-section">S11 — CMD と隠れた意識</a>
+      <a href="#coma-sum6" class="ie-toc-section">SUMMARY 第6章</a>
+    </div>
+  </aside>
+
+</div><!-- /.container -->
+
+<script src="../script.js"></script>
+<script src="../abbr-tooltip.js"></script>
+</body>
+</html>

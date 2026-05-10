@@ -11,6 +11,27 @@
  */
 const RECENT_PAGES = [
   {
+    title: "心臓ペースメーカー：機能・トラブルシューティング・管理（JACC 2017）",
+    url: "pages/articles-gl-pacemaker2017.html",
+    date: "2026-05-10",
+    tag: "論文",
+    thumb: "images/朝カンファ風景.webp"
+  },
+  {
+    title: "新規セフェピム系BL/BLI配合剤の概要（Expert Rev Anti Infect Ther 2026）",
+    url: "pages/articles-gl-cefepime-bli2026.html",
+    date: "2026-05-10",
+    tag: "論文",
+    thumb: "images/IDICUtop.png"
+  },
+  {
+    title: "原因不明昏睡のステップワイズ診断戦略（ICM 2026）",
+    url: "pages/articles-gl-coma-unknown2026.html",
+    date: "2026-05-10",
+    tag: "論文",
+    thumb: "images/icu-study.jpg"
+  },
+  {
     title: "Hepatitis B: A Review（JAMA 2026）",
     url: "pages/articles-gl-hbv-review2026.html",
     date: "2026-05-09",
