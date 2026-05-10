@@ -11,6 +11,13 @@
  */
 const RECENT_PAGES = [
   {
+    title: "侵襲性肺アスペルギルス症・ムーコル症 板書ノート — ID×ICUカンファレンス",
+    url: "pages/id-icu-notes/note-aspergillus-mucor.html",
+    date: "2026-05-11",
+    tag: "解説",
+    thumb: "images/IDICUtop.png"
+  },
+  {
     title: "【感染症】細菌マップ — ICU主要起因菌の総覧",
     url: "pages/bacteria-map.html",
     date: "2026-05-11",
