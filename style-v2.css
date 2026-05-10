@@ -1923,6 +1923,42 @@ a.resource-item:hover .resource-name { color: var(--blue); }
   .footer-content { flex-direction: column; gap: 24px; }
   :root { --sidebar-w: 100%; }
   .sec-head { padding: 24px 0 14px; }
+
+  /* ===== ページヘッダー画像のモバイル最適化 =====
+     原画像は 2976×600 (5:1 超横長) でモバイル全幅(390px)で aspect 維持すると
+     高さ78pxの薄い帯になり「見切れて」見える。object-fit:cover で
+     アスペクト比を保ちつつ、モバイルに適した高さでクロップ表示する。
+     [data-mobile-banner-keep] が付いた banner は除外（=既存挙動を維持）。 */
+  .page-banner img:not([data-mobile-banner-keep]),
+  .gl-page-banner img:not([data-mobile-banner-keep]),
+  .tools-banner img:not([data-mobile-banner-keep]),
+  .iai-banner-img:not([data-mobile-banner-keep]),
+  .cmv-banner-img:not([data-mobile-banner-keep]),
+  .vap-banner-img:not([data-mobile-banner-keep]),
+  div[style*="line-height:0"] > img[src*="header"]:not([data-mobile-banner-keep]),
+  div[style*="line-height: 0"] > img[src*="header"]:not([data-mobile-banner-keep]),
+  div[style*="line-height:0"] > img[src*="banner"]:not([data-mobile-banner-keep]),
+  div[style*="line-height: 0"] > img[src*="banner"]:not([data-mobile-banner-keep]) {
+    object-fit: cover !important;
+    object-position: center center !important;
+    height: clamp(110px, 26vw, 170px) !important;
+    width: 100% !important;
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 88%, transparent 100%) !important;
+    mask-image: linear-gradient(to bottom, #000 0%, #000 88%, transparent 100%) !important;
+  }
+
+  /* ===== 論文GLヒーロー（背景画像版）のモバイル最適化 =====
+     padding を圧縮し、ヒーロー全体を画面に収まる高さに。
+     背景画像は cover のまま中央クロップで主題を残す。 */
+  .subpage-hero.hero-image-bg {
+    padding-top: calc(64px + 10px) !important;
+    padding-bottom: 24px !important;
+    background-position: center center !important;
+  }
+  .subpage-hero.hero-image-bg .subpage-title {
+    font-size: clamp(1.2rem, 5.2vw, 1.6rem) !important;
+    line-height: 1.3 !important;
+  }
 }
 
 /* ===== モバイル最適化（480px以下） ===== */
