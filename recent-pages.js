@@ -11,6 +11,13 @@
  */
 const RECENT_PAGES = [
   {
+    title: "心臓ペースメーカー 包括的最新総説（NEJM Evidence 2025）",
+    url: "pages/articles-gl-pacemaker-nejm2025.html",
+    date: "2026-05-10",
+    tag: "論文",
+    thumb: "images/icu-study.jpg"
+  },
+  {
     title: "心臓ペースメーカー：機能・トラブルシューティング・管理（JACC 2017）",
     url: "pages/articles-gl-pacemaker2017.html",
     date: "2026-05-10",
