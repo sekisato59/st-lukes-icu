@@ -1,4 +1,7 @@
 const SEARCH_INDEX = [
+  // ── 学習コンテンツ ──
+  {"title":"【感染症】細菌マップ — ICU主要起因菌の総覧","url":"pages/bacteria-map.html","desc":"ICUで遭遇する細菌・真菌・ウイルスを10カテゴリで整理。グラム染色×形態×嫌気/好気で分類し、各菌の代表感染症・第一選択薬・関連ガイドラインへリンク。","keywords":"細菌マップ bacteria map 感染症 GPC GPR GNC GNR 黄ブ菌 Staphylococcus aureus MSSA MRSA バンコマイシン CoNS 表皮ブドウ球菌 肺炎球菌 Streptococcus pneumoniae S. pyogenes A群レンサ B群レンサ GBS 緑色レンサ Viridans 腸球菌 Enterococcus faecalis faecium VRE リステリア Listeria コリネ Corynebacterium C. difficile CDI 偽膜性大腸炎 クロストリジウム 髄膜炎菌 Neisseria meningitidis 淋菌 モラクセラ 大腸菌 E.coli ESBL Klebsiella 肺炎桿菌 CRE Enterobacter AmpC Serratia Proteus 緑膿菌 Pseudomonas aeruginosa Acinetobacter CRAB Stenotrophomonas maltophilia ST合剤 嫌気性菌 Bacteroides fragilis Prevotella Fusobacterium Lemierre Peptostreptococcus 結核菌 Mycobacterium tuberculosis HREZ MAC NTM Mycoplasma レジオネラ Legionella クラミジア ライム病 Borrelia 梅毒 Treponema カンジダ Candida albicans glabrata krusei ミカファンギン フルコナゾール アスペルギルス Aspergillus ボリコナゾール クリプトコッカス Cryptococcus L-AMB ニューモシスチス Pneumocystis PCP CMV HSV VZV インフルエンザ COVID-19 SARS-CoV-2 抗菌薬 デ・エスカレーション 標的治療"},
+
   // ── 専門医試験（隠しページ） ──
   {"title":"集中治療専門医試験 勉強ノート","url":"pages/exam-icu-board.html","desc":"専門医試験対策の個人勉強ノート（By System）","keywords":"$"},
   {"title":"神経系の集中治療（専門医テキスト第4版）","url":"pages/exam-neurology.html","desc":"神経集中治療・GBS・てんかん重積・aSAH・PCAS・TTM・せん妄・PAD・頭部外傷","keywords":"神経 脳 ICP CPP 二次性脳損傷 FOUR score GCS GBS ギランバレー EGRIS IVIG てんかん SE 重積 脳波 cEEG くも膜下出血 aSAH ニモジピン DCI 脳血管攣縮 PCAS 心停止後症候群 TTM 体温管理 シバリング NSE SSEP 敗血症関連脳障害 SAE せん妄 ICUせん妄 ABCDEFバンドル RASS BPS CPOT 頭部外傷 TBI PRx 減圧開頭術 $"},

@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>【感染症】細菌マップ — 主要起因菌の総覧 | 聖路加ICU</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style-v2.css?v=202605110530">
+  <style>
+    /* ===== 細菌マップ：teal テーマ ===== */
+    :root {
+      --bm-primary: #0F766E;
+      --bm-primary-light: #14B8A6;
+      --bm-accent: #5EEAD4;
+      --bm-bg-soft: #F0FDFA;
+      --bm-border-soft: #99F6E4;
+    }
+
+    .bm-hero {
+      background: linear-gradient(150deg, #042F2E 0%, #0F766E 55%, #14B8A6 100%);
+      color: #fff;
+      padding: calc(64px + 28px) 0 36px;
+      position: relative;
+      overflow: hidden;
+    }
+    .bm-hero::before {
+      content: ''; position: absolute; inset: 0;
+      background-image: radial-gradient(circle, rgba(255,255,255,0.08) 1px, transparent 1px);
+      background-size: 24px 24px;
+      pointer-events: none;
+    }
+    .bm-hero-inner {
+      max-width: 1294px; margin: 0 auto; padding: 0 20px;
+      position: relative; z-index: 1;
+    }
+    .bm-back {
+      display: inline-block; font-size: 0.78rem; color: rgba(255,255,255,0.75);
+      text-decoration: none; margin-bottom: 14px;
+    }
+    .bm-back:hover { color: #fff; }
+    .bm-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+    .bm-tags span {
+      display: inline-block; background: rgba(94,234,212,0.18); color: #ECFDF5;
+      font-size: 0.68rem; font-weight: 700; padding: 3px 10px; border-radius: 4px;
+      letter-spacing: 0.04em; border: 1px solid rgba(94,234,212,0.35);
+    }
+    .bm-title {
+      font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 900;
+      line-height: 1.3; margin: 0 0 6px;
+    }
+    .bm-sub {
+      font-size: clamp(0.78rem, 1.2vw, 0.95rem); font-weight: 500;
+      color: rgba(236,253,245,0.85);
+    }
+
+    /* ===== レイアウト ===== */
+    .bm-page {
+      max-width: 1294px; margin: 0 auto; padding: 24px 20px 64px;
+      display: flex; gap: 24px; align-items: flex-start;
+    }
+    .bm-main { flex: 1; min-width: 0; max-width: 940px; }
+
+    /* ===== カテゴリーバナー（章バナー） ===== */
+    .bm-cat-banner {
+      background: linear-gradient(150deg, #042F2E 0%, #0F766E 100%);
+      border-radius: 10px; padding: 14px 20px; color: #fff;
+      position: relative; overflow: hidden;
+      margin-top: 36px; margin-bottom: 14px;
+    }
+    .bm-cat-banner::before {
+      content: ''; position: absolute; inset: 0;
+      background-image: radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px);
+      background-size: 18px 18px;
+    }
+    .bm-cat-title { font-size: 1.1rem; font-weight: 900; position: relative; }
+    .bm-cat-sub { font-size: 0.74rem; color: rgba(255,255,255,0.7); position: relative; margin-top: 2px; }
+
+    /* ===== 菌カード ===== */
+    .bm-bug-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 10px; margin-bottom: 12px;
+    }
+    .bm-bug {
+      background: #fff; border: 1px solid var(--border); border-radius: 8px;
+      padding: 12px 14px; transition: box-shadow 0.15s, border-color 0.15s;
+    }
+    .bm-bug:hover { border-color: var(--bm-primary-light); box-shadow: 0 2px 10px rgba(15,118,110,0.08); }
+    .bm-bug-name {
+      font-size: 0.92rem; font-weight: 800; color: var(--bm-primary);
+      line-height: 1.35; margin-bottom: 4px;
+    }
+    .bm-bug-name em { font-style: italic; color: var(--text); font-weight: 700; font-size: 0.86rem; display: block; }
+    .bm-bug-meta { font-size: 0.7rem; color: var(--muted); margin-bottom: 6px; }
+    .bm-bug-row {
+      font-size: 0.78rem; line-height: 1.55; color: var(--text);
+      display: flex; gap: 6px; padding: 3px 0;
+    }
+    .bm-bug-row > strong {
+      flex-shrink: 0; min-width: 60px; color: var(--bm-primary); font-weight: 700; font-size: 0.72rem;
+    }
+    .bm-bug-row > span { flex: 1; min-width: 0; }
+    .bm-bug-link {
+      display: inline-block; font-size: 0.72rem; color: var(--bm-primary);
+      text-decoration: none; font-weight: 700; margin-top: 4px;
+      padding: 2px 7px; background: var(--bm-bg-soft);
+      border: 1px solid var(--bm-border-soft); border-radius: 4px;
+    }
+    .bm-bug-link:hover { background: var(--bm-primary-light); color: #fff; border-color: var(--bm-primary-light); }
+
+    /* ===== 中見出し ===== */
+    .bm-subhead {
+      font-size: 0.85rem; font-weight: 800; color: var(--bm-primary);
+      margin: 14px 0 8px; padding-left: 10px;
+      border-left: 3px solid var(--bm-primary-light); line-height: 1.4;
+    }
+
+    /* ===== TOC サイドバー ===== */
+    .bm-sidebar {
+      width: 240px; flex-shrink: 0; position: sticky; top: 80px;
+      align-self: flex-start; max-height: calc(100vh - 100px); overflow-y: auto;
+    }
+    .bm-sidebar-card {
+      background: #fff; border: 1px solid var(--border); border-radius: 10px;
+      padding: 14px 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    .bm-sidebar-title {
+      font-size: 0.7rem; font-weight: 800; color: var(--muted);
+      letter-spacing: 0.1em; margin-bottom: 10px;
+      padding-bottom: 6px; border-bottom: 2px solid var(--border);
+    }
+    .bm-toc-link {
+      display: block; font-size: 0.74rem; padding: 5px 8px;
+      color: var(--text); text-decoration: none; line-height: 1.4;
+      border-left: 2px solid transparent; border-radius: 0 6px 6px 0;
+      margin-bottom: 1px; transition: all 0.15s;
+    }
+    .bm-toc-link:hover { background: var(--bm-bg-soft); color: var(--bm-primary); border-left-color: var(--bm-primary-light); }
+
+    @media (max-width: 900px) {
+      .bm-sidebar { display: none; }
+    }
+    @media (max-width: 767px) {
+      .bm-bug-grid { grid-template-columns: 1fr; }
+      .bm-cat-title { font-size: 0.95rem; }
+      .bm-bug-name { font-size: 0.84rem; }
+      .bm-bug-row { font-size: 0.74rem; }
+    }
+
+    /* 凡例 */
+    .bm-legend {
+      background: var(--bm-bg-soft); border: 1px solid var(--bm-border-soft);
+      border-radius: 8px; padding: 12px 16px; margin-bottom: 18px;
+    }
+    .bm-legend strong { color: var(--bm-primary); font-size: 0.86rem; display: block; margin-bottom: 6px; }
+    .bm-legend p { font-size: 0.78rem; color: var(--text); margin: 0; line-height: 1.7; }
+  </style>
+</head>
+<body style="background-image:url('../images/背景3.jpg');background-size:cover;background-position:center top;background-attachment:fixed;background-repeat:no-repeat;background-color:#F4F8FB;">
+
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="../index.html" class="nav-logo">
+        <img src="../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+        <span class="nav-logo-text">聖路加国際病院ICU</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-menu" id="navMenu"></ul>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="bm-hero">
+    <div class="bm-hero-inner">
+      <a href="../index.html" class="bm-back">← トップへ戻る</a>
+      <div class="bm-tags">
+        <span>感染症</span>
+        <span>細菌・真菌・ウイルス</span>
+        <span>学習コンテンツ</span>
+      </div>
+      <h1 class="bm-title">【感染症】細菌マップ</h1>
+      <p class="bm-sub">ICUで遭遇する主要起因菌を、グラム染色 × 形態 × 嫌気/好気で整理。各菌の代表感染症・第一選択薬・関連ガイドラインへリンク。</p>
+    </div>
+  </section>
+
+  <!-- ===== MAIN ===== -->
+  <div class="bm-page">
+
+    <main class="bm-main">
+
+      <div class="bm-legend">
+        <strong>このページの読み方</strong>
+        <p>カテゴリーごとに代表菌を <strong>カード形式</strong> で整理しました。各カードには <strong>主な感染症 / 第一選択薬 / 注意点</strong> を記載し、関連する院内ガイドライン・GL要約・板書ノートへ直接リンクしています。<strong>太字斜体</strong>は学名（属種）です。デ・エスカレーション、培養結果が出た際の標的治療検討にお役立てください。</p>
+      </div>
+
+      <!-- ===== カテゴリ① グラム陽性球菌 ===== -->
+      <div id="bm-gpc" class="bm-cat-banner">
+        <div class="bm-cat-title">① グラム陽性球菌（GPC）</div>
+        <div class="bm-cat-sub">Gram-Positive Cocci — 黄ブ菌 / レンサ球菌 / 腸球菌</div>
+      </div>
+
+      <h3 class="bm-subhead">クラスター（ブドウ状）— Staphylococcus 属</h3>
+      <div class="bm-bug-grid">
+
+        <div class="bm-bug">
+          <div class="bm-bug-name">黄色ブドウ球菌 <em>Staphylococcus aureus</em></div>
+          <div class="bm-bug-meta">クラスターGPC ／ コアグラーゼ陽性</div>
+          <div class="bm-bug-row"><strong>主な感染</strong><span>菌血症・心内膜炎・骨髄炎・皮膚軟部組織感染・肺炎・関節炎</span></div>
+          <div class="bm-bug-row"><strong>第一選択</strong><span>MSSA：セファゾリン or ナフシリン　／　MRSA：バンコマイシン or ダプトマイシン</span></div>
+          <div class="bm-bug-row"><strong>注意</strong><span>菌血症は必ず TEE で IE 評価。Persistent bacteremia は感染源精査・血培 q48-72h</span></div>
+          <a href="id-icu-notes/note-ie.html" class="bm-bug-link">IE 板書ノート →</a>
+        </div>
+
+        <div class="bm-bug">
+          <div class="bm-bug-name">コアグラーゼ陰性ブドウ球菌（CoNS）<em>Staphylococcus epidermidis 等</em></div>
+          <div class="bm-bug-meta">クラスターGPC ／ コアグラーゼ陰性</div>
+          <div class="bm-bug-row"><strong>主な感染</strong><span>カテーテル関連菌血症・人工弁IE・人工関節感染・術後創感染</span></div>
+          <div class="bm-bug-row"><strong>第一選択</strong><span>バンコマイシン（多くがメチシリン耐性）</span></div>
+          <div class="bm-bug-row"><strong>注意</strong><span>血培1セットのみ陽性は<strong>コンタミの可能性</strong>。2セット以上＋臨床所見で真の感染と判断</span></div>
+        </div>
+
+      </div>
+
+      <h3 class="bm-subhead">チェーン（連鎖）— Streptococcus 属</h3>
+      <div class="bm-bug-grid">
+
+        <div class="bm-bug">
+          <div class="bm-bug-name">肺炎球菌 <em>Streptococcus pneumoniae</em></div>
+          <div class="bm-bug-meta">α溶血 ／ オプトヒン感受性 ／ 莢膜あり</div>
+          <div class="bm-bug-row"><strong>主な感染</strong><span>市中肺炎・髄膜炎・中耳炎・菌血症</span></div>
+          <div class="bm-bug-row"><strong>第一選択</strong><span>セフトリアキソン（重症）／ アモキシシリン（軽症）</span></div>
+          <div class="bm-bug-row"><strong>注意</strong><span>髄膜炎ではバンコマイシン併用（PRSP対応）。脾摘後・肝硬変患者で重症化</span></div>
+        </div>
+
+        <div class="bm-bug">
+          <div class="bm-bug-name">A群溶血性レンサ球菌 <em>Streptococcus pyogenes</em></div>
+          <div class="bm-bug-meta">β溶血 ／ バシトラシン感受性</div>
+          <div class="bm-bug-row"><strong>主な感染</strong><span>咽頭炎・蜂窩織炎・壊死性筋膜炎・TSS（トキシックショック）</span></div>
+          <div class="bm-bug-row"><strong>第一選択</strong><span>ペニシリンG ＋ クリンダマイシン（毒素抑制目的、壊死性軟部組織感染で必須）</span></div>
+          <div class="bm-bug-row"><strong>注意</strong><span>壊死性筋膜炎は緊急デブリードマン＋免疫グロブリン併用</span></div>
+        </div>
+
+        <div class="bm-bug">
+          <div class="bm-bug-name">B群レンサ球菌 <em>Streptococcus agalactiae</em></div>
+          <div class="bm-bug-meta">β溶血 ／ CAMP陽性</div>
+          <div class="bm-bug-row"><strong>主な感染</strong><span>新生児髄膜炎・敗血症 ／ 高齢者・糖尿病で皮膚感染・菌血症</span></div>
+          <div class="bm-bug-row"><strong>第一選択</strong><span>ペニシリンG or アンピシリン</span></div>
+        </div>
+
+        <div class="bm-bug">
+          <div class="bm-bug-name">緑色レンサ球菌 <em>Viridans group streptococci</em></div>
+          <div class="bm-bug-meta">α溶血 ／ オプトヒン非感受性</div>
+          <div class="bm-bug-row"><strong>主な感染</strong><span><strong>亜急性 IE（SBE）</strong>の代表起因菌 ／ 口腔由来菌血症</span></div>
+          <div class="bm-bug-row"><strong>第一選択</strong><span>ペニシリンG（PCN MIC ≤0.12）±ゲンタマイシン</span></div>
+          <a href="id-icu-notes/note-ie.html" class="bm-bug-link">IE 板書ノート →</a>
+        </div>
+
+      </div>
+
+      <h3 class="bm-subhead">腸球菌 — Enterococcus 属</h3>
+      <div class="bm-bug-grid">
+
+        <div class="bm-bug">
+          <div class="bm-bug-name">腸球菌 <em>Enterococcus faecalis / faecium</em></div>
+          <div class="bm-bug-meta">GPC ／ ペア・短鎖 ／ ブドウ糖発酵</div>
+          <div class="bm-bug-row"><strong>主な感染</strong><span>尿路感染・腹腔内感染・IE（sub-acute）・カテ関連菌血症</span></div>
+          <div class="bm-bug-row"><strong>第一選択</strong><span>E. faecalis：アンピシリン　／　E. faecium：バンコマイシン or リネゾリド（VRE）</span></div>
+          <div class="bm-bug-row"><strong>注意</strong><span>セファロスポリン全て無効（intrinsic resistance）。VRE 増加傾向</span></div>
+          <a href="id-icu-notes/note-iai.html" class="bm-bug-link">IAI 板書ノート →</a>
+        </div>
+
+      </div>
+
+      <!-- ===== カテゴリ② グラム陽性桿菌 ===== -->
+      <div id="bm-gpr" class="bm-cat-banner">
+        <div class="bm-cat-title">② グラム陽性桿菌（GPR）</div>
+        <div class="bm-cat-sub">Gram-Positive Rods — リステリア / コリネ / クロストリジウム</div>
+      </div>
+
+      <div class="bm-bug-grid">
+
+        <div class="bm-bug">
+          <div class="bm-bug-name">リステリア <em>Listeria monocytogenes</em></div>
+          <div class="bm-bug-meta">GPR ／ 通性嫌気性 ／ 細胞内寄生</div>
+          <div class="bm-bug-row"><strong>主な感染</strong><span>髄膜炎・菌血症（特に高齢者・妊婦・免疫不全）／ 食品由来</span></div>
+          <div class="bm-bug-row"><strong>第一選択</strong><span>アンピシリン ＋ ゲンタマイシン</span></div>
+          <div class="bm-bug-row"><strong>注意</strong><span><strong>セフトリアキソン無効</strong>。高齢者の髄膜炎では ABPC を必ず加える</span></div>
+        </div>
+
+        <div class="bm-bug">
+          <div class="bm-bug-name">コリネバクテリウム <em>Corynebacterium 属</em></div>
+          <div class="bm-bug-meta">GPR ／ 棍棒状（club-shaped）</div>
+          <div class="bm-bug-row"><strong>主な感染</strong><span>多くは皮膚常在菌（コンタミ）。<em>C. jeikeium</em> はカテ関連菌血症</span></div>
+          <div class="bm-bug-row"><strong>第一選択</strong><span>バンコマイシン（多剤耐性）</span></div>
+        </div>
+
+        <div class="bm-bug">
+          <div class="bm-bug-name">クロストリジオイデス・ディフィシル <em>Clostridioides difficile</em></div>
+          <div class="bm-bug-meta">GPR ／ 偏性嫌気性 ／ 芽胞形成</div>
+          <div class="bm-bug-row"><strong>主な感染</strong><span>抗菌薬関連下痢症・偽膜性大腸炎・トキシックメガコロン</span></div>
+          <div class="bm-bug-row"><strong>第一選択</strong><span>軽中等症：バンコマイシン経口 125mg q6h × 10日 ／ 重症：フィダキソマイシン</span></div>
+          <div class="bm-bug-row"><strong>注意</strong><span>原因抗菌薬の中止、接触隔離、芽胞対応の手指衛生（石鹸＋流水）</span></div>
+        </div>
+
+        <div class="bm-bug">
+          <div class="bm-bug-name">ガス壊疽菌 <em>Clostridium perfringens</em></div>
+          <div class="bm-bug-meta">GPR ／ 偏性嫌気性 ／ 芽胞形成</div>
+          <div class="bm-bug-row"><strong>主な感染</strong><span>ガス壊疽・myonecrosis ／ 食中毒</span></div>
+          <div class="bm-bug-row"><strong>第一選択</strong><span>ペニシリンG ＋ クリンダマイシン ＋ 緊急デブリードマン</span></div>
+        </div>
+
+      </div>
+
+      <!-- ===== カテゴリ③ グラム陰性球菌 ===== -->
+      <div id="bm-gnc" class="bm-cat-banner">
+        <div class="bm-cat-title">③ グラム陰性球菌（GNC）</div>
+        <div class="bm-cat-sub">Gram-Negative Cocci — Neisseria / Moraxella</div>
+      </div>
+
+      <div class="bm-bug-grid">
+
+        <div class="bm-bug">
+          <div class="bm-bug-name">髄膜炎菌 <em>Neisseria meningitidis</em></div>
+          <div class="bm-bug-meta">GNC ／ ペア（diplococci）</div>
+          <div class="bm-bug-row"><strong>主な感染</strong><span>髄膜炎・敗血症（Waterhouse-Friderichsen 症候群）</span></div>
+          <div class="bm-bug-row"><strong>第一選択</strong><span>セフトリアキソン　／　接触者：シプロフロキサシン or リファンピシン予防</span></div>
+          <div class="bm-bug-row"><strong>注意</strong><span>飛沫隔離（24時間 IV 抗菌薬まで）。家族・濃厚接触者には予防内服</span></div>
+        </div>
+
+        <div class="bm-bug">
+          <div class="bm-bug-name">淋菌 <em>Neisseria gonorrhoeae</em></div>
+          <div class="bm-bug-meta">GNC ／ ペア</div>
+          <div class="bm-bug-row"><strong>主な感染</strong><span>淋疾（尿道炎・咽頭炎・直腸炎）／ 播種性淋菌感染症（DGI）</span></div>
+          <div class="bm-bug-row"><strong>第一選択</strong><span>セフトリアキソン IM 1g＋アジスロマイシン PO（クラミジア共感染想定）</span></div>
+        </div>
+
+        <div class="bm-bug">
+          <div class="bm-bug-name">モラクセラ <em>Moraxella catarrhalis</em></div>
+          <div class="bm-bug-meta">GNC ／ ペア</div>
+          <div class="bm-bug-row"><strong>主な感染</strong><span>COPD 急性増悪・中耳炎・副鼻腔炎・気管支炎</span></div>
+          <div class="bm-bug-row"><strong>第一選択</strong><span>アモキシシリン/クラブラン酸 or マクロライド（ほぼ全例 β-ラクタマーゼ産生）</span></div>
+        </div>
+
+      </div>
+
+      <!-- ===== カテゴリ④ グラム陰性桿菌：腸内細菌科 ===== -->
+      <div id="bm-gnr-e" class="bm-cat-banner">
+        <div class="bm-cat-title">④ グラム陰性桿菌：腸内細菌科（Enterobacterales）</div>
+        <div class="bm-cat-sub">大腸菌 / クレブシエラ / プロテウス / セラチア / エンテロバクター</div>
+      </div>
+
+      <div class="bm-bug-grid">
+
+        <div class="bm-bug">
+          <div class="bm-bug-name">大腸菌 <em>Escherichia coli</em></div>
+          <div class="bm-bug-meta">GNR ／ オキシダーゼ陰性 ／ 乳糖発酵</div>
+          <div class="bm-bug-row"><strong>主な感染</strong><span>UTI・腹腔内感染・菌血症 ／ 院内 UTI で最多</span></div>
+          <div class="bm-bug-row"><strong>第一選択</strong><span>感受性 E.coli：セフトリアキソン or セファゾリン　／　ESBL：メロペネム</span></div>
+          <div class="bm-bug-row"><strong>注意</strong><span>ESBL 産生株増加。海外渡航歴・既往抗菌薬使用がリスク</span></div>
+          <a href="articles-gl-idsa-amr-gnr2024.html" class="bm-bug-link">IDSA 耐性GNR 2024 →</a>
+        </div>
+
+        <div class="bm-bug">
+          <div class="bm-bug-name">肺炎桿菌 <em>Klebsiella pneumoniae</em></div>
+          <div class="bm-bug-meta">GNR ／ 莢膜あり ／ 乳糖発酵</div>
+          <div class="bm-bug-row"><strong>主な感染</strong><span>院内肺炎・UTI・腹腔内感染・肝膿瘍（hypervirulent K1/K2）</span></div>
+          <div class="bm-bug-row"><strong>第一選択</strong><span>感受性株：セフトリアキソン　／　ESBL：メロペネム　／　CRE：セフタジジム-アビバクタム</span></div>
+          <div class="bm-bug-row"><strong>注意</strong><span>CRE（カルバペネム耐性腸内細菌）の代表菌種、感染症科コンサルト必須</span></div>
+        </div>
+
+        <div class="bm-bug">
+          <div class="bm-bug-name">エンテロバクター <em>Enterobacter cloacae complex</em></div>
+          <div class="bm-bug-meta">GNR ／ AmpC 産生</div>
+          <div class="bm-bug-row"><strong>主な感染</strong><span>院内感染（肺炎・UTI・菌血症）</span></div>
+          <div class="bm-bug-row"><strong>第一選択</strong><span>セフェピム or メロペネム（<strong>3世代セフェムは AmpC 誘導で耐性化リスク</strong>のため避ける）</span></div>
+        </div>
+
+        <div class="bm-bug">
+          <div class="bm-bug-name">セラチア <em>Serratia marcescens</em></div>
+          <div class="bm-bug-meta">GNR ／ 赤色色素産生 ／ AmpC 産生</div>
+          <div class="bm-bug-row"><strong>主な感染</strong><span>院内 UTI・カテ関連菌血症・肺炎</span></div>
+          <div class="bm-bug-row"><strong>第一選択</strong><span>セフェピム or メロペネム（Enterobacter と同じ）</span></div>
+        </div>
+
+        <div class="bm-bug">
+          <div class="bm-bug-name">プロテウス <em>Proteus mirabilis</em></div>
+          <div class="bm-bug-meta">GNR ／ 遊走性 ／ ウレアーゼ陽性</div>
+          <div class="bm-bug-row"><strong>主な感染</strong><span>UTI（特に尿路結石合併）・院内菌血症</span></div>
+          <div class="bm-bug-row"><strong>第一選択</strong><span>感受性株：アンピシリン or セフトリアキソン</span></div>
+        </div>
+
+      </div>
+
+      <!-- ===== カテゴリ⑤ グラム陰性桿菌：非発酵菌 ===== -->
+      <div id="bm-gnr-nf" class="bm-cat-banner">
+        <div class="bm-cat-title">⑤ グラム陰性桿菌：ブドウ糖非発酵菌（Non-fermenters）</div>
+        <div class="bm-cat-sub">緑膿菌 / アシネトバクター / ステノトロホモナス</div>
+      </div>
+
+      <div class="bm-bug-grid">
+
+        <div class="bm-bug">
+          <div class="bm-bug-name">緑膿菌 <em>Pseudomonas aeruginosa</em></div>
+          <div class="bm-bug-meta">GNR ／ オキシダーゼ陽性 ／ 非発酵 ／ 緑色色素</div>
+          <div class="bm-bug-row"><strong>主な感染</strong><span>VAP・院内 UTI・カテ関連菌血症・好中球減少時の発熱・熱傷感染</span></div>
+          <div class="bm-bug-row"><strong>第一選択</strong><span>感受性株：ピペラシリン-タゾバクタム or セフェピム or メロペネム　／　DTR Pa：セフトロザン-タゾバクタム or セフタジジム-アビバクタム</span></div>
+          <div class="bm-bug-row"><strong>注意</strong><span>初期は β-ラクタム＋アミノグリコシドの併用検討（重症 / 耐性懸念時）</span></div>
+          <a href="id-icu-notes/note-vap.html" class="bm-bug-link">VAP 板書ノート →</a>
+        </div>
+
+        <div class="bm-bug">
+          <div class="bm-bug-name">アシネトバクター <em>Acinetobacter baumannii</em></div>
+          <div class="bm-bug-meta">GNR（球桿菌）／ オキシダーゼ陰性 ／ 非発酵</div>
+          <div class="bm-bug-row"><strong>主な感染</strong><span>VAP・カテ関連菌血症・創部感染 ／ 院内・ICU で多剤耐性化</span></div>
+          <div class="bm-bug-row"><strong>第一選択</strong><span>感受性株：アンピシリン-スルバクタム　／　CRAB：スルバクタム高用量＋ミノサイクリン or コリスチン</span></div>
+          <div class="bm-bug-row"><strong>注意</strong><span>CRAB は治療オプション乏しい。感染症科コンサルト必須</span></div>
+        </div>
+
+        <div class="bm-bug">
+          <div class="bm-bug-name">ステノトロホモナス <em>Stenotrophomonas maltophilia</em></div>
+          <div class="bm-bug-meta">GNR ／ 非発酵 ／ DNase陽性</div>
+          <div class="bm-bug-row"><strong>主な感染</strong><span>院内肺炎（特にカルバペネム既使用後）・カテ関連菌血症</span></div>
+          <div class="bm-bug-row"><strong>第一選択</strong><span>ST合剤（バクトラミン）　／　代替：ミノサイクリン、レボフロキサシン</span></div>
+          <div class="bm-bug-row"><strong>注意</strong><span><strong>カルバペネム全て無効</strong>（intrinsic resistance）</span></div>
+        </div>
+
+      </div>
+
+      <!-- ===== カテゴリ⑥ 嫌気性菌 ===== -->
+      <div id="bm-anaerobes" class="bm-cat-banner">
+        <div class="bm-cat-title">⑥ 嫌気性菌（Anaerobes）</div>
+        <div class="bm-cat-sub">Bacteroides / Fusobacterium / Peptostreptococcus / Prevotella</div>
+      </div>
+
+      <div class="bm-bug-grid">
+
+        <div class="bm-bug">
+          <div class="bm-bug-name">バクテロイデス <em>Bacteroides fragilis</em></div>
+          <div class="bm-bug-meta">GNR 偏性嫌気性 ／ 腸管常在菌</div>
+          <div class="bm-bug-row"><strong>主な感染</strong><span>腹腔内感染（憩室炎・虫垂炎・術後感染）・骨盤内感染・肝膿瘍</span></div>
+          <div class="bm-bug-row"><strong>第一選択</strong><span>メトロニダゾール ／ ピペラシリン-タゾバクタム ／ メロペネム ／ セフメタゾール</span></div>
+          <a href="id-icu-notes/note-iai.html" class="bm-bug-link">IAI 板書ノート →</a>
+        </div>
+
+        <div class="bm-bug">
+          <div class="bm-bug-name">プレボテラ・ポルフィロモナス <em>Prevotella / Porphyromonas</em></div>
+          <div class="bm-bug-meta">GNR 偏性嫌気性 ／ 口腔常在菌</div>
+          <div class="bm-bug-row"><strong>主な感染</strong><span>誤嚥性肺炎・肺膿瘍・歯性感染・Lemierre症候群</span></div>
+          <div class="bm-bug-row"><strong>第一選択</strong><span>アンピシリン-スルバクタム ／ クリンダマイシン</span></div>
+        </div>
+
+        <div class="bm-bug">
+          <div class="bm-bug-name">フゾバクテリウム <em>Fusobacterium necrophorum</em></div>
+          <div class="bm-bug-meta">GNR 偏性嫌気性 ／ 紡錘形</div>
+          <div class="bm-bug-row"><strong>主な感染</strong><span><strong>Lemierre症候群</strong>（咽頭炎→内頸静脈血栓性静脈炎→敗血症）</span></div>
+          <div class="bm-bug-row"><strong>第一選択</strong><span>アンピシリン-スルバクタム ＋ メトロニダゾール</span></div>
+        </div>
+
+        <div class="bm-bug">
+          <div class="bm-bug-name">ペプトストレプトコッカス <em>Peptostreptococcus 等</em></div>
+          <div class="bm-bug-meta">GPC 偏性嫌気性 ／ 多形性</div>
+          <div class="bm-bug-row"><strong>主な感染</strong><span>軟部組織混合感染・歯性感染・骨盤内膿瘍</span></div>
+          <div class="bm-bug-row"><strong>第一選択</strong><span>ペニシリンG ／ クリンダマイシン</span></div>
+        </div>
+
+      </div>
+
+      <!-- ===== カテゴリ⑦ 抗酸菌 ===== -->
+      <div id="bm-mycobacteria" class="bm-cat-banner">
+        <div class="bm-cat-title">⑦ 抗酸菌（Mycobacteria）</div>
+        <div class="bm-cat-sub">結核菌 / 非結核性抗酸菌（NTM）</div>
+      </div>
+
+      <div class="bm-bug-grid">
+
+        <div class="bm-bug">
+          <div class="bm-bug-name">結核菌 <em>Mycobacterium tuberculosis</em></div>
+          <div class="bm-bug-meta">抗酸菌（Ziehl-Neelsen+）／ 偏性好気性</div>
+          <div class="bm-bug-row"><strong>主な感染</strong><span>肺結核・粟粒結核・結核性髄膜炎・脊椎カリエス</span></div>
+          <div class="bm-bug-row"><strong>第一選択</strong><span>初期 2か月：HREZ（イソニアジド・リファンピシン・エタンブトール・ピラジナミド）→ 維持 4か月：HR</span></div>
+          <div class="bm-bug-row"><strong>注意</strong><span>結核疑い患者は<strong>陰圧個室＋N95</strong>。喀痰塗抹3日連続提出</span></div>
+        </div>
+
+        <div class="bm-bug">
+          <div class="bm-bug-name">MAC <em>Mycobacterium avium complex</em></div>
+          <div class="bm-bug-meta">NTM（非結核性抗酸菌）</div>
+          <div class="bm-bug-row"><strong>主な感染</strong><span>肺NTM症 ／ 播種性MAC（HIV/AIDS、CD4&lt;50）</span></div>
+          <div class="bm-bug-row"><strong>第一選択</strong><span>クラリスロマイシン or アジスロマイシン ＋ エタンブトール ＋ リファマイシン</span></div>
+        </div>
+
+      </div>
+
+      <!-- ===== カテゴリ⑧ Atypical / Spirochetes ===== -->
+      <div id="bm-atypical" class="bm-cat-banner">
+        <div class="bm-cat-title">⑧ 細胞内寄生菌・スピロヘータ（Atypicals）</div>
+        <div class="bm-cat-sub">Mycoplasma / Chlamydia / Legionella / Treponema / Borrelia</div>
+      </div>
+
+      <div class="bm-bug-grid">
+
+        <div class="bm-bug">
+          <div class="bm-bug-name">マイコプラズマ <em>Mycoplasma pneumoniae</em></div>
+          <div class="bm-bug-meta">細胞壁なし（β-ラクタム無効）</div>
+          <div class="bm-bug-row"><strong>主な感染</strong><span>市中肺炎（若年者）・walking pneumonia・寒冷凝集素症</span></div>
+          <div class="bm-bug-row"><strong>第一選択</strong><span>アジスロマイシン or ドキシサイクリン or レボフロキサシン</span></div>
+        </div>
+
+        <div class="bm-bug">
+          <div class="bm-bug-name">レジオネラ <em>Legionella pneumophila</em></div>
+          <div class="bm-bug-meta">細胞内寄生 ／ 水・温泉・冷却塔</div>
+          <div class="bm-bug-row"><strong>主な感染</strong><span>重症肺炎（しばしば呼吸不全＋肝機能異常＋低Na血症＋下痢）</span></div>
+          <div class="bm-bug-row"><strong>第一選択</strong><span>レボフロキサシン or アジスロマイシン</span></div>
+          <div class="bm-bug-row"><strong>注意</strong><span>尿中抗原検査（Lp1のみ検出）。培養は BCYE 培地</span></div>
+        </div>
+
+        <div class="bm-bug">
+          <div class="bm-bug-name">クラミジア <em>Chlamydia trachomatis / pneumoniae</em></div>
+          <div class="bm-bug-meta">細胞内寄生</div>
+          <div class="bm-bug-row"><strong>主な感染</strong><span>泌尿生殖器感染（trachomatis）／ 市中肺炎（pneumoniae）</span></div>
+          <div class="bm-bug-row"><strong>第一選択</strong><span>アジスロマイシン or ドキシサイクリン</span></div>
+        </div>
+
+        <div class="bm-bug">
+          <div class="bm-bug-name">ライム病 <em>Borrelia burgdorferi</em></div>
+          <div class="bm-bug-meta">スピロヘータ ／ ダニ媒介</div>
+          <div class="bm-bug-row"><strong>主な感染</strong><span>遊走性紅斑（EM）・関節炎・髄膜炎・<strong>AVブロック</strong>（ライム心炎）</span></div>
+          <div class="bm-bug-row"><strong>第一選択</strong><span>ドキシサイクリン（軽症）／ セフトリアキソン（神経/心炎・関節炎）</span></div>
+        </div>
+
+        <div class="bm-bug">
+          <div class="bm-bug-name">梅毒 <em>Treponema pallidum</em></div>
+          <div class="bm-bug-meta">スピロヘータ</div>
+          <div class="bm-bug-row"><strong>主な感染</strong><span>梅毒（1〜3期・神経梅毒）</span></div>
+          <div class="bm-bug-row"><strong>第一選択</strong><span>ペニシリンG（神経梅毒は IV 高用量）</span></div>
+        </div>
+
+      </div>
+
+      <!-- ===== カテゴリ⑨ 真菌 ===== -->
+      <div id="bm-fungi" class="bm-cat-banner">
+        <div class="bm-cat-title">⑨ 真菌（Fungi）</div>
+        <div class="bm-cat-sub">Candida / Aspergillus / Cryptococcus / Pneumocystis</div>
+      </div>
+
+      <div class="bm-bug-grid">
+
+        <div class="bm-bug">
+          <div class="bm-bug-name">カンジダ <em>Candida 属</em></div>
+          <div class="bm-bug-meta">酵母 ／ <em>C. albicans / glabrata / krusei / parapsilosis</em></div>
+          <div class="bm-bug-row"><strong>主な感染</strong><span>カンジダ血症（カテ関連最多）・腹腔内・尿路 ／ ICUで頻発</span></div>
+          <div class="bm-bug-row"><strong>第一選択</strong><span>初期：ミカファンギン or カスポファンギン　／　感受性後：フルコナゾール（C. albicans）</span></div>
+          <div class="bm-bug-row"><strong>注意</strong><span>カンジダ血症では<strong>眼科コンサルト</strong>（眼内炎評価）。CV ライン抜去。<em>C. krusei</em> はフルコナゾール耐性</span></div>
+        </div>
+
+        <div class="bm-bug">
+          <div class="bm-bug-name">アスペルギルス <em>Aspergillus 属</em></div>
+          <div class="bm-bug-meta">糸状菌 ／ <em>A. fumigatus</em> 最多</div>
+          <div class="bm-bug-row"><strong>主な感染</strong><span>侵襲性肺アスペルギルス症（IPA、好中球減少・移植）／ アスペルギローマ ／ ABPA</span></div>
+          <div class="bm-bug-row"><strong>第一選択</strong><span>ボリコナゾール（IPA第一選択）／ 代替：イサブコナゾール、L-AMB</span></div>
+        </div>
+
+        <div class="bm-bug">
+          <div class="bm-bug-name">クリプトコッカス <em>Cryptococcus neoformans</em></div>
+          <div class="bm-bug-meta">酵母 ／ 莢膜あり（墨汁染色）</div>
+          <div class="bm-bug-row"><strong>主な感染</strong><span>髄膜炎（HIV/AIDS、移植後、ステロイド）／ 肺感染</span></div>
+          <div class="bm-bug-row"><strong>第一選択</strong><span>導入：L-AMB ＋ フルシトシン × 2週 → 強化：フルコナゾール</span></div>
+        </div>
+
+        <div class="bm-bug">
+          <div class="bm-bug-name">ニューモシスチス <em>Pneumocystis jirovecii</em></div>
+          <div class="bm-bug-meta">真菌（旧来は原虫扱い）</div>
+          <div class="bm-bug-row"><strong>主な感染</strong><span>PCP（HIV/AIDS、ステロイド長期、化学療法後）</span></div>
+          <div class="bm-bug-row"><strong>第一選択</strong><span>ST合剤（高用量、TMP 15-20mg/kg/日）　／　重症（PaO2&lt;70）：ステロイド併用</span></div>
+        </div>
+
+      </div>
+
+      <!-- ===== カテゴリ⑩ 主要ウイルス ===== -->
+      <div id="bm-virus" class="bm-cat-banner">
+        <div class="bm-cat-title">⑩ ICUで重要なウイルス</div>
+        <div class="bm-cat-sub">CMV / HSV / VZV / インフルエンザ / SARS-CoV-2</div>
+      </div>
+
+      <div class="bm-bug-grid">
+
+        <div class="bm-bug">
+          <div class="bm-bug-name">サイトメガロウイルス <em>CMV</em></div>
+          <div class="bm-bug-meta">ヘルペスウイルス科</div>
+          <div class="bm-bug-row"><strong>主な感染</strong><span>移植後・免疫不全での肺炎・腸炎・網膜炎・脳炎 ／ CMV-DNA（PCR）でモニタリング</span></div>
+          <div class="bm-bug-row"><strong>第一選択</strong><span>ガンシクロビル or バルガンシクロビル</span></div>
+          <a href="id-icu-notes/note-cmv.html" class="bm-bug-link">CMV 板書ノート →</a>
+        </div>
+
+        <div class="bm-bug">
+          <div class="bm-bug-name">単純ヘルペス <em>HSV-1 / HSV-2</em></div>
+          <div class="bm-bug-meta">ヘルペスウイルス科</div>
+          <div class="bm-bug-row"><strong>主な感染</strong><span>口唇/性器ヘルペス・脳炎（HSV-1、側頭葉）・新生児感染</span></div>
+          <div class="bm-bug-row"><strong>第一選択</strong><span>アシクロビル IV（脳炎・重症）／ バラシクロビル PO</span></div>
+        </div>
+
+        <div class="bm-bug">
+          <div class="bm-bug-name">水痘・帯状疱疹 <em>VZV</em></div>
+          <div class="bm-bug-meta">ヘルペスウイルス科</div>
+          <div class="bm-bug-row"><strong>主な感染</strong><span>水痘・帯状疱疹・髄膜脳炎・血管炎・成人水痘肺炎</span></div>
+          <div class="bm-bug-row"><strong>第一選択</strong><span>アシクロビル IV or バラシクロビル PO</span></div>
+        </div>
+
+        <div class="bm-bug">
+          <div class="bm-bug-name">インフルエンザ <em>Influenza A/B</em></div>
+          <div class="bm-bug-meta">オルソミクソウイルス科</div>
+          <div class="bm-bug-row"><strong>主な感染</strong><span>急性気道感染・ウイルス性肺炎・ARDS ／ 続発性細菌性肺炎合併</span></div>
+          <div class="bm-bug-row"><strong>第一選択</strong><span>オセルタミビル PO ／ ペラミビル IV ／ バロキサビル PO</span></div>
+          <a href="articles-gl-peramivir-review.html" class="bm-bug-link">ペラミビル レビュー →</a>
+        </div>
+
+        <div class="bm-bug">
+          <div class="bm-bug-name">SARS-CoV-2 <em>COVID-19</em></div>
+          <div class="bm-bug-meta">コロナウイルス科</div>
+          <div class="bm-bug-row"><strong>主な感染</strong><span>COVID-19（軽症～ARDS）・血栓症・心筋炎</span></div>
+          <div class="bm-bug-row"><strong>第一選択</strong><span>レムデシビル ／ ニルマトレルビル/リトナビル ／ 重症：デキサメタゾン＋IL-6阻害薬</span></div>
+        </div>
+
+      </div>
+
+      <!-- 制作中の注記 -->
+      <div class="bm-legend" style="margin-top:36px;">
+        <strong>※ 本ページは順次拡充中です</strong>
+        <p>追加すべき菌種・最新の薬剤推奨・院内アンチバイオグラムへの差し替え等のご要望はぜひお声がけください。各カードの記載内容は、対応する院内ガイドライン・GL要約・板書ノートと整合させながら更新していきます。</p>
+      </div>
+
+      <!-- 出典注記 -->
+      <p style="font-size:0.72rem;color:#9CA3AF;margin-top:24px;line-height:1.7;">
+        参考：Mandell, Douglas, and Bennett's Principles and Practice of Infectious Diseases / Sanford Guide / IDSA ガイドライン各種<br>
+        本資料は教育目的で作成したサマリーです。診断・治療方針の決定には必ず原典ガイドライン・院内アンチバイオグラム・感染症科コンサルトを参照してください。
+      </p>
+      <p style="font-size:0.75rem;color:var(--muted);text-align:right;margin-top:8px;">制作：ICU 関谷</p>
+
+    </main>
+
+    <!-- ===== SIDEBAR TOC ===== -->
+    <aside class="bm-sidebar">
+      <div class="bm-sidebar-card">
+        <div class="bm-sidebar-title">細菌マップ 目次</div>
+        <a href="#bm-gpc" class="bm-toc-link">① グラム陽性球菌（GPC）</a>
+        <a href="#bm-gpr" class="bm-toc-link">② グラム陽性桿菌（GPR）</a>
+        <a href="#bm-gnc" class="bm-toc-link">③ グラム陰性球菌（GNC）</a>
+        <a href="#bm-gnr-e" class="bm-toc-link">④ GNR：腸内細菌科</a>
+        <a href="#bm-gnr-nf" class="bm-toc-link">⑤ GNR：非発酵菌</a>
+        <a href="#bm-anaerobes" class="bm-toc-link">⑥ 嫌気性菌</a>
+        <a href="#bm-mycobacteria" class="bm-toc-link">⑦ 抗酸菌</a>
+        <a href="#bm-atypical" class="bm-toc-link">⑧ Atypical・Spirochetes</a>
+        <a href="#bm-fungi" class="bm-toc-link">⑨ 真菌</a>
+        <a href="#bm-virus" class="bm-toc-link">⑩ ICU重要ウイルス</a>
+      </div>
+    </aside>
+
+  </div>
+
+  <script src="../script.js"></script>
+  <script src="../abbr-tooltip.js"></script>
+</body>
+</html>
