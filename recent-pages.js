@@ -11,6 +11,13 @@
  */
 const RECENT_PAGES = [
   {
+    title: "感染性心内膜炎（IE）板書ノート — ID×ICUカンファレンス",
+    url: "pages/id-icu-notes/note-ie.html",
+    date: "2026-05-11",
+    tag: "解説",
+    thumb: "images/IDICUtop.png"
+  },
+  {
     title: "心臓ペースメーカー 包括的最新総説（NEJM Evidence 2025）",
     url: "pages/articles-gl-pacemaker-nejm2025.html",
     date: "2026-05-10",
