@@ -265,10 +265,21 @@
       .nx-flat-table .alt { font-weight:400; color:#94A3B8; font-size:0.70rem; display:block; margin-top:1px; }
       .nx-flat-table .num { color:#475569; white-space:nowrap; font-variant-numeric:tabular-nums; text-align:center; font-size:0.78rem; }
       .nx-flat-table .cat { color:#475569; white-space:nowrap; font-size:0.74rem; }
+      /* 特徴セル：◯／△を行ごとに分離 */
+      .nx-flat-table td.feat { padding:8px 12px !important; }
+      .nx-flat-table .feat-row { display:flex; align-items:flex-start; gap:8px; padding:3px 0; line-height:1.65; }
+      .nx-flat-table .feat-row + .feat-row { margin-top:4px; padding-top:5px; border-top:1px dashed #E2E8F0; }
+      .nx-flat-table .feat-mark { flex-shrink:0; width:18px; font-weight:800; text-align:center; line-height:1.55; }
+      .nx-flat-table .feat-ok .feat-mark { color:#16A34A; }
+      .nx-flat-table .feat-ng .feat-mark { color:#EA580C; }
+      .nx-flat-table .feat-text { flex:1; min-width:0; }
       .nx-flat-table .ok { color:#16A34A; font-weight:800; padding:0 1px; }
       .nx-flat-table .ng { color:#EA580C; font-weight:800; padding:0 1px; }
-      .nx-flat-table .dose { line-height:1.85; font-size:0.78rem; }
-      .nx-flat-table .dose-lbl { display:inline-block; min-width:36px; padding:1px 6px; margin-right:8px; background:#E0E7FF; color:#1E40AF; font-size:0.68rem; font-weight:800; border-radius:3px; letter-spacing:0.04em; text-align:center; }
+      .nx-flat-table .dose { font-size:0.78rem; padding:8px 12px !important; }
+      .nx-flat-table .dose-row { display:flex; align-items:flex-start; gap:8px; padding:3px 0; line-height:1.6; }
+      .nx-flat-table .dose-row + .dose-row { margin-top:4px; padding-top:5px; border-top:1px dashed #E2E8F0; }
+      .nx-flat-table .dose-val { flex:1; min-width:0; }
+      .nx-flat-table .dose-lbl { display:inline-block; flex-shrink:0; width:42px; padding:2px 6px; margin-top:1px; background:#E0E7FF; color:#1E40AF; font-size:0.68rem; font-weight:800; border-radius:3px; letter-spacing:0.04em; text-align:center; line-height:1.4; }
 
       /* ===== スケールテーブル（BPS/CPOT 採点） ===== */
       .nx-acc { border:1px solid var(--border); border-radius:8px; margin:10px 0; overflow:hidden; }
@@ -453,35 +464,29 @@
               <td class="drug-n">プロポフォール<span class="alt">Propofol</span></td>
               <td class="cat">短時間作用静脈麻酔薬</td>
               <td class="dose">
-                <span class="dose-lbl">持続</span>原液1V (10mg/mL)　<span class="num">0.03〜0.30 mL/kg/h</span>（= 0.3〜3 mg/kg/h）<br>
-                <span class="dose-lbl">間欠</span>原液1V を処置時に <span class="num">1〜2 mL</span> ずつ
+                <div class="dose-row"><span class="dose-lbl">持続</span><span class="dose-val">原液1V (10mg/mL)　<span class="num">0.03〜0.30 mL/kg/h</span>（= 0.3〜3 mg/kg/h）</span></div>
+                <div class="dose-row"><span class="dose-lbl">間欠</span><span class="dose-val">原液1V を処置時に <span class="num">1〜2 mL</span> ずつ</span></div>
               </td>
-              <td>
-                <span class="ok">◯</span> 発現が迅速で浅い鎮静を維持しやすい。持続停止後は速やかに代謝。<strong>深い鎮静や短期間鎮静に最適</strong><br><br><span class="ng">△</span> 高脂溶性・分布容積大 → <strong>長期投与で半減期延長（蓄積）</strong>。低血圧・呼吸抑制
-              </td>
+              <td class="feat"><div class="feat-row feat-ok"><span class="feat-mark">◯</span><span class="feat-text">発現が迅速で浅い鎮静を維持しやすい。持続停止後は速やかに代謝。<strong>深い鎮静や短期間鎮静に最適</strong></span></div><div class="feat-row feat-ng"><span class="feat-mark">△</span><span class="feat-text">高脂溶性・分布容積大 → <strong>長期投与で半減期延長（蓄積）</strong>。低血圧・呼吸抑制</span></div></td>
             </tr>
             <tr>
               <td class="drug-n">デクスメデトミジン<span class="alt">Dexmedetomidine</span></td>
               <td class="cat">α2作動薬</td>
               <td class="dose">
-                <span class="dose-lbl">負荷</span>原液 4μg/mL を <span class="num">6 μg/kg/h × 10 分</span><br>
-                <span class="dose-lbl">維持</span><span class="num">0.2〜0.7 μg/kg/h</span>
+                <div class="dose-row"><span class="dose-lbl">負荷</span><span class="dose-val">原液 4μg/mL を <span class="num">6 μg/kg/h × 10 分</span></span></div>
+                <div class="dose-row"><span class="dose-lbl">維持</span><span class="dose-val"><span class="num">0.2〜0.7 μg/kg/h</span></span></div>
               </td>
-              <td>
-                <span class="ok">◯</span> α2作動薬。<span class="mark-yellow"><strong>呼吸抑制をきたさない</strong></span>・<strong>協力的鎮静（Cooperative Sedation）</strong>が可能。せん妄リスク軽減・人工呼吸期間短縮に有用<br><br><span class="ng">△</span> 徐脈・低血圧
-              </td>
+              <td class="feat"><div class="feat-row feat-ok"><span class="feat-mark">◯</span><span class="feat-text">α2作動薬。<span class="mark-yellow"><strong>呼吸抑制をきたさない</strong></span>・<strong>協力的鎮静（Cooperative Sedation）</strong>が可能。せん妄リスク軽減・人工呼吸期間短縮に有用</span></div><div class="feat-row feat-ng"><span class="feat-mark">△</span><span class="feat-text">徐脈・低血圧</span></div></td>
             </tr>
             <tr>
               <td class="drug-n">ミダゾラム<span class="alt">Midazolam</span></td>
               <td class="cat">ベンゾジアゼピン</td>
               <td class="dose">
-                <span class="dose-lbl">持続</span>5A (10mg 2mL) ＋ 生食40mL = 50mg/50mL を <span class="num">0.1〜0.4 mg/kg/h</span>（上限なし）<br>
-                <span class="dose-lbl">間欠</span>1A ＋ 生食8mL を処置時 <span class="num">1〜2 mL</span><br>
-                <span class="dose-lbl">DIV</span>1A ＋ 生食50mL を <span class="num">30 分</span> 投与
+                <div class="dose-row"><span class="dose-lbl">持続</span><span class="dose-val">5A (10mg 2mL) ＋ 生食40mL = 50mg/50mL を <span class="num">0.1〜0.4 mg/kg/h</span>（上限なし）</span></div>
+                <div class="dose-row"><span class="dose-lbl">間欠</span><span class="dose-val">1A ＋ 生食8mL を処置時 <span class="num">1〜2 mL</span></span></div>
+                <div class="dose-row"><span class="dose-lbl">DIV</span><span class="dose-val">1A ＋ 生食50mL を <span class="num">30 分</span> 投与</span></div>
               </td>
-              <td>
-                <span class="ok">◯</span> <strong>アルコール離脱・重症せん妄で優先</strong><br><br><span class="ng">△</span> せん妄リスク増・回復遅延・組織蓄積による効果遷延・タキフィラキシス
-              </td>
+              <td class="feat"><div class="feat-row feat-ok"><span class="feat-mark">◯</span><span class="feat-text"><strong>アルコール離脱・重症せん妄で優先</strong></span></div><div class="feat-row feat-ng"><span class="feat-mark">△</span><span class="feat-text">せん妄リスク増・回復遅延・組織蓄積による効果遷延・タキフィラキシス</span></div></td>
             </tr>
           </tbody>
         </table></div>
@@ -603,16 +608,16 @@
             </tr>
           </thead>
           <tbody>
-            <tr><td class="drug-n">フェンタニル</td><td class="cat">オピオイド静注</td><td class="num">1-2分／3-4h</td><td><span class="ok">◯</span> 発現が速く切れがよい<br><span class="ng">△</span> 高脂溶性で分布容積大、長時間投与で半減期延長</td></tr>
-            <tr><td class="drug-n">モルヒネ</td><td class="cat">オピオイド静注</td><td class="num">5-10分／1-2h</td><td><span class="ok">◯</span> 長時間作用、末期心患者の呼吸困難緩和にも有用<br><span class="ng">△</span> ヒスタミン遊離、腎機能低下で代謝産物蓄積→効果遷延</td></tr>
-            <tr><td class="drug-n">レミフェンタニル</td><td class="cat">オピオイド静注</td><td class="num">1-3分／3-10分</td><td><span class="ok">◯</span> 肝・腎依存なし、<span class="mark-yellow"><strong>Context-sensitive half-time が投与時間に依存しない</strong></span><br><span class="ng">△</span> 急速投与で筋硬直 → <span class="mark-red"><strong>当院ICUでは原則 push 投与禁止</strong></span></td></tr>
-            <tr><td class="drug-n">ペンタゾシン<span class="alt">（ソセゴン®）</span></td><td class="cat">オピオイド静注</td><td class="num">2-3分／2-3h</td><td><span class="ok">◯</span> κ受容体作動で鎮痛、尿管結石にも適応<br><span class="ng">△</span> 血圧/HR上昇・依存性、<strong>μ受容体拮抗作用 → 他オピオイドの効果減弱</strong>のためICUでは使用頻度低</td></tr>
-            <tr><td class="drug-n">トラマドール</td><td class="cat">オピオイド経口</td><td class="num">15分／6-7h</td><td><span class="ok">◯</span> 非がん性疼痛にも、トラムセット®（APAP合剤）あり<br><span class="ng">△</span> Ccr&lt;30で禁忌（即崩剤のみ）、SSRI併用でセロトニン症候群、長期使用後は漸減</td></tr>
-            <tr><td class="drug-n">プレガバリン<span class="alt">（リリカ®）</span></td><td class="cat">ガバペンチノイド</td><td class="num">1週／6h</td><td><span class="ok">◯</span> 神経障害性疼痛に有用（Caチャネル作用）<br><span class="ng">△</span> 浮腫・失神・眠気。保険量150-300mg×2/dayだが <span class="mark-yellow">50-75mg/dayから開始</span> が望ましい</td></tr>
-            <tr><td class="drug-n">ミロガバリン<span class="alt">（タリージェ®）</span></td><td class="cat">ガバペンチノイド</td><td class="num">1週／3-10h</td><td><span class="ok">◯</span> プレガバリンより眩暈・ふらつき少<br><span class="ng">△</span> 換算は <strong>プレガバリン÷10 (mg)</strong> が目安</td></tr>
-            <tr><td class="drug-n">ロキソニン</td><td class="cat">NSAIDs</td><td class="num">30分／1-1.5h</td><td><span class="ok">◯</span> PG合成阻害で鎮痛・解熱・抗炎症<br><span class="ng">△</span> AKIリスク・消化性潰瘍/出血、キノロン併用で痙攣。テープは ロキソニン=数% / ジクトル=高血中移行</td></tr>
-            <tr><td class="drug-n">アセトアミノフェン</td><td class="cat">その他</td><td class="num">30分／1.5-2.5h</td><td><span class="ok">◯</span> ICUでNSAIDs使用困難な場面が多く第1選択になりやすい<br><span class="ng">△</span> 用量依存性肝障害、肝不全で半減期延長</td></tr>
-            <tr><td class="drug-n">ロピバカイン<span class="alt">（アナペイン®）</span></td><td class="cat">硬膜外麻酔</td><td class="num">30分／5h</td><td><span class="ok">◯</span> 麻酔範囲を限局できる<br><span class="ng">△</span> 循環不安定例は避ける、交感神経遮断で血圧低下。当院は<strong>アナペイン＋フェンタニル＋ドロレプタン</strong>併用が多い</td></tr>
+            <tr><td class="drug-n">フェンタニル</td><td class="cat">オピオイド静注</td><td class="num">1-2分／3-4h</td><td class="feat"><div class="feat-row feat-ok"><span class="feat-mark">◯</span><span class="feat-text">発現が速く切れがよい</span></div><div class="feat-row feat-ng"><span class="feat-mark">△</span><span class="feat-text">高脂溶性で分布容積大、長時間投与で半減期延長</span></div></td></tr>
+            <tr><td class="drug-n">モルヒネ</td><td class="cat">オピオイド静注</td><td class="num">5-10分／1-2h</td><td class="feat"><div class="feat-row feat-ok"><span class="feat-mark">◯</span><span class="feat-text">長時間作用、末期心患者の呼吸困難緩和にも有用</span></div><div class="feat-row feat-ng"><span class="feat-mark">△</span><span class="feat-text">ヒスタミン遊離、腎機能低下で代謝産物蓄積→効果遷延</span></div></td></tr>
+            <tr><td class="drug-n">レミフェンタニル</td><td class="cat">オピオイド静注</td><td class="num">1-3分／3-10分</td><td class="feat"><div class="feat-row feat-ok"><span class="feat-mark">◯</span><span class="feat-text">肝・腎依存なし、<span class="mark-yellow"><strong>Context-sensitive half-time が投与時間に依存しない</strong></span></span></div><div class="feat-row feat-ng"><span class="feat-mark">△</span><span class="feat-text">急速投与で筋硬直 → <span class="mark-red"><strong>当院ICUでは原則 push 投与禁止</strong></span></span></div></td></tr>
+            <tr><td class="drug-n">ペンタゾシン<span class="alt">（ソセゴン®）</span></td><td class="cat">オピオイド静注</td><td class="num">2-3分／2-3h</td><td class="feat"><div class="feat-row feat-ok"><span class="feat-mark">◯</span><span class="feat-text">κ受容体作動で鎮痛、尿管結石にも適応</span></div><div class="feat-row feat-ng"><span class="feat-mark">△</span><span class="feat-text">血圧/HR上昇・依存性、<strong>μ受容体拮抗作用 → 他オピオイドの効果減弱</strong>のためICUでは使用頻度低</span></div></td></tr>
+            <tr><td class="drug-n">トラマドール</td><td class="cat">オピオイド経口</td><td class="num">15分／6-7h</td><td class="feat"><div class="feat-row feat-ok"><span class="feat-mark">◯</span><span class="feat-text">非がん性疼痛にも、トラムセット®（APAP合剤）あり</span></div><div class="feat-row feat-ng"><span class="feat-mark">△</span><span class="feat-text">Ccr&lt;30で禁忌（即崩剤のみ）、SSRI併用でセロトニン症候群、長期使用後は漸減</span></div></td></tr>
+            <tr><td class="drug-n">プレガバリン<span class="alt">（リリカ®）</span></td><td class="cat">ガバペンチノイド</td><td class="num">1週／6h</td><td class="feat"><div class="feat-row feat-ok"><span class="feat-mark">◯</span><span class="feat-text">神経障害性疼痛に有用（Caチャネル作用）</span></div><div class="feat-row feat-ng"><span class="feat-mark">△</span><span class="feat-text">浮腫・失神・眠気。保険量150-300mg×2/dayだが <span class="mark-yellow">50-75mg/dayから開始</span> が望ましい</span></div></td></tr>
+            <tr><td class="drug-n">ミロガバリン<span class="alt">（タリージェ®）</span></td><td class="cat">ガバペンチノイド</td><td class="num">1週／3-10h</td><td class="feat"><div class="feat-row feat-ok"><span class="feat-mark">◯</span><span class="feat-text">プレガバリンより眩暈・ふらつき少</span></div><div class="feat-row feat-ng"><span class="feat-mark">△</span><span class="feat-text">換算は <strong>プレガバリン÷10 (mg)</strong> が目安</span></div></td></tr>
+            <tr><td class="drug-n">ロキソニン</td><td class="cat">NSAIDs</td><td class="num">30分／1-1.5h</td><td class="feat"><div class="feat-row feat-ok"><span class="feat-mark">◯</span><span class="feat-text">PG合成阻害で鎮痛・解熱・抗炎症</span></div><div class="feat-row feat-ng"><span class="feat-mark">△</span><span class="feat-text">AKIリスク・消化性潰瘍/出血、キノロン併用で痙攣。テープは ロキソニン=数% / ジクトル=高血中移行</span></div></td></tr>
+            <tr><td class="drug-n">アセトアミノフェン</td><td class="cat">その他</td><td class="num">30分／1.5-2.5h</td><td class="feat"><div class="feat-row feat-ok"><span class="feat-mark">◯</span><span class="feat-text">ICUでNSAIDs使用困難な場面が多く第1選択になりやすい</span></div><div class="feat-row feat-ng"><span class="feat-mark">△</span><span class="feat-text">用量依存性肝障害、肝不全で半減期延長</span></div></td></tr>
+            <tr><td class="drug-n">ロピバカイン<span class="alt">（アナペイン®）</span></td><td class="cat">硬膜外麻酔</td><td class="num">30分／5h</td><td class="feat"><div class="feat-row feat-ok"><span class="feat-mark">◯</span><span class="feat-text">麻酔範囲を限局できる</span></div><div class="feat-row feat-ng"><span class="feat-mark">△</span><span class="feat-text">循環不安定例は避ける、交感神経遮断で血圧低下。当院は<strong>アナペイン＋フェンタニル＋ドロレプタン</strong>併用が多い</span></div></td></tr>
           </tbody>
         </table></div>
         <p style="font-size:0.7rem;color:var(--muted);margin:8px 2px 0;line-height:1.6;">引用：Boncyk C et al. BMJ 2024;387:e079789. ／緩和治療薬の考え方・使い方 ver 3.0（中外医学社）／病棟・ICU・ERで使えるクリティカルケア薬（じほう）</p>
