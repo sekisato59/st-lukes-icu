@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>細菌マップ ツリーデザイン 30案 | 聖路加ICU</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../images/logo.png">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style-v2.css?v=202605120100">
+  <style>
+    /* ===== 共通ページレイアウト ===== */
+    body { background: #F4F8FB; font-family: 'Noto Sans JP', sans-serif; }
+    .dx-hero {
+      background: linear-gradient(150deg, #042F2E 0%, #0F766E 55%, #14B8A6 100%);
+      color: #fff; padding: calc(64px + 28px) 0 32px;
+      position: relative; overflow: hidden;
+    }
+    .dx-hero-inner { max-width: 1300px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+    .dx-hero h1 { font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 900; margin: 0 0 8px; line-height: 1.3; }
+    .dx-hero p { font-size: 0.9rem; color: rgba(236,253,245,0.85); margin: 0; line-height: 1.6; }
+    .dx-back { display: inline-block; font-size: 0.78rem; color: rgba(255,255,255,0.75); text-decoration: none; margin-bottom: 12px; }
+
+    .dx-page { max-width: 1300px; margin: 0 auto; padding: 24px; }
+    .dx-grid { display: grid; grid-template-columns: 1fr; gap: 18px; }
+    @media (min-width: 1024px) { .dx-grid { grid-template-columns: 1fr 1fr; } }
+
+    .dx-card {
+      background: #fff; border: 1px solid #E5E7EB; border-radius: 14px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04); overflow: hidden;
+    }
+    .dx-card-head {
+      background: #F8FAFC; padding: 10px 16px; border-bottom: 1px solid #E5E7EB;
+      display: flex; align-items: baseline; gap: 10px;
+    }
+    .dx-num {
+      background: #0F766E; color: #fff; font-weight: 800;
+      padding: 2px 8px; border-radius: 4px; font-size: 0.72rem;
+      letter-spacing: 0.04em; flex-shrink: 0;
+    }
+    .dx-name { font-size: 0.86rem; font-weight: 800; color: #042F2E; flex: 1; }
+    .dx-tag { font-size: 0.66rem; color: #64748B; }
+    .dx-card-body { padding: 16px 18px; min-height: 220px; }
+
+    /* ===========================================================
+       D01 ASCII pre (現行のNG例)
+       =========================================================== */
+    .d01 pre {
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 0.78rem; line-height: 1.6; margin: 0;
+      background: #F1F5F9; padding: 10px 14px; border-radius: 6px; color: #1F2937;
+    }
+
+    /* ===========================================================
+       D02 CSS L字コネクター（クラシック）
+       =========================================================== */
+    .d02-tree, .d02-tree ul { list-style: none; padding-left: 0; margin: 0; }
+    .d02-tree > li > .gen { font-weight: 800; color: #0F766E; font-size: 0.86rem; padding: 4px 0; }
+    .d02-tree ul { padding-left: 18px; }
+    .d02-tree ul li {
+      position: relative; padding: 4px 0 4px 16px; font-size: 0.8rem; line-height: 1.5;
+      border-left: 1.5px solid #CBD5E1;
+    }
+    .d02-tree ul li::before {
+      content: ''; position: absolute; left: -1.5px; top: 0.85em;
+      width: 12px; border-top: 1.5px solid #CBD5E1;
+    }
+    .d02-tree ul li:last-child { border-left-color: transparent; }
+    .d02-tree ul li:last-child::after {
+      content: ''; position: absolute; left: -1.5px; top: 0;
+      height: 0.85em; border-left: 1.5px solid #CBD5E1;
+    }
+    .d02-tree em { font-style: italic; }
+
+    /* ===========================================================
+       D03 丸み Round connectors
+       =========================================================== */
+    .d03-tree, .d03-tree ul { list-style: none; padding-left: 0; margin: 0; }
+    .d03-tree > li > .gen { font-weight: 800; color: #0F766E; font-size: 0.86rem; padding: 4px 0; }
+    .d03-tree ul { padding-left: 22px; }
+    .d03-tree ul li {
+      position: relative; padding: 5px 0 5px 16px; font-size: 0.8rem;
+    }
+    .d03-tree ul li::before {
+      content: ''; position: absolute; left: 0; top: 0.4em;
+      width: 12px; height: 0.6em;
+      border-left: 2px solid #14B8A6; border-bottom: 2px solid #14B8A6;
+      border-bottom-left-radius: 8px;
+    }
+    .d03-tree em { font-style: italic; }
+
+    /* ===========================================================
+       D04 太い縦バー＋枝
+       =========================================================== */
+    .d04 { font-size: 0.8rem; }
+    .d04-genus { display: flex; align-items: stretch; margin-bottom: 12px; }
+    .d04-bar {
+      width: 4px; background: linear-gradient(180deg, #0F766E, #14B8A6);
+      border-radius: 4px; margin-right: 12px; flex-shrink: 0;
+    }
+    .d04-content { flex: 1; }
+    .d04-genus-name { font-weight: 800; color: #0F766E; margin-bottom: 4px; font-size: 0.86rem; }
+    .d04-species { display: flex; flex-wrap: wrap; gap: 4px; }
+    .d04-species span { font-size: 0.78rem; color: #1F2937; padding: 2px 6px; }
+    .d04 em { font-style: italic; }
+
+    /* ===========================================================
+       D05 ドット連結
+       =========================================================== */
+    .d05 { font-size: 0.8rem; }
+    .d05-genus { margin-bottom: 12px; }
+    .d05-genus-name { font-weight: 800; color: #0F766E; font-size: 0.84rem; padding-bottom: 4px;
+      border-bottom: 2px dotted #14B8A6; margin-bottom: 6px; }
+    .d05-list { list-style: none; padding-left: 12px; margin: 0; }
+    .d05-list li {
+      position: relative; padding: 3px 0 3px 14px; font-size: 0.78rem;
+    }
+    .d05-list li::before {
+      content: '·····'; position: absolute; left: -8px; top: 2px; color: #14B8A6;
+      letter-spacing: 1px; font-weight: 900;
+    }
+    .d05 em { font-style: italic; }
+
+    /* ===========================================================
+       D06 Org chart 縦
+       =========================================================== */
+    .d06 { font-size: 0.78rem; text-align: center; }
+    .d06-root {
+      display: inline-block; background: #0F766E; color: #fff;
+      padding: 4px 10px; border-radius: 4px; font-weight: 800; margin-bottom: 12px;
+    }
+    .d06-genera { display: flex; justify-content: space-around; gap: 4px; flex-wrap: wrap; }
+    .d06-genus { flex: 1; min-width: 110px; position: relative; }
+    .d06-genus::before {
+      content: ''; position: absolute; top: -8px; left: 50%; height: 8px;
+      border-left: 1.5px solid #CBD5E1;
+    }
+    .d06-genus-box {
+      background: #F0FDFA; border: 1px solid #99F6E4;
+      padding: 4px 6px; border-radius: 4px; font-weight: 700; color: #0F766E;
+      font-size: 0.74rem; margin-bottom: 6px;
+    }
+    .d06-spx { font-size: 0.7rem; color: #1F2937; padding: 2px 0; line-height: 1.4; }
+    .d06 em { font-style: italic; }
+
+    /* ===========================================================
+       D07 シェブロン
+       =========================================================== */
+    .d07 { font-size: 0.8rem; }
+    .d07-genus { margin-bottom: 10px; }
+    .d07-genus-name { font-weight: 800; color: #0F766E; font-size: 0.84rem; margin-bottom: 4px; }
+    .d07-list { list-style: none; padding-left: 0; margin: 0; }
+    .d07-list li {
+      padding: 3px 0 3px 18px; position: relative; font-size: 0.78rem;
+    }
+    .d07-list li::before {
+      content: '›'; position: absolute; left: 8px; top: 1px; color: #14B8A6;
+      font-weight: 800; font-size: 1.1rem;
+    }
+    .d07 em { font-style: italic; }
+
+    /* ===========================================================
+       D08 カラードット
+       =========================================================== */
+    .d08 { font-size: 0.8rem; }
+    .d08-genus { margin-bottom: 10px; }
+    .d08-genus-name {
+      font-weight: 800; color: #0F766E; font-size: 0.84rem; margin-bottom: 6px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .d08-genus-name::before {
+      content: ''; width: 10px; height: 10px; background: #0F766E;
+      border-radius: 50%;
+    }
+    .d08-list { list-style: none; padding-left: 18px; margin: 0; }
+    .d08-list li {
+      padding: 3px 0 3px 16px; position: relative; font-size: 0.78rem;
+    }
+    .d08-list li::before {
+      content: ''; position: absolute; left: 0; top: 0.55em;
+      width: 6px; height: 6px; background: #14B8A6; border-radius: 50%;
+    }
+    .d08 em { font-style: italic; }
+
+    /* ===========================================================
+       D09 番号ステップ
+       =========================================================== */
+    .d09 { font-size: 0.8rem; }
+    .d09-genus { margin-bottom: 10px; }
+    .d09-genus-name {
+      font-weight: 800; color: #0F766E; font-size: 0.84rem; margin-bottom: 6px;
+    }
+    .d09-list { list-style: none; padding: 0; margin: 0; counter-reset: spx; }
+    .d09-list li {
+      counter-increment: spx;
+      padding: 4px 0 4px 30px; position: relative; font-size: 0.78rem;
+    }
+    .d09-list li::before {
+      content: counter(spx);
+      position: absolute; left: 6px; top: 4px;
+      width: 18px; height: 18px; background: #0F766E; color: #fff;
+      border-radius: 50%; text-align: center; font-size: 0.66rem;
+      font-weight: 700; line-height: 18px;
+    }
+    .d09 em { font-style: italic; }
+
+    /* ===========================================================
+       D10 属カード × 種ピル（現行新マップ）
+       =========================================================== */
+    .d10-grid { display: grid; grid-template-columns: 1fr; gap: 8px; }
+    .d10-card {
+      background: #F0FDFA; border: 1px solid #99F6E4;
+      border-radius: 8px; padding: 10px 12px;
+    }
+    .d10-name {
+      font-weight: 800; color: #0F766E; font-size: 0.82rem; margin-bottom: 6px;
+      padding-bottom: 4px; border-bottom: 1px dashed rgba(15,118,110,0.25);
+    }
+    .d10-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 2px; }
+    .d10-list li { padding: 2px 0 2px 12px; font-size: 0.76rem; position: relative; }
+    .d10-list li::before {
+      content: ''; position: absolute; left: 2px; top: 0.7em;
+      width: 5px; height: 5px;
+      border-left: 1.5px solid #14B8A6; border-bottom: 1.5px solid #14B8A6;
+    }
+    .d10 em { font-style: italic; }
+
+    /* ===========================================================
+       D11 属ヘッダーバー＋種タグ
+       =========================================================== */
+    .d11-genus { margin-bottom: 10px; }
+    .d11-bar {
+      background: linear-gradient(90deg, #0F766E, #14B8A6);
+      color: #fff; padding: 5px 12px; border-radius: 4px 4px 0 0;
+      font-weight: 800; font-size: 0.8rem;
+    }
+    .d11-tags {
+      background: #F8FAFC; padding: 8px 10px; border: 1px solid #E5E7EB; border-top: none;
+      border-radius: 0 0 4px 4px; display: flex; flex-wrap: wrap; gap: 4px;
+    }
+    .d11-tags span {
+      background: #fff; color: #0F766E; padding: 2px 8px; border-radius: 12px;
+      font-size: 0.74rem; border: 1px solid #99F6E4; font-weight: 600;
+    }
+    .d11 em { font-style: italic; }
+
+    /* ===========================================================
+       D12 2列テーブル
+       =========================================================== */
+    .d12 table { width: 100%; border-collapse: collapse; font-size: 0.78rem; }
+    .d12 th, .d12 td {
+      text-align: left; padding: 6px 10px; border-bottom: 1px solid #E5E7EB;
+      vertical-align: top;
+    }
+    .d12 th {
+      background: #F0FDFA; color: #0F766E; font-weight: 800; width: 35%;
+      border-bottom: 1px solid #99F6E4; font-size: 0.78rem;
+    }
+    .d12 em { font-style: italic; }
+
+    /* ===========================================================
+       D13 サブウェイマップ風
+       =========================================================== */
+    .d13 { padding-left: 14px; position: relative; }
+    .d13::before {
+      content: ''; position: absolute; left: 4px; top: 8px; bottom: 8px;
+      width: 4px; background: #14B8A6; border-radius: 2px;
+    }
+    .d13-stop {
+      position: relative; padding: 6px 0 6px 18px; font-size: 0.8rem;
+    }
+    .d13-stop::before {
+      content: ''; position: absolute; left: -6px; top: 0.6em;
+      width: 12px; height: 12px; background: #fff;
+      border: 3px solid #0F766E; border-radius: 50%;
+    }
+    .d13-stop.spx { padding-left: 26px; font-size: 0.76rem; color: #334155; }
+    .d13-stop.spx::before {
+      width: 8px; height: 8px; border-width: 2px; left: -2px;
+      background: #14B8A6; border-color: #14B8A6;
+    }
+    .d13 em { font-style: italic; }
+    .d13 strong { color: #0F766E; font-weight: 800; }
+
+    /* ===========================================================
+       D14 マインドマップ放射
+       =========================================================== */
+    .d14 {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap; justify-content: center;
+    }
+    .d14-core {
+      background: #0F766E; color: #fff; font-weight: 800; padding: 14px 18px;
+      border-radius: 50%; font-size: 0.86rem;
+      display: flex; align-items: center; justify-content: center;
+      width: 76px; height: 76px;
+    }
+    .d14-arms { display: flex; flex-direction: column; gap: 8px; flex: 1; min-width: 0; }
+    .d14-arm {
+      background: #F0FDFA; border: 1px solid #99F6E4; border-radius: 22px;
+      padding: 4px 12px; display: flex; gap: 8px; align-items: center;
+      font-size: 0.76rem;
+    }
+    .d14-arm-name { font-weight: 800; color: #0F766E; flex-shrink: 0; }
+    .d14 em { font-style: italic; }
+
+    /* ===========================================================
+       D15 Bento グリッド
+       =========================================================== */
+    .d15 { display: grid; grid-template-columns: 2fr 1fr; gap: 6px; }
+    .d15 > div {
+      background: linear-gradient(135deg, #F0FDFA, #fff);
+      border: 1px solid #99F6E4; border-radius: 10px; padding: 10px 12px;
+    }
+    .d15 .big { grid-column: 1 / -1; background: linear-gradient(135deg, #0F766E, #14B8A6); color: #fff; }
+    .d15-h { font-weight: 800; font-size: 0.78rem; margin-bottom: 4px; color: #0F766E; }
+    .d15 .big .d15-h { color: #fff; }
+    .d15-s { font-size: 0.72rem; color: #1F2937; line-height: 1.5; }
+    .d15 .big .d15-s { color: rgba(255,255,255,0.92); }
+    .d15 em { font-style: italic; }
+
+    /* ===========================================================
+       D16 ハニカム六角タイル（簡易）
+       =========================================================== */
+    .d16 { display: flex; flex-wrap: wrap; gap: 6px; }
+    .d16-genus {
+      flex: 1; min-width: 130px;
+      background: #F0FDFA; border: 1px solid #99F6E4;
+      padding: 8px; border-radius: 12px;
+      clip-path: polygon(20% 0%, 80% 0%, 100% 50%, 80% 100%, 20% 100%, 0% 50%);
+      text-align: center;
+    }
+    .d16-name { font-weight: 800; color: #0F766E; font-size: 0.78rem; margin-bottom: 4px; }
+    .d16-list { font-size: 0.7rem; color: #1F2937; line-height: 1.5; }
+    .d16 em { font-style: italic; }
+
+    /* ===========================================================
+       D17 アコーディオン
+       =========================================================== */
+    .d17 details {
+      background: #F8FAFC; border: 1px solid #E5E7EB; border-radius: 6px;
+      margin-bottom: 6px; padding: 0;
+    }
+    .d17 summary {
+      padding: 8px 12px; font-weight: 800; color: #0F766E; cursor: pointer;
+      font-size: 0.84rem; user-select: none;
+      list-style: none; position: relative;
+    }
+    .d17 summary::after {
+      content: '＋'; position: absolute; right: 12px; top: 7px; font-weight: 400;
+    }
+    .d17 details[open] summary::after { content: '−'; }
+    .d17 ul {
+      list-style: none; padding: 0 12px 10px 28px; margin: 0;
+    }
+    .d17 ul li { padding: 3px 0; font-size: 0.78rem; }
+    .d17 em { font-style: italic; }
+
+    /* ===========================================================
+       D18 タブ切替（CSS のみ）
+       =========================================================== */
+    .d18-tabs { display: flex; border-bottom: 2px solid #E5E7EB; gap: 4px; }
+    .d18-tabs label {
+      padding: 6px 10px; font-size: 0.76rem; font-weight: 700;
+      color: #64748B; cursor: pointer; border-radius: 4px 4px 0 0;
+    }
+    .d18-tabs input { display: none; }
+    .d18-panel { display: none; padding: 10px 4px; }
+    #d18-1:checked ~ .d18-tabs label[for="d18-1"],
+    #d18-2:checked ~ .d18-tabs label[for="d18-2"],
+    #d18-3:checked ~ .d18-tabs label[for="d18-3"] {
+      color: #0F766E; background: #F0FDFA; border-bottom: 2px solid #0F766E; margin-bottom: -2px;
+    }
+    #d18-1:checked ~ .d18-panels .d18-p1,
+    #d18-2:checked ~ .d18-panels .d18-p2,
+    #d18-3:checked ~ .d18-panels .d18-p3 { display: block; }
+    .d18-panels ul { list-style: none; padding: 0; margin: 0; }
+    .d18-panels li { padding: 4px 0; font-size: 0.8rem; }
+    .d18-panels em { font-style: italic; }
+
+    /* ===========================================================
+       D19 雑誌風サイドバー
+       =========================================================== */
+    .d19 { display: flex; gap: 14px; }
+    .d19-side {
+      width: 110px; flex-shrink: 0; border-right: 2px solid #14B8A6; padding-right: 10px;
+    }
+    .d19-side .gname {
+      font-weight: 900; color: #0F766E; font-size: 0.78rem;
+      padding: 8px 0; border-bottom: 1px dashed #99F6E4;
+    }
+    .d19-main { flex: 1; }
+    .d19-main .group { margin-bottom: 10px; }
+    .d19-main .gh { font-weight: 800; color: #0F766E; font-size: 0.78rem; margin-bottom: 4px; display: none; }
+    .d19-main ul { list-style: none; padding: 0; margin: 0; }
+    .d19-main li { font-size: 0.76rem; padding: 2px 0 2px 8px; border-left: 2px solid #99F6E4; margin-bottom: 2px; }
+    .d19 em { font-style: italic; }
+
+    /* ===========================================================
+       D20 折りたたみカード（マウスオーバ無し、純表示）
+       =========================================================== */
+    .d20 { display: flex; flex-direction: column; gap: 8px; }
+    .d20-card {
+      background: #fff; border: 1px solid #E5E7EB; border-radius: 8px;
+      padding: 10px 12px; box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+      border-left: 4px solid #0F766E;
+    }
+    .d20-h { font-weight: 800; color: #0F766E; font-size: 0.82rem; margin-bottom: 6px;
+      display: flex; justify-content: space-between; align-items: baseline; }
+    .d20-h .count {
+      background: #F0FDFA; color: #0F766E; padding: 1px 7px;
+      border-radius: 10px; font-size: 0.66rem; border: 1px solid #99F6E4;
+    }
+    .d20-list { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 4px 10px; }
+    .d20-list li { font-size: 0.76rem; }
+    .d20 em { font-style: italic; }
+
+    /* ===========================================================
+       D21 アバター付きツリー
+       =========================================================== */
+    .d21 { font-size: 0.8rem; }
+    .d21-genus { display: flex; gap: 10px; margin-bottom: 10px; }
+    .d21-avatar {
+      width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+      background: #0F766E; color: #fff; display: flex; align-items: center;
+      justify-content: center; font-weight: 800; font-size: 0.72rem;
+    }
+    .d21-body { flex: 1; }
+    .d21-name { font-weight: 800; color: #0F766E; font-size: 0.82rem; margin-bottom: 2px; }
+    .d21-spxs { display: flex; flex-wrap: wrap; gap: 3px 10px; }
+    .d21-spxs span { font-size: 0.74rem; color: #334155; }
+    .d21 em { font-style: italic; }
+
+    /* ===========================================================
+       D22 ファイルツリー（IDE風）
+       =========================================================== */
+    .d22 {
+      background: #1E293B; color: #E2E8F0; padding: 12px 14px; border-radius: 8px;
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 0.78rem; line-height: 1.7;
+    }
+    .d22 .gen { color: #5EEAD4; font-weight: 700; }
+    .d22 .spx { color: #E2E8F0; padding-left: 18px; }
+    .d22 .spx::before { content: '└─ '; color: #64748B; }
+    .d22 .spx + .spx::before { content: '├─ '; }
+    .d22 em { font-style: italic; }
+
+    /* ===========================================================
+       D23 タグクラウド per genus
+       =========================================================== */
+    .d23-genus { margin-bottom: 12px; }
+    .d23-name { font-weight: 800; color: #0F766E; font-size: 0.82rem;
+      padding: 4px 10px; background: #F0FDFA; display: inline-block;
+      border-radius: 4px; margin-bottom: 6px; border: 1px solid #99F6E4; }
+    .d23-cloud { display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; }
+    .d23-cloud .l { font-size: 0.86rem; font-weight: 800; color: #0F766E; }
+    .d23-cloud .m { font-size: 0.78rem; font-weight: 600; color: #334155; }
+    .d23-cloud .s { font-size: 0.7rem; color: #64748B; }
+    .d23 em { font-style: italic; }
+
+    /* ===========================================================
+       D24 横スクロール属カード
+       =========================================================== */
+    .d24 { overflow-x: auto; padding-bottom: 4px; }
+    .d24-row { display: flex; gap: 10px; min-width: max-content; }
+    .d24-card {
+      background: linear-gradient(180deg, #0F766E, #14B8A6); color: #fff;
+      padding: 10px 14px; border-radius: 10px; min-width: 160px;
+    }
+    .d24-name { font-weight: 800; font-size: 0.82rem; margin-bottom: 6px;
+      padding-bottom: 4px; border-bottom: 1px solid rgba(255,255,255,0.3); }
+    .d24-list { list-style: none; padding: 0; margin: 0; }
+    .d24-list li { font-size: 0.74rem; padding: 2px 0; }
+    .d24 em { font-style: italic; }
+
+    /* ===========================================================
+       D25 番号付きピラミッド
+       =========================================================== */
+    .d25 { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+    .d25-tier { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; }
+    .d25-genus { background: #0F766E; color: #fff; padding: 4px 14px; border-radius: 16px; font-weight: 800; font-size: 0.8rem; }
+    .d25-spx { background: #F0FDFA; color: #0F766E; border: 1px solid #99F6E4;
+      padding: 3px 10px; border-radius: 14px; font-size: 0.74rem; font-weight: 600; }
+    .d25 em { font-style: italic; }
+
+    /* ===========================================================
+       D26 ステップガイド
+       =========================================================== */
+    .d26-genus { display: flex; gap: 10px; align-items: flex-start; padding: 8px 0;
+      border-bottom: 1px dashed #E5E7EB; }
+    .d26-genus:last-child { border-bottom: none; }
+    .d26-step {
+      width: 26px; height: 26px; border-radius: 6px; background: #0F766E;
+      color: #fff; display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 0.72rem; flex-shrink: 0;
+    }
+    .d26-content { flex: 1; }
+    .d26-h { font-weight: 800; color: #0F766E; font-size: 0.82rem; margin-bottom: 4px; }
+    .d26-spxs { font-size: 0.76rem; color: #334155; line-height: 1.6; }
+    .d26-spxs span { display: inline-block; margin-right: 10px; }
+    .d26 em { font-style: italic; }
+
+    /* ===========================================================
+       D27 細密 inline 一覧（コンパクト）
+       =========================================================== */
+    .d27-genus { padding: 5px 0; border-bottom: 1px solid #E5E7EB; font-size: 0.78rem; }
+    .d27-genus:last-child { border-bottom: none; }
+    .d27-name { font-weight: 800; color: #0F766E; margin-right: 8px; display: inline-block; min-width: 110px; }
+    .d27 em { font-style: italic; }
+
+    /* ===========================================================
+       D28 グロウバッジ
+       =========================================================== */
+    .d28-genus { margin-bottom: 10px; }
+    .d28-name { font-weight: 800; color: #0F766E; font-size: 0.82rem; margin-bottom: 6px; }
+    .d28-spxs { display: flex; flex-wrap: wrap; gap: 6px; }
+    .d28-spxs span {
+      background: #fff; color: #0F766E; padding: 4px 10px; border-radius: 6px;
+      font-size: 0.74rem; font-weight: 600; border: 1px solid #14B8A6;
+      box-shadow: 0 0 0 1px rgba(20,184,166,0.15), 0 1px 2px rgba(15,118,110,0.08);
+    }
+    .d28 em { font-style: italic; }
+
+    /* ===========================================================
+       D29 木目ライン (vertical timeline)
+       =========================================================== */
+    .d29 { position: relative; padding-left: 20px; }
+    .d29::before {
+      content: ''; position: absolute; left: 4px; top: 0; bottom: 0;
+      width: 2px; background: linear-gradient(180deg, #0F766E, #14B8A6, transparent);
+    }
+    .d29-genus { position: relative; margin-bottom: 14px; }
+    .d29-genus::before {
+      content: ''; position: absolute; left: -20px; top: 0.4em;
+      width: 10px; height: 10px; border-radius: 50%; background: #0F766E;
+      box-shadow: 0 0 0 3px #F0FDFA;
+    }
+    .d29-name { font-weight: 800; color: #0F766E; font-size: 0.84rem; margin-bottom: 4px; }
+    .d29-list { list-style: none; padding: 0; margin: 0; }
+    .d29-list li {
+      padding: 2px 0 2px 16px; font-size: 0.76rem; position: relative;
+    }
+    .d29-list li::before {
+      content: '–'; position: absolute; left: 4px; color: #14B8A6; font-weight: 800;
+    }
+    .d29 em { font-style: italic; }
+
+    /* ===========================================================
+       D30 親子カード入れ子
+       =========================================================== */
+    .d30-genus {
+      background: #F8FAFC; border: 1px solid #CBD5E1; border-radius: 10px;
+      padding: 10px 12px; margin-bottom: 8px;
+    }
+    .d30-name {
+      font-weight: 800; color: #0F766E; font-size: 0.84rem;
+      margin: -4px -4px 8px; padding: 4px 10px;
+      background: linear-gradient(90deg, #0F766E, transparent);
+      color: #fff; border-radius: 6px 6px 0 0; display: inline-block;
+    }
+    .d30-spxs { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 4px; }
+    .d30-spxs span {
+      background: #fff; padding: 3px 8px; border-radius: 4px;
+      font-size: 0.74rem; color: #334155; border: 1px solid #E5E7EB;
+    }
+    .d30 em { font-style: italic; }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="../index.html" class="nav-logo">
+        <img src="../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+        <span class="nav-logo-text">聖路加国際病院ICU</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="メニューを開く"><span></span><span></span><span></span></button>
+      <ul class="nav-menu" id="navMenu"></ul>
+    </div>
+  </nav>
+
+  <section class="dx-hero">
+    <div class="dx-hero-inner">
+      <a href="bacteria-map.html" class="dx-back">← 細菌マップへ戻る</a>
+      <h1>細菌マップ ツリー構造 デザイン案 30種類</h1>
+      <p>ダミーデータ（GPC：Staphylococcus / Streptococcus / Enterococcus）で30の異なる視覚化案を比較。気に入った番号を教えてください — それをベースに本マップを刷新します。</p>
+    </div>
+  </section>
+
+  <main class="dx-page">
+    <div class="dx-grid">
+
+      <!-- D01 ASCII pre -->
+      <section class="dx-card">
+        <div class="dx-card-head"><span class="dx-num">D01</span><span class="dx-name">ASCII 罫線（NG例）</span><span class="dx-tag">現行・刷新前</span></div>
+        <div class="dx-card-body d01">
+<pre>GPC
+├─ <em>Staphylococcus</em>
+│  ├─ S. aureus
+│  ├─ S. epidermidis
+│  ├─ S. saprophyticus
+│  └─ S. lugdunensis
+├─ <em>Streptococcus</em>
+│  ├─ S. pyogenes
+│  ├─ S. agalactiae
+│  ├─ S. pneumoniae
+│  └─ VGS
+└─ <em>Enterococcus</em>
+   ├─ E. faecalis
+   └─ E. faecium</pre>
+        </div>
+      </section>
+
+      <!-- D02 CSS L字 -->
+      <section class="dx-card">
+        <div class="dx-card-head"><span class="dx-num">D02</span><span class="dx-name">CSS L字コネクター</span><span class="dx-tag">クラシック・きれい</span></div>
+        <div class="dx-card-body">
+          <ul class="d02-tree">
+            <li><div class="gen">ブドウ球菌属 <em>Staphylococcus</em></div>
+              <ul><li><em>S. aureus</em></li><li><em>S. epidermidis</em></li><li><em>S. saprophyticus</em></li><li><em>S. lugdunensis</em></li></ul>
+            </li>
+            <li><div class="gen">レンサ球菌属 <em>Streptococcus</em></div>
+              <ul><li><em>S. pyogenes</em></li><li><em>S. agalactiae</em></li><li><em>S. pneumoniae</em></li><li><em>VGS</em></li></ul>
+            </li>
+            <li><div class="gen">腸球菌属 <em>Enterococcus</em></div>
+              <ul><li><em>E. faecalis</em></li><li><em>E. faecium</em></li></ul>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- D03 丸み -->
+      <section class="dx-card">
+        <div class="dx-card-head"><span class="dx-num">D03</span><span class="dx-name">丸みコネクター</span><span class="dx-tag">柔らかい・モダン</span></div>
+        <div class="dx-card-body">
+          <ul class="d03-tree">
+            <li><div class="gen">ブドウ球菌属 <em>Staphylococcus</em></div>
+              <ul><li><em>S. aureus</em></li><li><em>S. epidermidis</em></li><li><em>S. saprophyticus</em></li><li><em>S. lugdunensis</em></li></ul>
+            </li>
+            <li><div class="gen">レンサ球菌属 <em>Streptococcus</em></div>
+              <ul><li><em>S. pyogenes</em></li><li><em>S. agalactiae</em></li><li><em>S. pneumoniae</em></li><li><em>VGS</em></li></ul>
+            </li>
+            <li><div class="gen">腸球菌属 <em>Enterococcus</em></div>
+              <ul><li><em>E. faecalis</em></li><li><em>E. faecium</em></li></ul>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- D04 太い縦バー -->
+      <section class="dx-card">
+        <div class="dx-card-head"><span class="dx-num">D04</span><span class="dx-name">縦グラデバー＋枝</span><span class="dx-tag">スタイリッシュ</span></div>
+        <div class="dx-card-body d04">
+          <div class="d04-genus"><div class="d04-bar"></div><div class="d04-content">
+            <div class="d04-genus-name">ブドウ球菌属 <em>Staphylococcus</em></div>
+            <div class="d04-species"><span><em>S. aureus</em></span><span><em>S. epidermidis</em></span><span><em>S. saprophyticus</em></span><span><em>S. lugdunensis</em></span></div>
+          </div></div>
+          <div class="d04-genus"><div class="d04-bar"></div><div class="d04-content">
+            <div class="d04-genus-name">レンサ球菌属 <em>Streptococcus</em></div>
+            <div class="d04-species"><span><em>S. pyogenes</em></span><span><em>S. agalactiae</em></span><span><em>S. pneumoniae</em></span><span><em>VGS</em></span></div>
+          </div></div>
+          <div class="d04-genus"><div class="d04-bar"></div><div class="d04-content">
+            <div class="d04-genus-name">腸球菌属 <em>Enterococcus</em></div>
+            <div class="d04-species"><span><em>E. faecalis</em></span><span><em>E. faecium</em></span></div>
+          </div></div>
+        </div>
+      </section>
+
+      <!-- D05 ドット -->
+      <section class="dx-card">
+        <div class="dx-card-head"><span class="dx-num">D05</span><span class="dx-name">ドット連結</span><span class="dx-tag">レトロ／読みやすい</span></div>
+        <div class="dx-card-body d05">
+          <div class="d05-genus"><div class="d05-genus-name">ブドウ球菌属 <em>Staphylococcus</em></div>
+            <ul class="d05-list"><li><em>S. aureus</em></li><li><em>S. epidermidis</em></li><li><em>S. saprophyticus</em></li><li><em>S. lugdunensis</em></li></ul></div>
+          <div class="d05-genus"><div class="d05-genus-name">レンサ球菌属 <em>Streptococcus</em></div>
+            <ul class="d05-list"><li><em>S. pyogenes</em></li><li><em>S. agalactiae</em></li><li><em>S. pneumoniae</em></li><li><em>VGS</em></li></ul></div>
+          <div class="d05-genus"><div class="d05-genus-name">腸球菌属 <em>Enterococcus</em></div>
+            <ul class="d05-list"><li><em>E. faecalis</em></li><li><em>E. faecium</em></li></ul></div>
+        </div>
+      </section>
+
+      <!-- D06 Org Chart -->
+      <section class="dx-card">
+        <div class="dx-card-head"><span class="dx-num">D06</span><span class="dx-name">Org Chart 縦</span><span class="dx-tag">企業組織図風</span></div>
+        <div class="dx-card-body d06">
+          <div class="d06-root">GPC</div>
+          <div class="d06-genera">
+            <div class="d06-genus">
+              <div class="d06-genus-box"><em>Staphylococcus</em></div>
+              <div class="d06-spx"><em>S. aureus</em></div>
+              <div class="d06-spx"><em>S. epidermidis</em></div>
+              <div class="d06-spx"><em>S. saprophyticus</em></div>
+              <div class="d06-spx"><em>S. lugdunensis</em></div>
+            </div>
+            <div class="d06-genus">
+              <div class="d06-genus-box"><em>Streptococcus</em></div>
+              <div class="d06-spx"><em>S. pyogenes</em></div>
+              <div class="d06-spx"><em>S. agalactiae</em></div>
+              <div class="d06-spx"><em>S. pneumoniae</em></div>
+              <div class="d06-spx"><em>VGS</em></div>
+            </div>
+            <div class="d06-genus">
+              <div class="d06-genus-box"><em>Enterococcus</em></div>
+              <div class="d06-spx"><em>E. faecalis</em></div>
+              <div class="d06-spx"><em>E. faecium</em></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- D07 シェブロン -->
+      <section class="dx-card">
+        <div class="dx-card-head"><span class="dx-num">D07</span><span class="dx-name">シェブロン</span><span class="dx-tag">超ミニマル</span></div>
+        <div class="dx-card-body d07">
+          <div class="d07-genus"><div class="d07-genus-name">ブドウ球菌属 <em>Staphylococcus</em></div>
+            <ul class="d07-list"><li><em>S. aureus</em></li><li><em>S. epidermidis</em></li><li><em>S. saprophyticus</em></li><li><em>S. lugdunensis</em></li></ul></div>
+          <div class="d07-genus"><div class="d07-genus-name">レンサ球菌属 <em>Streptococcus</em></div>
+            <ul class="d07-list"><li><em>S. pyogenes</em></li><li><em>S. agalactiae</em></li><li><em>S. pneumoniae</em></li><li><em>VGS</em></li></ul></div>
+          <div class="d07-genus"><div class="d07-genus-name">腸球菌属 <em>Enterococcus</em></div>
+            <ul class="d07-list"><li><em>E. faecalis</em></li><li><em>E. faecium</em></li></ul></div>
+        </div>
+      </section>
+
+      <!-- D08 カラードット -->
+      <section class="dx-card">
+        <div class="dx-card-head"><span class="dx-num">D08</span><span class="dx-name">カラードット</span><span class="dx-tag">親子関係が直感的</span></div>
+        <div class="dx-card-body d08">
+          <div class="d08-genus"><div class="d08-genus-name">ブドウ球菌属 <em>Staphylococcus</em></div>
+            <ul class="d08-list"><li><em>S. aureus</em></li><li><em>S. epidermidis</em></li><li><em>S. saprophyticus</em></li><li><em>S. lugdunensis</em></li></ul></div>
+          <div class="d08-genus"><div class="d08-genus-name">レンサ球菌属 <em>Streptococcus</em></div>
+            <ul class="d08-list"><li><em>S. pyogenes</em></li><li><em>S. agalactiae</em></li><li><em>S. pneumoniae</em></li><li><em>VGS</em></li></ul></div>
+          <div class="d08-genus"><div class="d08-genus-name">腸球菌属 <em>Enterococcus</em></div>
+            <ul class="d08-list"><li><em>E. faecalis</em></li><li><em>E. faecium</em></li></ul></div>
+        </div>
+      </section>
+
+      <!-- D09 番号ステップ -->
+      <section class="dx-card">
+        <div class="dx-card-head"><span class="dx-num">D09</span><span class="dx-name">番号ステップ</span><span class="dx-tag">教科書風</span></div>
+        <div class="dx-card-body d09">
+          <div class="d09-genus"><div class="d09-genus-name">ブドウ球菌属 <em>Staphylococcus</em></div>
+            <ul class="d09-list"><li><em>S. aureus</em></li><li><em>S. epidermidis</em></li><li><em>S. saprophyticus</em></li><li><em>S. lugdunensis</em></li></ul></div>
+          <div class="d09-genus"><div class="d09-genus-name">レンサ球菌属 <em>Streptococcus</em></div>
+            <ul class="d09-list"><li><em>S. pyogenes</em></li><li><em>S. agalactiae</em></li><li><em>S. pneumoniae</em></li><li><em>VGS</em></li></ul></div>
+        </div>
+      </section>
+
+      <!-- D10 属カード×種ピル（現行新マップ） -->
+      <section class="dx-card">
+        <div class="dx-card-head"><span class="dx-num">D10</span><span class="dx-name">属カード×種一覧</span><span class="dx-tag">現行の新マップ</span></div>
+        <div class="dx-card-body">
+          <div class="d10-grid">
+            <div class="d10-card">
+              <div class="d10-name">ブドウ球菌属 <em>Staphylococcus</em></div>
+              <ul class="d10-list"><li><em>S. aureus</em></li><li><em>S. epidermidis</em></li><li><em>S. saprophyticus</em></li><li><em>S. lugdunensis</em></li></ul>
+            </div>
+            <div class="d10-card">
+              <div class="d10-name">レンサ球菌属 <em>Streptococcus</em></div>
+              <ul class="d10-list"><li><em>S. pyogenes</em></li><li><em>S. agalactiae</em></li><li><em>S. pneumoniae</em></li><li><em>VGS</em></li></ul>
+            </div>
+            <div class="d10-card">
+              <div class="d10-name">腸球菌属 <em>Enterococcus</em></div>
+              <ul class="d10-list"><li><em>E. faecalis</em></li><li><em>E. faecium</em></li></ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- D11 属バー＋種タグ -->
+      <section class="dx-card">
+        <div class="dx-card-head"><span class="dx-num">D11</span><span class="dx-name">属バー＋種タグ</span><span class="dx-tag">情報量と整列のバランス</span></div>
+        <div class="dx-card-body d11">
+          <div class="d11-genus">
+            <div class="d11-bar">ブドウ球菌属 <em>Staphylococcus</em></div>
+            <div class="d11-tags"><span><em>S. aureus</em></span><span><em>S. epidermidis</em></span><span><em>S. saprophyticus</em></span><span><em>S. lugdunensis</em></span></div>
+          </div>
+          <div class="d11-genus">
+            <div class="d11-bar">レンサ球菌属 <em>Streptococcus</em></div>
+            <div class="d11-tags"><span><em>S. pyogenes</em></span><span><em>S. agalactiae</em></span><span><em>S. pneumoniae</em></span><span><em>VGS</em></span></div>
+          </div>
+          <div class="d11-genus">
+            <div class="d11-bar">腸球菌属 <em>Enterococcus</em></div>
+            <div class="d11-tags"><span><em>E. faecalis</em></span><span><em>E. faecium</em></span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- D12 2列テーブル -->
+      <section class="dx-card">
+        <div class="dx-card-head"><span class="dx-num">D12</span><span class="dx-name">2列テーブル</span><span class="dx-tag">最も情報密度高い</span></div>
+        <div class="dx-card-body d12">
+          <table>
+            <tbody>
+              <tr><th>ブドウ球菌属<br><em>Staphylococcus</em></th><td><em>S. aureus / S. epidermidis / S. saprophyticus / S. lugdunensis</em></td></tr>
+              <tr><th>レンサ球菌属<br><em>Streptococcus</em></th><td><em>S. pyogenes / S. agalactiae / S. pneumoniae / VGS</em></td></tr>
+              <tr><th>腸球菌属<br><em>Enterococcus</em></th><td><em>E. faecalis / E. faecium</em></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- D13 サブウェイマップ -->
+      <section class="dx-card">
+        <div class="dx-card-head"><span class="dx-num">D13</span><span class="dx-name">サブウェイマップ風</span><span class="dx-tag">親子＝駅の階層</span></div>
+        <div class="dx-card-body d13">
+          <div class="d13-stop"><strong>ブドウ球菌属 <em>Staphylococcus</em></strong></div>
+          <div class="d13-stop spx"><em>S. aureus</em></div>
+          <div class="d13-stop spx"><em>S. epidermidis</em></div>
+          <div class="d13-stop spx"><em>S. saprophyticus</em></div>
+          <div class="d13-stop spx"><em>S. lugdunensis</em></div>
+          <div class="d13-stop"><strong>レンサ球菌属 <em>Streptococcus</em></strong></div>
+          <div class="d13-stop spx"><em>S. pyogenes</em></div>
+          <div class="d13-stop spx"><em>S. agalactiae</em></div>
+          <div class="d13-stop"><strong>腸球菌属 <em>Enterococcus</em></strong></div>
+          <div class="d13-stop spx"><em>E. faecalis</em></div>
+          <div class="d13-stop spx"><em>E. faecium</em></div>
+        </div>
+      </section>
+
+      <!-- D14 マインドマップ -->
+      <section class="dx-card">
+        <div class="dx-card-head"><span class="dx-num">D14</span><span class="dx-name">マインドマップ風</span><span class="dx-tag">中心 → 放射</span></div>
+        <div class="dx-card-body d14">
+          <div class="d14-core">GPC</div>
+          <div class="d14-arms">
+            <div class="d14-arm"><span class="d14-arm-name"><em>Staph</em></span><span><em>S. aureus / S. epidermidis / S. saprophyticus / S. lugdunensis</em></span></div>
+            <div class="d14-arm"><span class="d14-arm-name"><em>Strep</em></span><span><em>S. pyogenes / S. agalactiae / S. pneumoniae / VGS</em></span></div>
+            <div class="d14-arm"><span class="d14-arm-name"><em>Entero</em></span><span><em>E. faecalis / E. faecium</em></span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- D15 Bento -->
+      <section class="dx-card">
+        <div class="dx-card-head"><span class="dx-num">D15</span><span class="dx-name">Bento グリッド</span><span class="dx-tag">主従の差をサイズで</span></div>
+        <div class="dx-card-body d15">
+          <div class="big">
+            <div class="d15-h">ブドウ球菌属 <em>Staphylococcus</em></div>
+            <div class="d15-s"><em>S. aureus / S. epidermidis / S. saprophyticus / S. lugdunensis</em></div>
+          </div>
+          <div>
+            <div class="d15-h"><em>Streptococcus</em></div>
+            <div class="d15-s"><em>S. pyogenes / pneumoniae / VGS</em></div>
+          </div>
+          <div>
+            <div class="d15-h"><em>Enterococcus</em></div>
+            <div class="d15-s"><em>E. faecalis / faecium</em></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- D16 ハニカム -->
+      <section class="dx-card">
+        <div class="dx-card-head"><span class="dx-num">D16</span><span class="dx-name">ハニカム六角形</span><span class="dx-tag">遊び心</span></div>
+        <div class="dx-card-body d16">
+          <div class="d16-genus">
+            <div class="d16-name"><em>Staph</em></div>
+            <div class="d16-list"><em>aureus / epi / sapro / lugd</em></div>
+          </div>
+          <div class="d16-genus">
+            <div class="d16-name"><em>Strep</em></div>
+            <div class="d16-list"><em>pyogenes / pneumo / VGS</em></div>
+          </div>
+          <div class="d16-genus">
+            <div class="d16-name"><em>Entero</em></div>
+            <div class="d16-list"><em>faecalis / faecium</em></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- D17 アコーディオン -->
+      <section class="dx-card">
+        <div class="dx-card-head"><span class="dx-num">D17</span><span class="dx-name">アコーディオン</span><span class="dx-tag">開閉で省スペース</span></div>
+        <div class="dx-card-body d17">
+          <details open><summary>ブドウ球菌属 <em>Staphylococcus</em></summary>
+            <ul><li><em>S. aureus</em></li><li><em>S. epidermidis</em></li><li><em>S. saprophyticus</em></li><li><em>S. lugdunensis</em></li></ul>
+          </details>
+          <details><summary>レンサ球菌属 <em>Streptococcus</em></summary>
+            <ul><li><em>S. pyogenes</em></li><li><em>S. agalactiae</em></li><li><em>S. pneumoniae</em></li><li><em>VGS</em></li></ul>
+          </details>
+          <details><summary>腸球菌属 <em>Enterococcus</em></summary>
+            <ul><li><em>E. faecalis</em></li><li><em>E. faecium</em></li></ul>
+          </details>
+        </div>
+      </section>
+
+      <!-- D18 タブ切替 -->
+      <section class="dx-card">
+        <div class="dx-card-head"><span class="dx-num">D18</span><span class="dx-name">タブ切替</span><span class="dx-tag">CSS のみ。属切替</span></div>
+        <div class="dx-card-body d18">
+          <input type="radio" name="d18" id="d18-1" checked>
+          <input type="radio" name="d18" id="d18-2">
+          <input type="radio" name="d18" id="d18-3">
+          <div class="d18-tabs">
+            <label for="d18-1"><em>Staphylococcus</em></label>
+            <label for="d18-2"><em>Streptococcus</em></label>
+            <label for="d18-3"><em>Enterococcus</em></label>
+          </div>
+          <div class="d18-panels">
+            <div class="d18-panel d18-p1"><ul><li><em>S. aureus</em></li><li><em>S. epidermidis</em></li><li><em>S. saprophyticus</em></li><li><em>S. lugdunensis</em></li></ul></div>
+            <div class="d18-panel d18-p2"><ul><li><em>S. pyogenes</em></li><li><em>S. agalactiae</em></li><li><em>S. pneumoniae</em></li><li><em>VGS</em></li></ul></div>
+            <div class="d18-panel d18-p3"><ul><li><em>E. faecalis</em></li><li><em>E. faecium</em></li></ul></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- D19 雑誌風サイドバー -->
+      <section class="dx-card">
+        <div class="dx-card-head"><span class="dx-num">D19</span><span class="dx-name">雑誌風サイドバー</span><span class="dx-tag">プロフェッショナル</span></div>
+        <div class="dx-card-body d19">
+          <div class="d19-side">
+            <div class="gname"><em>Staph</em></div>
+            <div class="gname"><em>Strep</em></div>
+            <div class="gname"><em>Entero</em></div>
+          </div>
+          <div class="d19-main">
+            <div class="group"><ul><li><em>S. aureus</em></li><li><em>S. epidermidis</em></li><li><em>S. saprophyticus</em></li><li><em>S. lugdunensis</em></li></ul></div>
+            <div class="group"><ul><li><em>S. pyogenes</em></li><li><em>S. pneumoniae</em></li><li><em>VGS</em></li></ul></div>
+            <div class="group"><ul><li><em>E. faecalis</em></li><li><em>E. faecium</em></li></ul></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- D20 カウントバッジ付き -->
+      <section class="dx-card">
+        <div class="dx-card-head"><span class="dx-num">D20</span><span class="dx-name">カウントバッジ付き</span><span class="dx-tag">数で全体感</span></div>
+        <div class="dx-card-body d20">
+          <div class="d20-card">
+            <div class="d20-h">ブドウ球菌属 <em>Staphylococcus</em><span class="count">4種</span></div>
+            <ul class="d20-list"><li><em>S. aureus</em></li><li><em>S. epidermidis</em></li><li><em>S. saprophyticus</em></li><li><em>S. lugdunensis</em></li></ul>
+          </div>
+          <div class="d20-card">
+            <div class="d20-h">レンサ球菌属 <em>Streptococcus</em><span class="count">4種</span></div>
+            <ul class="d20-list"><li><em>S. pyogenes</em></li><li><em>S. agalactiae</em></li><li><em>S. pneumoniae</em></li><li><em>VGS</em></li></ul>
+          </div>
+          <div class="d20-card">
+            <div class="d20-h">腸球菌属 <em>Enterococcus</em><span class="count">2種</span></div>
+            <ul class="d20-list"><li><em>E. faecalis</em></li><li><em>E. faecium</em></li></ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- D21 アバター付き -->
+      <section class="dx-card">
+        <div class="dx-card-head"><span class="dx-num">D21</span><span class="dx-name">アバター付き属</span><span class="dx-tag">識別性◎</span></div>
+        <div class="dx-card-body d21">
+          <div class="d21-genus">
+            <div class="d21-avatar">St</div>
+            <div class="d21-body">
+              <div class="d21-name">ブドウ球菌属 <em>Staphylococcus</em></div>
+              <div class="d21-spxs"><span><em>S. aureus</em></span><span><em>S. epidermidis</em></span><span><em>S. saprophyticus</em></span><span><em>S. lugdunensis</em></span></div>
+            </div>
+          </div>
+          <div class="d21-genus">
+            <div class="d21-avatar">Sp</div>
+            <div class="d21-body">
+              <div class="d21-name">レンサ球菌属 <em>Streptococcus</em></div>
+              <div class="d21-spxs"><span><em>S. pyogenes</em></span><span><em>S. agalactiae</em></span><span><em>S. pneumoniae</em></span><span><em>VGS</em></span></div>
+            </div>
+          </div>
+          <div class="d21-genus">
+            <div class="d21-avatar">En</div>
+            <div class="d21-body">
+              <div class="d21-name">腸球菌属 <em>Enterococcus</em></div>
+              <div class="d21-spxs"><span><em>E. faecalis</em></span><span><em>E. faecium</em></span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- D22 IDE風ファイルツリー -->
+      <section class="dx-card">
+        <div class="dx-card-head"><span class="dx-num">D22</span><span class="dx-name">IDE風ファイルツリー</span><span class="dx-tag">ダーク・エンジニア感</span></div>
+        <div class="dx-card-body">
+          <div class="d22">
+            <div class="gen">▾ <em>Staphylococcus</em></div>
+            <div class="spx"><em>S. aureus</em></div>
+            <div class="spx"><em>S. epidermidis</em></div>
+            <div class="spx"><em>S. saprophyticus</em></div>
+            <div class="spx"><em>S. lugdunensis</em></div>
+            <div class="gen">▾ <em>Streptococcus</em></div>
+            <div class="spx"><em>S. pyogenes</em></div>
+            <div class="spx"><em>S. agalactiae</em></div>
+            <div class="spx"><em>S. pneumoniae</em></div>
+            <div class="spx"><em>VGS</em></div>
+            <div class="gen">▾ <em>Enterococcus</em></div>
+            <div class="spx"><em>E. faecalis</em></div>
+            <div class="spx"><em>E. faecium</em></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- D23 タグクラウド -->
+      <section class="dx-card">
+        <div class="dx-card-head"><span class="dx-num">D23</span><span class="dx-name">重要度クラウド</span><span class="dx-tag">サイズで重要度を表現</span></div>
+        <div class="dx-card-body d23">
+          <div class="d23-genus">
+            <div class="d23-name">ブドウ球菌属 <em>Staphylococcus</em></div>
+            <div class="d23-cloud">
+              <span class="l"><em>S. aureus</em></span>
+              <span class="m"><em>S. epidermidis</em></span>
+              <span class="s"><em>S. saprophyticus</em></span>
+              <span class="s"><em>S. lugdunensis</em></span>
+            </div>
+          </div>
+          <div class="d23-genus">
+            <div class="d23-name">レンサ球菌属 <em>Streptococcus</em></div>
+            <div class="d23-cloud">
+              <span class="l"><em>S. pneumoniae</em></span>
+              <span class="m"><em>S. pyogenes</em></span>
+              <span class="m"><em>VGS</em></span>
+              <span class="s"><em>S. agalactiae</em></span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- D24 横スクロール -->
+      <section class="dx-card">
+        <div class="dx-card-head"><span class="dx-num">D24</span><span class="dx-name">横スクロールカード</span><span class="dx-tag">モバイル映え</span></div>
+        <div class="dx-card-body">
+          <div class="d24"><div class="d24-row">
+            <div class="d24-card">
+              <div class="d24-name"><em>Staphylococcus</em></div>
+              <ul class="d24-list"><li><em>S. aureus</em></li><li><em>S. epidermidis</em></li><li><em>S. saprophyticus</em></li><li><em>S. lugdunensis</em></li></ul>
+            </div>
+            <div class="d24-card">
+              <div class="d24-name"><em>Streptococcus</em></div>
+              <ul class="d24-list"><li><em>S. pyogenes</em></li><li><em>S. pneumoniae</em></li><li><em>VGS</em></li></ul>
+            </div>
+            <div class="d24-card">
+              <div class="d24-name"><em>Enterococcus</em></div>
+              <ul class="d24-list"><li><em>E. faecalis</em></li><li><em>E. faecium</em></li></ul>
+            </div>
+          </div></div>
+        </div>
+      </section>
+
+      <!-- D25 ピラミッド -->
+      <section class="dx-card">
+        <div class="dx-card-head"><span class="dx-num">D25</span><span class="dx-name">ピル ピラミッド</span><span class="dx-tag">階層をピル形で</span></div>
+        <div class="dx-card-body d25">
+          <div class="d25-tier"><span class="d25-genus">ブドウ球菌属 <em>Staphylococcus</em></span></div>
+          <div class="d25-tier"><span class="d25-spx"><em>S. aureus</em></span><span class="d25-spx"><em>S. epidermidis</em></span><span class="d25-spx"><em>S. sapro</em></span><span class="d25-spx"><em>S. lugd</em></span></div>
+          <div class="d25-tier"><span class="d25-genus">レンサ球菌属 <em>Streptococcus</em></span></div>
+          <div class="d25-tier"><span class="d25-spx"><em>S. pyogenes</em></span><span class="d25-spx"><em>S. agalactiae</em></span><span class="d25-spx"><em>S. pneumoniae</em></span><span class="d25-spx"><em>VGS</em></span></div>
+          <div class="d25-tier"><span class="d25-genus">腸球菌属 <em>Enterococcus</em></span></div>
+          <div class="d25-tier"><span class="d25-spx"><em>E. faecalis</em></span><span class="d25-spx"><em>E. faecium</em></span></div>
+        </div>
+      </section>
+
+      <!-- D26 ステップガイド -->
+      <section class="dx-card">
+        <div class="dx-card-head"><span class="dx-num">D26</span><span class="dx-name">番号バッジステップ</span><span class="dx-tag">教育的</span></div>
+        <div class="dx-card-body">
+          <div class="d26-genus">
+            <div class="d26-step">1</div>
+            <div class="d26-content">
+              <div class="d26-h">ブドウ球菌属 <em>Staphylococcus</em></div>
+              <div class="d26-spxs"><span><em>S. aureus</em></span><span><em>S. epidermidis</em></span><span><em>S. saprophyticus</em></span><span><em>S. lugdunensis</em></span></div>
+            </div>
+          </div>
+          <div class="d26-genus">
+            <div class="d26-step">2</div>
+            <div class="d26-content">
+              <div class="d26-h">レンサ球菌属 <em>Streptococcus</em></div>
+              <div class="d26-spxs"><span><em>S. pyogenes</em></span><span><em>S. agalactiae</em></span><span><em>S. pneumoniae</em></span><span><em>VGS</em></span></div>
+            </div>
+          </div>
+          <div class="d26-genus">
+            <div class="d26-step">3</div>
+            <div class="d26-content">
+              <div class="d26-h">腸球菌属 <em>Enterococcus</em></div>
+              <div class="d26-spxs"><span><em>E. faecalis</em></span><span><em>E. faecium</em></span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- D27 細密インライン -->
+      <section class="dx-card">
+        <div class="dx-card-head"><span class="dx-num">D27</span><span class="dx-name">細密インライン</span><span class="dx-tag">超高密度</span></div>
+        <div class="dx-card-body">
+          <div class="d27-genus"><span class="d27-name"><em>Staphylococcus</em></span><em>S. aureus / S. epidermidis / S. saprophyticus / S. lugdunensis</em></div>
+          <div class="d27-genus"><span class="d27-name"><em>Streptococcus</em></span><em>S. pyogenes / S. agalactiae / S. pneumoniae / VGS</em></div>
+          <div class="d27-genus"><span class="d27-name"><em>Enterococcus</em></span><em>E. faecalis / E. faecium</em></div>
+        </div>
+      </section>
+
+      <!-- D28 グロウバッジ -->
+      <section class="dx-card">
+        <div class="dx-card-head"><span class="dx-num">D28</span><span class="dx-name">発光バッジ</span><span class="dx-tag">高級感</span></div>
+        <div class="dx-card-body d28">
+          <div class="d28-genus"><div class="d28-name">ブドウ球菌属 <em>Staphylococcus</em></div>
+            <div class="d28-spxs"><span><em>S. aureus</em></span><span><em>S. epidermidis</em></span><span><em>S. saprophyticus</em></span><span><em>S. lugdunensis</em></span></div></div>
+          <div class="d28-genus"><div class="d28-name">レンサ球菌属 <em>Streptococcus</em></div>
+            <div class="d28-spxs"><span><em>S. pyogenes</em></span><span><em>S. agalactiae</em></span><span><em>S. pneumoniae</em></span><span><em>VGS</em></span></div></div>
+          <div class="d28-genus"><div class="d28-name">腸球菌属 <em>Enterococcus</em></div>
+            <div class="d28-spxs"><span><em>E. faecalis</em></span><span><em>E. faecium</em></span></div></div>
+        </div>
+      </section>
+
+      <!-- D29 タイムライン -->
+      <section class="dx-card">
+        <div class="dx-card-head"><span class="dx-num">D29</span><span class="dx-name">タイムライン縦線</span><span class="dx-tag">フェードイン縦線</span></div>
+        <div class="dx-card-body d29">
+          <div class="d29-genus"><div class="d29-name">ブドウ球菌属 <em>Staphylococcus</em></div>
+            <ul class="d29-list"><li><em>S. aureus</em></li><li><em>S. epidermidis</em></li><li><em>S. saprophyticus</em></li><li><em>S. lugdunensis</em></li></ul></div>
+          <div class="d29-genus"><div class="d29-name">レンサ球菌属 <em>Streptococcus</em></div>
+            <ul class="d29-list"><li><em>S. pyogenes</em></li><li><em>S. agalactiae</em></li><li><em>S. pneumoniae</em></li><li><em>VGS</em></li></ul></div>
+          <div class="d29-genus"><div class="d29-name">腸球菌属 <em>Enterococcus</em></div>
+            <ul class="d29-list"><li><em>E. faecalis</em></li><li><em>E. faecium</em></li></ul></div>
+        </div>
+      </section>
+
+      <!-- D30 親子カード入れ子 -->
+      <section class="dx-card">
+        <div class="dx-card-head"><span class="dx-num">D30</span><span class="dx-name">入れ子カード</span><span class="dx-tag">バイオレット帯ヘッダー</span></div>
+        <div class="dx-card-body d30">
+          <div class="d30-genus">
+            <div class="d30-name">ブドウ球菌属 <em>Staphylococcus</em></div>
+            <div class="d30-spxs"><span><em>S. aureus</em></span><span><em>S. epidermidis</em></span><span><em>S. saprophyticus</em></span><span><em>S. lugdunensis</em></span></div>
+          </div>
+          <div class="d30-genus">
+            <div class="d30-name">レンサ球菌属 <em>Streptococcus</em></div>
+            <div class="d30-spxs"><span><em>S. pyogenes</em></span><span><em>S. agalactiae</em></span><span><em>S. pneumoniae</em></span><span><em>VGS</em></span></div>
+          </div>
+          <div class="d30-genus">
+            <div class="d30-name">腸球菌属 <em>Enterococcus</em></div>
+            <div class="d30-spxs"><span><em>E. faecalis</em></span><span><em>E. faecium</em></span></div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <p style="margin-top:32px; font-size:0.84rem; color:#475569; text-align:center; line-height:1.7;">
+      気に入った番号（複数可）と「このパーツだけここから」みたいな組み合わせ案も歓迎です。<br>
+      指定いただいたら、それで本マップを刷新 → そのあと菌ごとの個別ページ作成に戻ります。
+    </p>
+
+  </main>
+
+  <script src="../script.js"></script>
+</body>
+</html>
