@@ -8,8 +8,8 @@
   <link rel="icon" type="image/png" href="../images/logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../style-v2.css?v=202605120310">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=M+PLUS+Rounded+1c:wght@500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style-v2.css?v=202605120500">
   <style>
     /* ===== 細菌マップ：teal テーマ ===== */
     :root {
@@ -80,37 +80,45 @@
     }
 
     /* ===== 属（D02 系統樹：箱なし、L字コネクター） ===== */
+    /* 親分類（属名）は通常フォント、種名＋注釈のみ丸み帯びたフォントに */
     .bm-genus {
       padding: 0;
     }
     .bm-genus-head {
-      font-size: 0.88rem;
+      font-size: 0.92rem;
       font-weight: 800;
       color: var(--bm-primary);
       margin: 0 0 8px;
-      padding: 0 0 7px;
-      border-bottom: 1px dashed rgba(15,118,110,0.22);
+      padding: 9px 0 0;
+      border-top: 1px dashed rgba(15,118,110,0.32);
       line-height: 1.4;
       display: flex;
       align-items: baseline;
       gap: 6px;
+      letter-spacing: 0.01em;
+      font-family: 'Noto Sans JP', sans-serif;
     }
     .bm-genus-head em { font-style: italic; font-size: 0.92em; opacity: 0.88; font-weight: 700; }
-    .bm-genus-note {
-      font-size: 0.66rem;
-      color: var(--muted);
-      font-weight: 500;
-      margin-left: auto;
+    /* 各カテゴリ内、最初の属だけは上の点線・上余白なし（バナー直下なので） */
+    .bm-cat-body > .bm-genus:first-child > .bm-genus-head {
+      border-top: none;
+      padding-top: 0;
     }
     .bm-species-list {
       list-style: none;
       margin: 0;
       padding: 0 0 0 6px;
+      font-family: 'M PLUS Rounded 1c', 'Noto Sans JP', sans-serif;
+    }
+    .bm-species-list ul {
+      list-style: none;
+      margin: 4px 0 2px;
+      padding-left: 14px;
     }
     .bm-species-list li {
       position: relative;
       padding: 5px 0 5px 18px;
-      font-size: 0.82rem;
+      font-size: 0.85rem;
       line-height: 1.55;
       border-left: 1.5px solid #CBD5E1;
     }
@@ -156,6 +164,22 @@
       font-size: 0.7rem;
       font-weight: 500;
       margin-left: 6px;
+    }
+    /* サブグループ見出し（α溶血／β溶血／γ溶血 など）— 親分類なので Noto Sans JP */
+    .bm-species-list .bm-sub-label {
+      font-weight: 800;
+      color: var(--bm-primary);
+      font-size: 0.88rem;
+      letter-spacing: 0.02em;
+      font-family: 'Noto Sans JP', sans-serif;
+    }
+    .bm-species-list .bm-sub-label .bm-sub-en {
+      font-weight: 600;
+      font-size: 0.74rem;
+      color: var(--bm-primary);
+      margin-left: 6px;
+      font-style: italic;
+      font-family: 'Noto Sans JP', sans-serif;
     }
 
     /* ===== TOC サイドバー ===== */
@@ -255,12 +279,59 @@
           <div class="bm-genus">
             <h3 class="bm-genus-head">レンサ球菌属 <em>Streptococcus</em></h3>
             <ul class="bm-species-list">
-              <li><a href="bacteria/spyo.html"><em>S. pyogenes</em></a><span class="note">A群</span></li>
-              <li><a href="bacteria/saga.html"><em>S. agalactiae</em></a><span class="note">B群</span></li>
-              <li><a href="bacteria/spneu.html"><em>S. pneumoniae</em></a></li>
-              <li><a href="bacteria/vgs.html"><em>Viridans group</em></a></li>
-              <li><a href="bacteria/sang.html"><em>S. anginosus</em> 群</a></li>
-              <li><a href="bacteria/sbov.html"><em>S. bovis / gallolyticus</em></a></li>
+              <li>
+                <span class="bm-sub-label">α溶血（不完全溶血）<span class="bm-sub-en">α-hemolytic / viridans-type</span></span>
+                <ul>
+                  <li><a href="bacteria/spneu.html"><em>S. pneumoniae</em></a><span class="note">肺炎球菌・莢膜あり</span></li>
+                  <li>
+                    <a href="bacteria/vgs.html"><em>Viridans group streptococci (VGS)</em></a><span class="note">緑色連鎖球菌・口腔内常在</span>
+                    <ul>
+                      <li>
+                        <a href="bacteria/sang.html"><em>S. anginosus</em> group</a><span class="note">膿瘍形成しやすい</span>
+                        <ul>
+                          <li><span class="pending"><em>S. anginosus</em></span></li>
+                          <li><span class="pending"><em>S. intermedius</em></span></li>
+                          <li><span class="pending"><em>S. constellatus</em></span></li>
+                        </ul>
+                      </li>
+                      <li><span class="pending"><em>S. sanguinis</em> group</span><span class="note">亜急性 IE</span></li>
+                      <li><span class="pending"><em>S. mitis</em> group</span><span class="note">IE・好中球減少時菌血症</span></li>
+                      <li><span class="pending"><em>S. salivarius</em> group</span></li>
+                      <li><span class="pending"><em>S. mutans</em> group</span><span class="note">齲蝕原性</span></li>
+                      <li><span class="pending"><em>S. vestibularis</em></span></li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <span class="bm-sub-label">β溶血（完全溶血）<span class="bm-sub-en">β-hemolytic — Lancefield 分類</span></span>
+                <ul>
+                  <li><a href="bacteria/spyo.html"><em>S. pyogenes</em></a><span class="note">A群（GAS）</span></li>
+                  <li><a href="bacteria/saga.html"><em>S. agalactiae</em></a><span class="note">B群（GBS）／ 新生児・高齢糖尿病</span></li>
+                  <li><span class="pending"><em>S. dysgalactiae</em></span><span class="note">C群（GCS）／ G群（GGS）／ HD・悪性腫瘍患で多い</span></li>
+                  <li><span class="pending"><em>S. equi</em> subsp.</span><span class="note">C群（人獣共通）</span></li>
+                </ul>
+              </li>
+              <li>
+                <span class="bm-sub-label">γ溶血（非溶血）<span class="bm-sub-en">γ / non-hemolytic — 旧 group D</span></span>
+                <ul>
+                  <li>
+                    <a href="bacteria/sbov.html"><em>S. bovis / gallolyticus</em> group</a><span class="note">大腸癌・IE 関連</span>
+                    <ul>
+                      <li><span class="pending"><em>S. gallolyticus</em> subsp. <em>gallolyticus</em></span><span class="note">大腸癌に最も関連</span></li>
+                      <li><span class="pending"><em>S. gallolyticus</em> subsp. <em>pasteurianus</em></span></li>
+                      <li>
+                        <span class="pending"><em>S. infantarius</em></span>
+                        <ul>
+                          <li><span class="pending">subsp. <em>infantarius</em></span></li>
+                          <li><span class="pending">subsp. <em>coli</em></span></li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                  <li><span class="pending">※ <em>Enterococcus</em>（旧 group D Strep）</span><span class="note">別属に再分類 → 下段の腸球菌属参照</span></li>
+                </ul>
+              </li>
             </ul>
           </div>
           <div class="bm-genus">
@@ -302,7 +373,7 @@
         </header>
         <div class="bm-cat-body">
           <div class="bm-genus">
-            <h3 class="bm-genus-head"><em>Bacillus</em> 属<span class="bm-genus-note">好気性・芽胞</span></h3>
+            <h3 class="bm-genus-head"><em>Bacillus</em> 属</h3>
             <ul class="bm-species-list">
               <li><span class="pending"><em>B. anthracis</em></span><span class="note">炭疽</span></li>
               <li><span class="pending"><em>B. cereus</em></span></li>
@@ -325,19 +396,24 @@
             </ul>
           </div>
           <div class="bm-genus">
-            <h3 class="bm-genus-head"><em>Cutibacterium</em><span class="bm-genus-note">旧 Propionibacterium</span></h3>
+            <h3 class="bm-genus-head"><em>Cutibacterium</em></h3>
             <ul class="bm-species-list">
               <li><a href="bacteria/cacnes.html"><em>C. acnes</em></a><span class="note">人工関節・心臓デバイス</span></li>
             </ul>
           </div>
           <div class="bm-genus">
-            <h3 class="bm-genus-head"><em>Clostridium</em> 属<span class="bm-genus-note">嫌気性・芽胞</span></h3>
+            <h3 class="bm-genus-head"><em>Clostridioides</em> 属</h3>
             <ul class="bm-species-list">
-              <li><a href="bacteria/cdiff.html"><em>C. difficile</em></a><span class="note">CDI</span></li>
+              <li><a href="bacteria/cdiff.html"><em>C. difficile</em></a><span class="note">CDI（2016 年に Clostridium から別属に再分類）</span></li>
+            </ul>
+          </div>
+          <div class="bm-genus">
+            <h3 class="bm-genus-head"><em>Clostridium</em> 属</h3>
+            <ul class="bm-species-list">
               <li><a href="bacteria/cperf.html"><em>C. perfringens</em></a><span class="note">ガス壊疽</span></li>
               <li><a href="bacteria/ctetani.html"><em>C. tetani</em></a><span class="note">破傷風</span></li>
-              <li><span class="pending"><em>C. botulinum</em></span></li>
-              <li><span class="pending"><em>C. septicum</em></span><span class="note">大腸癌</span></li>
+              <li><span class="pending"><em>C. botulinum</em></span><span class="note">ボツリヌス</span></li>
+              <li><span class="pending"><em>C. septicum</em></span><span class="note">大腸癌関連菌血症</span></li>
             </ul>
           </div>
           <div class="bm-genus">
@@ -408,27 +484,27 @@
             </ul>
           </div>
           <div class="bm-genus">
-            <h3 class="bm-genus-head"><em>Enterobacter</em><span class="bm-genus-note">AmpC 産生</span></h3>
+            <h3 class="bm-genus-head"><em>Enterobacter</em></h3>
             <ul class="bm-species-list">
               <li><a href="bacteria/enterobacter.html"><em>E. cloacae complex</em></a></li>
               <li><span class="pending"><em>E. asburiae</em></span></li>
             </ul>
           </div>
           <div class="bm-genus">
-            <h3 class="bm-genus-head"><em>Serratia</em><span class="bm-genus-note">AmpC・赤色色素</span></h3>
+            <h3 class="bm-genus-head"><em>Serratia</em></h3>
             <ul class="bm-species-list">
               <li><a href="bacteria/serratia.html"><em>S. marcescens</em></a></li>
             </ul>
           </div>
           <div class="bm-genus">
-            <h3 class="bm-genus-head"><em>Citrobacter</em><span class="bm-genus-note">AmpC 産生</span></h3>
+            <h3 class="bm-genus-head"><em>Citrobacter</em></h3>
             <ul class="bm-species-list">
               <li><span class="pending"><em>C. freundii</em></span></li>
               <li><span class="pending"><em>C. koseri</em></span><span class="note">新生児髄膜炎</span></li>
             </ul>
           </div>
           <div class="bm-genus">
-            <h3 class="bm-genus-head"><em>Proteus</em><span class="bm-genus-note">遊走性・ウレアーゼ陽性</span></h3>
+            <h3 class="bm-genus-head"><em>Proteus</em></h3>
             <ul class="bm-species-list">
               <li><a href="bacteria/proteus.html"><em>P. mirabilis</em></a></li>
               <li><span class="pending"><em>P. vulgaris</em></span></li>
@@ -596,7 +672,7 @@
         </header>
         <div class="bm-cat-body">
           <div class="bm-genus">
-            <h3 class="bm-genus-head"><em>Mycoplasma</em> 属<span class="bm-genus-note">細胞壁なし</span></h3>
+            <h3 class="bm-genus-head"><em>Mycoplasma</em> 属</h3>
             <ul class="bm-species-list">
               <li><a href="bacteria/mpneu.html"><em>M. pneumoniae</em></a></li>
               <li><span class="pending"><em>M. hominis</em></span></li>
@@ -645,14 +721,14 @@
             </ul>
           </div>
           <div class="bm-genus">
-            <h3 class="bm-genus-head"><em>Treponema</em><span class="bm-genus-note">スピロヘータ</span></h3>
+            <h3 class="bm-genus-head"><em>Treponema</em></h3>
             <ul class="bm-species-list">
               <li><a href="bacteria/syph.html"><em>T. pallidum</em></a><span class="note">梅毒</span></li>
               <li><span class="pending"><em>T. pertenue</em></span></li>
             </ul>
           </div>
           <div class="bm-genus">
-            <h3 class="bm-genus-head"><em>Borrelia</em><span class="bm-genus-note">スピロヘータ</span></h3>
+            <h3 class="bm-genus-head"><em>Borrelia</em></h3>
             <ul class="bm-species-list">
               <li><a href="bacteria/lyme.html"><em>B. burgdorferi</em></a><span class="note">ライム病</span></li>
               <li><span class="pending"><em>B. recurrentis</em></span></li>
@@ -660,7 +736,7 @@
             </ul>
           </div>
           <div class="bm-genus">
-            <h3 class="bm-genus-head"><em>Leptospira</em><span class="bm-genus-note">スピロヘータ</span></h3>
+            <h3 class="bm-genus-head"><em>Leptospira</em></h3>
             <ul class="bm-species-list">
               <li><span class="pending"><em>L. interrogans</em></span><span class="note">Weil病</span></li>
             </ul>
@@ -685,7 +761,7 @@
         </header>
         <div class="bm-cat-body">
           <div class="bm-genus">
-            <h3 class="bm-genus-head"><em>Candida</em><span class="bm-genus-note">酵母</span></h3>
+            <h3 class="bm-genus-head"><em>Candida</em></h3>
             <ul class="bm-species-list">
               <li><a href="bacteria/calb.html"><em>C. albicans</em></a></li>
               <li><a href="bacteria/cgla.html"><em>C. glabrata</em></a></li>
@@ -696,7 +772,7 @@
             </ul>
           </div>
           <div class="bm-genus">
-            <h3 class="bm-genus-head"><em>Cryptococcus</em><span class="bm-genus-note">酵母</span></h3>
+            <h3 class="bm-genus-head"><em>Cryptococcus</em></h3>
             <ul class="bm-species-list">
               <li><a href="bacteria/crypto.html"><em>C. neoformans</em></a></li>
               <li><span class="pending"><em>C. gattii</em></span></li>
@@ -710,7 +786,7 @@
             </ul>
           </div>
           <div class="bm-genus">
-            <h3 class="bm-genus-head"><em>Aspergillus</em><span class="bm-genus-note">糸状菌</span></h3>
+            <h3 class="bm-genus-head"><em>Aspergillus</em></h3>
             <ul class="bm-species-list">
               <li><a href="bacteria/aspf.html"><em>A. fumigatus</em></a></li>
               <li><span class="pending"><em>A. flavus</em></span></li>
@@ -732,7 +808,7 @@
             </ul>
           </div>
           <div class="bm-genus">
-            <h3 class="bm-genus-head">二形性真菌<span class="bm-genus-note">地域流行性</span></h3>
+            <h3 class="bm-genus-head">二形性真菌</h3>
             <ul class="bm-species-list">
               <li><span class="pending"><em>Histoplasma capsulatum</em></span></li>
               <li><span class="pending"><em>Blastomyces dermatitidis</em></span></li>
