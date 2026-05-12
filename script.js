@@ -145,8 +145,13 @@
       if (matches.length === 0) {
         res.innerHTML = '<div class="search-overlay-noresult">該当するページが見つかりません</div>';
       } else {
+        // search-index.js には不等号（ICP>22mmHg 等）が生で含まれることがあるため
+        // HTML として崩れないよう必ずエスケープしてから埋め込む。
+        var esc = function(s){ return String(s).replace(/[&<>"']/g, function(c){
+          return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c];
+        }); };
         res.innerHTML = matches.map(function(m) {
-          return '<a href="' + urlPrefix + m.item.url + '" class="search-overlay-result"><div class="search-overlay-result-title">' + m.item.title + '</div><div class="search-overlay-result-desc">' + m.item.desc + '</div></a>';
+          return '<a href="' + esc(urlPrefix + m.item.url) + '" class="search-overlay-result"><div class="search-overlay-result-title">' + esc(m.item.title) + '</div><div class="search-overlay-result-desc">' + esc(m.item.desc) + '</div></a>';
         }).join('');
       }
     });
