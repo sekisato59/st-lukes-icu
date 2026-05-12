@@ -83,6 +83,21 @@
 .bp-block li {
   font-size: 0.82rem; line-height: 1.7; color: var(--text); margin-bottom: 4px;
 }
+/* 「・」スタイル（bp-treat-list / bp-link-list は除外） */
+.bp-block ul:not(.bp-treat-list):not(.bp-link-list) {
+  list-style: none; padding-left: 0;
+}
+.bp-block ul:not(.bp-treat-list):not(.bp-link-list) > li {
+  position: relative; padding-left: 1.2em;
+  line-height: 1.9; margin-bottom: 8px;
+}
+.bp-block ul:not(.bp-treat-list):not(.bp-link-list) > li::before {
+  content: '・'; position: absolute; left: 0; top: 0;
+  color: var(--bp-primary); font-weight: 700;
+}
+/* 赤系アラート内の「・」は赤、青系内の「・」は青 */
+.bp-alert ul:not(.bp-treat-list):not(.bp-link-list) > li::before { color: #DC2626; }
+.bp-related ul:not(.bp-treat-list):not(.bp-link-list) > li::before { color: #2563EB; }
 
 /* ===== 分類・特徴の用語表 ===== */
 .bp-feature-grid {
@@ -133,10 +148,92 @@
 .bp-alert p, .bp-alert li { color: #7F1D1D; }
 .bp-alert strong { color: #991B1B; }
 
+/* ===== ひとことメモ（緑系・MSSA 帯と同じ色） ===== */
+.bp-memo {
+  background: #ECFDF5; border: 1px solid #A7F3D0;
+}
+.bp-memo h2 { color: #047857; border-bottom-color: #A7F3D0; }
+.bp-memo h2::before { background: #059669; }
+.bp-memo p, .bp-memo li { color: #064E3B; }
+.bp-memo strong { color: #047857; }
+.bp-memo ul:not(.bp-treat-list):not(.bp-link-list) > li::before { color: #059669; }
+
+/* ===== 本サイトの関連事項（青系） ===== */
+.bp-related {
+  background: #EFF6FF; border: 1px solid #BFDBFE;
+}
+.bp-related h2 { color: #1E40AF; border-bottom-color: #BFDBFE; }
+.bp-related h2::before { background: #2563EB; }
+.bp-related p, .bp-related li { color: #1E3A8A; }
+.bp-related strong { color: #1E40AF; }
+.bp-related a { color: #2563EB; text-decoration: none; font-weight: 700; }
+.bp-related a:hover { color: #1E40AF; text-decoration: underline; }
+/* 項目間の区切り線（薄い青） */
+.bp-related ul:not(.bp-treat-list):not(.bp-link-list) > li {
+  border-bottom: 1px dashed #BFDBFE;
+  padding-bottom: 12px;
+  margin-bottom: 12px;
+}
+.bp-related ul:not(.bp-treat-list):not(.bp-link-list) > li:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+
+/* ===== 抗菌薬選択（カードではなくリスト形式） ===== */
+.bp-treat-h3 {
+  font-size: 0.88rem; font-weight: 800;
+  color: #047857; background: #ECFDF5;
+  margin: 18px 0 10px; padding: 5px 12px 6px;
+  border-radius: 4px;
+  letter-spacing: 0.02em;
+}
+.bp-treat-h3:first-of-type { margin-top: 4px; }
+/* h3 の直後の treat-list は隙間を詰める */
+.bp-treat-h3 + .bp-treat-list { margin-top: -2px; }
+/* モディファイアクラス（h3-mssa 等）は維持するが色は全部統一 */
+.bp-treat-h3.h3-mssa,
+.bp-treat-h3.h3-mrsa,
+.bp-treat-h3.h3-alt,
+.bp-treat-h3.h3-oral { color: #047857; background: #ECFDF5; }
+.bp-treat-list { list-style: none; padding: 0; margin: 0; }
+.bp-treat-list li {
+  font-size: 0.84rem; line-height: 1.7; color: var(--text);
+  padding: 4px 0 5px; border-bottom: 1px dashed var(--border);
+  margin: 0;
+}
+.bp-treat-list li:first-child { padding-top: 2px; }
+.bp-treat-list li:last-child { border-bottom: 0; padding-bottom: 0; }
+.bp-treat-list strong { color: var(--bp-primary); }
+.bp-treat-comment {
+  display: block; font-size: 0.76rem; color: var(--muted);
+  margin-top: 4px; line-height: 1.65;
+}
+.bp-treat-comment strong { color: #B91C1C; }
+
+/* 日本未発売の抗菌薬：薬剤名を灰色に */
+.bp-treat-list strong.bp-jp-na,
+.bp-treat-list strong .bp-jp-na,
+.bp-treat-list .bp-jp-na { color: #94A3B8; }
+/* 抗菌薬選択ブロックの先頭注意書き（bp-treat-comment と同サイズ・同色） */
+/* .bp-block p のデフォルトを上書きするため特異性を上げる */
+.bp-block p.bp-treat-note-jp {
+  font-size: 0.76rem; color: var(--muted); line-height: 1.65;
+  background: #F8FAFC; border: 1px solid #E2E8F0;
+  padding: 6px 12px; border-radius: 4px;
+  margin: 0 0 14px;
+}
+
+/* 関連事項リンク先の▶印（小さく） */
+.bp-rel-arrow {
+  font-size: 0.7em; color: #2563EB; opacity: 0.65;
+  margin-right: 4px; vertical-align: 0.1em;
+}
+
 /* ===== 関連リンク ===== */
 .bp-link-list { list-style: none; padding: 0; margin: 0; }
 .bp-link-list li {
-  padding: 8px 0; border-bottom: 1px dashed var(--border);
+  padding: 4px 0 5px; border-bottom: 1px dashed var(--border);
 }
 .bp-link-list li:last-child { border-bottom: none; padding-bottom: 0; }
 .bp-link-list li:first-child { padding-top: 0; }
@@ -152,6 +249,48 @@
 .bp-link-list .link-note {
   font-size: 0.72rem; color: var(--muted); margin-left: 18px; margin-top: 2px;
   line-height: 1.5;
+}
+
+/* ===== グラム染色画像セクション ===== */
+.bp-gram-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 14px;
+}
+.bp-gram-fig { margin: 0; }
+.bp-gram-fig img {
+  width: 100%; border-radius: 8px; border: 1px solid var(--border);
+  display: block;
+}
+.bp-gram-cap {
+  font-size: 0.72rem; color: var(--muted); margin-top: 6px; line-height: 1.5;
+}
+.bp-gram-credit {
+  display: inline-block; font-size: 0.66rem; color: var(--bp-primary);
+  background: var(--bp-bg-soft); border: 1px solid var(--bp-border-soft);
+  padding: 1px 7px; border-radius: 3px; font-weight: 700;
+  margin-left: 6px; letter-spacing: 0.02em;
+}
+/* No image プレースホルダー */
+.bp-no-image {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  width: 100%; aspect-ratio: 4 / 3;
+  background: #F8FAFC;
+  border: 2px dashed #CBD5E1; border-radius: 8px;
+  color: #94A3B8; gap: 8px;
+}
+.bp-no-image-icon {
+  width: 38px; height: 38px;
+  border: 2px solid currentColor; border-radius: 6px;
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+}
+.bp-no-image-icon::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(135deg, transparent 45%, currentColor 45%, currentColor 55%, transparent 55%);
+  opacity: 0.45;
+}
+.bp-no-image-text {
+  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em;
 }
 
 /* ===== ページ末尾 ===== */
