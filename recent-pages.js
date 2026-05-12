@@ -11,6 +11,13 @@
  */
 const RECENT_PAGES = [
   {
+    title: "GINA 2026 喘息グローバル戦略レポート",
+    url: "pages/articles-gl-gina2026.html",
+    date: "2026-05-13",
+    tag: "ガイドライン",
+    thumb: "images/icu-study.jpg"
+  },
+  {
     title: "ムーコル症（接合菌症）— NEJM 2026 総説",
     url: "pages/articles-gl-mucormycosis-nejm2026.html",
     date: "2026-05-12",
