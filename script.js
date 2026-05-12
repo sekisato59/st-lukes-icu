@@ -350,3 +350,77 @@ if (copyBtn) {
     tab.addEventListener('click', function() { goTo(parseInt(tab.dataset.idx)); });
   });
 })();
+
+// ===== Mobile Sidebar TOC =====
+// 900px 以下で .ie-sidebar / .bm-sidebar / .sys-sidebar を検出し、
+// フローティングボタン (FAB) ＋ ドロワーを自動挿入してモバイルでも目次にアクセス可能にする。
+// CSS は style-v2.css の .mob-toc-* に定義済み。
+(function() {
+  function init() {
+    if (window.innerWidth > 900) return;
+
+    var sidebar = document.querySelector('.ie-sidebar, .bm-sidebar, .sys-sidebar');
+    if (!sidebar) return;
+
+    var titleEl = sidebar.querySelector('.ie-sidebar-title, .bm-sidebar-title, .sys-sidebar-title');
+    var title = (titleEl && titleEl.textContent.trim()) || '目次';
+
+    // FAB
+    var fab = document.createElement('button');
+    fab.className = 'mob-toc-fab';
+    fab.setAttribute('aria-label', title + 'を開く');
+    fab.innerHTML = '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18M3 12h18M3 18h18"/></svg>';
+    document.body.appendChild(fab);
+
+    // Overlay
+    var overlay = document.createElement('div');
+    overlay.className = 'mob-toc-overlay';
+    document.body.appendChild(overlay);
+
+    // Drawer
+    var drawer = document.createElement('div');
+    drawer.className = 'mob-toc-drawer';
+    drawer.innerHTML =
+      '<div class="mob-toc-handle"></div>' +
+      '<div class="mob-toc-header">' +
+        '<span class="mob-toc-title"></span>' +
+        '<button class="mob-toc-close" aria-label="閉じる">×</button>' +
+      '</div>' +
+      '<div class="mob-toc-body"></div>';
+    drawer.querySelector('.mob-toc-title').textContent = title;
+    document.body.appendChild(drawer);
+
+    // サイドバーカードの中身（タイトル除く）をドロワー本文へクローン
+    var card = sidebar.querySelector('.ie-sidebar-card, .bm-sidebar-card, .sys-sidebar-card') || sidebar;
+    var body = drawer.querySelector('.mob-toc-body');
+    Array.prototype.forEach.call(card.children, function(child) {
+      var cls = child.className || '';
+      if (typeof cls === 'string' && /sidebar-title/.test(cls)) return;
+      body.appendChild(child.cloneNode(true));
+    });
+
+    function open() {
+      overlay.classList.add('active');
+      drawer.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    function close() {
+      overlay.classList.remove('active');
+      drawer.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    fab.addEventListener('click', open);
+    overlay.addEventListener('click', close);
+    drawer.querySelector('.mob-toc-close').addEventListener('click', close);
+    body.querySelectorAll('a').forEach(function(a) {
+      a.addEventListener('click', close);
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
