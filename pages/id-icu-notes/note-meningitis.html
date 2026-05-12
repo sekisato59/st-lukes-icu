@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>髄膜炎・脳膿瘍 — 板書ノート | ID×ICUカンファレンス | 聖路加ICU</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../style-v2.css?v=202605120100">
+  <style>
+    /* ===== ID×ICU 板書ノート 専用テーマ ===== */
+    .gl-chapter-banner {
+      background: linear-gradient(150deg, #2E1065 0%, #6D28D9 100%) !important;
+    }
+    .section-label.icu { color: #7C3AED; }
+
+    /* ===== バナー画像 + テキストオーバーレイ ===== */
+    .vap-banner {
+      position: relative;
+      width: 100%;
+      max-width: 1294px;
+      margin: 64px auto 0;
+      line-height: 0;
+    }
+    .vap-banner-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 85%, transparent 100%);
+      mask-image: linear-gradient(to bottom, #000 0%, #000 85%, transparent 100%);
+    }
+    .vap-banner-overlay {
+      position: absolute;
+      left: 5%;
+      top: 50%;
+      transform: translateY(-50%);
+      max-width: 55%;
+      line-height: 1.4;
+    }
+    .vap-banner-back {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #6D28D9;
+      text-decoration: none;
+      margin-bottom: 12px;
+    }
+    .vap-banner-back:hover { color: #4C1D95; }
+    .vap-banner-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+    .vap-banner-tags span {
+      display: inline-block;
+      background: rgba(245,243,255,0.85);
+      color: #4C1D95;
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 4px;
+      letter-spacing: 0.04em;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
+    .vap-banner-title {
+      font-size: clamp(1.1rem, 2.6vw, 1.6rem);
+      font-weight: 900;
+      line-height: 1.35;
+      margin: 0 0 6px;
+      color: #4C1D95;
+    }
+    .vap-banner-sub {
+      font-size: clamp(0.78rem, 1.4vw, 0.92rem);
+      font-weight: 700;
+      color: #6D28D9;
+      margin: 0 0 6px;
+    }
+    .vap-banner-lecturer {
+      font-size: clamp(0.72rem, 1.2vw, 0.82rem);
+      color: #7C3AED;
+      margin: 0;
+    }
+    @media (max-width: 900px) {
+      .vap-banner-overlay { max-width: 60%; left: 4%; top: 45%; }
+    }
+    @media (max-width: 600px) {
+      .vap-banner { line-height: 1.4; }
+      .vap-banner-overlay {
+        position: static;
+        transform: none;
+        max-width: 100%;
+        padding: 12px 18px 4px;
+      }
+    }
+
+    /* ====== 見出し階層 ====== */
+    .card-inner h3.rule-title {
+      font-size: 0.98rem;
+      color: var(--text);
+      padding-bottom: 6px;
+      border-bottom: 2px solid #C4B5FD;
+      margin: 0 0 10px;
+    }
+    .card-inner h4.sub-head {
+      font-size: 0.95rem;
+      font-weight: 900;
+      color: #4C1D95;
+      margin: 14px 0 6px;
+      letter-spacing: 0.02em;
+      line-height: 1.4;
+    }
+    .card-inner h4.sub-head::before {
+      content: '●'; color: #7C3AED; margin-right: 8px; font-size: 0.78rem;
+      vertical-align: 1px;
+    }
+    .card-inner h4.sub-head:first-child { margin-top: 0; }
+
+    /* ====== 本文 ====== */
+    .card-inner .rule-body,
+    .card-inner ul li,
+    .card-inner ol li,
+    .card-inner p {
+      color: #475569;
+      line-height: 1.7;
+    }
+    .card-inner p { margin: 4px 0; }
+    .card-inner ul, .card-inner ol {
+      list-style: disc;
+      padding-left: 26px;
+      margin: 4px 0 8px;
+    }
+    .card-inner ul li, .card-inner ol li { margin-bottom: 3px; }
+    .card-inner ul li::marker { color: #C4B5FD; }
+    .card-inner strong { color: var(--text); font-weight: 700; }
+    .card-inner em { font-style: italic; color: #1F2937; }
+
+    /* 菌名リスト */
+    .organism-list { padding-left: 26px; list-style: disc; margin: 4px 0 8px; }
+    .organism-list li { margin-bottom: 3px; color: #6B7280; line-height: 1.6; }
+    .organism-list li::marker { color: #9CA3AF; }
+    .organism-list li em { font-weight: 600; color: #6B7280; font-style: italic; }
+    .organism-list li strong { color: #374151; font-weight: 800; }
+
+    /* ====== 警告 / 注意ボックス ====== */
+    .keypoint {
+      background: #FFFBEB; border: 1px solid #FDE68A; border-radius: 6px;
+      padding: 8px 12px; margin: 8px 0; font-size: 0.82rem; line-height: 1.65; color: #78350F;
+    }
+    .keypoint::before {
+      content: '注意'; display: inline-block;
+      background: #F59E0B; color: #fff; font-size: 0.64rem; font-weight: 800;
+      padding: 1px 7px; border-radius: 3px; margin-right: 8px;
+      letter-spacing: 0.06em;
+    }
+    .keypoint strong { color: #92400E; }
+
+    .danger {
+      background: #FEF2F2; border: 1px solid #FECACA; border-radius: 6px;
+      padding: 8px 12px; margin: 8px 0; font-size: 0.82rem; line-height: 1.65; color: #7F1D1D;
+    }
+    .danger::before {
+      content: '重要'; display: inline-block;
+      background: #DC2626; color: #fff; font-size: 0.64rem; font-weight: 800;
+      padding: 1px 7px; border-radius: 3px; margin-right: 8px;
+      letter-spacing: 0.06em;
+    }
+    .danger strong { color: #7F1D1D; }
+
+    /* ====== 治療バンドル ステップ ====== */
+    .bundle-flow { margin: 8px 0; }
+    .bundle-step {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 10px 0; border-bottom: 1px dashed #DDD6FE;
+    }
+    .bundle-step:last-child { border-bottom: none; padding-bottom: 0; }
+    .bundle-num {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 26px; height: 26px; min-width: 26px;
+      background: #DC2626; color: #fff;
+      border-radius: 50%; font-weight: 900; font-size: 0.82rem;
+      margin-top: 1px;
+    }
+    .bundle-content { flex: 1; }
+    .bundle-content p { margin: 2px 0; font-size: 0.85rem; color: #475569; line-height: 1.65; }
+    .bundle-content strong { color: var(--text); }
+    .bundle-content .sub-note {
+      font-size: 0.78rem; color: #6B7280; line-height: 1.6;
+      margin-top: 4px; padding-left: 12px;
+    }
+
+    /* ====== SPACE 強調ボックス ====== */
+    .space-emph {
+      background: #F5F3FF; border: 1px solid #C4B5FD; border-radius: 8px;
+      padding: 10px 14px; margin: 8px 0;
+    }
+    .space-emph-title {
+      font-size: 0.84rem; font-weight: 800; color: #4C1D95;
+      margin-bottom: 6px; padding-bottom: 4px;
+      border-bottom: 1px solid #DDD6FE;
+      letter-spacing: 0.04em;
+    }
+    .space-row {
+      display: flex; align-items: baseline; padding: 4px 0;
+      font-size: 0.84rem; color: #1F2937;
+    }
+    .space-row em { font-weight: 600; }
+    .space-row .acro {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 22px; height: 22px; background: #7C3AED; color: #fff;
+      border-radius: 4px; margin-right: 10px;
+      font-weight: 800; font-size: 0.78rem;
+      font-family: ui-monospace, Menlo, Consolas, monospace;
+    }
+
+    /* ====== ＋α カード（紫） ====== */
+    .ie-alpha {
+      background: #FAF5FF; border: 1px solid #DDD6FE; border-radius: 10px;
+      margin: 10px 0; overflow: hidden;
+    }
+    .ie-alpha-inner { padding: 12px 16px; }
+    .ie-alpha-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+    .ie-alpha-badge {
+      background: #7C3AED; color: #fff; font-size: 0.7rem; font-weight: 800;
+      padding: 2px 10px; border-radius: 4px; letter-spacing: 0.06em;
+      white-space: nowrap;
+    }
+    .ie-alpha-title { font-size: 0.92rem; font-weight: 800; color: #4C1D95; }
+    .ie-alpha-inner p { font-size: 0.84rem; color: #4C1D95; line-height: 1.7; margin: 3px 0; }
+    .ie-alpha-inner ul { padding-left: 22px; list-style: disc; margin: 4px 0; }
+    .ie-alpha-inner ul li { font-size: 0.84rem; color: #4C1D95; line-height: 1.65; margin-bottom: 3px; }
+    .ie-alpha-inner ul li::marker { color: #C4B5FD; }
+    .ie-alpha-inner strong { color: #3B0764; }
+
+    /* ====== 録画ボタン ====== */
+    .note-actions { display: flex; gap: 10px; margin: 0 0 12px; flex-wrap: wrap; }
+    .note-btn-video {
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+      background: linear-gradient(135deg, #6D28D9, #7C3AED);
+      color: #fff; font-size: 0.82rem; font-weight: 700;
+      padding: 9px 18px; border-radius: 8px; text-decoration: none;
+      letter-spacing: 0.04em; line-height: 1;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .note-btn-video:hover {
+      transform: translateY(-1px); box-shadow: 0 4px 10px rgba(124,58,237,0.32);
+    }
+
+    /* ====== CSF 髄液所見テーブル ====== */
+    .csf-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 10px;
+      margin: 10px 0;
+    }
+    .csf-box {
+      background: #F8FAFC; border: 1px solid var(--border); border-radius: 8px;
+      padding: 10px 14px;
+    }
+    .csf-box-head {
+      font-size: 0.82rem; font-weight: 800; color: #1F2937;
+      margin-bottom: 8px; padding-bottom: 6px;
+      border-bottom: 2px solid #C4B5FD;
+    }
+    .csf-row {
+      display: flex; justify-content: space-between; align-items: baseline;
+      font-size: 0.78rem; padding: 3px 0; color: #475569;
+      border-bottom: 1px dashed #F1F5F9;
+    }
+    .csf-row:last-child { border-bottom: none; }
+    .csf-label { color: #6B7280; flex-shrink: 0; margin-right: 8px; }
+    .csf-val { font-weight: 700; color: var(--text); text-align: right; }
+    .csf-val.red { color: #DC2626; }
+    .csf-val.blue { color: #2563EB; }
+    .csf-val.green { color: #16A34A; }
+
+    /* ====== 引用 ====== */
+    .citation {
+      font-size: 0.7rem; color: #9CA3AF; font-style: italic;
+      display: block; margin-top: 8px; padding-left: 14px;
+    }
+
+    /* ====== ie-table 色調整 ====== */
+    .card-inner .ie-table td { color: #475569; }
+    .card-inner .ie-table th { color: var(--text); }
+    .card-inner .ie-table strong { color: var(--text); }
+
+    /* card 間隔 */
+    .card .card-inner { padding: 14px 18px; }
+    .card { margin-bottom: 12px !important; }
+    .gl-chapter-banner { margin-top: 32px !important; padding: 14px 20px !important; }
+    .gl-chapter-banner.first { margin-top: 8px !important; }
+    .gl-chapter-banner .gl-chapter-title { font-size: 1.15rem !important; }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="../../index.html" class="nav-logo">
+        <img src="../../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+        <span class="nav-logo-text">聖路加国際病院ICU</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-menu" id="navMenu"></ul>
+    </div>
+  </nav>
+
+  <!-- ===== HEADER ===== -->
+  <div class="vap-banner">
+    <img src="../../images/headerID*ICUpage.png" alt="ID×ICUカンファレンス 板書ノート" class="vap-banner-img">
+    <div class="vap-banner-overlay">
+      <div class="vap-banner-tags">
+        <span>ID×ICU カンファレンス</span>
+        <span>2025年6月25日</span>
+        <span>感染症 / 神経</span>
+      </div>
+      <h1 class="vap-banner-title">髄膜炎・脳膿瘍 — 板書ノート</h1>
+      <p class="vap-banner-sub">市中 / 院内発症 髄膜炎の起因菌と治療 ／ 脳膿瘍の経路別抗菌薬選択</p>
+      <p class="vap-banner-lecturer">レジュメ作成：ICU 関谷</p>
+    </div>
+  </div>
+
+  <!-- ===== MAIN CONTAINER ===== -->
+  <div class="container" style="max-width:1294px;margin:0 auto;padding:8px 20px 32px;">
+    <div class="ie-page-flex">
+
+      <!-- ===== MAIN CONTENT ===== -->
+      <div class="ie-main-col">
+
+        <!-- 録画リンク -->
+        <div class="note-actions">
+          <a href="https://lukemcmi-my.sharepoint.com/:v:/g/personal/sekisato_luke_ac_jp/EavdvabSmalMln1NAgXo_isB4Ma-4vNw6whHaeBm4X5-8A?e=gsOfpt" target="_blank" rel="noopener" class="note-btn-video"><span style="font-size:0.7rem;">▶</span>レクチャー動画を視聴</a>
+        </div>
+
+        <!-- 略語一覧 -->
+        <div class="card" style="margin-top:0;margin-bottom:24px;">
+          <div class="card-inner">
+            <h3 class="rule-title">本ページで使用する略語一覧</h3>
+            <table style="width:100%;border-collapse:collapse;font-size:0.78rem;line-height:1.6;color:#475569;">
+              <tbody>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:160px;color:var(--blue);">CSF</td><td style="padding:4px 8px;">Cerebrospinal Fluid — 脳脊髄液（髄液）</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">BBB</td><td style="padding:4px 8px;">Blood-Brain Barrier — 血液脳関門</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CTRX</td><td style="padding:4px 8px;">Ceftriaxone — セフトリアキソン</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CFPM</td><td style="padding:4px 8px;">Cefepime — セフェピム</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">VCM</td><td style="padding:4px 8px;">Vancomycin — バンコマイシン</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">ABPC</td><td style="padding:4px 8px;">Ampicillin — アンピシリン</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">MNZ</td><td style="padding:4px 8px;">Metronidazole — メトロニダゾール（嫌気性菌カバー）</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CLDM</td><td style="padding:4px 8px;">Clindamycin — クリンダマイシン</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">ACV</td><td style="padding:4px 8px;">Acyclovir — アシクロビル</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">L-AmB</td><td style="padding:4px 8px;">Liposomal Amphotericin B — リポソームアムホテリシンB</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">5-FU</td><td style="padding:4px 8px;">Flucytosine — フルシトシン（5-フルシトシン）</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">LZD / ST</td><td style="padding:4px 8px;">Linezolid / Sulfamethoxazole-Trimethoprim — 髄液移行性良好</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">PRSP</td><td style="padding:4px 8px;">Penicillin-Resistant <em>Streptococcus pneumoniae</em> — ペニシリン耐性肺炎球菌</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">MSSA / MRSA</td><td style="padding:4px 8px;">Methicillin-Susceptible / Resistant <em>Staphylococcus aureus</em></td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CNS</td><td style="padding:4px 8px;">Coagulase-Negative <em>Staphylococci</em> — コアグラーゼ陰性ブドウ球菌</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">VGS / HACEK</td><td style="padding:4px 8px;">Viridans Group <em>Streptococci</em> / HACEK群菌（IE関連）</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">SPACE</td><td style="padding:4px 8px;"><em>Serratia, Pseudomonas, Acinetobacter, Citrobacter, Enterobacter</em></td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">HSV / VZV / HHV-6</td><td style="padding:4px 8px;">Herpes Simplex / Varicella-Zoster / Human Herpesvirus 6</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">PCR</td><td style="padding:4px 8px;">Polymerase Chain Reaction — 遺伝子検査</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">LP</td><td style="padding:4px 8px;">Lumbar Puncture — 腰椎穿刺</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">V-Pシャント</td><td style="padding:4px 8px;">Ventriculo-Peritoneal shunt — 脳室腹腔短絡術</td></tr>
+                <tr><td style="padding:4px 8px;font-weight:700;color:var(--blue);">PIPC/TAZ</td><td style="padding:4px 8px;">Piperacillin/Tazobactam — ピペラシリン/タゾバクタム</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- 第1章　市中発症 髄膜炎 -->
+        <!-- ═══════════════════════════════════════ -->
+        <div id="ch1" class="gl-chapter-banner first">
+          <div class="gl-chapter-title">第1章　市中発症 髄膜炎</div>
+          <div class="gl-chapter-subtitle">Community-Onset Meningitis — 起因菌と治療</div>
+        </div>
+
+        <!-- ── 起因菌：一般細菌 ── -->
+        <h3 id="ch1-s1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 1</span>
+          起因菌：一般細菌
+        </h3>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">代表的な細菌性起因菌</h3>
+            <ul class="organism-list">
+              <li><em><strong>Streptococcus pneumoniae</strong></em>（肺炎球菌）</li>
+              <li><em><strong>Haemophilus influenzae</strong></em></li>
+              <li><em><strong>Neisseria meningitidis</strong></em>（髄膜炎菌）</li>
+              <li><em><strong>Listeria monocytogenes</strong></em></li>
+              <li><em><strong>Staphylococcus aureus</strong></em>（MSSA）<span class="note-mini" style="font-size:0.74rem;color:#6B7280;">蝶形骨洞は内頚動脈に連続しているため血行感染に注意</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title"><em>Neisseria meningitidis</em>（髄膜炎菌）の特徴</h3>
+            <p class="rule-body"><strong>飛沫感染</strong>を生じ、敗血症から<strong>血栓傾向</strong>を来すことが特徴的である。医療者や濃厚接触者には暴露後予防投与（リファンピシン、シプロフロキサシンなど）が必要となる場合がある。</p>
+            <p class="rule-body" style="margin-top:6px;">通常の髄膜炎菌ワクチンは抗原型 A / C / W / Y をカバーするが、<strong>日本で発症が多いのは血清型 B であり、ワクチン接種を行っても必ずしもカバーできているとは限らない</strong>点に注意が必要である。治療は <strong>CTRX（セフトリアキソン）</strong> が著効する。</p>
+          </div>
+        </div>
+
+        <!-- ── 起因菌：ウイルス性 ── -->
+        <h3 id="ch1-s2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 2</span>
+          起因菌：ウイルス性
+        </h3>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">代表的なウイルス性起因菌</h3>
+            <ul class="organism-list">
+              <li><em><strong>Enteroviruses</strong></em> および <em><strong>Echoviruses</strong></em></li>
+              <li><em><strong>Herpes Simplex Virus（HSV）</strong></em></li>
+              <li><em><strong>HHV-6</strong></em></li>
+              <li><em><strong>Varicella-Zoster Virus（VZV）</strong></em></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">HSV 髄膜炎・脳炎のポイント</h3>
+            <table class="ie-table">
+              <thead>
+                <tr><th style="width:22%;">項目</th><th>HSV-1</th><th>HSV-2</th></tr>
+              </thead>
+              <tbody>
+                <tr><td style="white-space:nowrap;font-weight:700;">頻度</td><td>少ない</td><td>多い</td></tr>
+                <tr><td style="white-space:nowrap;font-weight:700;">重症度</td><td><strong style="color:#DC2626;">高い</strong>（側頭葉脳炎）</td><td>比較的軽症</td></tr>
+                <tr><td style="white-space:nowrap;font-weight:700;">画像評価</td><td>造影 MRI で<br>側頭葉の変化を評価</td><td>——</td></tr>
+                <tr><td style="white-space:nowrap;font-weight:700;">髄液検査</td><td colspan="2">髄液 HSV-PCR を提出する<br>Film Array の HSV-1 感度は 75.5% と低く偽陰性に注意</td></tr>
+                <tr><td style="white-space:nowrap;font-weight:700;">治療</td><td colspan="2"><strong>Acyclovir 10 mg/kg every 8 hours</strong></td></tr>
+              </tbody>
+            </table>
+            <div class="keypoint" style="margin-top:10px;">
+              当院では <strong>Film Array 陰性であっても HSV-PCR の結果が判明するまでは ACV 投与を継続</strong>することが多い。
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">HHV-6 髄膜炎</h3>
+            <p class="rule-body">血液移植患者のうち <strong>ハプロ移植</strong>（donor が親または子）および <strong>臍帯血移植後</strong>の患者で生じる。免疫不全状態における HHV-6 再活性化が背景にある。</p>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">VZV 髄膜炎</h3>
+            <p class="rule-body">帯状疱疹髄膜炎では <strong>三叉神経第1枝（眼神経）領域の皮膚病変がないか注意して観察</strong>を行う。眼部帯状疱疹（Herpes zoster ophthalmicus）を合併している場合には眼科への紹介も考慮する。</p>
+          </div>
+        </div>
+
+        <!-- Mollaret 髄膜炎 ＋α -->
+        <div class="ie-alpha" style="margin-bottom:12px;">
+          <div class="ie-alpha-inner">
+            <div class="ie-alpha-header">
+              <span class="ie-alpha-badge">＋α</span>
+              <span class="ie-alpha-title">Mollaret 髄膜炎（反復性 HSV-2 髄膜炎）</span>
+            </div>
+            <p><strong>HSV-2 の再活性化</strong>によって生じる反復性リンパ球性無菌性髄膜炎である。症状として数日から1週間程度持続する発熱・激しい頭痛・項部硬直・光過敏を繰り返す特徴がある。発作は自然に軽快し、神経学的後遺症を残さないことが多い。</p>
+            <ul>
+              <li>診断：髄液検査でリンパ球優位の細胞増多を認め、細菌培養陰性 + <strong>PCR による HSV-2 検出</strong>が有用</li>
+              <li>治療：急性期には <strong>アシクロビル</strong>を投与し、症状の軽減や発作期間の短縮に有効とされている</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- ── 起因菌：真菌性 ── -->
+        <h3 id="ch1-s3" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 3</span>
+          起因菌：真菌性
+        </h3>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title"><em>Cryptococcus</em> 属</h3>
+            <table class="ie-table">
+              <thead>
+                <tr><th style="width:30%;">菌種</th><th>特徴</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="white-space:nowrap;font-weight:700;font-style:italic;">C. neoformans</td>
+                  <td>細胞性免疫低下者（特に <strong>HIV 感染者</strong>）に多い。</td>
+                </tr>
+                <tr>
+                  <td style="white-space:nowrap;font-weight:700;font-style:italic;">C. gattii</td>
+                  <td>地域流行性（西海岸・オーストラリアなど）に多い。<strong>非免疫不全者でも脳膿瘍を来すことがある</strong>点が特徴的である。</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="danger" style="margin-top:10px;">
+              治療は <strong>L-AmB（リポソーマルアムホテリシンB）＋ 5-FU（フルシトシン）の併用</strong>。ミカファンギンなどの<strong>キャンディン系は無効</strong>なため使用しない。
+            </div>
+          </div>
+        </div>
+
+        <!-- ── 起因菌：結核性 ── -->
+        <h3 id="ch1-s4" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 4</span>
+          起因菌：結核性
+        </h3>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">結核性髄膜炎の特徴</h3>
+            <p class="rule-body">髄液検査ではウイルス性髄膜炎との鑑別が困難なことが多い。<strong>脳底部に障害が及び、脳底部の動眼神経障害や外眼筋運動障害</strong>などを呈することが特徴的である。</p>
+            <p class="rule-body" style="margin-top:6px;"><strong>髄液中の結核 PCR が陽性となることは稀</strong>であるため、上記のような臨床的特徴を踏まえ、臨床診断で抗結核療法を開始することが多い。</p>
+          </div>
+        </div>
+
+        <!-- ── 髄液所見 ── -->
+        <h3 id="ch1-s5" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 5</span>
+          髄液所見の比較
+        </h3>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">原因別 CSF 所見の特徴</h3>
+            <table class="ie-table">
+              <thead>
+                <tr>
+                  <th style="width:12%;">所見</th>
+                  <th style="width:22%;">細菌性</th>
+                  <th style="width:22%;">ウイルス性</th>
+                  <th style="width:22%;">真菌性</th>
+                  <th style="width:22%;">結核性</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="white-space:nowrap;font-weight:700;">外観</td>
+                  <td><strong style="color:#DC2626;">混濁</strong></td>
+                  <td>清明〜やや混濁</td>
+                  <td>清明〜混濁</td>
+                  <td>清明〜黄変症</td>
+                </tr>
+                <tr>
+                  <td style="white-space:nowrap;font-weight:700;">細胞数</td>
+                  <td><strong style="color:#DC2626;">高度増多</strong><br><span style="font-size:0.74rem;color:#6B7280;">&gt;1,000 /μL</span></td>
+                  <td>軽〜中程度増多<br><span style="font-size:0.74rem;color:#6B7280;">&lt;500 /μL</span></td>
+                  <td>軽〜中程度増多</td>
+                  <td>中程度増多<br><span style="font-size:0.74rem;color:#6B7280;">100〜500 /μL</span></td>
+                </tr>
+                <tr>
+                  <td style="white-space:nowrap;font-weight:700;">主体</td>
+                  <td><strong>好中球</strong>優位</td>
+                  <td><strong>リンパ球</strong>優位</td>
+                  <td>リンパ球優位</td>
+                  <td>リンパ球優位</td>
+                </tr>
+                <tr>
+                  <td style="white-space:nowrap;font-weight:700;">糖</td>
+                  <td><strong style="color:#DC2626;">著明低下</strong><br><span style="font-size:0.74rem;color:#6B7280;">&lt;40 mg/dL または血糖比 &lt;0.4</span></td>
+                  <td>正常</td>
+                  <td>低下傾向</td>
+                  <td><strong style="color:#DC2626;">低下</strong></td>
+                </tr>
+                <tr>
+                  <td style="white-space:nowrap;font-weight:700;">蛋白</td>
+                  <td><strong style="color:#DC2626;">著明上昇</strong></td>
+                  <td>正常〜軽度上昇</td>
+                  <td>上昇</td>
+                  <td><strong style="color:#DC2626;">著明上昇</strong></td>
+                </tr>
+                <tr>
+                  <td style="white-space:nowrap;font-weight:700;">特記</td>
+                  <td>グラム染色・培養</td>
+                  <td>PCR（HSV等）<br>Film Array</td>
+                  <td>墨汁染色<br>クリプトコッカス抗原</td>
+                  <td>ADA 上昇<br>培養・PCRは低感度</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ── 治療Bundle ── -->
+        <h3 id="ch1-s6" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 6</span>
+          治療バンドル（市中発症 細菌性髄膜炎）
+        </h3>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">推奨される処置の順番</h3>
+            <div class="bundle-flow">
+              <div class="bundle-step">
+                <div class="bundle-num">①</div>
+                <div class="bundle-content">
+                  <p><strong>血液培養 2 セット採取</strong></p>
+                  <p class="sub-note">尿中肺炎球菌抗原も可能なら提出する。</p>
+                </div>
+              </div>
+              <div class="bundle-step">
+                <div class="bundle-num">②</div>
+                <div class="bundle-content">
+                  <p><strong>CTRX（セフトリアキソン）2 g 投与</strong></p>
+                  <p class="sub-note">肺炎球菌抗原陽性の場合は <strong>Dexamethasone 0.15 mg/kg every 6 hours × 4 日間</strong> を追加する。<br>
+                  抗菌薬投与の直前（約20分前）または同時にデキサメタゾンを投与することで、死亡率および神経学的後遺症のリスクが低減することが IDSA ガイドラインおよび大規模臨床研究で示されている。</p>
+                </div>
+              </div>
+              <div class="bundle-step">
+                <div class="bundle-num">③</div>
+                <div class="bundle-content">
+                  <p><strong>頭部 CT 検査</strong></p>
+                </div>
+              </div>
+              <div class="bundle-step">
+                <div class="bundle-num">④</div>
+                <div class="bundle-content">
+                  <p><strong>CSF 検査（腰椎穿刺）</strong></p>
+                </div>
+              </div>
+              <div class="bundle-step">
+                <div class="bundle-num">⑤</div>
+                <div class="bundle-content">
+                  <p><strong>追加の抗菌薬</strong></p>
+                  <p class="sub-note">・PRSP（ペニシリン耐性肺炎球菌）を念頭に <strong>VCM（バンコマイシン）</strong> を追加<br>
+                  ・下記の状況では <em>Listeria monocytogenes</em> を念頭に <strong>ABPC（アンピシリン）</strong> を追加</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title"><em>Listeria monocytogenes</em> をカバーすべき状況</h3>
+            <ol style="padding-left:26px;margin:4px 0;">
+              <li><strong>患者年齢 50 歳以上</strong></li>
+              <li><strong>免疫抑制状態（細胞性免疫低下）</strong>：悪性腫瘍・糖尿病・慢性腎不全・肝硬変・HIV 感染・臓器移植後・免疫抑制薬投与中など</li>
+              <li><strong>新生児</strong></li>
+              <li><strong>デリ食品の摂取歴あり</strong>：生野菜・スモークサーモン・えのき茸・乳製品・生ハムなど</li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">妊婦とリステリア</h3>
+            <p class="rule-body">妊婦のリステリア感染は<strong>母体には軽症〜無症状が多い</strong>一方、<strong>流産・死産・早産・新生児敗血症・髄膜炎など、胎児・新生児に重篤な転帰をもたらす</strong>ため、早期診断・治療と予防が極めて重要である。妊娠中のリステリア感染例の約 20% で流産または死産が発生し、生存児の約 1/3 で新生児リステリア症が発症すると報告されている。</p>
+            <div class="danger" style="margin-top:10px;">
+              <strong>① 妊婦の発熱では必ず血液培養を採取する</strong><br>
+              <strong>② 妊婦にはデリ食品を食べさせない（母親は無症状でも児が危険）</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── 髄液移行性 ── -->
+        <h3 id="ch1-s7" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 7</span>
+          髄液移行性のよい抗菌薬
+        </h3>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">BBB 通過性に優れる薬剤 Top 3</h3>
+            <div class="danger">
+              <strong>Linezolid（LZD）・ST 合剤・キノロン系</strong> がトップ3。
+            </div>
+            <p class="rule-body" style="margin-top:10px;">これらは<strong>分子量が小さく・脂溶性が高く・血漿タンパク結合率が低い</strong>ことから、CSF/血中濃度比が 1.0 に近く、炎症の有無にかかわらず高い髄液内濃度が得られる。</p>
+            <table class="ie-table" style="margin-top:10px;">
+              <thead>
+                <tr><th>薬剤</th><th>特記事項</th></tr>
+              </thead>
+              <tbody>
+                <tr><td style="white-space:nowrap;font-weight:700;">Linezolid（LZD）</td><td>MRSA・PRSP にも有効。経口バイオアベイラビリティ ≈ 100%。</td></tr>
+                <tr><td style="white-space:nowrap;font-weight:700;">ST 合剤</td><td>リステリア・ノカルジア・トキソプラズマにも有効。</td></tr>
+                <tr><td style="white-space:nowrap;font-weight:700;">キノロン系</td><td>LVFX・CPFX など。グラム陰性菌カバーに有用。</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ── SUMMARY 第1章 ── -->
+        <h3 id="ch1-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span style="color:#7C3AED;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+          第1章のキーメッセージ
+        </h3>
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+                <span class="rule-body"><strong>市中細菌性髄膜炎の3大起因菌：</strong><em>S. pneumoniae / H. influenzae / N. meningitidis</em>。髄膜炎菌は飛沫感染・血栓傾向が特徴で、日本ではワクチン非対応の血清型B が多い。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+                <span class="rule-body"><strong>HSV 髄膜炎は Film Array の感度に注意：</strong>HSV-1 の Film Array 感度は 75.5% と低く、陰性でも HSV-PCR 結果確認まで ACV を継続する。HSV-1 は側頭葉脳炎を生じ重症。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+                <span class="rule-body"><strong>治療バンドルの順序：</strong>①血培→②CTRX（＋Dex）→③頭部CT→④LP→⑤VCM/ABPC追加。肺炎球菌性ではデキサメタゾンを抗菌薬と同時または直前に投与する。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+                <span class="rule-body"><strong>Listeria のカバー適応：</strong>50歳以上、細胞性免疫低下（HIV・移植・糖尿病など）、新生児、デリ食品摂取歴。妊婦には必ず血培を採取し、デリ食品を禁止する。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+                <span class="rule-body"><strong>髄液移行性 Top 3 は LZD・ST・キノロン：</strong>分子量小・脂溶性高・タンパク結合率低の特性から CSF/血中濃度比が 1.0 近く、炎症の有無を問わず高い髄液濃度が得られる。</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- 第2章　院内発症 髄膜炎（Nosocomial） -->
+        <!-- ═══════════════════════════════════════ -->
+        <div id="ch2" class="gl-chapter-banner">
+          <div class="gl-chapter-title">第2章　院内発症 髄膜炎（Nosocomial）</div>
+          <div class="gl-chapter-subtitle">Hospital-Acquired Meningitis — 起因菌と抗菌薬選択</div>
+        </div>
+
+        <!-- ── 対象患者 ── -->
+        <h3 id="ch2-s1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+          <span class="section-label icu" style="color:#DC2626;">SECTION 1</span>
+          対象患者と起因菌
+        </h3>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h4 class="sub-head">対象患者</h4>
+            <ul>
+              <li>脳外科術後患者（<strong>V-Pシャント造設後</strong>など）</li>
+              <li>Ommaya（オンマイヤ）リザーバー造設患者</li>
+            </ul>
+            <h4 class="sub-head" style="margin-top:12px;">起因菌</h4>
+            <ul class="organism-list">
+              <li><em><strong>MSSA</strong></em></li>
+              <li><em><strong>MRSA</strong></em></li>
+              <li><em><strong>CNS（コアグラーゼ陰性ブドウ球菌）</strong></em>：<strong>95% 以上がメチシリン耐性菌</strong></li>
+              <li><strong>SPACE 菌群</strong></li>
+            </ul>
+            <div class="space-emph" style="margin-top:10px;">
+              <div class="space-emph-title">SPACE 菌群</div>
+              <div class="space-row"><span class="acro">S</span><em>Serratia</em> — セラチア</div>
+              <div class="space-row"><span class="acro">P</span><em>Pseudomonas aeruginosa</em> — 緑膿菌</div>
+              <div class="space-row"><span class="acro">A</span><em>Acinetobacter</em> — アシネトバクター</div>
+              <div class="space-row"><span class="acro">C</span><em>Citrobacter</em> — シトロバクター</div>
+              <div class="space-row"><span class="acro">E</span><em>Enterobacter</em> — エンテロバクター</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── 抗菌薬選択 ── -->
+        <h3 id="ch2-s2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+          <span class="section-label icu" style="color:#DC2626;">SECTION 2</span>
+          抗菌薬選択（院内発症 髄膜炎）
+        </h3>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">経験的治療</h3>
+            <div class="danger">
+              <strong>CFPM 2 g every 8 hours ＋ VCM</strong> の選択が一般的。
+            </div>
+            <div class="keypoint" style="margin-top:10px;">
+              SPACE のカバーについて、<strong>PIPC/TAZ はタゾバクタムの分子量が大きく BBB を通過しにくい</strong>ため、院内発症髄膜炎の経験的治療には適していない。
+            </div>
+          </div>
+        </div>
+
+        <!-- ── SUMMARY 第2章 ── -->
+        <h3 id="ch2-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 10px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+          <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+          第2章のキーメッセージ
+        </h3>
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#DC2626;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+                <span class="rule-body"><strong>対象は脳外科術後（VP シャント・Ommaya）患者：</strong>デバイス関連感染として MSSA/MRSA/CNS が多く、CNS は 95% 以上がメチシリン耐性。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#DC2626;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+                <span class="rule-body"><strong>経験的治療は CFPM + VCM：</strong>SPACE をカバーしつつ MRSA をカバーする。PIPC/TAZ はタゾバクタムが BBB を通過しにくいため不適。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+                <span style="color:#DC2626;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+                <span class="rule-body"><strong>院内発症の起因菌は市中と大きく異なる：</strong>市中の S. pneumoniae / Listeria 中心から、SPACE・CNS・MRSA 中心へとスペクトラムが変化する。</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- 第3章　脳膿瘍 -->
+        <!-- ═══════════════════════════════════════ -->
+        <div id="ch3" class="gl-chapter-banner">
+          <div class="gl-chapter-title">第3章　脳膿瘍</div>
+          <div class="gl-chapter-subtitle">Brain Abscess — 感染経路・起因菌・抗菌薬選択</div>
+        </div>
+
+        <!-- ── 感染経路と起因菌 ── -->
+        <h3 id="ch3-s1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+          <span class="section-label icu" style="color:#EA580C;">SECTION 1</span>
+          感染経路と起因菌
+        </h3>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <table class="ie-table">
+              <thead>
+                <tr><th style="width:18%;">経路</th><th style="width:30%;">原因</th><th>主な起因菌</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="white-space:nowrap;font-weight:700;color:#DC2626;">血行性</td>
+                  <td>感染性心内膜炎（IE）、菌血症など</td>
+                  <td>
+                    <ul class="organism-list" style="margin:0;">
+                      <li><em>MSSA / MRSA</em></li>
+                      <li><em>VGS（緑色連鎖球菌）</em></li>
+                      <li><em>HACEK 群</em></li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="white-space:nowrap;font-weight:700;color:#EA580C;">直達性</td>
+                  <td>副鼻腔炎・歯性上顎洞炎・中耳炎など</td>
+                  <td>
+                    <ul class="organism-list" style="margin:0;">
+                      <li><em>MSSA / MRSA</em></li>
+                      <li><em>S. pneumoniae</em></li>
+                      <li><em>H. influenzae</em></li>
+                    </ul>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ── 抗菌薬選択 ── -->
+        <h3 id="ch3-s2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+          <span class="section-label icu" style="color:#EA580C;">SECTION 2</span>
+          抗菌薬選択（脳膿瘍）
+        </h3>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">経験的治療</h3>
+            <table class="ie-table">
+              <thead>
+                <tr><th style="width:30%;">発症区分</th><th>推奨レジメン</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="white-space:nowrap;font-weight:700;">市中感染</td>
+                  <td><strong>CTRX ＋ VCM ＋ MNZ</strong></td>
+                </tr>
+                <tr>
+                  <td style="white-space:nowrap;font-weight:700;">院内感染</td>
+                  <td><strong>CFPM ＋ VCM ＋ MNZ</strong></td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="danger" style="margin-top:10px;">
+              脳膿瘍では髄膜炎と異なり<strong>嫌気性菌のカバーが必須</strong>であるため、MNZ（メトロニダゾール）を必ず追加する。CLDM（クリンダマイシン）は<strong>髄液移行性が低い</strong>ため代替にならない。
+            </div>
+          </div>
+        </div>
+
+        <!-- ── SUMMARY 第3章 ── -->
+        <h3 id="ch3-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 10px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+          <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+          第3章のキーメッセージ
+        </h3>
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#EA580C;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+                <span class="rule-body"><strong>血行性 vs 直達性で起因菌が異なる：</strong>血行性（IE・菌血症）では MSSA/MRSA/VGS/HACEK、直達性（副鼻腔炎・中耳炎）では MSSA/MRSA/肺炎球菌/インフルエンザ菌。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#EA580C;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+                <span class="rule-body"><strong>嫌気性菌カバーが必須（髄膜炎との最大の違い）：</strong>市中→ CTRX + VCM + MNZ、院内→ CFPM + VCM + MNZ。嫌気性菌は副鼻腔・口腔由来の直達感染経路で重要。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+                <span style="color:#EA580C;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+                <span class="rule-body"><strong>CLDM は脳膿瘍に使えない：</strong>クリンダマイシンは嫌気性菌に有効だが髄液移行性が低く、脳膿瘍の嫌気性菌カバーには不適。MNZ で代替する。</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 出典・注記 -->
+        <p style="font-size:0.72rem;color:#9CA3AF;margin-top:32px;line-height:1.7;">
+          本ページは ID×ICUカンファレンス（2025-06-25）の板書ノートです。実際の診療判断は患者個別の状況に応じて行ってください。
+        </p>
+        <p style="font-size:0.75rem;color:var(--muted);text-align:right;margin-top:8px;">レジュメ作成：ICU 関谷</p>
+
+      </div><!-- /ie-main-col -->
+
+      <!-- ===== SIDEBAR TOC ===== -->
+      <aside class="ie-sidebar">
+        <a href="../schedule-weekly-id-icu.html#id-organ" style="display:flex;align-items:center;justify-content:center;padding:9px 14px;background:rgba(124,58,237,0.08);border:1px solid #C4B5FD;border-radius:8px;font-size:0.78rem;font-weight:700;color:#6D28D9;text-decoration:none;margin-bottom:12px;transition:background 0.15s,color 0.15s;line-height:1;">
+          ← ID×ICUカンファレンス 一覧へ戻る
+        </a>
+        <div class="ie-sidebar-card">
+          <div class="ie-sidebar-title">目次</div>
+          <a href="#ch1" class="ie-toc-chapter">第1章　市中発症 髄膜炎</a>
+          <a href="#ch1-s1" class="ie-toc-section">S1 — 起因菌（一般細菌）</a>
+          <a href="#ch1-s2" class="ie-toc-section">S2 — 起因菌（ウイルス性）</a>
+          <a href="#ch1-s3" class="ie-toc-section">S3 — 起因菌（真菌性）</a>
+          <a href="#ch1-s4" class="ie-toc-section">S4 — 起因菌（結核性）</a>
+          <a href="#ch1-s5" class="ie-toc-section">S5 — 髄液所見の比較</a>
+          <a href="#ch1-s6" class="ie-toc-section">S6 — 治療バンドル</a>
+          <a href="#ch1-s7" class="ie-toc-section">S7 — 髄液移行性のよい薬剤</a>
+          <a href="#ch1-summary" class="ie-toc-section">SUMMARY</a>
+          <a href="#ch2" class="ie-toc-chapter">第2章　院内発症 髄膜炎</a>
+          <a href="#ch2-s1" class="ie-toc-section">S1 — 対象患者と起因菌</a>
+          <a href="#ch2-s2" class="ie-toc-section">S2 — 抗菌薬選択</a>
+          <a href="#ch2-summary" class="ie-toc-section">SUMMARY</a>
+          <a href="#ch3" class="ie-toc-chapter">第3章　脳膿瘍</a>
+          <a href="#ch3-s1" class="ie-toc-section">S1 — 感染経路と起因菌</a>
+          <a href="#ch3-s2" class="ie-toc-section">S2 — 抗菌薬選択</a>
+          <a href="#ch3-summary" class="ie-toc-section">SUMMARY</a>
+        </div>
+      </aside>
+
+    </div><!-- /ie-page-flex -->
+  </div>
+
+  <script src="../../script.js"></script>
+  <script src="../../abbr-tooltip.js"></script>
+</body>
+</html>

@@ -11,6 +11,34 @@
  */
 const RECENT_PAGES = [
   {
+    title: "ムーコル症（接合菌症）— NEJM 2026 総説",
+    url: "pages/articles-gl-mucormycosis-nejm2026.html",
+    date: "2026-05-12",
+    tag: "論文",
+    thumb: "images/IDICUtop.png"
+  },
+  {
+    title: "筋萎縮性側索硬化症（ALS）レビュー — JAMA 2026",
+    url: "pages/articles-gl-als2026.html",
+    date: "2026-05-12",
+    tag: "論文",
+    thumb: "images/icu-study.jpg"
+  },
+  {
+    title: "非定型肺炎・免疫不全・PcP 板書ノート — ID×ICUカンファレンス",
+    url: "pages/id-icu-notes/note-atypical-pneumonia.html",
+    date: "2026-05-12",
+    tag: "解説",
+    thumb: "images/IDICUtop.png"
+  },
+  {
+    title: "髄膜炎・脳膿瘍 板書ノート — ID×ICUカンファレンス",
+    url: "pages/id-icu-notes/note-meningitis.html",
+    date: "2026-05-12",
+    tag: "解説",
+    thumb: "images/IDICUtop.png"
+  },
+  {
     title: "侵襲性肺アスペルギルス症・ムーコル症 板書ノート — ID×ICUカンファレンス",
     url: "pages/id-icu-notes/note-aspergillus-mucor.html",
     date: "2026-05-11",

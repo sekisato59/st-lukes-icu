@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>非定型肺炎・免疫不全・PcP — 板書ノート | ID×ICUカンファレンス | 聖路加ICU</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../style-v2.css?v=202605120800">
+  <style>
+    /* ===== ID×ICU 板書ノート 専用テーマ ===== */
+    .gl-chapter-banner {
+      background: linear-gradient(150deg, #2E1065 0%, #6D28D9 100%) !important;
+    }
+    .section-label.icu { color: #7C3AED; }
+
+    /* ===== バナー画像 + テキストオーバーレイ ===== */
+    .vap-banner {
+      position: relative;
+      width: 100%;
+      max-width: 1294px;
+      margin: 64px auto 0;
+      line-height: 0;
+    }
+    .vap-banner-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 85%, transparent 100%);
+      mask-image: linear-gradient(to bottom, #000 0%, #000 85%, transparent 100%);
+    }
+    .vap-banner-overlay {
+      position: absolute;
+      left: 5%;
+      top: 50%;
+      transform: translateY(-50%);
+      max-width: 55%;
+      line-height: 1.4;
+    }
+    .vap-banner-back {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #6D28D9;
+      text-decoration: none;
+      margin-bottom: 12px;
+    }
+    .vap-banner-back:hover { color: #4C1D95; }
+    .vap-banner-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+    .vap-banner-tags span {
+      display: inline-block;
+      background: rgba(245,243,255,0.85);
+      color: #4C1D95;
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 4px;
+      letter-spacing: 0.04em;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
+    .vap-banner-title {
+      font-size: clamp(1.1rem, 2.6vw, 1.6rem);
+      font-weight: 900;
+      line-height: 1.35;
+      margin: 0 0 6px;
+      color: #4C1D95;
+    }
+    .vap-banner-sub {
+      font-size: clamp(0.78rem, 1.4vw, 0.92rem);
+      font-weight: 700;
+      color: #6D28D9;
+      margin: 0 0 6px;
+    }
+    .vap-banner-lecturer {
+      font-size: clamp(0.72rem, 1.2vw, 0.82rem);
+      color: #7C3AED;
+      margin: 0;
+    }
+
+    @media (max-width: 900px) {
+      .vap-banner-overlay { max-width: 60%; left: 4%; top: 45%; }
+    }
+    @media (max-width: 600px) {
+      .vap-banner { line-height: 1.4; }
+      .vap-banner-overlay {
+        position: static;
+        transform: none;
+        max-width: 100%;
+        padding: 12px 18px 4px;
+      }
+    }
+
+    /* ====== 見出し階層 ====== */
+    .card-inner h3.rule-title {
+      font-size: 0.98rem;
+      color: var(--text);
+      padding-bottom: 6px;
+      border-bottom: 2px solid #C4B5FD;
+      margin: 0 0 10px;
+    }
+    .card-inner h4.sub-head {
+      font-size: 0.95rem;
+      font-weight: 900;
+      color: #4C1D95;
+      margin: 14px 0 6px;
+      letter-spacing: 0.02em;
+      line-height: 1.4;
+    }
+    .card-inner h4.sub-head::before {
+      content: '●'; color: #7C3AED; margin-right: 8px; font-size: 0.78rem;
+      vertical-align: 1px;
+    }
+    .card-inner h4.sub-head:first-child { margin-top: 0; }
+
+    /* ====== 本文 ====== */
+    .card-inner .rule-body,
+    .card-inner ul li,
+    .card-inner ol li,
+    .card-inner p {
+      color: #475569;
+      line-height: 1.7;
+    }
+    .card-inner p { margin: 4px 0; }
+    .card-inner ul, .card-inner ol {
+      list-style: disc;
+      padding-left: 26px;
+      margin: 4px 0 8px;
+    }
+    .card-inner ul li, .card-inner ol li { margin-bottom: 3px; }
+    .card-inner ul li::marker { color: #C4B5FD; }
+    .card-inner strong { color: var(--text); font-weight: 700; }
+    .card-inner em { font-style: italic; color: #1F2937; }
+
+    /* 菌名リスト */
+    .organism-list { padding-left: 26px; list-style: disc; margin: 4px 0 8px; }
+    .organism-list li { margin-bottom: 3px; color: #6B7280; line-height: 1.6; }
+    .organism-list li::marker { color: #9CA3AF; }
+    .organism-list li em { font-weight: 600; color: #6B7280; font-style: italic; }
+    .organism-list li strong { color: #374151; font-weight: 800; }
+    .organism-list li .note-mini {
+      display: inline-block; font-size: 0.74rem; color: #6B7280;
+      margin-left: 8px; font-style: italic;
+    }
+
+    /* ====== 警告/注意/ポイントボックス ====== */
+    .keypoint {
+      background: #FFFBEB; border: 1px solid #FDE68A; border-radius: 6px;
+      padding: 8px 12px; margin: 8px 0; font-size: 0.82rem; line-height: 1.65; color: #78350F;
+    }
+    .keypoint::before {
+      content: '注意'; display: inline-block;
+      background: #F59E0B; color: #fff; font-size: 0.64rem; font-weight: 800;
+      padding: 1px 7px; border-radius: 3px; margin-right: 8px;
+      letter-spacing: 0.06em;
+    }
+    .keypoint strong { color: #92400E; }
+
+    .danger {
+      background: #FEF2F2; border: 1px solid #FECACA; border-radius: 6px;
+      padding: 8px 12px; margin: 8px 0; font-size: 0.82rem; line-height: 1.65; color: #7F1D1D;
+    }
+    .danger::before {
+      content: '警告'; display: inline-block;
+      background: #DC2626; color: #fff; font-size: 0.64rem; font-weight: 800;
+      padding: 1px 7px; border-radius: 3px; margin-right: 8px;
+      letter-spacing: 0.06em;
+    }
+    .danger strong { color: #7F1D1D; }
+
+    .point {
+      background: #F0FDF4; border: 1px solid #BBF7D0; border-radius: 6px;
+      padding: 8px 12px; margin: 8px 0; font-size: 0.82rem; line-height: 1.65; color: #14532D;
+    }
+    .point::before {
+      content: 'ポイント'; display: inline-block;
+      background: #16A34A; color: #fff; font-size: 0.64rem; font-weight: 800;
+      padding: 1px 7px; border-radius: 3px; margin-right: 8px;
+      letter-spacing: 0.06em;
+    }
+    .point strong { color: #14532D; }
+
+    /* ====== SNAP / 頭文字ボックス ====== */
+    .mnemonic-box {
+      background: #F5F3FF; border: 1px solid #C4B5FD; border-radius: 8px;
+      padding: 12px 16px; margin: 8px 0;
+    }
+    .mnemonic-title {
+      font-size: 0.84rem; font-weight: 800; color: #4C1D95;
+      margin-bottom: 8px; padding-bottom: 5px;
+      border-bottom: 1px solid #DDD6FE;
+      letter-spacing: 0.04em;
+    }
+    .mnemonic-row {
+      display: flex; align-items: baseline; padding: 4px 0;
+      font-size: 0.84rem; color: #1F2937; gap: 10px;
+    }
+    .mnemonic-acro {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-width: 28px; height: 22px; background: #7C3AED; color: #fff;
+      border-radius: 4px; font-weight: 800; font-size: 0.78rem; flex-shrink: 0;
+      font-family: ui-monospace, Menlo, Consolas, monospace;
+    }
+    .mnemonic-acro.red { background: #DC2626; }
+    .mnemonic-sub {
+      font-size: 0.75rem; color: #6B7280; margin-left: 6px; font-style: italic;
+    }
+
+    /* ====== D-index ====== */
+    .dindex-formula {
+      background: #F0F4FF; border: 1px solid #C7D2FE; border-radius: 8px;
+      padding: 12px 16px; margin: 8px 0; text-align: center;
+    }
+    .dindex-formula .formula {
+      font-size: 1.05rem; font-weight: 900; color: #3730A3;
+      letter-spacing: 0.02em;
+    }
+    .dindex-formula .formula-sub {
+      font-size: 0.78rem; color: #6B7280; margin-top: 4px;
+    }
+
+    /* ====== 引用 ====== */
+    .citation {
+      font-size: 0.7rem; color: #9CA3AF; font-style: italic;
+      display: block; margin-top: 8px; padding-left: 0;
+    }
+    .citation a { color: #7C3AED; font-weight: 600; text-decoration: none; }
+    .citation a:hover { text-decoration: underline; }
+
+    /* ====== ie-table ====== */
+    .card-inner .ie-table td { color: #475569; }
+    .card-inner .ie-table th { color: var(--text); }
+    .card-inner .ie-table strong { color: var(--text); }
+
+    /* ====== 录画ボタン ====== */
+    .note-actions { display: flex; gap: 10px; margin: 0 0 12px; flex-wrap: wrap; }
+
+    /* card-inner padding */
+    .card .card-inner { padding: 14px 18px; }
+    .card { margin-bottom: 12px !important; }
+    .citation { margin-top: 4px !important; }
+    .gl-chapter-banner { margin-top: 32px !important; padding: 14px 20px !important; }
+    .gl-chapter-banner.first { margin-top: 8px !important; }
+    .gl-chapter-banner .gl-chapter-title { font-size: 1.15rem !important; }
+
+    /* 小タグ */
+    .mini-tag {
+      display: inline-block; font-size: 0.65rem; font-weight: 800;
+      padding: 1px 6px; border-radius: 3px; margin-left: 6px;
+      vertical-align: 2px; letter-spacing: 0.04em;
+    }
+    .mini-tag.red { background: #FEE2E2; color: #DC2626; }
+    .mini-tag.green { background: #DCFCE7; color: #15803D; }
+    .mini-tag.blue { background: #DBEAFE; color: #1D4ED8; }
+    .mini-tag.purple { background: #EDE9FE; color: #6D28D9; }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="../../index.html" class="nav-logo">
+        <img src="../../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+        <span class="nav-logo-text">聖路加国際病院ICU</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-menu" id="navMenu"></ul>
+    </div>
+  </nav>
+
+  <!-- ===== HEADER ===== -->
+  <div class="vap-banner">
+    <img src="../../images/headerID*ICUpage.png" alt="ID×ICUカンファレンス 板書ノート" class="vap-banner-img">
+    <div class="vap-banner-overlay">
+      <div class="vap-banner-tags">
+        <span>ID×ICU カンファレンス</span>
+        <span>2026年5月12日</span>
+        <span>感染症 / 免疫不全</span>
+      </div>
+      <h1 class="vap-banner-title">非定型肺炎・免疫不全・PcP — 板書ノート</h1>
+      <p class="vap-banner-sub">Legionella / Mycoplasma ／ 細胞性免疫・好中球減少・液性免疫 ／ PcP 診断・予防・治療</p>
+      <p class="vap-banner-lecturer">レジュメ作成：ICU 関谷</p>
+    </div>
+  </div>
+
+  <!-- ===== MAIN CONTAINER ===== -->
+  <div class="container" style="max-width:1294px;margin:0 auto;padding:8px 20px 32px;">
+    <div class="ie-page-flex">
+
+      <!-- ===== MAIN CONTENT ===== -->
+      <div class="ie-main-col">
+
+        <!-- 略語一覧 -->
+        <div class="card" style="margin-top:0;margin-bottom:24px;">
+          <div class="card-inner">
+            <h3 class="rule-title">本ページで使用する略語一覧</h3>
+            <table style="width:100%;border-collapse:collapse;font-size:0.78rem;line-height:1.6;color:#475569;">
+              <tbody>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:140px;color:var(--blue);">CAP</td><td style="padding:4px 8px;">Community-Acquired Pneumonia — 市中肺炎</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CTRX</td><td style="padding:4px 8px;">Ceftriaxone — セフトリアキソン</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">AZM</td><td style="padding:4px 8px;">Azithromycin — アジスロマイシン</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">LVFX</td><td style="padding:4px 8px;">Levofloxacin — レボフロキサシン</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">MINO</td><td style="padding:4px 8px;">Minocycline — ミノサイクリン</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">GPR</td><td style="padding:4px 8px;">Gram-Positive Rod — グラム陽性桿菌</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">SGM / RGM</td><td style="padding:4px 8px;">Slow / Rapid Growing Mycobacteria — 遅発育 / 迅速発育性抗酸菌</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">ST / TMP-SMX</td><td style="padding:4px 8px;">Sulfamethoxazole/Trimethoprim — バクタ®</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CAM</td><td style="padding:4px 8px;">Clarithromycin — クラリスロマイシン</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">LZD</td><td style="padding:4px 8px;">Linezolid — リネゾリド</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">HSV</td><td style="padding:4px 8px;">Herpes Simplex Virus — 単純ヘルペスウイルス</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CMV</td><td style="padding:4px 8px;">Cytomegalovirus — サイトメガロウイルス</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">PcP / PJP</td><td style="padding:4px 8px;">Pneumocystis jirovecii Pneumonia — ニューモシスチス肺炎</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">ESBL</td><td style="padding:4px 8px;">Extended-Spectrum β-Lactamase — 基質特異性拡張型β-ラクタマーゼ</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">IMI</td><td style="padding:4px 8px;">Invasive Mold Infection — 侵襲性糸状菌感染症</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">PSCZ</td><td style="padding:4px 8px;">Posaconazole — ポサコナゾール</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">AML</td><td style="padding:4px 8px;">Acute Myeloid Leukemia — 急性骨髓性白血病</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CLDM</td><td style="padding:4px 8px;">Clindamycin — クリンダマイシン</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">PMQ</td><td style="padding:4px 8px;">Primaquine — プリマキン</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">GPA</td><td style="padding:4px 8px;">Granulomatosis with Polyangiitis — 多発血管炎性肉芽腫症（旧 Wegener 肉芽腫症）</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">ANCA</td><td style="padding:4px 8px;">Anti-Neutrophil Cytoplasmic Antibody — 抗好中球細胞質抗体</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">A-aDO₂</td><td style="padding:4px 8px;">Alveolar-arterial O₂ difference — 肺胞気-動脈血酸素分圧較差</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">BAL / TBLB</td><td style="padding:4px 8px;">Bronchoalveolar Lavage / Transbronchial Lung Biopsy — 気管支肺胞洗浄 / 経気管支肺生検</td></tr>
+                <tr><td style="padding:4px 8px;font-weight:700;color:var(--blue);">PCV / PPSV / Hib / MCV</td><td style="padding:4px 8px;">Pneumococcal Conjugate / Polysaccharide Vaccine / Haemophilus influenzae type b / Meningococcal Conjugate Vaccine</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+
+        <!-- ════════════════════════════════════════ -->
+        <!-- 第1章 非定型肺炎 -->
+        <!-- ════════════════════════════════════════ -->
+        <div id="ch1" class="gl-chapter-banner first">
+          <div class="gl-chapter-title">第1章　非定型肺炎</div>
+          <div class="gl-chapter-subtitle">Atypical Pneumonia — Legionella / Mycoplasma</div>
+        </div>
+
+        <h3 id="ch1-s1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 1</span>
+          市中肺炎（CAP）の初期抗菌薬選択原則
+        </h3>
+
+        <div class="card">
+          <div class="card-inner">
+            <h3 class="rule-title">非定型肺炎カバーには CTRX＋AZM が基本</h3>
+            <p class="rule-body">市中肺炎の初期抗菌薬加療において、<strong>セフトリアキソン（CTRX）＋アジスロマイシン（AZM）</strong>の併用が望ましい。ミノサイクリン単独では Legionella 肺炎で治療失敗となる可能性があるため、Legionella を除外できない状況では AZM またはフルオロキノロン（LVFX）でのカバーが必要である。</p>
+            <div class="point">
+              <strong>非定型カバーとして CTRX 単独は不十分。</strong>AZM または LVFX を組み合わせる。ミノサイクリンは Legionella への活性が低く、市中肺炎の経験的治療には推奨されない。
+            </div>
+          </div>
+        </div>
+
+        <h3 id="ch1-s2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 2</span>
+          Legionella 肺炎
+        </h3>
+
+        <div class="card">
+          <div class="card-inner">
+            <h3 class="rule-title">LVFX と AZM の単剤治療比較：有意差なし</h3>
+            <p class="rule-body"><em>Legionella pneumophila</em> による肺炎に対して、<strong>フルオロキノロン系（主に LVFX）</strong>と<strong>マクロライド系（主に AZM）</strong>の単剤治療を比較したシステマティックレビューでは、両群間で死亡率・臨床的治癒率・解熱までの期間・入院期間・合併症発生率のいずれにも有意差を認めなかった。</p>
+
+            <h4 class="sub-head">臨床上のポイント</h4>
+            <ul>
+              <li>軽症〜中等症の外来患者：<strong>AZM 経口</strong>が現実的な選択肢</li>
+              <li>重症・入院患者：<strong>LVFX 点滴</strong>が一般的（生物学的利用能が高く点滴→経口のスイッチも容易）</li>
+              <li>いずれも単剤で十分な有効性があり、CTRX との併用が義務ではない</li>
+            </ul>
+            <span class="citation"><a href="https://pubmed.ncbi.nlm.nih.gov/32296816/" target="_blank" rel="noopener">Cillóniz C et al. Eur Respir Rev 2020; 29(156): 200037 — Legionella肺炎における抗菌薬比較 ↗</a></span>
+          </div>
+        </div>
+
+        <h3 id="ch1-s3" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 3</span>
+          Mycoplasma 肺炎
+        </h3>
+
+        <div class="card">
+          <div class="card-inner">
+            <h3 class="rule-title">AZM 第一選択 → 改善不十分ならミノサイクリンへ変更</h3>
+            <p class="rule-body"><em>Mycoplasma pneumoniae</em> に対してはアジスロマイシン（AZM）が第一選択である。ただし近年、マクロライド耐性 <em>Mycoplasma</em> が話題となっており、<strong>臨床的に改善が乏しい場合にはミノサイクリン（MINO）への変更</strong>を考慮する。</p>
+            <div class="keypoint">
+              マクロライド耐性 <em>M. pneumoniae</em> は日本で増加傾向にあり、特に小児での報告が多い。AZM 投与後 48〜72 時間で解熱しない場合は MINO またはテトラサイクリン系への切り替えを検討する。
+            </div>
+          </div>
+        </div>
+
+        <!-- Ch1 SUMMARY -->
+        <h3 id="ch1-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SUMMARY</span>
+          第1章のキーメッセージ
+        </h3>
+        <div class="card">
+          <div class="card-inner">
+            <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+                <span class="rule-body"><strong>CAP の初期治療：</strong>非定型カバーとして <strong>CTRX＋AZM</strong> が標準。ミノサイクリン単独は Legionella 治療失敗のリスクあり。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+                <span class="rule-body"><strong>Legionella 肺炎：</strong>LVFX 単剤と AZM 単剤で死亡率・臨床的治癒率に有意差なし。重症例には LVFX 点滴が現実的。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+                <span class="rule-body"><strong>Mycoplasma 肺炎：</strong>第一選択は AZM。48〜72 時間で改善不十分な場合はマクロライド耐性を疑い、<strong>ミノサイクリン</strong>に変更する。</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- ════════════════════════════════════════ -->
+        <!-- 第2章 4つの免疫不全 概要 -->
+        <!-- ════════════════════════════════════════ -->
+        <div id="ch2" class="gl-chapter-banner">
+          <div class="gl-chapter-title">第2章　4つの免疫不全</div>
+          <div class="gl-chapter-subtitle">Four Pillars of Host Defense</div>
+        </div>
+
+        <h3 id="ch2-s1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 1</span>
+          免疫の壁と対応病原体
+        </h3>
+
+        <div class="card">
+          <div class="card-inner">
+            <h3 class="rule-title">感染防御の 4 層構造</h3>
+            <p class="rule-body">感染防御には以下の 4 つの「壁」があり、それぞれが破綻することで特有の病原体が問題となる。本章（第2〜5章）では皮膚粘膜バリア以外の 3 つを扱う。</p>
+            <table class="ie-table">
+              <thead>
+                <tr><th>免疫の壁</th><th>主に問題となる病原体</th><th>代表的な基礎疾患・状況</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="white-space:nowrap;font-weight:700;">①皮膚粘膜バリア破綻</td>
+                  <td>皮膚常在菌（<em>S. aureus</em>）、腸内細菌</td>
+                  <td>カテーテル挿入、手術、外傷</td>
+                </tr>
+                <tr>
+                  <td style="white-space:nowrap;font-weight:700;color:#7C3AED;">②細胞性免疫低下</td>
+                  <td>細胞内寄生病原体（Legionella・Listeria・Mycobacterium・Nocardia・Toxoplasma・CMV・Candida・Cryptococcus・PcP など）</td>
+                  <td>ステロイド大量・臓器移植・HIV 感染・血液悪性腫瘍</td>
+                </tr>
+                <tr>
+                  <td style="white-space:nowrap;font-weight:700;color:#DC2626;">③好中球減少</td>
+                  <td><em>Pseudomonas</em>・ESBL 産生菌・HSV・Candida・Aspergillus</td>
+                  <td>殺細胞性化学療法（AML 7+3 療法など）</td>
+                </tr>
+                <tr>
+                  <td style="white-space:nowrap;font-weight:700;color:#B45309;">④液性免疫低下</td>
+                  <td>莢膜を有する細菌（<em>S. pneumoniae</em>・<em>N. meningitidis</em>・<em>K. pneumoniae</em>・<em>H. influenzae</em>・<em>Salmonella typhi</em>・<em>Capnocytophaga</em>・<em>P. aeruginosa</em>）</td>
+                  <td>脾摘・無脾症・低ガンマグロブリン血症・多発性骨髄腫・CLL</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+
+        <!-- ════════════════════════════════════════ -->
+        <!-- 第3章 細胞性免疫低下 -->
+        <!-- ════════════════════════════════════════ -->
+        <div id="ch3" class="gl-chapter-banner">
+          <div class="gl-chapter-title">第3章　細胞性免疫低下</div>
+          <div class="gl-chapter-subtitle">Cellular Immunodeficiency — Pathogens &amp; Treatment</div>
+        </div>
+
+        <h3 id="ch3-s1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 1</span>
+          起因菌（細菌）— 2LMN2ST
+        </h3>
+
+        <div class="card">
+          <div class="card-inner">
+            <h3 class="rule-title">2LMN2ST で覚える細胞内寄生細菌</h3>
+            <p class="rule-body">細胞性免疫が低下した患者では、<strong>マクロファージに寄生・殺菌回避する細胞内病原体</strong>が問題となる。以下の頭文字「2LMN2ST」で暗記する。</p>
+            <div class="mnemonic-box">
+              <div class="mnemonic-title">★ 2LMN2ST（細胞性免疫低下で想起する細菌）</div>
+              <div class="mnemonic-row"><span class="mnemonic-acro">L</span><em>Legionella pneumophila</em><span class="mnemonic-sub">— 冷却塔・エアロゾル、ファゴソーム脱出</span></div>
+              <div class="mnemonic-row"><span class="mnemonic-acro">L</span><em>Listeria monocytogenes</em><span class="mnemonic-sub">— 妊婦・高齢者・移植後、生肉・チーズ</span></div>
+              <div class="mnemonic-row"><span class="mnemonic-acro">M</span><em>Mycobacterium</em> spp.<span class="mnemonic-sub">— SGM（MAC・M. kansasii）＋ RGM（M. abscessus 等）</span></div>
+              <div class="mnemonic-row"><span class="mnemonic-acro">N</span><em>Nocardia</em> spp.<span class="mnemonic-sub">— 土壌・放線菌、ST 合剤が第一選択</span></div>
+              <div class="mnemonic-row"><span class="mnemonic-acro">S</span><em>Salmonella</em> spp.<span class="mnemonic-sub">— 腸外播種性感染（非腸チフス性サルモネラ）</span></div>
+              <div class="mnemonic-row"><span class="mnemonic-acro">S</span><em>Staphylococcus aureus</em><span class="mnemonic-sub">— MRSA 含む、感染持続に注意</span></div>
+              <div class="mnemonic-row"><span class="mnemonic-acro">T</span><em>Toxoplasma gondii</em><span class="mnemonic-sub">— 猫・生肉、脳トキソプラズマ症（HIV で典型的）</span></div>
+              <div style="margin-top:10px;font-size:0.8rem;color:#6D28D9;font-weight:600;">＋ Atypical（Legionella / Mycoplasma / Chlamydia）</div>
+            </div>
+          </div>
+        </div>
+
+        <h3 id="ch3-s2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 2</span>
+          Mycobacterium — SGM と RGM
+        </h3>
+
+        <div class="card">
+          <div class="card-inner">
+            <h3 class="rule-title">遅発育性（SGM）と迅速発育性（RGM）の分類</h3>
+            <p class="rule-body">非結核性抗酸菌（NTM）は培地上の発育速度で 2 種類に大別される。免疫不全患者では感受性に基づいた多剤併用療法が必要となる。</p>
+            <table class="ie-table">
+              <thead>
+                <tr><th style="width:18%;">分類</th><th>代表的な菌種</th><th>臨床的特徴</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="white-space:nowrap;font-weight:700;">SGM<br><span style="font-size:0.72rem;color:var(--muted);">遅発育性</span></td>
+                  <td><em>M. avium complex</em>（MAC）<br><em>M. kansasii</em><br><em>M. marinum</em></td>
+                  <td>肺病変・リンパ節炎が多い。HIV/CD4 低下で播種性 MAC 感染（腸管・肝脾・骨髄）</td>
+                </tr>
+                <tr>
+                  <td style="white-space:nowrap;font-weight:700;">RGM<br><span style="font-size:0.72rem;color:var(--muted);">迅速発育性</span></td>
+                  <td><em>M. abscessus</em><br><em>M. chelonae</em><br><em>M. fortuitum</em></td>
+                  <td>皮膚軟部組織感染・カテーテル感染・術後感染。多剤耐性で治療難渋。CF 患者での肺感染</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <h4 class="sub-head">治療方針</h4>
+            <p class="rule-body">感受性試験に基づき、<strong>クラリスロマイシン（CAM）・ST 合剤・リネゾリド（LZD）・ミノサイクリン（MINO）</strong>などを組み合わせた多剤療法を行う。感染症科へのコンサルトが強く推奨される。</p>
+            <div class="keypoint">
+              非結核性抗酸菌の治療は感受性パターンが菌種・株によって大きく異なる。薬剤感受性試験（DST）の結果を待ち、感染症専門医と相談して治療薬を決定する。経験的治療で広域に開始することは避ける。
+            </div>
+          </div>
+        </div>
+
+        <h3 id="ch3-s3" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 3</span>
+          ウイルス・真菌・その他の起因病原体
+        </h3>
+
+        <div class="card">
+          <div class="card-inner">
+            <h3 class="rule-title">ウイルス</h3>
+            <ul>
+              <li><strong>呼吸器ウイルス：</strong>RS ウイルス・パラインフルエンザウイルス・hMPV（ヒトメタニューモウイルス）</li>
+              <li><strong>CMV（サイトメガロウイルス）：</strong>移植後・HIV 晩期・高用量ステロイド投与時。CMV 肺炎・腸炎・網膜炎が代表的臓器病変</li>
+            </ul>
+
+            <h3 class="rule-title" style="margin-top:14px;">真菌</h3>
+            <ul>
+              <li><strong><em>Aspergillus</em> spp.：</strong>気道吸入性。担癌患者・移植後・ステロイド大量投与時に侵襲性肺アスペルギルス症（IPA）</li>
+              <li><strong><em>Candida</em> spp.：</strong>カテーテル・抗菌薬による常在菌叢乱れ。腸管穿孔後の腹腔内感染でも問題</li>
+              <li><strong><em>Cryptococcus neoformans</em>：</strong>鳥の糞・土壌。細胞性免疫低下（HIV/CD4&lt;100）で肺炎・髄膜炎</li>
+              <li><strong>PcP（<em>Pneumocystis jirovecii</em>）：</strong>→ 詳細は第6章参照</li>
+            </ul>
+
+            <h3 class="rule-title" style="margin-top:14px;">その他（寄生虫）</h3>
+            <ul>
+              <li><strong>糞線虫（<em>Strongyloides stercoralis</em>）：</strong>経皮感染後に腸管に寄生。免疫抑制（ステロイド・HTLV-1・移植・悪性腫瘍）を契機に<strong>過剰感染症候群（HIS：Hyper Infection Syndrome）</strong>を来す。糞線虫に付着した大腸菌が臓器に運搬されるため、<strong>喀痰や髄液から予期せぬ <em>E. coli</em> が検出された場合に本病態を疑う</strong>。南西諸島（沖縄）出身者では必ず地域歴を確認すること。</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3 id="ch3-s4" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 4</span>
+          Nocardia と Actinomyces — SNAP で治療を覚える
+        </h3>
+
+        <div class="card">
+          <div class="card-inner">
+            <h3 class="rule-title">Nocardia / Actinomyces の基本</h3>
+            <p class="rule-body">両者はいずれも<strong>グラム陽性桿菌（GPR）の放線菌</strong>（Actinomycetes）に分類される細菌である。放線菌は糸状・分枝状の形態を持ち、真菌と細菌の中間的外見を呈するが、<strong>細菌（原核生物）</strong>である点に注意する。</p>
+            <div class="mnemonic-box" style="margin-top:12px;">
+              <div class="mnemonic-title">★ SNAP — Nocardia と Actinomyces の治療を瞬時に思い出す</div>
+              <div class="mnemonic-row">
+                <span class="mnemonic-acro" style="width:36px;">SN</span>
+                <span><strong>S</strong>T 合剤 = <strong>N</strong>ocardia の治療薬</span>
+              </div>
+              <div class="mnemonic-row">
+                <span class="mnemonic-acro" style="width:36px;background:#16A34A;">AP</span>
+                <span><strong>A</strong>ctinomyces の治療薬は <strong>P</strong>enicillin 系</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-inner">
+            <h3 class="rule-title">Actinomyces — 口腔内嫌気性菌・特徴的な臨床像</h3>
+            <h4 class="sub-head">基本的特徴</h4>
+            <ul>
+              <li>口腔内・消化管・生殖器に常在する<strong>嫌気性菌</strong></li>
+              <li>感染は主に外傷・抜歯・歯科処置などの粘膜破綻を契機とする</li>
+              <li>ゆっくり進行する慢性化膿性感染症を来す</li>
+            </ul>
+
+            <h4 class="sub-head">Lumpy Jaw Syndrome（放線菌症の顎顔面型）</h4>
+            <p class="rule-body">慢性化膿性炎症による<strong>顎骨の硬結性腫脹</strong>が特徴的。瘻孔形成と黄色の「硫黄顆粒（sulfur granule）」の排出が診断の手がかりとなる。抜歯後・外傷後に発症することが多い。</p>
+
+            <h4 class="sub-head">胸壁穿通性膿胸（Empyema necessitans）</h4>
+            <p class="rule-body">胸腔内感染から胸壁を穿通し、体表に瘻孔を形成する病態。<em>Actinomyces</em> による慢性膿胸の進展形として知られ、胸壁に硬結・瘻孔が生じた場合に鑑別として挙がる。</p>
+
+            <div class="point">
+              <strong>Actinomyces 感染症の治療：</strong>ペニシリン G（またはアモキシシリン）を長期投与（4〜12 か月）。短期間の治療では再発しやすいため、臨床的寛解後も数か月継続する。
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-inner">
+            <h3 class="rule-title">Nocardia — 細胞性免疫低下者に特有の感染症</h3>
+            <h4 class="sub-head">基本的特徴</h4>
+            <ul>
+              <li>土壌・植物に常在する<strong>好気性の GPR 放線菌</strong></li>
+              <li>吸入による肺感染が最も多く、血行性播種で<strong>脳膿瘍・皮膚軟部組織感染症</strong>を来す</li>
+              <li>弱抗酸性（weakly acid-fast）：Ziehl-Neelsen 染色で弱陽性</li>
+            </ul>
+
+            <h4 class="sub-head">免疫正常者でも発症しうる皮膚感染</h4>
+            <p class="rule-body">皮膚軟部組織感染症は免疫正常者でも発症する。<strong>足爪（趾甲）から感染してリンパ行性の蜂窩織炎</strong>を生じるケースが見られ、難治性・繰り返す皮膚感染として経験される。</p>
+
+            <h4 class="sub-head">治療</h4>
+            <table class="ie-table">
+              <thead>
+                <tr><th>重症度</th><th>治療薬</th><th>備考</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="white-space:nowrap;font-weight:700;">軽症〜中等症</td>
+                  <td><strong>ST 合剤（TMP-SMX）</strong>経口</td>
+                  <td>6〜12 か月。中枢神経播種は 12 か月以上</td>
+                </tr>
+                <tr>
+                  <td style="white-space:nowrap;font-weight:700;">重症・播種性</td>
+                  <td>ST 合剤＋MINO または LZD の多剤併用</td>
+                  <td>感受性に基づき選択。感染症科コンサルト推奨</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <table class="ie-table" style="margin-top:14px;">
+              <thead>
+                <tr><th style="width:35%;">特徴</th><th>Nocardia</th><th>Actinomyces</th></tr>
+              </thead>
+              <tbody>
+                <tr><td style="font-weight:700;">酸素要求性</td><td>好気性</td><td>嫌気性（通性嫌気性）</td></tr>
+                <tr><td style="font-weight:700;">弱抗酸性</td><td>陽性</td><td>陰性</td></tr>
+                <tr><td style="font-weight:700;">常在部位</td><td>土壌・植物</td><td>口腔内・消化管</td></tr>
+                <tr><td style="font-weight:700;">感染契機</td><td>吸入・外傷（免疫抑制）</td><td>粘膜破綻（歯科処置・外傷）</td></tr>
+                <tr><td style="font-weight:700;">特徴的病態</td><td>脳膿瘍・肺感染・皮膚蜂窩織炎</td><td>Lumpy Jaw・Empyema necessitans・硫黄顆粒</td></tr>
+                <tr><td style="font-weight:700;color:#6D28D9;">治療（SNAP）</td><td style="color:#6D28D9;font-weight:700;">ST 合剤（<strong>SN</strong>AP の SN）</td><td style="color:#16A34A;font-weight:700;">Penicillin 系（SN<strong>AP</strong> の AP）</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Ch3 SUMMARY -->
+        <h3 id="ch3-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SUMMARY</span>
+          第3章のキーメッセージ
+        </h3>
+        <div class="card">
+          <div class="card-inner">
+            <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+                <span class="rule-body"><strong>2LMN2ST：</strong>細胞性免疫低下での細菌は Legionella / Listeria / Mycobacterium / Nocardia / Salmonella / Staphylococcus / Toxoplasma。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+                <span class="rule-body"><strong>Mycobacterium：</strong>SGM（MAC・M. kansasii 等）と RGM（M. abscessus 等）で治療が異なる。必ず感受性試験と感染症科コンサルト。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+                <span class="rule-body"><strong>SNAP：</strong>SN（Nocardia → ST 合剤）/ AP（Actinomyces → Penicillin）。Actinomyces は Lumpy Jaw と Empyema necessitans が特徴。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+                <span class="rule-body"><strong>糞線虫 HIS：</strong>喀痰・髄液から予期せぬ <em>E. coli</em> を認めたら免疫抑制下の糞線虫過剰感染を疑う。沖縄出身者で特に注意。</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- ════════════════════════════════════════ -->
+        <!-- 第4章 好中球減少 -->
+        <!-- ════════════════════════════════════════ -->
+        <div id="ch4" class="gl-chapter-banner">
+          <div class="gl-chapter-title">第4章　好中球減少</div>
+          <div class="gl-chapter-subtitle">Neutropenia — AML / FN / Aspergillus / D-index</div>
+        </div>
+
+        <h3 id="ch4-s1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 1</span>
+          好中球減少の臨床的背景
+        </h3>
+
+        <div class="card">
+          <div class="card-inner">
+            <h3 class="rule-title">AML 寛解導入療法（7+3 療法）と好中球減少</h3>
+            <p class="rule-body">急性骨髓性白血病（AML）の寛解導入療法として、<strong>「7+3 療法」</strong>が標準的に行われる。これは <strong>Ara-C（シタラビン）7 日間連続投与＋ダウノルビシンまたはイダルビシン 3 日間</strong>を組み合わせたレジメンである。いずれも強力な骨髄抑制を来し、<strong>著明かつ遷延する好中球減少（発熱性好中球減少症：FN）</strong>を引き起こしやすい。</p>
+            <div class="keypoint">
+              好中球減少の深さ・期間によってリスクが決まる。好中球 &lt;100/μL が 14 日以上続く場合は<strong>侵襲性糸状菌感染症（IMI）の高リスク</strong>と判断する（D-index：第4章 Section 3 参照）。
+            </div>
+          </div>
+        </div>
+
+        <h3 id="ch4-s2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 2</span>
+          起因菌（細菌）— Pseudomonas と ESBL
+        </h3>
+
+        <div class="card">
+          <div class="card-inner">
+            <h3 class="rule-title">Pseudomonas aeruginosa と ESBL 産生菌</h3>
+
+            <h4 class="sub-head">Pseudomonas aeruginosa</h4>
+            <ul>
+              <li>好中球減少患者では <em>Pseudomonas</em> 菌血症が急速かつ致死的に進行するため、<strong>発熱性好中球減少症（FN）での経験的治療では Pseudomonas カバーが必須</strong></li>
+              <li>予防投与として<strong>レボフロキサシン（LVFX）経口</strong>が行われる（FN の化学予防）</li>
+            </ul>
+
+            <h4 class="sub-head">ESBL 産生菌</h4>
+            <ul>
+              <li><strong>LVFX 予防内服</strong>によってフルオロキノロン感受性の腸内細菌が選択淘汰されるため、<strong>ESBL 産生菌のリスクが相対的に上昇する</strong></li>
+              <li>FN 時に経験的治療が奏功しない場合は ESBL を疑い、カルバペネムへの変更を検討する</li>
+            </ul>
+
+            <div class="danger">
+              LVFX 予防内服中の FN 患者で、初期の抗 <em>Pseudomonas</em> 治療（PIPC/TAZ・CFPM・MEPM）に反応しない場合、<strong>ESBL 産生腸内細菌による菌血症</strong>を考慮してカルバペネムを使用する。
+            </div>
+          </div>
+        </div>
+
+        <h3 id="ch4-s3" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 3</span>
+          起因病原体（ウイルス）— HSV
+        </h3>
+
+        <div class="card">
+          <div class="card-inner">
+            <h3 class="rule-title">好中球減少時の HSV 再活性化</h3>
+            <p class="rule-body">好中球減少患者では<strong>口腔内 HSV（単純ヘルペスウイルス）</strong>の再活性化が増加する。口腔粘膜炎を起こしやすく、疼痛による栄養摂取不良・経口投薬困難の原因ともなる。</p>
+            <ul>
+              <li>化学療法開始前から<strong>アシクロビル経口</strong>による予防投与（prophylaxis）を行う</li>
+              <li>HSV 血清陽性患者では移植後・強化化学療法中の予防投与が標準的ケア</li>
+            </ul>
+            <span class="citation"><a href="https://pubmed.ncbi.nlm.nih.gov/20544224/" target="_blank" rel="noopener">Elad S et al. Support Care Cancer 2010; 18(8): 993-1006 — 好中球減少時の口腔内 HSV 増加 ↗</a></span>
+          </div>
+        </div>
+
+        <h3 id="ch4-s4" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 4</span>
+          起因病原体（真菌）— Candida / Aspergillus と D-index
+        </h3>
+
+        <div class="card">
+          <div class="card-inner">
+            <h3 class="rule-title">D-index — アスペルギルスリスクの定量的評価</h3>
+            <p class="rule-body">侵襲性糸状菌感染症（IMI）のリスクは、好中球減少の<strong>深さ × 期間</strong>によって決まる。これを定量化したのが <strong>D-index（Degree of neutropenia index）</strong>である。</p>
+
+            <div class="dindex-formula">
+              <div class="formula">D-index = （500 − 好中球数 [/μL]） × 日数</div>
+              <div class="formula-sub">好中球数は500/μL未満のみ計算対象（正常値は0として扱う）</div>
+            </div>
+
+            <h4 class="sub-head">D-index のカットオフと陰性的中率</h4>
+            <table class="ie-table">
+              <thead>
+                <tr><th>D-index</th><th>意味</th><th>陰性的中率</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="font-weight:700;color:#16A34A;">&lt; 5,500</td>
+                  <td>IMI（侵襲性糸状菌感染症）リスク 低</td>
+                  <td style="font-weight:700;color:#16A34A;">97.4%</td>
+                </tr>
+                <tr>
+                  <td style="font-weight:700;color:#DC2626;">≥ 5,500</td>
+                  <td>アスペルギルス感染症 ハイリスク</td>
+                  <td>—</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <h4 class="sub-head">D-index の計算例</h4>
+            <div class="mnemonic-box">
+              <div class="mnemonic-title">好中球 100/μL が 14 日間持続した場合</div>
+              <p style="font-size:0.88rem;color:#1F2937;margin:6px 0;">D-index = （500 − 100）× 14 = <strong style="color:#DC2626;">5,600</strong></p>
+              <p style="font-size:0.82rem;color:#6B7280;margin:4px 0;">→ D-index ≥ 5,500 に達し、<strong>アスペルギルス感染症のハイリスク</strong>と判断される</p>
+            </div>
+
+            <h4 class="sub-head">Aspergillus 予防：ポサコナゾール（PSCZ）</h4>
+            <p class="rule-body">ハイリスク患者（AML 寛解導入中・MDS 高リスク治療中など）では<strong>ポサコナゾール（PSCZ）経口</strong>による抗真菌予防投与を行う。</p>
+            <div class="point">
+              <strong>ポサコナゾールはフルコナゾールまたはイトラコナゾールよりも侵襲性真菌感染症の予防において有効</strong>であり、全生存率を改善する。ただし、治療との関連が疑われる重篤な有害事象はポサコナゾール群で多かったとする報告もあり、注意が必要。
+            </div>
+            <span class="citation"><a href="https://pubmed.ncbi.nlm.nih.gov/17251531/" target="_blank" rel="noopener">Cornely OA et al. N Engl J Med 2007; 356(4): 348-59 — ポサコナゾール vs フルコナゾール/イトラコナゾール ↗</a></span>
+          </div>
+        </div>
+
+        <!-- Ch4 SUMMARY -->
+        <h3 id="ch4-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SUMMARY</span>
+          第4章のキーメッセージ
+        </h3>
+        <div class="card">
+          <div class="card-inner">
+            <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+                <span class="rule-body"><strong>FN の経験的治療：</strong><em>Pseudomonas</em> カバーは必須（PIPC/TAZ・CFPM・MEPM）。LVFX 予防内服中は ESBL リスクも念頭に。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+                <span class="rule-body"><strong>HSV 予防：</strong>好中球減少患者では口腔内 HSV が増加。化学療法開始前から<strong>アシクロビル経口</strong>予防。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+                <span class="rule-body"><strong>D-index：</strong>（500−好中球数）×日数。D-index &lt; 5,500 で IMI 陰性的中率 97.4%。好中球 100/μL が 14 日でハイリスク到達。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+                <span class="rule-body"><strong>Aspergillus 予防：</strong>ハイリスクには<strong>ポサコナゾール</strong>経口。フルコナゾール・イトラコナゾールより有効（Cornely 2007, NEJM）。</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- ════════════════════════════════════════ -->
+        <!-- 第5章 液性免疫低下 -->
+        <!-- ════════════════════════════════════════ -->
+        <div id="ch5" class="gl-chapter-banner">
+          <div class="gl-chapter-title">第5章　液性免疫低下</div>
+          <div class="gl-chapter-subtitle">Humoral Immunodeficiency — Encapsulated Bacteria</div>
+        </div>
+
+        <h3 id="ch5-s1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 1</span>
+          莢膜を有する細菌 — SNK HSC P
+        </h3>
+
+        <div class="card">
+          <div class="card-inner">
+            <h3 class="rule-title">液性免疫（抗体・補体）と莢膜菌の関係</h3>
+            <p class="rule-body">液性免疫（IgG・IgM・補体系）が低下すると、<strong>莢膜（capsule）によってオプソニン化・貪食から逃れている細菌</strong>に対して易感染性となる。莢膜菌に対する防御は抗体介在性のオプソニン化に依存するためである。</p>
+            <p class="rule-body">液性免疫低下の代表的病態には<strong>無脾症・脾摘後・多発性骨髄腫・慢性リンパ性白血病（CLL）・低ガンマグロブリン血症</strong>などが挙げられる。</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-inner">
+            <h3 class="rule-title">Some Nasty Killers Have Some Capsule Protection — 莢膜保持菌の覚え方</h3>
+            <div class="mnemonic-box">
+              <div class="mnemonic-title">Some Nasty Killers Have Some Capsule Protection</div>
+              <div style="font-size:0.75rem;color:#6D28D9;margin-bottom:10px;">「ひどい殺し屋の中には莢膜による防御を持つものがいる」</div>
+              <div class="mnemonic-row"><span class="mnemonic-acro">S</span><em>Streptococcus pneumoniae</em><span class="mnemonic-sub">→ ワクチン：PCV-20・PPSV-23</span></div>
+              <div class="mnemonic-row"><span class="mnemonic-acro">N</span><em>Neisseria meningitidis</em><span class="mnemonic-sub">→ ワクチン：MCV-4（4価髄膜炎菌ワクチン）</span></div>
+              <div class="mnemonic-row"><span class="mnemonic-acro">K</span><em>Klebsiella pneumoniae</em><span class="mnemonic-sub">→ 肺炎・菌血症・肝膿瘍（特に DM）</span></div>
+              <div class="mnemonic-row"><span class="mnemonic-acro">H</span><em>Haemophilus influenzae</em><span class="mnemonic-sub">→ ワクチン：Hib（b 型インフルエンザ菌）</span></div>
+              <div class="mnemonic-row"><span class="mnemonic-acro">S</span><em>Salmonella typhi</em><span class="mnemonic-sub">→ 腸チフス。液性免疫低下で菌血症</span></div>
+              <div class="mnemonic-row"><span class="mnemonic-acro">C</span><em>Capnocytophaga</em> spp.<span class="mnemonic-sub">→ 犬猫咬傷後に無脾症患者で劇症化</span></div>
+              <div class="mnemonic-row"><span class="mnemonic-acro">P</span><em>Pseudomonas aeruginosa</em><span class="mnemonic-sub">→ 液性免疫低下＋好中球減少で重症化</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-inner">
+            <h3 class="rule-title">IgG サブクラスと感染リスク</h3>
+            <p class="rule-body">IgG は 4 つのサブクラス（IgG1〜4）からなり、莢膜多糖体への抗体応答は主に <strong>IgG2</strong> が担う。IgG2 欠損では肺炎球菌・インフルエンザ菌などへの防御が低下し、反復性の細菌性肺炎・中耳炎・副鼻腔炎を来す。</p>
+            <table class="ie-table">
+              <thead>
+                <tr><th>IgG サブクラス</th><th>主な役割</th><th>欠損時の主な感染症</th></tr>
+              </thead>
+              <tbody>
+                <tr><td style="font-weight:700;">IgG1</td><td>タンパク抗原（ウイルス・細菌タンパク）への主要応答</td><td>反復性ウイルス感染・細菌感染全般</td></tr>
+                <tr><td style="font-weight:700;color:#DC2626;">IgG2</td><td><strong>莢膜多糖体（T 非依存性抗原）への応答</strong></td><td><strong>肺炎球菌・Hib などへの易感染性</strong></td></tr>
+                <tr><td style="font-weight:700;">IgG3</td><td>ウイルス（RSV・麻疹など）・一部細菌</td><td>反復性ウイルス感染</td></tr>
+                <tr><td style="font-weight:700;">IgG4</td><td>慢性抗原曝露後の応答（アレルギー関連）</td><td>臨床的意義は限定的</td></tr>
+              </tbody>
+            </table>
+            <div class="point">
+              脾臓は莢膜菌に対する IgM・IgG2 の産生に重要な役割を果たす。<strong>脾摘後患者</strong>ではワクチン接種（肺炎球菌・Hib・髄膜炎菌）と<strong>アモキシシリン予防内服</strong>（高リスク期）が推奨される。
+            </div>
+          </div>
+        </div>
+
+        <!-- Ch5 SUMMARY -->
+        <h3 id="ch5-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SUMMARY</span>
+          第5章のキーメッセージ
+        </h3>
+        <div class="card">
+          <div class="card-inner">
+            <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+                <span class="rule-body"><strong>液性免疫低下 → 莢膜菌易感染性：</strong>オプソニン化が低下し <em>S. pneumoniae</em>・<em>N. meningitidis</em>・<em>H. influenzae</em> 等が問題となる。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+                <span class="rule-body"><strong>SNK HSC P（Some Nasty Killers...）：</strong><em>S. pneumoniae / N. meningitidis / K. pneumoniae / H. influenzae / S. typhi / Capnocytophaga / P. aeruginosa</em>。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+                <span class="rule-body"><strong>IgG2 欠損：</strong>莢膜多糖体（T 非依存性抗原）への抗体応答が低下し、肺炎球菌・Hib への易感染性となる。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+                <span class="rule-body"><strong>脾摘後管理：</strong>PCV・Hib・MCV ワクチン接種と（高リスク期）アモキシシリン予防内服が推奨される。</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- ════════════════════════════════════════ -->
+        <!-- 第6章 PcP（ニューモシスチス肺炎） -->
+        <!-- ════════════════════════════════════════ -->
+        <div id="ch6" class="gl-chapter-banner">
+          <div class="gl-chapter-title">第6章　Pneumocystis jirovecii 肺炎（PcP）</div>
+          <div class="gl-chapter-subtitle">PcP — 診断分類・重症度・予防・治療</div>
+        </div>
+
+        <h3 id="ch6-s1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 1</span>
+          診断分類（Proven / Probable）
+        </h3>
+
+        <div class="card">
+          <div class="card-inner">
+            <h3 class="rule-title">PcP の診断分類</h3>
+            <table class="ie-table">
+              <thead>
+                <tr><th>分類</th><th>診断基準</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="white-space:nowrap;font-weight:700;color:#DC2626;">Proven<br><span style="font-size:0.72rem;color:var(--muted);">確定診断</span></td>
+                  <td><strong>BAL または TBLB で Grocott 染色陽性</strong>（<em>P. jirovecii</em> の嚢子・栄養型を同定）</td>
+                </tr>
+                <tr>
+                  <td style="white-space:nowrap;font-weight:700;color:#EA580C;">Probable<br><span style="font-size:0.72rem;color:var(--muted);">疑診</span></td>
+                  <td>
+                    以下の 3 要素を組み合わせて判断：<br>
+                    <span style="display:block;margin:4px 0;"><strong>① Host（宿主因子）：</strong>免疫抑制状態（ステロイド・血液悪性腫瘍・HIV/CD4 低値・移植後等）</span>
+                    <span style="display:block;margin:4px 0;"><strong>② Clinical（臨床像）：</strong>亜急性の労作時呼吸困難・発熱・乾性咳嗽、胸部 CT でびまん性スリガラス影</span>
+                    <span style="display:block;margin:4px 0;"><strong>③ Micro（微生物学的所見）：</strong>β-D グルカン高値、PCR 陽性（BAL または誘発痰）</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <h3 id="ch6-s2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 2</span>
+          重症度評価
+        </h3>
+
+        <div class="card">
+          <div class="card-inner">
+            <h3 class="rule-title">重症度の基準</h3>
+            <p class="rule-body">以下のいずれかを満たす場合に<strong>「中等症〜重症」</strong>と定義し、ステロイド補助療法の適応を検討する（特に HIV 患者）。いずれも満たさない場合は「軽症〜中等症」。</p>
+            <table class="ie-table">
+              <thead>
+                <tr><th>検査値</th><th>カットオフ</th><th>意義</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="font-weight:700;">PaO₂<br><span style="font-size:0.72rem;color:var(--muted);">動脈血酸素分圧</span></td>
+                  <td style="font-weight:700;color:#DC2626;">&lt; 70 mmHg<br>（室内気）</td>
+                  <td>中等症〜重症の目安。HIV 患者ではステロイド適応の基準</td>
+                </tr>
+                <tr>
+                  <td style="font-weight:700;">A-aDO₂<br><span style="font-size:0.72rem;color:var(--muted);">肺胞気-動脈酸素較差</span></td>
+                  <td style="font-weight:700;color:#DC2626;">&gt; 35 mmHg</td>
+                  <td>PaO₂ と同等の意義。アトバコン治療は A-aDO₂ ≤45 mmHg に限定</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <h3 id="ch6-s3" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 3</span>
+          PcP 予防投与の適応
+        </h3>
+
+        <div class="card">
+          <div class="card-inner">
+            <h3 class="rule-title">PcP 予防を行うべき患者群</h3>
+            <p class="rule-body">PcP 予防の第一選択は<strong>ST 合剤（TMP-SMX）</strong>である。以下の状況では予防投与を行う。</p>
+            <h4 class="sub-head">高用量コルチコステロイド使用患者</h4>
+            <p class="rule-body">プレドニゾン換算で<strong>1 日 20 mg 以上を 1 か月以上</strong>使用しており、さらに免疫不全の別の原因（基礎に悪性腫瘍・追加の免疫抑制薬使用等）を有する患者では PcP 予防投与を行うべきとされる。</p>
+
+            <h4 class="sub-head">ANCA 関連血管炎（GPA 等）</h4>
+            <p class="rule-body">多発血管炎性肉芽腫症（GPA）などの ANCA 関連血管炎の患者では、<strong>寛解導入療法（シクロホスファミド+ステロイド・リツキシマブ等）を行う際に PcP 予防投与を併せて行うべき</strong>である。</p>
+            <div class="keypoint">
+              関節リウマチ・全身性強皮症・巨細胞性動脈炎は GPA と比較すると PcP 発症リスクが低いとされる。自己免疫疾患・自己炎症性疾患での PcP 予防の明確なコンセンサスは存在しないが、高用量ステロイドを使用する際はリスク-ベネフィットを個別に判断する。
+            </div>
+
+            <h4 class="sub-head">その他の高リスク状況</h4>
+            <ul>
+              <li>HIV 感染症（CD4 &lt; 200/μL）</li>
+              <li>同種造血幹細胞移植（HSCT）後</li>
+              <li>固形臓器移植後</li>
+              <li>急性リンパ性白血病（ALL）治療中</li>
+              <li>フルダラビン・アレムツズマブ・CAR-T 療法</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3 id="ch6-s4" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 4</span>
+          PcP 治療（ST 合剤・CLDM+PMQ・ステロイド補助）
+        </h3>
+
+        <div class="card">
+          <div class="card-inner">
+            <h3 class="rule-title">第一選択・第二選択治療薬</h3>
+            <table class="ie-table">
+              <thead>
+                <tr><th>レジメン</th><th>投与法</th><th>適応・備考</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="white-space:nowrap;font-weight:700;color:#6D28D9;">①ST 合剤<br><span style="font-size:0.72rem;font-weight:400;color:var(--muted);">第一選択</span></td>
+                  <td>高用量 TMP-SMX（TMP 15-20 mg/kg/日 ÷ 3-4 回）<br>× 21 日間</td>
+                  <td>軽症〜重症まで。腎機能に合わせて調整。G6PD 欠損非関係</td>
+                </tr>
+                <tr>
+                  <td style="white-space:nowrap;font-weight:700;color:#B45309;">②CLDM＋PMQ<br><span style="font-size:0.72rem;font-weight:400;color:var(--muted);">第二選択</span></td>
+                  <td>クリンダマイシン＋プリマキン × 21 日間</td>
+                  <td><strong>使用前に G6PD 欠損の確認必須</strong>（PMQ が溶血を誘発）。ST 合剤不耐容・重症例</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <h4 class="sub-head">ステロイド補助療法</h4>
+            <p class="rule-body">全身ステロイドの追加は以下の通りに扱われる。</p>
+            <table class="ie-table">
+              <thead>
+                <tr><th>対象</th><th>推奨</th><th>根拠・エビデンス</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="font-weight:700;color:#16A34A;">HIV 患者<br><span style="font-size:0.72rem;color:var(--muted);">PaO₂&lt;70 or A-aDO₂&gt;35</span></td>
+                  <td>推奨（強）</td>
+                  <td>複数の RCT で死亡率・呼吸不全減少を示す。プレドニゾン 40 mg bid × 5 日→漸減</td>
+                </tr>
+                <tr>
+                  <td style="font-weight:700;color:#EA580C;">非 HIV 患者<br><span style="font-size:0.72rem;color:var(--muted);">重症（PaO₂&lt;60）</span></td>
+                  <td>明確なコンセンサスなし</td>
+                  <td>RCT で有意差なし。ただし重度 ARF（PaO₂ &lt;60 mmHg）では死亡率低下の可能性を示唆する観察研究あり</td>
+                </tr>
+                <tr>
+                  <td style="font-weight:700;color:#6B7280;">パルス vs 中等量</td>
+                  <td>差なし</td>
+                  <td>非 HIV での高用量パルスと中等量での効果に差は認められていない</td>
+                </tr>
+              </tbody>
+            </table>
+            <span class="citation"><a href="https://jamanetwork.com/journals/jama/fullarticle/2819940" target="_blank" rel="noopener">Pirracchio R et al. JAMA 2024; 332(4): 318-328 — 非 HIV PcP でのステロイド補助療法 ↗</a></span>
+          </div>
+        </div>
+
+        <h3 id="ch6-s5" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 5</span>
+          アトバコン（ST 合剤代替薬）
+        </h3>
+
+        <div class="card">
+          <div class="card-inner">
+            <h3 class="rule-title">アトバコン（Atovaquone）— ST 合剤不耐容患者の代替</h3>
+            <p class="rule-body">アトバコンは <em>P. jirovecii</em> に対して有効なユビキノール類似体であり、ST 合剤（TMP-SMX）を使用できない患者への代替薬として用いられる。<strong>必ず食事と一緒に服用する</strong>（空腹時投与では血中濃度が大幅に低下し効果が減弱するため）。</p>
+
+            <table class="ie-table">
+              <thead>
+                <tr><th>用途</th><th>用量・期間</th><th>適応条件</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="font-weight:700;">予防投与</td>
+                  <td><strong>1,500 mg（10 mL）1日1回</strong>経口</td>
+                  <td>PcP 高リスクかつ TMP-SMX 使用不可（成人・13 歳以上）。FDA 承認適応</td>
+                </tr>
+                <tr>
+                  <td style="font-weight:700;">治療投与</td>
+                  <td><strong>750 mg（5 mL）1日2回</strong>経口 × 21 日間</td>
+                  <td><strong>軽症〜中等症（A-aDO₂ ≤45 mmHg）に限定。</strong>重症例での有効性は未確立</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="danger">
+              <strong>重症 PcP（A-aDO₂ &gt; 45 mmHg）でのアトバコン単独投与は推奨されない。</strong>ST 合剤不耐容の重症例では CLDM＋プリマキンを検討する（G6PD 欠損確認後）。
+            </div>
+            <div class="keypoint">
+              アトバコンは脂肪食と同時服用で吸収率が約 3 倍に上昇する。製剤は懸濁液（経口液）であり、服用前に十分に振り混ぜること。
+            </div>
+          </div>
+        </div>
+
+        <!-- Ch6 SUMMARY -->
+        <h3 id="ch6-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SUMMARY</span>
+          第6章のキーメッセージ
+        </h3>
+        <div class="card">
+          <div class="card-inner">
+            <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+                <span class="rule-body"><strong>Proven：</strong>BAL/TBLB で Grocott 染色陽性。<strong>Probable：</strong>宿主因子（免疫抑制）＋臨床像（スリガラス影）＋微生物所見（β-D グルカン・PCR）。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+                <span class="rule-body"><strong>重症度：</strong>PaO₂ &lt; 70 mmHg または A-aDO₂ &gt; 35 mmHg で「中等症〜重症」→ ステロイド補助療法の適応を検討。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+                <span class="rule-body"><strong>治療：</strong>第一選択 ST 合剤、不耐容時は CLDM＋プリマキン（G6PD 確認必須）。21 日間。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+                <span class="rule-body"><strong>ステロイド補助：</strong>HIV 患者（PaO₂&lt;70 or A-aDO₂&gt;35）で推奨。非 HIV では RCT で有意差なし（JAMA 2024）。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+                <span class="rule-body"><strong>アトバコン：</strong>ST 合剤代替（軽症〜中等症のみ）。必ず食事と一緒に投与。重症には使用しない。</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 出典注記 -->
+        <p style="font-size:0.72rem;color:#9CA3AF;margin-top:24px;line-height:1.7;">
+          本資料は教育目的のサマリーで、一部 ID×ICU カンファレンスの板書記録をもとに構成しています。<br>
+          診断・治療方針の決定には必ず最新のガイドラインおよび原著文献を参照してください。
+        </p>
+        <p style="font-size:0.75rem;color:var(--muted);text-align:right;margin-top:8px;">制作：ICU 関谷</p>
+
+      </div><!-- /ie-main-col -->
+
+      <!-- ===== SIDEBAR ===== -->
+      <aside class="ie-sidebar">
+        <div class="ie-sidebar-card">
+          <div class="ie-sidebar-title">目次</div>
+          <a href="#ch1" class="ie-toc-chapter">第1章　非定型肺炎</a>
+          <a href="#ch1-s1" class="ie-toc-section">S1 — CAP 初期抗菌薬選択</a>
+          <a href="#ch1-s2" class="ie-toc-section">S2 — Legionella 肺炎</a>
+          <a href="#ch1-s3" class="ie-toc-section">S3 — Mycoplasma 肺炎</a>
+          <a href="#ch1-summary" class="ie-toc-section">SUMMARY</a>
+
+          <a href="#ch2" class="ie-toc-chapter">第2章　4つの免疫不全</a>
+          <a href="#ch2-s1" class="ie-toc-section">S1 — 4層構造の概要</a>
+
+          <a href="#ch3" class="ie-toc-chapter">第3章　細胞性免疫低下</a>
+          <a href="#ch3-s1" class="ie-toc-section">S1 — 2LMN2ST（細菌）</a>
+          <a href="#ch3-s2" class="ie-toc-section">S2 — Mycobacterium SGM/RGM</a>
+          <a href="#ch3-s3" class="ie-toc-section">S3 — ウイルス・真菌・糞線虫</a>
+          <a href="#ch3-s4" class="ie-toc-section">S4 — Nocardia / Actinomyces（SNAP）</a>
+          <a href="#ch3-summary" class="ie-toc-section">SUMMARY</a>
+
+          <a href="#ch4" class="ie-toc-chapter">第4章　好中球減少</a>
+          <a href="#ch4-s1" class="ie-toc-section">S1 — AML 7+3 療法の背景</a>
+          <a href="#ch4-s2" class="ie-toc-section">S2 — Pseudomonas / ESBL</a>
+          <a href="#ch4-s3" class="ie-toc-section">S3 — HSV（アシクロビル予防）</a>
+          <a href="#ch4-s4" class="ie-toc-section">S4 — D-index / Aspergillus / PSCZ</a>
+          <a href="#ch4-summary" class="ie-toc-section">SUMMARY</a>
+
+          <a href="#ch5" class="ie-toc-chapter">第5章　液性免疫低下</a>
+          <a href="#ch5-s1" class="ie-toc-section">S1 — 莢膜菌（SNK HSC P）</a>
+          <a href="#ch5-summary" class="ie-toc-section">SUMMARY</a>
+
+          <a href="#ch6" class="ie-toc-chapter">第6章　PcP</a>
+          <a href="#ch6-s1" class="ie-toc-section">S1 — 診断分類（Proven/Probable）</a>
+          <a href="#ch6-s2" class="ie-toc-section">S2 — 重症度評価</a>
+          <a href="#ch6-s3" class="ie-toc-section">S3 — 予防投与の適応</a>
+          <a href="#ch6-s4" class="ie-toc-section">S4 — 治療（ST・CLDM+PMQ・ステロイド）</a>
+          <a href="#ch6-s5" class="ie-toc-section">S5 — アトバコン</a>
+          <a href="#ch6-summary" class="ie-toc-section">SUMMARY</a>
+        </div>
+      </aside>
+
+    </div><!-- /ie-page-flex -->
+  </div><!-- /container -->
+
+  <script src="../../script.js"></script>
+  <script src="../../abbr-tooltip.js"></script>
+</body>
+</html>
