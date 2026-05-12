@@ -82,7 +82,42 @@
     .qa-item-date {
       flex-shrink:0;font-size:0.7rem;font-weight:700;color:var(--muted);
       letter-spacing:0.02em;white-space:nowrap;font-family:ui-monospace,Menlo,Consolas,monospace;
+      min-width:78px;
     }
+
+    /* ソート切替トグル（System 別 / 追加日順） */
+    .qa-sort-bar {
+      display:flex;align-items:center;justify-content:space-between;gap:12px;
+      margin-bottom:18px;flex-wrap:wrap;
+    }
+    .qa-sort-label { font-size:0.72rem;font-weight:700;color:var(--muted);letter-spacing:0.04em; }
+    .qa-sort-toggle {
+      display:inline-flex;background:#fff;border:1px solid var(--border);border-radius:8px;
+      padding:3px;box-shadow:0 1px 3px rgba(0,0,0,0.04);
+    }
+    .qa-sort-btn {
+      padding:7px 16px;font-size:0.78rem;font-weight:700;color:var(--muted);
+      background:transparent;border:none;border-radius:6px;cursor:pointer;
+      font-family:inherit;letter-spacing:0.02em;transition:all 0.15s;
+    }
+    .qa-sort-btn:hover { color:var(--qa-primary-dark); }
+    .qa-sort-btn.active {
+      background:linear-gradient(135deg,var(--qa-primary-dark),var(--qa-primary));
+      color:#fff;box-shadow:0 2px 6px rgba(15,118,110,0.25);
+    }
+
+    /* 追加日順ビュー */
+    .qa-date-view { display:none; }
+    .qa-item-sys {
+      flex-shrink:0;font-size:0.66rem;font-weight:700;color:var(--qa-primary-dark);
+      background:var(--qa-primary-light);padding:3px 8px;border-radius:5px;
+      white-space:nowrap;letter-spacing:0.02em;
+    }
+
+    /* モード切替時の表示制御 */
+    body.qa-mode-date .qa-date-view { display:block; }
+    body.qa-mode-date .sys-banner,
+    body.qa-mode-date .qa-sys-body { display:none !important; }
     .qa-arrow {
       flex-shrink:0;color:var(--qa-primary);font-size:1.05rem;font-weight:900;
       transition:transform 0.15s;
@@ -111,7 +146,7 @@
     }
   </style>
 </head>
-<body>
+<body class="qa-mode-date">
 
   <!-- ===== NAVBAR ===== -->
   <nav class="navbar" id="navbar">
@@ -144,6 +179,18 @@
           <p style="font-size:0.85rem;color:var(--muted);line-height:1.85;">9+10の病棟業務で生じた疑問について吉田先生と一緒に解決するコーナーです。日々の臨床で研修医の先生が「これってどうしたらいいの？」と感じた素朴な疑問を <strong>By System（臓器系統）</strong> ごとに整理しています。</p>
         </div>
       </div>
+
+      <!-- ソート切替（System 別 / 追加日順） -->
+      <div class="qa-sort-bar">
+        <span class="qa-sort-label">表示順</span>
+        <div class="qa-sort-toggle" role="tablist" aria-label="表示順切替">
+          <button class="qa-sort-btn" data-mode="system" role="tab" aria-selected="false">System 別</button>
+          <button class="qa-sort-btn active" data-mode="date" role="tab" aria-selected="true">追加日順</button>
+        </div>
+      </div>
+
+      <!-- 追加日順ビュー（JSで埋める） -->
+      <div class="qa-date-view"></div>
 
       <!-- ═══ #1 神経系 ═══ -->
       <div id="qa-neuro" class="sys-banner" style="display:flex;border-radius:var(--radius);overflow:hidden;margin-top:28px;margin-bottom:0;">
@@ -324,6 +371,92 @@
       }
       window.addEventListener('scroll', updateActive, {passive:true});
       updateActive();
+    })();
+
+    // 各 .qa-item 内の日付を先頭（左端）に並べ替え
+    (function(){
+      document.querySelectorAll('.qa-item').forEach(function(item){
+        var date = item.querySelector('.qa-item-date');
+        if(date && item.firstChild !== date) item.insertBefore(date, item.firstChild);
+      });
+    })();
+
+    // ソートモード切替（System 別 / 追加日順）
+    (function(){
+      var btns = document.querySelectorAll('.qa-sort-btn');
+      if(!btns.length) return;
+
+      var dateView = document.querySelector('.qa-date-view');
+      if(dateView){
+        var items = [];
+        document.querySelectorAll('.sys-banner').forEach(function(banner){
+          var right = banner.children[1];
+          var sysJp = right && right.children[1];
+          var sysName = sysJp ? sysJp.textContent.trim() : '';
+          var body = banner.nextElementSibling;
+          if(!body) return;
+          body.querySelectorAll('.qa-item').forEach(function(item){
+            var dateEl = item.querySelector('.qa-item-date');
+            var qTextEl = item.querySelector('.qa-q-text');
+            items.push({
+              date:    dateEl ? dateEl.textContent.trim() : '',
+              sysName: sysName,
+              href:    item.getAttribute('href'),
+              qText:   qTextEl ? qTextEl.textContent : ''
+            });
+          });
+        });
+        items.sort(function(a,b){ return a.date < b.date ? 1 : (a.date > b.date ? -1 : 0); });
+
+        var frag = document.createDocumentFragment();
+        items.forEach(function(it){
+          var a = document.createElement('a');
+          a.className = 'qa-item';
+          a.href = it.href;
+          [
+            ['qa-item-date', it.date],
+            ['qa-q-badge',   'Q'],
+            ['qa-q-text',    it.qText],
+            ['qa-item-sys',  it.sysName],
+            ['qa-arrow',     '→']
+          ].forEach(function(pair){
+            var s = document.createElement('span');
+            s.className = pair[0];
+            s.textContent = pair[1];
+            a.appendChild(s);
+          });
+          frag.appendChild(a);
+        });
+        dateView.innerHTML = '';
+        dateView.appendChild(frag);
+      }
+
+      function setMode(mode){
+        btns.forEach(function(b){
+          var on = b.getAttribute('data-mode') === mode;
+          b.classList.toggle('active', on);
+          b.setAttribute('aria-selected', on ? 'true' : 'false');
+        });
+        document.body.classList.toggle('qa-mode-date', mode === 'date');
+        try { localStorage.setItem('qa-sort-mode', mode); } catch(e){}
+      }
+
+      btns.forEach(function(btn){
+        btn.addEventListener('click', function(){ setMode(btn.getAttribute('data-mode')); });
+      });
+
+      // サイドバーの System リンクを押したときは強制的に System モードに戻す
+      document.querySelectorAll('.qa-sidebar a[data-section]').forEach(function(a){
+        a.addEventListener('click', function(){ setMode('system'); });
+      });
+
+      try {
+        var saved = localStorage.getItem('qa-sort-mode');
+        if(saved === 'system') setMode('system');
+        else setMode('date'); // デフォルトは追加日順
+      } catch(e){
+        setMode('date');
+      }
     })();
   </script>
 </body>
