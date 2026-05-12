@@ -35,10 +35,9 @@
     const data = (window.BACTERIA_RELATED || {})[key];
 
     if (!data || !data.length) {
-      target.innerHTML =
-        '<p style="color:#94A3B8;font-size:0.84rem;margin:0;">' +
-        "関連事項はまだ登録されていません。" +
-        "</p>";
+      // サイト内に該当菌の言及がない場合は bp-related ブロック自体を非表示
+      const block = target.closest(".bp-related");
+      if (block) block.style.display = "none";
       return;
     }
 
