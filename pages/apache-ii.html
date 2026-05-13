@@ -150,36 +150,6 @@
       background:linear-gradient(135deg,#B45309,#D97706);color:#fff;border-color:transparent;
     }
 
-    /* Chronic health */
-    .chronic-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px; }
-    .chronic-card {
-      padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;
-      cursor:pointer;background:#fff;
-      transition:transform .08s, background .12s, border-color .12s;
-    }
-    .chronic-card:hover { border-color:#6EE7B7;background:#ECFDF5; }
-    .chronic-card:active { transform:scale(0.98); }
-    .chronic-pts {
-      display:inline-block;font-size:0.78rem;font-weight:900;color:#fff;
-      background:#94A3B8;padding:2px 9px;border-radius:6px;margin-bottom:6px;
-      font-family:ui-monospace,Menlo,Consolas,monospace;letter-spacing:0.02em;
-    }
-    .chronic-card[data-pts="0"] .chronic-pts { background:#16A34A; }
-    .chronic-card[data-pts="2"] .chronic-pts { background:#F59E0B; }
-    .chronic-card[data-pts="5"] .chronic-pts { background:#DC2626; }
-    .chronic-main {
-      font-size:0.82rem;font-weight:800;color:#064E3B;line-height:1.4;
-    }
-    .chronic-main strong { color:#047857; }
-    .chronic-sub {
-      font-size:0.7rem;color:#64748B;margin-top:3px;line-height:1.5;font-weight:500;
-    }
-    .chronic-card.selected {
-      background:linear-gradient(135deg,#ECFDF5,#D1FAE5);border-color:#10B981;
-      box-shadow:0 2px 8px rgba(4,120,87,0.15);
-    }
-    .chronic-card.selected .chronic-main { color:#064E3B; }
-    .chronic-card.selected .chronic-main strong { color:#047857; }
 
     /* 合計カード */
     .total-card {
@@ -516,21 +486,17 @@
         <li>免疫抑制状態（ステロイド・抗がん剤・免疫不全症）</li>
       </ul>
     </div>
-    <div class="chronic-grid">
-      <div class="chronic-card selected" data-pts="0" id="ch-none">
-        <div class="chronic-pts">+ 0 点</div>
-        <div class="chronic-main">慢性疾患なし</div>
-        <div class="chronic-sub">上記の対象疾患に該当しない</div>
-      </div>
-      <div class="chronic-card" data-pts="2" id="ch-elective">
-        <div class="chronic-pts">+ 2 点</div>
-        <div class="chronic-main">慢性疾患あり・<strong>待機手術後</strong>に ICU 入室</div>
-        <div class="chronic-sub">予定手術 → 術後 ICU</div>
-      </div>
-      <div class="chronic-card" data-pts="5" id="ch-emergency">
-        <div class="chronic-pts">+ 5 点</div>
-        <div class="chronic-main">慢性疾患あり・<strong>緊急手術後 / 内科系</strong>で ICU 入室</div>
-        <div class="chronic-sub">緊急手術後 or 非手術系（内科疾患）</div>
+    <div class="var-grid">
+      <div class="var-row" id="v-chronic" data-pts="0">
+        <div class="var-row-head">
+          <div class="var-label">慢性疾患・ICU 入室経路</div>
+          <div class="var-pts" id="pts-chronic">0</div>
+        </div>
+        <select class="dial-select" data-var="chronic">
+          <option data-pts="0" selected>該当なし  0</option>
+          <option data-pts="2">慢性疾患あり ＋ 待機手術後 ICU  +2</option>
+          <option data-pts="5">慢性疾患あり ＋ 緊急手術後 or 内科系  +5</option>
+        </select>
       </div>
     </div>
   </div>
@@ -631,16 +597,6 @@
     /* ===== AKI チェック → Cr スコア×2 ===== */
     akiEl.addEventListener('change', update);
 
-    /* ===== 慢性疾患カード ===== */
-    document.querySelectorAll('.chronic-card').forEach(function(c){
-      c.addEventListener('click', function(){
-        document.querySelectorAll('.chronic-card').forEach(function(x){ x.classList.remove('selected'); });
-        c.classList.add('selected');
-        ptsState.chronic = parseInt(c.dataset.pts) || 0;
-        update();
-      });
-    });
-
     /* ===== 合計更新 ===== */
     function update() {
       setRowPts('temp', ptsState.temp);
@@ -658,6 +614,7 @@
       setRowPts('wbc', ptsState.wbc);
       setRowPts('gcs', ptsState.gcs);
       setRowPts('age', ptsState.age);
+      setRowPts('chronic', ptsState.chronic);
 
       var aps = ptsState.temp + ptsState.map + ptsState.hr + ptsState.rr +
                 ptsState.o2 + ptsState.ph + ptsState.na + ptsState.k +
