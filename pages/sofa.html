@@ -63,38 +63,19 @@
     .organ-card[data-pts="3"] .organ-score-pill { background:#EA580C; }
     .organ-card[data-pts="4"] .organ-score-pill { background:#DC2626; }
 
-    /* ===== クリック式スコアチップ（縦並び） ===== */
-    .score-chip-row {
-      display:flex;flex-direction:column;gap:4px;
+    /* ===== ダイヤル式（select）UI ===== */
+    .dial-select {
+      font-family:inherit;font-size:0.84rem;font-weight:700;
+      padding:7px 28px 7px 10px;border:1.5px solid #BAE6FD;border-radius:8px;
+      background:#fff;color:#0C4A6E;cursor:pointer;
+      width:100%;box-sizing:border-box;height:36px;
+      appearance:none;-webkit-appearance:none;-moz-appearance:none;
+      background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="%230369A1" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6,9 12,15 18,9"/></svg>');
+      background-repeat:no-repeat;background-position:right 8px center;
+      font-variant-numeric:tabular-nums;line-height:1.3;
     }
-    .score-chip {
-      display:flex;align-items:center;gap:10px;
-      padding:7px 10px;border:1.5px solid var(--border);border-radius:8px;
-      background:#fff;cursor:pointer;text-align:left;line-height:1.4;
-      font-family:inherit;width:100%;
-      transition:transform .08s, background .12s, border-color .12s, box-shadow .12s;
-    }
-    .score-chip:hover { border-color:#7DD3FC;background:#F0F9FF; }
-    .score-chip:active { transform:scale(0.99); }
-    .score-num {
-      font-size:0.92rem;font-weight:900;color:#fff;background:#94A3B8;
-      width:26px;height:26px;border-radius:6px;
-      display:flex;align-items:center;justify-content:center;flex-shrink:0;
-      font-family:ui-monospace,Menlo,Consolas,monospace;
-    }
-    .score-criteria {
-      font-size:0.74rem;font-weight:700;color:#475569;line-height:1.4;
-    }
-    .score-chip[data-pts="0"] .score-num { background:#16A34A; }
-    .score-chip[data-pts="1"] .score-num { background:#84CC16; }
-    .score-chip[data-pts="2"] .score-num { background:#F59E0B; }
-    .score-chip[data-pts="3"] .score-num { background:#EA580C; }
-    .score-chip[data-pts="4"] .score-num { background:#DC2626; }
-    .score-chip.selected {
-      background:#F0F9FF;box-shadow:inset 0 0 0 2px #0EA5E9;border-color:transparent;
-    }
-    .score-chip.selected .score-criteria { color:#0C4A6E;font-weight:800; }
-    .organ-tip { font-size:0.7rem;color:#64748B;margin:0 0 7px;line-height:1.55; }
+    .dial-select:focus { outline:none;border-color:#0EA5E9;box-shadow:0 0 0 3px rgba(14,165,233,0.15); }
+    .organ-tip { font-size:0.7rem;color:#64748B;margin:0 0 10px;line-height:1.55; }
     .organ-tip strong { color:#0369A1; }
 
     /* 結果 */
@@ -174,7 +155,7 @@
     </p>
   </div>
 
-  <p class="organ-tip">各臓器ごとに、患者の状態に最も近い行をタップしてください（タップでスコアが確定）。</p>
+  <p class="organ-tip">各臓器ごとにダイヤルから該当行を選択してください（モバイルではホイール式で表示）。</p>
 
   <!-- ===== 呼吸 ===== -->
   <div class="organ-card" id="o-resp" data-pts="0">
@@ -182,13 +163,13 @@
       <div class="organ-name">① 呼吸（PaO₂/FiO₂・人工呼吸・ECMO）</div>
       <div class="organ-score-pill" id="resp-pill">0</div>
     </div>
-    <div class="score-chip-row" data-organ="resp">
-      <button type="button" class="score-chip" data-pts="0"><span class="score-num">0</span><span class="score-criteria">P/F &gt; 300</span></button>
-      <button type="button" class="score-chip" data-pts="1"><span class="score-num">1</span><span class="score-criteria">P/F &lt; 300</span></button>
-      <button type="button" class="score-chip" data-pts="2"><span class="score-num">2</span><span class="score-criteria">P/F &lt; 225</span></button>
-      <button type="button" class="score-chip" data-pts="3"><span class="score-num">3</span><span class="score-criteria">P/F &lt; 225 ＋ 人工呼吸器</span></button>
-      <button type="button" class="score-chip" data-pts="4"><span class="score-num">4</span><span class="score-criteria">P/F &lt; 75 ＋ 人工呼吸器、または ECMO</span></button>
-    </div>
+    <select class="dial-select" data-organ="resp">
+      <option data-pts="0" selected>0 点 ｜ P/F &gt; 300</option>
+      <option data-pts="1">1 点 ｜ P/F &lt; 300</option>
+      <option data-pts="2">2 点 ｜ P/F &lt; 225</option>
+      <option data-pts="3">3 点 ｜ P/F &lt; 225 ＋ 人工呼吸器</option>
+      <option data-pts="4">4 点 ｜ P/F &lt; 75 ＋ 人工呼吸器、または ECMO</option>
+    </select>
   </div>
 
   <!-- ===== 凝固 ===== -->
@@ -197,13 +178,13 @@
       <div class="organ-name">② 凝固（血小板 ×10³/μL ＝ 万/μL ×10）</div>
       <div class="organ-score-pill" id="coag-pill">0</div>
     </div>
-    <div class="score-chip-row" data-organ="coag">
-      <button type="button" class="score-chip" data-pts="0"><span class="score-num">0</span><span class="score-criteria">Plt &gt; 150</span></button>
-      <button type="button" class="score-chip" data-pts="1"><span class="score-num">1</span><span class="score-criteria">Plt &lt; 150</span></button>
-      <button type="button" class="score-chip" data-pts="2"><span class="score-num">2</span><span class="score-criteria">Plt &lt; 100</span></button>
-      <button type="button" class="score-chip" data-pts="3"><span class="score-num">3</span><span class="score-criteria">Plt &lt; 80（旧 50）</span></button>
-      <button type="button" class="score-chip" data-pts="4"><span class="score-num">4</span><span class="score-criteria">Plt &lt; 50（旧 20）</span></button>
-    </div>
+    <select class="dial-select" data-organ="coag">
+      <option data-pts="0" selected>0 点 ｜ Plt &gt; 150</option>
+      <option data-pts="1">1 点 ｜ Plt &lt; 150</option>
+      <option data-pts="2">2 点 ｜ Plt &lt; 100</option>
+      <option data-pts="3">3 点 ｜ Plt &lt; 80（旧 50）</option>
+      <option data-pts="4">4 点 ｜ Plt &lt; 50（旧 20）</option>
+    </select>
   </div>
 
   <!-- ===== 肝 ===== -->
@@ -212,13 +193,13 @@
       <div class="organ-name">③ 肝（総ビリルビン mg/dL）</div>
       <div class="organ-score-pill" id="liver-pill">0</div>
     </div>
-    <div class="score-chip-row" data-organ="liver">
-      <button type="button" class="score-chip" data-pts="0"><span class="score-num">0</span><span class="score-criteria">T-Bil &lt; 1.2</span></button>
-      <button type="button" class="score-chip" data-pts="1"><span class="score-num">1</span><span class="score-criteria">T-Bil 1.2 – 1.9</span></button>
-      <button type="button" class="score-chip" data-pts="2"><span class="score-num">2</span><span class="score-criteria">T-Bil 2.0 – 5.9</span></button>
-      <button type="button" class="score-chip" data-pts="3"><span class="score-num">3</span><span class="score-criteria">T-Bil 6.0 – 11.9</span></button>
-      <button type="button" class="score-chip" data-pts="4"><span class="score-num">4</span><span class="score-criteria">T-Bil ≥ 12.0</span></button>
-    </div>
+    <select class="dial-select" data-organ="liver">
+      <option data-pts="0" selected>0 点 ｜ T-Bil &lt; 1.2</option>
+      <option data-pts="1">1 点 ｜ T-Bil 1.2 – 1.9</option>
+      <option data-pts="2">2 点 ｜ T-Bil 2.0 – 5.9</option>
+      <option data-pts="3">3 点 ｜ T-Bil 6.0 – 11.9</option>
+      <option data-pts="4">4 点 ｜ T-Bil ≥ 12.0</option>
+    </select>
   </div>
 
   <!-- ===== 循環 ===== -->
@@ -227,13 +208,13 @@
       <div class="organ-name">④ 循環（MAP・昇圧薬・MCS）</div>
       <div class="organ-score-pill" id="cv-pill">0</div>
     </div>
-    <div class="score-chip-row" data-organ="cv">
-      <button type="button" class="score-chip" data-pts="0"><span class="score-num">0</span><span class="score-criteria">MAP ≥ 70 ・ 昇圧薬なし</span></button>
-      <button type="button" class="score-chip" data-pts="1"><span class="score-num">1</span><span class="score-criteria">MAP &lt; 70 ・ 昇圧薬なし</span></button>
-      <button type="button" class="score-chip" data-pts="2"><span class="score-num">2</span><span class="score-criteria">NA/Adr ≤ 0.2 µg/kg/min または 強心薬のみ</span></button>
-      <button type="button" class="score-chip" data-pts="3"><span class="score-num">3</span><span class="score-criteria">NA/Adr 0.2–0.4 µg/kg/min または 低用量＋他剤併用</span></button>
-      <button type="button" class="score-chip" data-pts="4"><span class="score-num">4</span><span class="score-criteria">NA/Adr &gt; 0.4 µg/kg/min または MCS（IABP/Impella/VA-ECMO）</span></button>
-    </div>
+    <select class="dial-select" data-organ="cv">
+      <option data-pts="0" selected>0 点 ｜ MAP ≥ 70・昇圧薬なし</option>
+      <option data-pts="1">1 点 ｜ MAP &lt; 70・昇圧薬なし</option>
+      <option data-pts="2">2 点 ｜ NA/Adr ≤ 0.2 µg/kg/min または 強心薬のみ</option>
+      <option data-pts="3">3 点 ｜ NA/Adr 0.2–0.4、または 低用量＋他剤併用</option>
+      <option data-pts="4">4 点 ｜ NA/Adr &gt; 0.4、または MCS（IABP/Impella/VA-ECMO）</option>
+    </select>
   </div>
 
   <!-- ===== 中枢神経（脳） ===== -->
@@ -242,13 +223,13 @@
       <div class="organ-name">⑤ 脳（GCS ／ せん妄薬）</div>
       <div class="organ-score-pill" id="cns-pill">0</div>
     </div>
-    <div class="score-chip-row" data-organ="cns">
-      <button type="button" class="score-chip" data-pts="0"><span class="score-num">0</span><span class="score-criteria">GCS 15</span></button>
-      <button type="button" class="score-chip" data-pts="1"><span class="score-num">1</span><span class="score-criteria">GCS 13–14、または せん妄治療薬を使用中（GCS 15 でも +1）</span></button>
-      <button type="button" class="score-chip" data-pts="2"><span class="score-num">2</span><span class="score-criteria">GCS 9–12</span></button>
-      <button type="button" class="score-chip" data-pts="3"><span class="score-num">3</span><span class="score-criteria">GCS 6–8</span></button>
-      <button type="button" class="score-chip" data-pts="4"><span class="score-num">4</span><span class="score-criteria">GCS 3–5</span></button>
-    </div>
+    <select class="dial-select" data-organ="cns">
+      <option data-pts="0" selected>0 点 ｜ GCS 15</option>
+      <option data-pts="1">1 点 ｜ GCS 13–14、または せん妄薬使用（GCS 15 でも +1）</option>
+      <option data-pts="2">2 点 ｜ GCS 9–12</option>
+      <option data-pts="3">3 点 ｜ GCS 6–8</option>
+      <option data-pts="4">4 点 ｜ GCS 3–5</option>
+    </select>
   </div>
 
   <!-- ===== 腎 ===== -->
@@ -257,13 +238,13 @@
       <div class="organ-name">⑥ 腎（Cr ／ 尿量 ／ RRT）</div>
       <div class="organ-score-pill" id="renal-pill">0</div>
     </div>
-    <div class="score-chip-row" data-organ="renal">
-      <button type="button" class="score-chip" data-pts="0"><span class="score-num">0</span><span class="score-criteria">Cr &lt; 1.2 ・ UO 正常</span></button>
-      <button type="button" class="score-chip" data-pts="1"><span class="score-num">1</span><span class="score-criteria">Cr 1.2 – 1.9、または UO &lt; 0.5 mL/kg/h（6–12h）</span></button>
-      <button type="button" class="score-chip" data-pts="2"><span class="score-num">2</span><span class="score-criteria">Cr 2.0 – 3.4、または UO &lt; 0.5 mL/kg/h（&gt; 12h）</span></button>
-      <button type="button" class="score-chip" data-pts="3"><span class="score-num">3</span><span class="score-criteria">Cr ≥ 3.5、または UO &lt; 0.3 mL/kg/h（&gt; 24h）・無尿</span></button>
-      <button type="button" class="score-chip" data-pts="4"><span class="score-num">4</span><span class="score-criteria">RRT 施行中／適応あり</span></button>
-    </div>
+    <select class="dial-select" data-organ="renal">
+      <option data-pts="0" selected>0 点 ｜ Cr &lt; 1.2・UO 正常</option>
+      <option data-pts="1">1 点 ｜ Cr 1.2 – 1.9、または UO &lt; 0.5 mL/kg/h（6–12h）</option>
+      <option data-pts="2">2 点 ｜ Cr 2.0 – 3.4、または UO &lt; 0.5 mL/kg/h（&gt; 12h）</option>
+      <option data-pts="3">3 点 ｜ Cr ≥ 3.5、または UO &lt; 0.3 mL/kg/h（&gt; 24h）・無尿</option>
+      <option data-pts="4">4 点 ｜ RRT 施行中／適応あり</option>
+    </select>
   </div>
 
   <!-- ===== 合計 ===== -->
@@ -327,18 +308,18 @@
       document.getElementById('bd-'+id).textContent = pts;
     }
 
-    /* ===== チップクリック処理 ===== */
-    document.querySelectorAll('.score-chip-row').forEach(function(row){
-      var organ = row.dataset.organ;
-      row.querySelectorAll('.score-chip').forEach(function(chip){
-        chip.addEventListener('click', function(){
-          row.querySelectorAll('.score-chip').forEach(function(c){ c.classList.remove('selected'); });
-          chip.classList.add('selected');
-          ptsState[organ] = parseInt(chip.dataset.pts) || 0;
-          setOrgan(organ, ptsState[organ]);
-          update();
-        });
-      });
+    /* ===== ダイヤル（select）変更処理 ===== */
+    document.querySelectorAll('.dial-select').forEach(function(sel){
+      var organ = sel.dataset.organ;
+      function apply() {
+        var opt = sel.options[sel.selectedIndex];
+        if (!opt) return;
+        ptsState[organ] = parseInt(opt.dataset.pts) || 0;
+        setOrgan(organ, ptsState[organ]);
+        update();
+      }
+      sel.addEventListener('change', apply);
+      apply();
     });
 
     function update() {
@@ -346,7 +327,7 @@
       document.getElementById('totalScore').textContent = sum;
       var detail = document.getElementById('totalDetail');
       var msg;
-      if (sum === 0) msg = '臓器ごとに該当する行をタップしてください。';
+      if (sum === 0) msg = '臓器ごとにダイヤルから該当行を選んでください。';
       else if (sum < 6) msg = '臓器障害は軽度。死亡率 &lt; 10%（オリジナル SOFA ベース）。';
       else if (sum < 10) msg = '中等度の臓器障害。死亡率 15–20% 程度の目安。トレンド注視。';
       else if (sum < 13) msg = '高度の臓器障害。死亡率 40–50% 前後の目安。';

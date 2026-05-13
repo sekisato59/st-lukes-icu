@@ -51,8 +51,8 @@
     }
     .var-grid {
       display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-      gap:10px 12px;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:8px 10px;
     }
     .var-row {
       display:flex;flex-direction:column;gap:6px;
@@ -78,24 +78,20 @@
     .var-row[data-pts="3"] .var-pts { background:#EA580C; }
     .var-row[data-pts="4"] .var-pts { background:#DC2626; }
 
-    /* ===== クリック式チップ ===== */
-    .chip-row { display:flex;flex-wrap:wrap;gap:4px;margin-top:2px; }
-    .chip {
-      padding:5px 9px;border:1.5px solid var(--border);border-radius:7px;
-      background:#fff;font-size:0.72rem;font-weight:700;color:#475569;
-      cursor:pointer;line-height:1.15;
-      font-family:inherit;font-variant-numeric:tabular-nums;
-      white-space:nowrap;
-      transition:transform .08s, background .12s, color .12s, border-color .12s;
+    /* ===== ダイヤル式（select）UI ===== */
+    .dial-select {
+      font-family:inherit;font-size:0.84rem;font-weight:700;
+      padding:6px 28px 6px 10px;border:1.5px solid #BAE6FD;border-radius:8px;
+      background:#fff;color:#0C4A6E;cursor:pointer;
+      width:100%;box-sizing:border-box;height:32px;
+      appearance:none;-webkit-appearance:none;-moz-appearance:none;
+      background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="%230369A1" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6,9 12,15 18,9"/></svg>');
+      background-repeat:no-repeat;background-position:right 8px center;
+      font-variant-numeric:tabular-nums;
     }
-    .chip:hover { border-color:#7DD3FC;background:#F0F9FF;color:#0369A1; }
-    .chip:active { transform:scale(0.96); }
-    .chip.selected { color:#fff;border-color:transparent;background:#DC2626; }
-    .chip.selected[data-pts="0"] { background:#16A34A; }
-    .chip.selected[data-pts="1"] { background:#84CC16; }
-    .chip.selected[data-pts="2"] { background:#F59E0B; }
-    .chip.selected[data-pts="3"] { background:#EA580C; }
-    .chip-tip { font-size:0.66rem;color:#64748B;margin:0 0 8px;line-height:1.5; }
+    .dial-select:focus { outline:none;border-color:#0EA5E9;box-shadow:0 0 0 3px rgba(14,165,233,0.15); }
+    .dial-tip { font-size:0.66rem;color:#64748B;margin:0 0 8px;line-height:1.5; }
+    .dial-tip strong { color:#0369A1; }
 
     /* ===== 重要参照情報ボックス ===== */
     .info-box {
@@ -185,10 +181,10 @@
     @media (max-width: 600px) {
       .page-wrap { max-width:560px;padding-left:18px;padding-right:18px; }
       .section-card { padding:12px 14px; }
-      .var-grid { grid-template-columns:1fr;gap:10px; }
-      .chip { padding:6px 10px;font-size:0.74rem; }
-      .var-pts { min-width:30px;height:24px;font-size:0.78rem; }
+      .var-grid { grid-template-columns:1fr;gap:8px; }
+      .var-pts { min-width:32px;height:26px;font-size:0.82rem; }
       .var-label { font-size:0.78rem; }
+      .dial-select { font-size:0.88rem;height:36px; }
       .total-card { padding:18px 18px; }
       .total-score { font-size:2.6rem; }
       .tool-title-area h1 { font-size:1.3rem; }
@@ -230,7 +226,7 @@
   <!-- ===== 急性生理学的スコア (APS) ===== -->
   <div class="section-card">
     <h2 class="section-title">① 急性生理学的スコア（APS, 12 項目）</h2>
-    <p class="chip-tip">該当する範囲をタップしてください（タップで点数が確定）。</p>
+    <p class="dial-tip">各項目のダイヤルから該当する範囲を選択してください（モバイルではホイール式で表示）。</p>
     <div class="var-grid">
 
       <div class="var-row" id="v-temp" data-pts="0">
@@ -238,16 +234,16 @@
           <div class="var-label">体温（直腸） <span class="var-unit">℃</span></div>
           <div class="var-pts" id="pts-temp">0</div>
         </div>
-        <div class="chip-row" data-var="temp">
-          <button type="button" class="chip" data-pts="4">≥41</button>
-          <button type="button" class="chip" data-pts="3">39.0–40.9</button>
-          <button type="button" class="chip" data-pts="1">38.5–38.9</button>
-          <button type="button" class="chip" data-pts="0">36.0–38.4</button>
-          <button type="button" class="chip" data-pts="1">34.0–35.9</button>
-          <button type="button" class="chip" data-pts="2">32.0–33.9</button>
-          <button type="button" class="chip" data-pts="3">30.0–31.9</button>
-          <button type="button" class="chip" data-pts="4">&lt;30</button>
-        </div>
+        <select class="dial-select" data-var="temp">
+          <option data-pts="4">≥41　＋4 点</option>
+          <option data-pts="3">39.0–40.9　＋3 点</option>
+          <option data-pts="1">38.5–38.9　＋1 点</option>
+          <option data-pts="0" selected>36.0–38.4　 0 点</option>
+          <option data-pts="1">34.0–35.9　＋1 点</option>
+          <option data-pts="2">32.0–33.9　＋2 点</option>
+          <option data-pts="3">30.0–31.9　＋3 点</option>
+          <option data-pts="4">&lt;30　＋4 点</option>
+        </select>
       </div>
 
       <div class="var-row" id="v-map" data-pts="0">
@@ -255,14 +251,14 @@
           <div class="var-label">MAP <span class="var-unit">mmHg</span></div>
           <div class="var-pts" id="pts-map">0</div>
         </div>
-        <div class="chip-row" data-var="map">
-          <button type="button" class="chip" data-pts="4">≥160</button>
-          <button type="button" class="chip" data-pts="3">130–159</button>
-          <button type="button" class="chip" data-pts="2">110–129</button>
-          <button type="button" class="chip" data-pts="0">70–109</button>
-          <button type="button" class="chip" data-pts="2">50–69</button>
-          <button type="button" class="chip" data-pts="4">&lt;50</button>
-        </div>
+        <select class="dial-select" data-var="map">
+          <option data-pts="4">≥160　＋4 点</option>
+          <option data-pts="3">130–159　＋3 点</option>
+          <option data-pts="2">110–129　＋2 点</option>
+          <option data-pts="0" selected>70–109　 0 点</option>
+          <option data-pts="2">50–69　＋2 点</option>
+          <option data-pts="4">&lt;50　＋4 点</option>
+        </select>
       </div>
 
       <div class="var-row" id="v-hr" data-pts="0">
@@ -270,15 +266,15 @@
           <div class="var-label">心拍数 <span class="var-unit">bpm</span></div>
           <div class="var-pts" id="pts-hr">0</div>
         </div>
-        <div class="chip-row" data-var="hr">
-          <button type="button" class="chip" data-pts="4">≥180</button>
-          <button type="button" class="chip" data-pts="3">140–179</button>
-          <button type="button" class="chip" data-pts="2">110–139</button>
-          <button type="button" class="chip" data-pts="0">70–109</button>
-          <button type="button" class="chip" data-pts="2">55–69</button>
-          <button type="button" class="chip" data-pts="3">40–54</button>
-          <button type="button" class="chip" data-pts="4">&lt;40</button>
-        </div>
+        <select class="dial-select" data-var="hr">
+          <option data-pts="4">≥180　＋4 点</option>
+          <option data-pts="3">140–179　＋3 点</option>
+          <option data-pts="2">110–139　＋2 点</option>
+          <option data-pts="0" selected>70–109　 0 点</option>
+          <option data-pts="2">55–69　＋2 点</option>
+          <option data-pts="3">40–54　＋3 点</option>
+          <option data-pts="4">&lt;40　＋4 点</option>
+        </select>
       </div>
 
       <div class="var-row" id="v-rr" data-pts="0">
@@ -286,15 +282,15 @@
           <div class="var-label">呼吸数 <span class="var-unit">/min</span></div>
           <div class="var-pts" id="pts-rr">0</div>
         </div>
-        <div class="chip-row" data-var="rr">
-          <button type="button" class="chip" data-pts="4">≥50</button>
-          <button type="button" class="chip" data-pts="3">35–49</button>
-          <button type="button" class="chip" data-pts="1">25–34</button>
-          <button type="button" class="chip" data-pts="0">12–24</button>
-          <button type="button" class="chip" data-pts="1">10–11</button>
-          <button type="button" class="chip" data-pts="2">6–9</button>
-          <button type="button" class="chip" data-pts="4">&lt;6</button>
-        </div>
+        <select class="dial-select" data-var="rr">
+          <option data-pts="4">≥50　＋4 点</option>
+          <option data-pts="3">35–49　＋3 点</option>
+          <option data-pts="1">25–34　＋1 点</option>
+          <option data-pts="0" selected>12–24　 0 点</option>
+          <option data-pts="1">10–11　＋1 点</option>
+          <option data-pts="2">6–9　＋2 点</option>
+          <option data-pts="4">&lt;6　＋4 点</option>
+        </select>
       </div>
 
       <div class="var-row" id="v-o2" data-pts="0" style="grid-column:1 / -1;">
@@ -308,18 +304,18 @@
           <input type="radio" name="o2type" id="o2-aa" value="aa">
           <label for="o2-aa">A-a 較差（FiO₂ ≥ 0.5）</label>
         </div>
-        <div class="chip-row" data-var="o2" id="o2-pa-chips">
-          <button type="button" class="chip" data-pts="0">PaO₂ &gt;70</button>
-          <button type="button" class="chip" data-pts="1">61–70</button>
-          <button type="button" class="chip" data-pts="3">55–60</button>
-          <button type="button" class="chip" data-pts="4">&lt;55</button>
-        </div>
-        <div class="chip-row" data-var="o2" id="o2-aa-chips" style="display:none;">
-          <button type="button" class="chip" data-pts="0">A-a &lt;200</button>
-          <button type="button" class="chip" data-pts="2">200–349</button>
-          <button type="button" class="chip" data-pts="3">350–499</button>
-          <button type="button" class="chip" data-pts="4">≥500</button>
-        </div>
+        <select class="dial-select" data-var="o2" id="o2-pa-select">
+          <option data-pts="0" selected>PaO₂ &gt;70　 0 点</option>
+          <option data-pts="1">PaO₂ 61–70　＋1 点</option>
+          <option data-pts="3">PaO₂ 55–60　＋3 点</option>
+          <option data-pts="4">PaO₂ &lt;55　＋4 点</option>
+        </select>
+        <select class="dial-select" data-var="o2" id="o2-aa-select" style="display:none;">
+          <option data-pts="0" selected>A-a &lt;200　 0 点</option>
+          <option data-pts="2">A-a 200–349　＋2 点</option>
+          <option data-pts="3">A-a 350–499　＋3 点</option>
+          <option data-pts="4">A-a ≥500　＋4 点</option>
+        </select>
       </div>
 
       <div class="var-row" id="v-ph" data-pts="0">
@@ -327,15 +323,15 @@
           <div class="var-label">動脈血 pH</div>
           <div class="var-pts" id="pts-ph">0</div>
         </div>
-        <div class="chip-row" data-var="ph">
-          <button type="button" class="chip" data-pts="4">≥7.70</button>
-          <button type="button" class="chip" data-pts="3">7.60–7.69</button>
-          <button type="button" class="chip" data-pts="1">7.50–7.59</button>
-          <button type="button" class="chip" data-pts="0">7.33–7.49</button>
-          <button type="button" class="chip" data-pts="2">7.25–7.32</button>
-          <button type="button" class="chip" data-pts="3">7.15–7.24</button>
-          <button type="button" class="chip" data-pts="4">&lt;7.15</button>
-        </div>
+        <select class="dial-select" data-var="ph">
+          <option data-pts="4">≥7.70　＋4 点</option>
+          <option data-pts="3">7.60–7.69　＋3 点</option>
+          <option data-pts="1">7.50–7.59　＋1 点</option>
+          <option data-pts="0" selected>7.33–7.49　 0 点</option>
+          <option data-pts="2">7.25–7.32　＋2 点</option>
+          <option data-pts="3">7.15–7.24　＋3 点</option>
+          <option data-pts="4">&lt;7.15　＋4 点</option>
+        </select>
       </div>
 
       <div class="var-row" id="v-na" data-pts="0">
@@ -343,16 +339,16 @@
           <div class="var-label">血清 Na <span class="var-unit">mEq/L</span></div>
           <div class="var-pts" id="pts-na">0</div>
         </div>
-        <div class="chip-row" data-var="na">
-          <button type="button" class="chip" data-pts="4">≥180</button>
-          <button type="button" class="chip" data-pts="3">160–179</button>
-          <button type="button" class="chip" data-pts="2">155–159</button>
-          <button type="button" class="chip" data-pts="1">150–154</button>
-          <button type="button" class="chip" data-pts="0">130–149</button>
-          <button type="button" class="chip" data-pts="2">120–129</button>
-          <button type="button" class="chip" data-pts="3">111–119</button>
-          <button type="button" class="chip" data-pts="4">&lt;111</button>
-        </div>
+        <select class="dial-select" data-var="na">
+          <option data-pts="4">≥180　＋4 点</option>
+          <option data-pts="3">160–179　＋3 点</option>
+          <option data-pts="2">155–159　＋2 点</option>
+          <option data-pts="1">150–154　＋1 点</option>
+          <option data-pts="0" selected>130–149　 0 点</option>
+          <option data-pts="2">120–129　＋2 点</option>
+          <option data-pts="3">111–119　＋3 点</option>
+          <option data-pts="4">&lt;111　＋4 点</option>
+        </select>
       </div>
 
       <div class="var-row" id="v-k" data-pts="0">
@@ -360,15 +356,15 @@
           <div class="var-label">血清 K <span class="var-unit">mEq/L</span></div>
           <div class="var-pts" id="pts-k">0</div>
         </div>
-        <div class="chip-row" data-var="k">
-          <button type="button" class="chip" data-pts="4">≥7.0</button>
-          <button type="button" class="chip" data-pts="3">6.0–6.9</button>
-          <button type="button" class="chip" data-pts="1">5.5–5.9</button>
-          <button type="button" class="chip" data-pts="0">3.5–5.4</button>
-          <button type="button" class="chip" data-pts="1">3.0–3.4</button>
-          <button type="button" class="chip" data-pts="2">2.5–2.9</button>
-          <button type="button" class="chip" data-pts="4">&lt;2.5</button>
-        </div>
+        <select class="dial-select" data-var="k">
+          <option data-pts="4">≥7.0　＋4 点</option>
+          <option data-pts="3">6.0–6.9　＋3 点</option>
+          <option data-pts="1">5.5–5.9　＋1 点</option>
+          <option data-pts="0" selected>3.5–5.4　 0 点</option>
+          <option data-pts="1">3.0–3.4　＋1 点</option>
+          <option data-pts="2">2.5–2.9　＋2 点</option>
+          <option data-pts="4">&lt;2.5　＋4 点</option>
+        </select>
       </div>
 
       <div class="var-row" id="v-cr" data-pts="0">
@@ -376,13 +372,13 @@
           <div class="var-label">血清 Cr <span class="var-unit">mg/dL</span></div>
           <div class="var-pts" id="pts-cr">0</div>
         </div>
-        <div class="chip-row" data-var="cr">
-          <button type="button" class="chip" data-pts="4">≥3.5</button>
-          <button type="button" class="chip" data-pts="3">2.0–3.4</button>
-          <button type="button" class="chip" data-pts="2">1.5–1.9</button>
-          <button type="button" class="chip" data-pts="0">0.6–1.4</button>
-          <button type="button" class="chip" data-pts="2">&lt;0.6</button>
-        </div>
+        <select class="dial-select" data-var="cr">
+          <option data-pts="4">≥3.5　＋4 点</option>
+          <option data-pts="3">2.0–3.4　＋3 点</option>
+          <option data-pts="2">1.5–1.9　＋2 点</option>
+          <option data-pts="0" selected>0.6–1.4　 0 点</option>
+          <option data-pts="2">&lt;0.6　＋2 点</option>
+        </select>
         <div class="var-extra">
           <input type="checkbox" id="aki">
           <label for="aki">急性腎不全 → スコア×2</label>
@@ -394,14 +390,14 @@
           <div class="var-label">Hct <span class="var-unit">%</span></div>
           <div class="var-pts" id="pts-hct">0</div>
         </div>
-        <div class="chip-row" data-var="hct">
-          <button type="button" class="chip" data-pts="4">≥60</button>
-          <button type="button" class="chip" data-pts="2">50.0–59.9</button>
-          <button type="button" class="chip" data-pts="1">46.0–49.9</button>
-          <button type="button" class="chip" data-pts="0">30.0–45.9</button>
-          <button type="button" class="chip" data-pts="2">20.0–29.9</button>
-          <button type="button" class="chip" data-pts="4">&lt;20</button>
-        </div>
+        <select class="dial-select" data-var="hct">
+          <option data-pts="4">≥60　＋4 点</option>
+          <option data-pts="2">50.0–59.9　＋2 点</option>
+          <option data-pts="1">46.0–49.9　＋1 点</option>
+          <option data-pts="0" selected>30.0–45.9　 0 点</option>
+          <option data-pts="2">20.0–29.9　＋2 点</option>
+          <option data-pts="4">&lt;20　＋4 点</option>
+        </select>
       </div>
 
       <div class="var-row" id="v-wbc" data-pts="0">
@@ -409,36 +405,36 @@
           <div class="var-label">WBC <span class="var-unit">×10³/μL</span></div>
           <div class="var-pts" id="pts-wbc">0</div>
         </div>
-        <div class="chip-row" data-var="wbc">
-          <button type="button" class="chip" data-pts="4">≥40</button>
-          <button type="button" class="chip" data-pts="2">20.0–39.9</button>
-          <button type="button" class="chip" data-pts="1">15.0–19.9</button>
-          <button type="button" class="chip" data-pts="0">3.0–14.9</button>
-          <button type="button" class="chip" data-pts="2">1.0–2.9</button>
-          <button type="button" class="chip" data-pts="4">&lt;1</button>
-        </div>
+        <select class="dial-select" data-var="wbc">
+          <option data-pts="4">≥40　＋4 点</option>
+          <option data-pts="2">20.0–39.9　＋2 点</option>
+          <option data-pts="1">15.0–19.9　＋1 点</option>
+          <option data-pts="0" selected>3.0–14.9　 0 点</option>
+          <option data-pts="2">1.0–2.9　＋2 点</option>
+          <option data-pts="4">&lt;1　＋4 点</option>
+        </select>
       </div>
 
-      <div class="var-row" id="v-gcs" data-pts="0" style="grid-column:1 / -1;">
+      <div class="var-row" id="v-gcs" data-pts="0">
         <div class="var-row-head">
-          <div class="var-label">GCS（点数 = 15 − GCS）</div>
+          <div class="var-label">GCS <span class="var-unit">3–15（点数 = 15 − GCS）</span></div>
           <div class="var-pts" id="pts-gcs">0</div>
         </div>
-        <div class="chip-row" data-var="gcs">
-          <button type="button" class="chip" data-pts="0">15</button>
-          <button type="button" class="chip" data-pts="1">14</button>
-          <button type="button" class="chip" data-pts="2">13</button>
-          <button type="button" class="chip" data-pts="3">12</button>
-          <button type="button" class="chip" data-pts="4">11</button>
-          <button type="button" class="chip" data-pts="5">10</button>
-          <button type="button" class="chip" data-pts="6">9</button>
-          <button type="button" class="chip" data-pts="7">8</button>
-          <button type="button" class="chip" data-pts="8">7</button>
-          <button type="button" class="chip" data-pts="9">6</button>
-          <button type="button" class="chip" data-pts="10">5</button>
-          <button type="button" class="chip" data-pts="11">4</button>
-          <button type="button" class="chip" data-pts="12">3</button>
-        </div>
+        <select class="dial-select" data-var="gcs">
+          <option data-pts="0" selected>15　 0 点</option>
+          <option data-pts="1">14　＋1 点</option>
+          <option data-pts="2">13　＋2 点</option>
+          <option data-pts="3">12　＋3 点</option>
+          <option data-pts="4">11　＋4 点</option>
+          <option data-pts="5">10　＋5 点</option>
+          <option data-pts="6">9　＋6 点</option>
+          <option data-pts="7">8　＋7 点</option>
+          <option data-pts="8">7　＋8 点</option>
+          <option data-pts="9">6　＋9 点</option>
+          <option data-pts="10">5　＋10 点</option>
+          <option data-pts="11">4　＋11 点</option>
+          <option data-pts="12">3　＋12 点</option>
+        </select>
       </div>
 
     </div>
@@ -448,18 +444,18 @@
   <div class="section-card">
     <h2 class="section-title">② 年齢</h2>
     <div class="var-grid">
-      <div class="var-row" id="v-age" data-pts="0" style="grid-column:1 / -1;">
+      <div class="var-row" id="v-age" data-pts="0">
         <div class="var-row-head">
           <div class="var-label">年齢 <span class="var-unit">歳</span></div>
           <div class="var-pts" id="pts-age">0</div>
         </div>
-        <div class="chip-row" data-var="age">
-          <button type="button" class="chip" data-pts="0">≤44</button>
-          <button type="button" class="chip" data-pts="2">45–54</button>
-          <button type="button" class="chip" data-pts="3">55–64</button>
-          <button type="button" class="chip" data-pts="5">65–74</button>
-          <button type="button" class="chip" data-pts="6">≥75</button>
-        </div>
+        <select class="dial-select" data-var="age">
+          <option data-pts="0" selected>≤44　 0 点</option>
+          <option data-pts="2">45–54　＋2 点</option>
+          <option data-pts="3">55–64　＋3 点</option>
+          <option data-pts="5">65–74　＋5 点</option>
+          <option data-pts="6">≥75　＋6 点</option>
+        </select>
       </div>
     </div>
   </div>
@@ -546,34 +542,30 @@
       document.getElementById('pts-'+id).textContent = pts;
     }
 
-    /* ===== チップクリック処理 ===== */
-    document.querySelectorAll('.chip-row').forEach(function(row){
-      var v = row.dataset.var;
-      row.querySelectorAll('.chip').forEach(function(chip){
-        chip.addEventListener('click', function(){
-          // 同じ変数の全 chip-row（O2 の PA/AA など）から selected を外す
-          document.querySelectorAll('.chip-row[data-var="'+v+'"] .chip').forEach(function(c){
-            c.classList.remove('selected');
-          });
-          chip.classList.add('selected');
-          ptsState[v] = parseInt(chip.dataset.pts) || 0;
-          update();
-        });
-      });
+    /* ===== ダイヤル（select）変更処理 ===== */
+    document.querySelectorAll('.dial-select').forEach(function(sel){
+      var v = sel.dataset.var;
+      function apply() {
+        var opt = sel.options[sel.selectedIndex];
+        if (!opt) return;
+        ptsState[v] = parseInt(opt.dataset.pts) || 0;
+        update();
+      }
+      sel.addEventListener('change', apply);
+      apply(); // 初期化（selected option を反映）
     });
 
     /* ===== O2 PaO₂ ⇄ A-a 切替 ===== */
-    var paChips = document.getElementById('o2-pa-chips');
-    var aaChips = document.getElementById('o2-aa-chips');
+    var paSel = document.getElementById('o2-pa-select');
+    var aaSel = document.getElementById('o2-aa-select');
     document.querySelectorAll('input[name="o2type"]').forEach(function(r){
       r.addEventListener('change', function(){
         var isAa = document.getElementById('o2-aa').checked;
-        paChips.style.display = isAa ? 'none' : 'flex';
-        aaChips.style.display = isAa ? 'flex' : 'none';
-        // 切替時は O2 の選択をリセット
-        paChips.querySelectorAll('.chip').forEach(function(c){ c.classList.remove('selected'); });
-        aaChips.querySelectorAll('.chip').forEach(function(c){ c.classList.remove('selected'); });
-        ptsState.o2 = 0;
+        paSel.style.display = isAa ? 'none' : 'block';
+        aaSel.style.display = isAa ? 'block' : 'none';
+        var activeSel = isAa ? aaSel : paSel;
+        var opt = activeSel.options[activeSel.selectedIndex];
+        ptsState.o2 = parseInt(opt.dataset.pts) || 0;
         update();
       });
     });
