@@ -63,29 +63,39 @@
     .organ-card[data-pts="3"] .organ-score-pill { background:#EA580C; }
     .organ-card[data-pts="4"] .organ-score-pill { background:#DC2626; }
 
-    .organ-row { display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;align-items:end; }
-    .ofield { display:flex;flex-direction:column;gap:4px; }
-    .ofield label { font-size:0.66rem;font-weight:700;color:var(--muted); }
-    .ofield input, .ofield select {
-      font-family:inherit;font-size:0.84rem;font-variant-numeric:tabular-nums;
-      padding:6px 9px;border:1px solid var(--border);border-radius:7px;
-      background:#fff;outline:none;height:34px;box-sizing:border-box;width:100%;
+    /* ===== クリック式スコアチップ（縦並び） ===== */
+    .score-chip-row {
+      display:flex;flex-direction:column;gap:4px;
     }
-    .ofield input:focus, .ofield select:focus { border-color:#0EA5E9;box-shadow:0 0 0 3px rgba(14,165,233,0.15); }
-
-    .toggle-row { display:flex;gap:6px;flex-wrap:wrap;margin-top:7px; }
-    .toggle-row label {
-      padding:5px 10px;background:#F8FAFC;border:1.5px solid var(--border);border-radius:999px;
-      font-size:0.7rem;font-weight:700;color:#64748B;cursor:pointer;user-select:none;
+    .score-chip {
+      display:flex;align-items:center;gap:10px;
+      padding:7px 10px;border:1.5px solid var(--border);border-radius:8px;
+      background:#fff;cursor:pointer;text-align:left;line-height:1.4;
+      font-family:inherit;width:100%;
+      transition:transform .08s, background .12s, border-color .12s, box-shadow .12s;
     }
-    .toggle-row input[type="checkbox"] { display:none; }
-    .toggle-row input[type="checkbox"]:checked + label,
-    .toggle-row input[type="radio"]:checked + label {
-      background:linear-gradient(135deg,#0369A1,#0EA5E9);color:#fff;border-color:transparent;
+    .score-chip:hover { border-color:#7DD3FC;background:#F0F9FF; }
+    .score-chip:active { transform:scale(0.99); }
+    .score-num {
+      font-size:0.92rem;font-weight:900;color:#fff;background:#94A3B8;
+      width:26px;height:26px;border-radius:6px;
+      display:flex;align-items:center;justify-content:center;flex-shrink:0;
+      font-family:ui-monospace,Menlo,Consolas,monospace;
     }
-    .organ-hint { font-size:0.66rem;color:#64748B;margin-top:5px;line-height:1.6; }
-    .organ-hint code { background:#F0F9FF;padding:1px 5px;border-radius:3px;
-      font-family:ui-monospace,Menlo,Consolas,monospace;font-size:0.72rem; }
+    .score-criteria {
+      font-size:0.74rem;font-weight:700;color:#475569;line-height:1.4;
+    }
+    .score-chip[data-pts="0"] .score-num { background:#16A34A; }
+    .score-chip[data-pts="1"] .score-num { background:#84CC16; }
+    .score-chip[data-pts="2"] .score-num { background:#F59E0B; }
+    .score-chip[data-pts="3"] .score-num { background:#EA580C; }
+    .score-chip[data-pts="4"] .score-num { background:#DC2626; }
+    .score-chip.selected {
+      background:#F0F9FF;box-shadow:inset 0 0 0 2px #0EA5E9;border-color:transparent;
+    }
+    .score-chip.selected .score-criteria { color:#0C4A6E;font-weight:800; }
+    .organ-tip { font-size:0.7rem;color:#64748B;margin:0 0 7px;line-height:1.55; }
+    .organ-tip strong { color:#0369A1; }
 
     /* 結果 */
     .total-card {
@@ -164,133 +174,97 @@
     </p>
   </div>
 
-  <form id="toolForm" onsubmit="return false;" autocomplete="off">
+  <p class="organ-tip">各臓器ごとに、患者の状態に最も近い行をタップしてください（タップでスコアが確定）。</p>
 
   <!-- ===== 呼吸 ===== -->
   <div class="organ-card" id="o-resp" data-pts="0">
     <div class="organ-head">
-      <div class="organ-name">① 呼吸（PaO₂/FiO₂）</div>
+      <div class="organ-name">① 呼吸（PaO₂/FiO₂・人工呼吸・ECMO）</div>
       <div class="organ-score-pill" id="resp-pill">0</div>
     </div>
-    <div class="organ-row">
-      <div class="ofield">
-        <label for="pf">P/F 比 <span style="font-weight:400;color:#64748B;">(PaO₂ ÷ FiO₂)</span></label>
-        <input type="number" id="pf" min="40" max="600" step="1" inputmode="numeric" enterkeyhint="next" placeholder="例 250">
-      </div>
-    </div>
-    <div class="toggle-row">
-      <input type="checkbox" id="vent"><label for="vent">人工呼吸器（advanced support）</label>
-      <input type="checkbox" id="ecmo"><label for="ecmo">ECMO（呼吸不全）</label>
-    </div>
-    <div class="organ-hint">
-      <code>0:</code> P/F &gt; 300　<code>1:</code> P/F &lt; 300　<code>2:</code> P/F &lt; 225　<code>3:</code> P/F &lt; 225 ＋人工呼吸　<code>4:</code> P/F &lt; 75 ＋人工呼吸 or ECMO
+    <div class="score-chip-row" data-organ="resp">
+      <button type="button" class="score-chip" data-pts="0"><span class="score-num">0</span><span class="score-criteria">P/F &gt; 300</span></button>
+      <button type="button" class="score-chip" data-pts="1"><span class="score-num">1</span><span class="score-criteria">P/F &lt; 300</span></button>
+      <button type="button" class="score-chip" data-pts="2"><span class="score-num">2</span><span class="score-criteria">P/F &lt; 225</span></button>
+      <button type="button" class="score-chip" data-pts="3"><span class="score-num">3</span><span class="score-criteria">P/F &lt; 225 ＋ 人工呼吸器</span></button>
+      <button type="button" class="score-chip" data-pts="4"><span class="score-num">4</span><span class="score-criteria">P/F &lt; 75 ＋ 人工呼吸器、または ECMO</span></button>
     </div>
   </div>
 
   <!-- ===== 凝固 ===== -->
   <div class="organ-card" id="o-coag" data-pts="0">
     <div class="organ-head">
-      <div class="organ-name">② 凝固（血小板）</div>
+      <div class="organ-name">② 凝固（血小板 ×10³/μL ＝ 万/μL ×10）</div>
       <div class="organ-score-pill" id="coag-pill">0</div>
     </div>
-    <div class="organ-row">
-      <div class="ofield">
-        <label for="plt">血小板 <span style="font-weight:400;color:#64748B;">×10³/μL（=万/μL ×10）</span></label>
-        <input type="number" id="plt" min="0" max="1000" step="1" inputmode="numeric" enterkeyhint="next" placeholder="例 120">
-      </div>
-    </div>
-    <div class="organ-hint">
-      <code>0:</code> &gt; 150　<code>1:</code> &lt; 150　<code>2:</code> &lt; 100　<code>3:</code> &lt; 80（旧 50）　<code>4:</code> &lt; 50（旧 20）
+    <div class="score-chip-row" data-organ="coag">
+      <button type="button" class="score-chip" data-pts="0"><span class="score-num">0</span><span class="score-criteria">Plt &gt; 150</span></button>
+      <button type="button" class="score-chip" data-pts="1"><span class="score-num">1</span><span class="score-criteria">Plt &lt; 150</span></button>
+      <button type="button" class="score-chip" data-pts="2"><span class="score-num">2</span><span class="score-criteria">Plt &lt; 100</span></button>
+      <button type="button" class="score-chip" data-pts="3"><span class="score-num">3</span><span class="score-criteria">Plt &lt; 80（旧 50）</span></button>
+      <button type="button" class="score-chip" data-pts="4"><span class="score-num">4</span><span class="score-criteria">Plt &lt; 50（旧 20）</span></button>
     </div>
   </div>
 
   <!-- ===== 肝 ===== -->
   <div class="organ-card" id="o-liver" data-pts="0">
     <div class="organ-head">
-      <div class="organ-name">③ 肝（総ビリルビン）</div>
+      <div class="organ-name">③ 肝（総ビリルビン mg/dL）</div>
       <div class="organ-score-pill" id="liver-pill">0</div>
     </div>
-    <div class="organ-row">
-      <div class="ofield">
-        <label for="bili">総ビリルビン <span style="font-weight:400;color:#64748B;">mg/dL</span></label>
-        <input type="number" id="bili" min="0" max="50" step="0.1" inputmode="decimal" enterkeyhint="next" placeholder="例 2.5">
-      </div>
-    </div>
-    <div class="organ-hint">
-      <code>0:</code> &lt; 1.2　<code>1:</code> &lt; 3.0　<code>2:</code> &lt; 6.0　<code>3:</code> &lt; 12.0　<code>4:</code> &gt; 12.0
+    <div class="score-chip-row" data-organ="liver">
+      <button type="button" class="score-chip" data-pts="0"><span class="score-num">0</span><span class="score-criteria">T-Bil &lt; 1.2</span></button>
+      <button type="button" class="score-chip" data-pts="1"><span class="score-num">1</span><span class="score-criteria">T-Bil 1.2 – 1.9</span></button>
+      <button type="button" class="score-chip" data-pts="2"><span class="score-num">2</span><span class="score-criteria">T-Bil 2.0 – 5.9</span></button>
+      <button type="button" class="score-chip" data-pts="3"><span class="score-num">3</span><span class="score-criteria">T-Bil 6.0 – 11.9</span></button>
+      <button type="button" class="score-chip" data-pts="4"><span class="score-num">4</span><span class="score-criteria">T-Bil ≥ 12.0</span></button>
     </div>
   </div>
 
   <!-- ===== 循環 ===== -->
   <div class="organ-card" id="o-cv" data-pts="0">
     <div class="organ-head">
-      <div class="organ-name">④ 循環（MAP / 昇圧薬）</div>
+      <div class="organ-name">④ 循環（MAP・昇圧薬・MCS）</div>
       <div class="organ-score-pill" id="cv-pill">0</div>
     </div>
-    <div class="organ-row">
-      <div class="ofield">
-        <label for="map">MAP <span style="font-weight:400;color:#64748B;">mmHg</span></label>
-        <input type="number" id="map" min="20" max="180" step="1" inputmode="numeric" enterkeyhint="next" placeholder="例 75">
-      </div>
-      <div class="ofield">
-        <label for="vp">NA / Adr 投与量 <span style="font-weight:400;color:#64748B;">µg/kg/min</span></label>
-        <input type="number" id="vp" min="0" max="5" step="0.01" inputmode="decimal" enterkeyhint="next" placeholder="例 0.15">
-      </div>
-    </div>
-    <div class="toggle-row">
-      <input type="checkbox" id="other-vp"><label for="other-vp">他の昇圧薬・強心薬を併用</label>
-      <input type="checkbox" id="mcs"><label for="mcs">機械的循環補助（IABP/Impella/VA-ECMO）</label>
-    </div>
-    <div class="organ-hint">
-      <code>0:</code> MAP ≥ 70・昇圧薬なし　<code>1:</code> MAP &lt; 70・昇圧薬なし　<code>2:</code> NA/Adr ≤ 0.2 or 強心薬のみ　<code>3:</code> NA/Adr 0.2–0.4 or 低用量＋他薬　<code>4:</code> NA/Adr &gt; 0.4 or 中用量＋他薬 or 機械的循環補助
+    <div class="score-chip-row" data-organ="cv">
+      <button type="button" class="score-chip" data-pts="0"><span class="score-num">0</span><span class="score-criteria">MAP ≥ 70 ・ 昇圧薬なし</span></button>
+      <button type="button" class="score-chip" data-pts="1"><span class="score-num">1</span><span class="score-criteria">MAP &lt; 70 ・ 昇圧薬なし</span></button>
+      <button type="button" class="score-chip" data-pts="2"><span class="score-num">2</span><span class="score-criteria">NA/Adr ≤ 0.2 µg/kg/min または 強心薬のみ</span></button>
+      <button type="button" class="score-chip" data-pts="3"><span class="score-num">3</span><span class="score-criteria">NA/Adr 0.2–0.4 µg/kg/min または 低用量＋他剤併用</span></button>
+      <button type="button" class="score-chip" data-pts="4"><span class="score-num">4</span><span class="score-criteria">NA/Adr &gt; 0.4 µg/kg/min または MCS（IABP/Impella/VA-ECMO）</span></button>
     </div>
   </div>
 
   <!-- ===== 中枢神経（脳） ===== -->
   <div class="organ-card" id="o-cns" data-pts="0">
     <div class="organ-head">
-      <div class="organ-name">⑤ 脳（GCS）</div>
+      <div class="organ-name">⑤ 脳（GCS ／ せん妄薬）</div>
       <div class="organ-score-pill" id="cns-pill">0</div>
     </div>
-    <div class="organ-row">
-      <div class="ofield">
-        <label for="gcs">GCS 合計 <span style="font-weight:400;color:#64748B;">3–15</span></label>
-        <input type="number" id="gcs" min="3" max="15" step="1" inputmode="numeric" enterkeyhint="next" placeholder="例 14">
-      </div>
-    </div>
-    <div class="toggle-row">
-      <input type="checkbox" id="delir-drug"><label for="delir-drug">せん妄治療薬を使用中（GCS 15 でも +1 点）</label>
-    </div>
-    <div class="organ-hint">
-      <code>0:</code> GCS 15　<code>1:</code> 13–14 or せん妄薬使用　<code>2:</code> 9–12　<code>3:</code> 6–8　<code>4:</code> 3–5
+    <div class="score-chip-row" data-organ="cns">
+      <button type="button" class="score-chip" data-pts="0"><span class="score-num">0</span><span class="score-criteria">GCS 15</span></button>
+      <button type="button" class="score-chip" data-pts="1"><span class="score-num">1</span><span class="score-criteria">GCS 13–14、または せん妄治療薬を使用中（GCS 15 でも +1）</span></button>
+      <button type="button" class="score-chip" data-pts="2"><span class="score-num">2</span><span class="score-criteria">GCS 9–12</span></button>
+      <button type="button" class="score-chip" data-pts="3"><span class="score-num">3</span><span class="score-criteria">GCS 6–8</span></button>
+      <button type="button" class="score-chip" data-pts="4"><span class="score-num">4</span><span class="score-criteria">GCS 3–5</span></button>
     </div>
   </div>
 
   <!-- ===== 腎 ===== -->
   <div class="organ-card" id="o-renal" data-pts="0">
     <div class="organ-head">
-      <div class="organ-name">⑥ 腎（Cr / 尿量 / RRT）</div>
+      <div class="organ-name">⑥ 腎（Cr ／ 尿量 ／ RRT）</div>
       <div class="organ-score-pill" id="renal-pill">0</div>
     </div>
-    <div class="organ-row">
-      <div class="ofield">
-        <label for="cr">血清 Cr <span style="font-weight:400;color:#64748B;">mg/dL</span></label>
-        <input type="number" id="cr" min="0.1" max="20" step="0.01" inputmode="decimal" enterkeyhint="next" placeholder="例 1.6">
-      </div>
-      <div class="ofield">
-        <label for="uo">尿量 <span style="font-weight:400;color:#64748B;">mL/kg/h（直近）</span></label>
-        <input type="number" id="uo" min="0" max="5" step="0.1" inputmode="decimal" enterkeyhint="next" placeholder="例 0.4">
-      </div>
-    </div>
-    <div class="toggle-row">
-      <input type="checkbox" id="rrt"><label for="rrt">RRT 施行中／適応あり（自動で 4 点）</label>
-    </div>
-    <div class="organ-hint">
-      <code>0:</code> Cr &lt; 1.2　<code>1:</code> Cr &lt; 2.0 or UO &lt; 0.5 (6–12h)　<code>2:</code> Cr &lt; 3.5 or UO &lt; 0.5 (&gt;12h)　<code>3:</code> Cr &gt; 3.5 or UO &lt; 0.3 (&gt;24h)・無尿　<code>4:</code> RRT
+    <div class="score-chip-row" data-organ="renal">
+      <button type="button" class="score-chip" data-pts="0"><span class="score-num">0</span><span class="score-criteria">Cr &lt; 1.2 ・ UO 正常</span></button>
+      <button type="button" class="score-chip" data-pts="1"><span class="score-num">1</span><span class="score-criteria">Cr 1.2 – 1.9、または UO &lt; 0.5 mL/kg/h（6–12h）</span></button>
+      <button type="button" class="score-chip" data-pts="2"><span class="score-num">2</span><span class="score-criteria">Cr 2.0 – 3.4、または UO &lt; 0.5 mL/kg/h（&gt; 12h）</span></button>
+      <button type="button" class="score-chip" data-pts="3"><span class="score-num">3</span><span class="score-criteria">Cr ≥ 3.5、または UO &lt; 0.3 mL/kg/h（&gt; 24h）・無尿</span></button>
+      <button type="button" class="score-chip" data-pts="4"><span class="score-num">4</span><span class="score-criteria">RRT 施行中／適応あり</span></button>
     </div>
   </div>
-
-  </form>
 
   <!-- ===== 合計 ===== -->
   <div class="total-card">
@@ -343,125 +317,43 @@
 <script src="../script.js"></script>
 <script>
   (function(){
+    var ptsState = { resp:0, coag:0, liver:0, cv:0, cns:0, renal:0 };
+
     function setOrgan(id, pts) {
       var card = document.getElementById('o-'+id);
+      if (!card) return;
       card.dataset.pts = pts;
       document.getElementById(id+'-pill').textContent = pts;
       document.getElementById('bd-'+id).textContent = pts;
-      return pts;
     }
 
-    function calcResp() {
-      var pf = parseFloat(document.getElementById('pf').value);
-      var vent = document.getElementById('vent').checked;
-      var ecmo = document.getElementById('ecmo').checked;
-      if (ecmo) return setOrgan('resp', 4);
-      if (isNaN(pf)) return setOrgan('resp', 0);
-      if (pf < 75 && vent) return setOrgan('resp', 4);
-      if (pf < 225 && vent) return setOrgan('resp', 3);
-      if (pf < 225) return setOrgan('resp', 2);
-      if (pf < 300) return setOrgan('resp', 1);
-      return setOrgan('resp', 0);
-    }
-    function calcCoag() {
-      var plt = parseFloat(document.getElementById('plt').value);
-      if (isNaN(plt)) return setOrgan('coag', 0);
-      if (plt < 50) return setOrgan('coag', 4);
-      if (plt < 80) return setOrgan('coag', 3);
-      if (plt < 100) return setOrgan('coag', 2);
-      if (plt < 150) return setOrgan('coag', 1);
-      return setOrgan('coag', 0);
-    }
-    function calcLiver() {
-      var b = parseFloat(document.getElementById('bili').value);
-      if (isNaN(b)) return setOrgan('liver', 0);
-      if (b > 12.0) return setOrgan('liver', 4);
-      if (b >= 6.0) return setOrgan('liver', 3);
-      if (b >= 2.0) return setOrgan('liver', 2);
-      if (b >= 1.2) return setOrgan('liver', 1);
-      return setOrgan('liver', 0);
-    }
-    function calcCV() {
-      var map = parseFloat(document.getElementById('map').value);
-      var vp  = parseFloat(document.getElementById('vp').value) || 0;
-      var oth = document.getElementById('other-vp').checked;
-      var mcs = document.getElementById('mcs').checked;
-      if (mcs) return setOrgan('cv', 4);
-      if (vp > 0.4) return setOrgan('cv', 4);
-      if (vp > 0.2) {
-        return setOrgan('cv', oth ? 4 : 3);
-      }
-      if (vp > 0) {
-        return setOrgan('cv', oth ? 3 : 2);
-      }
-      // 昇圧薬なし
-      if (!isNaN(map) && map < 70) return setOrgan('cv', 1);
-      return setOrgan('cv', 0);
-    }
-    function calcCNS() {
-      var g = parseInt(document.getElementById('gcs').value);
-      var d = document.getElementById('delir-drug').checked;
-      if (isNaN(g)) return setOrgan('cns', d ? 1 : 0);
-      if (g <= 5) return setOrgan('cns', 4);
-      if (g <= 8) return setOrgan('cns', 3);
-      if (g <= 12) return setOrgan('cns', 2);
-      if (g <= 14) return setOrgan('cns', 1);
-      // GCS 15
-      return setOrgan('cns', d ? 1 : 0);
-    }
-    function calcRenal() {
-      var cr = parseFloat(document.getElementById('cr').value);
-      var uo = parseFloat(document.getElementById('uo').value);
-      var rrt = document.getElementById('rrt').checked;
-      if (rrt) return setOrgan('renal', 4);
-      var crPts = 0, uoPts = 0;
-      if (!isNaN(cr)) {
-        if (cr > 3.5) crPts = 3;
-        else if (cr >= 2.0) crPts = 2;
-        else if (cr >= 1.2) crPts = 1;
-      }
-      if (!isNaN(uo)) {
-        if (uo < 0.3) uoPts = 3;
-        else if (uo < 0.5) uoPts = 2; // 簡略化（持続時間判定はユーザー側）
-      }
-      return setOrgan('renal', Math.max(crPts, uoPts));
-    }
+    /* ===== チップクリック処理 ===== */
+    document.querySelectorAll('.score-chip-row').forEach(function(row){
+      var organ = row.dataset.organ;
+      row.querySelectorAll('.score-chip').forEach(function(chip){
+        chip.addEventListener('click', function(){
+          row.querySelectorAll('.score-chip').forEach(function(c){ c.classList.remove('selected'); });
+          chip.classList.add('selected');
+          ptsState[organ] = parseInt(chip.dataset.pts) || 0;
+          setOrgan(organ, ptsState[organ]);
+          update();
+        });
+      });
+    });
 
     function update() {
-      var sum = calcResp() + calcCoag() + calcLiver() + calcCV() + calcCNS() + calcRenal();
+      var sum = ptsState.resp + ptsState.coag + ptsState.liver + ptsState.cv + ptsState.cns + ptsState.renal;
       document.getElementById('totalScore').textContent = sum;
       var detail = document.getElementById('totalDetail');
       var msg;
-      if (sum === 0) msg = '入力してください。';
+      if (sum === 0) msg = '臓器ごとに該当する行をタップしてください。';
       else if (sum < 6) msg = '臓器障害は軽度。死亡率 &lt; 10%（オリジナル SOFA ベース）。';
       else if (sum < 10) msg = '中等度の臓器障害。死亡率 15–20% 程度の目安。トレンド注視。';
       else if (sum < 13) msg = '高度の臓器障害。死亡率 40–50% 前後の目安。';
       else msg = '極めて重篤。死亡率 &gt; 80%（参考値）。';
       detail.innerHTML = '<strong>解釈：</strong>' + msg + '<br><span style="opacity:0.85;">敗血症診断は SOFA 上昇 ≥2 点（感染を疑う患者で）。</span>';
     }
-
-    document.querySelectorAll('input').forEach(function(el){
-      el.addEventListener('input', update);
-      el.addEventListener('change', update);
-    });
     update();
-  })();
-
-  /* ===== Enter キーで次の入力欄へフォーカス ===== */
-  (function(){
-    var form = document.getElementById('toolForm');
-    if (!form) return;
-    var fields = Array.prototype.slice.call(form.querySelectorAll('input[type="number"], input[type="text"], select'));
-    fields.forEach(function(el, i){
-      el.addEventListener('keydown', function(e){
-        if (e.key === 'Enter') {
-          e.preventDefault();
-          var next = fields[i+1];
-          if (next) { next.focus(); if (next.select) next.select(); }
-          else el.blur();
-        }
-      });
-    });
   })();
 </script>
 </body>

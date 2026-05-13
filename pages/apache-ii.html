@@ -51,33 +51,26 @@
     }
     .var-grid {
       display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
+      grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
       gap:10px 12px;
     }
     .var-row {
-      display:flex;flex-direction:column;gap:4px;
-      padding:8px 10px;background:#F8FAFC;border-radius:8px;
+      display:flex;flex-direction:column;gap:6px;
+      padding:9px 11px;background:#F8FAFC;border-radius:8px;
       border:1px solid var(--border);
       position:relative;
     }
+    .var-row-head { display:flex;align-items:center;justify-content:space-between;gap:8px; }
     .var-label {
-      font-size:0.68rem;font-weight:700;color:#0369A1;line-height:1.3;
+      font-size:0.74rem;font-weight:800;color:#0369A1;line-height:1.3;
     }
-    .var-unit { color:#64748B;font-weight:500;font-size:0.6rem;margin-left:2px; }
-    .var-input-row { display:flex;align-items:center;gap:6px; }
-    .var-input-row input, .var-input-row select {
-      flex:1;font-family:inherit;font-size:0.84rem;font-variant-numeric:tabular-nums;
-      padding:5px 8px;border:1px solid var(--border);border-radius:7px;
-      background:#fff;outline:none;height:32px;box-sizing:border-box;width:100%;
-    }
-    .var-input-row input:focus, .var-input-row select:focus {
-      border-color:#0EA5E9;box-shadow:0 0 0 3px rgba(14,165,233,0.15);
-    }
+    .var-unit { color:#64748B;font-weight:500;font-size:0.62rem;margin-left:2px; }
     .var-pts {
-      font-size:0.85rem;font-weight:900;color:#fff;background:#94A3B8;
-      min-width:32px;height:28px;
+      font-size:0.85rem;font-weight:900;color:#fff;background:#CBD5E1;
+      min-width:34px;height:26px;
       display:flex;align-items:center;justify-content:center;
       border-radius:6px;font-family:ui-monospace,Menlo,Consolas,monospace;
+      flex-shrink:0;
     }
     .var-row[data-pts="0"] .var-pts { background:#16A34A; }
     .var-row[data-pts="1"] .var-pts { background:#84CC16; }
@@ -85,18 +78,51 @@
     .var-row[data-pts="3"] .var-pts { background:#EA580C; }
     .var-row[data-pts="4"] .var-pts { background:#DC2626; }
 
+    /* ===== クリック式チップ ===== */
+    .chip-row { display:flex;flex-wrap:wrap;gap:4px;margin-top:2px; }
+    .chip {
+      padding:5px 9px;border:1.5px solid var(--border);border-radius:7px;
+      background:#fff;font-size:0.72rem;font-weight:700;color:#475569;
+      cursor:pointer;line-height:1.15;
+      font-family:inherit;font-variant-numeric:tabular-nums;
+      white-space:nowrap;
+      transition:transform .08s, background .12s, color .12s, border-color .12s;
+    }
+    .chip:hover { border-color:#7DD3FC;background:#F0F9FF;color:#0369A1; }
+    .chip:active { transform:scale(0.96); }
+    .chip.selected { color:#fff;border-color:transparent;background:#DC2626; }
+    .chip.selected[data-pts="0"] { background:#16A34A; }
+    .chip.selected[data-pts="1"] { background:#84CC16; }
+    .chip.selected[data-pts="2"] { background:#F59E0B; }
+    .chip.selected[data-pts="3"] { background:#EA580C; }
+    .chip-tip { font-size:0.66rem;color:#64748B;margin:0 0 8px;line-height:1.5; }
+
+    /* ===== 重要参照情報ボックス ===== */
+    .info-box {
+      background:#FFFBEB;border:1.5px solid #FCD34D;border-radius:10px;
+      padding:11px 14px;margin:0 0 12px;
+    }
+    .info-box-head {
+      font-size:0.78rem;font-weight:900;color:#92400E;margin-bottom:6px;line-height:1.4;
+    }
+    .info-list {
+      margin:0;padding-left:18px;font-size:0.74rem;color:#78350F;
+      line-height:1.7;font-weight:600;
+    }
+    .info-list li { margin-bottom:2px; }
+    .info-list li:last-child { margin-bottom:0; }
+
     /* O2 toggle */
-    .o2-toggle { display:flex;gap:6px;margin-bottom:6px; }
+    .o2-toggle { display:flex;gap:5px;margin:0 0 5px; }
     .o2-toggle input[type=radio] { display:none; }
     .o2-toggle label {
       flex:1;padding:5px 8px;border:1.5px solid var(--border);border-radius:6px;
-      font-size:0.7rem;font-weight:700;color:#64748B;cursor:pointer;
+      font-size:0.66rem;font-weight:700;color:#64748B;cursor:pointer;
       text-align:center;background:#fff;
     }
     .o2-toggle input[type=radio]:checked + label {
       background:linear-gradient(135deg,#0369A1,#0EA5E9);color:#fff;border-color:transparent;
     }
-    .o2-aa-row, .o2-pa-row { display:flex;align-items:center;gap:8px; }
 
     /* AKI toggle */
     .var-extra { display:flex;gap:6px;margin-top:5px; }
@@ -158,8 +184,11 @@
 
     @media (max-width: 600px) {
       .page-wrap { max-width:560px;padding-left:18px;padding-right:18px; }
-      .section-card { padding:14px 16px; }
-      .var-grid { grid-template-columns:1fr 1fr;gap:10px; }
+      .section-card { padding:12px 14px; }
+      .var-grid { grid-template-columns:1fr;gap:10px; }
+      .chip { padding:6px 10px;font-size:0.74rem; }
+      .var-pts { min-width:30px;height:24px;font-size:0.78rem; }
+      .var-label { font-size:0.78rem; }
       .total-card { padding:18px 18px; }
       .total-score { font-size:2.6rem; }
       .tool-title-area h1 { font-size:1.3rem; }
@@ -198,89 +227,161 @@
     </p>
   </div>
 
-  <form id="toolForm" onsubmit="return false;" autocomplete="off">
-
   <!-- ===== 急性生理学的スコア (APS) ===== -->
   <div class="section-card">
     <h2 class="section-title">① 急性生理学的スコア（APS, 12 項目）</h2>
+    <p class="chip-tip">該当する範囲をタップしてください（タップで点数が確定）。</p>
     <div class="var-grid">
 
       <div class="var-row" id="v-temp" data-pts="0">
-        <div class="var-label">体温（直腸） <span class="var-unit">℃</span></div>
-        <div class="var-input-row">
-          <input type="number" id="temp" min="20" max="45" step="0.1" inputmode="decimal" enterkeyhint="next" placeholder="例 38.5">
+        <div class="var-row-head">
+          <div class="var-label">体温（直腸） <span class="var-unit">℃</span></div>
           <div class="var-pts" id="pts-temp">0</div>
+        </div>
+        <div class="chip-row" data-var="temp">
+          <button type="button" class="chip" data-pts="4">≥41</button>
+          <button type="button" class="chip" data-pts="3">39.0–40.9</button>
+          <button type="button" class="chip" data-pts="1">38.5–38.9</button>
+          <button type="button" class="chip" data-pts="0">36.0–38.4</button>
+          <button type="button" class="chip" data-pts="1">34.0–35.9</button>
+          <button type="button" class="chip" data-pts="2">32.0–33.9</button>
+          <button type="button" class="chip" data-pts="3">30.0–31.9</button>
+          <button type="button" class="chip" data-pts="4">&lt;30</button>
         </div>
       </div>
 
       <div class="var-row" id="v-map" data-pts="0">
-        <div class="var-label">MAP <span class="var-unit">mmHg</span></div>
-        <div class="var-input-row">
-          <input type="number" id="map" min="20" max="200" step="1" inputmode="numeric" enterkeyhint="next" placeholder="例 75">
+        <div class="var-row-head">
+          <div class="var-label">MAP <span class="var-unit">mmHg</span></div>
           <div class="var-pts" id="pts-map">0</div>
+        </div>
+        <div class="chip-row" data-var="map">
+          <button type="button" class="chip" data-pts="4">≥160</button>
+          <button type="button" class="chip" data-pts="3">130–159</button>
+          <button type="button" class="chip" data-pts="2">110–129</button>
+          <button type="button" class="chip" data-pts="0">70–109</button>
+          <button type="button" class="chip" data-pts="2">50–69</button>
+          <button type="button" class="chip" data-pts="4">&lt;50</button>
         </div>
       </div>
 
       <div class="var-row" id="v-hr" data-pts="0">
-        <div class="var-label">心拍数 <span class="var-unit">bpm</span></div>
-        <div class="var-input-row">
-          <input type="number" id="hr" min="20" max="220" step="1" inputmode="numeric" enterkeyhint="next" placeholder="例 90">
+        <div class="var-row-head">
+          <div class="var-label">心拍数 <span class="var-unit">bpm</span></div>
           <div class="var-pts" id="pts-hr">0</div>
+        </div>
+        <div class="chip-row" data-var="hr">
+          <button type="button" class="chip" data-pts="4">≥180</button>
+          <button type="button" class="chip" data-pts="3">140–179</button>
+          <button type="button" class="chip" data-pts="2">110–139</button>
+          <button type="button" class="chip" data-pts="0">70–109</button>
+          <button type="button" class="chip" data-pts="2">55–69</button>
+          <button type="button" class="chip" data-pts="3">40–54</button>
+          <button type="button" class="chip" data-pts="4">&lt;40</button>
         </div>
       </div>
 
       <div class="var-row" id="v-rr" data-pts="0">
-        <div class="var-label">呼吸数 <span class="var-unit">/min</span></div>
-        <div class="var-input-row">
-          <input type="number" id="rr" min="0" max="80" step="1" inputmode="numeric" enterkeyhint="next" placeholder="例 18">
+        <div class="var-row-head">
+          <div class="var-label">呼吸数 <span class="var-unit">/min</span></div>
           <div class="var-pts" id="pts-rr">0</div>
+        </div>
+        <div class="chip-row" data-var="rr">
+          <button type="button" class="chip" data-pts="4">≥50</button>
+          <button type="button" class="chip" data-pts="3">35–49</button>
+          <button type="button" class="chip" data-pts="1">25–34</button>
+          <button type="button" class="chip" data-pts="0">12–24</button>
+          <button type="button" class="chip" data-pts="1">10–11</button>
+          <button type="button" class="chip" data-pts="2">6–9</button>
+          <button type="button" class="chip" data-pts="4">&lt;6</button>
         </div>
       </div>
 
-      <div class="var-row" id="v-o2" data-pts="0" style="grid-column:span 2;">
-        <div class="var-label">酸素化（FiO₂ &lt; 0.5 → PaO₂、≥ 0.5 → A-a 較差）</div>
+      <div class="var-row" id="v-o2" data-pts="0" style="grid-column:1 / -1;">
+        <div class="var-row-head">
+          <div class="var-label">酸素化（FiO₂ で切替）</div>
+          <div class="var-pts" id="pts-o2">0</div>
+        </div>
         <div class="o2-toggle">
           <input type="radio" name="o2type" id="o2-pa" value="pa" checked>
           <label for="o2-pa">PaO₂（FiO₂ &lt; 0.5）</label>
           <input type="radio" name="o2type" id="o2-aa" value="aa">
           <label for="o2-aa">A-a 較差（FiO₂ ≥ 0.5）</label>
         </div>
-        <div class="var-input-row">
-          <input type="number" id="o2val" min="0" max="700" step="1" inputmode="numeric" enterkeyhint="next" placeholder="例 80">
-          <span style="font-size:0.74rem;color:#64748B;" id="o2unit">mmHg</span>
-          <div class="var-pts" id="pts-o2">0</div>
+        <div class="chip-row" data-var="o2" id="o2-pa-chips">
+          <button type="button" class="chip" data-pts="0">PaO₂ &gt;70</button>
+          <button type="button" class="chip" data-pts="1">61–70</button>
+          <button type="button" class="chip" data-pts="3">55–60</button>
+          <button type="button" class="chip" data-pts="4">&lt;55</button>
+        </div>
+        <div class="chip-row" data-var="o2" id="o2-aa-chips" style="display:none;">
+          <button type="button" class="chip" data-pts="0">A-a &lt;200</button>
+          <button type="button" class="chip" data-pts="2">200–349</button>
+          <button type="button" class="chip" data-pts="3">350–499</button>
+          <button type="button" class="chip" data-pts="4">≥500</button>
         </div>
       </div>
 
       <div class="var-row" id="v-ph" data-pts="0">
-        <div class="var-label">動脈血 pH</div>
-        <div class="var-input-row">
-          <input type="number" id="ph" min="6.5" max="8.0" step="0.01" inputmode="decimal" enterkeyhint="next" placeholder="例 7.35">
+        <div class="var-row-head">
+          <div class="var-label">動脈血 pH</div>
           <div class="var-pts" id="pts-ph">0</div>
+        </div>
+        <div class="chip-row" data-var="ph">
+          <button type="button" class="chip" data-pts="4">≥7.70</button>
+          <button type="button" class="chip" data-pts="3">7.60–7.69</button>
+          <button type="button" class="chip" data-pts="1">7.50–7.59</button>
+          <button type="button" class="chip" data-pts="0">7.33–7.49</button>
+          <button type="button" class="chip" data-pts="2">7.25–7.32</button>
+          <button type="button" class="chip" data-pts="3">7.15–7.24</button>
+          <button type="button" class="chip" data-pts="4">&lt;7.15</button>
         </div>
       </div>
 
       <div class="var-row" id="v-na" data-pts="0">
-        <div class="var-label">血清 Na <span class="var-unit">mEq/L</span></div>
-        <div class="var-input-row">
-          <input type="number" id="na" min="80" max="200" step="1" inputmode="numeric" enterkeyhint="next" placeholder="例 138">
+        <div class="var-row-head">
+          <div class="var-label">血清 Na <span class="var-unit">mEq/L</span></div>
           <div class="var-pts" id="pts-na">0</div>
+        </div>
+        <div class="chip-row" data-var="na">
+          <button type="button" class="chip" data-pts="4">≥180</button>
+          <button type="button" class="chip" data-pts="3">160–179</button>
+          <button type="button" class="chip" data-pts="2">155–159</button>
+          <button type="button" class="chip" data-pts="1">150–154</button>
+          <button type="button" class="chip" data-pts="0">130–149</button>
+          <button type="button" class="chip" data-pts="2">120–129</button>
+          <button type="button" class="chip" data-pts="3">111–119</button>
+          <button type="button" class="chip" data-pts="4">&lt;111</button>
         </div>
       </div>
 
       <div class="var-row" id="v-k" data-pts="0">
-        <div class="var-label">血清 K <span class="var-unit">mEq/L</span></div>
-        <div class="var-input-row">
-          <input type="number" id="k" min="1" max="10" step="0.1" inputmode="decimal" enterkeyhint="next" placeholder="例 4.0">
+        <div class="var-row-head">
+          <div class="var-label">血清 K <span class="var-unit">mEq/L</span></div>
           <div class="var-pts" id="pts-k">0</div>
+        </div>
+        <div class="chip-row" data-var="k">
+          <button type="button" class="chip" data-pts="4">≥7.0</button>
+          <button type="button" class="chip" data-pts="3">6.0–6.9</button>
+          <button type="button" class="chip" data-pts="1">5.5–5.9</button>
+          <button type="button" class="chip" data-pts="0">3.5–5.4</button>
+          <button type="button" class="chip" data-pts="1">3.0–3.4</button>
+          <button type="button" class="chip" data-pts="2">2.5–2.9</button>
+          <button type="button" class="chip" data-pts="4">&lt;2.5</button>
         </div>
       </div>
 
       <div class="var-row" id="v-cr" data-pts="0">
-        <div class="var-label">血清 Cr <span class="var-unit">mg/dL</span></div>
-        <div class="var-input-row">
-          <input type="number" id="cr" min="0.1" max="20" step="0.01" inputmode="decimal" enterkeyhint="next" placeholder="例 1.0">
+        <div class="var-row-head">
+          <div class="var-label">血清 Cr <span class="var-unit">mg/dL</span></div>
           <div class="var-pts" id="pts-cr">0</div>
+        </div>
+        <div class="chip-row" data-var="cr">
+          <button type="button" class="chip" data-pts="4">≥3.5</button>
+          <button type="button" class="chip" data-pts="3">2.0–3.4</button>
+          <button type="button" class="chip" data-pts="2">1.5–1.9</button>
+          <button type="button" class="chip" data-pts="0">0.6–1.4</button>
+          <button type="button" class="chip" data-pts="2">&lt;0.6</button>
         </div>
         <div class="var-extra">
           <input type="checkbox" id="aki">
@@ -289,28 +390,55 @@
       </div>
 
       <div class="var-row" id="v-hct" data-pts="0">
-        <div class="var-label">Hct <span class="var-unit">%</span></div>
-        <div class="var-input-row">
-          <input type="number" id="hct" min="5" max="80" step="0.1" inputmode="decimal" enterkeyhint="next" placeholder="例 38">
+        <div class="var-row-head">
+          <div class="var-label">Hct <span class="var-unit">%</span></div>
           <div class="var-pts" id="pts-hct">0</div>
+        </div>
+        <div class="chip-row" data-var="hct">
+          <button type="button" class="chip" data-pts="4">≥60</button>
+          <button type="button" class="chip" data-pts="2">50.0–59.9</button>
+          <button type="button" class="chip" data-pts="1">46.0–49.9</button>
+          <button type="button" class="chip" data-pts="0">30.0–45.9</button>
+          <button type="button" class="chip" data-pts="2">20.0–29.9</button>
+          <button type="button" class="chip" data-pts="4">&lt;20</button>
         </div>
       </div>
 
       <div class="var-row" id="v-wbc" data-pts="0">
-        <div class="var-label">WBC <span class="var-unit">×10³/μL</span></div>
-        <div class="var-input-row">
-          <input type="number" id="wbc" min="0" max="100" step="0.1" inputmode="decimal" enterkeyhint="next" placeholder="例 8.5">
+        <div class="var-row-head">
+          <div class="var-label">WBC <span class="var-unit">×10³/μL</span></div>
           <div class="var-pts" id="pts-wbc">0</div>
+        </div>
+        <div class="chip-row" data-var="wbc">
+          <button type="button" class="chip" data-pts="4">≥40</button>
+          <button type="button" class="chip" data-pts="2">20.0–39.9</button>
+          <button type="button" class="chip" data-pts="1">15.0–19.9</button>
+          <button type="button" class="chip" data-pts="0">3.0–14.9</button>
+          <button type="button" class="chip" data-pts="2">1.0–2.9</button>
+          <button type="button" class="chip" data-pts="4">&lt;1</button>
         </div>
       </div>
 
-      <div class="var-row" id="v-gcs" data-pts="0">
-        <div class="var-label">GCS（合計 3–15）</div>
-        <div class="var-input-row">
-          <input type="number" id="gcs" min="3" max="15" step="1" inputmode="numeric" enterkeyhint="next" placeholder="例 14">
+      <div class="var-row" id="v-gcs" data-pts="0" style="grid-column:1 / -1;">
+        <div class="var-row-head">
+          <div class="var-label">GCS（点数 = 15 − GCS）</div>
           <div class="var-pts" id="pts-gcs">0</div>
         </div>
-        <div style="font-size:0.7rem;color:#64748B;margin-top:4px;">点数 = 15 − GCS</div>
+        <div class="chip-row" data-var="gcs">
+          <button type="button" class="chip" data-pts="0">15</button>
+          <button type="button" class="chip" data-pts="1">14</button>
+          <button type="button" class="chip" data-pts="2">13</button>
+          <button type="button" class="chip" data-pts="3">12</button>
+          <button type="button" class="chip" data-pts="4">11</button>
+          <button type="button" class="chip" data-pts="5">10</button>
+          <button type="button" class="chip" data-pts="6">9</button>
+          <button type="button" class="chip" data-pts="7">8</button>
+          <button type="button" class="chip" data-pts="8">7</button>
+          <button type="button" class="chip" data-pts="9">6</button>
+          <button type="button" class="chip" data-pts="10">5</button>
+          <button type="button" class="chip" data-pts="11">4</button>
+          <button type="button" class="chip" data-pts="12">3</button>
+        </div>
       </div>
 
     </div>
@@ -320,13 +448,18 @@
   <div class="section-card">
     <h2 class="section-title">② 年齢</h2>
     <div class="var-grid">
-      <div class="var-row" id="v-age" data-pts="0">
-        <div class="var-label">年齢 <span class="var-unit">歳</span></div>
-        <div class="var-input-row">
-          <input type="number" id="age" min="0" max="120" step="1" inputmode="numeric" enterkeyhint="next" placeholder="例 65">
+      <div class="var-row" id="v-age" data-pts="0" style="grid-column:1 / -1;">
+        <div class="var-row-head">
+          <div class="var-label">年齢 <span class="var-unit">歳</span></div>
           <div class="var-pts" id="pts-age">0</div>
         </div>
-        <div style="font-size:0.7rem;color:#64748B;margin-top:4px;">≤44=0 ／ 45–54=2 ／ 55–64=3 ／ 65–74=5 ／ ≥75=6</div>
+        <div class="chip-row" data-var="age">
+          <button type="button" class="chip" data-pts="0">≤44</button>
+          <button type="button" class="chip" data-pts="2">45–54</button>
+          <button type="button" class="chip" data-pts="3">55–64</button>
+          <button type="button" class="chip" data-pts="5">65–74</button>
+          <button type="button" class="chip" data-pts="6">≥75</button>
+        </div>
       </div>
     </div>
   </div>
@@ -334,18 +467,22 @@
   <!-- ===== 慢性疾患 ===== -->
   <div class="section-card">
     <h2 class="section-title">③ 慢性疾患（severe organ insufficiency / immunocompromise）</h2>
-    <p style="font-size:0.78rem;color:#64748B;margin:0 0 10px;line-height:1.7;">
-      該当する慢性疾患がある場合のみ加算。<br>
-      <strong>対象：</strong>肝硬変＋門脈圧亢進・NYHA IV・重度 COPD（換気依存・ポリシテミア）・透析・免疫抑制状態（ステロイド・抗がん剤・免疫不全症）
-    </p>
+    <div class="info-box">
+      <div class="info-box-head">加算の対象となる慢性疾患（いずれか1つ以上に該当する場合のみ加算）</div>
+      <ul class="info-list">
+        <li>肝硬変 ＋ 門脈圧亢進</li>
+        <li>NYHA IV（高度心不全）</li>
+        <li>重度 COPD（換気依存・ポリシテミア）</li>
+        <li>透析（HD・PD・CRRT）</li>
+        <li>免疫抑制状態（ステロイド・抗がん剤・免疫不全症）</li>
+      </ul>
+    </div>
     <div class="chronic-grid">
       <div class="chronic-card selected" data-pts="0" id="ch-none">該当なし<br><span style="font-weight:600;font-size:0.72rem;">+ 0 点</span></div>
       <div class="chronic-card" data-pts="2" id="ch-elective">該当あり ＋ <strong>待機手術後</strong><br><span style="font-weight:600;font-size:0.72rem;">+ 2 点</span></div>
       <div class="chronic-card" data-pts="5" id="ch-emergency">該当あり ＋ <strong>緊急手術 or 内科的</strong><br><span style="font-weight:600;font-size:0.72rem;">+ 5 点</span></div>
     </div>
   </div>
-
-  </form>
 
   <!-- ===== 合計 ===== -->
   <div class="total-card">
@@ -395,165 +532,92 @@
 <script src="../script.js"></script>
 <script>
   (function(){
-    function setPts(id, pts) {
+    /* ===== 各変数のスコア状態 ===== */
+    var ptsState = {
+      temp:0, map:0, hr:0, rr:0, o2:0, ph:0,
+      na:0, k:0, cr:0, hct:0, wbc:0, gcs:0,
+      age:0, chronic:0
+    };
+
+    function setRowPts(id, pts) {
       var row = document.getElementById('v-'+id);
+      if (!row) return;
       row.dataset.pts = Math.min(4, pts);
       document.getElementById('pts-'+id).textContent = pts;
-      return pts;
     }
 
-    function pTemp(t) {
-      if (isNaN(t)) return 0;
-      if (t >= 41) return 4;
-      if (t >= 39) return 3;
-      if (t >= 38.5) return 1;
-      if (t >= 36) return 0;
-      if (t >= 34) return 1;
-      if (t >= 32) return 2;
-      if (t >= 30) return 3;
-      return 4;
-    }
-    function pMAP(m) {
-      if (isNaN(m)) return 0;
-      if (m >= 160) return 4;
-      if (m >= 130) return 3;
-      if (m >= 110) return 2;
-      if (m >= 70) return 0;
-      if (m >= 50) return 2;
-      return 4;
-    }
-    function pHR(h) {
-      if (isNaN(h)) return 0;
-      if (h >= 180) return 4;
-      if (h >= 140) return 3;
-      if (h >= 110) return 2;
-      if (h >= 70) return 0;
-      if (h >= 55) return 2;
-      if (h >= 40) return 3;
-      return 4;
-    }
-    function pRR(r) {
-      if (isNaN(r)) return 0;
-      if (r >= 50) return 4;
-      if (r >= 35) return 3;
-      if (r >= 25) return 1;
-      if (r >= 12) return 0;
-      if (r >= 10) return 1;
-      if (r >= 6) return 2;
-      return 4;
-    }
-    function pO2(val, isAa) {
-      if (isNaN(val)) return 0;
-      if (isAa) {
-        if (val >= 500) return 4;
-        if (val >= 350) return 3;
-        if (val >= 200) return 2;
-        return 0;
-      } else {
-        if (val >= 70) return 0;
-        if (val >= 61) return 1;
-        if (val >= 55) return 3;
-        return 4;
-      }
-    }
-    function pPH(ph) {
-      if (isNaN(ph)) return 0;
-      if (ph >= 7.7) return 4;
-      if (ph >= 7.6) return 3;
-      if (ph >= 7.5) return 1;
-      if (ph >= 7.33) return 0;
-      if (ph >= 7.25) return 2;
-      if (ph >= 7.15) return 3;
-      return 4;
-    }
-    function pNa(n) {
-      if (isNaN(n)) return 0;
-      if (n >= 180) return 4;
-      if (n >= 160) return 3;
-      if (n >= 155) return 2;
-      if (n >= 150) return 1;
-      if (n >= 130) return 0;
-      if (n >= 120) return 2;
-      if (n >= 111) return 3;
-      return 4;
-    }
-    function pK(k) {
-      if (isNaN(k)) return 0;
-      if (k >= 7) return 4;
-      if (k >= 6) return 3;
-      if (k >= 5.5) return 1;
-      if (k >= 3.5) return 0;
-      if (k >= 3) return 1;
-      if (k >= 2.5) return 2;
-      return 4;
-    }
-    function pCr(c, aki) {
-      if (isNaN(c)) return 0;
-      var p = 0;
-      if (c >= 3.5) p = 4;
-      else if (c >= 2.0) p = 3;
-      else if (c >= 1.5) p = 2;
-      else if (c >= 0.6) p = 0;
-      else p = 2;
-      return aki ? Math.min(p * 2, 8) : p;
-    }
-    function pHct(h) {
-      if (isNaN(h)) return 0;
-      if (h >= 60) return 4;
-      if (h >= 50) return 2;
-      if (h >= 46) return 1;
-      if (h >= 30) return 0;
-      if (h >= 20) return 2;
-      return 4;
-    }
-    function pWBC(w) {
-      if (isNaN(w)) return 0;
-      if (w >= 40) return 4;
-      if (w >= 20) return 2;
-      if (w >= 15) return 1;
-      if (w >= 3) return 0;
-      if (w >= 1) return 2;
-      return 4;
-    }
-    function pGCS(g) {
-      if (isNaN(g)) return 0;
-      return Math.max(0, 15 - g);
-    }
-    function pAge(a) {
-      if (isNaN(a)) return 0;
-      if (a >= 75) return 6;
-      if (a >= 65) return 5;
-      if (a >= 55) return 3;
-      if (a >= 45) return 2;
-      return 0;
-    }
+    /* ===== チップクリック処理 ===== */
+    document.querySelectorAll('.chip-row').forEach(function(row){
+      var v = row.dataset.var;
+      row.querySelectorAll('.chip').forEach(function(chip){
+        chip.addEventListener('click', function(){
+          // 同じ変数の全 chip-row（O2 の PA/AA など）から selected を外す
+          document.querySelectorAll('.chip-row[data-var="'+v+'"] .chip').forEach(function(c){
+            c.classList.remove('selected');
+          });
+          chip.classList.add('selected');
+          ptsState[v] = parseInt(chip.dataset.pts) || 0;
+          update();
+        });
+      });
+    });
 
+    /* ===== O2 PaO₂ ⇄ A-a 切替 ===== */
+    var paChips = document.getElementById('o2-pa-chips');
+    var aaChips = document.getElementById('o2-aa-chips');
+    document.querySelectorAll('input[name="o2type"]').forEach(function(r){
+      r.addEventListener('change', function(){
+        var isAa = document.getElementById('o2-aa').checked;
+        paChips.style.display = isAa ? 'none' : 'flex';
+        aaChips.style.display = isAa ? 'flex' : 'none';
+        // 切替時は O2 の選択をリセット
+        paChips.querySelectorAll('.chip').forEach(function(c){ c.classList.remove('selected'); });
+        aaChips.querySelectorAll('.chip').forEach(function(c){ c.classList.remove('selected'); });
+        ptsState.o2 = 0;
+        update();
+      });
+    });
+
+    /* ===== AKI チェック → Cr スコア×2 ===== */
+    var akiEl = document.getElementById('aki');
+    akiEl.addEventListener('change', update);
+
+    /* ===== 慢性疾患カード ===== */
+    document.querySelectorAll('.chronic-card').forEach(function(c){
+      c.addEventListener('click', function(){
+        document.querySelectorAll('.chronic-card').forEach(function(x){ x.classList.remove('selected'); });
+        c.classList.add('selected');
+        ptsState.chronic = parseInt(c.dataset.pts) || 0;
+        update();
+      });
+    });
+
+    /* ===== 合計更新 ===== */
     function update() {
-      var ptsTemp = setPts('temp', pTemp(parseFloat(document.getElementById('temp').value)));
-      var ptsMap  = setPts('map',  pMAP(parseFloat(document.getElementById('map').value)));
-      var ptsHr   = setPts('hr',   pHR(parseFloat(document.getElementById('hr').value)));
-      var ptsRr   = setPts('rr',   pRR(parseFloat(document.getElementById('rr').value)));
+      setRowPts('temp', ptsState.temp);
+      setRowPts('map',  ptsState.map);
+      setRowPts('hr',   ptsState.hr);
+      setRowPts('rr',   ptsState.rr);
+      setRowPts('o2',   ptsState.o2);
+      setRowPts('ph',   ptsState.ph);
+      setRowPts('na',   ptsState.na);
+      setRowPts('k',    ptsState.k);
+      var crP = ptsState.cr;
+      if (akiEl.checked) crP = Math.min(crP * 2, 8);
+      setRowPts('cr', crP);
+      setRowPts('hct', ptsState.hct);
+      setRowPts('wbc', ptsState.wbc);
+      setRowPts('gcs', ptsState.gcs);
+      setRowPts('age', ptsState.age);
 
-      var isAa = document.getElementById('o2-aa').checked;
-      document.getElementById('o2unit').textContent = isAa ? 'mmHg (A-a)' : 'mmHg (PaO₂)';
-      var ptsO2 = setPts('o2', pO2(parseFloat(document.getElementById('o2val').value), isAa));
-
-      var ptsPh  = setPts('ph',  pPH(parseFloat(document.getElementById('ph').value)));
-      var ptsNa  = setPts('na',  pNa(parseFloat(document.getElementById('na').value)));
-      var ptsK   = setPts('k',   pK(parseFloat(document.getElementById('k').value)));
-      var ptsCr  = setPts('cr',  pCr(parseFloat(document.getElementById('cr').value), document.getElementById('aki').checked));
-      var ptsHct = setPts('hct', pHct(parseFloat(document.getElementById('hct').value)));
-      var ptsWbc = setPts('wbc', pWBC(parseFloat(document.getElementById('wbc').value)));
-      var ptsGcs = setPts('gcs', pGCS(parseFloat(document.getElementById('gcs').value)));
-      var ptsAge = setPts('age', pAge(parseFloat(document.getElementById('age').value)));
-      var ptsChr = parseInt(document.querySelector('.chronic-card.selected').dataset.pts) || 0;
-
-      var aps = ptsTemp+ptsMap+ptsHr+ptsRr+ptsO2+ptsPh+ptsNa+ptsK+ptsCr+ptsHct+ptsWbc+ptsGcs;
-      var total = aps + ptsAge + ptsChr;
+      var aps = ptsState.temp + ptsState.map + ptsState.hr + ptsState.rr +
+                ptsState.o2 + ptsState.ph + ptsState.na + ptsState.k +
+                crP + ptsState.hct + ptsState.wbc + ptsState.gcs;
+      var total = aps + ptsState.age + ptsState.chronic;
       document.getElementById('totalScore').textContent = total;
       document.getElementById('bd-aps').textContent = aps;
-      document.getElementById('bd-age').textContent = ptsAge;
-      document.getElementById('bd-chr').textContent = ptsChr;
+      document.getElementById('bd-age').textContent = ptsState.age;
+      document.getElementById('bd-chr').textContent = ptsState.chronic;
 
       // 死亡率予測（非外科 ICU 参考値）
       var mortMsg, detail;
@@ -571,36 +635,7 @@
         '<strong>解釈：</strong>' + detail +
         '<br><span style="opacity:0.85;">※ 死亡率は非外科 ICU 患者の参考値。実際の予後は基礎疾患・治療応答性に左右されます。</span>';
     }
-
-    document.querySelectorAll('input').forEach(function(el){
-      el.addEventListener('input', update);
-      el.addEventListener('change', update);
-    });
-    document.querySelectorAll('.chronic-card').forEach(function(c){
-      c.addEventListener('click', function(){
-        document.querySelectorAll('.chronic-card').forEach(function(x){ x.classList.remove('selected'); });
-        c.classList.add('selected');
-        update();
-      });
-    });
     update();
-  })();
-
-  /* ===== Enter キーで次の入力欄へフォーカス ===== */
-  (function(){
-    var form = document.getElementById('toolForm');
-    if (!form) return;
-    var fields = Array.prototype.slice.call(form.querySelectorAll('input[type="number"], input[type="text"], select'));
-    fields.forEach(function(el, i){
-      el.addEventListener('keydown', function(e){
-        if (e.key === 'Enter') {
-          e.preventDefault();
-          var next = fields[i+1];
-          if (next) { next.focus(); if (next.select) next.select(); }
-          else el.blur();
-        }
-      });
-    });
   })();
 </script>
 </body>
