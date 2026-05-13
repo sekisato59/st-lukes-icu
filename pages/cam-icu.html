@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0">
+  <title>CAM-ICU（せん妄評価）| 聖路加ICU 便利ツール</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style-v2.css?v=202605110530">
+  <style>
+    html, body { max-width:100%;overflow-x:hidden; }
+    .tools-banner { width:100%;max-width:1294px;margin:64px auto 0;padding:0;line-height:0; }
+    .tools-banner img {
+      width:100%;height:auto;display:block;
+      -webkit-mask-image:linear-gradient(to bottom, #000 0%, #000 85%, transparent 100%);
+      mask-image:linear-gradient(to bottom, #000 0%, #000 85%, transparent 100%);
+    }
+    .page-wrap {
+      max-width:1100px;margin:0 auto;
+      padding:0 clamp(20px,1rem+1.5vw,40px) clamp(40px,2rem+1.5vw,64px);
+      overflow-x:hidden;
+      font-family:'Noto Sans JP','Hiragino Kaku Gothic ProN','Hiragino Sans','Yu Gothic',sans-serif;
+    }
+    .back-wrapper { display:flex;align-items:center;margin:6px 0 12px; }
+    .back-btn {
+      display:inline-flex;align-items:center;justify-content:center;
+      padding:9px 16px;background:rgba(255,255,255,0.85);
+      backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+      border:1px solid rgba(255,255,255,0.7);border-radius:10px;
+      font-size:0.78rem;font-weight:800;color:#0369A1;text-decoration:none;line-height:1;
+    }
+    .tool-title-area { margin:20px 0 24px; }
+    .tool-title-area h1 {
+      font-size:clamp(1.3rem,4vw,1.7rem);font-weight:900;color:#0C4A6E;
+      margin:0 0 6px;letter-spacing:-0.01em;line-height:1.2;
+    }
+    .tool-subtitle { font-size:0.82rem;color:#64748B;font-weight:500;line-height:1.6; }
+
+    .step-card {
+      background:#fff;border:1px solid var(--border);border-radius:14px;
+      padding:20px 22px;margin-bottom:14px;
+      box-shadow:0 2px 12px rgba(3,105,161,0.06);
+      transition:opacity .2s, filter .2s;
+    }
+    .step-card.disabled { opacity:0.45;pointer-events:none;filter:grayscale(0.3); }
+    .step-card.passed   { background:#F0FDF4;border-color:#86EFAC; }
+    .step-card.failed   { background:#FEF2F2;border-color:#FCA5A5; }
+    .step-card-header { display:flex;align-items:center;gap:10px;margin-bottom:14px; }
+    .step-num {
+      width:30px;height:30px;border-radius:50%;
+      background:linear-gradient(135deg,#0369A1,#0EA5E9);
+      color:#fff;font-size:0.85rem;font-weight:900;
+      display:flex;align-items:center;justify-content:center;flex-shrink:0;
+    }
+    .step-card.passed .step-num { background:linear-gradient(135deg,#15803D,#16A34A); }
+    .step-card.failed .step-num { background:linear-gradient(135deg,#B91C1C,#DC2626); }
+    .step-title { font-size:0.97rem;font-weight:900;color:#0C4A6E;letter-spacing:0.01em; }
+    .step-desc { font-size:0.84rem;color:#475569;margin:0 0 12px;line-height:1.7; }
+
+    .yn-pills { display:flex;gap:6px;flex-wrap:wrap; }
+    .yn-pills input[type=radio] { position:absolute;opacity:0;width:0;height:0; }
+    .yn-pills label {
+      padding:9px 22px;border-radius:999px;border:1.5px solid var(--border);
+      font-size:0.86rem;font-weight:700;color:#64748B;cursor:pointer;
+      background:#F8FAFC;transition:all .12s;
+    }
+    .yn-pills label:hover { background:#E0F2FE;color:#0369A1;border-color:#7DD3FC; }
+    .yn-pills input[type=radio]:checked + label[data-result="positive"] {
+      background:linear-gradient(135deg,#B91C1C,#DC2626);color:#fff;border-color:transparent;
+    }
+    .yn-pills input[type=radio]:checked + label[data-result="negative"] {
+      background:linear-gradient(135deg,#15803D,#16A34A);color:#fff;border-color:transparent;
+    }
+
+    /* SAVEAHAART テスト */
+    .test-box {
+      background:#F0F9FF;border:1px dashed #7DD3FC;border-radius:10px;
+      padding:14px 16px;margin:10px 0;
+    }
+    .test-instructions { font-size:0.82rem;color:#0C4A6E;line-height:1.7;margin:0; }
+    .test-instructions strong { color:#0369A1; }
+
+    .err-input { display:flex;align-items:center;gap:10px;margin-top:10px; }
+    .err-input label { font-size:0.84rem;font-weight:700;color:#0C4A6E; }
+    .err-input input {
+      width:60px;padding:7px 10px;border:1px solid var(--border);border-radius:6px;
+      font-family:inherit;font-size:0.95rem;text-align:center;
+    }
+
+    /* Q4 用 4 つの YES/NO */
+    .q-list { display:flex;flex-direction:column;gap:8px;margin-top:10px; }
+    .q-row { display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;
+      padding:8px 10px;background:#F8FAFC;border-radius:8px; }
+    .q-row .q-text { font-size:0.85rem;color:#334155; }
+    .q-mini-pills { display:flex;gap:4px; }
+    .q-mini-pills input[type=radio] { position:absolute;opacity:0;width:0;height:0; }
+    .q-mini-pills label {
+      padding:5px 12px;border-radius:999px;border:1px solid var(--border);
+      font-size:0.74rem;font-weight:700;color:#64748B;cursor:pointer;
+      background:#fff;transition:all .12s;
+    }
+    .q-mini-pills label:hover { background:#E0F2FE; }
+    .q-mini-pills input[type=radio]:checked + label.correct { background:#16A34A;color:#fff;border-color:transparent; }
+    .q-mini-pills input[type=radio]:checked + label.wrong { background:#DC2626;color:#fff;border-color:transparent; }
+
+    /* RASS 簡易選択 */
+    .rass-mini-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:6px;margin-top:8px; }
+    .rass-mini { padding:8px 10px;border:1.5px solid var(--border);border-radius:8px;
+      background:#fff;cursor:pointer;text-align:center;transition:all .12s; }
+    .rass-mini:hover { border-color:#7DD3FC;background:#F0F9FF; }
+    .rass-mini.selected { background:#0EA5E9;color:#fff;border-color:#0EA5E9; }
+    .rass-mini-score { font-weight:900;font-size:0.95rem;display:block; }
+    .rass-mini-name  { font-size:0.7rem;display:block;margin-top:2px; }
+
+    /* 結果カード */
+    .result-card {
+      margin-top:20px;padding:24px 26px;border-radius:14px;display:none;
+      border:2px solid transparent;
+    }
+    .result-card.visible { display:block; }
+    .result-card.positive {
+      background:linear-gradient(135deg,#FEF2F2 0%,#FCE7F3 100%);
+      border-color:#FCA5A5;
+    }
+    .result-card.negative {
+      background:linear-gradient(135deg,#F0FDF4 0%,#DCFCE7 100%);
+      border-color:#86EFAC;
+    }
+    .result-card.unable {
+      background:linear-gradient(135deg,#F8FAFC 0%,#E2E8F0 100%);
+      border-color:#CBD5E1;
+    }
+    .result-headline {
+      font-size:1.4rem;font-weight:900;color:#0C4A6E;margin-bottom:8px;line-height:1.3;
+    }
+    .result-card.positive .result-headline { color:#7F1D1D; }
+    .result-card.negative .result-headline { color:#14532D; }
+    .result-detail { font-size:0.86rem;line-height:1.75;color:#334155; }
+    .result-detail strong { color:#0C4A6E; }
+
+    .reset-btn {
+      display:inline-flex;align-items:center;justify-content:center;margin-top:14px;
+      padding:10px 22px;background:#F1F5F9;border:1.5px solid var(--border);border-radius:999px;
+      font-family:inherit;font-size:0.82rem;font-weight:800;color:#64748B;cursor:pointer;
+    }
+    .reset-btn:hover { background:#E2E8F0;color:#334155; }
+
+    .disclaimer {
+      font-size:0.72rem;color:#94A3B8;line-height:1.7;margin-top:24px;
+      padding:14px 16px;background:#F8FAFC;border-radius:8px;border:1px solid var(--border);
+    }
+    .disclaimer strong { color:#64748B; }
+
+    @media (max-width: 600px) {
+      .page-wrap { max-width:560px;padding-left:18px;padding-right:18px; }
+      .step-card { padding:16px 16px; }
+      .result-card { padding:18px 18px; }
+      .result-headline { font-size:1.15rem; }
+      .tool-title-area h1 { font-size:1.3rem; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <a href="../index.html" class="nav-logo">
+      <img src="../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+      <span class="nav-logo-text">聖路加国際病院ICU</span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-menu" id="navMenu"></ul>
+  </div>
+</nav>
+
+<div class="tools-banner">
+  <img src="../images/icu-study.jpg" alt="" loading="lazy">
+</div>
+
+<div class="page-wrap">
+  <div class="back-wrapper">
+    <a href="../index.html" class="back-btn">← ホームへ戻る</a>
+  </div>
+
+  <div class="tool-title-area">
+    <h1>CAM-ICU（ICU せん妄評価法）</h1>
+    <p class="tool-subtitle">
+      RASS + 4 つの Feature による ICU せん妄スクリーニング。<br>
+      最初に <strong>RASS</strong> を評価し、−4 / −5（深鎮静・昏睡）の場合は評価不能、それ以外で 4 Feature を順に評価します。<br>
+      <strong>陽性 = Feature 1 ＋ 2 ＋ (3 または 4)</strong>
+    </p>
+  </div>
+
+  <!-- ===== Step 0: RASS ===== -->
+  <div class="step-card" id="step0">
+    <div class="step-card-header">
+      <div class="step-num">0</div>
+      <div class="step-title">まず RASS を評価</div>
+    </div>
+    <p class="step-desc">RASS が <strong>−4 または −5</strong> の場合は CAM-ICU 評価不能。それ以外なら次のステップへ。</p>
+    <div class="rass-mini-grid" id="rassGrid">
+      <div class="rass-mini" data-rass="-5"><span class="rass-mini-score">−5</span><span class="rass-mini-name">昏睡</span></div>
+      <div class="rass-mini" data-rass="-4"><span class="rass-mini-score">−4</span><span class="rass-mini-name">深鎮静</span></div>
+      <div class="rass-mini" data-rass="-3"><span class="rass-mini-score">−3</span><span class="rass-mini-name">中等度鎮静</span></div>
+      <div class="rass-mini" data-rass="-2"><span class="rass-mini-score">−2</span><span class="rass-mini-name">軽度鎮静</span></div>
+      <div class="rass-mini" data-rass="-1"><span class="rass-mini-score">−1</span><span class="rass-mini-name">傾眠</span></div>
+      <div class="rass-mini" data-rass="0"><span class="rass-mini-score">0</span><span class="rass-mini-name">清明</span></div>
+      <div class="rass-mini" data-rass="1"><span class="rass-mini-score">+1</span><span class="rass-mini-name">不穏</span></div>
+      <div class="rass-mini" data-rass="2"><span class="rass-mini-score">+2</span><span class="rass-mini-name">不穏(中)</span></div>
+      <div class="rass-mini" data-rass="3"><span class="rass-mini-score">+3</span><span class="rass-mini-name">強い不穏</span></div>
+      <div class="rass-mini" data-rass="4"><span class="rass-mini-score">+4</span><span class="rass-mini-name">闘争</span></div>
+    </div>
+  </div>
+
+  <!-- ===== Feature 1 ===== -->
+  <div class="step-card disabled" id="step1">
+    <div class="step-card-header">
+      <div class="step-num">1</div>
+      <div class="step-title">Feature 1：精神状態の急性変化または変動</div>
+    </div>
+    <p class="step-desc">
+      ベースライン精神状態と異なる急性変化があるか？あるいは過去24時間で精神状態が変動（GCS / RASS / その他の意識変化が増減）したか？
+    </p>
+    <div class="yn-pills">
+      <input type="radio" name="f1" id="f1-y" value="yes">
+      <label for="f1-y" data-result="positive">あり（陽性）</label>
+      <input type="radio" name="f1" id="f1-n" value="no">
+      <label for="f1-n" data-result="negative">なし</label>
+    </div>
+  </div>
+
+  <!-- ===== Feature 2 ===== -->
+  <div class="step-card disabled" id="step2">
+    <div class="step-card-header">
+      <div class="step-num">2</div>
+      <div class="step-title">Feature 2：注意力欠如（SAVEAHAART テスト）</div>
+    </div>
+    <p class="step-desc">注意力テストで <strong>2 個以上のエラー</strong> があれば陽性。</p>
+    <div class="test-box">
+      <p class="test-instructions">
+        <strong>SAVEAHAART テスト：</strong><br>
+        「いまから 10 個の文字を読み上げます。<br>
+        <strong>"A" を聞いたら手を握ってください</strong>。」<br>
+        <strong>S — A — V — E — A — H — A — A — R — T</strong>（"A" は計 4 回）<br>
+        <span style="font-size:0.74rem;color:#64748B;">エラー：A で握らない／A 以外で握る ／ いずれもカウント</span>
+      </p>
+      <div class="err-input">
+        <label for="f2err">エラー数：</label>
+        <input type="number" id="f2err" min="0" max="10" step="1" value="0">
+        <span style="font-size:0.78rem;color:#64748B;">／10 回中</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Feature 3 ===== -->
+  <div class="step-card disabled" id="step3">
+    <div class="step-card-header">
+      <div class="step-num">3</div>
+      <div class="step-title">Feature 3：意識レベルの変化</div>
+    </div>
+    <p class="step-desc">現在の <strong>RASS が 0 以外</strong> なら自動で陽性。</p>
+    <div id="f3result" style="font-size:0.92rem;font-weight:800;padding:10px 14px;border-radius:8px;text-align:center;">—</div>
+  </div>
+
+  <!-- ===== Feature 4 ===== -->
+  <div class="step-card disabled" id="step4">
+    <div class="step-card-header">
+      <div class="step-num">4</div>
+      <div class="step-title">Feature 4：思考の混乱</div>
+    </div>
+    <p class="step-desc"><strong>Q1〜Q4 + 動作課題</strong>の 5 項目で <strong>2 個以上のエラー</strong>なら陽性。</p>
+    <div class="q-list">
+      <div class="q-row">
+        <div class="q-text">Q1: 石は水に浮きますか？（正：いいえ）</div>
+        <div class="q-mini-pills">
+          <input type="radio" name="q1" id="q1-correct" value="correct"><label for="q1-correct" class="correct">正解</label>
+          <input type="radio" name="q1" id="q1-wrong" value="wrong"><label for="q1-wrong" class="wrong">不正解</label>
+        </div>
+      </div>
+      <div class="q-row">
+        <div class="q-text">Q2: 海に魚はいますか？（正：はい）</div>
+        <div class="q-mini-pills">
+          <input type="radio" name="q2" id="q2-correct" value="correct"><label for="q2-correct" class="correct">正解</label>
+          <input type="radio" name="q2" id="q2-wrong" value="wrong"><label for="q2-wrong" class="wrong">不正解</label>
+        </div>
+      </div>
+      <div class="q-row">
+        <div class="q-text">Q3: 1 ポンドは 2 ポンドより重いですか？（正：いいえ）</div>
+        <div class="q-mini-pills">
+          <input type="radio" name="q3" id="q3-correct" value="correct"><label for="q3-correct" class="correct">正解</label>
+          <input type="radio" name="q3" id="q3-wrong" value="wrong"><label for="q3-wrong" class="wrong">不正解</label>
+        </div>
+      </div>
+      <div class="q-row">
+        <div class="q-text">Q4: 釘を打つのにハンマーは使えますか？（正：はい）</div>
+        <div class="q-mini-pills">
+          <input type="radio" name="q4" id="q4-correct" value="correct"><label for="q4-correct" class="correct">正解</label>
+          <input type="radio" name="q4" id="q4-wrong" value="wrong"><label for="q4-wrong" class="wrong">不正解</label>
+        </div>
+      </div>
+      <div class="q-row">
+        <div class="q-text">動作: 「指 2 本立ててください」→「もう一方の手で同じ数」（提示せず）</div>
+        <div class="q-mini-pills">
+          <input type="radio" name="q5" id="q5-correct" value="correct"><label for="q5-correct" class="correct">正解</label>
+          <input type="radio" name="q5" id="q5-wrong" value="wrong"><label for="q5-wrong" class="wrong">不正解</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 結果 ===== -->
+  <div class="result-card" id="resultCard">
+    <div class="result-headline" id="resultHead"></div>
+    <div class="result-detail"   id="resultDetail"></div>
+    <button class="reset-btn" id="resetBtn">リセット</button>
+  </div>
+
+  <div class="disclaimer">
+    <strong>※ 出典：</strong>Ely EW, et al. <em>JAMA</em> 2001;286(21):2703-2710（CAM-ICU 開発・妥当性検証）／
+    日本語版：日本クリティカルケア看護学会 翻訳版。<br>
+    本ツールは教育目的です。実際のせん妄評価は施設プロトコルに従い、原因（薬剤・電解質・感染・低酸素・脱水・拘束等）の
+    系統的評価と多職種介入を併せて行ってください。
+  </div>
+</div>
+
+<script src="../script.js"></script>
+<script>
+  (function(){
+    var rassGrid = document.getElementById('rassGrid');
+    var rassMinis = rassGrid.querySelectorAll('.rass-mini');
+    var step1 = document.getElementById('step1');
+    var step2 = document.getElementById('step2');
+    var step3 = document.getElementById('step3');
+    var step4 = document.getElementById('step4');
+    var f1y = document.getElementById('f1-y');
+    var f1n = document.getElementById('f1-n');
+    var f2err = document.getElementById('f2err');
+    var f3result = document.getElementById('f3result');
+    var resultCard = document.getElementById('resultCard');
+    var resultHead = document.getElementById('resultHead');
+    var resultDetail = document.getElementById('resultDetail');
+    var resetBtn = document.getElementById('resetBtn');
+
+    var state = { rass:null, f1:null, f2err:0, f4errs:0 };
+
+    function setStepStatus(card, status) {
+      card.classList.remove('passed','failed','disabled');
+      if (status === 'passed') card.classList.add('passed');
+      if (status === 'failed') card.classList.add('failed');
+      if (status === 'disabled') card.classList.add('disabled');
+    }
+    function selectRass(score) {
+      state.rass = parseInt(score);
+      rassMinis.forEach(function(m){ m.classList.toggle('selected', parseInt(m.dataset.rass) === state.rass); });
+      // RASS -4 / -5 → 評価不能
+      if (state.rass <= -4) {
+        setStepStatus(step1, 'disabled');
+        setStepStatus(step2, 'disabled');
+        setStepStatus(step3, 'disabled');
+        setStepStatus(step4, 'disabled');
+        showUnable();
+        return;
+      }
+      // それ以外 → Feature 1 へ
+      step1.classList.remove('disabled');
+      // Feature 3 を自動評価（RASS != 0 → 陽性）
+      if (state.rass !== 0) {
+        f3result.textContent = 'RASS ' + (state.rass > 0 ? '+' : '') + state.rass + ' → Feature 3 陽性';
+        f3result.style.background = '#FECACA';
+        f3result.style.color = '#7F1D1D';
+      } else {
+        f3result.textContent = 'RASS 0 → Feature 3 陰性';
+        f3result.style.background = '#DCFCE7';
+        f3result.style.color = '#14532D';
+      }
+      evaluate();
+    }
+    function evaluate() {
+      if (state.rass === null) { resultCard.classList.remove('visible','positive','negative','unable'); return; }
+      if (state.rass <= -4) { showUnable(); return; }
+
+      // Feature 1
+      var f1 = f1y.checked ? true : (f1n.checked ? false : null);
+      if (f1 === null) { hideResult(); return; }
+      setStepStatus(step1, f1 ? 'failed' : 'passed');
+      if (!f1) { showNegative(); step2.classList.add('disabled'); return; }
+      step2.classList.remove('disabled');
+
+      // Feature 2
+      state.f2err = parseInt(f2err.value) || 0;
+      var f2 = state.f2err >= 2;
+      setStepStatus(step2, f2 ? 'failed' : 'passed');
+      if (!f2) { showNegative(); step4.classList.add('disabled'); return; }
+
+      // Feature 3 — 自動
+      var f3 = state.rass !== 0;
+      setStepStatus(step3, f3 ? 'failed' : 'passed');
+
+      // Feature 4
+      var f4errs = 0;
+      ['q1','q2','q3','q4','q5'].forEach(function(name){
+        var w = document.querySelector('input[name="'+name+'"][value="wrong"]');
+        if (w && w.checked) f4errs++;
+      });
+      state.f4errs = f4errs;
+      step4.classList.remove('disabled');
+      var f4allAnswered = ['q1','q2','q3','q4','q5'].every(function(name){
+        return document.querySelector('input[name="'+name+'"]:checked');
+      });
+      var f4 = f4errs >= 2;
+
+      // 結果判定
+      if (f3) {
+        // F1+F2+F3 で陽性確定（F4 不要）
+        showPositive();
+      } else if (f4allAnswered) {
+        if (f4) showPositive();
+        else showNegative();
+      } else {
+        // F4 未完了 → ヒント表示
+        resultCard.classList.add('visible','unable');
+        resultCard.classList.remove('positive','negative');
+        resultHead.textContent = 'Feature 4 を完了してください';
+        resultDetail.innerHTML = 'F1 陽性、F2 陽性、F3 陰性のため、F4（思考の混乱）の評価が必要です。';
+      }
+    }
+    function showUnable() {
+      resultCard.classList.add('visible','unable');
+      resultCard.classList.remove('positive','negative');
+      resultHead.textContent = '評価不能（Unable to assess）';
+      resultDetail.innerHTML = '<strong>RASS −4 / −5</strong>（深鎮静・昏睡）のため CAM-ICU は評価できません。鎮静を浅くしてから再評価してください。';
+    }
+    function showPositive() {
+      resultCard.classList.add('visible','positive');
+      resultCard.classList.remove('negative','unable');
+      resultHead.textContent = 'CAM-ICU 陽性 — せん妄あり';
+      resultDetail.innerHTML =
+        '<strong>必要な所見：</strong>Feature 1 + 2 + (3 または 4) ✅<br>' +
+        '<strong>次の対応：</strong>原因評価（薬剤・電解質・感染・低酸素・脱水・拘束等）と非薬物的介入（早期離床・睡眠リズム・家族面会等）を優先。' +
+        '低活動型なら Halo・抗精神病薬の有用性は限定的、過活動型・難治例で短期間使用を検討。<br>' +
+        '<strong>サブタイプ：</strong>RASS &gt; 0 → 過活動型 ／ RASS ≤ 0 → 低活動型（最頻、見逃されやすい）。';
+    }
+    function showNegative() {
+      resultCard.classList.add('visible','negative');
+      resultCard.classList.remove('positive','unable');
+      resultHead.textContent = 'CAM-ICU 陰性 — せん妄なし';
+      resultDetail.innerHTML =
+        '現時点でせん妄の所見はありません。ICU 入室中は <strong>1 シフトに 1 回以上</strong>の評価が推奨されます。';
+    }
+    function hideResult() {
+      resultCard.classList.remove('visible','positive','negative','unable');
+    }
+
+    rassMinis.forEach(function(m){
+      m.addEventListener('click', function(){ selectRass(m.dataset.rass); });
+    });
+    f1y.addEventListener('change', evaluate);
+    f1n.addEventListener('change', evaluate);
+    f2err.addEventListener('input', evaluate);
+    document.querySelectorAll('input[name="q1"],input[name="q2"],input[name="q3"],input[name="q4"],input[name="q5"]').forEach(function(r){
+      r.addEventListener('change', evaluate);
+    });
+    resetBtn.addEventListener('click', function(){
+      state = { rass:null, f1:null, f2err:0, f4errs:0 };
+      rassMinis.forEach(function(m){ m.classList.remove('selected'); });
+      [step1, step2, step3, step4].forEach(function(s){ setStepStatus(s, 'disabled'); });
+      document.querySelectorAll('input[type="radio"]').forEach(function(r){ r.checked = false; });
+      f2err.value = 0;
+      f3result.textContent = '—';
+      f3result.style.background = '';
+      f3result.style.color = '';
+      hideResult();
+      window.scrollTo({top:0,behavior:'smooth'});
+    });
+  })();
+</script>
+</body>
+</html>

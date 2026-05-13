@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0">
+  <title>RASS（Richmond Agitation-Sedation Scale）| 聖路加ICU 便利ツール</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style-v2.css?v=202605110530">
+  <style>
+    html, body { max-width:100%;overflow-x:hidden; }
+    .tools-banner { width:100%;max-width:1294px;margin:64px auto 0;padding:0;line-height:0; }
+    .tools-banner img {
+      width:100%;height:auto;display:block;
+      -webkit-mask-image:linear-gradient(to bottom, #000 0%, #000 85%, transparent 100%);
+      mask-image:linear-gradient(to bottom, #000 0%, #000 85%, transparent 100%);
+    }
+    .page-wrap {
+      max-width:1100px;margin:0 auto;
+      padding:0 clamp(20px,1rem+1.5vw,40px) clamp(40px,2rem+1.5vw,64px);
+      overflow-x:hidden;
+      font-family:'Noto Sans JP','Hiragino Kaku Gothic ProN','Hiragino Sans','Yu Gothic',sans-serif;
+    }
+    .back-wrapper { display:flex;align-items:center;margin:6px 0 12px; }
+    .back-btn {
+      display:inline-flex;align-items:center;justify-content:center;
+      padding:9px 16px;background:rgba(255,255,255,0.85);
+      backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+      border:1px solid rgba(255,255,255,0.7);border-radius:10px;
+      font-size:0.78rem;font-weight:800;color:#0369A1;text-decoration:none;
+      letter-spacing:0.02em;line-height:1;
+      box-shadow:0 4px 18px rgba(3,105,161,0.08);
+      transition:transform .15s, background .15s;box-sizing:border-box;
+    }
+    .back-btn:hover { background:rgba(255,255,255,0.95);transform:translateY(-1px); }
+    .tool-title-area { margin:20px 0 24px; }
+    .tool-title-area h1 {
+      font-size:clamp(1.3rem,4vw,1.7rem);font-weight:900;color:#0C4A6E;
+      margin:0 0 6px;letter-spacing:-0.01em;line-height:1.2;
+    }
+    .tool-subtitle { font-size:0.82rem;color:#64748B;font-weight:500;line-height:1.6; }
+
+    /* ===== RASS スケールカード ===== */
+    .rass-grid { display:grid;grid-template-columns:1fr;gap:8px;margin-top:16px; }
+    .rass-row {
+      display:grid;
+      grid-template-columns:64px minmax(120px,180px) 1fr;
+      gap:14px;align-items:center;
+      padding:14px 18px;background:#fff;border:1.5px solid var(--border);
+      border-radius:10px;cursor:pointer;
+      transition:transform .12s, box-shadow .15s, border-color .15s;
+    }
+    .rass-row:hover { border-color:#7DD3FC;transform:translateX(2px);box-shadow:0 4px 12px rgba(3,105,161,0.08); }
+    .rass-row.selected {
+      border-width:2px;border-color:#0EA5E9;
+      box-shadow:0 4px 16px rgba(3,105,161,0.18);
+    }
+    .rass-score {
+      display:flex;align-items:center;justify-content:center;
+      width:56px;height:56px;border-radius:14px;
+      font-size:1.6rem;font-weight:900;color:#fff;
+      font-family:ui-monospace,Menlo,Consolas,monospace;letter-spacing:-0.04em;
+    }
+    /* 闘争・興奮（赤系） */
+    .rass-row[data-score="4"]  .rass-score { background:#B91C1C; }
+    .rass-row[data-score="3"]  .rass-score { background:#DC2626; }
+    .rass-row[data-score="2"]  .rass-score { background:#EA580C; }
+    .rass-row[data-score="1"]  .rass-score { background:#F59E0B; }
+    /* 安静（緑） */
+    .rass-row[data-score="0"]  .rass-score { background:#16A34A; }
+    /* 鎮静（青系） */
+    .rass-row[data-score="-1"] .rass-score { background:#0EA5E9; }
+    .rass-row[data-score="-2"] .rass-score { background:#0284C7; }
+    .rass-row[data-score="-3"] .rass-score { background:#0369A1; }
+    .rass-row[data-score="-4"] .rass-score { background:#1E40AF; }
+    .rass-row[data-score="-5"] .rass-score { background:#312E81; }
+    .rass-name { font-size:0.95rem;font-weight:800;color:#0C4A6E; }
+    .rass-en   { font-size:0.72rem;font-weight:600;color:#94A3B8;display:block;margin-top:2px;letter-spacing:0.04em; }
+    .rass-desc { font-size:0.84rem;line-height:1.65;color:#334155; }
+
+    /* ===== 結果カード ===== */
+    .result-card {
+      margin-top:24px;padding:22px 24px;border-radius:14px;
+      background:linear-gradient(135deg,#F0F9FF 0%,#E0F2FE 100%);
+      border:2px solid #7DD3FC;display:none;
+    }
+    .result-card.visible { display:block; }
+    .result-card-head {
+      display:flex;align-items:center;gap:14px;margin-bottom:12px;
+      padding-bottom:10px;border-bottom:1px solid rgba(3,105,161,0.18);
+    }
+    .result-score-big {
+      font-size:2.6rem;font-weight:900;color:#0C4A6E;
+      font-family:ui-monospace,Menlo,Consolas,monospace;line-height:1;
+    }
+    .result-name { font-size:1.05rem;font-weight:900;color:#0C4A6E; }
+    .result-en   { font-size:0.78rem;color:#0369A1;font-weight:600;letter-spacing:0.04em; }
+    .result-comment {
+      font-size:0.85rem;line-height:1.75;color:#334155;
+      padding:10px 14px;background:rgba(255,255,255,0.7);border-radius:8px;
+    }
+
+    /* ===== 評価方法 ===== */
+    .method-card {
+      margin-top:28px;padding:20px 22px;
+      background:#fff;border:1px solid var(--border);border-radius:12px;
+    }
+    .method-title {
+      font-size:0.92rem;font-weight:900;color:#0369A1;
+      margin:0 0 12px;padding-bottom:8px;border-bottom:2px solid #BAE6FD;
+    }
+    .method-card ol { margin:0;padding-left:1.4em;font-size:0.85rem;line-height:1.85;color:#334155; }
+    .method-card ol li { margin-bottom:6px; }
+    .method-card strong { color:#0C4A6E; }
+
+    .disclaimer {
+      font-size:0.72rem;color:#94A3B8;line-height:1.7;margin-top:24px;
+      padding:14px 16px;background:#F8FAFC;border-radius:8px;border:1px solid var(--border);
+    }
+    .disclaimer strong { color:#64748B; }
+
+    @media (max-width: 600px) {
+      .page-wrap { max-width:560px;padding-left:18px;padding-right:18px; }
+      .rass-row {
+        grid-template-columns:48px 1fr;
+        gap:10px;padding:12px 14px;
+      }
+      .rass-score { width:42px;height:42px;font-size:1.2rem;border-radius:10px; }
+      .rass-name { font-size:0.88rem; }
+      .rass-en   { font-size:0.66rem; }
+      .rass-desc { grid-column:1 / -1;font-size:0.78rem; }
+      .result-score-big { font-size:2.1rem; }
+      .tool-title-area h1 { font-size:1.3rem; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <a href="../index.html" class="nav-logo">
+      <img src="../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+      <span class="nav-logo-text">聖路加国際病院ICU</span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-menu" id="navMenu"></ul>
+  </div>
+</nav>
+
+<div class="tools-banner">
+  <img src="../images/icu-study.jpg" alt="" loading="lazy">
+</div>
+
+<div class="page-wrap">
+  <div class="back-wrapper">
+    <a href="../index.html" class="back-btn">← ホームへ戻る</a>
+  </div>
+
+  <div class="tool-title-area">
+    <h1>RASS — Richmond Agitation-Sedation Scale</h1>
+    <p class="tool-subtitle">
+      ICU で標準的に用いられる鎮静・興奮レベル評価スケール（−5 〜 +4 の10段階）。<br>
+      患者の状態に最も合致するレベルをタップして記録してください。
+    </p>
+  </div>
+
+  <div class="rass-grid" id="rassGrid">
+    <div class="rass-row" data-score="4"  tabindex="0">
+      <span class="rass-score">+4</span>
+      <span><span class="rass-name">闘争的</span><span class="rass-en">COMBATIVE</span></span>
+      <span class="rass-desc">明らかに闘争的、暴力的、スタッフへの即時の危険</span>
+    </div>
+    <div class="rass-row" data-score="3"  tabindex="0">
+      <span class="rass-score">+3</span>
+      <span><span class="rass-name">強い不穏</span><span class="rass-en">VERY AGITATED</span></span>
+      <span class="rass-desc">チューブ・カテーテル類を引き抜く、攻撃的</span>
+    </div>
+    <div class="rass-row" data-score="2"  tabindex="0">
+      <span class="rass-score">+2</span>
+      <span><span class="rass-name">不穏</span><span class="rass-en">AGITATED</span></span>
+      <span class="rass-desc">頻繁な無目的の動き、人工呼吸器との非同調</span>
+    </div>
+    <div class="rass-row" data-score="1"  tabindex="0">
+      <span class="rass-score">+1</span>
+      <span><span class="rass-name">落ち着きがない</span><span class="rass-en">RESTLESS</span></span>
+      <span class="rass-desc">不安または不安そうだが、活発で攻撃的でない</span>
+    </div>
+    <div class="rass-row" data-score="0"  tabindex="0">
+      <span class="rass-score">0</span>
+      <span><span class="rass-name">意識清明・穏やか</span><span class="rass-en">ALERT AND CALM</span></span>
+      <span class="rass-desc">意識清明で穏やか</span>
+    </div>
+    <div class="rass-row" data-score="-1" tabindex="0">
+      <span class="rass-score">−1</span>
+      <span><span class="rass-name">傾眠</span><span class="rass-en">DROWSY</span></span>
+      <span class="rass-desc">完全には清明でないが、声かけに対し <strong>10秒以上</strong> 開眼・アイコンタクト</span>
+    </div>
+    <div class="rass-row" data-score="-2" tabindex="0">
+      <span class="rass-score">−2</span>
+      <span><span class="rass-name">軽度鎮静</span><span class="rass-en">LIGHT SEDATION</span></span>
+      <span class="rass-desc">声かけに対し <strong>10秒未満</strong> 開眼・アイコンタクト</span>
+    </div>
+    <div class="rass-row" data-score="-3" tabindex="0">
+      <span class="rass-score">−3</span>
+      <span><span class="rass-name">中等度鎮静</span><span class="rass-en">MODERATE SEDATION</span></span>
+      <span class="rass-desc">声かけに動きまたは開眼で反応するが、アイコンタクトなし</span>
+    </div>
+    <div class="rass-row" data-score="-4" tabindex="0">
+      <span class="rass-score">−4</span>
+      <span><span class="rass-name">深い鎮静</span><span class="rass-en">DEEP SEDATION</span></span>
+      <span class="rass-desc">声かけには反応なし、身体刺激で動きまたは開眼</span>
+    </div>
+    <div class="rass-row" data-score="-5" tabindex="0">
+      <span class="rass-score">−5</span>
+      <span><span class="rass-name">昏睡</span><span class="rass-en">UNAROUSABLE</span></span>
+      <span class="rass-desc">声かけ・身体刺激ともに反応なし</span>
+    </div>
+  </div>
+
+  <div class="result-card" id="resultCard">
+    <div class="result-card-head">
+      <span class="result-score-big" id="resultScore">—</span>
+      <span>
+        <div class="result-name"  id="resultName">未選択</div>
+        <div class="result-en"    id="resultEn"></div>
+      </span>
+    </div>
+    <div class="result-comment" id="resultComment"></div>
+  </div>
+
+  <div class="method-card">
+    <h2 class="method-title">評価手順（3 ステップ）</h2>
+    <ol>
+      <li><strong>観察：</strong>30 秒間、患者を観察 → +4 〜 0 のいずれか</li>
+      <li><strong>声かけ：</strong>名前を呼んで「目を開けて、私を見てください」と指示
+        <ul style="padding-left:1.2em;margin-top:4px;">
+          <li>10秒以上のアイコンタクトあり → −1</li>
+          <li>10秒未満のアイコンタクトあり → −2</li>
+          <li>動きや開眼はあるがアイコンタクトなし → −3</li>
+        </ul>
+      </li>
+      <li><strong>身体刺激：</strong>声かけで反応がない場合、肩を揺する／胸骨を擦る
+        <ul style="padding-left:1.2em;margin-top:4px;">
+          <li>動きや開眼あり → −4</li>
+          <li>反応なし → −5</li>
+        </ul>
+      </li>
+    </ol>
+  </div>
+
+  <div class="disclaimer">
+    <strong>※ 出典：</strong>Sessler CN, et al. <em>Am J Respir Crit Care Med</em> 2002;166(10):1338-1344. ／
+    Ely EW, et al. <em>JAMA</em> 2003;289(22):2983-2991（妥当性検証）。<br>
+    本ツールは教育目的で作成しています。実際の鎮静管理は施設プロトコルに従って行ってください。
+  </div>
+</div>
+
+<script src="../script.js"></script>
+<script>
+  (function(){
+    var grid = document.getElementById('rassGrid');
+    var rows = grid.querySelectorAll('.rass-row');
+    var card = document.getElementById('resultCard');
+    var sEl  = document.getElementById('resultScore');
+    var nEl  = document.getElementById('resultName');
+    var enEl = document.getElementById('resultEn');
+    var cEl  = document.getElementById('resultComment');
+
+    var comments = {
+      '4':  '直ちに患者・スタッフの安全確保。鎮静（プロポフォール・デクスメデトミジン等）の追加と原因（疼痛・せん妄・呼吸器非同調・離脱症状等）の評価を。',
+      '3':  '安全確保＋鎮静量見直し。CAM-ICU で過活動型せん妄の評価を併せて行う。',
+      '2':  '不快の原因（疼痛・尿閉・体位・呼吸器同調等）を順に確認し、必要に応じて鎮静調整。',
+      '1':  '不安・不快の原因を評価。鎮静はまだ追加せず、声かけ・体位・環境調整から。',
+      '0':  '<strong>多くの ICU 患者で目標範囲（−2 〜 0）。</strong>清明で協力可能な状態。',
+      '-1': '<strong>目標範囲内（−2 〜 0）。</strong>軽い傾眠。鎮静薬の減量・中止判断の良いタイミング。',
+      '-2': '<strong>目標範囲内（−2 〜 0）。</strong>軽度鎮静。SAT/SBT の対象になる。',
+      '-3': '中等度鎮静。深すぎる場合は鎮静量の再評価を。SAT 試験を検討。',
+      '-4': '深鎮静。緊急時・難治性低酸素・神経損傷管理等の特定の適応がない限り、鎮静量を減らす方向で。',
+      '-5': '昏睡レベル。鎮静過剰または重篤な脳機能障害の可能性。原因評価と鎮静中止が原則（重症脳症・脳保護目的を除く）。'
+    };
+    var enMap = {
+      '4':'COMBATIVE','3':'VERY AGITATED','2':'AGITATED','1':'RESTLESS','0':'ALERT AND CALM',
+      '-1':'DROWSY','-2':'LIGHT SEDATION','-3':'MODERATE SEDATION','-4':'DEEP SEDATION','-5':'UNAROUSABLE'
+    };
+    var nameMap = {
+      '4':'闘争的','3':'強い不穏','2':'不穏','1':'落ち着きがない','0':'意識清明・穏やか',
+      '-1':'傾眠','-2':'軽度鎮静','-3':'中等度鎮静','-4':'深い鎮静','-5':'昏睡'
+    };
+
+    function select(score) {
+      rows.forEach(function(r){ r.classList.toggle('selected', r.getAttribute('data-score') === score); });
+      sEl.textContent  = (parseInt(score) >= 0 ? '+' : '−') + Math.abs(parseInt(score));
+      if (score === '0') sEl.textContent = '0';
+      nEl.textContent  = nameMap[score];
+      enEl.textContent = enMap[score];
+      cEl.innerHTML    = comments[score];
+      card.classList.add('visible');
+      card.scrollIntoView({behavior:'smooth', block:'nearest'});
+    }
+    rows.forEach(function(r){
+      r.addEventListener('click', function(){ select(r.getAttribute('data-score')); });
+      r.addEventListener('keydown', function(e){
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); select(r.getAttribute('data-score')); }
+      });
+    });
+  })();
+</script>
+</body>
+</html>

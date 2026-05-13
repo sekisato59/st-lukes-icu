@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0">
+  <title>APACHE II スコア | 聖路加ICU 便利ツール</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style-v2.css?v=202605110530">
+  <style>
+    html, body { max-width:100%;overflow-x:hidden; }
+    .tools-banner { width:100%;max-width:1294px;margin:64px auto 0;padding:0;line-height:0; }
+    .tools-banner img {
+      width:100%;height:auto;display:block;
+      -webkit-mask-image:linear-gradient(to bottom, #000 0%, #000 85%, transparent 100%);
+      mask-image:linear-gradient(to bottom, #000 0%, #000 85%, transparent 100%);
+    }
+    .page-wrap {
+      max-width:1100px;margin:0 auto;
+      padding:0 clamp(20px,1rem+1.5vw,40px) clamp(40px,2rem+1.5vw,64px);
+      overflow-x:hidden;
+      font-family:'Noto Sans JP','Hiragino Kaku Gothic ProN','Hiragino Sans','Yu Gothic',sans-serif;
+      font-variant-numeric:tabular-nums;
+    }
+    .back-wrapper { display:flex;align-items:center;margin:6px 0 12px; }
+    .back-btn {
+      display:inline-flex;align-items:center;justify-content:center;
+      padding:9px 16px;background:rgba(255,255,255,0.85);
+      backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+      border:1px solid rgba(255,255,255,0.7);border-radius:10px;
+      font-size:0.78rem;font-weight:800;color:#0369A1;text-decoration:none;line-height:1;
+    }
+    .tool-title-area { margin:20px 0 24px; }
+    .tool-title-area h1 {
+      font-size:clamp(1.3rem,4vw,1.7rem);font-weight:900;color:#0C4A6E;
+      margin:0 0 6px;letter-spacing:-0.01em;line-height:1.2;
+    }
+    .tool-subtitle { font-size:0.82rem;color:#64748B;font-weight:500;line-height:1.6; }
+
+    .section-card {
+      background:#fff;border:1px solid var(--border);border-radius:14px;
+      padding:18px 20px;margin-bottom:14px;
+      box-shadow:0 2px 12px rgba(3,105,161,0.06);
+    }
+    .section-title {
+      font-size:0.95rem;font-weight:900;color:#0369A1;
+      margin:0 0 12px;padding-bottom:8px;border-bottom:2px solid #BAE6FD;
+    }
+    .var-grid {
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
+      gap:12px 14px;
+    }
+    .var-row {
+      display:flex;flex-direction:column;gap:5px;
+      padding:10px 12px;background:#F8FAFC;border-radius:8px;
+      border:1px solid var(--border);
+      position:relative;
+    }
+    .var-label {
+      font-size:0.74rem;font-weight:700;color:#0369A1;line-height:1.3;
+    }
+    .var-unit { color:#64748B;font-weight:500;font-size:0.66rem;margin-left:2px; }
+    .var-input-row { display:flex;align-items:center;gap:8px; }
+    .var-input-row input, .var-input-row select {
+      flex:1;font-family:inherit;font-size:0.92rem;font-variant-numeric:tabular-nums;
+      padding:6px 10px;border:1px solid var(--border);border-radius:7px;
+      background:#fff;outline:none;height:34px;box-sizing:border-box;width:100%;
+    }
+    .var-input-row input:focus, .var-input-row select:focus {
+      border-color:#0EA5E9;box-shadow:0 0 0 3px rgba(14,165,233,0.15);
+    }
+    .var-pts {
+      font-size:0.95rem;font-weight:900;color:#fff;background:#94A3B8;
+      min-width:36px;height:30px;
+      display:flex;align-items:center;justify-content:center;
+      border-radius:6px;font-family:ui-monospace,Menlo,Consolas,monospace;
+    }
+    .var-row[data-pts="0"] .var-pts { background:#16A34A; }
+    .var-row[data-pts="1"] .var-pts { background:#84CC16; }
+    .var-row[data-pts="2"] .var-pts { background:#F59E0B; }
+    .var-row[data-pts="3"] .var-pts { background:#EA580C; }
+    .var-row[data-pts="4"] .var-pts { background:#DC2626; }
+
+    /* O2 toggle */
+    .o2-toggle { display:flex;gap:6px;margin-bottom:8px; }
+    .o2-toggle input[type=radio] { display:none; }
+    .o2-toggle label {
+      flex:1;padding:6px 10px;border:1.5px solid var(--border);border-radius:6px;
+      font-size:0.78rem;font-weight:700;color:#64748B;cursor:pointer;
+      text-align:center;background:#fff;
+    }
+    .o2-toggle input[type=radio]:checked + label {
+      background:linear-gradient(135deg,#0369A1,#0EA5E9);color:#fff;border-color:transparent;
+    }
+    .o2-aa-row, .o2-pa-row { display:flex;align-items:center;gap:8px; }
+
+    /* AKI toggle */
+    .var-extra { display:flex;gap:6px;margin-top:6px; }
+    .var-extra input[type=checkbox] { display:none; }
+    .var-extra label {
+      padding:4px 10px;border:1.5px solid var(--border);border-radius:6px;
+      font-size:0.72rem;font-weight:700;color:#64748B;cursor:pointer;background:#fff;
+    }
+    .var-extra input[type=checkbox]:checked + label {
+      background:linear-gradient(135deg,#B45309,#D97706);color:#fff;border-color:transparent;
+    }
+
+    /* Chronic health */
+    .chronic-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px; }
+    .chronic-card {
+      padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;
+      cursor:pointer;background:#fff;font-size:0.82rem;font-weight:700;color:#64748B;
+      text-align:center;
+    }
+    .chronic-card:hover { border-color:#7DD3FC;background:#F0F9FF; }
+    .chronic-card.selected {
+      background:linear-gradient(135deg,#0369A1,#0EA5E9);color:#fff;border-color:transparent;
+    }
+
+    /* 合計カード */
+    .total-card {
+      margin-top:20px;padding:24px 26px;border-radius:14px;
+      background:linear-gradient(135deg,#0369A1 0%,#0EA5E9 100%);color:#fff;
+      box-shadow:0 6px 22px rgba(3,105,161,0.25);
+    }
+    .total-head { display:flex;align-items:flex-start;justify-content:space-between;gap:14px;flex-wrap:wrap; }
+    .total-label { font-size:0.78rem;font-weight:800;letter-spacing:0.06em;text-transform:uppercase;opacity:0.85; }
+    .total-score { font-size:3.4rem;font-weight:900;line-height:1;letter-spacing:-0.02em; }
+    .total-mortality { font-size:1.1rem;font-weight:900;margin-top:2px; }
+    .total-detail { font-size:0.85rem;line-height:1.75;opacity:0.95; }
+    .total-bd { display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:6px;margin-top:14px; }
+    .total-bd-item {
+      background:rgba(255,255,255,0.18);border-radius:8px;padding:8px 10px;text-align:center;
+    }
+    .total-bd-item .lbl { font-size:0.66rem;font-weight:700;letter-spacing:0.05em;opacity:0.85; }
+    .total-bd-item .val { font-size:1.2rem;font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:-0.02em;margin-top:2px; }
+
+    .ref-card {
+      margin-top:24px;background:#fff;border:1px solid var(--border);border-radius:12px;padding:18px 22px;
+    }
+    .ref-card h3 { font-size:0.92rem;font-weight:900;color:#0369A1;margin:0 0 10px;
+      padding-bottom:8px;border-bottom:2px solid #BAE6FD; }
+    .ref-table { width:100%;border-collapse:collapse;font-size:0.78rem; }
+    .ref-table th { background:#F8FAFC;color:#64748B;font-weight:700;
+      padding:7px 8px;text-align:left;border-bottom:1px solid var(--border);font-size:0.72rem; }
+    .ref-table td { padding:6px 8px;border-bottom:1px solid #E2E8F0;color:#1E293B; }
+    .ref-table tr:last-child td { border-bottom:none; }
+
+    .disclaimer {
+      font-size:0.72rem;color:#94A3B8;line-height:1.7;margin-top:24px;
+      padding:14px 16px;background:#F8FAFC;border-radius:8px;border:1px solid var(--border);
+    }
+    .disclaimer strong { color:#64748B; }
+
+    @media (max-width: 600px) {
+      .page-wrap { max-width:560px;padding-left:18px;padding-right:18px; }
+      .section-card { padding:14px 16px; }
+      .var-grid { grid-template-columns:1fr 1fr;gap:10px; }
+      .total-card { padding:18px 18px; }
+      .total-score { font-size:2.6rem; }
+      .tool-title-area h1 { font-size:1.3rem; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <a href="../index.html" class="nav-logo">
+      <img src="../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+      <span class="nav-logo-text">聖路加国際病院ICU</span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-menu" id="navMenu"></ul>
+  </div>
+</nav>
+
+<div class="tools-banner">
+  <img src="../images/icu-study.jpg" alt="" loading="lazy">
+</div>
+
+<div class="page-wrap">
+  <div class="back-wrapper">
+    <a href="../index.html" class="back-btn">← ホームへ戻る</a>
+  </div>
+
+  <div class="tool-title-area">
+    <h1>APACHE II スコア</h1>
+    <p class="tool-subtitle">
+      ICU 入室後 <strong>24 時間以内に最も悪い値</strong> を入力してください。<br>
+      合計 = 急性生理学的スコア（APS, 12 項目）＋ 年齢点 ＋ 慢性疾患点（最大 71 点）。
+    </p>
+  </div>
+
+  <!-- ===== 急性生理学的スコア (APS) ===== -->
+  <div class="section-card">
+    <h2 class="section-title">① 急性生理学的スコア（APS, 12 項目）</h2>
+    <div class="var-grid">
+
+      <div class="var-row" id="v-temp" data-pts="0">
+        <div class="var-label">体温（直腸） <span class="var-unit">℃</span></div>
+        <div class="var-input-row">
+          <input type="number" id="temp" min="20" max="45" step="0.1" inputmode="decimal" placeholder="例 38.5">
+          <div class="var-pts" id="pts-temp">0</div>
+        </div>
+      </div>
+
+      <div class="var-row" id="v-map" data-pts="0">
+        <div class="var-label">MAP <span class="var-unit">mmHg</span></div>
+        <div class="var-input-row">
+          <input type="number" id="map" min="20" max="200" step="1" inputmode="numeric" placeholder="例 75">
+          <div class="var-pts" id="pts-map">0</div>
+        </div>
+      </div>
+
+      <div class="var-row" id="v-hr" data-pts="0">
+        <div class="var-label">心拍数 <span class="var-unit">bpm</span></div>
+        <div class="var-input-row">
+          <input type="number" id="hr" min="20" max="220" step="1" inputmode="numeric" placeholder="例 90">
+          <div class="var-pts" id="pts-hr">0</div>
+        </div>
+      </div>
+
+      <div class="var-row" id="v-rr" data-pts="0">
+        <div class="var-label">呼吸数 <span class="var-unit">/min</span></div>
+        <div class="var-input-row">
+          <input type="number" id="rr" min="0" max="80" step="1" inputmode="numeric" placeholder="例 18">
+          <div class="var-pts" id="pts-rr">0</div>
+        </div>
+      </div>
+
+      <div class="var-row" id="v-o2" data-pts="0" style="grid-column:span 2;">
+        <div class="var-label">酸素化（FiO₂ &lt; 0.5 → PaO₂、≥ 0.5 → A-a 較差）</div>
+        <div class="o2-toggle">
+          <input type="radio" name="o2type" id="o2-pa" value="pa" checked>
+          <label for="o2-pa">PaO₂（FiO₂ &lt; 0.5）</label>
+          <input type="radio" name="o2type" id="o2-aa" value="aa">
+          <label for="o2-aa">A-a 較差（FiO₂ ≥ 0.5）</label>
+        </div>
+        <div class="var-input-row">
+          <input type="number" id="o2val" min="0" max="700" step="1" inputmode="numeric" placeholder="例 80">
+          <span style="font-size:0.74rem;color:#64748B;" id="o2unit">mmHg</span>
+          <div class="var-pts" id="pts-o2">0</div>
+        </div>
+      </div>
+
+      <div class="var-row" id="v-ph" data-pts="0">
+        <div class="var-label">動脈血 pH</div>
+        <div class="var-input-row">
+          <input type="number" id="ph" min="6.5" max="8.0" step="0.01" inputmode="decimal" placeholder="例 7.35">
+          <div class="var-pts" id="pts-ph">0</div>
+        </div>
+      </div>
+
+      <div class="var-row" id="v-na" data-pts="0">
+        <div class="var-label">血清 Na <span class="var-unit">mEq/L</span></div>
+        <div class="var-input-row">
+          <input type="number" id="na" min="80" max="200" step="1" inputmode="numeric" placeholder="例 138">
+          <div class="var-pts" id="pts-na">0</div>
+        </div>
+      </div>
+
+      <div class="var-row" id="v-k" data-pts="0">
+        <div class="var-label">血清 K <span class="var-unit">mEq/L</span></div>
+        <div class="var-input-row">
+          <input type="number" id="k" min="1" max="10" step="0.1" inputmode="decimal" placeholder="例 4.0">
+          <div class="var-pts" id="pts-k">0</div>
+        </div>
+      </div>
+
+      <div class="var-row" id="v-cr" data-pts="0">
+        <div class="var-label">血清 Cr <span class="var-unit">mg/dL</span></div>
+        <div class="var-input-row">
+          <input type="number" id="cr" min="0.1" max="20" step="0.01" inputmode="decimal" placeholder="例 1.0">
+          <div class="var-pts" id="pts-cr">0</div>
+        </div>
+        <div class="var-extra">
+          <input type="checkbox" id="aki">
+          <label for="aki">急性腎不全 → スコア×2</label>
+        </div>
+      </div>
+
+      <div class="var-row" id="v-hct" data-pts="0">
+        <div class="var-label">Hct <span class="var-unit">%</span></div>
+        <div class="var-input-row">
+          <input type="number" id="hct" min="5" max="80" step="0.1" inputmode="decimal" placeholder="例 38">
+          <div class="var-pts" id="pts-hct">0</div>
+        </div>
+      </div>
+
+      <div class="var-row" id="v-wbc" data-pts="0">
+        <div class="var-label">WBC <span class="var-unit">×10³/μL</span></div>
+        <div class="var-input-row">
+          <input type="number" id="wbc" min="0" max="100" step="0.1" inputmode="decimal" placeholder="例 8.5">
+          <div class="var-pts" id="pts-wbc">0</div>
+        </div>
+      </div>
+
+      <div class="var-row" id="v-gcs" data-pts="0">
+        <div class="var-label">GCS（合計 3–15）</div>
+        <div class="var-input-row">
+          <input type="number" id="gcs" min="3" max="15" step="1" inputmode="numeric" placeholder="例 14">
+          <div class="var-pts" id="pts-gcs">0</div>
+        </div>
+        <div style="font-size:0.7rem;color:#64748B;margin-top:4px;">点数 = 15 − GCS</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===== 年齢 ===== -->
+  <div class="section-card">
+    <h2 class="section-title">② 年齢</h2>
+    <div class="var-grid">
+      <div class="var-row" id="v-age" data-pts="0">
+        <div class="var-label">年齢 <span class="var-unit">歳</span></div>
+        <div class="var-input-row">
+          <input type="number" id="age" min="0" max="120" step="1" inputmode="numeric" placeholder="例 65">
+          <div class="var-pts" id="pts-age">0</div>
+        </div>
+        <div style="font-size:0.7rem;color:#64748B;margin-top:4px;">≤44=0 ／ 45–54=2 ／ 55–64=3 ／ 65–74=5 ／ ≥75=6</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 慢性疾患 ===== -->
+  <div class="section-card">
+    <h2 class="section-title">③ 慢性疾患（severe organ insufficiency / immunocompromise）</h2>
+    <p style="font-size:0.78rem;color:#64748B;margin:0 0 10px;line-height:1.7;">
+      該当する慢性疾患がある場合のみ加算。<br>
+      <strong>対象：</strong>肝硬変＋門脈圧亢進・NYHA IV・重度 COPD（換気依存・ポリシテミア）・透析・免疫抑制状態（ステロイド・抗がん剤・免疫不全症）
+    </p>
+    <div class="chronic-grid">
+      <div class="chronic-card selected" data-pts="0" id="ch-none">該当なし<br><span style="font-weight:600;font-size:0.72rem;">+ 0 点</span></div>
+      <div class="chronic-card" data-pts="2" id="ch-elective">該当あり ＋ <strong>待機手術後</strong><br><span style="font-weight:600;font-size:0.72rem;">+ 2 点</span></div>
+      <div class="chronic-card" data-pts="5" id="ch-emergency">該当あり ＋ <strong>緊急手術 or 内科的</strong><br><span style="font-weight:600;font-size:0.72rem;">+ 5 点</span></div>
+    </div>
+  </div>
+
+  <!-- ===== 合計 ===== -->
+  <div class="total-card">
+    <div class="total-head">
+      <div>
+        <div class="total-label">APACHE II 合計</div>
+        <div class="total-score" id="totalScore">0</div>
+        <div class="total-mortality" id="totalMort">予測死亡率：—</div>
+      </div>
+      <div class="total-detail" id="totalDetail" style="max-width:340px;">
+        各項目を入力すると、合計スコアと参考死亡率を表示します。
+      </div>
+    </div>
+    <div class="total-bd">
+      <div class="total-bd-item"><div class="lbl">APS</div><div class="val" id="bd-aps">0</div></div>
+      <div class="total-bd-item"><div class="lbl">年齢</div><div class="val" id="bd-age">0</div></div>
+      <div class="total-bd-item"><div class="lbl">慢性</div><div class="val" id="bd-chr">0</div></div>
+    </div>
+  </div>
+
+  <!-- ===== 死亡率参考 ===== -->
+  <div class="ref-card">
+    <h3>APACHE II スコアと予測病院死亡率（参考）</h3>
+    <table class="ref-table">
+      <thead><tr><th>スコア</th><th>非外科 ICU</th><th>外科後 ICU</th></tr></thead>
+      <tbody>
+        <tr><td>0–4</td><td>4%</td><td>1%</td></tr>
+        <tr><td>5–9</td><td>8%</td><td>3%</td></tr>
+        <tr><td>10–14</td><td>15%</td><td>7%</td></tr>
+        <tr><td>15–19</td><td>25%</td><td>12%</td></tr>
+        <tr><td>20–24</td><td>40%</td><td>30%</td></tr>
+        <tr><td>25–29</td><td>55%</td><td>35%</td></tr>
+        <tr><td>30–34</td><td>75%</td><td>73%</td></tr>
+        <tr><td>≥35</td><td>85%</td><td>88%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="disclaimer">
+    <strong>※ 出典：</strong>Knaus WA, et al. APACHE II: A severity of disease classification system. <em>Crit Care Med</em> 1985;13(10):818-829.<br>
+    <strong>注意：</strong>ICU 入室から最初の 24 時間以内に <strong>最も悪い値</strong> を採用。
+    急性腎不全（48 時間以内に急速発症）の場合は Cr の点数を 2 倍にする（このツールでも反映済み）。<br>
+    本ツールは教育目的で構築しています。実際の予後予測には患者背景・基礎疾患・治療反応性を総合して判断してください。
+  </div>
+</div>
+
+<script src="../script.js"></script>
+<script>
+  (function(){
+    function setPts(id, pts) {
+      var row = document.getElementById('v-'+id);
+      row.dataset.pts = Math.min(4, pts);
+      document.getElementById('pts-'+id).textContent = pts;
+      return pts;
+    }
+
+    function pTemp(t) {
+      if (isNaN(t)) return 0;
+      if (t >= 41) return 4;
+      if (t >= 39) return 3;
+      if (t >= 38.5) return 1;
+      if (t >= 36) return 0;
+      if (t >= 34) return 1;
+      if (t >= 32) return 2;
+      if (t >= 30) return 3;
+      return 4;
+    }
+    function pMAP(m) {
+      if (isNaN(m)) return 0;
+      if (m >= 160) return 4;
+      if (m >= 130) return 3;
+      if (m >= 110) return 2;
+      if (m >= 70) return 0;
+      if (m >= 50) return 2;
+      return 4;
+    }
+    function pHR(h) {
+      if (isNaN(h)) return 0;
+      if (h >= 180) return 4;
+      if (h >= 140) return 3;
+      if (h >= 110) return 2;
+      if (h >= 70) return 0;
+      if (h >= 55) return 2;
+      if (h >= 40) return 3;
+      return 4;
+    }
+    function pRR(r) {
+      if (isNaN(r)) return 0;
+      if (r >= 50) return 4;
+      if (r >= 35) return 3;
+      if (r >= 25) return 1;
+      if (r >= 12) return 0;
+      if (r >= 10) return 1;
+      if (r >= 6) return 2;
+      return 4;
+    }
+    function pO2(val, isAa) {
+      if (isNaN(val)) return 0;
+      if (isAa) {
+        if (val >= 500) return 4;
+        if (val >= 350) return 3;
+        if (val >= 200) return 2;
+        return 0;
+      } else {
+        if (val >= 70) return 0;
+        if (val >= 61) return 1;
+        if (val >= 55) return 3;
+        return 4;
+      }
+    }
+    function pPH(ph) {
+      if (isNaN(ph)) return 0;
+      if (ph >= 7.7) return 4;
+      if (ph >= 7.6) return 3;
+      if (ph >= 7.5) return 1;
+      if (ph >= 7.33) return 0;
+      if (ph >= 7.25) return 2;
+      if (ph >= 7.15) return 3;
+      return 4;
+    }
+    function pNa(n) {
+      if (isNaN(n)) return 0;
+      if (n >= 180) return 4;
+      if (n >= 160) return 3;
+      if (n >= 155) return 2;
+      if (n >= 150) return 1;
+      if (n >= 130) return 0;
+      if (n >= 120) return 2;
+      if (n >= 111) return 3;
+      return 4;
+    }
+    function pK(k) {
+      if (isNaN(k)) return 0;
+      if (k >= 7) return 4;
+      if (k >= 6) return 3;
+      if (k >= 5.5) return 1;
+      if (k >= 3.5) return 0;
+      if (k >= 3) return 1;
+      if (k >= 2.5) return 2;
+      return 4;
+    }
+    function pCr(c, aki) {
+      if (isNaN(c)) return 0;
+      var p = 0;
+      if (c >= 3.5) p = 4;
+      else if (c >= 2.0) p = 3;
+      else if (c >= 1.5) p = 2;
+      else if (c >= 0.6) p = 0;
+      else p = 2;
+      return aki ? Math.min(p * 2, 8) : p;
+    }
+    function pHct(h) {
+      if (isNaN(h)) return 0;
+      if (h >= 60) return 4;
+      if (h >= 50) return 2;
+      if (h >= 46) return 1;
+      if (h >= 30) return 0;
+      if (h >= 20) return 2;
+      return 4;
+    }
+    function pWBC(w) {
+      if (isNaN(w)) return 0;
+      if (w >= 40) return 4;
+      if (w >= 20) return 2;
+      if (w >= 15) return 1;
+      if (w >= 3) return 0;
+      if (w >= 1) return 2;
+      return 4;
+    }
+    function pGCS(g) {
+      if (isNaN(g)) return 0;
+      return Math.max(0, 15 - g);
+    }
+    function pAge(a) {
+      if (isNaN(a)) return 0;
+      if (a >= 75) return 6;
+      if (a >= 65) return 5;
+      if (a >= 55) return 3;
+      if (a >= 45) return 2;
+      return 0;
+    }
+
+    function update() {
+      var ptsTemp = setPts('temp', pTemp(parseFloat(document.getElementById('temp').value)));
+      var ptsMap  = setPts('map',  pMAP(parseFloat(document.getElementById('map').value)));
+      var ptsHr   = setPts('hr',   pHR(parseFloat(document.getElementById('hr').value)));
+      var ptsRr   = setPts('rr',   pRR(parseFloat(document.getElementById('rr').value)));
+
+      var isAa = document.getElementById('o2-aa').checked;
+      document.getElementById('o2unit').textContent = isAa ? 'mmHg (A-a)' : 'mmHg (PaO₂)';
+      var ptsO2 = setPts('o2', pO2(parseFloat(document.getElementById('o2val').value), isAa));
+
+      var ptsPh  = setPts('ph',  pPH(parseFloat(document.getElementById('ph').value)));
+      var ptsNa  = setPts('na',  pNa(parseFloat(document.getElementById('na').value)));
+      var ptsK   = setPts('k',   pK(parseFloat(document.getElementById('k').value)));
+      var ptsCr  = setPts('cr',  pCr(parseFloat(document.getElementById('cr').value), document.getElementById('aki').checked));
+      var ptsHct = setPts('hct', pHct(parseFloat(document.getElementById('hct').value)));
+      var ptsWbc = setPts('wbc', pWBC(parseFloat(document.getElementById('wbc').value)));
+      var ptsGcs = setPts('gcs', pGCS(parseFloat(document.getElementById('gcs').value)));
+      var ptsAge = setPts('age', pAge(parseFloat(document.getElementById('age').value)));
+      var ptsChr = parseInt(document.querySelector('.chronic-card.selected').dataset.pts) || 0;
+
+      var aps = ptsTemp+ptsMap+ptsHr+ptsRr+ptsO2+ptsPh+ptsNa+ptsK+ptsCr+ptsHct+ptsWbc+ptsGcs;
+      var total = aps + ptsAge + ptsChr;
+      document.getElementById('totalScore').textContent = total;
+      document.getElementById('bd-aps').textContent = aps;
+      document.getElementById('bd-age').textContent = ptsAge;
+      document.getElementById('bd-chr').textContent = ptsChr;
+
+      // 死亡率予測（非外科 ICU 参考値）
+      var mortMsg, detail;
+      if (total <= 4)       { mortMsg = '約 4%';  detail = '軽症。経過観察で良好な見通し。'; }
+      else if (total <= 9)  { mortMsg = '約 8%';  detail = '軽〜中等症。標準的な ICU ケアで対応可能。'; }
+      else if (total <= 14) { mortMsg = '約 15%'; detail = '中等症。多臓器サポートを要する可能性。'; }
+      else if (total <= 19) { mortMsg = '約 25%'; detail = '中〜重症。集学的管理と早期目標達成型治療を。'; }
+      else if (total <= 24) { mortMsg = '約 40%'; detail = '重症。家族との今後の方針相談を含めて検討。'; }
+      else if (total <= 29) { mortMsg = '約 55%'; detail = '極めて重症。臓器サポート強化と多職種カンファ。'; }
+      else if (total <= 34) { mortMsg = '約 75%'; detail = '生命の危機。Goals of Care の確認を推奨。'; }
+      else                  { mortMsg = '約 85%'; detail = '生命予後極めて不良。'; }
+
+      document.getElementById('totalMort').textContent = '予測病院死亡率：' + mortMsg;
+      document.getElementById('totalDetail').innerHTML =
+        '<strong>解釈：</strong>' + detail +
+        '<br><span style="opacity:0.85;">※ 死亡率は非外科 ICU 患者の参考値。実際の予後は基礎疾患・治療応答性に左右されます。</span>';
+    }
+
+    document.querySelectorAll('input').forEach(function(el){
+      el.addEventListener('input', update);
+      el.addEventListener('change', update);
+    });
+    document.querySelectorAll('.chronic-card').forEach(function(c){
+      c.addEventListener('click', function(){
+        document.querySelectorAll('.chronic-card').forEach(function(x){ x.classList.remove('selected'); });
+        c.classList.add('selected');
+        update();
+      });
+    });
+    update();
+  })();
+</script>
+</body>
+</html>

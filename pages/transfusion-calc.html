@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0">
+  <title>輸血量 → 上昇予測（RBC・PC）| 聖路加ICU 便利ツール</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style-v2.css?v=202605110530">
+  <style>
+    html, body { max-width:100%;overflow-x:hidden; }
+    .tools-banner { width:100%;max-width:1294px;margin:64px auto 0;padding:0;line-height:0; }
+    .tools-banner img {
+      width:100%;height:auto;display:block;
+      -webkit-mask-image:linear-gradient(to bottom, #000 0%, #000 85%, transparent 100%);
+      mask-image:linear-gradient(to bottom, #000 0%, #000 85%, transparent 100%);
+    }
+    .page-wrap {
+      max-width:1100px;margin:0 auto;
+      padding:0 clamp(20px,1rem+1.5vw,40px) clamp(40px,2rem+1.5vw,64px);
+      overflow-x:hidden;
+      font-family:'Noto Sans JP','Hiragino Kaku Gothic ProN','Hiragino Sans','Yu Gothic',sans-serif;
+      font-variant-numeric:tabular-nums;
+    }
+    .back-wrapper { display:flex;align-items:center;margin:6px 0 12px; }
+    .back-btn {
+      display:inline-flex;align-items:center;justify-content:center;
+      padding:9px 16px;background:rgba(255,255,255,0.85);
+      backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+      border:1px solid rgba(255,255,255,0.7);border-radius:10px;
+      font-size:0.78rem;font-weight:800;color:#0369A1;text-decoration:none;
+      letter-spacing:0.02em;line-height:1;
+    }
+    .tool-title-area { margin:20px 0 24px; }
+    .tool-title-area h1 {
+      font-size:clamp(1.3rem,4vw,1.7rem);font-weight:900;color:#0C4A6E;
+      margin:0 0 6px;letter-spacing:-0.01em;line-height:1.2;
+    }
+    .tool-subtitle { font-size:0.82rem;color:#64748B;font-weight:500;line-height:1.6; }
+
+    .input-card {
+      background:#fff;border:1px solid var(--border);border-radius:14px;
+      padding:20px 22px;margin-bottom:16px;
+      box-shadow:0 2px 12px rgba(3,105,161,0.06);
+    }
+    .input-card-title {
+      font-size:0.95rem;font-weight:900;color:#0369A1;
+      margin:0 0 14px;padding-bottom:10px;border-bottom:2px solid #BAE6FD;
+    }
+    .form-grid {
+      display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;
+    }
+    .form-field { display:flex;flex-direction:column;gap:5px; }
+    .form-field label { font-size:0.74rem;font-weight:700;color:var(--muted); }
+    .form-field input {
+      font-family:inherit;font-size:0.95rem;font-variant-numeric:tabular-nums;
+      padding:8px 12px;border:1px solid var(--border);border-radius:8px;
+      background:#fff;outline:none;height:38px;box-sizing:border-box;width:100%;
+    }
+    .form-field input:focus { border-color:#0EA5E9;box-shadow:0 0 0 3px rgba(14,165,233,0.15); }
+    .form-unit { font-size:0.7rem;color:var(--muted);margin-left:4px; }
+
+    .result-card {
+      margin-top:16px;padding:22px 24px;border-radius:14px;
+      background:linear-gradient(135deg,#F0F9FF 0%,#E0F2FE 100%);
+      border:2px solid #7DD3FC;display:none;
+    }
+    .result-card.visible { display:block; }
+    .result-grid { display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px; }
+    @media (max-width:480px) { .result-grid { grid-template-columns:1fr; } }
+    .result-box {
+      background:rgba(255,255,255,0.85);border-radius:10px;padding:16px 18px;
+      border:1px solid rgba(255,255,255,0.7);text-align:center;
+    }
+    .result-label {
+      font-size:0.7rem;font-weight:800;color:#64748B;letter-spacing:0.06em;
+      text-transform:uppercase;margin-bottom:6px;
+    }
+    .result-value {
+      font-size:2rem;font-weight:900;color:#0C4A6E;line-height:1;
+      font-variant-numeric:tabular-nums;letter-spacing:-0.02em;
+    }
+    .result-after {
+      font-size:0.78rem;color:#0369A1;margin-top:6px;font-weight:700;
+    }
+    .result-formula {
+      font-size:0.74rem;color:#64748B;line-height:1.7;
+      padding:10px 14px;background:rgba(255,255,255,0.6);border-radius:8px;
+      font-family:ui-monospace,Menlo,Consolas,monospace;
+    }
+
+    .ref-card {
+      margin-top:24px;background:#fff;border:1px solid var(--border);border-radius:12px;
+      padding:18px 22px;
+    }
+    .ref-card h3 {
+      font-size:0.92rem;font-weight:900;color:#0369A1;margin:0 0 12px;
+      padding-bottom:8px;border-bottom:2px solid #BAE6FD;
+    }
+    .ref-table { width:100%;border-collapse:collapse;font-size:0.82rem; }
+    .ref-table th { background:#F8FAFC;color:#64748B;font-weight:700;
+      padding:8px 10px;text-align:left;border-bottom:1px solid var(--border);font-size:0.74rem; }
+    .ref-table td { padding:7px 10px;border-bottom:1px solid #E2E8F0;color:#1E293B; }
+    .ref-table tr:last-child td { border-bottom:none; }
+
+    .disclaimer {
+      font-size:0.72rem;color:#94A3B8;line-height:1.7;margin-top:24px;
+      padding:14px 16px;background:#F8FAFC;border-radius:8px;border:1px solid var(--border);
+    }
+    .disclaimer strong { color:#64748B; }
+
+    @media (max-width: 600px) {
+      .page-wrap { max-width:560px;padding-left:18px;padding-right:18px; }
+      .input-card { padding:16px 16px; }
+      .result-card { padding:18px 18px; }
+      .result-value { font-size:1.6rem; }
+      .tool-title-area h1 { font-size:1.3rem; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <a href="../index.html" class="nav-logo">
+      <img src="../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+      <span class="nav-logo-text">聖路加国際病院ICU</span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-menu" id="navMenu"></ul>
+  </div>
+</nav>
+
+<div class="tools-banner">
+  <img src="../images/icu-study.jpg" alt="" loading="lazy">
+</div>
+
+<div class="page-wrap">
+  <div class="back-wrapper">
+    <a href="../index.html" class="back-btn">← ホームへ戻る</a>
+  </div>
+
+  <div class="tool-title-area">
+    <h1>輸血量 → 期待上昇予測</h1>
+    <p class="tool-subtitle">
+      日本の照射赤血球液-LR（RBC-LR）と濃厚血小板（PC）について、輸血単位数から
+      Hb・血小板の期待上昇値を体重補正で算出します。<br>
+      ※ 出血量・脾機能亢進・抗体・敗血症等で実測値は低くなることがあります。
+    </p>
+  </div>
+
+  <!-- ===== 入力 ===== -->
+  <div class="input-card">
+    <h2 class="input-card-title">患者情報・現在値</h2>
+    <div class="form-grid">
+      <div class="form-field">
+        <label for="bw">体重 <span class="form-unit">kg</span></label>
+        <input type="number" id="bw" min="1" max="200" step="0.1" inputmode="decimal" placeholder="例 60">
+      </div>
+      <div class="form-field">
+        <label for="hb0">輸血前 Hb <span class="form-unit">g/dL（任意）</span></label>
+        <input type="number" id="hb0" min="0" max="25" step="0.1" inputmode="decimal" placeholder="例 7.0">
+      </div>
+      <div class="form-field">
+        <label for="plt0">輸血前 Plt <span class="form-unit">×10⁴/μL（任意）</span></label>
+        <input type="number" id="plt0" min="0" max="200" step="0.1" inputmode="decimal" placeholder="例 1.5">
+      </div>
+    </div>
+  </div>
+
+  <div class="input-card">
+    <h2 class="input-card-title">RBC（赤血球輸血）</h2>
+    <div class="form-grid">
+      <div class="form-field">
+        <label for="rbc">RBC-LR <span class="form-unit">単位（1単位 ≒ 140 mL）</span></label>
+        <input type="number" id="rbc" min="0" max="20" step="1" inputmode="numeric" placeholder="例 2">
+      </div>
+    </div>
+  </div>
+
+  <div class="input-card">
+    <h2 class="input-card-title">PC（血小板輸血）</h2>
+    <div class="form-grid">
+      <div class="form-field">
+        <label for="pc">PC <span class="form-unit">単位（10 / 15 / 20 単位）</span></label>
+        <input type="number" id="pc" min="0" max="40" step="1" inputmode="numeric" placeholder="例 10">
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 結果 ===== -->
+  <div class="result-card" id="resultCard">
+    <div class="result-grid">
+      <div class="result-box" id="rbcResultBox" style="display:none;">
+        <div class="result-label">RBC：Hb 上昇予測</div>
+        <div class="result-value" id="rbcDelta">—</div>
+        <div class="result-after" id="rbcAfter"></div>
+      </div>
+      <div class="result-box" id="pcResultBox" style="display:none;">
+        <div class="result-label">PC：Plt 上昇予測</div>
+        <div class="result-value" id="pcDelta">—</div>
+        <div class="result-after" id="pcAfter"></div>
+      </div>
+    </div>
+    <div class="result-formula" id="resultFormula"></div>
+  </div>
+
+  <!-- ===== 参考表 ===== -->
+  <div class="ref-card">
+    <h3>体重別 期待上昇値（参考早見表）</h3>
+    <table class="ref-table">
+      <thead>
+        <tr><th>体重</th><th>RBC 2単位</th><th>RBC 4単位</th><th>PC 10単位</th><th>PC 20単位</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>40 kg</td><td>+ 1.5 g/dL</td><td>+ 3.0 g/dL</td><td>+ 7.5 ×10⁴/μL</td><td>+ 15.0 ×10⁴/μL</td></tr>
+        <tr><td>50 kg</td><td>+ 1.2 g/dL</td><td>+ 2.4 g/dL</td><td>+ 6.0 ×10⁴/μL</td><td>+ 12.0 ×10⁴/μL</td></tr>
+        <tr><td>60 kg</td><td>+ 1.0 g/dL</td><td>+ 2.0 g/dL</td><td>+ 5.0 ×10⁴/μL</td><td>+ 10.0 ×10⁴/μL</td></tr>
+        <tr><td>70 kg</td><td>+ 0.86 g/dL</td><td>+ 1.7 g/dL</td><td>+ 4.3 ×10⁴/μL</td><td>+ 8.6 ×10⁴/μL</td></tr>
+        <tr><td>80 kg</td><td>+ 0.75 g/dL</td><td>+ 1.5 g/dL</td><td>+ 3.8 ×10⁴/μL</td><td>+ 7.5 ×10⁴/μL</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:0.72rem;color:#64748B;margin:10px 0 0;line-height:1.7;">
+      <strong>計算式：</strong>
+      ΔHb (g/dL) = 単位数 × 30 ÷ 体重(kg)　／
+      ΔPlt (×10⁴/μL) = 単位数 × 30 ÷ 体重(kg)
+    </p>
+  </div>
+
+  <div class="disclaimer">
+    <strong>※ 出典：</strong>日本赤十字社 「輸血用血液製剤一覧」、厚生労働省 血液製剤の使用指針（改定版）。<br>
+    上記は無消費・体内分布平衡時の理論値です。出血進行中・脾機能亢進・HLA抗体・敗血症・DIC・発熱等で
+    実測 ΔHb / ΔPlt は減少します。輸血後 1 時間（CCI）と 24 時間（24h-CCI）の評価が推奨されます。
+  </div>
+</div>
+
+<script src="../script.js"></script>
+<script>
+  (function(){
+    var bwEl   = document.getElementById('bw');
+    var hb0El  = document.getElementById('hb0');
+    var plt0El = document.getElementById('plt0');
+    var rbcEl  = document.getElementById('rbc');
+    var pcEl   = document.getElementById('pc');
+    var card   = document.getElementById('resultCard');
+    var rbcBox = document.getElementById('rbcResultBox');
+    var pcBox  = document.getElementById('pcResultBox');
+    var rbcDelta = document.getElementById('rbcDelta');
+    var pcDelta  = document.getElementById('pcDelta');
+    var rbcAfter = document.getElementById('rbcAfter');
+    var pcAfter  = document.getElementById('pcAfter');
+    var formula  = document.getElementById('resultFormula');
+
+    function compute() {
+      var bw  = parseFloat(bwEl.value);
+      var hb0 = parseFloat(hb0El.value);
+      var pl0 = parseFloat(plt0El.value);
+      var rbc = parseInt(rbcEl.value);
+      var pc  = parseInt(pcEl.value);
+
+      var hasInput = (rbc > 0 || pc > 0);
+      var validBw  = (bw && bw > 0);
+      if (!hasInput || !validBw) { card.classList.remove('visible'); return; }
+
+      var lines = [];
+      // RBC
+      if (rbc > 0) {
+        var dHb = (rbc * 30) / bw; // g/dL
+        rbcDelta.textContent = '+ ' + dHb.toFixed(1) + ' g/dL';
+        rbcAfter.textContent = !isNaN(hb0)
+          ? '輸血後（予測）：' + (hb0 + dHb).toFixed(1) + ' g/dL'
+          : '体重補正値';
+        rbcBox.style.display = '';
+        lines.push('ΔHb = ' + rbc + ' × 30 ÷ ' + bw.toFixed(1) + ' = ' + dHb.toFixed(2) + ' g/dL');
+      } else {
+        rbcBox.style.display = 'none';
+      }
+      // PC
+      if (pc > 0) {
+        var dPlt = (pc * 30) / bw; // ×10⁴/μL
+        pcDelta.textContent = '+ ' + dPlt.toFixed(1) + ' ×10⁴/μL';
+        pcAfter.textContent  = !isNaN(pl0)
+          ? '輸血後（予測）：' + (pl0 + dPlt).toFixed(1) + ' ×10⁴/μL'
+          : '体重補正値';
+        pcBox.style.display = '';
+        lines.push('ΔPlt = ' + pc + ' × 30 ÷ ' + bw.toFixed(1) + ' = ' + dPlt.toFixed(2) + ' ×10⁴/μL');
+      } else {
+        pcBox.style.display = 'none';
+      }
+      formula.textContent = lines.join('\n');
+      card.classList.add('visible');
+    }
+    [bwEl, hb0El, plt0El, rbcEl, pcEl].forEach(function(el){
+      el.addEventListener('input', compute);
+    });
+  })();
+</script>
+</body>
+</html>

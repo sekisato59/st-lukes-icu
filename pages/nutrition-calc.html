@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0">
+  <title>必要カロリー・蛋白量 計算 | 聖路加ICU 便利ツール</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style-v2.css?v=202605110530">
+  <style>
+    html, body { max-width:100%;overflow-x:hidden; }
+    .tools-banner { width:100%;max-width:1294px;margin:64px auto 0;padding:0;line-height:0; }
+    .tools-banner img {
+      width:100%;height:auto;display:block;
+      -webkit-mask-image:linear-gradient(to bottom, #000 0%, #000 85%, transparent 100%);
+      mask-image:linear-gradient(to bottom, #000 0%, #000 85%, transparent 100%);
+    }
+    .page-wrap {
+      max-width:1100px;margin:0 auto;
+      padding:0 clamp(20px,1rem+1.5vw,40px) clamp(40px,2rem+1.5vw,64px);
+      overflow-x:hidden;
+      font-family:'Noto Sans JP','Hiragino Kaku Gothic ProN','Hiragino Sans','Yu Gothic',sans-serif;
+      font-variant-numeric:tabular-nums;
+    }
+    .back-wrapper { display:flex;align-items:center;margin:6px 0 12px; }
+    .back-btn {
+      display:inline-flex;align-items:center;justify-content:center;
+      padding:9px 16px;background:rgba(255,255,255,0.85);
+      backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+      border:1px solid rgba(255,255,255,0.7);border-radius:10px;
+      font-size:0.78rem;font-weight:800;color:#0369A1;text-decoration:none;line-height:1;
+    }
+    .tool-title-area { margin:20px 0 24px; }
+    .tool-title-area h1 {
+      font-size:clamp(1.3rem,4vw,1.7rem);font-weight:900;color:#0C4A6E;
+      margin:0 0 6px;letter-spacing:-0.01em;line-height:1.2;
+    }
+    .tool-subtitle { font-size:0.82rem;color:#64748B;font-weight:500;line-height:1.6; }
+
+    .input-card {
+      background:#fff;border:1px solid var(--border);border-radius:14px;
+      padding:20px 22px;margin-bottom:16px;
+      box-shadow:0 2px 12px rgba(3,105,161,0.06);
+    }
+    .input-card-title {
+      font-size:0.95rem;font-weight:900;color:#0369A1;
+      margin:0 0 14px;padding-bottom:10px;border-bottom:2px solid #BAE6FD;
+    }
+    .form-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px; }
+    .form-field { display:flex;flex-direction:column;gap:5px; }
+    .form-field label { font-size:0.74rem;font-weight:700;color:var(--muted); }
+    .form-field input, .form-field select {
+      font-family:inherit;font-size:0.95rem;font-variant-numeric:tabular-nums;
+      padding:8px 12px;border:1px solid var(--border);border-radius:8px;
+      background:#fff;outline:none;height:38px;box-sizing:border-box;width:100%;
+    }
+    .form-field input:focus, .form-field select:focus { border-color:#0EA5E9;box-shadow:0 0 0 3px rgba(14,165,233,0.15); }
+    .form-unit { font-size:0.7rem;color:var(--muted);margin-left:4px; }
+
+    /* ラジオピル */
+    .radio-pills { display:flex;gap:3px;height:38px;padding:3px;
+      background:#F8FAFC;border:1px solid var(--border);border-radius:999px;box-sizing:border-box; }
+    .radio-pills input[type=radio] { position:absolute;opacity:0;width:0;height:0; }
+    .radio-pills label {
+      flex:1;padding:0 10px;border-radius:999px;
+      font-size:0.82rem;font-weight:700;color:#64748B;cursor:pointer;
+      display:flex;align-items:center;justify-content:center;text-align:center;line-height:1;
+      transition:all .15s;user-select:none;
+    }
+    .radio-pills label:hover { background:#E0F2FE;color:#0369A1; }
+    .radio-pills input[type=radio]:checked + label {
+      background:linear-gradient(135deg,#0369A1,#0EA5E9);color:#fff;box-shadow:0 1px 4px rgba(3,105,161,0.25);
+    }
+
+    /* 状態セレクト */
+    .state-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px; }
+    .state-card {
+      padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;
+      cursor:pointer;background:#fff;transition:all .12s;
+    }
+    .state-card:hover { border-color:#7DD3FC;background:#F0F9FF; }
+    .state-card.selected {
+      border-width:2px;border-color:#0EA5E9;background:#F0F9FF;
+      box-shadow:0 2px 8px rgba(3,105,161,0.12);
+    }
+    .state-card-title { font-size:0.88rem;font-weight:800;color:#0C4A6E;margin-bottom:3px; }
+    .state-card-rate  { font-size:0.7rem;color:#0369A1;font-weight:600;font-variant-numeric:tabular-nums; }
+    .state-card.selected .state-card-rate { color:#0C4A6E; }
+
+    /* 結果 */
+    .result-card {
+      margin-top:16px;padding:22px 24px;border-radius:14px;
+      background:linear-gradient(135deg,#F0F9FF 0%,#E0F2FE 100%);
+      border:2px solid #7DD3FC;display:none;
+    }
+    .result-card.visible { display:block; }
+    .result-grid { display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px; }
+    @media (max-width:480px) { .result-grid { grid-template-columns:1fr; } }
+    .result-box {
+      background:rgba(255,255,255,0.85);border-radius:10px;padding:16px 18px;
+      border:1px solid rgba(255,255,255,0.7);text-align:center;
+    }
+    .result-label {
+      font-size:0.7rem;font-weight:800;color:#64748B;letter-spacing:0.06em;
+      text-transform:uppercase;margin-bottom:6px;
+    }
+    .result-value {
+      font-size:1.8rem;font-weight:900;color:#0C4A6E;line-height:1;
+      font-variant-numeric:tabular-nums;letter-spacing:-0.02em;
+    }
+    .result-sub { font-size:0.74rem;color:#64748B;margin-top:6px; }
+    .result-detail {
+      font-size:0.78rem;color:#334155;line-height:1.7;
+      padding:10px 14px;background:rgba(255,255,255,0.6);border-radius:8px;
+      font-family:ui-monospace,Menlo,Consolas,monospace;
+    }
+    .ibw-line {
+      margin-top:12px;font-size:0.78rem;color:#0369A1;font-weight:700;text-align:center;
+    }
+
+    /* 参考表 */
+    .ref-card {
+      margin-top:24px;background:#fff;border:1px solid var(--border);border-radius:12px;
+      padding:18px 22px;
+    }
+    .ref-card h3 {
+      font-size:0.92rem;font-weight:900;color:#0369A1;margin:0 0 12px;
+      padding-bottom:8px;border-bottom:2px solid #BAE6FD;
+    }
+    .ref-table { width:100%;border-collapse:collapse;font-size:0.8rem; }
+    .ref-table th { background:#F8FAFC;color:#64748B;font-weight:700;
+      padding:8px 10px;text-align:left;border-bottom:1px solid var(--border);font-size:0.74rem; }
+    .ref-table td { padding:7px 10px;border-bottom:1px solid #E2E8F0;color:#1E293B; }
+    .ref-table tr:last-child td { border-bottom:none; }
+
+    .disclaimer {
+      font-size:0.72rem;color:#94A3B8;line-height:1.7;margin-top:24px;
+      padding:14px 16px;background:#F8FAFC;border-radius:8px;border:1px solid var(--border);
+    }
+    .disclaimer strong { color:#64748B; }
+
+    @media (max-width: 600px) {
+      .page-wrap { max-width:560px;padding-left:18px;padding-right:18px; }
+      .input-card { padding:16px 16px; }
+      .result-card { padding:18px 18px; }
+      .result-value { font-size:1.5rem; }
+      .tool-title-area h1 { font-size:1.3rem; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <a href="../index.html" class="nav-logo">
+      <img src="../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+      <span class="nav-logo-text">聖路加国際病院ICU</span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-menu" id="navMenu"></ul>
+  </div>
+</nav>
+
+<div class="tools-banner">
+  <img src="../images/icu-study.jpg" alt="" loading="lazy">
+</div>
+
+<div class="page-wrap">
+  <div class="back-wrapper">
+    <a href="../index.html" class="back-btn">← ホームへ戻る</a>
+  </div>
+
+  <div class="tool-title-area">
+    <h1>必要カロリー・蛋白量 計算</h1>
+    <p class="tool-subtitle">
+      臨床状態に応じた 1日必要カロリー（kcal/kg）と蛋白量（g/kg）を体重補正で算出。<br>
+      ASPEN/SCCM 2021 ガイドラインの ICU 栄養管理に基づきます。<br>
+      <strong>BMI ≥ 30（肥満）：</strong>計算には IBW（理想体重）を使用してください。
+    </p>
+  </div>
+
+  <!-- ===== 患者情報 ===== -->
+  <div class="input-card">
+    <h2 class="input-card-title">患者情報</h2>
+    <div class="form-grid">
+      <div class="form-field">
+        <label for="ht">身長 <span class="form-unit">cm</span></label>
+        <input type="number" id="ht" min="100" max="220" step="1" inputmode="numeric" placeholder="例 170">
+      </div>
+      <div class="form-field">
+        <label for="bw">実体重 <span class="form-unit">kg</span></label>
+        <input type="number" id="bw" min="30" max="200" step="0.1" inputmode="decimal" placeholder="例 60">
+      </div>
+      <div class="form-field">
+        <label>性別</label>
+        <div class="radio-pills">
+          <input type="radio" name="sex" id="sex-m" value="m" checked>
+          <label for="sex-m">男性</label>
+          <input type="radio" name="sex" id="sex-f" value="f">
+          <label for="sex-f">女性</label>
+        </div>
+      </div>
+      <div class="form-field">
+        <label>計算に使用する体重</label>
+        <div class="radio-pills">
+          <input type="radio" name="useWt" id="use-actual" value="actual" checked>
+          <label for="use-actual">実体重</label>
+          <input type="radio" name="useWt" id="use-ibw" value="ibw">
+          <label for="use-ibw">IBW</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 臨床状態 ===== -->
+  <div class="input-card">
+    <h2 class="input-card-title">臨床状態（タップして選択）</h2>
+    <div class="state-grid" id="stateGrid">
+      <div class="state-card" data-kcal-min="25" data-kcal-max="30" data-pro-min="1.0" data-pro-max="1.2" data-name="ward">
+        <div class="state-card-title">一般病棟</div>
+        <div class="state-card-rate">25–30 kcal/kg ／ 1.0–1.2 g/kg</div>
+      </div>
+      <div class="state-card selected" data-kcal-min="12" data-kcal-max="25" data-pro-min="1.2" data-pro-max="2.0" data-name="icu-acute">
+        <div class="state-card-title">ICU 急性期（初週）</div>
+        <div class="state-card-rate">12–25 kcal/kg ／ 1.2–2.0 g/kg</div>
+      </div>
+      <div class="state-card" data-kcal-min="25" data-kcal-max="30" data-pro-min="1.2" data-pro-max="2.0" data-name="icu-recovery">
+        <div class="state-card-title">ICU 回復期</div>
+        <div class="state-card-rate">25–30 kcal/kg ／ 1.2–2.0 g/kg</div>
+      </div>
+      <div class="state-card" data-kcal-min="20" data-kcal-max="25" data-pro-min="1.5" data-pro-max="2.0" data-name="sepsis">
+        <div class="state-card-title">敗血症</div>
+        <div class="state-card-rate">20–25 kcal/kg ／ 1.5–2.0 g/kg</div>
+      </div>
+      <div class="state-card" data-kcal-min="25" data-kcal-max="30" data-pro-min="1.5" data-pro-max="2.0" data-name="trauma">
+        <div class="state-card-title">重症外傷</div>
+        <div class="state-card-rate">25–30 kcal/kg ／ 1.5–2.0 g/kg</div>
+      </div>
+      <div class="state-card" data-kcal-min="30" data-kcal-max="35" data-pro-min="1.5" data-pro-max="2.0" data-name="burn">
+        <div class="state-card-title">広範囲熱傷</div>
+        <div class="state-card-rate">30–35 kcal/kg ／ 1.5–2.0 g/kg</div>
+      </div>
+      <div class="state-card" data-kcal-min="25" data-kcal-max="30" data-pro-min="1.2" data-pro-max="1.5" data-name="hd">
+        <div class="state-card-title">血液透析</div>
+        <div class="state-card-rate">25–30 kcal/kg ／ 1.2–1.5 g/kg</div>
+      </div>
+      <div class="state-card" data-kcal-min="25" data-kcal-max="35" data-pro-min="1.5" data-pro-max="2.5" data-name="crrt">
+        <div class="state-card-title">CRRT</div>
+        <div class="state-card-rate">25–35 kcal/kg ／ 1.5–2.5 g/kg</div>
+      </div>
+      <div class="state-card" data-kcal-min="20" data-kcal-max="25" data-pro-min="0.6" data-pro-max="0.8" data-name="ckd-no-hd">
+        <div class="state-card-title">CKD（非透析）</div>
+        <div class="state-card-rate">20–25 kcal/kg ／ 0.6–0.8 g/kg</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 結果 ===== -->
+  <div class="result-card" id="resultCard">
+    <div class="result-grid">
+      <div class="result-box">
+        <div class="result-label">必要カロリー</div>
+        <div class="result-value" id="kcalRange">—</div>
+        <div class="result-sub" id="kcalSub"></div>
+      </div>
+      <div class="result-box">
+        <div class="result-label">必要蛋白量</div>
+        <div class="result-value" id="proRange">—</div>
+        <div class="result-sub" id="proSub"></div>
+      </div>
+    </div>
+    <div class="ibw-line" id="ibwLine"></div>
+    <div class="result-detail" id="resultDetail"></div>
+  </div>
+
+  <!-- ===== 参考表 ===== -->
+  <div class="ref-card">
+    <h3>カロリー・蛋白量 設定の根拠（ASPEN/SCCM 2021）</h3>
+    <table class="ref-table">
+      <thead>
+        <tr><th>状態</th><th>カロリー</th><th>蛋白</th><th>備考</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>ICU 急性期 (Day 1–7)</td><td>12–25 kcal/kg</td><td>1.2–2.0 g/kg</td><td>permissive underfeeding（過剰栄養回避）</td></tr>
+        <tr><td>ICU 回復期 (Day 8 以降)</td><td>25–30 kcal/kg</td><td>1.2–2.0 g/kg</td><td>full feeding 移行</td></tr>
+        <tr><td>敗血症</td><td>20–25 kcal/kg</td><td>1.5–2.0 g/kg</td><td>蛋白を厚めに</td></tr>
+        <tr><td>重症外傷</td><td>25–30 kcal/kg</td><td>1.5–2.0 g/kg</td><td>異化亢進</td></tr>
+        <tr><td>広範囲熱傷</td><td>30–35 kcal/kg</td><td>1.5–2.0 g/kg</td><td>creep up to full early</td></tr>
+        <tr><td>血液透析（HD）</td><td>25–30 kcal/kg</td><td>1.2–1.5 g/kg</td><td>透析でアミノ酸喪失</td></tr>
+        <tr><td>CRRT</td><td>25–35 kcal/kg</td><td>1.5–2.5 g/kg</td><td>持続的にアミノ酸が膜から喪失</td></tr>
+        <tr><td>CKD（非透析）</td><td>20–25 kcal/kg</td><td>0.6–0.8 g/kg</td><td>蛋白制限</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:0.72rem;color:#64748B;margin:10px 0 0;line-height:1.7;">
+      <strong>IBW 計算式（Devine）：</strong><br>
+      男性 IBW = 50 + 2.3 × (身長 inch − 60)　／　女性 IBW = 45.5 + 2.3 × (身長 inch − 60)
+    </p>
+  </div>
+
+  <div class="disclaimer">
+    <strong>※ 出典：</strong>McClave SA et al. ASPEN/SCCM Guidelines for the Provision and Assessment of Nutrition Support Therapy in the Adult Critically Ill Patient. <em>JPEN</em> 2016；2021年update版に基づく。<br>
+    <strong>BMI ≥30 の肥満患者：</strong>11–14 kcal/kg（実体重）または 22–25 kcal/kg（IBW）、蛋白 2.0–2.5 g/kg（IBW）の hypocaloric high-protein feeding を考慮。<br>
+    実際の投与は患者状態・経路・耐性に応じて段階的に調整してください。
+  </div>
+</div>
+
+<script src="../script.js"></script>
+<script>
+  (function(){
+    var htEl = document.getElementById('ht');
+    var bwEl = document.getElementById('bw');
+    var sexInputs = document.querySelectorAll('input[name="sex"]');
+    var useInputs = document.querySelectorAll('input[name="useWt"]');
+    var stateCards = document.querySelectorAll('.state-card');
+    var card = document.getElementById('resultCard');
+    var kEl  = document.getElementById('kcalRange');
+    var kSub = document.getElementById('kcalSub');
+    var pEl  = document.getElementById('proRange');
+    var pSub = document.getElementById('proSub');
+    var ibwL = document.getElementById('ibwLine');
+    var det  = document.getElementById('resultDetail');
+
+    function getIBW(htCm, sex) {
+      if (!htCm || htCm < 100) return null;
+      var inch = htCm / 2.54;
+      var base = (sex === 'm') ? 50 : 45.5;
+      return base + 2.3 * (inch - 60);
+    }
+    function getSelected() {
+      var sex = document.querySelector('input[name="sex"]:checked').value;
+      var use = document.querySelector('input[name="useWt"]:checked').value;
+      var sc  = document.querySelector('.state-card.selected');
+      return { sex: sex, useWt: use, state: sc };
+    }
+    function compute() {
+      var ht = parseFloat(htEl.value);
+      var bw = parseFloat(bwEl.value);
+      var s  = getSelected();
+      if (!s.state) { card.classList.remove('visible'); return; }
+      if (!bw) { card.classList.remove('visible'); return; }
+
+      var ibw = getIBW(ht, s.sex);
+      var useWt = (s.useWt === 'ibw' && ibw) ? ibw : bw;
+
+      var kMin = parseFloat(s.state.dataset.kcalMin);
+      var kMax = parseFloat(s.state.dataset.kcalMax);
+      var pMin = parseFloat(s.state.dataset.proMin);
+      var pMax = parseFloat(s.state.dataset.proMax);
+
+      var kcalLo = Math.round(kMin * useWt);
+      var kcalHi = Math.round(kMax * useWt);
+      var proLo  = (pMin * useWt).toFixed(0);
+      var proHi  = (pMax * useWt).toFixed(0);
+
+      kEl.textContent = kcalLo + '–' + kcalHi + ' kcal/日';
+      kSub.textContent = kMin + '–' + kMax + ' kcal/kg × ' + useWt.toFixed(1) + ' kg';
+      pEl.textContent = proLo + '–' + proHi + ' g/日';
+      pSub.textContent = pMin + '–' + pMax + ' g/kg × ' + useWt.toFixed(1) + ' kg';
+
+      if (ibw) {
+        ibwL.textContent = 'IBW = ' + ibw.toFixed(1) + ' kg ／ 計算使用体重 = ' + useWt.toFixed(1) + ' kg';
+      } else {
+        ibwL.textContent = '計算使用体重 = ' + useWt.toFixed(1) + ' kg（身長未入力のため IBW 未算出）';
+      }
+
+      det.textContent =
+        'カロリー = ' + kMin + '–' + kMax + ' × ' + useWt.toFixed(1) + ' = ' + kcalLo + '–' + kcalHi + ' kcal\n' +
+        '蛋白量   = ' + pMin + '–' + pMax + ' × ' + useWt.toFixed(1) + ' = ' + proLo + '–' + proHi + ' g';
+
+      card.classList.add('visible');
+    }
+
+    [htEl, bwEl].forEach(function(el){ el.addEventListener('input', compute); });
+    sexInputs.forEach(function(r){ r.addEventListener('change', compute); });
+    useInputs.forEach(function(r){ r.addEventListener('change', compute); });
+    stateCards.forEach(function(c){
+      c.addEventListener('click', function(){
+        stateCards.forEach(function(x){ x.classList.remove('selected'); });
+        c.classList.add('selected');
+        compute();
+      });
+    });
+  })();
+</script>
+</body>
+</html>

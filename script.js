@@ -59,6 +59,12 @@
     + dd('便利ツール', [
         { href: 'pages/abx-calculator.html',     label: '抗菌薬投与量 一発計算' },
         { href: 'pages/ldl-target.html',         label: 'LDL目標値チェッカー' },
+        { href: 'pages/nutrition-calc.html',     label: '必要カロリー・蛋白量 計算' },
+        { href: 'pages/transfusion-calc.html',   label: '輸血量 → 上昇予測（RBC・PC）' },
+        { href: 'pages/apache-ii.html',          label: 'APACHE II スコア' },
+        { href: 'pages/sofa.html',               label: 'SOFA-2 スコア（2026 改訂）' },
+        { href: 'pages/rass.html',               label: 'RASS（鎮静評価）' },
+        { href: 'pages/cam-icu.html',            label: 'CAM-ICU（せん妄評価）' },
         { href: 'pages/karte-abbreviations.html',label: 'カルテ略語対策' }
       ])
     + '<li><a href="' + basePath + 'pages/recent-all.html" class="nav-link nav-link-search" id="globalSearchTrigger" aria-label="サイト内コンテンツ検索">検索<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left:4px;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></a></li>';

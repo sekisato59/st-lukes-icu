@@ -11,6 +11,13 @@
  */
 const RECENT_PAGES = [
   {
+    title: "便利ツール 6種追加（APACHE II / SOFA-2 / RASS / CAM-ICU / 栄養計算 / 輸血上昇予測）",
+    url: "pages/apache-ii.html",
+    date: "2026-05-13",
+    tag: "解説",
+    thumb: "images/icu-study.jpg"
+  },
+  {
     title: "GINA 2026 喘息グローバル戦略レポート",
     url: "pages/articles-gl-gina2026.html",
     date: "2026-05-13",
