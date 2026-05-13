@@ -151,16 +151,35 @@
     }
 
     /* Chronic health */
-    .chronic-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px; }
+    .chronic-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px; }
     .chronic-card {
-      padding:9px 10px;border:1.5px solid var(--border);border-radius:8px;
-      cursor:pointer;background:#fff;font-size:0.74rem;font-weight:700;color:#64748B;
-      text-align:center;
+      padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;
+      cursor:pointer;background:#fff;
+      transition:transform .08s, background .12s, border-color .12s;
     }
     .chronic-card:hover { border-color:#7DD3FC;background:#F0F9FF; }
-    .chronic-card.selected {
-      background:linear-gradient(135deg,#0369A1,#0EA5E9);color:#fff;border-color:transparent;
+    .chronic-card:active { transform:scale(0.98); }
+    .chronic-pts {
+      display:inline-block;font-size:0.78rem;font-weight:900;color:#fff;
+      background:#94A3B8;padding:2px 9px;border-radius:6px;margin-bottom:6px;
+      font-family:ui-monospace,Menlo,Consolas,monospace;letter-spacing:0.02em;
     }
+    .chronic-card[data-pts="0"] .chronic-pts { background:#16A34A; }
+    .chronic-card[data-pts="2"] .chronic-pts { background:#F59E0B; }
+    .chronic-card[data-pts="5"] .chronic-pts { background:#DC2626; }
+    .chronic-main {
+      font-size:0.82rem;font-weight:800;color:#0C4A6E;line-height:1.4;
+    }
+    .chronic-main strong { color:#0369A1; }
+    .chronic-sub {
+      font-size:0.7rem;color:#64748B;margin-top:3px;line-height:1.5;font-weight:500;
+    }
+    .chronic-card.selected {
+      background:linear-gradient(135deg,#F0F9FF,#E0F2FE);border-color:#0EA5E9;
+      box-shadow:0 2px 8px rgba(3,105,161,0.15);
+    }
+    .chronic-card.selected .chronic-main { color:#0C4A6E; }
+    .chronic-card.selected .chronic-main strong { color:#0369A1; }
 
     /* 合計カード */
     .total-card {
@@ -215,8 +234,7 @@
       font-size:0.82rem;line-height:1.7;color:#0C4A6E;font-weight:500;
     }
     .tool-instruction strong {
-      color:#0C4A6E;background:#FEF3C7;
-      padding:1px 5px;border-radius:3px;font-weight:800;
+      color:#0369A1;font-weight:800;
     }
   </style>
 </head>
@@ -499,9 +517,21 @@
       </ul>
     </div>
     <div class="chronic-grid">
-      <div class="chronic-card selected" data-pts="0" id="ch-none">該当なし<br><span style="font-weight:600;font-size:0.72rem;">+ 0 点</span></div>
-      <div class="chronic-card" data-pts="2" id="ch-elective">該当あり ＋ <strong>待機手術後</strong><br><span style="font-weight:600;font-size:0.72rem;">+ 2 点</span></div>
-      <div class="chronic-card" data-pts="5" id="ch-emergency">該当あり ＋ <strong>緊急手術 or 内科的</strong><br><span style="font-weight:600;font-size:0.72rem;">+ 5 点</span></div>
+      <div class="chronic-card selected" data-pts="0" id="ch-none">
+        <div class="chronic-pts">+ 0 点</div>
+        <div class="chronic-main">慢性疾患なし</div>
+        <div class="chronic-sub">上記の対象疾患に該当しない</div>
+      </div>
+      <div class="chronic-card" data-pts="2" id="ch-elective">
+        <div class="chronic-pts">+ 2 点</div>
+        <div class="chronic-main">慢性疾患あり・<strong>待機手術後</strong>に ICU 入室</div>
+        <div class="chronic-sub">予定手術 → 術後 ICU</div>
+      </div>
+      <div class="chronic-card" data-pts="5" id="ch-emergency">
+        <div class="chronic-pts">+ 5 点</div>
+        <div class="chronic-main">慢性疾患あり・<strong>緊急手術後 / 内科系</strong>で ICU 入室</div>
+        <div class="chronic-sub">緊急手術後 or 非手術系（内科疾患）</div>
+      </div>
     </div>
   </div>
 
