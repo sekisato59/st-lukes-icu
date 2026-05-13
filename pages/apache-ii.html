@@ -111,16 +111,17 @@
     .dial-tip { font-size:0.66rem;color:#64748B;margin:0 0 8px;line-height:1.5; }
     .dial-tip strong { color:#0369A1; }
 
-    /* ===== 重要参照情報ボックス ===== */
+    /* ===== 重要参照情報ボックス（SkyBlue 系・周囲と統一） ===== */
     .info-box {
-      background:#FFFBEB;border:1.5px solid #FCD34D;border-radius:10px;
+      background:#F0F9FF;border:1px solid #BAE6FD;border-radius:10px;
       padding:11px 14px;margin:0 0 12px;
+      box-shadow:0 1px 4px rgba(3,105,161,0.04);
     }
     .info-box-head {
-      font-size:0.78rem;font-weight:900;color:#92400E;margin-bottom:6px;line-height:1.4;
+      font-size:0.78rem;font-weight:900;color:#0369A1;margin-bottom:6px;line-height:1.4;
     }
     .info-list {
-      margin:0;padding-left:18px;font-size:0.74rem;color:#78350F;
+      margin:0;padding-left:18px;font-size:0.74rem;color:#075985;
       line-height:1.7;font-weight:600;
     }
     .info-list li { margin-bottom:2px; }
@@ -554,6 +555,11 @@
       document.getElementById('pts-'+id).textContent = pts;
     }
 
+    /* ===== 参照する DOM 要素を先に取得 ===== */
+    var paSel = document.getElementById('o2-pa-select');
+    var aaSel = document.getElementById('o2-aa-select');
+    var akiEl = document.getElementById('aki');
+
     /* ===== ダイヤル（select）変更処理 ===== */
     document.querySelectorAll('.dial-select').forEach(function(sel){
       var v = sel.dataset.var;
@@ -568,8 +574,6 @@
     });
 
     /* ===== O2 PaO₂ ⇄ A-a 切替 ===== */
-    var paSel = document.getElementById('o2-pa-select');
-    var aaSel = document.getElementById('o2-aa-select');
     document.querySelectorAll('input[name="o2type"]').forEach(function(r){
       r.addEventListener('change', function(){
         var isAa = document.getElementById('o2-aa').checked;
@@ -583,7 +587,6 @@
     });
 
     /* ===== AKI チェック → Cr スコア×2 ===== */
-    var akiEl = document.getElementById('aki');
     akiEl.addEventListener('change', update);
 
     /* ===== 慢性疾患カード ===== */
