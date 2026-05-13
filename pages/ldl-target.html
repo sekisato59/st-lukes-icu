@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LDL目標値チェッカー | 聖路加ICU 便利ツール</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style-v2.css?v=202505130900">
+  <style>
+    @font-face {
+      font-family: 'AsciiUnified';
+      src: local('SF Pro Text'), local('SF Pro Display'), local('-apple-system'),
+           local('Segoe UI'), local('Helvetica Neue'), local('Roboto'),
+           local('Arial'), sans-serif;
+      unicode-range: U+0020-007E;
+      font-display: swap;
+      font-weight: 100 900;
+    }
+
+    /* ===== 便利ツール 共通テーマ(青) ===== */
+    .tools-banner {
+      width:100%;max-width:1294px;margin:64px auto 0;padding:0;line-height:0;
+    }
+    .tools-banner img {
+      width:100%;height:auto;display:block;
+      -webkit-mask-image:linear-gradient(to bottom, #000 0%, #000 85%, transparent 100%);
+      mask-image:linear-gradient(to bottom, #000 0%, #000 85%, transparent 100%);
+    }
+    .page-wrap {
+      max-width:860px;margin:0 auto;
+      padding:0 clamp(16px,0.6rem+1.4vw,32px) clamp(40px,2rem+1.5vw,64px);
+      font-family:'AsciiUnified','Noto Sans JP','Hiragino Kaku Gothic ProN','Hiragino Sans','Yu Gothic',sans-serif;
+      font-variant-numeric:tabular-nums;
+      font-feature-settings:'tnum' 1;
+    }
+    .back-wrapper { display:flex;align-items:center;margin:6px 0 12px; }
+    .back-btn {
+      display:inline-flex;align-items:center;justify-content:center;
+      padding:9px 16px;background:rgba(255,255,255,0.85);
+      backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+      border:1px solid rgba(255,255,255,0.7);border-radius:10px;
+      font-size:0.78rem;font-weight:800;color:#0369A1;text-decoration:none;
+      letter-spacing:0.02em;line-height:1;
+      box-shadow:0 4px 18px rgba(3,105,161,0.08);
+      transition:transform .15s, background .15s;box-sizing:border-box;
+    }
+    .back-btn:hover { background:rgba(255,255,255,0.95);transform:translateY(-1px); }
+
+    /* ===== ページタイトルエリア ===== */
+    .tool-title-area {
+      margin:20px 0 24px;
+    }
+    .tool-title-area h1 {
+      font-size:clamp(1.3rem,4vw,1.7rem);font-weight:900;color:#0C4A6E;
+      margin:0 0 6px;letter-spacing:-0.01em;line-height:1.2;
+    }
+    .tool-subtitle {
+      font-size:0.82rem;color:#64748B;font-weight:500;line-height:1.6;
+    }
+
+    /* ===== カード共通 ===== */
+    .step-card {
+      background:#fff;border:1px solid var(--border);border-radius:14px;
+      padding:20px 22px;margin-bottom:16px;
+      box-shadow:0 2px 12px rgba(3,105,161,0.06);
+      transition:opacity .2s, filter .2s;
+    }
+    .step-card.disabled {
+      opacity:0.4;pointer-events:none;filter:grayscale(0.3);
+    }
+    .step-card-header {
+      display:flex;align-items:center;gap:10px;margin-bottom:16px;
+    }
+    .step-num {
+      width:28px;height:28px;border-radius:50%;
+      background:linear-gradient(135deg,#0369A1,#0EA5E9);
+      color:#fff;font-size:0.8rem;font-weight:900;
+      display:flex;align-items:center;justify-content:center;flex-shrink:0;
+    }
+    .step-title {
+      font-size:0.97rem;font-weight:900;color:#0C4A6E;letter-spacing:0.01em;
+    }
+
+    /* ===== ラジオピル ===== */
+    .radio-group {
+      display:flex;gap:4px;flex-wrap:wrap;
+    }
+    .radio-group.vertical {
+      flex-direction:column;gap:6px;
+    }
+    .radio-group input[type=radio],
+    .checkbox-group input[type=checkbox] {
+      position:absolute;opacity:0;width:0;height:0;pointer-events:none;
+    }
+    .radio-group label {
+      display:inline-flex;align-items:center;
+      padding:8px 18px;border-radius:999px;
+      border:1.5px solid var(--border);
+      font-size:0.84rem;font-weight:700;color:#64748B;cursor:pointer;
+      background:#F8FAFC;
+      transition:all .15s;letter-spacing:0.02em;user-select:none;
+    }
+    .radio-group label:hover { background:#E0F2FE;color:#0369A1;border-color:#7DD3FC; }
+    .radio-group input[type=radio]:checked + label {
+      background:linear-gradient(135deg,#0369A1,#0EA5E9);
+      color:#fff;border-color:transparent;
+      box-shadow:0 2px 8px rgba(3,105,161,0.3);
+    }
+
+    /* チェックボックス形式 */
+    .checkbox-group {
+      display:flex;flex-direction:column;gap:8px;
+    }
+    .checkbox-group label {
+      display:inline-flex;align-items:center;gap:10px;
+      padding:9px 16px;border-radius:10px;
+      border:1.5px solid var(--border);
+      font-size:0.85rem;font-weight:600;color:#334155;cursor:pointer;
+      background:#F8FAFC;
+      transition:all .15s;user-select:none;
+    }
+    .checkbox-group label:hover { background:#E0F2FE;border-color:#7DD3FC; }
+    .checkbox-group input[type=checkbox]:checked + label {
+      background:#EFF6FF;border-color:#93C5FD;color:#1E40AF;
+    }
+    .checkbox-group label .chk-icon {
+      width:18px;height:18px;border-radius:5px;
+      border:2px solid #CBD5E1;background:#fff;flex-shrink:0;
+      display:flex;align-items:center;justify-content:center;
+      transition:all .15s;
+    }
+    .checkbox-group input[type=checkbox]:checked + label .chk-icon {
+      background:linear-gradient(135deg,#0369A1,#0EA5E9);
+      border-color:transparent;
+    }
+    .checkbox-group input[type=checkbox]:checked + label .chk-icon::after {
+      content:'✓';color:#fff;font-size:11px;font-weight:900;
+    }
+
+    .step-note {
+      font-size:0.75rem;color:#94A3B8;margin-top:10px;line-height:1.6;
+    }
+
+    /* ===== 結果カード ===== */
+    .result-card {
+      border-radius:16px;padding:24px 26px;margin-bottom:20px;
+      display:none;
+      border:2px solid transparent;
+      position:relative;overflow:hidden;
+    }
+    .result-card.visible { display:block; }
+
+    /* リスクレベルごとのカラーリング */
+    .result-card.risk-low {
+      background:linear-gradient(135deg,#F0FDF4 0%,#DCFCE7 100%);
+      border-color:#86EFAC;
+    }
+    .result-card.risk-mid {
+      background:linear-gradient(135deg,#FFFBEB 0%,#FEF3C7 100%);
+      border-color:#FCD34D;
+    }
+    .result-card.risk-high {
+      background:linear-gradient(135deg,#FFF7ED 0%,#FFEDD5 100%);
+      border-color:#FDBA74;
+    }
+    .result-card.risk-secondary {
+      background:linear-gradient(135deg,#FEF2F2 0%,#FCE7F3 100%);
+      border-color:#FCA5A5;
+    }
+    .result-card.risk-very-high {
+      background:linear-gradient(135deg,#FDF2F8 0%,#EDE9FE 100%);
+      border-color:#C084FC;
+    }
+
+    .result-category {
+      font-size:0.72rem;font-weight:900;letter-spacing:0.12em;
+      text-transform:uppercase;margin-bottom:4px;
+    }
+    .result-title {
+      font-size:1.15rem;font-weight:900;margin-bottom:16px;color:#0C4A6E;
+      line-height:1.3;
+    }
+    .result-targets {
+      display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;
+    }
+    @media (max-width: 480px) {
+      .result-targets { grid-template-columns:1fr; }
+    }
+    .result-target-box {
+      background:rgba(255,255,255,0.75);backdrop-filter:blur(4px);
+      border-radius:10px;padding:12px 16px;text-align:center;
+      border:1px solid rgba(255,255,255,0.6);
+    }
+    .result-target-label {
+      font-size:0.7rem;font-weight:800;color:#64748B;letter-spacing:0.06em;
+      margin-bottom:4px;
+    }
+    .result-target-value {
+      font-size:1.9rem;font-weight:900;line-height:1;
+      font-variant-numeric:tabular-nums;
+    }
+    .result-target-unit {
+      font-size:0.72rem;font-weight:600;color:#64748B;margin-top:2px;
+    }
+
+    .result-comment {
+      font-size:0.82rem;color:#334155;line-height:1.7;
+      padding:10px 14px;
+      background:rgba(255,255,255,0.6);border-radius:8px;
+    }
+    .result-comment strong { color:#0C4A6E; }
+
+    /* ===== リセットボタン ===== */
+    .reset-btn {
+      display:inline-flex;align-items:center;justify-content:center;
+      padding:10px 22px;background:#F1F5F9;
+      border:1.5px solid var(--border);border-radius:999px;
+      font-size:0.82rem;font-weight:800;color:#64748B;cursor:pointer;
+      font-family:inherit;letter-spacing:0.03em;
+      transition:all .15s;margin-top:8px;
+    }
+    .reset-btn:hover { background:#E2E8F0;border-color:#94A3B8;color:#334155; }
+
+    /* ===== 注釈 ===== */
+    .disclaimer {
+      font-size:0.72rem;color:#94A3B8;line-height:1.7;
+      margin-top:24px;padding:14px 16px;
+      background:#F8FAFC;border-radius:8px;border:1px solid var(--border);
+    }
+    .disclaimer strong { color:#64748B; }
+
+    /* ===== 参考表 ===== */
+    .ref-table-wrap {
+      margin-top:28px;
+    }
+    .ref-table-title {
+      font-size:0.88rem;font-weight:900;color:#0369A1;
+      margin-bottom:10px;padding-bottom:8px;
+      border-bottom:2px solid #BAE6FD;
+    }
+    .ref-table {
+      width:100%;border-collapse:collapse;font-size:0.8rem;
+    }
+    .ref-table th {
+      background:#EFF6FF;color:#0369A1;font-weight:800;
+      padding:8px 12px;text-align:left;border-bottom:2px solid #BFDBFE;
+      white-space:nowrap;
+    }
+    .ref-table td {
+      padding:8px 12px;border-bottom:1px solid var(--border);
+      vertical-align:middle;line-height:1.5;color:#334155;
+    }
+    .ref-table tr:last-child td { border-bottom:none; }
+    .ref-table tr:hover td { background:#F8FAFC; }
+    .ldl-val {
+      font-weight:900;font-size:0.95rem;font-variant-numeric:tabular-nums;
+    }
+    .tag-pill {
+      display:inline-block;padding:2px 10px;border-radius:999px;
+      font-size:0.7rem;font-weight:800;letter-spacing:0.04em;
+      white-space:nowrap;
+    }
+    .tag-low    { background:#DCFCE7;color:#166534; }
+    .tag-mid    { background:#FEF3C7;color:#92400E; }
+    .tag-high   { background:#FFEDD5;color:#9A3412; }
+    .tag-sec    { background:#FEE2E2;color:#991B1B; }
+    .tag-vsec   { background:#EDE9FE;color:#6D28D9; }
+  </style>
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <a href="../index.html" class="nav-logo">
+      <img src="../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+      <span class="nav-logo-text">聖路加国際病院ICU</span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-menu" id="navMenu"></ul>
+  </div>
+</nav>
+
+<div class="tools-banner">
+  <img src="../images/icu-study.jpg" alt="" loading="lazy">
+</div>
+
+<div class="page-wrap">
+  <div class="back-wrapper">
+    <a href="../index.html" class="back-btn">← ホームへ戻る</a>
+  </div>
+
+  <div class="tool-title-area">
+    <h1>LDL目標値チェッカー</h1>
+    <p class="tool-subtitle">
+      患者のリスク因子をステップごとに選択すると、至適LDL-C目標値（mg/dL）を表示します。<br>
+      動脈硬化性疾患予防ガイドライン 2022年版（日本動脈硬化学会）に基づく。
+    </p>
+  </div>
+
+  <!-- ===== STEP 1: 二次予防の確認 ===== -->
+  <div class="step-card" id="step1-card">
+    <div class="step-card-header">
+      <div class="step-num">1</div>
+      <div class="step-title">冠動脈疾患（CHD）の既往はありますか？</div>
+    </div>
+    <p class="rule-body" style="font-size:0.83rem;color:#475569;margin:0 0 14px;">
+      狭心症・心筋梗塞・PCI / CABG後・ACSを含む
+    </p>
+    <div class="radio-group" id="step1-radio">
+      <input type="radio" name="chd" id="chd-no"  value="no">
+      <label for="chd-no">ない（一次予防）</label>
+      <input type="radio" name="chd" id="chd-yes" value="yes">
+      <label for="chd-yes">ある（二次予防）</label>
+    </div>
+  </div>
+
+  <!-- ===== STEP 2a: FH / ACS（二次予防のさらなる高リスク） ===== -->
+  <div class="step-card disabled" id="step2a-card">
+    <div class="step-card-header">
+      <div class="step-num">2</div>
+      <div class="step-title">以下のいずれかに該当しますか？</div>
+    </div>
+    <p class="rule-body" style="font-size:0.83rem;color:#475569;margin:0 0 14px;">
+      二次予防の中でもさらに高リスクな条件（LDL目標が厳格化）
+    </p>
+    <div class="radio-group" id="step2a-radio">
+      <input type="radio" name="veryhigh" id="vh-no"  value="no">
+      <label for="vh-no">該当なし</label>
+      <input type="radio" name="veryhigh" id="vh-yes" value="yes">
+      <label for="vh-yes">該当あり</label>
+    </div>
+    <div class="step-note">
+      ▶ 家族性高コレステロール血症（FH）の合併 / 急性冠症候群（ACS）後 / 糖尿病合併冠動脈疾患
+    </div>
+  </div>
+
+  <!-- ===== STEP 2b: 絶対的高リスク疾患（一次予防 カテゴリーIII） ===== -->
+  <div class="step-card disabled" id="step2b-card">
+    <div class="step-card-header">
+      <div class="step-num">2</div>
+      <div class="step-title">以下の疾患・状態に該当するものを選択してください</div>
+    </div>
+    <p class="rule-body" style="font-size:0.83rem;color:#475569;margin:0 0 14px;">
+      1つでも該当すれば「絶対的高リスク（カテゴリーIII）」に分類されます
+    </p>
+    <div class="checkbox-group" id="high-risk-checks">
+      <input type="checkbox" id="ck-dm"  name="highrisk" value="dm">
+      <label for="ck-dm"><span class="chk-icon"></span>糖尿病（耐糖能異常・境界型を含む）</label>
+
+      <input type="checkbox" id="ck-ckd" name="highrisk" value="ckd">
+      <label for="ck-ckd"><span class="chk-icon"></span>慢性腎臓病（CKD）</label>
+
+      <input type="checkbox" id="ck-pad" name="highrisk" value="pad">
+      <label for="ck-pad"><span class="chk-icon"></span>末梢動脈疾患（PAD）</label>
+
+      <input type="checkbox" id="ck-stroke" name="highrisk" value="stroke">
+      <label for="ck-stroke"><span class="chk-icon"></span>非心原性脳梗塞・TIA（アテローム血栓性）</label>
+    </div>
+    <div style="margin-top:14px;">
+      <div class="radio-group">
+        <input type="radio" name="hrisk-confirm" id="hr-none" value="none">
+        <label for="hr-none">いずれも該当しない</label>
+        <input type="radio" name="hrisk-confirm" id="hr-any"  value="any">
+        <label for="hr-any">1つ以上 該当する</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== STEP 3: 主要リスク因子（一次予防 カテゴリーI / II） ===== -->
+  <div class="step-card disabled" id="step3-card">
+    <div class="step-card-header">
+      <div class="step-num">3</div>
+      <div class="step-title">主要リスク因子の確認（吹田スコア簡易版）</div>
+    </div>
+    <p class="rule-body" style="font-size:0.83rem;color:#475569;margin:0 0 14px;">
+      該当するものをすべて選択してください
+    </p>
+    <div class="checkbox-group" id="rf-checks">
+      <input type="checkbox" id="rf-age" name="rf" value="age">
+      <label for="rf-age"><span class="chk-icon"></span>年齢：男性 ≥ 45歳 / 女性 ≥ 55歳</label>
+
+      <input type="checkbox" id="rf-htn" name="rf" value="htn">
+      <label for="rf-htn"><span class="chk-icon"></span>高血圧（収縮期 ≥ 140 or 拡張期 ≥ 90 or 降圧薬内服中）</label>
+
+      <input type="checkbox" id="rf-smoke" name="rf" value="smoke">
+      <label for="rf-smoke"><span class="chk-icon"></span>喫煙（現在または過去）</label>
+
+      <input type="checkbox" id="rf-hdl" name="rf" value="hdl">
+      <label for="rf-hdl"><span class="chk-icon"></span>低HDL-C（< 40 mg/dL）</label>
+
+      <input type="checkbox" id="rf-fhx" name="rf" value="fhx">
+      <label for="rf-fhx"><span class="chk-icon"></span>早発性冠動脈疾患の家族歴（男性 55歳未満 / 女性 65歳未満の1親等CHD）</label>
+    </div>
+    <div class="step-note">
+      ▶ 0〜1個 → カテゴリーI（低リスク）　|　2個以上 → カテゴリーII（中等度リスク）
+    </div>
+  </div>
+
+  <!-- ===== 結果カード ===== -->
+  <div class="result-card" id="result-card">
+    <div class="result-category" id="result-category"></div>
+    <div class="result-title" id="result-title"></div>
+    <div class="result-targets">
+      <div class="result-target-box">
+        <div class="result-target-label">LDL-C 目標値</div>
+        <div class="result-target-value" id="result-ldl" style="color:#0C4A6E;"></div>
+        <div class="result-target-unit">mg/dL 未満</div>
+      </div>
+      <div class="result-target-box">
+        <div class="result-target-label">non-HDL-C 目標値</div>
+        <div class="result-target-value" id="result-nonhdl" style="color:#0C4A6E;"></div>
+        <div class="result-target-unit">mg/dL 未満</div>
+      </div>
+    </div>
+    <div class="result-comment" id="result-comment"></div>
+  </div>
+
+  <button class="reset-btn" id="reset-btn" onclick="resetAll()">↺ リセット</button>
+
+  <!-- ===== 参考：目標値一覧表 ===== -->
+  <div class="ref-table-wrap">
+    <div class="ref-table-title">参考：リスク区分別 LDL-C / non-HDL-C 目標値（JAS 2022）</div>
+    <div style="overflow-x:auto;">
+      <table class="ref-table">
+        <thead>
+          <tr>
+            <th>区分</th>
+            <th>リスクの説明</th>
+            <th>LDL-C 目標</th>
+            <th>non-HDL-C 目標</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="tag-pill tag-vsec">最高リスク</span></td>
+            <td style="font-size:0.78rem;">冠動脈疾患既往＋FH合併、ACS後、糖尿病合併CHD</td>
+            <td><span class="ldl-val" style="color:#7C3AED;">&lt; 70</span></td>
+            <td><span class="ldl-val" style="color:#7C3AED;">&lt; 100</span></td>
+          </tr>
+          <tr>
+            <td><span class="tag-pill tag-sec">二次予防</span></td>
+            <td style="font-size:0.78rem;">冠動脈疾患（狭心症・心筋梗塞・PCI/CABG後）の既往</td>
+            <td><span class="ldl-val" style="color:#DC2626;">&lt; 100</span></td>
+            <td><span class="ldl-val" style="color:#DC2626;">&lt; 130</span></td>
+          </tr>
+          <tr>
+            <td><span class="tag-pill tag-high">カテゴリーIII</span></td>
+            <td style="font-size:0.78rem;">糖尿病 / CKD / PAD / 非心原性脳梗塞・TIA のいずれか</td>
+            <td><span class="ldl-val" style="color:#EA580C;">&lt; 120</span></td>
+            <td><span class="ldl-val" style="color:#EA580C;">&lt; 150</span></td>
+          </tr>
+          <tr>
+            <td><span class="tag-pill tag-mid">カテゴリーII</span></td>
+            <td style="font-size:0.78rem;">主要リスク因子 2個以上（吹田スコア 中等度リスク）</td>
+            <td><span class="ldl-val" style="color:#B45309;">&lt; 140</span></td>
+            <td><span class="ldl-val" style="color:#B45309;">&lt; 170</span></td>
+          </tr>
+          <tr>
+            <td><span class="tag-pill tag-low">カテゴリーI</span></td>
+            <td style="font-size:0.78rem;">主要リスク因子 0〜1個（吹田スコア 低リスク）</td>
+            <td><span class="ldl-val" style="color:#16A34A;">&lt; 160</span></td>
+            <td><span class="ldl-val" style="color:#16A34A;">&lt; 190</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:0.72rem;color:#9CA3AF;margin-top:8px;line-height:1.6;">
+      ※ non-HDL-C = 総コレステロール（TC）− HDL-C。空腹時採血困難時やTG ≥ 400の場合に使用。<br>
+      ※ LDL-C はFriedwald式（空腹時）または直接法で測定。TG ≥ 400 mg/dL の場合はFriedwald式不可。
+    </p>
+  </div>
+
+  <div class="disclaimer">
+    <strong>注意：</strong>本ツールは動脈硬化性疾患予防ガイドライン 2022年版（日本動脈硬化学会）の概要に基づく
+    教育目的の参考ツールです。個々の患者への治療方針の決定には、必ず原典ガイドラインおよび担当医師の
+    判断を参照してください。
+  </div>
+</div>
+
+<script src="../script.js"></script>
+<script>
+(function() {
+
+  /* --- 状態 --- */
+  var mode = null; // 'primary' | 'secondary'
+
+  /* --- 要素 --- */
+  var step1Card  = document.getElementById('step1-card');
+  var step2aCard = document.getElementById('step2a-card');
+  var step2bCard = document.getElementById('step2b-card');
+  var step3Card  = document.getElementById('step3-card');
+  var resultCard = document.getElementById('result-card');
+
+  /* ===== STEP 1: CHD既往 ===== */
+  document.querySelectorAll('input[name="chd"]').forEach(function(r) {
+    r.addEventListener('change', function() {
+      if (this.value === 'yes') {
+        mode = 'secondary';
+        step2aCard.classList.remove('disabled');
+        step2bCard.classList.add('disabled');
+        step3Card.classList.add('disabled');
+        clearRadios('veryhigh');
+        clearChecks('highrisk');
+        clearRadios('hrisk-confirm');
+        clearChecks('rf');
+        hideResult();
+      } else {
+        mode = 'primary';
+        step2aCard.classList.add('disabled');
+        step2bCard.classList.remove('disabled');
+        step3Card.classList.add('disabled');
+        clearRadios('veryhigh');
+        clearChecks('highrisk');
+        clearRadios('hrisk-confirm');
+        clearChecks('rf');
+        hideResult();
+      }
+    });
+  });
+
+  /* ===== STEP 2a: FH / ACS（二次予防） ===== */
+  document.querySelectorAll('input[name="veryhigh"]').forEach(function(r) {
+    r.addEventListener('change', function() {
+      if (this.value === 'yes') {
+        showResult({
+          cssClass: 'risk-very-high',
+          category: '最高リスク（二次予防 + 高リスク条件）',
+          title: 'FH合併 / ACS後 / 糖尿病合併CHD',
+          ldl: 70,
+          nonhdl: 100,
+          ldlColor: '#7C3AED',
+          comment: '<strong>LDL-C &lt; 70 mg/dL</strong>（non-HDL-C &lt; 100）が目標です。'
+            + 'ストロングスタチン最大量を基本とし、目標未達の場合はエゼチミブ追加を検討します。'
+            + '冠動脈疾患再発リスクが特に高く、さらなるLDL低下が予後を改善します。'
+        });
+      } else {
+        showResult({
+          cssClass: 'risk-secondary',
+          category: '二次予防',
+          title: '冠動脈疾患（狭心症・心筋梗塞・PCI/CABG後）の既往',
+          ldl: 100,
+          nonhdl: 130,
+          ldlColor: '#DC2626',
+          comment: '<strong>LDL-C &lt; 100 mg/dL</strong>（non-HDL-C &lt; 130）が目標です。'
+            + 'スタチン療法を基本とし、不十分な場合はエゼチミブ、さらにPCSK9阻害薬の追加を検討します。'
+        });
+      }
+    });
+  });
+
+  /* ===== STEP 2b: 絶対的高リスク疾患確認（一次予防） ===== */
+  document.querySelectorAll('input[name="hrisk-confirm"]').forEach(function(r) {
+    r.addEventListener('change', function() {
+      if (this.value === 'any') {
+        // カテゴリーIII 確定 → STEP3不要
+        step3Card.classList.add('disabled');
+        clearChecks('rf');
+        showResult({
+          cssClass: 'risk-high',
+          category: '一次予防 — カテゴリーIII（絶対的高リスク）',
+          title: '糖尿病・CKD・PAD・非心原性脳梗塞/TIA',
+          ldl: 120,
+          nonhdl: 150,
+          ldlColor: '#EA580C',
+          comment: '<strong>LDL-C &lt; 120 mg/dL</strong>（non-HDL-C &lt; 150）が目標です。'
+            + '生活習慣改善とともにスタチン療法の開始を検討します。'
+            + '糖尿病では血糖・血圧・LDLの包括的管理が重要です。'
+        });
+      } else {
+        // 絶対的高リスクなし → STEP3へ
+        step3Card.classList.remove('disabled');
+        hideResult();
+        evaluateStep3();
+      }
+    });
+  });
+
+  /* チェックボックス変化でも "any" を自動セット */
+  document.querySelectorAll('input[name="highrisk"]').forEach(function(c) {
+    c.addEventListener('change', function() {
+      var checked = document.querySelectorAll('input[name="highrisk"]:checked').length;
+      if (checked > 0) {
+        var radioAny = document.getElementById('hr-any');
+        radioAny.checked = true;
+        radioAny.dispatchEvent(new Event('change'));
+      }
+    });
+  });
+
+  /* ===== STEP 3: 主要リスク因子（一次予防 カテゴリーI / II） ===== */
+  document.querySelectorAll('input[name="rf"]').forEach(function(c) {
+    c.addEventListener('change', evaluateStep3);
+  });
+
+  function evaluateStep3() {
+    if (step3Card.classList.contains('disabled')) return;
+    var count = document.querySelectorAll('input[name="rf"]:checked').length;
+    if (count === 0) {
+      // まだ何も選択していない
+      hideResult();
+      return;
+    }
+    if (count >= 2) {
+      showResult({
+        cssClass: 'risk-mid',
+        category: '一次予防 — カテゴリーII（中等度リスク）',
+        title: '主要リスク因子 2個以上',
+        ldl: 140,
+        nonhdl: 170,
+        ldlColor: '#B45309',
+        comment: '<strong>LDL-C &lt; 140 mg/dL</strong>（non-HDL-C &lt; 170）が目標です。'
+          + '生活習慣改善を3〜6か月実施し、目標未達の場合にスタチン療法の開始を検討します。'
+      });
+    } else {
+      showResult({
+        cssClass: 'risk-low',
+        category: '一次予防 — カテゴリーI（低リスク）',
+        title: '主要リスク因子 0〜1個',
+        ldl: 160,
+        nonhdl: 190,
+        ldlColor: '#16A34A',
+        comment: '<strong>LDL-C &lt; 160 mg/dL</strong>（non-HDL-C &lt; 190）が目標です。'
+          + '食事・運動などの生活習慣改善を優先し、改善不十分な場合にのみ薬物療法を考慮します。'
+      });
+    }
+  }
+
+  /* --- ヘルパー関数 --- */
+  function showResult(cfg) {
+    resultCard.className = 'result-card visible ' + cfg.cssClass;
+    document.getElementById('result-category').textContent = cfg.category;
+    document.getElementById('result-title').textContent = cfg.title;
+    document.getElementById('result-ldl').textContent = cfg.ldl;
+    document.getElementById('result-ldl').style.color = cfg.ldlColor;
+    document.getElementById('result-nonhdl').textContent = cfg.nonhdl;
+    document.getElementById('result-nonhdl').style.color = cfg.ldlColor;
+    document.getElementById('result-comment').innerHTML = cfg.comment;
+    resultCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function hideResult() {
+    resultCard.classList.remove('visible');
+  }
+
+  function clearRadios(name) {
+    document.querySelectorAll('input[name="' + name + '"]').forEach(function(r) { r.checked = false; });
+  }
+  function clearChecks(name) {
+    document.querySelectorAll('input[name="' + name + '"]').forEach(function(c) { c.checked = false; });
+  }
+
+  /* グローバルリセット */
+  window.resetAll = function() {
+    ['chd','veryhigh','hrisk-confirm'].forEach(clearRadios);
+    ['highrisk','rf'].forEach(clearChecks);
+    mode = null;
+    step2aCard.classList.add('disabled');
+    step2bCard.classList.add('disabled');
+    step3Card.classList.add('disabled');
+    hideResult();
+    document.getElementById('chd-no').focus();
+  };
+
+})();
+</script>
+</body>
+</html>
