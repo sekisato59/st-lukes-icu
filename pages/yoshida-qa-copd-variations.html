@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>COPD QA — 「平常時 vs 増悪時」セクション デザイン30案</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../images/logo.png">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --qa-primary: #0F766E;
+      --qa-primary-dark: #134E4A;
+      --qa-primary-light: #F0FDFA;
+      --qa-accent: #99F6E4;
+      --qa-warning: #B45309;
+      --qa-warning-light: #FEF3C7;
+      --text: #1F2937;
+      --muted: #6B7280;
+      --border: #E5E7EB;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      background: #F9FAFB;
+      color: var(--text);
+      margin: 0;
+      padding: 24px 16px 60px;
+      font-size: 0.84rem;
+      line-height: 1.55;
+    }
+    .page {
+      max-width: 880px;
+      margin: 0 auto;
+    }
+    .page-title {
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: var(--qa-primary-dark);
+      margin: 0 0 6px;
+    }
+    .page-sub {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-bottom: 24px;
+    }
+    .variation {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 16px 18px;
+      margin-bottom: 22px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    }
+    .v-label {
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: var(--qa-primary-dark);
+      letter-spacing: 0.04em;
+      padding-bottom: 8px;
+      margin-bottom: 12px;
+      border-bottom: 2px dashed var(--qa-accent);
+    }
+    .v-label .v-num {
+      display: inline-block;
+      background: var(--qa-primary-dark);
+      color: #fff;
+      font-family: ui-monospace, Menlo, Consolas, monospace;
+      font-size: 0.72rem;
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-right: 8px;
+    }
+    /* Common reset for variation contents */
+    .v-content { font-size: 0.84rem; line-height: 1.55; }
+    .v-content h4 { margin: 0 0 6px; padding: 0; font-size: 0.92rem; font-weight: 800; color: var(--qa-primary-dark); }
+    .v-content ul, .v-content ol { margin: 0 0 10px; padding: 0; list-style: none; }
+    .v-content p { margin: 0 0 8px; }
+    .v-content strong { color: var(--qa-primary-dark); font-weight: 700; }
+    .v-section { margin-bottom: 14px; }
+    .v-section:last-child { margin-bottom: 0; }
+
+    /* ============================================================
+       1. ❏ボックス（現状ベースライン）
+    ============================================================ */
+    .v1 .h { margin: 12px 0 6px; padding: 5px 12px; border-radius: 5px;
+            background: linear-gradient(135deg, var(--qa-primary-dark), var(--qa-primary)); color: #fff; font-size: 0.86rem; font-weight: 800; }
+    .v1 .h:first-child { margin-top: 0; }
+    .v1 ul li {
+      position: relative; padding: 5px 10px 5px 28px; margin-bottom: 4px;
+      background: var(--qa-primary-light); border: 1px solid var(--qa-accent); border-radius: 5px;
+    }
+    .v1 ul li::before { content: "❏"; position: absolute; left: 9px; top: 4px; color: var(--qa-primary); font-weight: 900; }
+
+    /* 2. 番号バッジ ①②③ */
+    .v2 .h { font-weight: 800; color: var(--qa-primary-dark); margin: 10px 0 6px; padding-bottom: 2px; border-bottom: 1.5px solid var(--qa-accent); }
+    .v2 .h:first-child { margin-top: 0; }
+    .v2 ol { counter-reset: v2c; }
+    .v2 ol li {
+      counter-increment: v2c; position: relative; padding: 6px 10px 6px 36px;
+      margin-bottom: 4px; background: #fff; border: 1px solid var(--border); border-radius: 6px;
+    }
+    .v2 ol li::before {
+      content: counter(v2c); position: absolute; left: 8px; top: 5px;
+      width: 22px; height: 22px; border-radius: 50%; background: var(--qa-primary); color: #fff;
+      display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.78rem;
+      font-family: ui-monospace, Menlo, Consolas, monospace;
+    }
+
+    /* 3. ✓チェック */
+    .v3 .h { font-weight: 800; color: var(--qa-primary-dark); margin: 10px 0 6px; }
+    .v3 .h:first-child { margin-top: 0; }
+    .v3 ul li {
+      position: relative; padding: 4px 0 4px 24px; margin-bottom: 3px; border-bottom: 1px dotted #E5E7EB;
+    }
+    .v3 ul li::before {
+      content: "✓"; position: absolute; left: 4px; top: 4px; color: var(--qa-primary);
+      font-weight: 900; font-size: 0.95rem;
+    }
+
+    /* 4. 左縦バー（細） */
+    .v4 .h { font-weight: 800; color: var(--qa-primary-dark); margin: 10px 0 6px; padding-left: 10px; border-left: 4px solid var(--qa-primary); }
+    .v4 .h:first-child { margin-top: 0; }
+    .v4 ul li { padding: 4px 10px; margin-bottom: 3px; border-left: 2px solid var(--qa-accent); padding-left: 12px; }
+
+    /* 5. 対比2カラム */
+    .v5 .h-band { background: linear-gradient(135deg, var(--qa-primary-dark), var(--qa-primary)); color: #fff; padding: 5px 12px; border-radius: 5px; font-weight: 800; margin-bottom: 8px; }
+    .v5 .twocol { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .v5 .col {
+      background: #fff; border: 1px solid var(--qa-accent); border-radius: 6px; padding: 10px;
+    }
+    .v5 .col .col-title { background: var(--qa-primary-light); color: var(--qa-primary-dark); font-weight: 800; padding: 4px 8px; border-radius: 4px; margin-bottom: 6px; font-size: 0.82rem; }
+
+    /* 6. VS 中央バッジ */
+    .v6 .h { font-weight: 800; color: var(--qa-primary-dark); margin: 10px 0 6px; }
+    .v6 .h:first-child { margin-top: 0; }
+    .v6 .vs-row { display: grid; grid-template-columns: 1fr 36px 1fr; gap: 6px; align-items: stretch; }
+    .v6 .vs-card { background: var(--qa-primary-light); border: 1px solid var(--qa-accent); border-radius: 6px; padding: 8px 10px; }
+    .v6 .vs-card.peace { background: #ECFDF5; border-color: #A7F3D0; }
+    .v6 .vs-card.flare { background: #FEF3C7; border-color: #FDE68A; }
+    .v6 .vs-card .vs-title { font-weight: 800; color: var(--qa-primary-dark); margin-bottom: 3px; }
+    .v6 .vs-card.flare .vs-title { color: #92400E; }
+    .v6 .vs-mid { display: flex; align-items: center; justify-content: center; }
+    .v6 .vs-badge { background: var(--qa-primary-dark); color: #fff; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 0.7rem; }
+
+    /* 7. タブ風 */
+    .v7 .tabs { display: flex; border-bottom: 2px solid var(--qa-primary-dark); }
+    .v7 .tab { padding: 6px 14px; background: var(--qa-primary-light); color: var(--qa-primary-dark); font-weight: 700; border-radius: 6px 6px 0 0; margin-right: 4px; border: 1px solid var(--qa-accent); border-bottom: none; }
+    .v7 .tab.active { background: var(--qa-primary-dark); color: #fff; }
+    .v7 .tab-body { background: #fff; border: 1px solid var(--qa-accent); border-top: none; border-radius: 0 0 6px 6px; padding: 10px; }
+    .v7 .h { font-weight: 800; color: var(--qa-primary-dark); margin: 10px 0 6px; }
+    .v7 ul li { padding: 4px 0 4px 16px; position: relative; }
+    .v7 ul li::before { content: "•"; position: absolute; left: 4px; color: var(--qa-primary); font-weight: 900; }
+
+    /* 8. dl/dt/dd */
+    .v8 .h { font-weight: 800; color: var(--qa-primary-dark); margin: 10px 0 6px; padding-bottom: 4px; border-bottom: 2px solid var(--qa-primary); }
+    .v8 .h:first-child { margin-top: 0; }
+    .v8 dl { margin: 0; }
+    .v8 dt { font-weight: 800; color: var(--qa-primary-dark); padding: 6px 0 2px; font-size: 0.86rem; }
+    .v8 dt::before { content: "▸ "; color: var(--qa-primary); }
+    .v8 dd { margin: 0 0 8px 18px; padding: 0; color: var(--text); }
+
+    /* 9. ハイライトpill（重要語） */
+    .v9 .h { font-weight: 800; color: var(--qa-primary-dark); margin: 10px 0 6px; }
+    .v9 .h:first-child { margin-top: 0; }
+    .v9 ul li { padding: 4px 0; line-height: 1.6; }
+    .v9 .pill { background: var(--qa-primary); color: #fff; padding: 1px 8px; border-radius: 10px; font-weight: 700; font-size: 0.78rem; margin: 0 2px; }
+    .v9 .pill-w { background: var(--qa-warning); color: #fff; padding: 1px 8px; border-radius: 10px; font-weight: 700; font-size: 0.78rem; margin: 0 2px; }
+
+    /* 10. 矢印フロー */
+    .v10 .h { font-weight: 800; color: var(--qa-primary-dark); margin: 10px 0 6px; }
+    .v10 .h:first-child { margin-top: 0; }
+    .v10 .flow { display: flex; flex-direction: column; gap: 4px; }
+    .v10 .step { background: var(--qa-primary-light); border: 1px solid var(--qa-accent); padding: 6px 12px; border-radius: 6px; }
+    .v10 .step-arrow { text-align: center; color: var(--qa-primary); font-weight: 900; line-height: 1; }
+
+    /* 11. 濃淡ストライプ */
+    .v11 .h { font-weight: 800; color: var(--qa-primary-dark); margin: 10px 0 6px; }
+    .v11 .h:first-child { margin-top: 0; }
+    .v11 ul li { padding: 7px 12px; margin: 0; }
+    .v11 ul li:nth-child(odd) { background: var(--qa-primary-light); }
+    .v11 ul li:nth-child(even) { background: #fff; }
+
+    /* 12. アウトライン枠 */
+    .v12 .h { font-weight: 800; color: var(--qa-primary-dark); margin: 10px 0 6px; padding: 4px 10px; border: 1.5px solid var(--qa-primary-dark); border-radius: 4px; display: inline-block; }
+    .v12 .h:first-child { margin-top: 0; }
+    .v12 ul li { padding: 5px 10px; margin: 4px 0; border: 1px solid var(--border); border-radius: 4px; }
+
+    /* 13. 影付きカード（深め） */
+    .v13 .h { font-weight: 800; color: var(--qa-primary-dark); margin: 10px 0 8px; }
+    .v13 .h:first-child { margin-top: 0; }
+    .v13 ul li {
+      padding: 8px 12px; margin-bottom: 6px; background: #fff;
+      border-radius: 6px; box-shadow: 0 2px 8px rgba(15,118,110,0.12);
+    }
+
+    /* 14. 色帯ヘッダー（top bar） */
+    .v14 .card { border-radius: 6px; overflow: hidden; margin-bottom: 8px; border: 1px solid var(--qa-accent); }
+    .v14 .h { background: var(--qa-primary-dark); color: #fff; padding: 5px 12px; font-weight: 800; font-size: 0.86rem; margin: 0; }
+    .v14 .body { padding: 8px 12px; background: var(--qa-primary-light); }
+    .v14 .body ul li { padding: 3px 0 3px 14px; position: relative; }
+    .v14 .body ul li::before { content: ""; position: absolute; left: 2px; top: 0.7em; width: 6px; height: 6px; border-radius: 50%; background: var(--qa-primary); }
+
+    /* 15. 平常/増悪 色分け（緑/オレンジ） */
+    .v15 .h { font-weight: 800; color: var(--qa-primary-dark); margin: 10px 0 6px; }
+    .v15 .h:first-child { margin-top: 0; }
+    .v15 .item-peace { background: #D1FAE5; border-left: 4px solid #059669; padding: 7px 12px; margin: 4px 0; border-radius: 4px; color: #065F46; }
+    .v15 .item-flare { background: #FFEDD5; border-left: 4px solid #EA580C; padding: 7px 12px; margin: 4px 0; border-radius: 4px; color: #7C2D12; }
+    .v15 .tag-peace { display: inline-block; background: #059669; color: #fff; font-size: 0.7rem; font-weight: 800; padding: 1px 6px; border-radius: 3px; margin-right: 6px; }
+    .v15 .tag-flare { display: inline-block; background: #EA580C; color: #fff; font-size: 0.7rem; font-weight: 800; padding: 1px 6px; border-radius: 3px; margin-right: 6px; }
+    .v15 .item-neutral { background: var(--qa-primary-light); padding: 6px 12px; margin: 4px 0; border-radius: 4px; }
+
+    /* 16. インデント階層 */
+    .v16 .h { font-weight: 800; color: var(--qa-primary-dark); margin: 10px 0 6px; }
+    .v16 .h:first-child { margin-top: 0; }
+    .v16 ul { padding-left: 18px; border-left: 2px solid var(--qa-accent); margin-left: 4px; }
+    .v16 ul li { padding: 3px 0 3px 12px; position: relative; }
+    .v16 ul li::before { content: ""; position: absolute; left: -2px; top: 0.7em; width: 8px; height: 1.5px; background: var(--qa-accent); }
+
+    /* 17. シーケンスドット */
+    .v17 .h { font-weight: 800; color: var(--qa-primary-dark); margin: 10px 0 6px; }
+    .v17 .h:first-child { margin-top: 0; }
+    .v17 .seq { display: flex; align-items: center; gap: 10px; padding: 6px 0; }
+    .v17 .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--qa-primary); flex-shrink: 0; box-shadow: 0 0 0 3px var(--qa-primary-light); }
+    .v17 .seq-text { flex: 1; }
+
+    /* 18. コンパクト1行 */
+    .v18 .h { font-weight: 800; color: var(--qa-primary-dark); margin: 8px 0 4px; font-size: 0.84rem; }
+    .v18 .h:first-child { margin-top: 0; }
+    .v18 ul li {
+      padding: 2px 0 2px 14px; position: relative; font-size: 0.8rem; line-height: 1.4;
+    }
+    .v18 ul li::before { content: "›"; position: absolute; left: 2px; color: var(--qa-primary); font-weight: 900; }
+
+    /* 19. 吹き出し */
+    .v19 .h { font-weight: 800; color: var(--qa-primary-dark); margin: 10px 0 6px; }
+    .v19 .h:first-child { margin-top: 0; }
+    .v19 .bubble {
+      position: relative; background: var(--qa-primary-light); border: 1px solid var(--qa-accent);
+      padding: 8px 12px; border-radius: 8px; margin: 6px 0 6px 16px;
+    }
+    .v19 .bubble::before {
+      content: ""; position: absolute; left: -7px; top: 10px;
+      width: 0; height: 0; border: 6px solid transparent; border-right-color: var(--qa-accent);
+    }
+
+    /* 20. 時計風（時系列タイムライン） */
+    .v20 .h { font-weight: 800; color: var(--qa-primary-dark); margin: 10px 0 6px; }
+    .v20 .h:first-child { margin-top: 0; }
+    .v20 .tl { position: relative; padding-left: 20px; border-left: 2px solid var(--qa-primary); }
+    .v20 .tl-item { position: relative; padding: 6px 0; }
+    .v20 .tl-item::before {
+      content: ""; position: absolute; left: -27px; top: 10px;
+      width: 12px; height: 12px; border-radius: 50%; background: #fff;
+      border: 3px solid var(--qa-primary);
+    }
+
+    /* 21. 横タイムライン */
+    .v21 .h { font-weight: 800; color: var(--qa-primary-dark); margin: 10px 0 6px; }
+    .v21 .h:first-child { margin-top: 0; }
+    .v21 .htl { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; position: relative; }
+    .v21 .htl-cell { background: var(--qa-primary-light); border: 1px solid var(--qa-accent); border-radius: 6px; padding: 8px; text-align: center; }
+    .v21 .htl-num { display: inline-block; background: var(--qa-primary); color: #fff; width: 22px; height: 22px; border-radius: 50%; line-height: 22px; font-weight: 900; margin-bottom: 4px; }
+
+    /* 22. ミニインフォグラフィック（アイコン+短文） */
+    .v22 .h { font-weight: 800; color: var(--qa-primary-dark); margin: 10px 0 6px; }
+    .v22 .h:first-child { margin-top: 0; }
+    .v22 .info-row { display: flex; align-items: flex-start; gap: 10px; padding: 6px 0; border-bottom: 1px solid var(--border); }
+    .v22 .info-row:last-child { border-bottom: none; }
+    .v22 .info-icon {
+      width: 30px; height: 30px; border-radius: 6px; background: var(--qa-primary); color: #fff;
+      display: flex; align-items: center; justify-content: center; font-weight: 900; flex-shrink: 0;
+    }
+
+    /* 23. テーブル形式 */
+    .v23 .h { font-weight: 800; color: var(--qa-primary-dark); margin: 10px 0 6px; }
+    .v23 .h:first-child { margin-top: 0; }
+    .v23 table { width: 100%; border-collapse: collapse; }
+    .v23 th { background: var(--qa-primary-dark); color: #fff; padding: 5px 10px; font-size: 0.78rem; text-align: left; }
+    .v23 td { padding: 6px 10px; border-bottom: 1px solid var(--border); font-size: 0.82rem; vertical-align: top; }
+    .v23 td.label { background: var(--qa-primary-light); font-weight: 700; color: var(--qa-primary-dark); width: 90px; }
+
+    /* 24. 段組（newspaper風） */
+    .v24 .h { font-weight: 800; color: var(--qa-primary-dark); margin: 10px 0 6px; padding-bottom: 4px; border-bottom: 1px solid var(--qa-accent); }
+    .v24 .h:first-child { margin-top: 0; }
+    .v24 .cols { columns: 2; column-gap: 16px; }
+    .v24 .cols ul li { padding: 3px 0 3px 14px; position: relative; break-inside: avoid; }
+    .v24 .cols ul li::before { content: "•"; position: absolute; left: 2px; color: var(--qa-primary); }
+
+    /* 25. 角丸ピル */
+    .v25 .h { font-weight: 800; color: var(--qa-primary-dark); margin: 10px 0 6px; }
+    .v25 .h:first-child { margin-top: 0; }
+    .v25 ul li {
+      display: inline-block; padding: 4px 12px; margin: 3px 4px 3px 0;
+      background: var(--qa-primary-light); color: var(--qa-primary-dark);
+      border: 1px solid var(--qa-accent); border-radius: 14px; font-weight: 600;
+    }
+    .v25 .row { display: block; padding: 6px 12px; margin: 4px 0; background: var(--qa-primary-light); border: 1px solid var(--qa-accent); border-radius: 14px; }
+
+    /* 26. 紙風（折り紙ライク） */
+    .v26 .h { font-weight: 800; color: var(--qa-primary-dark); margin: 10px 0 6px; }
+    .v26 .h:first-child { margin-top: 0; }
+    .v26 ul li {
+      background: #FFFEF7; border: 1px solid #E7E5DC; border-left: 3px solid #D4A574;
+      padding: 7px 12px; margin: 4px 0; border-radius: 0;
+      box-shadow: 1px 1px 0 rgba(0,0,0,0.05);
+    }
+
+    /* 27. カルテ風（医療記録） */
+    .v27 .h {
+      font-weight: 800; color: var(--qa-primary-dark); margin: 10px 0 6px;
+      font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 0.84rem;
+    }
+    .v27 .h:first-child { margin-top: 0; }
+    .v27 .h::before { content: "# "; color: var(--qa-primary); }
+    .v27 ul { background: #FAFAF9; border: 1px solid #E5E5E0; border-radius: 4px; padding: 8px 12px; font-family: ui-monospace, Menlo, Consolas, monospace; }
+    .v27 ul li { padding: 3px 0; font-size: 0.8rem; }
+    .v27 ul li::before { content: "- "; color: var(--qa-primary); font-weight: 900; }
+
+    /* 28. ステッカー風 */
+    .v28 .h { font-weight: 800; color: var(--qa-primary-dark); margin: 10px 0 6px; }
+    .v28 .h:first-child { margin-top: 0; }
+    .v28 .stick {
+      display: block; background: linear-gradient(135deg, #FFFBEB, #FEF3C7);
+      border: 1px solid #FDE68A; padding: 8px 12px; margin: 5px 0;
+      border-radius: 3px;
+      box-shadow: 1px 2px 4px rgba(0,0,0,0.08);
+      transform: rotate(-0.3deg);
+    }
+    .v28 .stick:nth-child(even) { transform: rotate(0.4deg); background: linear-gradient(135deg, #ECFDF5, #D1FAE5); border-color: #A7F3D0; }
+
+    /* 29. ミニマル下線 */
+    .v29 .h {
+      font-weight: 800; color: var(--qa-primary-dark); margin: 12px 0 4px;
+      letter-spacing: 0.04em;
+    }
+    .v29 .h:first-child { margin-top: 0; }
+    .v29 ul li { padding: 4px 0; border-bottom: 1px solid #F3F4F6; }
+    .v29 ul li:last-child { border-bottom: none; }
+
+    /* 30. アコーディオン風（常時開） */
+    .v30 details {
+      background: var(--qa-primary-light); border: 1px solid var(--qa-accent);
+      border-radius: 6px; margin: 6px 0; padding: 0; overflow: hidden;
+    }
+    .v30 summary {
+      padding: 6px 12px; background: linear-gradient(135deg, var(--qa-primary-dark), var(--qa-primary));
+      color: #fff; font-weight: 800; cursor: pointer;
+    }
+    .v30 .body { padding: 8px 12px; background: #fff; }
+    .v30 .body ul li { padding: 3px 0 3px 14px; position: relative; }
+    .v30 .body ul li::before { content: "•"; position: absolute; left: 4px; color: var(--qa-primary); font-weight: 900; }
+
+  </style>
+</head>
+<body>
+  <div class="page">
+    <h1 class="page-title">COPD QA「平常時 vs 増悪時」セクション デザイン30案</h1>
+    <p class="page-sub">同じ内容を 30 通りで描き分けたプレビュー。気に入った番号を教えてください。</p>
+
+    <!-- ============ 1. ❏ボックス（現状） ============ -->
+    <div class="variation">
+      <div class="v-label"><span class="v-num">01</span>❏ボックス（現状）</div>
+      <div class="v-content v1">
+        <div class="v-section">
+          <div class="h">◎ COPDの管理</div>
+          <ul>
+            <li>平常時と増悪時に分けて考える</li>
+            <li>平常時に <strong>SABA（短時間作用型）</strong> の吸入は使用しない</li>
+            <li>増悪時は持参薬として LAMA や LABA を使用することはあるものの、<strong>増悪の治療としては使用しない</strong></li>
+          </ul>
+        </div>
+        <div class="v-section">
+          <div class="h">◎ 平常時 vs 増悪時</div>
+          <ul>
+            <li><strong>平常時：</strong>症状や以前の増悪歴／COPD に関連した入院歴に応じて、吸入薬（LAMA, LABA, LAMA/LABA, LAMA/LABA/ICS）を使用</li>
+            <li><strong>増悪時：</strong>SABA ＋ 全身ステロイド（PSL や mPSL）5〜7 日間程度 ＋ 必要に応じて抗菌薬</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. 番号バッジ ①②③ -->
+    <div class="variation">
+      <div class="v-label"><span class="v-num">02</span>番号バッジ ①②③</div>
+      <div class="v-content v2">
+        <div class="v-section">
+          <div class="h">◎ COPDの管理</div>
+          <ol>
+            <li>平常時と増悪時に分けて考える</li>
+            <li>平常時に <strong>SABA（短時間作用型）</strong> の吸入は使用しない</li>
+            <li>増悪時は持参薬として LAMA や LABA を使用することはあるものの、<strong>増悪の治療としては使用しない</strong></li>
+          </ol>
+        </div>
+        <div class="v-section">
+          <div class="h">◎ 平常時 vs 増悪時</div>
+          <ol>
+            <li><strong>平常時：</strong>症状や以前の増悪歴／入院歴に応じて、吸入薬（LAMA, LABA, LAMA/LABA, LAMA/LABA/ICS）を使用</li>
+            <li><strong>増悪時：</strong>SABA ＋ 全身ステロイド 5〜7 日間 ＋ 必要に応じて抗菌薬</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. ✓チェック -->
+    <div class="variation">
+      <div class="v-label"><span class="v-num">03</span>✓ チェック（教科書スタイル）</div>
+      <div class="v-content v3">
+        <div class="v-section">
+          <div class="h">◎ COPDの管理</div>
+          <ul>
+            <li>平常時と増悪時に分けて考える</li>
+            <li>平常時に <strong>SABA</strong> の吸入は使用しない</li>
+            <li>増悪時、持参薬の LAMA/LABA は <strong>増悪の治療には使わない</strong></li>
+          </ul>
+        </div>
+        <div class="v-section">
+          <div class="h">◎ 平常時 vs 増悪時</div>
+          <ul>
+            <li><strong>平常時：</strong>吸入薬（LAMA, LABA, LAMA/LABA, LAMA/LABA/ICS）</li>
+            <li><strong>増悪時：</strong>SABA + 全身ステロイド 5〜7 日 + 必要時 抗菌薬</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. 左縦バー -->
+    <div class="variation">
+      <div class="v-label"><span class="v-num">04</span>左縦バー（subtle）</div>
+      <div class="v-content v4">
+        <div class="v-section">
+          <div class="h">COPDの管理</div>
+          <ul>
+            <li>平常時と増悪時に分けて考える</li>
+            <li>平常時に <strong>SABA</strong> の吸入は使用しない</li>
+            <li>増悪時、持参薬 LAMA/LABA は <strong>治療として使わない</strong></li>
+          </ul>
+        </div>
+        <div class="v-section">
+          <div class="h">平常時 vs 増悪時</div>
+          <ul>
+            <li><strong>平常時：</strong>吸入薬（LAMA, LABA, LAMA/LABA, LAMA/LABA/ICS）</li>
+            <li><strong>増悪時：</strong>SABA + 全身ステロイド 5〜7 日 + 必要時 抗菌薬</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. 対比2カラム -->
+    <div class="variation">
+      <div class="v-label"><span class="v-num">05</span>対比 2カラム</div>
+      <div class="v-content v5">
+        <div class="v-section">
+          <div class="h-band">◎ COPDの管理</div>
+          <ul style="padding-left:18px;">
+            <li style="list-style:disc;">平常時と増悪時に分けて考える</li>
+            <li style="list-style:disc;">平常時に <strong>SABA</strong> の吸入は使用しない</li>
+            <li style="list-style:disc;">増悪時、持参薬 LAMA/LABA は <strong>治療には使わない</strong></li>
+          </ul>
+        </div>
+        <div class="v-section">
+          <div class="h-band">◎ 平常時 vs 増悪時</div>
+          <div class="twocol">
+            <div class="col">
+              <div class="col-title">平常時</div>
+              <div>症状・増悪歴／入院歴に応じて<br>吸入薬（LAMA, LABA, LAMA/LABA, LAMA/LABA/ICS）</div>
+            </div>
+            <div class="col">
+              <div class="col-title">増悪時</div>
+              <div>SABA ＋ 全身ステロイド（PSL/mPSL）5〜7 日 ＋ 必要時 抗菌薬</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6. VS バッジ -->
+    <div class="variation">
+      <div class="v-label"><span class="v-num">06</span>VS 中央バッジ（インパクト型）</div>
+      <div class="v-content v6">
+        <div class="v-section">
+          <div class="h">◎ COPDの管理</div>
+          <ul style="padding-left:18px;">
+            <li style="list-style:disc;">平常時と増悪時に分けて考える</li>
+            <li style="list-style:disc;">平常時に <strong>SABA</strong> の吸入は使用しない</li>
+            <li style="list-style:disc;">増悪時、持参薬 LAMA/LABA は <strong>治療には使わない</strong></li>
+          </ul>
+        </div>
+        <div class="v-section">
+          <div class="h">◎ 平常時 vs 増悪時</div>
+          <div class="vs-row">
+            <div class="vs-card peace">
+              <div class="vs-title">平常時</div>
+              <div>症状・増悪歴／入院歴に応じて<br>吸入薬（LAMA, LABA, LAMA/LABA, LAMA/LABA/ICS）</div>
+            </div>
+            <div class="vs-mid"><span class="vs-badge">VS</span></div>
+            <div class="vs-card flare">
+              <div class="vs-title">増悪時</div>
+              <div>SABA ＋ 全身ステロイド 5〜7 日 ＋ 必要時 抗菌薬</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7. タブ風 -->
+    <div class="variation">
+      <div class="v-label"><span class="v-num">07</span>タブ風</div>
+      <div class="v-content v7">
+        <div class="v-section">
+          <div class="h">◎ COPDの管理</div>
+          <ul>
+            <li>平常時と増悪時に分けて考える</li>
+            <li>平常時に <strong>SABA</strong> の吸入は使用しない</li>
+            <li>増悪時、持参薬 LAMA/LABA は <strong>治療には使わない</strong></li>
+          </ul>
+        </div>
+        <div class="v-section">
+          <div class="tabs">
+            <div class="tab active">平常時</div>
+            <div class="tab">増悪時</div>
+          </div>
+          <div class="tab-body">
+            <p style="margin:0 0 6px;"><strong>平常時：</strong>症状や以前の増悪歴／入院歴に応じて、吸入薬（LAMA, LABA, LAMA/LABA, LAMA/LABA/ICS）を使用</p>
+            <p style="margin:0;"><strong>増悪時：</strong>SABA ＋ 全身ステロイド（PSL/mPSL）5〜7 日 ＋ 必要に応じて抗菌薬</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8. dl/dt/dd -->
+    <div class="variation">
+      <div class="v-label"><span class="v-num">08</span>定義リスト dl/dt/dd</div>
+      <div class="v-content v8">
+        <div class="v-section">
+          <div class="h">◎ COPDの管理</div>
+          <ul style="padding-left:18px;">
+            <li style="list-style:disc;">平常時と増悪時に分けて考える</li>
+            <li style="list-style:disc;">平常時に <strong>SABA</strong> の吸入は使用しない</li>
+            <li style="list-style:disc;">増悪時、持参薬 LAMA/LABA は <strong>治療には使わない</strong></li>
+          </ul>
+        </div>
+        <div class="v-section">
+          <div class="h">◎ 平常時 vs 増悪時</div>
+          <dl>
+            <dt>平常時</dt>
+            <dd>症状や以前の増悪歴／入院歴に応じて、吸入薬（LAMA, LABA, LAMA/LABA, LAMA/LABA/ICS）を使用</dd>
+            <dt>増悪時</dt>
+            <dd>SABA ＋ 全身ステロイド（PSL/mPSL）5〜7 日間程度 ＋ 必要に応じて抗菌薬</dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+
+    <!-- 9. ハイライトpill -->
+    <div class="variation">
+      <div class="v-label"><span class="v-num">09</span>キーワード pill</div>
+      <div class="v-content v9">
+        <div class="v-section">
+          <div class="h">◎ COPDの管理</div>
+          <ul>
+            <li><span class="pill">平常時</span> と <span class="pill-w">増悪時</span> に分けて考える</li>
+            <li><span class="pill">平常時</span> に <strong>SABA</strong>（短時間作用型）の吸入は使用しない</li>
+            <li><span class="pill-w">増悪時</span> は持参薬として LAMA や LABA を使用することはあるものの、<strong>増悪の治療としては使用しない</strong></li>
+          </ul>
+        </div>
+        <div class="v-section">
+          <div class="h">◎ 平常時 vs 増悪時</div>
+          <ul>
+            <li><span class="pill">平常時</span> 症状・増悪歴／入院歴に応じて、吸入薬（LAMA, LABA, LAMA/LABA, LAMA/LABA/ICS）</li>
+            <li><span class="pill-w">増悪時</span> SABA ＋ 全身ステロイド 5〜7 日 ＋ 必要時 抗菌薬</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 10. 矢印フロー -->
+    <div class="variation">
+      <div class="v-label"><span class="v-num">10</span>矢印フロー（縦）</div>
+      <div class="v-content v10">
+        <div class="v-section">
+          <div class="h">◎ COPDの管理</div>
+          <div class="flow">
+            <div class="step">平常時と増悪時に分けて考える</div>
+            <div class="step-arrow">↓</div>
+            <div class="step">平常時に <strong>SABA</strong> は使用しない</div>
+            <div class="step-arrow">↓</div>
+            <div class="step">増悪時、持参薬 LAMA/LABA は <strong>治療には使わない</strong></div>
+          </div>
+        </div>
+        <div class="v-section">
+          <div class="h">◎ 平常時 vs 増悪時</div>
+          <div class="flow">
+            <div class="step"><strong>平常時：</strong>吸入薬（LAMA, LABA, LAMA/LABA, LAMA/LABA/ICS）</div>
+            <div class="step-arrow">↓ 増悪時 ↓</div>
+            <div class="step"><strong>増悪時：</strong>SABA ＋ 全身ステロイド 5〜7 日 ＋ 必要時 抗菌薬</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 11. 濃淡ストライプ -->
+    <div class="variation">
+      <div class="v-label"><span class="v-num">11</span>濃淡ストライプ（ゼブラ）</div>
+      <div class="v-content v11">
+        <div class="v-section">
+          <div class="h">◎ COPDの管理</div>
+          <ul>
+            <li>平常時と増悪時に分けて考える</li>
+            <li>平常時に <strong>SABA</strong> の吸入は使用しない</li>
+            <li>増悪時、持参薬 LAMA/LABA は <strong>治療には使わない</strong></li>
+          </ul>
+        </div>
+        <div class="v-section">
+          <div class="h">◎ 平常時 vs 増悪時</div>
+          <ul>
+            <li><strong>平常時：</strong>症状・増悪歴／入院歴に応じて、吸入薬（LAMA, LABA, LAMA/LABA, LAMA/LABA/ICS）</li>
+            <li><strong>増悪時：</strong>SABA ＋ 全身ステロイド 5〜7 日 ＋ 必要時 抗菌薬</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 12. アウトライン枠 -->
+    <div class="variation">
+      <div class="v-label"><span class="v-num">12</span>アウトライン枠</div>
+      <div class="v-content v12">
+        <div class="v-section">
+          <div class="h">◎ COPDの管理</div>
+          <ul>
+            <li>平常時と増悪時に分けて考える</li>
+            <li>平常時に <strong>SABA</strong> の吸入は使用しない</li>
+            <li>増悪時、持参薬 LAMA/LABA は <strong>治療には使わない</strong></li>
+          </ul>
+        </div>
+        <div class="v-section">
+          <div class="h">◎ 平常時 vs 増悪時</div>
+          <ul>
+            <li><strong>平常時：</strong>症状・増悪歴／入院歴に応じて、吸入薬（LAMA, LABA, LAMA/LABA, LAMA/LABA/ICS）</li>
+            <li><strong>増悪時：</strong>SABA ＋ 全身ステロイド 5〜7 日 ＋ 必要時 抗菌薬</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 13. 影付きカード -->
+    <div class="variation">
+      <div class="v-label"><span class="v-num">13</span>影付きカード（浮き上がり）</div>
+      <div class="v-content v13">
+        <div class="v-section">
+          <div class="h">◎ COPDの管理</div>
+          <ul>
+            <li>平常時と増悪時に分けて考える</li>
+            <li>平常時に <strong>SABA</strong> の吸入は使用しない</li>
+            <li>増悪時、持参薬 LAMA/LABA は <strong>治療には使わない</strong></li>
+          </ul>
+        </div>
+        <div class="v-section">
+          <div class="h">◎ 平常時 vs 増悪時</div>
+          <ul>
+            <li><strong>平常時：</strong>症状・増悪歴／入院歴に応じて、吸入薬（LAMA, LABA, LAMA/LABA, LAMA/LABA/ICS）</li>
+            <li><strong>増悪時：</strong>SABA ＋ 全身ステロイド 5〜7 日 ＋ 必要時 抗菌薬</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 14. トップバンド -->
+    <div class="variation">
+      <div class="v-label"><span class="v-num">14</span>トップバンド見出し</div>
+      <div class="v-content v14">
+        <div class="card">
+          <div class="h">◎ COPDの管理</div>
+          <div class="body">
+            <ul>
+              <li>平常時と増悪時に分けて考える</li>
+              <li>平常時に <strong>SABA</strong> の吸入は使用しない</li>
+              <li>増悪時、持参薬 LAMA/LABA は <strong>治療には使わない</strong></li>
+            </ul>
+          </div>
+        </div>
+        <div class="card">
+          <div class="h">◎ 平常時 vs 増悪時</div>
+          <div class="body">
+            <ul>
+              <li><strong>平常時：</strong>症状・増悪歴／入院歴に応じて、吸入薬（LAMA, LABA, LAMA/LABA, LAMA/LABA/ICS）</li>
+              <li><strong>増悪時：</strong>SABA ＋ 全身ステロイド 5〜7 日 ＋ 必要時 抗菌薬</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 15. 平常/増悪 色分け -->
+    <div class="variation">
+      <div class="v-label"><span class="v-num">15</span>平常／増悪 色分け（緑／オレンジ）</div>
+      <div class="v-content v15">
+        <div class="v-section">
+          <div class="h">◎ COPDの管理</div>
+          <div class="item-neutral">平常時と増悪時に分けて考える</div>
+          <div class="item-peace"><span class="tag-peace">平常時</span><strong>SABA</strong> の吸入は使用しない</div>
+          <div class="item-flare"><span class="tag-flare">増悪時</span>持参薬 LAMA/LABA は <strong>治療には使わない</strong></div>
+        </div>
+        <div class="v-section">
+          <div class="h">◎ 平常時 vs 増悪時</div>
+          <div class="item-peace"><span class="tag-peace">平常時</span>症状・増悪歴／入院歴に応じて、吸入薬（LAMA, LABA, LAMA/LABA, LAMA/LABA/ICS）</div>
+          <div class="item-flare"><span class="tag-flare">増悪時</span>SABA ＋ 全身ステロイド 5〜7 日 ＋ 必要時 抗菌薬</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 16. インデント階層 -->
+    <div class="variation">
+      <div class="v-label"><span class="v-num">16</span>インデント階層（ツリー風）</div>
+      <div class="v-content v16">
+        <div class="v-section">
+          <div class="h">◎ COPDの管理</div>
+          <ul>
+            <li>平常時と増悪時に分けて考える</li>
+            <li>平常時に <strong>SABA</strong> の吸入は使用しない</li>
+            <li>増悪時、持参薬 LAMA/LABA は <strong>治療には使わない</strong></li>
+          </ul>
+        </div>
+        <div class="v-section">
+          <div class="h">◎ 平常時 vs 増悪時</div>
+          <ul>
+            <li><strong>平常時：</strong>症状・増悪歴／入院歴に応じて、吸入薬（LAMA, LABA, LAMA/LABA, LAMA/LABA/ICS）</li>
+            <li><strong>増悪時：</strong>SABA ＋ 全身ステロイド 5〜7 日 ＋ 必要時 抗菌薬</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 17. シーケンスドット -->
+    <div class="variation">
+      <div class="v-label"><span class="v-num">17</span>シーケンスドット（光彩付き）</div>
+      <div class="v-content v17">
+        <div class="v-section">
+          <div class="h">◎ COPDの管理</div>
+          <div class="seq"><span class="dot"></span><span class="seq-text">平常時と増悪時に分けて考える</span></div>
+          <div class="seq"><span class="dot"></span><span class="seq-text">平常時に <strong>SABA</strong> の吸入は使用しない</span></div>
+          <div class="seq"><span class="dot"></span><span class="seq-text">増悪時、持参薬 LAMA/LABA は <strong>治療には使わない</strong></span></div>
+        </div>
+        <div class="v-section">
+          <div class="h">◎ 平常時 vs 増悪時</div>
+          <div class="seq"><span class="dot"></span><span class="seq-text"><strong>平常時：</strong>吸入薬（LAMA, LABA, LAMA/LABA, LAMA/LABA/ICS）</span></div>
+          <div class="seq"><span class="dot"></span><span class="seq-text"><strong>増悪時：</strong>SABA ＋ 全身ステロイド 5〜7 日 ＋ 必要時 抗菌薬</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 18. コンパクト1行 -->
+    <div class="variation">
+      <div class="v-label"><span class="v-num">18</span>コンパクト1行（密度MAX）</div>
+      <div class="v-content v18">
+        <div class="v-section">
+          <div class="h">◎ COPDの管理</div>
+          <ul>
+            <li>平常時と増悪時に分けて考える</li>
+            <li>平常時に <strong>SABA</strong> の吸入は使用しない</li>
+            <li>増悪時、持参薬 LAMA/LABA は <strong>治療には使わない</strong></li>
+          </ul>
+        </div>
+        <div class="v-section">
+          <div class="h">◎ 平常時 vs 増悪時</div>
+          <ul>
+            <li><strong>平常時：</strong>症状・増悪歴／入院歴に応じて、吸入薬（LAMA, LABA, LAMA/LABA, LAMA/LABA/ICS）</li>
+            <li><strong>増悪時：</strong>SABA ＋ 全身ステロイド 5〜7 日 ＋ 必要時 抗菌薬</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 19. 吹き出し -->
+    <div class="variation">
+      <div class="v-label"><span class="v-num">19</span>吹き出し（先生の声）</div>
+      <div class="v-content v19">
+        <div class="v-section">
+          <div class="h">◎ COPDの管理</div>
+          <div class="bubble">平常時と増悪時に分けて考える</div>
+          <div class="bubble">平常時に <strong>SABA</strong> の吸入は使用しない</div>
+          <div class="bubble">増悪時、持参薬 LAMA/LABA は <strong>治療には使わない</strong></div>
+        </div>
+        <div class="v-section">
+          <div class="h">◎ 平常時 vs 増悪時</div>
+          <div class="bubble"><strong>平常時：</strong>症状・増悪歴／入院歴に応じて、吸入薬（LAMA, LABA, LAMA/LABA, LAMA/LABA/ICS）</div>
+          <div class="bubble"><strong>増悪時：</strong>SABA ＋ 全身ステロイド 5〜7 日 ＋ 必要時 抗菌薬</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 20. 縦タイムライン -->
+    <div class="variation">
+      <div class="v-label"><span class="v-num">20</span>縦タイムライン（中空丸）</div>
+      <div class="v-content v20">
+        <div class="v-section">
+          <div class="h">◎ COPDの管理</div>
+          <div class="tl">
+            <div class="tl-item">平常時と増悪時に分けて考える</div>
+            <div class="tl-item">平常時に <strong>SABA</strong> の吸入は使用しない</div>
+            <div class="tl-item">増悪時、持参薬 LAMA/LABA は <strong>治療には使わない</strong></div>
+          </div>
+        </div>
+        <div class="v-section">
+          <div class="h">◎ 平常時 vs 増悪時</div>
+          <div class="tl">
+            <div class="tl-item"><strong>平常時：</strong>吸入薬（LAMA, LABA, LAMA/LABA, LAMA/LABA/ICS）</div>
+            <div class="tl-item"><strong>増悪時：</strong>SABA ＋ 全身ステロイド 5〜7 日 ＋ 必要時 抗菌薬</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 21. 横タイムライン -->
+    <div class="variation">
+      <div class="v-label"><span class="v-num">21</span>横タイムライン（番号セル）</div>
+      <div class="v-content v21">
+        <div class="v-section">
+          <div class="h">◎ COPDの管理</div>
+          <div class="htl">
+            <div class="htl-cell"><span class="htl-num">1</span><div>平常時と増悪時に<br>分けて考える</div></div>
+            <div class="htl-cell"><span class="htl-num">2</span><div>平常時に <strong>SABA</strong> は<br>使用しない</div></div>
+            <div class="htl-cell"><span class="htl-num">3</span><div>増悪時、LAMA/LABA は<br><strong>治療には使わない</strong></div></div>
+          </div>
+        </div>
+        <div class="v-section">
+          <div class="h">◎ 平常時 vs 増悪時</div>
+          <div class="htl" style="grid-template-columns:1fr 1fr;">
+            <div class="htl-cell"><strong>平常時</strong><br>吸入薬（LAMA, LABA, LAMA/LABA, LAMA/LABA/ICS）</div>
+            <div class="htl-cell"><strong>増悪時</strong><br>SABA ＋ 全身ステロイド 5〜7 日 ＋ 必要時 抗菌薬</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 22. ミニインフォグラフィック -->
+    <div class="variation">
+      <div class="v-label"><span class="v-num">22</span>ミニインフォグラフィック（アイコン）</div>
+      <div class="v-content v22">
+        <div class="v-section">
+          <div class="h">◎ COPDの管理</div>
+          <div class="info-row"><div class="info-icon">⚖</div><div>平常時と増悪時に分けて考える</div></div>
+          <div class="info-row"><div class="info-icon">⛔</div><div>平常時に <strong>SABA</strong> の吸入は使用しない</div></div>
+          <div class="info-row"><div class="info-icon">⚠</div><div>増悪時、持参薬 LAMA/LABA は <strong>治療には使わない</strong></div></div>
+        </div>
+        <div class="v-section">
+          <div class="h">◎ 平常時 vs 増悪時</div>
+          <div class="info-row"><div class="info-icon">●</div><div><strong>平常時：</strong>吸入薬（LAMA, LABA, LAMA/LABA, LAMA/LABA/ICS）</div></div>
+          <div class="info-row"><div class="info-icon">▲</div><div><strong>増悪時：</strong>SABA ＋ 全身ステロイド 5〜7 日 ＋ 必要時 抗菌薬</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 23. テーブル -->
+    <div class="variation">
+      <div class="v-label"><span class="v-num">23</span>テーブル形式</div>
+      <div class="v-content v23">
+        <div class="v-section">
+          <div class="h">◎ COPDの管理</div>
+          <table>
+            <tr><td class="label">基本</td><td>平常時と増悪時に分けて考える</td></tr>
+            <tr><td class="label">平常時</td><td><strong>SABA</strong> の吸入は使用しない</td></tr>
+            <tr><td class="label">増悪時</td><td>持参薬 LAMA/LABA は <strong>治療には使わない</strong></td></tr>
+          </table>
+        </div>
+        <div class="v-section">
+          <div class="h">◎ 平常時 vs 増悪時</div>
+          <table>
+            <thead><tr><th style="width:90px;">場面</th><th>治療</th></tr></thead>
+            <tbody>
+              <tr><td class="label">平常時</td><td>症状・増悪歴／入院歴に応じて、吸入薬（LAMA, LABA, LAMA/LABA, LAMA/LABA/ICS）</td></tr>
+              <tr><td class="label">増悪時</td><td>SABA ＋ 全身ステロイド（PSL/mPSL）5〜7 日 ＋ 必要時 抗菌薬</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- 24. 段組 -->
+    <div class="variation">
+      <div class="v-label"><span class="v-num">24</span>2段組（newspaper）</div>
+      <div class="v-content v24">
+        <div class="v-section">
+          <div class="h">◎ COPDの管理</div>
+          <div class="cols">
+            <ul>
+              <li>平常時と増悪時に分けて考える</li>
+              <li>平常時に <strong>SABA</strong> の吸入は使用しない</li>
+              <li>増悪時、持参薬 LAMA/LABA は <strong>治療には使わない</strong></li>
+            </ul>
+          </div>
+        </div>
+        <div class="v-section">
+          <div class="h">◎ 平常時 vs 増悪時</div>
+          <div class="cols">
+            <ul>
+              <li><strong>平常時：</strong>症状・増悪歴／入院歴に応じて、吸入薬（LAMA, LABA, LAMA/LABA, LAMA/LABA/ICS）</li>
+              <li><strong>増悪時：</strong>SABA ＋ 全身ステロイド 5〜7 日 ＋ 必要時 抗菌薬</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 25. 角丸ピル -->
+    <div class="variation">
+      <div class="v-label"><span class="v-num">25</span>角丸ピル（ロゼンジ）</div>
+      <div class="v-content v25">
+        <div class="v-section">
+          <div class="h">◎ COPDの管理</div>
+          <div class="row">平常時と増悪時に分けて考える</div>
+          <div class="row">平常時に <strong>SABA</strong> の吸入は使用しない</div>
+          <div class="row">増悪時、持参薬 LAMA/LABA は <strong>治療には使わない</strong></div>
+        </div>
+        <div class="v-section">
+          <div class="h">◎ 平常時 vs 増悪時</div>
+          <div class="row"><strong>平常時：</strong>症状・増悪歴／入院歴に応じて、吸入薬（LAMA, LABA, LAMA/LABA, LAMA/LABA/ICS）</div>
+          <div class="row"><strong>増悪時：</strong>SABA ＋ 全身ステロイド 5〜7 日 ＋ 必要時 抗菌薬</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 26. 紙風 -->
+    <div class="variation">
+      <div class="v-label"><span class="v-num">26</span>紙風（折り紙）</div>
+      <div class="v-content v26">
+        <div class="v-section">
+          <div class="h">◎ COPDの管理</div>
+          <ul>
+            <li>平常時と増悪時に分けて考える</li>
+            <li>平常時に <strong>SABA</strong> の吸入は使用しない</li>
+            <li>増悪時、持参薬 LAMA/LABA は <strong>治療には使わない</strong></li>
+          </ul>
+        </div>
+        <div class="v-section">
+          <div class="h">◎ 平常時 vs 増悪時</div>
+          <ul>
+            <li><strong>平常時：</strong>症状・増悪歴／入院歴に応じて、吸入薬（LAMA, LABA, LAMA/LABA, LAMA/LABA/ICS）</li>
+            <li><strong>増悪時：</strong>SABA ＋ 全身ステロイド 5〜7 日 ＋ 必要時 抗菌薬</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 27. カルテ風 -->
+    <div class="variation">
+      <div class="v-label"><span class="v-num">27</span>カルテ風（mono フォント）</div>
+      <div class="v-content v27">
+        <div class="v-section">
+          <div class="h">COPDの管理</div>
+          <ul>
+            <li>平常時と増悪時に分けて考える</li>
+            <li>平常時に SABA の吸入は使用しない</li>
+            <li>増悪時、持参薬 LAMA/LABA は治療には使わない</li>
+          </ul>
+        </div>
+        <div class="v-section">
+          <div class="h">平常時 vs 増悪時</div>
+          <ul>
+            <li>平常時: 症状・増悪歴/入院歴 → 吸入薬（LAMA, LABA, LAMA/LABA, LAMA/LABA/ICS）</li>
+            <li>増悪時: SABA + 全身ステロイド 5-7d + 必要時 抗菌薬</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 28. ステッカー風 -->
+    <div class="variation">
+      <div class="v-label"><span class="v-num">28</span>ステッカー風（傾き）</div>
+      <div class="v-content v28">
+        <div class="v-section">
+          <div style="font-weight:800;color:var(--qa-primary-dark);margin:0 0 8px;">◎ COPDの管理</div>
+          <div class="stick">平常時と増悪時に分けて考える</div>
+          <div class="stick">平常時に <strong>SABA</strong> の吸入は使用しない</div>
+          <div class="stick">増悪時、持参薬 LAMA/LABA は <strong>治療には使わない</strong></div>
+        </div>
+        <div class="v-section">
+          <div style="font-weight:800;color:var(--qa-primary-dark);margin:8px 0;">◎ 平常時 vs 増悪時</div>
+          <div class="stick"><strong>平常時：</strong>吸入薬（LAMA, LABA, LAMA/LABA, LAMA/LABA/ICS）</div>
+          <div class="stick"><strong>増悪時：</strong>SABA ＋ 全身ステロイド 5〜7 日 ＋ 必要時 抗菌薬</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 29. ミニマル下線 -->
+    <div class="variation">
+      <div class="v-label"><span class="v-num">29</span>ミニマル下線（無装飾）</div>
+      <div class="v-content v29">
+        <div class="v-section">
+          <div class="h">COPDの管理</div>
+          <ul>
+            <li>平常時と増悪時に分けて考える</li>
+            <li>平常時に <strong>SABA</strong> の吸入は使用しない</li>
+            <li>増悪時、持参薬 LAMA/LABA は <strong>治療には使わない</strong></li>
+          </ul>
+        </div>
+        <div class="v-section">
+          <div class="h">平常時 vs 増悪時</div>
+          <ul>
+            <li><strong>平常時：</strong>症状・増悪歴／入院歴に応じて、吸入薬（LAMA, LABA, LAMA/LABA, LAMA/LABA/ICS）</li>
+            <li><strong>増悪時：</strong>SABA ＋ 全身ステロイド 5〜7 日 ＋ 必要時 抗菌薬</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 30. アコーディオン風 -->
+    <div class="variation">
+      <div class="v-label"><span class="v-num">30</span>アコーディオン風（折りたたみ可）</div>
+      <div class="v-content v30">
+        <details open>
+          <summary>◎ COPDの管理</summary>
+          <div class="body">
+            <ul style="padding-left:0;list-style:none;">
+              <li>平常時と増悪時に分けて考える</li>
+              <li>平常時に <strong>SABA</strong> の吸入は使用しない</li>
+              <li>増悪時、持参薬 LAMA/LABA は <strong>治療には使わない</strong></li>
+            </ul>
+          </div>
+        </details>
+        <details open>
+          <summary>◎ 平常時 vs 増悪時</summary>
+          <div class="body">
+            <ul style="padding-left:0;list-style:none;">
+              <li><strong>平常時：</strong>症状・増悪歴／入院歴に応じて、吸入薬（LAMA, LABA, LAMA/LABA, LAMA/LABA/ICS）</li>
+              <li><strong>増悪時：</strong>SABA ＋ 全身ステロイド 5〜7 日 ＋ 必要時 抗菌薬</li>
+            </ul>
+          </div>
+        </details>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>
