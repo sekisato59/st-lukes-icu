@@ -106,6 +106,9 @@
       color:#fff;box-shadow:0 2px 6px rgba(15,118,110,0.25);
     }
 
+    /* System別ビューでは各 item 内の日付バッジを非表示 */
+    .qa-sys-body .qa-item-date { display:none !important; }
+
     /* 追加日順ビュー */
     .qa-date-view { display:none; }
     .qa-item-sys {
@@ -113,6 +116,18 @@
       background:var(--qa-primary-light);padding:3px 8px;border-radius:5px;
       white-space:nowrap;letter-spacing:0.02em;
     }
+
+    /* 追加日順ビュー：日付見出し（コンテンツ外） */
+    .qa-date-header {
+      font-size:0.78rem;font-weight:800;color:var(--qa-primary-dark);
+      letter-spacing:0.04em;font-family:ui-monospace,Menlo,Consolas,monospace;
+      margin:20px 0 8px;padding:6px 12px;
+      background:var(--qa-primary-light);border-radius:6px;
+      display:inline-block;
+    }
+    .qa-date-header:first-child { margin-top:4px; }
+    /* 追加日順ビュー内の qa-item からは日付バッジを非表示（見出しに移動済み） */
+    .qa-date-view .qa-item-date { display:none; }
 
     /* モード切替時の表示制御 */
     body.qa-mode-date .qa-date-view { display:block; }
@@ -419,13 +434,21 @@
         });
         items.sort(function(a,b){ return a.date < b.date ? 1 : (a.date > b.date ? -1 : 0); });
 
+        // 日付ごとにグループ化して見出し + items を生成
         var frag = document.createDocumentFragment();
+        var currentDate = null;
         items.forEach(function(it){
+          if(it.date !== currentDate){
+            var header = document.createElement('div');
+            header.className = 'qa-date-header';
+            header.textContent = it.date;
+            frag.appendChild(header);
+            currentDate = it.date;
+          }
           var a = document.createElement('a');
           a.className = 'qa-item';
           a.href = it.href;
           [
-            ['qa-item-date', it.date],
             ['qa-q-badge',   'Q'],
             ['qa-q-text',    it.qText],
             ['qa-item-sys',  it.sysName],
