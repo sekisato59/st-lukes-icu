@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>リズム vs レートコントロール メタ解析 2024 | 聖路加ICU</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style-v2.css?v=202605140900">
+  <style>
+    .content-wrap { display:flex;gap:32px;align-items:flex-start;max-width:1294px;margin:0 auto;padding:32px 20px 80px; }
+    .main-col { flex:1;min-width:0;max-width:900px; }
+    .ie-toc-chapter { display:block;font-size:0.8rem;font-weight:700;color:var(--text);padding:6px 0;border-bottom:1px solid var(--border);text-decoration:none;line-height:1.4; }
+    .ie-toc-section { display:block;font-size:0.75rem;color:var(--muted);padding:4px 0 4px 10px;text-decoration:none;line-height:1.4;border-left:2px solid var(--border); }
+
+    .ie-table { width:100%;border-collapse:collapse;font-size:0.82rem;margin-top:10px; }
+    .ie-table th { background:#F0FDF4;border:1px solid #BBF7D0;padding:8px 12px;font-weight:700;font-size:0.78rem;text-align:left; }
+    .ie-table td { border:1px solid var(--border);padding:8px 12px;vertical-align:top;line-height:1.7; }
+    .ie-table tr:nth-child(even) td { background:#F8FAFC; }
+
+    .ie-stat-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px; }
+    @media (max-width:520px) { .ie-stat-grid { grid-template-columns:1fr 1fr; } }
+    .ie-stat { background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;padding:14px 12px;text-align:center; }
+    .ie-stat-val { font-size:1.25rem;font-weight:900;color:#2D7A4F;line-height:1.3; }
+    .ie-stat-label { font-size:0.68rem;color:var(--muted);margin-top:5px;line-height:1.5; }
+    .ie-stat-red { background:#FEF2F2;border-color:#FECACA; }
+    .ie-stat-red .ie-stat-val { color:#DC2626; }
+    .ie-stat-orange { background:#FFF7ED;border-color:#FED7AA; }
+    .ie-stat-orange .ie-stat-val { color:#EA580C; }
+    .ie-stat-gray { background:#F8FAFC;border-color:#E2E8F0; }
+    .ie-stat-gray .ie-stat-val { color:#475569; }
+
+    .ie-alpha { background:#FAF5FF;border:1px solid #E9D5FF;border-radius:8px;margin-top:14px; }
+    .ie-alpha-inner { padding:14px 16px; }
+    .ie-alpha-header { display:flex;align-items:center;gap:8px;margin-bottom:8px; }
+    .ie-alpha-badge { background:#7C3AED;color:#fff;font-size:0.65rem;font-weight:800;padding:2px 8px;border-radius:10px;flex-shrink:0; }
+    .ie-alpha-title { font-size:0.88rem;font-weight:800;color:#4C1D95; }
+
+    .alert-red { background:#FEF2F2;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#7F1D1D;line-height:1.7; }
+    .alert-blue { background:#EFF6FF;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#1E3A5F;line-height:1.7; }
+
+    .ci-box { background:#1A3A2A;border-radius:10px;overflow:hidden;margin-top:10px; }
+    .ci-title-bar { background:linear-gradient(135deg,#1A3A2A,#2D7A4F);padding:12px 18px; }
+    .ci-title-bar h4 { color:#fff;font-size:0.88rem;font-weight:800;margin:0 0 2px; }
+    .ci-title-bar p { color:rgba(255,255,255,0.65);font-size:0.7rem;margin:0; }
+    .ci-panels { display:grid;grid-template-columns:1fr 1fr;gap:0; }
+    @media (max-width:640px) { .ci-panels { grid-template-columns:1fr; } }
+    .ci-panel { padding:14px 16px; }
+    .ci-panel-label { font-size:0.65rem;font-weight:800;color:rgba(255,255,255,0.5);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:8px; }
+    .ci-panel img { width:100%;border-radius:4px;background:#fff; }
+    .ci-caption { padding:10px 18px;font-size:0.68rem;color:rgba(255,255,255,0.5);line-height:1.6;border-top:1px solid rgba(255,255,255,0.08); }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="../index.html" class="nav-logo">
+        <img src="../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+        <span class="nav-logo-text">聖路加国際病院ICU</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-menu" id="navMenu"></ul>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <div class="subpage-hero hero-image-bg">
+    <div class="container">
+      <a href="articles-guidelines.html#art-cardio" class="back-link">← 一覧へ戻る</a>
+      <h1 class="subpage-title">リズム vs レートコントロール戦略（AF）</h1>
+      <p class="subpage-subtitle">#2 Cardiological System — 心房細動</p>
+      <div>
+        <span class="ie-badge">Zafeiropoulos et al.</span>
+        <span class="ie-badge">JACC Clin Electrophysiol</span>
+        <span class="ie-badge">2024年7月</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MAIN ===== -->
+  <div class="content-wrap">
+    <div class="main-col">
+
+      <!-- 略語一覧 -->
+      <div class="card" style="margin-bottom:24px;">
+        <div class="card-inner">
+          <h3 class="rule-title" style="margin-bottom:10px;">本ページで使用する略語一覧</h3>
+          <table style="width:100%;border-collapse:collapse;font-size:0.8rem;line-height:1.6;">
+            <tbody>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:110px;color:var(--blue);">略語</td><td style="padding:4px 8px;">正式名称 — 日本語訳</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">AF</td><td style="padding:4px 8px;">Atrial Fibrillation — 心房細動</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">AAD</td><td style="padding:4px 8px;">Antiarrhythmic Drug — 抗不整脈薬</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CV</td><td style="padding:4px 8px;">Cardiovascular — 心血管</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">HF</td><td style="padding:4px 8px;">Heart Failure — 心不全</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">HHF</td><td style="padding:4px 8px;">Hospitalization for Heart Failure — 心不全入院</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">RCT</td><td style="padding:4px 8px;">Randomized Controlled Trial — ランダム化比較試験</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">SR</td><td style="padding:4px 8px;">Sinus Rhythm — 洞調律</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">HR</td><td style="padding:4px 8px;">Hazard Ratio — ハザード比</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CI</td><td style="padding:4px 8px;">Confidence Interval — 信頼区間</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">RR</td><td style="padding:4px 8px;">Risk Ratio — リスク比</td></tr>
+              <tr><td style="padding:4px 8px;font-weight:700;color:var(--blue);">PRISMA</td><td style="padding:4px 8px;">Preferred Reporting Items for Systematic Reviews and Meta-Analyses — 系統的レビュー報告指針</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ===== CHAPTER 1: BACKGROUND & METHODS ===== -->
+      <div id="ch1" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:0;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">第1章　背景と研究方法</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Background &amp; Methods</div>
+      </div>
+
+      <h3 id="s1-bg" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+        なぜ今、改めてリズム vs レートを問い直すのか
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">歴史的文脈と問題提起</h3>
+          <p class="rule-body">心房細動（AF）は最も頻度の高い不整脈であり、著しい罹患率と医療負担をもたらす疾患だ。洞調律（SR）の維持が生存率の改善と関連することは以前から示されてきた一方で、リズムコントロールがレートコントロールに対して臨床アウトカムで優れているかどうかは長年結論が出なかった。</p>
+          <p class="rule-body">歴史的には、抗不整脈薬（AAD）の安全性プロファイルの悪さが、CV死・脳卒中・心不全悪化といった主要有害心血管イベントの予防に対するリズムコントロールの有益効果を相殺していたと考えられる。過去のメタ解析はリズムコントロールの生存率改善を示せず、むしろレートコントロールで入院リスクが低いとする結果さえあった。</p>
+          <p class="rule-body">しかし近年、新世代AADとカテーテルアブレーション技術の進歩により、SRの維持がより安全に実現できるようになった。特に早期リズムコントロール（とりわけアブレーション）がAFの進行を遅らせ、長期的な臨床アウトカムを改善する可能性を示す新たなエビデンスが蓄積されてきた。本論文はこうした時代背景を受け、最新の包括的メタ解析としてリズム vs レートコントロールの優劣を問い直したものである。</p>
+        </div>
+      </div>
+
+      <h3 id="s1-methods" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+        研究デザインと対象・方法
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">方法の概要</h3>
+          <p class="rule-body">MEDLINE、CENTRAL（Cochrane）、Web of Science を対象に、2023年11月末までに登録されたRCTを系統的に検索した（PRISMAガイドライン準拠）。</p>
+          <table class="ie-table" style="margin-top:12px;">
+            <thead><tr><th>項目</th><th>基準</th></tr></thead>
+            <tbody>
+              <tr><td style="white-space:nowrap;font-weight:700;">対象</td><td>非弁膜症性AFを有する成人患者のRCT</td></tr>
+              <tr><td style="white-space:nowrap;font-weight:700;">リズムコントロール</td><td>AAD（Ia・Ic・III群）、カテーテルアブレーション、電気的除細動</td></tr>
+              <tr><td style="white-space:nowrap;font-weight:700;">レートコントロール</td><td>β遮断薬、ジゴキシン、カルシウム拮抗薬</td></tr>
+              <tr><td style="white-space:nowrap;font-weight:700;">除外</td><td>同戦略内の薬剤比較（例：アブレーション vs AAD）、永続性AF</td></tr>
+              <tr><td style="white-space:nowrap;font-weight:700;">主要エンドポイント</td><td>心血管（CV）死</td></tr>
+              <tr><td style="white-space:nowrap;font-weight:700;">副次エンドポイント</td><td>全死亡・脳卒中・心不全入院・フォローアップ終了時SR率・有害事象</td></tr>
+            </tbody>
+          </table>
+          <p class="rule-body" style="margin-top:12px;">統計手法として、DerSimonian-Laird法によるランダム効果モデルを事前設定し、HR（ハザード比）で効果量を推定した。時間的傾向を評価するため累積メタ解析を実施し、アブレーション使用割合を説明変数とするメタ回帰分析も行った。</p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">組み入れ試験の概要</h3>
+          <p class="rule-body">18のRCT（主試験）と7のサブスタディが最終的に組み入れられた。以下は代表的な試験の特徴をまとめた一覧である。</p>
+          <table class="ie-table" style="margin-top:10px;">
+            <thead>
+              <tr>
+                <th style="white-space:nowrap;">試験名（年）</th>
+                <th style="white-space:nowrap;">リズムコントロール</th>
+                <th style="white-space:nowrap;">N</th>
+                <th style="white-space:nowrap;">追跡<br>（月）</th>
+                <th style="white-space:nowrap;">HF %</th>
+                <th>主な結果</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="white-space:nowrap;font-weight:700;">CASTLE-HTx 2023</td>
+                <td>アブレーション</td>
+                <td style="white-space:nowrap;">194</td>
+                <td>18</td>
+                <td>100</td>
+                <td>HR: 0.24; P&lt;0.001</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;font-weight:700;">EAST-AFNET4 2020</td>
+                <td>各種AAD</td>
+                <td style="white-space:nowrap;">2,789</td>
+                <td>61.2</td>
+                <td>28.6</td>
+                <td>HR: 0.79; P=0.005</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;font-weight:700;">CASTLE-AF 2018</td>
+                <td>アブレーション</td>
+                <td style="white-space:nowrap;">398</td>
+                <td>37.6</td>
+                <td>100</td>
+                <td>HR: 0.62; P=0.006</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;font-weight:700;">RAFT-AF 2022</td>
+                <td>アブレーション</td>
+                <td style="white-space:nowrap;">411</td>
+                <td>37.6</td>
+                <td>100</td>
+                <td>HR: 0.71; P=0.066（NS）</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;font-weight:700;">AF-CHF 2008</td>
+                <td>アミオダロン</td>
+                <td style="white-space:nowrap;">1,376</td>
+                <td>37</td>
+                <td>100</td>
+                <td>有意差なし</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;font-weight:700;">AFFIRM 2002</td>
+                <td>各種AAD</td>
+                <td style="white-space:nowrap;">4,060</td>
+                <td>42</td>
+                <td>NR</td>
+                <td>全死亡：有意差なし</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;font-weight:700;">ATHENA 2009</td>
+                <td>ドロネダロン</td>
+                <td style="white-space:nowrap;">4,628</td>
+                <td>21</td>
+                <td>NR</td>
+                <td>HR: 0.76; P&lt;0.001</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;font-weight:700;">RACE 2002</td>
+                <td>各種AAD</td>
+                <td style="white-space:nowrap;">522</td>
+                <td>27.6</td>
+                <td>0</td>
+                <td>非劣性（レートコントロールが優位傾向）</td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="rule-body" style="margin-top:8px;font-size:0.78rem;color:var(--muted);">NR = not reported。HF % = HF合併患者の割合。追跡は中央値または平均値（月）。</p>
+        </div>
+      </div>
+
+      <div class="ie-stat-grid">
+        <div class="ie-stat">
+          <div class="ie-stat-val">18</div>
+          <div class="ie-stat-label">組み入れRCT数</div>
+        </div>
+        <div class="ie-stat">
+          <div class="ie-stat-val">17,536</div>
+          <div class="ie-stat-label">総患者数</div>
+        </div>
+        <div class="ie-stat">
+          <div class="ie-stat-val">28.5 mo</div>
+          <div class="ie-stat-label">平均追跡期間</div>
+        </div>
+        <div class="ie-stat">
+          <div class="ie-stat-val">68.6 歳</div>
+          <div class="ie-stat-label">平均年齢</div>
+        </div>
+        <div class="ie-stat">
+          <div class="ie-stat-val">37.9%</div>
+          <div class="ie-stat-label">女性</div>
+        </div>
+        <div class="ie-stat">
+          <div class="ie-stat-val">8.9%</div>
+          <div class="ie-stat-label">リズムコントロール群中<br>アブレーション使用割合</div>
+        </div>
+      </div>
+
+      <!-- ===== CHAPTER 2: RESULTS ===== -->
+      <div id="ch2" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">第2章　主要結果</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Primary Results</div>
+      </div>
+
+      <h3 id="s2-primary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>
+        主要・副次エンドポイント
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">リズムコントロールの臨床アウトカムへの影響</h3>
+          <p class="rule-body">13試験・14,793例でCV死が報告された。リズムコントロールはレートコントロールと比較して、CV死を有意に減少させた（HR: 0.78; 95%CI: 0.62–0.96）。全死亡（HR: 0.86; 95%CI: 0.73–1.02）については有意差を認めなかったが、脳卒中（HR: 0.801; 95%CI: 0.643–0.998）と心不全入院（HR: 0.80; 95%CI: 0.69–0.94）はともにリズムコントロール群で有意に少なかった。全死亡に有意差が出なかった主な理由として、非心血管系死亡による競合リスクが考えられる。</p>
+          <table class="ie-table" style="margin-top:12px;">
+            <thead><tr><th>アウトカム</th><th style="white-space:nowrap;">試験数 / 症例数</th><th style="white-space:nowrap;">HR（95%CI）</th><th>解釈</th></tr></thead>
+            <tbody>
+              <tr>
+                <td style="white-space:nowrap;font-weight:700;color:#DC2626;">CV死亡（主要）</td>
+                <td style="white-space:nowrap;">13試験 / 14,793例</td>
+                <td style="white-space:nowrap;"><strong>0.78（0.62–0.96）</strong></td>
+                <td>リズムコントロールが優位</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;font-weight:700;">全死亡</td>
+                <td style="white-space:nowrap;">17試験 / 17,422例</td>
+                <td style="white-space:nowrap;">0.86（0.73–1.02）</td>
+                <td>有意差なし（NS）</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;font-weight:700;color:#DC2626;">脳卒中</td>
+                <td style="white-space:nowrap;">13試験 / 16,235例</td>
+                <td style="white-space:nowrap;"><strong>0.801（0.643–0.998）</strong></td>
+                <td>リズムコントロールが優位</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;font-weight:700;color:#DC2626;">心不全入院（HHF）</td>
+                <td style="white-space:nowrap;">6試験 / 10,390例</td>
+                <td style="white-space:nowrap;"><strong>0.80（0.69–0.94）</strong></td>
+                <td>リズムコントロールが優位</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;font-weight:700;">フォロー終了時SR</td>
+                <td style="white-space:nowrap;">—</td>
+                <td style="white-space:nowrap;">RR: 3.19（2.12–4.79）</td>
+                <td>リズムコントロールで有意に高い</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="ie-stat-grid">
+        <div class="ie-stat ie-stat-red">
+          <div class="ie-stat-val">HR 0.78</div>
+          <div class="ie-stat-label">CV死亡<br>（95%CI: 0.62–0.96）</div>
+        </div>
+        <div class="ie-stat ie-stat-red">
+          <div class="ie-stat-val">HR 0.801</div>
+          <div class="ie-stat-label">脳卒中<br>（95%CI: 0.643–0.998）</div>
+        </div>
+        <div class="ie-stat ie-stat-red">
+          <div class="ie-stat-val">HR 0.80</div>
+          <div class="ie-stat-label">心不全入院（HHF）<br>（95%CI: 0.69–0.94）</div>
+        </div>
+        <div class="ie-stat ie-stat-gray">
+          <div class="ie-stat-val">HR 0.86</div>
+          <div class="ie-stat-label">全死亡<br>（NS、0.73–1.02）</div>
+        </div>
+        <div class="ie-stat">
+          <div class="ie-stat-val">RR 3.19</div>
+          <div class="ie-stat-label">フォロー終了時SR維持<br>（95%CI: 2.12–4.79）</div>
+        </div>
+      </div>
+
+      <!-- Forest Plot Figure -->
+      <div class="card" style="margin-top:20px;margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title" style="margin-bottom:10px;">Figure 2：フォレストプロット — 各アウトカム</h3>
+          <p class="rule-body" style="font-size:0.8rem;color:var(--muted);margin-bottom:10px;">（A）CV死亡、（B）全死亡、（C）脳卒中、（D）心不全入院のフォレストプロット。</p>
+          <img src="../images/af-zafeiropoulos-forest.png"
+               alt="Forest plots of rhythm vs rate control on clinical outcomes"
+               style="width:100%;border-radius:6px;border:1px solid var(--border);">
+        </div>
+      </div>
+
+      <h3 id="s2-safety" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 4</span>
+        安全性アウトカム
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">AAD vs アブレーションの安全性比較</h3>
+          <p class="rule-body">安全性に関しては、AADはレートコントロールと比較して有害事象が有意に多かった（RR: 1.46; 95%CI: 1.11–1.91）。一方、カテーテルアブレーションの手技合併症率は7.7%（95%CI: 3.8–11.6）であった。これらの知見は、AADではなくアブレーションを主体としたリズムコントロールの有用性をさらに支持するものである。</p>
+          <div class="ie-stat-grid" style="margin-top:12px;">
+            <div class="ie-stat ie-stat-orange">
+              <div class="ie-stat-val">RR 1.46</div>
+              <div class="ie-stat-label">AADの有害事象<br>（vs レートコントロール<br>95%CI: 1.11–1.91）</div>
+            </div>
+            <div class="ie-stat ie-stat-orange">
+              <div class="ie-stat-val">7.7%</div>
+              <div class="ie-stat-label">アブレーション<br>手技合併症率<br>（95%CI: 3.8–11.6）</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h3 id="s2-cumulative" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 5</span>
+        累積メタ解析：「時間依存性効果」
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">最近の試験がアウトカムを牽引している</h3>
+          <p class="rule-body">累積メタ解析では、CV死亡に対するリズムコントロールの有意性は、試験を時系列順に累積した場合、第11番目の試験を加えた時点で初めて統計的有意性に達した。一方、逆時系列順（新しい試験から追加）では第1番目の試験のみで有意性が確認された。脳卒中においても同様のパターンが認められた。</p>
+          <p class="rule-body">さらにメタ回帰分析では、試験の発表年（P=0.02 for CV死、P=0.0004 for 全死亡、P=0.04 for 脳卒中）との間に有意な線形相関が認められた。これらのデータは、リズムコントロールの有効性が「時間依存性」であることを示しており、<span class="mark-red"><strong>近年のEAST-AFNET4・CASTLE-AF・RAFT-AFといった試験が結果全体を主導している</strong></span>ことを意味する。</p>
+          <div class="alert-blue" style="margin-top:10px;">
+            <strong>臨床的含意：</strong> 古いAFFIRM（2002年）やRACE（2002年）に基づいた「リズムとレートは同等」という考え方は、現代の実情を反映していない。新世代AADとカテーテルアブレーションの進歩により、リズムコントロールのパラダイムシフトが起きつつある。
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== CHAPTER 3: ABLATION META-REGRESSION ===== -->
+      <div id="ch3" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">第3章　アブレーション使用割合とアウトカムの関係</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Ablation Contribution in Rhythm Control Strategy</div>
+      </div>
+
+      <h3 id="s3-ablation" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+        <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 6</span>
+        アブレーション使用率が高いほど転帰は改善する
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">メタ回帰分析：アブレーション割合とCV死の関係</h3>
+          <p class="rule-body">リズムコントロール群中のアブレーション使用割合は、CV死（P=0.02）、全死亡（P=0.01）、心不全入院（P=0.03）のリスク低下と線形的に相関していた。アブレーション使用割合が20%増加するごとに、CV死に対するHRは0.18（95%CI: 0.06–0.30）低下した。一方、脳卒中との相関は認められなかった（P=0.4）。</p>
+          <p class="rule-body">脳卒中でアブレーションの割合増加効果が認められなかった理由として、抗凝固療法の普及がリズムコントロール戦略の種類によらず脳卒中予防に大きく貢献している可能性が挙げられている。すなわち<span class="mark-yellow"><strong>抗凝固療法はAAD・アブレーションに関わらず一貫して継続すべき</strong></span>であることを示唆する。</p>
+        </div>
+      </div>
+
+      <div class="ie-stat-grid">
+        <div class="ie-stat ie-stat-red">
+          <div class="ie-stat-val">0.18</div>
+          <div class="ie-stat-label">アブレーション20%増加あたりの<br>CV死HR低下幅<br>（95%CI: 0.06–0.30）</div>
+        </div>
+        <div class="ie-stat">
+          <div class="ie-stat-val">P=0.02</div>
+          <div class="ie-stat-label">CV死とアブレーション割合<br>の相関（メタ回帰）</div>
+        </div>
+        <div class="ie-stat">
+          <div class="ie-stat-val">P=0.01</div>
+          <div class="ie-stat-label">全死亡とアブレーション割合<br>の相関（メタ回帰）</div>
+        </div>
+      </div>
+
+      <!-- Bubble Plot Figure -->
+      <div class="card" style="margin-top:20px;margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title" style="margin-bottom:10px;">Figure 3：バブルプロット — アブレーション割合とHR</h3>
+          <p class="rule-body" style="font-size:0.8rem;color:var(--muted);margin-bottom:10px;">（A）CV死、（B）全死亡、（C）脳卒中、（D）心不全入院。黒線がメタ回帰線、網掛けが95%CI。</p>
+          <img src="../images/af-zafeiropoulos-bubble.png"
+               alt="Bubble plots of ablation proportion in rhythm control strategy"
+               style="width:100%;border-radius:6px;border:1px solid var(--border);">
+        </div>
+      </div>
+
+      <!-- Central Illustration -->
+      <div class="ci-box" style="margin-top:20px;margin-bottom:16px;">
+        <div class="ci-title-bar">
+          <h4>Central Illustration — Rhythm vs Rate Control: Effects on Clinical Outcomes</h4>
+          <p>（左）各アウトカムのHR要約、（右）アブレーション割合 vs CV死ハザード比のメタ回帰</p>
+        </div>
+        <div class="ci-panels">
+          <div class="ci-panel" style="background:rgba(255,255,255,0.04);">
+            <div class="ci-panel-label">Left Panel — Summary HRs</div>
+            <img src="../images/af-central-illust-left.png"
+                 alt="Central Illustration left panel: summary of rhythm vs rate control effects"
+                 style="width:100%;border-radius:4px;background:#fff;">
+          </div>
+          <div class="ci-panel" style="background:rgba(255,255,255,0.04);">
+            <div class="ci-panel-label">Right Panel — Ablation Meta-Regression</div>
+            <img src="../images/af-central-illust-right.png"
+                 alt="Central Illustration right panel: ablation utilization meta-regression"
+                 style="width:100%;border-radius:4px;background:#fff;">
+          </div>
+        </div>
+        <div class="ci-caption">
+          Left: 18試験 17,536例における各臨床アウトカム（HHF・脳卒中・全死亡・CV死）のHR（95%CI）。リズムコントロール有利の方向を示す。<br>
+          Right: リズムコントロール群中のアブレーション割合（%）とCV死HRの散布図。アブレーション使用割合が高い試験ほどCV死HRが低い傾向を示す（P=0.002）。<br>
+          HR reduction per 20% increase in ablation use: <strong style="color:#86EFAC;">0.18（95%CI: 0.06–0.30）</strong><br>
+          AAD = antiarrhythmic drug; CV = cardiovascular; HHF = hospitalizations for heart failure.<br>
+          Zafeiropoulos S, et al. JACC Clin Electrophysiol. 2024;10(7):1395–1405.
+        </div>
+      </div>
+
+      <!-- ===== CHAPTER 4: SUBGROUPS ===== -->
+      <div id="ch4" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">第4章　サブグループ解析</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Subgroup Analyses — Heart Failure &amp; AF Type</div>
+      </div>
+
+      <h3 id="s4-hf" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+        <span style="color:#16A34A;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 7</span>
+        心不全合併AFサブグループ
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">HF合併例ではリズムコントロールの恩恵が一層大きい</h3>
+          <p class="rule-body">AFはHFの強力な予後規定因子であり、特に集中的な管理が必要な集団である。HF合併サブグループにおいて、リズムコントロールはCV死亡（HR: 0.59; 95%CI: 0.36–0.97）、全死亡（HR: 0.83; 95%CI: 0.70–0.98）、脳卒中（HR: 0.619; 95%CI: 0.385–0.996）、心不全入院（HR: 0.81; 95%CI: 0.68–0.97）のすべてにおいて有意な改善を示した。</p>
+          <p class="rule-body">全体集団では有意差に至らなかった全死亡においても、HF合併例では有意な差が生じていることは重要な知見である。これはリズムコントロールがHF管理の主要な柱になり得ることを示唆する。ただしHF合併例に対するアブレーションの最適対象（EF分画・症状重症度）については今後の検討課題である。</p>
+          <table class="ie-table" style="margin-top:12px;">
+            <thead><tr><th>アウトカム</th><th style="white-space:nowrap;">HR（95%CI）</th><th>有意性</th></tr></thead>
+            <tbody>
+              <tr><td style="white-space:nowrap;font-weight:700;color:#DC2626;">CV死亡</td><td style="white-space:nowrap;">0.59（0.36–0.97）</td><td>有意</td></tr>
+              <tr><td style="white-space:nowrap;font-weight:700;color:#DC2626;">全死亡</td><td style="white-space:nowrap;">0.83（0.70–0.98）</td><td>有意（全体とは異なり有意）</td></tr>
+              <tr><td style="white-space:nowrap;font-weight:700;color:#DC2626;">脳卒中</td><td style="white-space:nowrap;">0.619（0.385–0.996）</td><td>有意</td></tr>
+              <tr><td style="white-space:nowrap;font-weight:700;color:#DC2626;">心不全入院</td><td style="white-space:nowrap;">0.81（0.68–0.97）</td><td>有意</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- HF Forest Plot -->
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title" style="margin-bottom:10px;">Figure 4：HF合併サブグループのフォレストプロット</h3>
+          <p class="rule-body" style="font-size:0.8rem;color:var(--muted);margin-bottom:10px;">（A）CV死、（B）全死亡、（C）脳卒中、（D）心不全入院。</p>
+          <img src="../images/af-zafeiropoulos-hf-forest.png"
+               alt="Forest plots in patients with heart failure and atrial fibrillation"
+               style="width:100%;border-radius:6px;border:1px solid var(--border);">
+        </div>
+      </div>
+
+      <div class="ie-stat-grid">
+        <div class="ie-stat ie-stat-red">
+          <div class="ie-stat-val">HR 0.59</div>
+          <div class="ie-stat-label">HF合併 CV死亡<br>（95%CI: 0.36–0.97）</div>
+        </div>
+        <div class="ie-stat ie-stat-red">
+          <div class="ie-stat-val">HR 0.83</div>
+          <div class="ie-stat-label">HF合併 全死亡<br>（95%CI: 0.70–0.98）</div>
+        </div>
+        <div class="ie-stat ie-stat-red">
+          <div class="ie-stat-val">HR 0.81</div>
+          <div class="ie-stat-label">HF合併 心不全入院<br>（95%CI: 0.68–0.97）</div>
+        </div>
+      </div>
+
+      <h3 id="s4-aftype" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+        <span style="color:#16A34A;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 8</span>
+        AF病型別サブグループ（発作性 vs 持続性）
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">発作性・持続性でCV死のHRに有意差なし</h3>
+          <p class="rule-body">AF病型別のサブグループ解析では、発作性AF（HR: 0.88; 95%CI: 0.68–1.13）と持続性AF（HR: 0.84; 95%CI: 0.54–1.25）の間にCV死への効果の差は認められなかった（サブグループ間交互作用 P=0.86）。すなわちリズムコントロールの有益効果は、AF病型にかかわらず一貫している可能性がある。</p>
+        </div>
+      </div>
+
+      <!-- ===== CHAPTER 5: DISCUSSION & LIMITATIONS ===== -->
+      <div id="ch5" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">第5章　考察・限界・結論</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Discussion, Limitations &amp; Conclusions</div>
+      </div>
+
+      <h3 id="s5-discussion" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 9</span>
+        考察の要点
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">「なぜアブレーションが優れているのか」の臨床解釈</h3>
+          <p class="rule-body">カテーテルアブレーションはAADと比較してSR維持と死亡率改善に関して優れていることが以前から示されてきた。本研究でも、リズムコントロール群中のアブレーション使用割合がCV死・全死亡・HHFのリスク低下と線形に相関した。一方でRAFT-AFはアブレーション vs レートコントロールを直接比較した唯一の大規模試験だが、早期中止のため検出力が低く非有意に終わっている。</p>
+          <p class="rule-body">また、CASTLE-AFのポストホック解析では、薬物によるリズムコントロールはレートコントロールと比較して全死亡・HHFを改善しなかった一方、アブレーションによるリズムコントロールでは改善が認められた。これらのエビデンスはまとめて、<span class="mark-green"><strong>「リズムコントロール」という概念の中でもアブレーションの位置づけが特別に高い</strong></span>ことを示す。</p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">早期リズムコントロールについての解釈</h3>
+          <p class="rule-body">EAST-AFNET4試験は、症状の有無にかかわらずAF発症早期のリズムコントロールが有益であることを示した。しかし、AFFIRM試験のポストホック解析では、AF診断から6か月以内の早期リズムコントロールが転帰改善に結びついていないという結果も存在する。これらを総合すると、最近の試験でリズムコントロールが優れた結果を示した理由は、「介入のタイミング」よりも「AF治療の質的向上（より安全なAAD、アブレーション技術の進歩）」によるところが大きいと著者らは結論づけている。</p>
+        </div>
+      </div>
+
+      <div class="ie-alpha">
+        <div class="ie-alpha-inner">
+          <div class="ie-alpha-header">
+            <span class="ie-alpha-badge">＋α</span>
+            <span class="ie-alpha-title">エビデンスの質（GRADE評価）</span>
+          </div>
+          <p class="rule-body" style="color:#4C1D95;">CV死とHHFのエビデンスの質は「中等度（moderate）」（バイアスリスクと異質性によりダウングレード）。全死亡と脳卒中は「高い（high）」。SR維持と有害事象は「低い（low）」（バイアスリスクと異質性によりダウングレード）。出版バイアスは全アウトカムで認められなかった（P>0.05）。</p>
+        </div>
+      </div>
+
+      <h3 id="s5-limitations" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 10</span>
+        研究の限界
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">解釈上の注意点</h3>
+          <table class="ie-table">
+            <thead><tr><th>限界</th><th>内容</th></tr></thead>
+            <tbody>
+              <tr><td style="white-space:nowrap;font-weight:700;">実用的試験デザイン</td><td>多くの試験がPragmaticデザインで各種AADの選択を許容しており、クロスオーバーも存在した</td></tr>
+              <tr><td style="white-space:nowrap;font-weight:700;">CASTLE-AF/HTxの医療腕</td><td>純粋なレートコントロール群ではなくリズムコントロール戦略を行う患者も含まれていた</td></tr>
+              <tr><td style="white-space:nowrap;font-weight:700;">HFサブグループの定義</td><td>研究によってHFの定義（EF低下に限定 vs 全スペクトラム）が異なり、サブグループデータを含む因果解釈には限界がある</td></tr>
+              <tr><td style="white-space:nowrap;font-weight:700;">累積メタ解析の限界</td><td>反復テストによる第一種過誤膨張の可能性があり、また個人レベルデータではなくサマリーデータに基づく</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ===== SUMMARY ===== -->
+      <h3 id="summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+        キーメッセージ（5項目）
+      </h3>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+              <span class="rule-body"><strong>リズムコントロールはCV死・脳卒中・HHFを有意に減少：</strong>18 RCT・17,536例のメタ解析にて、リズムコントロールはレートコントロールと比較してCV死（HR 0.78）、脳卒中（HR 0.801）、心不全入院（HR 0.80）をいずれも有意に低下させた。全死亡（HR 0.86）は有意差なし。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+              <span class="rule-body"><strong>この優位性は近年の試験が牽引：</strong>累積メタ解析では、リズムコントロールの優位性は最近のEAST-AFNET4・CASTLE-AF・RAFT-AFが加わって初めて確立された。AFFIRM・RACEに基づいた「同等論」は現代では過去のものだ。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+              <span class="rule-body"><strong>アブレーション使用割合が高いほど転帰は良好：</strong>メタ回帰分析では、リズムコントロール群中のアブレーション割合が20%増加するごとにCV死のHRが0.18低下した（P=0.002）。AADより安全なアブレーションを積極的に選択することがアウトカム改善に貢献する。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+              <span class="rule-body"><strong>HF合併例ではさらに恩恵が大きい：</strong>HF合併サブグループでは全死亡を含む全アウトカムでリズムコントロールが有意に優れており、HF管理においてリズムコントロール（特にアブレーション）が重要な柱となることを示唆する。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+              <span class="rule-body"><strong>脳卒中予防には抗凝固療法が不変の主役：</strong>脳卒中リスクはリズムコントロールでも低下したが、アブレーション使用割合との相関はなかった。抗凝固療法はAAD・アブレーションを問わず一貫して継続することが求められる。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 出典注記 -->
+      <p style="font-size:0.72rem;color:#9CA3AF;margin-top:16px;line-height:1.7;">
+        出典：Zafeiropoulos S, et al. Rhythm vs Rate Control Strategy for Atrial Fibrillation: A Meta-Analysis of Randomized Controlled Trials. JACC Clin Electrophysiol. 2024;10(7):1395–1405.<br>
+        DOI：<a href="https://doi.org/10.1016/j.jacep.2024.03.006" target="_blank" rel="noopener" style="color:#60A5FA;">https://doi.org/10.1016/j.jacep.2024.03.006</a><br>
+        本資料は教育目的で作成したサマリーです。診断・治療方針の決定には必ず原典論文を参照してください。
+      </p>
+      <p style="font-size:0.75rem;color:var(--muted);text-align:right;margin-top:8px;">制作：ICU 関谷</p>
+
+    </div><!-- /main-col -->
+
+    <!-- ===== SIDEBAR ===== -->
+    <aside class="ie-sidebar">
+      <div class="ie-sidebar-card">
+        <div class="ie-sidebar-title">目次</div>
+        <a href="#ch1" class="ie-toc-chapter">第1章 背景と研究方法</a>
+        <a href="#s1-bg" class="ie-toc-section">S1 — なぜ今問い直すのか</a>
+        <a href="#s1-methods" class="ie-toc-section">S2 — 研究デザインと方法</a>
+        <a href="#ch2" class="ie-toc-chapter">第2章 主要結果</a>
+        <a href="#s2-primary" class="ie-toc-section">S3 — 主要・副次エンドポイント</a>
+        <a href="#s2-safety" class="ie-toc-section">S4 — 安全性アウトカム</a>
+        <a href="#s2-cumulative" class="ie-toc-section">S5 — 累積メタ解析</a>
+        <a href="#ch3" class="ie-toc-chapter">第3章 アブレーション貢献度</a>
+        <a href="#s3-ablation" class="ie-toc-section">S6 — アブレーション割合とHR</a>
+        <a href="#ch4" class="ie-toc-chapter">第4章 サブグループ解析</a>
+        <a href="#s4-hf" class="ie-toc-section">S7 — 心不全合併サブグループ</a>
+        <a href="#s4-aftype" class="ie-toc-section">S8 — AF病型別（発作性 vs 持続性）</a>
+        <a href="#ch5" class="ie-toc-chapter">第5章 考察・限界・結論</a>
+        <a href="#s5-discussion" class="ie-toc-section">S9 — 考察の要点</a>
+        <a href="#s5-limitations" class="ie-toc-section">S10 — 研究の限界</a>
+        <a href="#summary" class="ie-toc-section">SUMMARY — キーメッセージ</a>
+      </div>
+    </aside>
+
+  </div><!-- /content-wrap -->
+
+  <script src="../script.js"></script>
+  <script src="../abbr-tooltip.js"></script>
+</body>
+</html>

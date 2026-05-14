@@ -11,6 +11,20 @@
  */
 const RECENT_PAGES = [
   {
+    title: "2023 ACC/AHA/ACCP/HRS 心房細動 診断・管理ガイドライン",
+    url: "pages/articles-gl-acc-aha-af2023.html",
+    date: "2026-05-14",
+    tag: "ガイドライン",
+    thumb: "images/朝カンファ風景.webp"
+  },
+  {
+    title: "リズム vs レートコントロール（AF）— RCTメタ解析 18試験・17,536例",
+    url: "pages/articles-gl-zafeiropoulos-af2024.html",
+    date: "2026-05-14",
+    tag: "論文",
+    thumb: "images/IDICUtop.png"
+  },
+  {
     title: "便利ツール 6種追加（APACHE II / SOFA-2 / RASS / CAM-ICU / 栄養計算 / 輸血上昇予測）",
     url: "pages/apache-ii.html",
     date: "2026-05-13",
