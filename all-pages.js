@@ -2139,4 +2139,526 @@ const ALL_PAGES = [
     "title":     "ID×ICUカンファレンス",
     "url":       "pages/schedule-weekly-id-icu.html"
   },
+  {
+    "date":      "2026/05/12",
+    "genre":     "カタログ",
+    "type":      "",
+    "system":    "感染症",
+    "system_id": "art-id",
+    "title":     "【感染症】細菌マップ — ICU 主要起因菌の総覧",
+    "url":       "pages/bacteria-map.html"
+  },
+  {
+    "date":      "2026/05/12",
+    "genre":     "細菌マップ",
+    "type":      "",
+    "system":    "感染症",
+    "system_id": "art-id",
+    "title":     "【細菌】Abiotrophia / Granulicatella",
+    "url":       "pages/bacteria/abio.html"
+  },
+  {
+    "date":      "2026/05/12",
+    "genre":     "細菌マップ",
+    "type":      "",
+    "system":    "感染症",
+    "system_id": "art-id",
+    "title":     "【細菌】Achromobacter xylosoxidans",
+    "url":       "pages/bacteria/achromobacter.html"
+  },
+  {
+    "date":      "2026/05/12",
+    "genre":     "細菌マップ",
+    "type":      "",
+    "system":    "感染症",
+    "system_id": "art-id",
+    "title":     "【細菌】アシネトバクター A. baumannii",
+    "url":       "pages/bacteria/acinetobacter.html"
+  },
+  {
+    "date":      "2026/05/12",
+    "genre":     "細菌マップ",
+    "type":      "",
+    "system":    "感染症",
+    "system_id": "art-id",
+    "title":     "【細菌】Actinomyces 属",
+    "url":       "pages/bacteria/actinomyces.html"
+  },
+  {
+    "date":      "2026/05/12",
+    "genre":     "細菌マップ",
+    "type":      "",
+    "system":    "感染症",
+    "system_id": "art-id",
+    "title":     "【細菌】Aerococcus",
+    "url":       "pages/bacteria/aerococcus.html"
+  },
+  {
+    "date":      "2026/05/12",
+    "genre":     "細菌マップ",
+    "type":      "",
+    "system":    "感染症",
+    "system_id": "art-id",
+    "title":     "【細菌】嫌気性GPC",
+    "url":       "pages/bacteria/anaerogpc.html"
+  },
+  {
+    "date":      "2026/05/12",
+    "genre":     "細菌マップ",
+    "type":      "",
+    "system":    "感染症",
+    "system_id": "art-id",
+    "title":     "【細菌】Bacillus cereus",
+    "url":       "pages/bacteria/bacillus.html"
+  },
+  {
+    "date":      "2026/05/12",
+    "genre":     "細菌マップ",
+    "type":      "",
+    "system":    "感染症",
+    "system_id": "art-id",
+    "title":     "【細菌】B. cepacia complex",
+    "url":       "pages/bacteria/bcepacia.html"
+  },
+  {
+    "date":      "2026/05/12",
+    "genre":     "細菌マップ",
+    "type":      "",
+    "system":    "感染症",
+    "system_id": "art-id",
+    "title":     "【細菌】バクテロイデス B. fragilis",
+    "url":       "pages/bacteria/bfragilis.html"
+  },
+  {
+    "date":      "2026/05/12",
+    "genre":     "細菌マップ",
+    "type":      "",
+    "system":    "感染症",
+    "system_id": "art-id",
+    "title":     "【細菌】B. pseudomallei",
+    "url":       "pages/bacteria/bpseudo.html"
+  },
+  {
+    "date":      "2026/05/12",
+    "genre":     "細菌マップ",
+    "type":      "",
+    "system":    "感染症",
+    "system_id": "art-id",
+    "title":     "【細菌】C. acnes",
+    "url":       "pages/bacteria/cacnes.html"
+  },
+  {
+    "date":      "2026/05/12",
+    "genre":     "細菌マップ",
+    "type":      "",
+    "system":    "感染症",
+    "system_id": "art-id",
+    "title":     "【細菌】C. botulinum",
+    "url":       "pages/bacteria/cbot.html"
+  },
+  {
+    "date":      "2026/05/12",
+    "genre":     "細菌マップ",
+    "type":      "",
+    "system":    "感染症",
+    "system_id": "art-id",
+    "title":     "【細菌】C. difficile",
+    "url":       "pages/bacteria/cdiff.html"
+  },
+  {
+    "date":      "2026/05/12",
+    "genre":     "細菌マップ",
+    "type":      "",
+    "system":    "感染症",
+    "system_id": "art-id",
+    "title":     "【細菌】C. diphtheriae",
+    "url":       "pages/bacteria/cdiph.html"
+  },
+  {
+    "date":      "2026/05/12",
+    "genre":     "細菌マップ",
+    "type":      "",
+    "system":    "感染症",
+    "system_id": "art-id",
+    "title":     "【細菌】Citrobacter freundii",
+    "url":       "pages/bacteria/citrobacter.html"
+  },
+  {
+    "date":      "2026/05/12",
+    "genre":     "細菌マップ",
+    "type":      "",
+    "system":    "感染症",
+    "system_id": "art-id",
+    "title":     "【細菌】C. jeikeium",
+    "url":       "pages/bacteria/cjeikeium.html"
+  },
+  {
+    "date":      "2026/05/12",
+    "genre":     "細菌マップ",
+    "type":      "",
+    "system":    "感染症",
+    "system_id": "art-id",
+    "title":     "【細菌】Citrobacter koseri",
+    "url":       "pages/bacteria/ckoseri.html"
+  },
+  {
+    "date":      "2026/05/12",
+    "genre":     "細菌マップ",
+    "type":      "",
+    "system":    "感染症",
+    "system_id": "art-id",
+    "title":     "【細菌】その他のCoNS",
+    "url":       "pages/bacteria/cons.html"
+  },
+  {
+    "date":      "2026/05/12",
+    "genre":     "細菌マップ",
+    "type":      "",
+    "system":    "感染症",
+    "system_id": "art-id",
+    "title":     "【細菌】C. perfringens",
+    "url":       "pages/bacteria/cperf.html"
+  },
+  {
+    "date":      "2026/05/12",
+    "genre":     "細菌マップ",
+    "type":      "",
+    "system":    "感染症",
+    "system_id": "art-id",
+    "title":     "【細菌】C. septicum",
+    "url":       "pages/bacteria/csept.html"
+  },
+  {
+    "date":      "2026/05/12",
+    "genre":     "細菌マップ",
+    "type":      "",
+    "system":    "感染症",
+    "system_id": "art-id",
+    "title":     "【細菌】C. striatum",
+    "url":       "pages/bacteria/cstri.html"
+  },
+  {
+    "date":      "2026/05/12",
+    "genre":     "細菌マップ",
+    "type":      "",
+    "system":    "感染症",
+    "system_id": "art-id",
+    "title":     "【細菌】C. tetani",
+    "url":       "pages/bacteria/ctetani.html"
+  },
+  {
+    "date":      "2026/05/12",
+    "genre":     "細菌マップ",
+    "type":      "",
+    "system":    "感染症",
+    "system_id": "art-id",
+    "title":     "【細菌】大腸菌 E. coli",
+    "url":       "pages/bacteria/ecoli.html"
+  },
+  {
+    "date":      "2026/05/12",
+    "genre":     "細菌マップ",
+    "type":      "",
+    "system":    "感染症",
+    "system_id": "art-id",
+    "title":     "【細菌】E. faecalis",
+    "url":       "pages/bacteria/efaecalis.html"
+  },
+  {
+    "date":      "2026/05/12",
+    "genre":     "細菌マップ",
+    "type":      "",
+    "system":    "感染症",
+    "system_id": "art-id",
+    "title":     "【細菌】E. faecium",
+    "url":       "pages/bacteria/efaecium.html"
+  },
+  {
+    "date":      "2026/05/12",
+    "genre":     "細菌マップ",
+    "type":      "",
+    "system":    "感染症",
+    "system_id": "art-id",
+    "title":     "【細菌】Enterobacter cloacae complex",
+    "url":       "pages/bacteria/enterobacter.html"
+  },
+  {
+    "date":      "2026/05/12",
+    "genre":     "細菌マップ",
+    "type":      "",
+    "system":    "感染症",
+    "system_id": "art-id",
+    "title":     "【細菌】F. necrophorum",
+    "url":       "pages/bacteria/fnec.html"
+  },
+  {
+    "date":      "2026/05/12",
+    "genre":     "細菌マップ",
+    "type":      "",
+    "system":    "感染症",
+    "system_id": "art-id",
+    "title":     "【細菌】K. aerogenes",
+    "url":       "pages/bacteria/kaero.html"
+  },
+  {
+    "date":      "2026/05/12",
+    "genre":     "細菌マップ",
+    "type":      "",
+    "system":    "感染症",
+    "system_id": "art-id",
+    "title":     "【細菌】K. oxytoca",
+    "url":       "pages/bacteria/koxy.html"
+  },
+  {
+    "date":      "2026/05/12",
+    "genre":     "細菌マップ",
+    "type":      "",
+    "system":    "感染症",
+    "system_id": "art-id",
+    "title":     "【細菌】肺炎桿菌 K. pneumoniae",
+    "url":       "pages/bacteria/kpneu.html"
+  },
+  {
+    "date":      "2026/05/12",
+    "genre":     "細菌マップ",
+    "type":      "",
+    "system":    "感染症",
+    "system_id": "art-id",
+    "title":     "【細菌】リステリア L. monocytogenes",
+    "url":       "pages/bacteria/listeria.html"
+  },
+  {
+    "date":      "2026/05/12",
+    "genre":     "細菌マップ",
+    "type":      "",
+    "system":    "感染症",
+    "system_id": "art-id",
+    "title":     "【細菌】モラクセラ M. catarrhalis",
+    "url":       "pages/bacteria/moraxella.html"
+  },
+  {
+    "date":      "2026/05/12",
+    "genre":     "細菌マップ",
+    "type":      "",
+    "system":    "感染症",
+    "system_id": "art-id",
+    "title":     "【細菌】Morganella morganii",
+    "url":       "pages/bacteria/morgan.html"
+  },
+  {
+    "date":      "2026/05/12",
+    "genre":     "細菌マップ",
+    "type":      "",
+    "system":    "感染症",
+    "system_id": "art-id",
+    "title":     "【細菌】淋菌 N. gonorrhoeae",
+    "url":       "pages/bacteria/ngon.html"
+  },
+  {
+    "date":      "2026/05/12",
+    "genre":     "細菌マップ",
+    "type":      "",
+    "system":    "感染症",
+    "system_id": "art-id",
+    "title":     "【細菌】髄膜炎菌 N. meningitidis",
+    "url":       "pages/bacteria/nmen.html"
+  },
+  {
+    "date":      "2026/05/12",
+    "genre":     "細菌マップ",
+    "type":      "",
+    "system":    "感染症",
+    "system_id": "art-id",
+    "title":     "【細菌】Nocardia 属",
+    "url":       "pages/bacteria/nocardia.html"
+  },
+  {
+    "date":      "2026/05/12",
+    "genre":     "細菌マップ",
+    "type":      "",
+    "system":    "感染症",
+    "system_id": "art-id",
+    "title":     "【細菌】緑膿菌 P. aeruginosa",
+    "url":       "pages/bacteria/paerug.html"
+  },
+  {
+    "date":      "2026/05/12",
+    "genre":     "細菌マップ",
+    "type":      "",
+    "system":    "感染症",
+    "system_id": "art-id",
+    "title":     "【細菌】プレボテラ P. melaninogenica",
+    "url":       "pages/bacteria/prevotella.html"
+  },
+  {
+    "date":      "2026/05/12",
+    "genre":     "細菌マップ",
+    "type":      "",
+    "system":    "感染症",
+    "system_id": "art-id",
+    "title":     "【細菌】プロテウス P. mirabilis",
+    "url":       "pages/bacteria/proteus.html"
+  },
+  {
+    "date":      "2026/05/12",
+    "genre":     "細菌マップ",
+    "type":      "",
+    "system":    "感染症",
+    "system_id": "art-id",
+    "title":     "【細菌】P. vulgaris",
+    "url":       "pages/bacteria/pvulg.html"
+  },
+  {
+    "date":      "2026/05/12",
+    "genre":     "細菌マップ",
+    "type":      "",
+    "system":    "感染症",
+    "system_id": "art-id",
+    "title":     "【細菌】B群レンサ球菌 S. agalactiae",
+    "url":       "pages/bacteria/saga.html"
+  },
+  {
+    "date":      "2026/05/12",
+    "genre":     "細菌マップ",
+    "type":      "",
+    "system":    "感染症",
+    "system_id": "art-id",
+    "title":     "【細菌】S. anginosus 群",
+    "url":       "pages/bacteria/sang.html"
+  },
+  {
+    "date":      "2026/05/12",
+    "genre":     "細菌マップ",
+    "type":      "",
+    "system":    "感染症",
+    "system_id": "art-id",
+    "title":     "【細菌】黄色ブドウ球菌 S. aureus",
+    "url":       "pages/bacteria/saureus.html"
+  },
+  {
+    "date":      "2026/05/12",
+    "genre":     "細菌マップ",
+    "type":      "",
+    "system":    "感染症",
+    "system_id": "art-id",
+    "title":     "【細菌】S. bovis / gallolyticus",
+    "url":       "pages/bacteria/sbov.html"
+  },
+  {
+    "date":      "2026/05/12",
+    "genre":     "細菌マップ",
+    "type":      "",
+    "system":    "感染症",
+    "system_id": "art-id",
+    "title":     "【細菌】S. dysgalactiae",
+    "url":       "pages/bacteria/sdys.html"
+  },
+  {
+    "date":      "2026/05/12",
+    "genre":     "細菌マップ",
+    "type":      "",
+    "system":    "感染症",
+    "system_id": "art-id",
+    "title":     "【細菌】表皮ブドウ球菌 S. epidermidis",
+    "url":       "pages/bacteria/sepi.html"
+  },
+  {
+    "date":      "2026/05/12",
+    "genre":     "細菌マップ",
+    "type":      "",
+    "system":    "感染症",
+    "system_id": "art-id",
+    "title":     "【細菌】セラチア S. marcescens",
+    "url":       "pages/bacteria/serratia.html"
+  },
+  {
+    "date":      "2026/05/12",
+    "genre":     "細菌マップ",
+    "type":      "",
+    "system":    "感染症",
+    "system_id": "art-id",
+    "title":     "【細菌】S. lugdunensis",
+    "url":       "pages/bacteria/slug.html"
+  },
+  {
+    "date":      "2026/05/12",
+    "genre":     "細菌マップ",
+    "type":      "",
+    "system":    "感染症",
+    "system_id": "art-id",
+    "title":     "【細菌】S. mitis group",
+    "url":       "pages/bacteria/smitis.html"
+  },
+  {
+    "date":      "2026/05/12",
+    "genre":     "細菌マップ",
+    "type":      "",
+    "system":    "感染症",
+    "system_id": "art-id",
+    "title":     "【細菌】S. Paratyphi（パラチフス菌）",
+    "url":       "pages/bacteria/sparat.html"
+  },
+  {
+    "date":      "2026/05/12",
+    "genre":     "細菌マップ",
+    "type":      "",
+    "system":    "感染症",
+    "system_id": "art-id",
+    "title":     "【細菌】肺炎球菌 S. pneumoniae",
+    "url":       "pages/bacteria/spneu.html"
+  },
+  {
+    "date":      "2026/05/12",
+    "genre":     "細菌マップ",
+    "type":      "",
+    "system":    "感染症",
+    "system_id": "art-id",
+    "title":     "【細菌】A群レンサ球菌 S. pyogenes",
+    "url":       "pages/bacteria/spyo.html"
+  },
+  {
+    "date":      "2026/05/12",
+    "genre":     "細菌マップ",
+    "type":      "",
+    "system":    "感染症",
+    "system_id": "art-id",
+    "title":     "【細菌】腐生ブドウ球菌 S. saprophyticus",
+    "url":       "pages/bacteria/ssap.html"
+  },
+  {
+    "date":      "2026/05/12",
+    "genre":     "細菌マップ",
+    "type":      "",
+    "system":    "感染症",
+    "system_id": "art-id",
+    "title":     "【細菌】S. maltophilia",
+    "url":       "pages/bacteria/steno.html"
+  },
+  {
+    "date":      "2026/05/12",
+    "genre":     "細菌マップ",
+    "type":      "",
+    "system":    "感染症",
+    "system_id": "art-id",
+    "title":     "【細菌】S. Typhi（腸チフス菌）",
+    "url":       "pages/bacteria/styphi.html"
+  },
+  {
+    "date":      "2026/05/12",
+    "genre":     "細菌マップ",
+    "type":      "",
+    "system":    "感染症",
+    "system_id": "art-id",
+    "title":     "【細菌】結核菌 M. tuberculosis",
+    "url":       "pages/bacteria/tb.html"
+  },
+  {
+    "date":      "2026/05/12",
+    "genre":     "細菌マップ",
+    "type":      "",
+    "system":    "感染症",
+    "system_id": "art-id",
+    "title":     "【細菌】緑色レンサ球菌 VGS",
+    "url":       "pages/bacteria/vgs.html"
+  },
 ];
