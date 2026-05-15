@@ -11,6 +11,13 @@
  */
 const RECENT_PAGES = [
   {
+    title: "【吉田Q&A】病棟業務のToDoの優先順位（関谷先生の回答）",
+    url: "pages/yoshida-qa/q-other-01.html",
+    date: "2026-05-16",
+    tag: "解説",
+    thumb: "images/icu-study.jpg"
+  },
+  {
     title: "2023 ACC/AHA/ACCP/HRS 心房細動 診断・管理ガイドライン",
     url: "pages/articles-gl-acc-aha-af2023.html",
     date: "2026-05-14",
