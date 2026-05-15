@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>病棟業務の優先順位 | 吉田先生のお悩み相談コーナー | 聖路加ICU</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../style-v2.css?v=202605110530">
+  <style>
+    :root { --qa-primary:#0F766E;--qa-primary-dark:#134E4A;--qa-primary-light:#F0FDFA; }
+    .subpage-hero { background: linear-gradient(150deg, #042F2E 0%, #134E4A 55%, #0F766E 100%) !important; }
+    .qa-detail { max-width:900px;margin:0 auto;padding:22px 20px 48px;font-size:0.84rem;font-weight:400;line-height:1.55;color:var(--text); }
+    .qa-back { display:inline-block;margin-bottom:16px;font-size:0.84rem;font-weight:600;color:var(--qa-primary-dark);text-decoration:none;letter-spacing:0.02em; }
+    .qa-back:hover { color:var(--qa-primary); }
+    .qa-sys-tag { display:inline-block;background:var(--qa-primary-light);color:var(--qa-primary-dark);font-size:0.84rem;font-weight:600;padding:4px 12px;border-radius:5px;margin-bottom:14px;letter-spacing:0.02em; }
+
+    /* Q/A ボックス */
+    .qa-box-q { display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,var(--qa-primary-dark),var(--qa-primary));color:#fff;border-radius:10px;padding:9px 14px;margin-bottom:10px;box-shadow:0 6px 20px rgba(15,118,110,0.22); }
+    .qa-box-q-badge { flex-shrink:0;width:26px;height:26px;border-radius:50%;background:#fff;color:var(--qa-primary-dark);display:inline-flex;align-items:center;justify-content:center;font-size:0.84rem;font-weight:700;font-family:ui-monospace,Menlo,Consolas,monospace; }
+    .qa-box-q-text { flex:1;font-size:0.88rem;font-weight:500;line-height:1.45;margin:0; }
+    .qa-box-a { background:#fff;border:1px solid #99F6E4;border-radius:10px;padding:10px 14px 12px;margin-bottom:18px;box-shadow:0 4px 14px rgba(15,118,110,0.08); }
+    .qa-box-a-head { display:flex;align-items:center;gap:8px;margin-bottom:8px;padding-bottom:7px;border-bottom:1px solid var(--qa-primary-light); }
+    .qa-box-a-badge { flex-shrink:0;width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--qa-primary-dark),var(--qa-primary));color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:0.84rem;font-weight:900;font-family:ui-monospace,Menlo,Consolas,monospace; }
+    .qa-box-a-author { font-size:0.82rem;font-weight:600;color:var(--qa-primary-dark);letter-spacing:0.02em; }
+    .qa-box-a-content { font-size:0.84rem;line-height:1.55;color:var(--text);font-weight:400; }
+    .qa-box-a-content p { margin:4px 0 8px;font-size:0.84rem;line-height:1.65;font-weight:400; }
+    .qa-box-a-content strong { color:var(--qa-primary-dark);font-weight:700; }
+
+    /* ◎ セクション 14+8 ハイブリッドカード */
+    .qa-card { border-radius:6px;overflow:hidden;margin:12px 0;border:1px solid #99F6E4; }
+    .qa-card-h { background:linear-gradient(135deg,var(--qa-primary-dark),var(--qa-primary));color:#fff;padding:6px 14px;font-weight:800;font-size:0.86rem;line-height:1.45; }
+    .qa-card-body { padding:10px 14px;background:var(--qa-primary-light); }
+    .qa-card-body > *:first-child { margin-top:0; }
+    .qa-card-body > *:last-child { margin-bottom:0; }
+    .qa-card-body ul.qa-bullets { margin:0;padding-left:0;list-style:none; }
+    .qa-card-body ul.qa-bullets li { position:relative;padding:3px 0 3px 16px;font-size:0.84rem;line-height:1.55; }
+    .qa-card-body ul.qa-bullets li::before { content:"";position:absolute;left:3px;top:0.7em;width:6px;height:6px;border-radius:50%;background:var(--qa-primary); }
+    .qa-card-body dl { margin:0; }
+    .qa-card-body dt { font-weight:800;color:var(--qa-primary-dark);padding:4px 0 2px;font-size:0.88rem;line-height:1.5; }
+    .qa-card-body dt::before { content:"▸ ";color:var(--qa-primary); }
+    .qa-card-body dt:not(:first-child) { margin-top:8px;padding-top:8px;border-top:1px dashed #99F6E4; }
+    .qa-card-body dd { margin:0 0 0 20px;padding:0;color:var(--text);font-size:0.84rem;line-height:1.6; }
+    .qa-card-body dd p { margin:0;font-size:0.84rem;line-height:1.6; }
+    .qa-card-body dd p + p { margin-top:4px; }
+    .qa-card-body dd ul { margin:3px 0 4px;padding-left:18px;list-style:disc; }
+    .qa-card-body dd ul li { margin-bottom:2px;font-size:0.82rem;line-height:1.5;list-style:disc;color:var(--muted); }
+
+    /* 優先順位ドット表示（タイトル内） */
+    .pri-dot { color:var(--qa-primary);font-weight:900;letter-spacing:0.05em;margin-right:6px;font-family:ui-monospace,Menlo,Consolas,monospace; }
+    .qa-card-h .pri-dot { color:#fff;opacity:0.95; }
+
+    /* 優先順位ピル（card-h 内・めりはり用） */
+    .pri-pill {
+      display:inline-flex;align-items:baseline;gap:7px;
+      background:#fff;color:var(--qa-primary-dark);
+      padding:2px 10px;border-radius:12px;
+      margin-right:10px;vertical-align:middle;
+      box-shadow:0 1px 2px rgba(4,47,46,0.18);
+    }
+    .pri-pill .pri-dots { color:var(--qa-primary);font-family:ui-monospace,Menlo,Consolas,monospace;font-weight:900;letter-spacing:0.06em;line-height:1; }
+    .pri-pill .pri-label { font-size:0.72rem;font-weight:900;letter-spacing:0.08em;line-height:1; }
+    /* 優先度別にドットサイズを変える */
+    .pri-pill.lv4 .pri-dots { font-size:0.92rem; }
+    .pri-pill.lv3 .pri-dots { font-size:0.84rem; }
+    .pri-pill.lv2 .pri-dots { font-size:0.76rem; }
+    .pri-pill.lv1 .pri-dots { font-size:0.7rem;letter-spacing:0; }
+
+    /* 冒頭イントロ（行間タイトのみ・背景なし） */
+    .qa-intro { margin:2px 0 14px; }
+    .qa-intro p { margin:0;font-size:0.84rem;line-height:1.65; }
+    .qa-intro p + p { margin-top:2px; }
+
+    /* === 優先度別カラーテーマ（このページだけの例外） === */
+    /* ●●●● 最優先 = 赤 */
+    .qa-card.lv4 { border-color:#FECACA; }
+    .qa-card.lv4 .qa-card-h { background:linear-gradient(135deg,#7F1D1D,#DC2626); }
+    .qa-card.lv4 .qa-card-body { background:#FEF2F2; }
+    .qa-card.lv4 .qa-card-body dt { color:#7F1D1D; }
+    .qa-card.lv4 .qa-card-body dt::before { color:#DC2626; }
+    .qa-card.lv4 .qa-card-body dt:not(:first-child) { border-top-color:#FECACA; }
+    .qa-card.lv4 .qa-card-body strong { color:#7F1D1D; }
+    .qa-card.lv4 .mark-yellow { background:linear-gradient(transparent 55%, rgba(220,38,38,0.32) 55%); }
+    .pri-pill.lv4 .pri-dots,
+    .pri-pill.lv4 .pri-label { color:#B91C1C; }
+
+    /* ●●● 高 = オレンジ */
+    .qa-card.lv3 { border-color:#FED7AA; }
+    .qa-card.lv3 .qa-card-h { background:linear-gradient(135deg,#7C2D12,#EA580C); }
+    .qa-card.lv3 .qa-card-body { background:#FFF7ED; }
+    .qa-card.lv3 .qa-card-body dt { color:#7C2D12; }
+    .qa-card.lv3 .qa-card-body dt::before { color:#EA580C; }
+    .qa-card.lv3 .qa-card-body dt:not(:first-child) { border-top-color:#FED7AA; }
+    .qa-card.lv3 .qa-card-body strong { color:#7C2D12; }
+    .qa-card.lv3 .mark-yellow { background:linear-gradient(transparent 55%, rgba(234,88,12,0.32) 55%); }
+    .pri-pill.lv3 .pri-dots,
+    .pri-pill.lv3 .pri-label { color:#9A3412; }
+
+    /* ●● 中 = ティール（既存・無変更） */
+
+    /* ● 低 = 青 */
+    .qa-card.lv1 { border-color:#BFDBFE; }
+    .qa-card.lv1 .qa-card-h { background:linear-gradient(135deg,#1E3A8A,#2563EB); }
+    .qa-card.lv1 .qa-card-body { background:#EFF6FF; }
+    .qa-card.lv1 .qa-card-body dt { color:#1E3A8A; }
+    .qa-card.lv1 .qa-card-body dt::before { color:#2563EB; }
+    .qa-card.lv1 .qa-card-body dt:not(:first-child) { border-top-color:#BFDBFE; }
+    .qa-card.lv1 .qa-card-body strong { color:#1E3A8A; }
+    .qa-card.lv1 .mark-yellow { background:linear-gradient(transparent 55%, rgba(37,99,235,0.30) 55%); }
+    .pri-pill.lv1 .pri-dots,
+    .pri-pill.lv1 .pri-label { color:#1E40AF; }
+
+    /* 一覧カード内 dt のドット色（dt.lv* で個別指定） */
+    .qa-card-body dt.lv4 { color:#7F1D1D; }
+    .qa-card-body dt.lv4 .pri-dot { color:#DC2626; }
+    .qa-card-body dt.lv4::before { color:#DC2626; }
+    .qa-card-body dt.lv3 { color:#7C2D12; }
+    .qa-card-body dt.lv3 .pri-dot { color:#EA580C; }
+    .qa-card-body dt.lv3::before { color:#EA580C; }
+    .qa-card-body dt.lv1 { color:#1E3A8A; }
+    .qa-card-body dt.lv1 .pri-dot { color:#2563EB; }
+    .qa-card-body dt.lv1::before { color:#2563EB; }
+
+    /* 一覧カードの dt にピル形式を載せる（▸ 抑制 + 余白調整） */
+    .qa-card-body dt.dt-pill { padding:6px 0 4px; }
+    .qa-card-body dt.dt-pill::before { content:""; margin:0; }
+    .qa-card-body dt.dt-pill:not(:first-child) { margin-top:6px;padding-top:8px; }
+
+    /* マーカー色（緑） */
+    .qa-box-a-content .mark-yellow {
+      background: linear-gradient(transparent 55%, rgba(34,197,94,0.42) 55%);
+      padding: 0 2px;
+    }
+
+    /* モバイル */
+    @media (max-width: 600px) {
+      .qa-detail { padding:16px 14px 36px;font-size:0.78rem; }
+      .qa-back { font-size:0.78rem; }
+      .qa-sys-tag { font-size:0.76rem;padding:3px 10px; }
+      .qa-box-q { padding:8px 12px;gap:10px; }
+      .qa-box-q-badge { width:22px;height:22px;font-size:0.76rem; }
+      .qa-box-q-text { font-size:0.82rem; }
+      .qa-box-a { padding:8px 12px 10px; }
+      .qa-box-a-badge { width:22px;height:22px;font-size:0.76rem; }
+      .qa-box-a-author { font-size:0.78rem; }
+      .qa-box-a-content { font-size:0.78rem; }
+      .qa-box-a-content p { font-size:0.78rem; }
+      .qa-card-h { padding:5px 10px;font-size:0.8rem; }
+      .qa-card-body { padding:8px 10px; }
+      .qa-card-body dt { font-size:0.82rem; }
+      .qa-card-body dd { font-size:0.78rem; }
+      .qa-card-body dd p { font-size:0.78rem; }
+      .qa-card-body ul.qa-bullets li { font-size:0.78rem; }
+      .qa-intro p { font-size:0.78rem; }
+      .pri-pill { padding:2px 8px;margin-right:6px; }
+      .pri-pill .pri-label { font-size:0.66rem; }
+      .pri-pill.lv4 .pri-dots { font-size:0.84rem; }
+      .pri-pill.lv3 .pri-dots { font-size:0.78rem; }
+      .pri-pill.lv2 .pri-dots { font-size:0.72rem; }
+      .pri-pill.lv1 .pri-dots { font-size:0.66rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="../../index.html" class="nav-logo">
+        <img src="../../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+        <span class="nav-logo-text">聖路加国際病院ICU</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="メニューを開く"><span></span><span></span><span></span></button>
+      <ul class="nav-menu" id="navMenu"></ul>
+    </div>
+  </nav>
+
+  <!-- ===== ヘッダーバナー ===== -->
+  <div style="width:100%;max-width:1294px;margin:64px auto 0;padding:0;line-height:0;">
+    <img src="../../images/header吉田先生.png" alt="【9+10】吉田先生のお悩み相談コーナー — YOSHIDA Q&amp;A · BY SYSTEM"
+      style="width:100%;height:auto;display:block;-webkit-mask-image:linear-gradient(to bottom, #000 0%, #000 85%, transparent 100%);mask-image:linear-gradient(to bottom, #000 0%, #000 85%, transparent 100%);">
+  </div>
+
+  <!-- ===== CONTENT ===== -->
+  <div class="qa-detail">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;gap:12px;flex-wrap:wrap;">
+      <a href="../yoshida-qa.html" class="qa-back" style="margin-bottom:0;">← Q&amp;A 一覧へ戻る</a>
+      <span class="qa-sys-tag" style="margin-bottom:0;">その他 ／ Miscellaneous</span>
+    </div>
+
+    <div class="qa-box-q">
+      <span class="qa-box-q-badge">Q</span>
+      <p class="qa-box-q-text">病棟業務のToDoの優先順位がうまくつけられません。どう考えればよいですか？</p>
+    </div>
+
+    <div class="qa-box-a">
+      <div class="qa-box-a-head">
+        <span class="qa-box-a-badge">A</span>
+        <span class="qa-box-a-author">関谷先生の回答</span>
+      </div>
+      <div class="qa-box-a-content">
+
+        <div class="qa-intro">
+          <p>業務、お疲れ様です。内科の病棟業務はToDoの優先順位をつけるのが難しく、なかなか大変ですよね。</p>
+          <p>目安ですが、以下に病棟業務の優先順位とその理由を記載するので、よかったら参考にしてください。</p>
+        </div>
+
+        <!-- ◎ 優先順位一覧 -->
+        <div class="qa-card">
+          <div class="qa-card-h">◎ 病棟業務の優先順位一覧</div>
+          <div class="qa-card-body">
+            <dl>
+              <dt class="dt-pill"><span class="pri-pill lv4"><span class="pri-dots">●●●●</span><span class="pri-label">最優先</span></span></dt>
+              <dd>
+                <ul>
+                  <li>当日の血液検査 結果確認</li>
+                  <li>他科コンサルト</li>
+                  <li>退院オーダー（特に当日や翌日）
+                    <ul>
+                      <li>退院を切る</li>
+                      <li>退院証明書</li>
+                      <li>退院処方</li>
+                      <li>コンサルト科への連絡</li>
+                    </ul>
+                  </li>
+                </ul>
+              </dd>
+              <dt class="dt-pill"><span class="pri-pill lv3"><span class="pri-dots">●●●</span><span class="pri-label">高</span></span></dt>
+              <dd>
+                <ul>
+                  <li>by Dr.での検体採取</li>
+                  <li>インスリン用量調整</li>
+                  <li>輸血オーダー（特に血小板）</li>
+                  <li>中央検査室でのエコー検査依頼</li>
+                  <li>処方、食事、検査オーダーなど 締切時間がある系オーダー</li>
+                </ul>
+              </dd>
+              <dt class="dt-pill"><span class="pri-pill lv2"><span class="pri-dots">●●</span><span class="pri-label">中</span></span></dt>
+              <dd>
+                <ul>
+                  <li>退院オーダー
+                    <ul>
+                      <li>退院指導計画書</li>
+                      <li>コメントカレンダー終了</li>
+                    </ul>
+                  </li>
+                  <li>翌日以降の退院オーダー</li>
+                  <li>血液培養（急変を除く）</li>
+                  <li>患者への病状説明</li>
+                </ul>
+              </dd>
+              <dt class="dt-pill"><span class="pri-pill lv1"><span class="pri-dots">●</span><span class="pri-label">低</span></span></dt>
+              <dd>
+                <ul>
+                  <li>カルテ記載</li>
+                  <li>処方をつなぐ</li>
+                  <li>退院サマリー記載</li>
+                </ul>
+              </dd>
+            </dl>
+          </div>
+        </div>
+
+        <!-- ◎ 最優先（詳細） -->
+        <div class="qa-card lv4">
+          <div class="qa-card-h"><span class="pri-pill lv4"><span class="pri-dots">●●●●</span><span class="pri-label">最優先</span></span>詳細解説</div>
+          <div class="qa-card-body">
+            <dl>
+              <dt>当日の血液検査</dt>
+              <dd><p>午後になって確認し、異常値などあると結構大変！自分は余裕がない時には、結果のアセスメントは後にして、はやい時間に担当患者の異常や主科に相談が必要な検査結果を把握すること、治療の介入が奏功しているかの確認にとどめています。<span class="mark-yellow"><strong>全員の結果把握を優先</strong></span>。</p></dd>
+
+              <dt>朝：他科コンサルト</dt>
+              <dd><p>各科をローテするとわかりますが、コンサルトを受けるとオンコール担当の先生が状況を把握し、カルテをあげて、場合によっては上級医に相談して、と裏で様々な動きがあるので夕方だと結構大変です。担当者に連絡がなかなか繋がらない！なんてこともありますので、<span class="mark-yellow"><strong>コンサルトは早いに越したことはない</strong></span>です。</p></dd>
+
+              <dt>退院オーダー（特に当日や翌日）</dt>
+              <dd><p>医事科などは先生たちの退院オーダーをもって、会計などの手続きをはじめるので<span class="mark-yellow"><strong>とりあえず退院ははやく切る！</strong></span>退院指導計画書だけは、これらの事務系を通らない（病棟の看護師、医師だけで完結）なので、優先順位は下がります。コンサルト科は、前述のとおり繋がらない問題が起こり得るので、外来フォローを要する場合には早めの連絡が吉です。</p></dd>
+            </dl>
+          </div>
+        </div>
+
+        <!-- ◎ 高優先（詳細） -->
+        <div class="qa-card lv3">
+          <div class="qa-card-h"><span class="pri-pill lv3"><span class="pri-dots">●●●</span><span class="pri-label">高</span></span>詳細解説</div>
+          <div class="qa-card-body">
+            <dl>
+              <dt>by Dr. での検体採取</dt>
+              <dd><p>その検査結果でその日の対応が変わりそうな検体ほど、はやく提出する。</p></dd>
+
+              <dt>インスリン用量調整</dt>
+              <dd><p>特に昼食にインスリンを投与している患者は注意。当院は食前にインスリンを投与しているので、投与量を変更する場合は<span class="mark-yellow"><strong>昼食前まで</strong></span>に確認してインチャージ看護師に伝達する必要があります。という理由で優先順位が高いToDoにランクイン。</p></dd>
+
+              <dt>輸血オーダー（特に血小板）</dt>
+              <dd><p>赤血球、FFPは院内在庫を使用し、比較的すぐに病棟へ製剤が届きますが<strong>血小板は注意が必要</strong>。みなさんの製剤オーダーが輸血室に入ると、そこから日赤に発注がかかります。血小板が当院に運ばれてくる定期便は、午前便・午後便と2回あります。使用前日のお昼前頃までに発注できれば、翌日の午前便で、お昼すぎから夕方前に発注すると翌日の午後便で到着します。使用前日の夕方をすぎると、キャンセル便という扱いになり、使用日のだいたい夕方から夜に届く形となります。翌日に必ず使用する場合（ICUだと血小板数が低い患者の侵襲的処置前に投与したいなどのニーズがあります）には、<span class="mark-yellow"><strong>前日はやめに輸血室へ連絡</strong></span>するようにしましょう！</p></dd>
+
+              <dt>中央検査室でのエコー検査依頼</dt>
+              <dd><p>検査枠がうまってしまい当日、検査ができない可能性があるため。</p></dd>
+
+              <dt>定期処方、食事など締切が決まっている系オーダー</dt>
+              <dd><p>コメントなし。</p></dd>
+            </dl>
+          </div>
+        </div>
+
+        <!-- ◎ 中優先（詳細） -->
+        <div class="qa-card">
+          <div class="qa-card-h"><span class="pri-pill lv2"><span class="pri-dots">●●</span><span class="pri-label">中</span></span>詳細解説</div>
+          <div class="qa-card-body">
+            <dl>
+              <dt>退院オーダー（退院指導計画書、コメントカレンダー終了）／ 翌日以降の退院オーダー</dt>
+              <dd><p>前述のとおり。</p></dd>
+
+              <dt>血液培養（FN、敗血症性ショックを除く）</dt>
+              <dd><p>ただし、<strong>発熱性好中球減少症や敗血症性ショック</strong>の場合にはなるべく早期の抗菌薬投与（<span class="mark-yellow"><strong>認識から1時間以内!!</strong></span>）が求められ、抗菌薬投与前の血液培養は起因菌同定のため必須となるため、<strong>全ての業務を止めてでも培養を取りにいきます</strong>。</p></dd>
+
+              <dt>患者への病状説明</dt>
+              <dd><p>ぜひ毎日の回診は大切にしてください！一方で、熱心な患者さんだと回診で30分や1時間でも部屋に足止めされて、優先順位が高い業務に支障が出てしまうことも。患者さんの話が盛り上がっていても、次の予定があるため行かなければならないことを伝えたり、自分から切り出すことが難しい場合には、<span class="mark-yellow"><strong>病棟長に時間を決めて電話で呼び戻してもらう</strong></span>というのも手でしょう。</p></dd>
+            </dl>
+          </div>
+        </div>
+
+        <!-- ◎ 低優先（詳細） -->
+        <div class="qa-card lv1">
+          <div class="qa-card-h"><span class="pri-pill lv1"><span class="pri-dots">●</span><span class="pri-label">低</span></span>詳細解説</div>
+          <div class="qa-card-body">
+            <dl>
+              <dt>カルテ記載</dt>
+              <dd>
+                <p>カルテには終わりがないので、その気になればどこまでも時間が溶けてしまいます。特に、作品のような美しいカルテを作りがちな性格の先生は注意！個人的には<strong>problem毎に入院中の経過とアセスメント、現在の問題点がひとつのまとまった文章となっているカルテ</strong>が好きです。ただし、先生によってはその日の動きだけをかけばよいという考えや、いやいや毎日アセスメント欄は真っ更にして書き直すべきという考えの先生もいるので、ローテ先の上級医の先生のお考えにも耳を傾けてみてください。</p>
+                <p>入院中の経過とアセスメント＋問題点を更新していく系のカルテを作る場合には、注意点が2つあるのでシェアしますね。ひとつめは、<strong>そのまま退院サマリーにコピペできる文章をイメージする</strong>こと。ふたつめは、<span class="mark-yellow"><strong>「今日」「昨日」という言葉はなるべく使わない</strong></span>ことです。「今日」は明日になると「昨日」になりますし、その翌日には「一昨日」になって、カルテの文章を修正し忘れると、途端にいつのことを指しているのかわからなくなります。代わりに今日であっても、具体的な日にちで記載すると時よいと思います。</p>
+              </dd>
+
+              <dt>処方をつなぐ</dt>
+              <dd><p>定期処方は、期限内であればいつでもOK。いそがない。</p></dd>
+
+              <dt>退院サマリー記載</dt>
+              <dd><p>なるべく日々のカルテから記載を引用できるといいですね。</p></dd>
+            </dl>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <p style="font-size:0.72rem;color:#9CA3AF;margin-top:16px;line-height:1.55;">
+      本ページの回答は教育目的で作成されたものです。実際の診療判断は患者個別の状況に応じて行ってください。
+    </p>
+    <p style="font-size:0.75rem;color:var(--muted);text-align:right;margin-top:8px;">回答・制作：ICU 関谷</p>
+  </div>
+
+  <script src="../../script.js"></script>
+</body>
+</html>

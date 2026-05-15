@@ -11,6 +11,13 @@
  */
 const RECENT_PAGES = [
   {
+    title: "【吉田Q&A】病棟業務のToDoの優先順位（関谷先生の回答）",
+    url: "pages/yoshida-qa/q-other-01.html",
+    date: "2026-05-16",
+    tag: "解説",
+    thumb: "images/icu-study.jpg"
+  },
+  {
     title: "がんと感染症 — 発熱性好中球減少症（FN）板書ノート",
     url: "pages/id-icu-notes/note-fn.html",
     date: "2026-05-15",
