@@ -11,6 +11,13 @@
  */
 const RECENT_PAGES = [
   {
+    title: "がんと感染症 — 発熱性好中球減少症（FN）板書ノート",
+    url: "pages/id-icu-notes/note-fn.html",
+    date: "2026-05-15",
+    tag: "解説",
+    thumb: "images/IDICUtop.png"
+  },
+  {
     title: "2023 ACC/AHA/ACCP/HRS 心房細動 診断・管理ガイドライン",
     url: "pages/articles-gl-acc-aha-af2023.html",
     date: "2026-05-14",
