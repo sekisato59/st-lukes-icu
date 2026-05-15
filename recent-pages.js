@@ -11,6 +11,13 @@
  */
 const RECENT_PAGES = [
   {
+    title: "【ID×ICU】発熱性好中球減少症（FN）板書ノート",
+    url: "pages/id-icu-notes/note-fn.html",
+    date: "2026-05-15",
+    tag: "解説",
+    thumb: "images/IDICUtop.png"
+  },
+  {
     title: "【吉田Q&A】病棟業務のToDoの優先順位（関谷先生の回答）",
     url: "pages/yoshida-qa/q-other-01.html",
     date: "2026-05-16",
@@ -18,8 +25,36 @@ const RECENT_PAGES = [
     thumb: "images/icu-study.jpg"
   },
   {
-    title: "がんと感染症 — 発熱性好中球減少症（FN）板書ノート",
-    url: "pages/id-icu-notes/note-fn.html",
+    title: "【吉田Q&A】入院患者の血圧が高値のとき、どう対応しますか？",
+    url: "pages/yoshida-qa/q-cardio-02.html",
+    date: "2026-05-15",
+    tag: "解説",
+    thumb: "images/朝カンファ風景.webp"
+  },
+  {
+    title: "【吉田Q&A】蜂窩織炎の治療期間はどのくらいですか？",
+    url: "pages/yoshida-qa/q-id-02.html",
+    date: "2026-05-15",
+    tag: "解説",
+    thumb: "images/IDICUtop.png"
+  },
+  {
+    title: "【吉田Q&A】入院患者の貧血で鉄欠乏と慢性炎症をどう判断しますか？",
+    url: "pages/yoshida-qa/q-heme-02.html",
+    date: "2026-05-15",
+    tag: "解説",
+    thumb: "images/icu-study.jpg"
+  },
+  {
+    title: "【吉田Q&A】貧血の鑑別でMCVだけで判断していい？",
+    url: "pages/yoshida-qa/q-heme-03.html",
+    date: "2026-05-15",
+    tag: "解説",
+    thumb: "images/朝カンファ風景.webp"
+  },
+  {
+    title: "【吉田Q&A】腎不全の原因（腎前性・腎性・腎後性）の鑑別はどう進めますか？",
+    url: "pages/yoshida-qa/q-renal-01.html",
     date: "2026-05-15",
     tag: "解説",
     thumb: "images/IDICUtop.png"

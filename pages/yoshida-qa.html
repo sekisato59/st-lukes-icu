@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../style-v2.css?v=202605110530">
+  <link rel="stylesheet" href="../style-v2.css?v=202605160000">
   <style>
     :root {
       --qa-primary: #0F766E;
@@ -132,6 +132,11 @@
     body.qa-mode-date .qa-date-view { display:block; }
     body.qa-mode-date .sys-banner,
     body.qa-mode-date .qa-sys-body { display:none !important; }
+
+    /* 該当項目がない System は隠す（System ビュー & サイドバー両方） */
+    .sys-banner.qa-empty-system,
+    .qa-sys-body.qa-empty-system,
+    .qa-sidebar a.qa-empty-system { display:none !important; }
     .qa-arrow {
       flex-shrink:0;color:var(--qa-primary);font-size:1.05rem;font-weight:900;
       transition:transform 0.15s;
@@ -232,6 +237,7 @@
       </div>
       <div class="qa-sys-body">
         <a class="qa-item" href="yoshida-qa/q-cardio-01.html"><span class="qa-q-badge">Q</span><span class="qa-q-text">頻脈性心房細動の診かたは？</span><span class="qa-item-date">R8-05-08</span><span class="qa-arrow">→</span></a>
+        <a class="qa-item" href="yoshida-qa/q-cardio-02.html"><span class="qa-q-badge">Q</span><span class="qa-q-text">入院患者の血圧が高値のとき、どう対応しますか？</span><span class="qa-item-date">R8-05-15</span><span class="qa-arrow">→</span></a>
       </div>
 
       <!-- ═══ #3 呼吸器系 ═══ -->
@@ -251,6 +257,7 @@
         <div style="background:linear-gradient(135deg,#134E4A,#0F766E);color:#fff;padding:7px 14px;flex:1;"><div style="font-size:0.9rem;font-weight:700;">Nephrological System</div><div style="font-size:0.68rem;color:rgba(255,255,255,0.7);">腎・電解質系</div></div>
       </div>
       <div class="qa-sys-body">
+        <a class="qa-item" href="yoshida-qa/q-renal-01.html"><span class="qa-q-badge">Q</span><span class="qa-q-text">腎不全の原因（腎前性・腎性・腎後性）の鑑別はどう進めますか？</span><span class="qa-item-date">R8-05-15</span><span class="qa-arrow">→</span></a>
       </div>
 
       <!-- ═══ #5 消化器 / 肝胆道系 ═══ -->
@@ -270,6 +277,8 @@
       </div>
       <div class="qa-sys-body">
         <a class="qa-item" href="yoshida-qa/q-heme-01.html"><span class="qa-q-badge">Q</span><span class="qa-q-text">入院中の汎血球減少をどう考えますか？</span><span class="qa-item-date">R8-05-01</span><span class="qa-arrow">→</span></a>
+        <a class="qa-item" href="yoshida-qa/q-heme-02.html"><span class="qa-q-badge">Q</span><span class="qa-q-text">入院患者の貧血で、鉄欠乏と慢性炎症をどう判断しますか？</span><span class="qa-item-date">R8-05-15</span><span class="qa-arrow">→</span></a>
+        <a class="qa-item" href="yoshida-qa/q-heme-03.html"><span class="qa-q-badge">Q</span><span class="qa-q-text">貧血の鑑別でMCVだけで判断していい？</span><span class="qa-item-date">R8-05-15</span><span class="qa-arrow">→</span></a>
       </div>
 
       <!-- ═══ #7 感染症 ═══ -->
@@ -279,6 +288,7 @@
       </div>
       <div class="qa-sys-body">
         <a class="qa-item" href="yoshida-qa/q-id-01.html"><span class="qa-q-badge">Q</span><span class="qa-q-text">細菌感染症で入院中、経過が思わしくないときに考えることは？</span><span class="qa-item-date">R8-05-08</span><span class="qa-arrow">→</span></a>
+        <a class="qa-item" href="yoshida-qa/q-id-02.html"><span class="qa-q-badge">Q</span><span class="qa-q-text">蜂窩織炎の治療期間はどのくらいですか？</span><span class="qa-item-date">R8-05-15</span><span class="qa-arrow">→</span></a>
       </div>
 
       <!-- ═══ #8 栄養 / 代謝系 ═══ -->
@@ -379,6 +389,12 @@
         total += count;
         var link = document.querySelector('.qa-sidebar a[data-section="'+id+'"]');
         if(link){ var badge = link.querySelector('.qa-count'); if(badge) badge.textContent = count; }
+        // 該当項目ゼロの System は banner / body / サイドバーリンクを隠す
+        if(count === 0){
+          el.classList.add('qa-empty-system');
+          body.classList.add('qa-empty-system');
+          if(link) link.classList.add('qa-empty-system');
+        }
       });
       var totalEl = document.getElementById('qa-total');
       if(totalEl) totalEl.textContent = total;
