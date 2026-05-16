@@ -173,6 +173,88 @@
     ]
   };
 
+  // ===== データ：質問ごとの関連ページ（system マップを上書き） =====
+  // 各質問のテーマに直接関連するページのみに絞り込んだリスト
+  // ここに登録のない質問は RELATED_PAGES[system] にフォールバック
+  var RELATED_PAGES_BY_FILE = {
+    'q-cardio-01.html': [
+      { kind: 'gl',      title: '2023 ACC/AHA/ACCP/HRS 心房細動診断・管理ガイドライン',                         url: '../articles-gl-acc-aha-af2023.html' },
+      { kind: 'paper',   title: '心房細動（AF）— JAMA Review 2024',                                                url: '../articles-gl-af-jama2024.html' },
+      { kind: 'paper',   title: 'AF合併心不全のGDMT — JACC State-of-the-Art 2024',                                url: '../articles-gl-af-hf-jacc2024.html' },
+      { kind: 'paper',   title: '頻脈性AFの初期マネジメント — Zafeiropoulos JACC 2024',                          url: '../articles-gl-zafeiropoulos-af2024.html' },
+      { kind: 'disease', title: '心房細動（AF）— 急性期管理・抗凝固・レート/リズムコントロール',                  url: '../disease-topics/dt-af.html' }
+    ],
+    'q-cardio-02.html': [
+      { kind: 'paper',   title: '治療抵抗性高血圧 NEJM Review 2026',                                              url: '../articles-gl-resistant-htn2026.html' },
+      { kind: 'paper',   title: '脂質異常症管理 2026',                                                            url: '../articles-gl-dyslipidemia2026.html' },
+      { kind: 'gl',      title: 'JCS/JHFS 2025 心不全診療ガイドライン',                                            url: '../articles-gl-jcs-hf2025.html' }
+    ],
+    'q-resp-01.html': [
+      { kind: 'paper',   title: 'ARDSにおける右心不全 — Eur Respir Rev 2025',                                     url: '../articles-gl-rhd-ards2025.html' },
+      { kind: 'paper',   title: '腹臥位療法（Prone Positioning）最新エビデンスと実践 — ICM 2024',                  url: '../articles-gl-prone-icm2024.html' },
+      { kind: 'gl',      title: 'ATS ARDS管理ガイドライン 2024（更新版）',                                         url: '../articles-gl-ats-ards2024.html' },
+      { kind: 'disease', title: 'ARDSの呼吸生理（HPV/シャント・酸素化）',                                          url: '../disease-topics/dt-ards-resp.html' }
+    ],
+    'q-resp-02.html': [
+      { kind: 'paper',   title: '重症市中肺炎（SCAP）管理 — ICM 2025',                                            url: '../articles-gl-scap-icm2025.html' },
+      { kind: 'paper',   title: '市中肺炎へのステロイド療法 — Chest 2025',                                        url: '../articles-gl-steroid-cap2025.html' },
+      { kind: 'note',    title: 'VAP（人工呼吸器関連肺炎）板書ノート',                                            url: '../id-icu-notes/note-vap.html' },
+      { kind: 'note',    title: '非定型肺炎・免疫不全・PcP 板書ノート',                                            url: '../id-icu-notes/note-atypical-pneumonia.html' },
+      { kind: 'paper',   title: 'インフルエンザ総説 — Lancet Seminar 2022',                                       url: '../articles-gl-influenza-lancet2022.html' }
+    ],
+    'q-resp-03.html': [
+      { kind: 'paper',   title: 'HFNC初期流量とAECOPD — ネットワークメタ解析 Pulmonology 2025',                  url: '../articles-gl-hfnc-copd-nma2025.html' }
+    ],
+    'q-renal-01.html': [
+      { kind: 'gl',      title: 'KDIGO 2026 AKI/AKD ガイドライン',                                                url: '../articles-gl-kdigo-aki2026.html' },
+      { kind: 'paper',   title: 'SA-AKI コンセンサスレポート ADQI 28th — Nature Reviews Nephrology 2023',         url: '../articles-gl-sa-aki2023.html' },
+      { kind: 'disease', title: 'AKI — 診断・管理・敗血症関連',                                                    url: '../disease-topics/dt-aki.html' }
+    ],
+    'q-gi-01.html': [
+      { kind: 'gl',      title: 'KDIGO 2026 CKD貧血管理ガイドライン',                                              url: '../articles-gl-kdigo-anemia2026.html' }
+    ],
+    'q-gi-02.html': [
+      { kind: 'gl',      title: 'ACG 急性肝不全（ALF）ガイドライン 2023',                                          url: '../articles-gl-acg-alf2023.html' },
+      { kind: 'paper',   title: '急性肝不全（ALF）— Lancet Seminar 2024',                                          url: '../articles-gl-alf-lancet2024.html' },
+      { kind: 'paper',   title: '急性肝不全（ALF）の管理と予後 — UpToDate 2025',                                   url: '../articles-gl-alf-uptodate2025.html' },
+      { kind: 'paper',   title: '慢性HBV感染症 包括レビュー — NEJM 2026',                                          url: '../articles-gl-hbv-review2026.html' }
+    ],
+    'q-heme-01.html': [
+      { kind: 'paper',   title: '血小板減少症の鑑別フロー — Intensivist 2026',                                     url: '../articles-gl-thrombocytopenia2026.html' },
+      { kind: 'paper',   title: '血小板減少症の評価と管理 — AFP 2022',                                              url: '../articles-gl-thrombocytopenia-afp2022.html' },
+      { kind: 'gl',      title: 'HiHASC HLH診断・精査ガイドライン 2023',                                            url: '../articles-gl-hihasc-hlh2023.html' }
+    ],
+    'q-heme-02.html': [
+      { kind: 'gl',      title: 'KDIGO 2026 CKD貧血管理ガイドライン',                                              url: '../articles-gl-kdigo-anemia2026.html' }
+    ],
+    'q-heme-03.html': [
+      { kind: 'gl',      title: 'KDIGO 2026 CKD貧血管理ガイドライン',                                              url: '../articles-gl-kdigo-anemia2026.html' }
+    ],
+    'q-id-01.html': [
+      { kind: 'paper',   title: '菌血症の抗菌薬投与期間 7日 vs 14日 — BALANCE試験 NEJM 2025',                       url: '../articles-gl-balance-bacteremia2025.html' },
+      { kind: 'disease', title: '菌血症の抗菌薬投与期間は？',                                                        url: '../disease-topics/dt-bacteremia-duration.html' },
+      { kind: 'note',    title: 'VAP（人工呼吸器関連肺炎）板書ノート',                                              url: '../id-icu-notes/note-vap.html' },
+      { kind: 'note',    title: '腹腔内感染症（IAI）板書ノート',                                                    url: '../id-icu-notes/note-iai.html' },
+      { kind: 'note',    title: '感染性心内膜炎（IE）板書ノート',                                                    url: '../id-icu-notes/note-ie.html' },
+      { kind: 'note',    title: '発熱性好中球減少症（FN）板書ノート',                                                url: '../id-icu-notes/note-fn.html' },
+      { kind: 'gl',      title: 'IDSA 2024 耐性グラム陰性菌感染症治療ガイダンス',                                  url: '../articles-gl-idsa-amr-gnr2024.html' }
+    ],
+    'q-id-02.html': [
+      { kind: 'paper',   title: '菌血症の抗菌薬投与期間 7日 vs 14日 — BALANCE試験 NEJM 2025',                       url: '../articles-gl-balance-bacteremia2025.html' },
+      { kind: 'disease', title: '菌血症の抗菌薬投与期間は？',                                                        url: '../disease-topics/dt-bacteremia-duration.html' }
+    ],
+    'q-nutrition-01.html': [
+      { kind: 'gl',      title: 'ADA SoC 2026 第16章 入院時の糖尿病ケア',                                          url: '../articles-gl-ada-soc2026-ch16.html' },
+      { kind: 'gl',      title: 'ADA SoC 2026 第6章 血糖目標・低血糖・高血糖クリーゼ',                              url: '../articles-gl-ada-soc2026-ch6.html' },
+      { kind: 'disease', title: 'ICUにおける血糖コントロール',                                                       url: '../disease-topics/dt-glucose.html' },
+      { kind: 'disease', title: '糖尿病 — 診断・分類・合併症・DKA/HHS・治療薬',                                     url: '../disease-topics/dt-diabetes.html' },
+      { kind: 'paper',   title: 'IVインスリンからSCインスリンへの切替え — Endocr Pract 2020',                       url: '../articles-gl-insulin-iv2sc2020.html' },
+      { kind: 'paper',   title: 'NICE-SUGAR試験 — 重症患者の血糖管理 NEJM 2009',                                    url: '../articles-gl-nice-sugar-nejm2009.html' }
+    ],
+    'q-presentation-01.html': [],
+    'q-other-01.html': []
+  };
+
   // カテゴリラベル & スタイル
   var KIND_LABEL = {
     gl:      'GL',
@@ -276,16 +358,20 @@
       }
     }
 
-    // 関連したページ
+    // 関連したページ — per-file マップを優先、なければ system マップにフォールバック
     var pList = document.querySelector('.qa-related[data-type="pages"] .qa-related-list');
     if(pList){
-      var pages = RELATED_PAGES[currentSystem] || [];
+      var pages;
+      if(Object.prototype.hasOwnProperty.call(RELATED_PAGES_BY_FILE, currentFile)){
+        pages = RELATED_PAGES_BY_FILE[currentFile];
+      }else{
+        pages = RELATED_PAGES[currentSystem] || [];
+      }
       pList.innerHTML = '';
       if(pages.length === 0){
-        var emptyP = document.createElement('div');
-        emptyP.className = 'qa-related-empty';
-        emptyP.textContent = '関連ページの登録はまだありません。';
-        pList.appendChild(emptyP);
+        // 関連ページがない場合はセクションごと非表示にする
+        var section = pList.closest('.qa-related');
+        if(section){ section.style.display = 'none'; }
       }else{
         pages.forEach(function(p){
           var a = document.createElement('a');
