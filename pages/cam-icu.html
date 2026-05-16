@@ -238,7 +238,29 @@
     .tool-instruction strong {
       color:#047857;font-weight:800;
     }
+    /* ===== 埋め込みモード（?embed=1 で navbar/banner/back を隠して iframe 用に） ===== */
+    body.embed-mode .navbar,
+    body.embed-mode .tools-banner,
+    body.embed-mode .back-wrapper { display:none !important; }
+    body.embed-mode .page-wrap { padding:6px 4px 12px !important; margin-top:0 !important; }
+    body.embed-mode { background:transparent !important; }
   </style>
+  <script>
+    // ?embed=1 ならbodyにクラス付与（DOM構築直後）
+    (function(){
+      if (location.search.indexOf('embed=1') !== -1) {
+        document.documentElement.classList.add('embed-mode-html');
+        document.addEventListener('DOMContentLoaded', function(){
+          document.body.classList.add('embed-mode');
+          // 親に高さ通知（iframe 自動リサイズ）
+          var ro = new ResizeObserver(function(){
+            parent.postMessage({ type:'cam-icu-height', height: document.body.scrollHeight }, '*');
+          });
+          ro.observe(document.body);
+        });
+      }
+    })();
+  </script>
 </head>
 <body>
 

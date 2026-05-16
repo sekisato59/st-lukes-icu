@@ -208,7 +208,32 @@
     .tool-instruction strong {
       color:#047857;font-weight:800;
     }
+  /* ===== 埋め込みモード（?embed=1 で navbar/banner/back を隠して iframe 用に） ===== */
+
+  body.embed-mode .navbar,
+
+  body.embed-mode .tools-banner,
+
+  body.embed-mode .back-wrapper { display:none !important; }
+
+  body.embed-mode .page-wrap { padding:6px 4px 12px !important; margin-top:0 !important; }
+
+  body.embed-mode { background:transparent !important; }
+
   </style>
+  <script>
+    (function(){
+      if (location.search.indexOf("embed=1") !== -1) {
+        document.addEventListener("DOMContentLoaded", function(){
+          document.body.classList.add("embed-mode");
+          var ro = new ResizeObserver(function(){
+            parent.postMessage({ type:"tool-height", height: document.body.scrollHeight }, "*");
+          });
+          ro.observe(document.body);
+        });
+      }
+    })();
+  </script>
 </head>
 <body>
 

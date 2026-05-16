@@ -645,33 +645,13 @@
           <li><span class="nx-tag nx-tag-em">CAM-ICU</span><span style="color:#16A34A;font-weight:700;font-size:0.7rem;margin-right:6px;">当院標準</span>感度 82% / 特異度 96%</li>
         </ul>
 
-        <div class="nx-h">CAM-ICU 評価アルゴリズム</div>
-        <div class="nx-flow">
-          <div class="nx-flow-step">
-            <span class="nx-flow-num">F1</span><span class="nx-flow-title">精神状態の急性変化または変動</span>
-            <div class="nx-flow-body">入院前ベースラインからの変化、または過去24時間以内の変動</div>
-            <div class="nx-flow-decision">→ <strong>あり</strong> なら次へ／なければ <strong>「せん妄ではない」</strong></div>
+        <details class="nx-acc" id="nx-cam-icu-acc">
+          <summary>CAM-ICU 評価ツール — クリックで開く（インタラクティブ採点）</summary>
+          <div style="margin:0;padding:0;">
+            <iframe class="nx-tool-iframe" data-tool="cam-icu" src="../cam-icu.html?embed=1" style="width:100%;border:0;display:block;height:1400px;" loading="lazy" title="CAM-ICU 評価ツール"></iframe>
           </div>
-          <div class="nx-flow-step">
-            <span class="nx-flow-num">F2</span><span class="nx-flow-title">注意力欠如</span>
-            <div class="nx-flow-body">「3 の時に手を握って」と説明し <strong>3 4 7 6 2 3 5 3 7 9</strong> を1つずつ読み上げ。間違いの回数を評価</div>
-            <div class="nx-flow-decision">→ <strong>3回以上の誤り</strong> あり → 次へ／2回以下 → <strong>「せん妄ではない」</strong></div>
-          </div>
-          <div class="nx-flow-step">
-            <span class="nx-flow-num">F3</span><span class="nx-flow-title">意識レベルの変化</span>
-            <div class="nx-flow-body">RASS を評価</div>
-            <div class="nx-flow-decision">→ <span class="mark-red"><strong>RASS ≠ 0 なら「せん妄」確定</strong></span>／RASS = 0 なら F4 へ</div>
-          </div>
-          <div class="nx-flow-step">
-            <span class="nx-flow-num">F4</span><span class="nx-flow-title">思考の混乱</span>
-            <div class="nx-flow-body">
-              <strong>A. 質問</strong>（4問はい/いいえ）：「石は水に浮かぶか？」「魚は海にいるか？」「1g は 2g より重いか？」「釘を打つのにハンマーを使えるか？」<br>
-              <strong>B. 指示</strong>：評価者が2本指を挙げる→患者が同じに→「反対の手で同じことを」
-            </div>
-            <div class="nx-flow-decision">→ <strong>A+B 誤り ≧ 2個</strong> → 「せん妄」／&lt;2個 → <strong>「せん妄ではない」</strong></div>
-          </div>
-        </div>
-        <p style="font-size:0.74rem;color:#64748B;margin:6px 2px 0;">※ RASS = -4 または -5 の場合は <strong>評価対象外</strong>（深鎮静）</p>
+        </details>
+        <p style="font-size:0.74rem;color:#64748B;margin:8px 2px 0;">※ RASS = -4 または -5 の場合は <strong>評価対象外</strong>（深鎮静）／4 Feature の流れ：F1 急性変化 → F2 注意力欠如 → F3 意識レベル → F4 思考の混乱。陽性 = F1 + F2 + (F3 または F4)</p>
 
         <div class="nx-cb nx-cb-discuss" style="margin-top:14px;">
           <div class="nx-cb-h">プレゼンに含める項目</div>
@@ -840,6 +820,22 @@
         a.addEventListener('click', function(e){
           var tgt = document.getElementById(a.dataset.open);
           if (tgt && tgt.tagName.toLowerCase() === 'details') tgt.open = true;
+        });
+      });
+    })();
+
+    /* ===== 便利ツール iframe 自動高さ調整 (cam-icu, apache-ii, sofa, rass 等) ===== */
+    (function(){
+      window.addEventListener('message', function(e){
+        if (!e.data || typeof e.data !== 'object') return;
+        var t = e.data.type;
+        if (t !== 'cam-icu-height' && t !== 'tool-height') return;
+        var h = Math.max(400, parseInt(e.data.height, 10) || 0);
+        document.querySelectorAll('iframe.nx-tool-iframe').forEach(function(f){
+          // 送信元 iframe を特定
+          if (f.contentWindow === e.source) {
+            f.style.height = h + 'px';
+          }
         });
       });
     })();
