@@ -11,11 +11,11 @@
  */
 const RECENT_PAGES = [
   {
-    title: "【吉田先生Q&A】病棟でのインスリン療法の基本",
-    url: "pages/yoshida-qa/q-nutrition-02.html",
-    date: "2026-05-15",
+    title: "【処方ガイド】整腸剤の使い分け — 研修医のためのクイックリファレンス",
+    url: "pages/disease-topics/dt-intestinal-regulators.html",
+    date: "2026-05-18",
     tag: "解説",
-    thumb: "images/header吉田先生.png"
+    thumb: "images/icu-study.jpg"
   },
   {
     title: "動脈ラインからの血液培養は汚染率が末梢穿刺と同等・静脈カテーテルより低い可能性 — SR・メタ解析（CID 2025）",
@@ -25,18 +25,18 @@ const RECENT_PAGES = [
     thumb: "images/IDICUtop.png"
   },
   {
-    title: "【処方ガイド】整腸剤の使い分け — 研修医のためのクイックリファレンス",
-    url: "pages/disease-topics/dt-intestinal-regulators.html",
-    date: "2026-05-18",
-    tag: "解説",
-    thumb: "images/icu-study.jpg"
-  },
-  {
     title: "【保存版】ワクチン外来 — 肺炎球菌・帯状疱疹ワクチン",
     url: "pages/articles-gl-vaccine-outpatient.html",
     date: "2026-05-17",
     tag: "解説",
     thumb: "images/IDICUtop.png"
+  },
+  {
+    title: "ADJUST-DVT — 年齢調整DダイマーによるDVT除外（JAMA 2026）",
+    url: "pages/articles-gl-adjust-dvt2026.html",
+    date: "2026-05-16",
+    tag: "論文",
+    thumb: "images/朝カンファ風景.webp"
   },
   {
     title: "【便利ツール】By Systemカルテ作成ツール — 神経系MVP",
