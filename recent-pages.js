@@ -11,6 +11,13 @@
  */
 const RECENT_PAGES = [
   {
+    title: "【保存版】ワクチン外来 — 肺炎球菌・帯状疱疹ワクチン",
+    url: "pages/articles-gl-vaccine-outpatient.html",
+    date: "2026-05-17",
+    tag: "解説",
+    thumb: "images/IDICUtop.png"
+  },
+  {
     title: "【便利ツール】By Systemカルテ作成ツール — 神経系MVP",
     url: "pages/karte-by-system.html",
     date: "2026-05-16",

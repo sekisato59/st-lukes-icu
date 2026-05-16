@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>聖路加ICU ローテーターガイド 紹介スライド</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&amp;display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blue:#0D4F8C;
+      --blue-2:#1269B0;
+      --teal:#0F766E;
+      --teal-2:#134E4A;
+      --green:#2D7A4F;
+      --ink:#142033;
+      --muted:#5D6978;
+      --line:#D6DEE6;
+      --paper:#F6FAFD;
+      --white:#FFFFFF;
+      --amber:#B45309;
+      --shadow:0 8px 22px rgba(20,32,51,0.10);
+    }
+    * { box-sizing:border-box; }
+    html, body { margin:0;background:#DDE7F1;color:var(--ink);font-family:"Noto Sans JP",system-ui,sans-serif; }
+    body { counter-reset:slide; }
+    .deck { width:100%; }
+    .slide {
+      position:relative;
+      width:1280px;
+      height:720px;
+      margin:24px auto;
+      overflow:hidden;
+      background:#F8FAFC;
+      box-shadow:0 14px 42px rgba(20,32,51,0.18);
+      padding:38px 48px;
+      counter-increment:slide;
+    }
+    .slide.has-art { isolation:isolate; }
+    .slide.has-art > :not(.slide-art) { position:relative;z-index:1; }
+    .slide-art {
+      position:absolute;
+      right:28px;
+      bottom:24px;
+      width:370px;
+      height:260px;
+      background-image:var(--art);
+      background-repeat:no-repeat;
+      background-size:contain;
+      background-position:center;
+      opacity:.16;
+      pointer-events:none;
+      z-index:0;
+      filter:saturate(.96);
+    }
+    .slide-art.top-right { right:30px;top:54px;bottom:auto;width:330px;height:230px; }
+    .slide-art.left-low { left:22px;right:auto;bottom:18px;width:330px;height:230px; }
+    .slide-art.wide-low { left:52px;right:52px;bottom:18px;width:auto;height:170px;opacity:.12;background-size:cover; }
+    .slide:not(.brand)::before {
+      content:"";
+      position:absolute;left:0;top:0;right:0;height:8px;
+      background:linear-gradient(90deg,var(--blue),var(--teal));
+      z-index:2;
+    }
+    .slide.center-content { padding-top:58px; }
+    .slide.home-slide { padding-left:64px;padding-right:64px; }
+    .slide.home-slide h2 { margin-bottom:12px; }
+    .slide::after {
+      content:counter(slide, decimal-leading-zero);
+      position:absolute;right:28px;bottom:20px;
+      color:#8EA0B2;font-weight:900;font-size:14px;letter-spacing:.12em;
+      z-index:3;
+    }
+    .slide.brand {
+      color:#fff;
+      background:#071C2D;
+      padding:0;
+    }
+    .brand-bg {
+      position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+      opacity:.86;
+    }
+    .brand-shade {
+      position:absolute;inset:0;
+      background:linear-gradient(90deg,rgba(4,22,37,.86) 0%,rgba(4,22,37,.62) 45%,rgba(4,22,37,.18) 100%);
+    }
+    .brand-content {
+      position:absolute;left:70px;top:78px;width:700px;
+    }
+    .eyebrow {
+      display:inline-flex;align-items:center;gap:10px;
+      font-size:14px;font-weight:900;letter-spacing:.10em;color:var(--teal);
+      text-transform:uppercase;margin-bottom:12px;
+    }
+    .brand .eyebrow { color:#A7F3D0; }
+    .eyebrow::before {
+      content:"";width:34px;height:4px;border-radius:999px;background:currentColor;
+    }
+    h1 { margin:0;font-size:56px;line-height:1.08;font-weight:900;letter-spacing:0; }
+    h2 { margin:0 0 14px;font-size:35px;line-height:1.18;font-weight:900;letter-spacing:0;color:var(--blue); }
+    h3 { margin:0 0 7px;font-size:18px;line-height:1.35;font-weight:900;color:var(--teal-2); }
+    p { margin:0;color:var(--muted);font-size:16.5px;line-height:1.62;font-weight:500; }
+    .lead { font-size:22px;line-height:1.58;color:#EAF6FF;font-weight:700;margin-top:18px; }
+    .grid-2 { display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:center; }
+    .grid-2.showcase-right { grid-template-columns:.72fr 1.28fr; }
+    .grid-2.showcase-left { grid-template-columns:1.28fr .72fr; }
+    .grid-3 { display:grid;grid-template-columns:repeat(3,1fr);gap:14px; }
+    .grid-4 { display:grid;grid-template-columns:repeat(4,1fr);gap:12px; }
+    .fill { height:100%; }
+    .panel {
+      background:#fff;
+      border:1px solid rgba(214,222,230,.92);
+      border-radius:8px;
+      box-shadow:var(--shadow);
+      padding:22px;
+    }
+    .mini-card {
+      background:#fff;border:1px solid var(--line);border-radius:8px;padding:16px 16px;
+      min-height:122px;box-shadow:var(--shadow);
+    }
+    .mini-card .num {
+      display:inline-flex;align-items:center;justify-content:center;
+      width:34px;height:34px;border-radius:6px;background:#E6F7F3;color:var(--teal);
+      font-weight:900;font-size:17px;margin-bottom:10px;
+    }
+    .mini-card p { font-size:14.5px;line-height:1.58;color:#3D4B5C;font-weight:700; }
+    .browser {
+      background:#fff;border:1px solid #CBD5E1;border-radius:8px;overflow:hidden;box-shadow:var(--shadow);
+    }
+    .browser-bar {
+      height:28px;background:#F1F5F9;border-bottom:1px solid #D6DEE6;display:flex;align-items:center;gap:6px;padding:0 10px;
+    }
+    .dot { width:7px;height:7px;border-radius:50%;background:#94A3B8; }
+    .dot:nth-child(2) { background:#94A3B8; }
+    .dot:nth-child(3) { background:#94A3B8; }
+    .url { margin-left:8px;background:#fff;border:1px solid #D6DEE6;border-radius:5px;padding:2px 10px;color:#64748B;font-size:11px;font-weight:800;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis; }
+    .browser iframe { display:block;width:100%;height:100%;border:0;background:#fff; }
+    .browser.pc iframe {
+      width:1200px;
+      height:980px;
+      transform:scale(var(--pc-scale,.56));
+      transform-origin:0 0;
+    }
+    .browser.pc.compact iframe { --pc-scale:.48; }
+    .browser.pc.wide iframe { --pc-scale:.62; }
+    .browser.pc.full iframe { --pc-scale:.96; }
+    .screen-stack { position:relative; }
+    .screen-stack .browser { width:100%; }
+    .home-stack { height:452px; }
+    .home-stack .browser.pc iframe { --pc-scale:.96; }
+    .home-slide .home-stack { height:430px; }
+    .home-slide .home-stack .browser.pc iframe { --pc-scale:.91; }
+    .home-slide .caption { margin-top:6px; }
+    .phone {
+      position:absolute;right:18px;bottom:18px;
+      width:145px;height:292px;
+      border:6px solid #111827;
+      border-radius:23px;
+      background:#111827;
+      overflow:hidden;
+      box-shadow:0 14px 34px rgba(15,23,42,.26);
+    }
+    .phone::before {
+      content:"";
+      position:absolute;left:50%;top:7px;transform:translateX(-50%);
+      width:46px;height:5px;border-radius:999px;background:#374151;z-index:2;
+    }
+    .phone iframe {
+      display:block;
+      width:390px;height:760px;border:0;background:#fff;
+      transform:scale(.34);
+      transform-origin:0 0;
+      margin-top:18px;
+    }
+    .device-label {
+      position:absolute;right:18px;bottom:318px;
+      background:#111827;color:#fff;border-radius:6px;
+      padding:5px 9px;font-size:11px;font-weight:900;letter-spacing:.04em;
+    }
+    .shot { height:420px; }
+    .shot.tall { height:526px; }
+    .shot.short { height:292px; }
+    .image-shot {
+      width:100%;height:100%;object-fit:cover;display:block;background:#fff;
+    }
+    .banner {
+      width:100%;border-radius:8px;border:1px solid var(--line);box-shadow:var(--shadow);display:block;
+    }
+    .callout {
+      display:flex;align-items:flex-start;gap:10px;background:#F0FDFA;border:1px solid #99F6E4;border-radius:8px;padding:12px 14px;
+      color:var(--teal-2);font-size:15px;line-height:1.55;font-weight:800;
+    }
+    .callout.warn { background:#FFFBEB;border-color:#FDE68A;color:#92400E; }
+    .readable {
+      background:rgba(255,255,255,.92);
+      border:1px solid var(--line);
+      border-radius:8px;
+      padding:13px 15px;
+      box-shadow:var(--shadow);
+      margin-bottom:14px;
+    }
+    .readable p { color:#26364A;font-size:15.5px;line-height:1.58;font-weight:700; }
+    .readable small { display:block;margin-top:6px;color:var(--muted);font-size:13px;line-height:1.5;font-weight:700; }
+    .explain-list { display:grid;gap:10px;margin:14px 0 0;padding:0;list-style:none; }
+    .explain-list li {
+      position:relative;
+      padding-left:20px;
+      color:#26364A;
+      font-size:16px;
+      line-height:1.55;
+      font-weight:700;
+    }
+    .explain-list li::before {
+      content:"";
+      position:absolute;left:0;top:.62em;
+      width:7px;height:7px;border-radius:50%;
+      background:var(--teal);
+    }
+    .caption {
+      margin-top:10px;
+      color:#66768A;
+      font-size:13px;
+      line-height:1.5;
+      font-weight:800;
+      text-align:center;
+    }
+    .pill-row { display:flex;flex-wrap:wrap;gap:8px;margin-top:14px; }
+    .pill {
+      display:inline-flex;align-items:center;padding:7px 11px;border-radius:6px;
+      background:#fff;border:1px solid var(--line);font-size:13px;color:var(--ink);font-weight:800;
+    }
+    .steps { display:grid;gap:9px;margin-top:8px; }
+    .step {
+      display:grid;grid-template-columns:38px 1fr;gap:10px;align-items:start;
+      background:#fff;border:1px solid var(--line);border-radius:8px;padding:10px 12px;
+    }
+    .step b {
+      display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:6px;
+      background:var(--blue);color:#fff;font-weight:900;font-size:14px;
+    }
+    .step span { color:var(--ink);font-size:15px;line-height:1.48;font-weight:700; }
+    .section-label {
+      color:#fff;background:var(--blue);border-radius:6px;
+      padding:8px 12px;font-weight:900;font-size:15px;display:inline-flex;margin-bottom:10px;
+    }
+    .stat-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:28px; }
+    .stat { background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.25);border-radius:16px;padding:20px;backdrop-filter:blur(8px); }
+    .stat strong { display:block;font-size:42px;line-height:1;color:#fff;font-weight:900; }
+    .stat span { display:block;margin-top:9px;color:#D9F4FF;font-weight:800;font-size:15px; }
+    .footer-note { position:absolute;left:48px;bottom:20px;color:#8391A3;font-size:13px;font-weight:700; }
+    .quote {
+      font-size:27px;line-height:1.5;font-weight:900;color:var(--blue);
+      padding:18px 22px;background:#fff;border-left:6px solid var(--teal);border-radius:8px;box-shadow:var(--shadow);
+    }
+    .value-grid { display:grid;grid-template-columns:repeat(2,1fr);gap:12px; }
+    .value-card {
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:8px;
+      padding:15px 16px 14px;
+      box-shadow:var(--shadow);
+      min-height:150px;
+    }
+    .value-card strong {
+      display:block;
+      color:var(--blue);
+      font-size:17.5px;
+      line-height:1.35;
+      font-weight:900;
+      margin-bottom:8px;
+    }
+    .value-card p { color:#314154;font-size:14px;line-height:1.54;font-weight:700; }
+    .route-grid {
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:12px;
+      margin-top:18px;
+    }
+    .route-card {
+      min-height:210px;
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:8px;
+      box-shadow:var(--shadow);
+      padding:16px;
+      display:grid;
+      grid-template-rows:auto auto 1fr;
+      gap:9px;
+    }
+    .route-card .badge {
+      display:inline-flex;
+      width:max-content;
+      align-items:center;
+      border-radius:6px;
+      background:#E6F7F3;
+      color:var(--teal);
+      padding:5px 9px;
+      font-size:12px;
+      font-weight:900;
+      letter-spacing:.04em;
+    }
+    .route-card h3 { color:var(--blue);font-size:20px;margin:0; }
+    .route-card p { font-size:14px;line-height:1.55;font-weight:700;color:#314154; }
+    .route-flow {
+      align-self:end;
+      color:#0F766E;
+      font-size:13px;
+      line-height:1.45;
+      font-weight:900;
+      background:#F0FDFA;
+      border:1px solid #99F6E4;
+      border-radius:8px;
+      padding:9px 10px;
+    }
+    .safety-grid {
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:12px;
+      margin-top:14px;
+    }
+    .safety-card {
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:8px;
+      box-shadow:var(--shadow);
+      padding:14px 16px;
+      min-height:108px;
+    }
+    .safety-card strong { display:block;color:var(--blue);font-size:17px;line-height:1.35;margin-bottom:7px;font-weight:900; }
+    .safety-card p { color:#314154;font-size:14px;line-height:1.55;font-weight:700; }
+    .closing-tags { display:flex;flex-wrap:wrap;gap:9px;margin-top:22px; }
+    .closing-tags .pill { background:#F0FDFA;border-color:#99F6E4;color:var(--teal-2); }
+    .qr-box {
+      position:relative;
+      height:282px;
+      border:2px dashed #A9B7C7;
+      border-radius:18px;
+      display:grid;
+      place-items:center;
+      color:#718096;
+      font-size:20px;
+      font-weight:900;
+      background:
+        linear-gradient(90deg,rgba(13,79,140,.05) 1px,transparent 1px),
+        linear-gradient(rgba(13,79,140,.05) 1px,transparent 1px),
+        #fff;
+      background-size:18px 18px;
+      text-align:center;
+    }
+    .qr-box small {
+      display:block;
+      margin-top:8px;
+      font-size:13px;
+      line-height:1.45;
+      color:#8391A3;
+      font-weight:800;
+    }
+    .section-copy { display:grid;gap:12px;align-content:center; }
+    .section-copy .readable { margin:0; }
+    .section-copy .mini-pair { margin-top:0 !important; }
+    .video-copy { display:grid;gap:14px;align-content:center; }
+    .video-copy .quote { margin-top:0 !important; }
+    .video-copy .readable { margin-top:0 !important; }
+    .print-hint {
+      position:fixed;right:18px;bottom:18px;background:#142033;color:#fff;border-radius:999px;
+      padding:10px 14px;font-size:13px;font-weight:800;z-index:10;box-shadow:0 10px 28px rgba(0,0,0,.25);
+    }
+    @media print {
+      html, body { background:#fff; }
+      .slide { margin:0;box-shadow:none;page-break-after:always; }
+      .print-hint { display:none; }
+      @page { size:1280px 720px;margin:0; }
+    }
+    body.export-mode { background:#fff;overflow:hidden; }
+    body.export-mode .print-hint { display:none; }
+    body.export-mode .deck { width:1280px;height:720px;overflow:hidden; }
+    body.export-mode .slide { margin:0;box-shadow:none; }
+    body.export-mode .slide::after { content:attr(data-slide-number); }
+    body.export-mode .slide.export-hidden { display:none; }
+  </style>
+</head>
+<body>
+  <div class="print-hint">←/→で移動・印刷でPDF化</div>
+  <main class="deck">
+
+    <section class="slide brand">
+      <img class="brand-bg" src="../images/Toppage5.jpg" alt="">
+      <div class="brand-shade"></div>
+      <div class="brand-content">
+        <div class="eyebrow">St. Luke's ICU</div>
+        <h1>聖路加ICU<br>ローテーターガイド</h1>
+        <p class="lead">ICUで研修される方のための入門ガイドと、聖路加ICUの診療・教育・エビデンスを一本につなぐポータルサイト</p>
+        <p class="lead" style="font-size:19px;line-height:1.58;margin-top:12px;color:#D9F4FF;">ローテ開始前の準備から、日々の病棟業務、治療の根拠となる文献、講義動画、ベッドサイドで使う計算ツールまで、ひとつのサイトにまとめました。</p>
+        <div class="stat-grid">
+          <div class="stat"><strong>295</strong><span>全ページ一覧</span></div>
+          <div class="stat"><strong>1351</strong><span>検索インデックス</span></div>
+          <div class="stat"><strong>9</strong><span>便利ツール</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide center-content has-art" style="--art:url('generated-slide-assets/slide-02-overview-accent.png');">
+      <div class="slide-art top-right"></div>
+      <div class="eyebrow">Overview</div>
+      <h2>このページでできること</h2>
+      <div class="readable">
+        <p>ICUローテーション中に「何をすればよいか」「どこを調べればよいか」「なぜこの治療をしているのか」で迷わないための入口です。初めてICUで研修する方のHow Toと、聖路加ICUで日々行われている実践、その背景にあるエビデンス・教育資料・臨床ツールを結びつけます。</p>
+      </div>
+      <div class="value-grid">
+        <div class="value-card">
+          <strong>初めてICUに来た方の手引き</strong>
+          <p>ローテ前の準備、1日の流れ、入退室時の確認事項、カンファレンスの要点など、最初につまずきやすいポイントへすぐたどり着けます。</p>
+        </div>
+        <div class="value-card">
+          <strong>治療と根拠を結びつける</strong>
+          <p>聖路加で行っている治療や病棟での判断を、論文・ガイドライン・疾患マニュアルとひもづけ、「なぜこうするのか」をその場で確かめられます。</p>
+        </div>
+        <div class="value-card">
+          <strong>充実したレクチャー資料に届く</strong>
+          <p>ICU PASSPORT、講義動画、ID×ICU Conference、レジデント資料集など、院内に積み上がってきた教材を、目的から探しやすく並べています。</p>
+        </div>
+        <div class="value-card">
+          <strong>ベッドサイドの作業をすばやく</strong>
+          <p>抗菌薬投与量、栄養、輸血、重症度スコア、RASS／CAM-ICUなどを、開いたその場で計算・評価できます。</p>
+        </div>
+      </div>
+      <div class="pill-row" style="margin-top:16px;">
+        <span class="pill">ローテ前準備</span><span class="pill">病棟業務</span><span class="pill">学習資料</span><span class="pill">論文・ガイドライン</span><span class="pill">講義動画</span><span class="pill">便利ツール</span>
+      </div>
+      <p class="footer-note">トップページを起点に、日々の「どこを見れば？」を減らすつくりにしています。</p>
+    </section>
+
+    <section class="slide home-slide has-art" style="--art:url('generated-slide-assets/slide-03-home-devices.png');">
+      <div class="slide-art left-low"></div>
+      <div class="eyebrow">Home</div>
+      <h2>まずはトップページを見る</h2>
+      <div class="readable" style="margin-bottom:12px;">
+        <p>トップページには、ICU研修を始める方がまず押さえたい手引きと、日々の臨床で開きたい情報を、用途別のカテゴリで並べています。</p>
+      </div>
+      <div class="grid-3" style="grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px;">
+        <div class="step"><b>1</b><span>新着の資料は、トップページ上部にまとまっている</span></div>
+        <div class="step"><b>2</b><span>「準備」「学習」「動画」「ツール」など、目的に近いカテゴリから入る</span></div>
+        <div class="step"><b>3</b><span>見当たらないときは、サイト全体を一括検索する</span></div>
+      </div>
+      <div class="screen-stack home-stack">
+        <div class="browser pc full shot" style="height:100%;">
+          <div class="browser-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">index.html</span></div>
+          <iframe src="../index.html" title="トップページ"></iframe>
+        </div>
+        <div class="device-label">Mobile UI</div>
+        <div class="phone"><iframe src="../index.html" title="トップページ モバイル版"></iframe></div>
+      </div>
+      <div class="caption">中央はPCでの表示。右下にスマートフォンでの見え方を重ねています。</div>
+    </section>
+
+    <section class="slide has-art" style="--art:url('generated-slide-assets/slide-04-search-accent.png');">
+      <div class="slide-art top-right"></div>
+      <div class="eyebrow">Search</div>
+      <h2>検索機能の使い方</h2>
+      <div class="grid-2 showcase-left">
+        <div class="browser pc wide shot tall">
+          <div class="browser-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">pages/recent-all.html</span></div>
+          <iframe src="../pages/recent-all.html" title="検索ページ"></iframe>
+        </div>
+        <div>
+          <div class="readable">
+            <p>探したいテーマが決まっているときは、サイト全体の検索が一番の近道です。聖路加で実際に行っている治療や判断について、「何をしているか」から「その根拠となる論文・ガイドライン」までを一度に引き出せるよう、論文・GL、疾患マニュアル、ICUルールなどをまとめて検索できます。</p>
+            <small>例：「ARDS」「抗菌薬」「透析」「RASS」など。複数の言葉をスペースで区切ると、すべてを含むページに絞り込めます。</small>
+          </div>
+          <div class="steps">
+            <div class="step"><b>1</b><span>トップページの「コンテンツをすべて検索」を開く</span></div>
+            <div class="step"><b>2</b><span>知りたいテーマを入力する（複数語のときはスペースで区切る）</span></div>
+            <div class="step"><b>3</b><span>ジャンル・種別・Systemで候補を絞り込む</span></div>
+            <div class="step"><b>4</b><span>読みたいタイトルを選んでページを開く</span></div>
+          </div>
+          <div class="pill-row">
+            <span class="pill">抗菌薬</span><span class="pill">ARDS</span><span class="pill">B型肝炎</span><span class="pill">透析</span><span class="pill">RASS</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide has-art" style="--art:url('generated-slide-assets/slide-05-orientation-accent.png');">
+      <div class="slide-art wide-low"></div>
+      <div class="eyebrow">Orientation</div>
+      <h2>当院ICUについて</h2>
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:14px;">
+        <div class="mini-card" style="min-height:96px;padding:12px 14px;"><h3>当院ICUについて</h3><p>病棟の概要・診療体制・施設の特徴。</p></div>
+        <div class="mini-card" style="min-height:96px;padding:12px 14px;"><h3>ローテされる先生へ</h3><p>ローテ開始前に済ませておくTo Do。</p></div>
+        <div class="mini-card" style="min-height:96px;padding:12px 14px;"><h3>スタッフ紹介</h3><p>指導医・専属スタッフ・チーム編成。</p></div>
+        <div class="mini-card" style="min-height:96px;padding:12px 14px;"><h3>スケジュール</h3><p>1日の流れと週間のカンファ予定。</p></div>
+        <div class="mini-card" style="min-height:96px;padding:12px 14px;"><h3>ICUのルール</h3><p>診療方針と当院独自のルール。</p></div>
+      </div>
+      <div class="browser pc full shot" style="height:430px;">
+        <div class="browser-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">index.html#about</span></div>
+        <iframe src="../index.html#about" title="ICUについて"></iframe>
+      </div>
+    </section>
+
+    <section class="slide has-art" style="--art:url('generated-slide-assets/slide-06-learning-accent.png');">
+      <div class="slide-art top-right"></div>
+      <div class="eyebrow">Learning</div>
+      <h2>学習コンテンツ</h2>
+      <div class="grid-2 showcase-left">
+        <div class="browser pc wide shot tall">
+          <div class="browser-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">index.html#learning</span></div>
+          <iframe src="../index.html#learning" title="学習コンテンツ"></iframe>
+        </div>
+        <div>
+          <div class="section-label">段階を踏んで学べる構成</div>
+          <div class="readable">
+            <p>学習コンテンツは「まず基本を押さえる」入口と、「気になったテーマをさらに掘り下げる」入口を分けて並べています。聖路加ICUで積み上げられてきた質の高い資料に届きやすくし、ローテ中も学びが途切れない構成を目指しました。</p>
+          </div>
+          <div class="steps">
+            <div class="step"><b>基</b><span>ICU PASSPORT で、最初に押さえたい基本を一周する</span></div>
+            <div class="step"><b>深</b><span>論文・ガイドラインで、治療の背景を掘り下げる</span></div>
+            <div class="step"><b>横</b><span>疾患／症候マニュアルで、知識を疾患ごとに束ねる</span></div>
+            <div class="step"><b>資</b><span>レジデント資料集から、院内レクチャーの配布資料を開く</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide has-art" style="--art:url('generated-slide-assets/slide-07-evidence-accent.png');">
+      <div class="slide-art wide-low"></div>
+      <div class="eyebrow">Evidence</div>
+      <h2>聖路加の治療とエビデンスをつなぐ</h2>
+      <div class="grid-2">
+        <div class="browser pc compact shot">
+          <div class="browser-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">pages/articles-guidelines.html</span></div>
+          <iframe src="../pages/articles-guidelines.html" title="論文ガイドライン"></iframe>
+        </div>
+        <div class="browser pc compact shot">
+          <div class="browser-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">pages/disease-topics.html</span></div>
+          <iframe src="../pages/disease-topics.html" title="疾患マニュアル"></iframe>
+        </div>
+      </div>
+      <div class="grid-2" style="margin-top:20px;">
+        <div class="callout">論文・ガイドラインは臓器系統ごとに整理。原著の要点を読み、治療判断の根拠までたどれます。</div>
+        <div class="callout">疾患マニュアルでは、複数の論文・ガイドラインの知見を疾患単位でまとめて読み返せます。</div>
+      </div>
+    </section>
+
+    <section class="slide has-art" style="--art:url('generated-slide-assets/slide-08-video-accent.png');">
+      <div class="slide-art left-low"></div>
+      <div class="eyebrow">Video</div>
+      <h2>講義動画</h2>
+      <div class="grid-2">
+        <div class="video-copy">
+          <img class="banner" src="../images/header講義動画.jpg" alt="">
+          <div class="quote">学びたい内容を、<br>学びたい時に、<br>学びたいだけ。</div>
+          <div class="readable">
+            <p>講義動画は、ローテ中の振り返りや当直前のおさらいに使いやすいアーカイブです。聖路加ICUで重ねられてきた質の高いレクチャーへ、気になったテーマから直接たどり着けます。</p>
+          </div>
+        </div>
+        <div class="browser pc wide shot">
+          <div class="browser-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">pages/video-lectures.html</span></div>
+          <iframe src="../pages/video-lectures.html" title="講義動画"></iframe>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide has-art" style="--art:url('generated-slide-assets/slide-09-id-icu-accent.png');">
+      <div class="slide-art top-right"></div>
+      <div class="eyebrow">ID×ICU Conference</div>
+      <h2>ID×ICU カンファレンス と 板書ノート</h2>
+      <div class="readable">
+        <p>毎週金曜13:30から、感染症科の森先生による <strong>「ID×ICUカンファレンス」</strong> を開催しています。当日参加できなくても、終了後には<strong>動画アーカイブ</strong>と、聖路加ICUで取った<strong>板書ノート（Note）</strong>をサイト上に公開しているため、好きなタイミングで振り返れます。</p>
+      </div>
+      <div class="grid-2 mini-pair" style="grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;">
+        <div class="mini-card" style="min-height:auto;padding:12px 14px;"><h3>動画アーカイブ</h3><p>各回のカンファ動画にリンクで直接アクセス。当直前や復習時に頭出しで見返せます。</p></div>
+        <div class="mini-card" style="min-height:auto;padding:12px 14px;"><h3>板書ノート（Note）</h3><p>カンファ内容を板書ベースでまとめた解説ページ。図表・要点・参考文献まで残っています。</p></div>
+      </div>
+      <div class="grid-2" style="margin-top:14px;gap:18px;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:start;">
+        <div style="min-width:0;">
+          <div class="browser pc compact shot short">
+            <div class="browser-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">pages/schedule-weekly-id-icu.html#id-antibiotics</span></div>
+            <iframe src="../pages/schedule-weekly-id-icu.html#id-antibiotics" title="ID×ICUカンファレンス一覧"></iframe>
+          </div>
+          <div class="caption">カンファ一覧（動画／Note リンク付き）</div>
+        </div>
+        <div style="min-width:0;">
+          <div class="browser pc compact shot short">
+            <div class="browser-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">pages/id-icu-notes/note-vap.html</span></div>
+            <iframe src="../pages/id-icu-notes/note-vap.html" title="Note: VAP"></iframe>
+          </div>
+          <div class="caption">Note の例（VAP）— 各回ごとに板書まとめが付く</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide has-art" style="--art:url('generated-slide-assets/slide-10-tools-accent.png');">
+      <div class="slide-art top-right"></div>
+      <div class="eyebrow">Tools</div>
+      <h2>便利ツール</h2>
+      <div class="grid-2">
+        <div class="browser pc wide shot">
+          <div class="browser-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">index.html#tools</span></div>
+          <iframe src="../index.html#tools" title="便利ツール"></iframe>
+        </div>
+        <div>
+          <div class="readable">
+            <p>ベッドサイドで何度も使う計算や評価を、入力するだけで結果まで出せるようにしました。計算式や基準を毎回探す手間が省け、確認にかかる時間を確実に短くできます。</p>
+          </div>
+          <div class="grid-3" style="grid-template-columns:repeat(3,1fr);gap:12px;">
+            <span class="pill">抗菌薬投与量</span>
+            <span class="pill">LDL目標値</span>
+            <span class="pill">栄養計算</span>
+            <span class="pill">輸血予測</span>
+            <span class="pill">APACHE II</span>
+            <span class="pill">SOFA-2</span>
+            <span class="pill">RASS</span>
+            <span class="pill">CAM-ICU</span>
+            <span class="pill">略語チェック</span>
+          </div>
+          <div class="callout" style="margin-top:24px;">計算式を暗記するより、その場で正しく速く確認することを支えます。</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide has-art" style="--art:url('generated-slide-assets/slide-11-use-cases-accent.png');">
+      <div class="slide-art wide-low"></div>
+      <div class="eyebrow">Use Cases</div>
+      <h2>よくある場面別の使い方</h2>
+      <div class="readable">
+        <p>ページ名から探すだけが、このサイトの使い方ではありません。「初めてICUに来た日」「病棟で判断に迷ったとき」「根拠を確かめたいとき」など、場面から逆引きすると、必要なページに自然にたどり着けます。</p>
+      </div>
+      <div class="route-grid">
+        <div class="route-card">
+          <span class="badge">START</span>
+          <h3>ローテ初日</h3>
+          <p>集合前に確認したいことと、1日の動き方を短時間で押さえる。</p>
+          <div class="route-flow">ローテされる先生へ → スケジュール → ICUのルール</div>
+        </div>
+        <div class="route-card">
+          <span class="badge">WARD</span>
+          <h3>患者入室時</h3>
+          <p>入室時にやること、よくある確認事項、関連する病棟業務へ進む。</p>
+          <div class="route-flow">FAQ → ICU入室時To Do → 関連ページ</div>
+        </div>
+        <div class="route-card">
+          <span class="badge">TOOLS</span>
+          <h3>用量に迷う</h3>
+          <p>抗菌薬・栄養・輸血など、何度も使う計算をその場で確認する。</p>
+          <div class="route-flow">便利ツール → 入力 → 結果確認</div>
+        </div>
+        <div class="route-card">
+          <span class="badge">EVIDENCE</span>
+          <h3>根拠を探す</h3>
+          <p>聖路加で行う治療の背景を、論文・GLや疾患マニュアルから読む。</p>
+          <div class="route-flow">全ページ検索 → System絞り込み → 詳しく読む</div>
+        </div>
+      </div>
+      <div class="browser pc full shot short" style="margin-top:18px;height:178px;">
+        <div class="browser-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">index.html#faq</span></div>
+        <iframe src="../index.html#faq" title="FAQ"></iframe>
+      </div>
+    </section>
+
+    <section class="slide has-art" style="--art:url('generated-slide-assets/slide-12-safety-accent.png');">
+      <div class="slide-art top-right"></div>
+      <div class="eyebrow">Safety</div>
+      <h2>安全に使うために</h2>
+      <div class="grid-2 showcase-left">
+        <div class="browser pc wide shot">
+          <div class="browser-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">index.html</span></div>
+          <iframe src="../index.html" title="注意事項"></iframe>
+        </div>
+        <div>
+          <div class="readable" style="margin-bottom:0;">
+            <p>外部公開を前提としているため、患者情報の取り扱いと診療判断との関係を、最初にはっきりさせています。サイトは医師の判断を肩代わりするものではなく、確認や学びを下から支えるものです。</p>
+          </div>
+          <div class="safety-grid">
+            <div class="safety-card"><strong>患者情報は入れない</strong><p>氏名・ID・日時など、個人が特定される情報は入力しない。</p></div>
+            <div class="safety-card"><strong>教育・情報提供目的</strong><p>サイトの内容は診療判断を置き換えるものではありません。</p></div>
+            <div class="safety-card"><strong>最終判断は患者ごとに</strong><p>状態、院内方針、担当チームの判断を必ず優先します。</p></div>
+            <div class="safety-card"><strong>最新情報を確認</strong><p>迷ったときは指導医・スタッフに確認してから使います。</p></div>
+          </div>
+        </div>
+      </div>
+      <div class="callout warn" style="margin-top:20px;">外部に紹介する際は、この注意事項を冒頭で短く案内しておくと安心です。</div>
+    </section>
+
+    <section class="slide has-art" style="--art:url('generated-slide-assets/slide-13-closing-accent.png');">
+      <div class="slide-art top-right"></div>
+      <div class="eyebrow">Closing</div>
+      <h2>ICUで迷ったら、まずここへ</h2>
+      <div class="grid-2" style="grid-template-columns:1.12fr .88fr;gap:30px;align-items:center;">
+        <div>
+          <p style="font-size:25px;line-height:1.8;color:var(--ink);font-weight:800;">ローテ前の準備から、日々の病棟業務、学習、論文検索、ベッドサイドツールまで、ひとつの場所にまとめました。</p>
+          <div class="readable" style="margin-top:22px;">
+            <p>トップページを起点にすれば、「ICU研修の手引き」「聖路加で行っている治療の根拠」「質の高いレクチャー資料」「臨床で役立つツール」のすべてを、同じ場所からたどれます。今後もコンテンツを増やし、随時更新していきます。</p>
+          </div>
+          <div class="closing-tags">
+            <span class="pill">準備</span><span class="pill">業務</span><span class="pill">学習</span><span class="pill">検索</span><span class="pill">計算</span><span class="pill">復習</span>
+          </div>
+        </div>
+        <div>
+          <div class="qr-box">公開URL / QRコードを配置<small>URL確定後に差し替え</small></div>
+          <p style="margin-top:18px;text-align:center;">公開URLが決まり次第、ここにQRコードを差し込みます。</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+  <script>
+    (function(){
+      var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+      slides.forEach(function(slide, index) {
+        slide.setAttribute('data-slide-number', String(index + 1).padStart(2, '0'));
+      });
+      var params = new URLSearchParams(window.location.search);
+      var exportSlide = parseInt(params.get('slide') || '', 10);
+      if (!isNaN(exportSlide) && exportSlide >= 1 && exportSlide <= slides.length) {
+        document.body.classList.add('export-mode');
+        slides.forEach(function(slide, index) {
+          if (index !== exportSlide - 1) slide.classList.add('export-hidden');
+        });
+        return;
+      }
+      function go(delta) {
+        var y = window.scrollY;
+        var idx = slides.reduce(function(best, s, i) {
+          return Math.abs(s.offsetTop - y) < Math.abs(slides[best].offsetTop - y) ? i : best;
+        }, 0);
+        idx = Math.max(0, Math.min(slides.length - 1, idx + delta));
+        slides[idx].scrollIntoView({behavior:'smooth', block:'center'});
+      }
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') go(1);
+        if (e.key === 'ArrowLeft' || e.key === 'PageUp') go(-1);
+      });
+    })();
+  </script>
+</body>
+</html>
