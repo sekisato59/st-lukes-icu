@@ -11,6 +11,13 @@
  */
 const RECENT_PAGES = [
   {
+    title: "ADJUST-DVT — 年齢調整DダイマーによるDVT除外（JAMA 2026）",
+    url: "pages/articles-gl-adjust-dvt2026.html",
+    date: "2026-05-16",
+    tag: "論文",
+    thumb: "images/朝カンファ風景.webp"
+  },
+  {
     title: "【ID×ICU】発熱性好中球減少症（FN）板書ノート",
     url: "pages/id-icu-notes/note-fn.html",
     date: "2026-05-15",
