@@ -20,7 +20,7 @@ const RECENT_PAGES = [
   {
     title: "【吉田Q&A】病棟業務のToDoの優先順位（関谷先生の回答）",
     url: "pages/yoshida-qa/q-other-01.html",
-    date: "2026-05-16",
+    date: "2026-05-15",
     tag: "解説",
     thumb: "images/icu-study.jpg"
   },
