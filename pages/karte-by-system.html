@@ -14,7 +14,7 @@
     html, body { max-width:100%;overflow-x:hidden; }
     body { background:#F8FAFC; }
 
-    /* ===== バナー（共通） ===== */
+    /* ===== バナー ===== */
     .tools-banner { position:relative;width:100%;max-width:1294px;margin:64px auto 0;line-height:0; }
     .tools-banner-img {
       width:100%;height:auto;display:block;
@@ -22,25 +22,20 @@
       mask-image:linear-gradient(to bottom, #000 0%, #000 88%, transparent 100%);
     }
     .tools-banner-overlay {
-      position:absolute;left:6%;top:50%;transform:translateY(-50%);
-      max-width:62%;line-height:1.4;
+      position:absolute;left:6%;top:50%;transform:translateY(-50%);max-width:62%;line-height:1.4;
     }
     .tools-banner-title {
-      font-size:clamp(1.2rem,2.8vw,1.8rem);font-weight:900;
-      color:#0C4A6E;line-height:1.3;margin:0 0 8px;letter-spacing:-0.01em;
+      font-size:clamp(1.2rem,2.8vw,1.8rem);font-weight:900;color:#0C4A6E;line-height:1.3;
+      margin:0 0 8px;letter-spacing:-0.01em;
       text-shadow:0 1px 6px rgba(255,255,255,0.85), 0 0 12px rgba(255,255,255,0.6);
     }
     .tools-banner-sub {
       font-size:clamp(0.72rem,1.3vw,0.92rem);font-weight:600;color:#0369A1;
-      line-height:1.6;margin:0;
-      text-shadow:0 1px 4px rgba(255,255,255,0.85);
+      line-height:1.6;margin:0;text-shadow:0 1px 4px rgba(255,255,255,0.85);
     }
     @media (max-width:600px) {
       .tools-banner { line-height:1.4; }
-      .tools-banner-overlay {
-        position:static;transform:none;max-width:100%;
-        padding:14px 18px 4px;
-      }
+      .tools-banner-overlay { position:static;transform:none;max-width:100%;padding:14px 18px 4px; }
       .tools-banner-title { color:#0C4A6E;text-shadow:none;font-size:1.05rem !important;line-height:1.3 !important;margin:0 0 4px !important; }
       .tools-banner-sub { color:#64748B;text-shadow:none;font-size:0.7rem !important;line-height:1.55 !important; }
     }
@@ -53,108 +48,112 @@
     }
     .back-wrapper { display:flex;align-items:center;margin:6px 0 12px; }
     .back-btn {
-      display:inline-flex;align-items:center;justify-content:center;
-      padding:9px 16px;background:rgba(255,255,255,0.85);
-      border:1.5px solid #CBD5E1;border-radius:999px;color:#0F172A;
-      font-weight:700;font-size:0.82rem;text-decoration:none;
+      display:inline-flex;align-items:center;justify-content:center;padding:9px 16px;
+      background:rgba(255,255,255,0.85);border:1.5px solid #CBD5E1;border-radius:999px;
+      color:#0F172A;font-weight:700;font-size:0.82rem;text-decoration:none;
     }
     .back-btn:hover { background:#fff;border-color:#94A3B8; }
 
-    /* ===== 全体レイアウト：左：入力 / 右：サマリー ===== */
-    .kt-layout { display:grid;grid-template-columns:1fr 380px;gap:20px;align-items:start; }
+    /* ===== レイアウト ===== */
+    .kt-layout { display:grid;grid-template-columns:1fr 360px;gap:20px;align-items:start; }
     @media (max-width:980px) { .kt-layout { grid-template-columns:1fr; } }
 
-    /* ===== 案内ボックス ===== */
     .kt-instruction {
-      background:#EFF6FF;border:1.5px solid #93C5FD;border-radius:10px;
-      padding:12px 16px;margin:0 0 16px;
+      background:#EFF6FF;border:1.5px solid #93C5FD;border-radius:10px;padding:12px 16px;margin:0 0 16px;
       font-size:0.82rem;line-height:1.7;color:#0C4A6E;font-weight:500;
     }
     .kt-instruction strong { color:#0369A1;font-weight:800; }
 
-    /* ===== システムカード ===== */
-    .kt-system {
-      background:#fff;border:1px solid #E2E8F0;border-radius:12px;
-      box-shadow:0 1px 3px rgba(0,0,0,0.04);overflow:hidden;
+    /* ===== Step カード（SECTION 5 を踏襲） ===== */
+    .kt-step {
+      background:#fff;border:1px solid #E2E8F0;border-radius:8px;
+      box-shadow:0 1px 3px rgba(0,0,0,0.04);margin-bottom:14px;overflow:hidden;
     }
-    .kt-system-h {
-      background:linear-gradient(135deg,#0F172A,#1E40AF);color:#fff;
-      padding:14px 20px;font-size:1.0rem;font-weight:900;letter-spacing:0.02em;
-      display:flex;align-items:center;gap:10px;
+    .kt-step[hidden] { display:none; }
+    .kt-step.completed { border-color:#86EFAC;background:#F0FDF4; }
+    .kt-step.completed .kt-step-header-bar { opacity:0.85; }
+    .kt-step-inner { padding:16px 18px; }
+    .kt-step-header-bar {
+      display:flex;border-radius:6px;overflow:hidden;margin-bottom:12px;
     }
-    .kt-system-h .kt-system-num { font-size:1.4rem;opacity:0.7;font-weight:900; }
-    .kt-system-h .kt-system-en { font-size:0.72rem;color:rgba(255,255,255,0.6);font-weight:500;margin-left:auto; }
+    .kt-step-badge {
+      background:#0F172A;color:#fff;padding:8px 14px;font-size:0.82rem;font-weight:900;
+      display:flex;align-items:center;justify-content:center;min-width:38px;
+    }
+    .kt-step.completed .kt-step-badge { background:#15803D; }
+    .kt-step-title-bar {
+      background:linear-gradient(135deg,#1269B0,#1586C0);color:#fff;padding:8px 16px;
+      font-size:0.88rem;font-weight:700;flex:1;display:flex;align-items:center;gap:10px;
+    }
+    .kt-step.completed .kt-step-title-bar { background:linear-gradient(135deg,#15803D,#16A34A); }
+    .kt-step-title-bar .kt-step-en { font-size:0.7rem;color:rgba(255,255,255,0.7);font-weight:500;margin-left:auto; }
 
-    /* ===== 各 item ===== */
-    .kt-item {
-      padding:14px 20px;border-bottom:1px solid #E2E8F0;
-    }
-    .kt-item:last-child { border-bottom:none; }
-    .kt-item-label {
-      font-size:0.85rem;font-weight:800;color:#0F172A;margin-bottom:8px;
+    /* ===== 質問・回答 ===== */
+    .kt-q {
+      font-size:0.86rem;font-weight:700;color:#0F172A;margin:8px 0 10px;
       display:flex;align-items:center;gap:8px;
     }
-    .kt-item-label .kt-info-link {
-      font-size:0.7rem;font-weight:700;color:#1D4ED8;text-decoration:none;
-      padding:2px 7px;background:#DBEAFE;border-radius:4px;
-      transition:background 0.15s;
+    .kt-q::before { content:"Q.";color:#1D4ED8;font-weight:900;font-size:0.82rem; }
+    .kt-yn { display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px; }
+    .kt-yn-btn {
+      padding:9px 22px;background:#fff;border:1.5px solid #CBD5E1;border-radius:8px;
+      font-size:0.84rem;font-weight:700;color:#334155;cursor:pointer;font-family:inherit;
+      transition:all 0.12s;min-width:120px;
     }
-    .kt-item-label .kt-info-link:hover { background:#BFDBFE; }
-    .kt-item-hint {
-      font-size:0.72rem;color:#64748B;font-weight:500;margin-left:auto;
-    }
-    .kt-item-body { font-size:0.82rem;color:#334155; }
+    .kt-yn-btn:hover { background:#F1F5F9;border-color:#94A3B8; }
+    .kt-yn-btn.selected { background:#1D4ED8;border-color:#1D4ED8;color:#fff; }
+    .kt-yn-btn.selected.btn-no { background:#64748B;border-color:#64748B; }
 
-    /* ===== チップ式選択 ===== */
-    .kt-chips { display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px; }
+    /* ===== 条件付き内容 ===== */
+    .kt-cond[hidden] { display:none; }
+    .kt-cond {
+      margin-top:6px;padding:12px 14px;background:#F8FAFC;border:1px dashed #CBD5E1;border-radius:8px;
+    }
+    .kt-cond-title {
+      font-size:0.78rem;font-weight:800;color:#1E40AF;margin-bottom:8px;display:flex;align-items:center;gap:6px;
+    }
+    .kt-cond-title::before { content:"▸";color:#1E40AF; }
+
+    /* ===== チップ（RASS / 選択肢） ===== */
+    .kt-chips { display:flex;flex-wrap:wrap;gap:6px; }
     .kt-chip {
       padding:5px 12px;background:#F1F5F9;border:1.5px solid #E2E8F0;border-radius:999px;
-      font-size:0.78rem;font-weight:700;color:#475569;cursor:pointer;
-      transition:all 0.12s;font-family:inherit;
+      font-size:0.78rem;font-weight:700;color:#475569;cursor:pointer;font-family:inherit;
+      transition:all 0.12s;
     }
     .kt-chip:hover { background:#E2E8F0;border-color:#CBD5E1; }
-    .kt-chip.selected {
-      background:#1E40AF;border-color:#1E40AF;color:#fff;
-    }
-    .kt-chip.chip-target.selected {
-      background:#0369A1;border-color:#0369A1;
-    }
+    .kt-chip.selected { background:#1E40AF;border-color:#1E40AF;color:#fff; }
+    .kt-chip.chip-target.selected { background:#0369A1;border-color:#0369A1; }
+    .kt-chip.chip-warning.selected { background:#B45309;border-color:#B45309; }
 
-    /* ===== RASS グリッド（横並び） ===== */
-    .kt-rass-pair {
-      display:grid;grid-template-columns:max-content 1fr;gap:8px 12px;
-      align-items:center;
-    }
+    .kt-rass-pair { display:grid;grid-template-columns:max-content 1fr;gap:8px 12px;align-items:center; }
     .kt-rass-pair-label { font-size:0.75rem;font-weight:800;color:#475569; }
 
     /* ===== GCS テーブル ===== */
     .kt-gcs-table {
-      width:100%;border-collapse:collapse;font-size:0.78rem;margin-top:6px;
+      width:100%;border-collapse:collapse;font-size:0.78rem;margin-top:4px;
     }
     .kt-gcs-table th, .kt-gcs-table td {
       padding:5px 8px;border:1px solid #E2E8F0;text-align:left;vertical-align:middle;
     }
     .kt-gcs-table th { background:#F1F5F9;font-weight:800;color:#475569;font-size:0.72rem; }
-    .kt-gcs-table td.cat { background:#F8FAFC;font-weight:800;width:90px;font-size:0.72rem;color:#475569; }
-    .kt-gcs-table td.pt { text-align:center;width:32px;font-weight:800;color:#1E40AF; }
+    .kt-gcs-table td.cat { background:#F8FAFC;font-weight:800;width:78px;font-size:0.72rem;color:#475569; }
+    .kt-gcs-table td.pt { text-align:center;width:30px;font-weight:800;color:#1E40AF; }
     .kt-gcs-table label { display:flex;align-items:center;gap:6px;cursor:pointer;font-size:0.76rem; }
     .kt-gcs-table input[type=radio] { margin:0;accent-color:#1E40AF; }
     .kt-gcs-total {
-      margin-top:6px;font-size:0.82rem;font-weight:800;color:#0F172A;
-      display:flex;align-items:center;gap:10px;
+      margin-top:6px;font-size:0.84rem;font-weight:800;color:#0F172A;display:flex;align-items:center;gap:10px;
     }
-    .kt-gcs-total .reset-mini {
+    .kt-reset-mini {
       padding:3px 10px;background:#F1F5F9;border:1px solid #CBD5E1;border-radius:6px;
       font-size:0.7rem;font-weight:700;color:#64748B;cursor:pointer;font-family:inherit;
     }
-    .kt-gcs-total .reset-mini:hover { background:#E2E8F0; }
+    .kt-reset-mini:hover { background:#E2E8F0; }
 
-    /* ===== 薬剤入力（チップ + 用量） ===== */
-    .kt-drug-grid {
-      display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px;
-    }
+    /* ===== 薬剤入力 ===== */
+    .kt-drug-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px; }
     .kt-drug-row {
-      display:flex;align-items:center;gap:6px;padding:5px 8px;background:#F8FAFC;
+      display:flex;align-items:center;gap:6px;padding:5px 8px;background:#fff;
       border:1px solid #E2E8F0;border-radius:6px;
     }
     .kt-drug-row.selected { background:#EFF6FF;border-color:#93C5FD; }
@@ -166,17 +165,17 @@
     }
     .kt-drug-row input[type=text]:disabled { background:#F1F5F9;color:#94A3B8; }
     .kt-drug-row input[type=text]:focus { outline:2px solid #93C5FD;outline-offset:-1px;border-color:#1E40AF; }
-    .kt-drug-custom {
-      margin-top:6px;display:flex;gap:6px;
+    .kt-drug-row a.drug-info-link {
+      font-size:0.66rem;color:#1D4ED8;text-decoration:none;padding:1px 5px;background:#DBEAFE;border-radius:3px;
     }
+    .kt-drug-custom { margin-top:6px;display:flex;gap:6px; }
     .kt-drug-custom input {
-      flex:1;padding:6px 10px;font-size:0.78rem;border:1px solid #CBD5E1;border-radius:6px;
-      font-family:inherit;
+      flex:1;padding:6px 10px;font-size:0.78rem;border:1px solid #CBD5E1;border-radius:6px;font-family:inherit;
     }
     .kt-drug-custom input:focus { outline:2px solid #93C5FD;outline-offset:-1px; }
 
-    /* ===== Numeric scale (BPS / NRS) ===== */
-    .kt-num-scale { display:flex;flex-wrap:wrap;gap:4px;margin-bottom:6px; }
+    /* ===== 数値スケール ===== */
+    .kt-num-scale { display:flex;flex-wrap:wrap;gap:4px;margin-bottom:4px; }
     .kt-num-btn {
       width:34px;height:34px;display:flex;align-items:center;justify-content:center;
       background:#F1F5F9;border:1.5px solid #E2E8F0;border-radius:6px;
@@ -184,18 +183,16 @@
     }
     .kt-num-btn:hover { background:#E2E8F0; }
     .kt-num-btn.selected { background:#1E40AF;border-color:#1E40AF;color:#fff; }
-    .kt-num-help { font-size:0.7rem;color:#94A3B8;margin-top:2px; }
 
-    /* ===== Free text input ===== */
+    /* ===== Free text ===== */
     .kt-text-input {
       width:100%;padding:8px 12px;font-size:0.82rem;border:1px solid #CBD5E1;border-radius:6px;
-      font-family:inherit;line-height:1.55;color:#334155;
-      resize:vertical;min-height:42px;
+      font-family:inherit;line-height:1.55;color:#334155;resize:vertical;min-height:42px;
     }
     .kt-text-input:focus { outline:2px solid #93C5FD;outline-offset:-1px;border-color:#1E40AF; }
 
     /* ===== チェックリスト ===== */
-    .kt-checklist { display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:4px; }
+    .kt-checklist { display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:4px; }
     .kt-checklist label {
       display:flex;align-items:center;gap:6px;padding:4px 8px;cursor:pointer;
       font-size:0.78rem;font-weight:500;color:#334155;border-radius:4px;
@@ -203,7 +200,36 @@
     .kt-checklist label:hover { background:#F1F5F9; }
     .kt-checklist input[type=checkbox] { margin:0;accent-color:#1E40AF; }
 
-    /* ===== サマリーパネル（右側 sticky） ===== */
+    /* ===== ステップ ナビ ===== */
+    .kt-step-nav {
+      display:flex;justify-content:flex-end;gap:8px;margin-top:14px;padding-top:12px;
+      border-top:1px solid #E2E8F0;
+    }
+    .kt-step-nav .kt-btn-prev {
+      padding:8px 16px;background:#F1F5F9;border:1.5px solid #CBD5E1;border-radius:8px;
+      font-size:0.82rem;font-weight:700;color:#64748B;cursor:pointer;font-family:inherit;
+    }
+    .kt-step-nav .kt-btn-prev:hover { background:#E2E8F0; }
+    .kt-step-nav .kt-btn-next {
+      padding:8px 22px;background:#1D4ED8;border:1.5px solid #1D4ED8;border-radius:8px;
+      font-size:0.82rem;font-weight:800;color:#fff;cursor:pointer;font-family:inherit;
+    }
+    .kt-step-nav .kt-btn-next:hover { background:#1E40AF;border-color:#1E40AF; }
+    .kt-step-nav .kt-btn-next.is-skip { background:#F1F5F9;color:#64748B;border-color:#CBD5E1; }
+    .kt-step-nav .kt-btn-next.is-skip:hover { background:#E2E8F0; }
+
+    /* ===== Progress strip ===== */
+    .kt-progress {
+      display:flex;gap:4px;margin-bottom:14px;padding:10px 14px;background:#fff;border-radius:8px;
+      border:1px solid #E2E8F0;
+    }
+    .kt-progress-step {
+      flex:1;height:6px;background:#E2E8F0;border-radius:3px;transition:background 0.2s;
+    }
+    .kt-progress-step.active { background:#1D4ED8; }
+    .kt-progress-step.completed { background:#16A34A; }
+
+    /* ===== 右パネル：サマリー ===== */
     .kt-output-panel {
       position:sticky;top:80px;background:#fff;border:1px solid #E2E8F0;border-radius:12px;
       box-shadow:0 4px 16px rgba(0,0,0,0.06);overflow:hidden;
@@ -215,18 +241,15 @@
     .kt-output-h::before { content:"📋";font-size:1.0rem; }
     .kt-output-body { padding:14px 16px; }
     .kt-output-pre {
-      background:#F8FAFC;border:1px solid #E2E8F0;border-radius:8px;
-      padding:12px 14px;font-size:0.78rem;line-height:1.85;color:#0F172A;
+      background:#F8FAFC;border:1px solid #E2E8F0;border-radius:8px;padding:12px 14px;
+      font-size:0.78rem;line-height:1.85;color:#0F172A;
       font-family:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
-      white-space:pre-wrap;word-break:break-word;
-      max-height:580px;overflow-y:auto;margin:0;
+      white-space:pre-wrap;word-break:break-word;max-height:580px;overflow-y:auto;margin:0;
     }
     .kt-output-pre.empty {
       color:#94A3B8;font-style:italic;font-family:inherit;text-align:center;padding:32px 14px;
     }
-    .kt-output-actions {
-      display:flex;gap:8px;margin-top:12px;
-    }
+    .kt-output-actions { display:flex;gap:8px;margin-top:12px; }
     .kt-btn {
       flex:1;padding:9px 14px;border-radius:8px;font-family:inherit;
       font-size:0.82rem;font-weight:800;cursor:pointer;text-align:center;
@@ -239,24 +262,30 @@
     .kt-btn-secondary:hover { background:#E2E8F0;color:#334155; }
 
     .kt-disclaimer {
-      font-size:0.72rem;color:#94A3B8;line-height:1.7;margin-top:24px;
-      padding:14px 16px;background:#F8FAFC;border-radius:8px;border:1px solid #E2E8F0;
+      font-size:0.72rem;color:#94A3B8;line-height:1.7;margin-top:24px;padding:14px 16px;
+      background:#F8FAFC;border-radius:8px;border:1px solid #E2E8F0;
     }
     .kt-disclaimer strong { color:#64748B; }
 
+    .kt-info-note {
+      font-size:0.7rem;color:#64748B;background:#F8FAFC;border-left:3px solid #93C5FD;
+      padding:6px 10px;border-radius:0 4px 4px 0;margin-top:6px;
+    }
+    .kt-info-note .kt-info-icon::before { content:"💡";margin-right:4px; }
+
     @media (max-width:600px) {
       .page-wrap { padding:0 12px clamp(28px,1.5rem+1vw,40px) !important; }
-      .kt-system-h { font-size:0.88rem;padding:10px 14px; }
-      .kt-item { padding:10px 14px; }
-      .kt-item-label { font-size:0.78rem; }
+      .kt-step-inner { padding:12px 14px; }
+      .kt-step-title-bar { font-size:0.82rem; }
+      .kt-yn-btn { min-width:100px;padding:8px 16px;font-size:0.8rem; }
       .kt-output-panel { position:static; }
     }
 
-    /* ===== 埋め込みモード（?embed=1 で navbar/banner/back を隠して iframe 用に） ===== */
+    /* ===== 埋め込みモード ===== */
     body.embed-mode .navbar,
     body.embed-mode .tools-banner,
     body.embed-mode .back-wrapper { display:none !important; }
-    body.embed-mode .page-wrap { padding:6px 4px 12px !important; margin-top:0 !important; }
+    body.embed-mode .page-wrap { padding:6px 4px 12px !important;margin-top:0 !important; }
     body.embed-mode { background:transparent !important; }
   </style>
   <script>
@@ -290,7 +319,7 @@
   <img src="../images/便利ツール背景汎用.jpg" alt="" class="tools-banner-img" loading="lazy">
   <div class="tools-banner-overlay">
     <h1 class="tools-banner-title">By Systemカルテ作成ツール</h1>
-    <p class="tools-banner-sub">研修医向け：システムごとに患者状態を入力 → そのままコピペできるカルテサマリーを生成</p>
+    <p class="tools-banner-sub">研修医向け：ステップに沿って入力 → そのままコピペできるカルテサマリーを自動生成</p>
   </div>
 </div>
 
@@ -298,37 +327,43 @@
   <div class="back-wrapper"><a href="../index.html" class="back-btn">← ホームへ戻る</a></div>
 
   <div class="kt-instruction">
-    <strong>MVP（第1リリース）：神経系（PADIS）のみ</strong>。入力した項目だけがサマリーに反映されます（空欄項目は自動的に省略）。<br>
-    薬剤は<strong>クリックで選択</strong>→ 用量を入力。複数選択可。リロードで全リセット。
+    <strong>MVP（第1リリース）：神経系（PADIS）のみ</strong>。<strong>Step 1 から順に質問に答えるだけ</strong>でカルテが組み上がります。各ステップは「次へ」で進み、「前へ」で戻れます。入力した項目だけがサマリーに反映（空欄は省略）。リロードで全リセット。
   </div>
 
   <div class="kt-layout">
-    <!-- 左：入力フォーム -->
+    <!-- 左：ステップ -->
     <div>
-      <div class="kt-system" id="kt-neuro">
-        <div class="kt-system-h">
-          <span class="kt-system-num">#1</span>
-          <span>神経系（Neurological system）</span>
-          <span class="kt-system-en">PADIS</span>
-        </div>
+      <div class="kt-progress" id="ktProgress"></div>
 
-        <!-- 意識（RASS） -->
-        <div class="kt-item">
-          <div class="kt-item-label">RASS（現在 / 目標）<span class="kt-item-hint">クリックで選択</span></div>
-          <div class="kt-item-body">
+      <!-- ─── Step 1: 意識レベル ─── -->
+      <div class="kt-step" data-step="1">
+        <div class="kt-step-inner">
+          <div class="kt-step-header-bar">
+            <div class="kt-step-badge">1</div>
+            <div class="kt-step-title-bar">意識レベル<span class="kt-step-en">Consciousness</span></div>
+          </div>
+
+          <div class="kt-q">挿管されていますか？</div>
+          <div class="kt-yn">
+            <button type="button" class="kt-yn-btn" data-q="intubated" data-answer="yes">はい（挿管中）</button>
+            <button type="button" class="kt-yn-btn btn-no" data-q="intubated" data-answer="no">いいえ（非挿管）</button>
+          </div>
+
+          <!-- 挿管 YES → RASS -->
+          <div class="kt-cond" data-show-if="intubated=yes" hidden>
+            <div class="kt-cond-title">RASS で意識レベルを評価（現在 / 目標）</div>
             <div class="kt-rass-pair">
               <span class="kt-rass-pair-label">現在</span>
               <div class="kt-chips" data-rass-role="current"></div>
               <span class="kt-rass-pair-label">目標</span>
               <div class="kt-chips" data-rass-role="target"></div>
             </div>
+            <div class="kt-info-note"><span class="kt-info-icon"></span>挿管患者では原則として <strong>RASS 0、または −1〜−2 を目標</strong> に管理し、毎日の鎮静中断（DSI）を実施する。</div>
           </div>
-        </div>
 
-        <!-- GCS -->
-        <div class="kt-item">
-          <div class="kt-item-label">GCS（Glasgow Coma Scale）<span class="kt-item-hint">非挿管時 / 各項目をクリック</span></div>
-          <div class="kt-item-body">
+          <!-- 挿管 NO → GCS -->
+          <div class="kt-cond" data-show-if="intubated=no" hidden>
+            <div class="kt-cond-title">GCS で意識レベルを評価</div>
             <table class="kt-gcs-table">
               <thead><tr><th>項目</th><th>所見</th><th>点</th></tr></thead>
               <tbody>
@@ -340,7 +375,7 @@
                 <tr><td><label><input type="radio" name="gcs-v" value="4">混乱した会話</label></td><td class="pt">4</td></tr>
                 <tr><td><label><input type="radio" name="gcs-v" value="3">不適切な単語</label></td><td class="pt">3</td></tr>
                 <tr><td><label><input type="radio" name="gcs-v" value="2">理解不能な発声</label></td><td class="pt">2</td></tr>
-                <tr><td><label><input type="radio" name="gcs-v" value="1">発声なし（挿管中は VT）</label></td><td class="pt">1</td></tr>
+                <tr><td><label><input type="radio" name="gcs-v" value="1">発声なし</label></td><td class="pt">1</td></tr>
                 <tr><td rowspan="6" class="cat">運動 M</td><td><label><input type="radio" name="gcs-m" value="6">命令に従う</label></td><td class="pt">6</td></tr>
                 <tr><td><label><input type="radio" name="gcs-m" value="5">痛み刺激の局在</label></td><td class="pt">5</td></tr>
                 <tr><td><label><input type="radio" name="gcs-m" value="4">痛み刺激から逃避</label></td><td class="pt">4</td></tr>
@@ -349,18 +384,31 @@
                 <tr><td><label><input type="radio" name="gcs-m" value="1">反応なし</label></td><td class="pt">1</td></tr>
               </tbody>
             </table>
-            <div class="kt-gcs-total">合計 <span id="gcs-total-display">—</span> <button type="button" class="reset-mini" data-reset="gcs">リセット</button></div>
+            <div class="kt-gcs-total">合計 <span id="gcs-total-display">—</span> <button type="button" class="kt-reset-mini" data-reset="gcs">リセット</button></div>
+          </div>
+
+          <div class="kt-step-nav">
+            <button type="button" class="kt-btn-next" data-next="2">次へ →</button>
           </div>
         </div>
+      </div>
 
-        <!-- 鎮静薬 -->
-        <div class="kt-item">
-          <div class="kt-item-label">
-            鎮静薬
-            <a class="kt-info-link" href="articles-gl-sedatives-neuroicu2025.html" target="_blank">薬剤情報</a>
-            <span class="kt-item-hint">複数選択可・用量入力</span>
+      <!-- ─── Step 2: 鎮静 ─── -->
+      <div class="kt-step" data-step="2" hidden>
+        <div class="kt-step-inner">
+          <div class="kt-step-header-bar">
+            <div class="kt-step-badge">2</div>
+            <div class="kt-step-title-bar">鎮静（Sedation）<span class="kt-step-en">Sedatives</span></div>
           </div>
-          <div class="kt-item-body">
+
+          <div class="kt-q">鎮静薬を使用していますか？</div>
+          <div class="kt-yn">
+            <button type="button" class="kt-yn-btn" data-q="use_sedatives" data-answer="yes">はい</button>
+            <button type="button" class="kt-yn-btn btn-no" data-q="use_sedatives" data-answer="no">いいえ</button>
+          </div>
+
+          <div class="kt-cond" data-show-if="use_sedatives=yes" hidden>
+            <div class="kt-cond-title">薬剤と用量を入力（複数選択可）／<a class="drug-info-link" href="articles-gl-sedatives-neuroicu2025.html" target="_blank" style="font-size:0.7rem;background:#DBEAFE;color:#1D4ED8;padding:2px 7px;border-radius:4px;text-decoration:none;font-weight:700;">薬剤情報まとめ</a></div>
             <div class="kt-drug-grid" data-drug-group="sedatives"
                  data-options='[{"name":"プロポフォール","short":"PROP","placeholder":"30 mg/h"},
                                 {"name":"デクスメデトミジン","short":"DEX","placeholder":"0.4 µg/kg/h"},
@@ -368,33 +416,41 @@
                                 {"name":"ケタミン","short":"KET","placeholder":"0.2 mg/kg/h","link":"articles-gl-ketamine-bja2025.html"}]'></div>
             <div class="kt-drug-custom"><input type="text" data-drug-custom="sedatives" placeholder="その他（例：チオペンタール 3 mg/kg/h）"></div>
           </div>
-        </div>
 
-        <!-- 疼痛スケール BPS / NRS -->
-        <div class="kt-item">
-          <div class="kt-item-label">BPS（挿管） / NRS（非挿管）<span class="kt-item-hint">いずれか / クリックで選択</span></div>
-          <div class="kt-item-body">
-            <div style="display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start;">
-              <div>
-                <div style="font-size:0.72rem;font-weight:800;color:#475569;margin-bottom:3px;">BPS（3–12）</div>
-                <div class="kt-num-scale" data-num-scale="bps" data-min="3" data-max="12"></div>
-              </div>
-              <div>
-                <div style="font-size:0.72rem;font-weight:800;color:#475569;margin-bottom:3px;">NRS（0–10）</div>
-                <div class="kt-num-scale" data-num-scale="nrs" data-min="0" data-max="10"></div>
-              </div>
-            </div>
-            <div class="kt-num-help">BPS：表情・上肢の動き・人工呼吸器との同調（各1–4点）／NRS：患者自己申告 0=痛みなし～10=最大</div>
+          <div class="kt-step-nav">
+            <button type="button" class="kt-btn-prev" data-prev="1">← 前へ</button>
+            <button type="button" class="kt-btn-next" data-next="3">次へ →</button>
           </div>
         </div>
+      </div>
 
-        <!-- 鎮痛薬 -->
-        <div class="kt-item">
-          <div class="kt-item-label">
-            鎮痛薬
-            <a class="kt-info-link" href="articles-gl-fentanyl-induction-jic2026.html" target="_blank">薬剤情報</a>
+      <!-- ─── Step 3: 鎮痛 ─── -->
+      <div class="kt-step" data-step="3" hidden>
+        <div class="kt-step-inner">
+          <div class="kt-step-header-bar">
+            <div class="kt-step-badge">3</div>
+            <div class="kt-step-title-bar">鎮痛（Analgesia）<span class="kt-step-en">Pain / Analgesics</span></div>
           </div>
-          <div class="kt-item-body">
+
+          <!-- 疼痛スケール：挿管に応じて BPS or NRS -->
+          <div class="kt-cond" data-show-if="intubated=yes" hidden>
+            <div class="kt-cond-title">BPS（Behavioral Pain Scale）— 挿管患者用 3〜12点</div>
+            <div class="kt-num-scale" data-num-scale="bps" data-min="3" data-max="12"></div>
+            <div class="kt-info-note"><span class="kt-info-icon"></span>表情・上肢の動き・人工呼吸器との同調 各 1〜4 点。<strong>5 点以上で介入を検討</strong>。</div>
+          </div>
+          <div class="kt-cond" data-show-if="intubated=no" hidden>
+            <div class="kt-cond-title">NRS（Numeric Rating Scale）— 非挿管患者用 0〜10点</div>
+            <div class="kt-num-scale" data-num-scale="nrs" data-min="0" data-max="10"></div>
+            <div class="kt-info-note"><span class="kt-info-icon"></span>患者自己申告 0=痛みなし／10=最大の痛み。<strong>4 以上で介入</strong> が一般的目安。</div>
+          </div>
+
+          <div class="kt-q" style="margin-top:14px;">鎮痛薬を使用していますか？</div>
+          <div class="kt-yn">
+            <button type="button" class="kt-yn-btn" data-q="use_analgesics" data-answer="yes">はい</button>
+            <button type="button" class="kt-yn-btn btn-no" data-q="use_analgesics" data-answer="no">いいえ</button>
+          </div>
+          <div class="kt-cond" data-show-if="use_analgesics=yes" hidden>
+            <div class="kt-cond-title">薬剤と用量を入力／<a class="drug-info-link" href="articles-gl-fentanyl-induction-jic2026.html" target="_blank" style="font-size:0.7rem;background:#DBEAFE;color:#1D4ED8;padding:2px 7px;border-radius:4px;text-decoration:none;font-weight:700;">フェンタニル情報</a></div>
             <div class="kt-drug-grid" data-drug-group="analgesics"
                  data-options='[{"name":"フェンタニル","short":"FEN","placeholder":"40 µg/h","link":"articles-gl-fentanyl-induction-jic2026.html"},
                                 {"name":"モルヒネ","short":"MOR","placeholder":"1 mg/h"},
@@ -403,53 +459,40 @@
                                 {"name":"ケタミン","short":"KET","placeholder":"0.1 mg/kg/h","link":"articles-gl-ketamine-bja2025.html"}]'></div>
             <div class="kt-drug-custom"><input type="text" data-drug-custom="analgesics" placeholder="その他"></div>
           </div>
-        </div>
 
-        <!-- CAM-ICU -->
-        <div class="kt-item">
-          <div class="kt-item-label">CAM-ICU（せん妄評価） <a class="kt-info-link" href="cam-icu.html" target="_blank">採点ツール</a></div>
-          <div class="kt-item-body">
-            <div class="kt-chips" data-single-select="cam_icu">
-              <button type="button" class="kt-chip" data-value="陰性">陰性</button>
-              <button type="button" class="kt-chip" data-value="陽性">陽性</button>
-              <button type="button" class="kt-chip" data-value="評価不能（RASS −4/−5）">評価不能</button>
-            </div>
+          <div class="kt-step-nav">
+            <button type="button" class="kt-btn-prev" data-prev="2">← 前へ</button>
+            <button type="button" class="kt-btn-next" data-next="4">次へ →</button>
           </div>
         </div>
+      </div>
 
-        <!-- 睡眠薬 -->
-        <div class="kt-item">
-          <div class="kt-item-label">睡眠薬</div>
-          <div class="kt-item-body">
-            <div class="kt-drug-grid" data-drug-group="hypnotics"
-                 data-options='[{"name":"ラメルテオン","short":"RMT","placeholder":"8 mg 就寝前"},
-                                {"name":"スボレキサント","short":"SVT","placeholder":"15 mg 就寝前"},
-                                {"name":"レンボレキサント","short":"LMV","placeholder":"5 mg 就寝前"},
-                                {"name":"トラゾドン","short":"TRZ","placeholder":"25 mg 就寝前"}]'></div>
-            <div class="kt-drug-custom"><input type="text" data-drug-custom="hypnotics" placeholder="その他"></div>
+      <!-- ─── Step 4: せん妄 ─── -->
+      <div class="kt-step" data-step="4" hidden>
+        <div class="kt-step-inner">
+          <div class="kt-step-header-bar">
+            <div class="kt-step-badge">4</div>
+            <div class="kt-step-title-bar">せん妄（Delirium）<span class="kt-step-en">CAM-ICU</span></div>
           </div>
-        </div>
 
-        <!-- 抗痙攣薬 -->
-        <div class="kt-item">
-          <div class="kt-item-label">
-            抗痙攣薬
-            <a class="kt-info-link" href="articles-gl-se-lancetneurol2024.html" target="_blank">薬剤情報</a>
+          <!-- CAM-ICU: 自動「評価不能」表示 / 手動選択 -->
+          <div class="kt-q">CAM-ICU の評価結果は？ <a class="drug-info-link" href="cam-icu.html" target="_blank" style="font-size:0.7rem;background:#DBEAFE;color:#1D4ED8;padding:2px 7px;border-radius:4px;text-decoration:none;font-weight:700;margin-left:6px;">採点ツールを開く</a></div>
+          <div class="kt-chips" data-single-select="cam_icu" id="cam-icu-chips">
+            <button type="button" class="kt-chip" data-value="陰性">陰性</button>
+            <button type="button" class="kt-chip chip-warning" data-value="陽性">陽性</button>
+            <button type="button" class="kt-chip" data-value="評価不能（RASS −4/−5）">評価不能</button>
           </div>
-          <div class="kt-item-body">
-            <div class="kt-drug-grid" data-drug-group="anti_seizure"
-                 data-options='[{"name":"レベチラセタム","short":"LEV","placeholder":"1000 mg q12h"},
-                                {"name":"ホスフェニトイン","short":"fPHT","placeholder":"loading 20 mg/kg"},
-                                {"name":"バルプロ酸","short":"VPA","placeholder":"loading 30 mg/kg"},
-                                {"name":"ラコサミド","short":"LCM","placeholder":"100 mg q12h"}]'></div>
-            <div class="kt-drug-custom"><input type="text" data-drug-custom="anti_seizure" placeholder="その他"></div>
+          <div class="kt-info-note" id="cam-rass-hint" hidden>
+            <span class="kt-info-icon"></span><strong>RASS −4 または −5</strong> では CAM-ICU は評価対象外（深鎮静）。「評価不能」を選択してください。
           </div>
-        </div>
 
-        <!-- 抗譫妄薬 -->
-        <div class="kt-item">
-          <div class="kt-item-label">抗譫妄薬</div>
-          <div class="kt-item-body">
+          <div class="kt-q" style="margin-top:14px;">抗譫妄薬を使用していますか？</div>
+          <div class="kt-yn">
+            <button type="button" class="kt-yn-btn" data-q="use_anti_delirium" data-answer="yes">はい</button>
+            <button type="button" class="kt-yn-btn btn-no" data-q="use_anti_delirium" data-answer="no">いいえ</button>
+          </div>
+          <div class="kt-cond" data-show-if="use_anti_delirium=yes" hidden>
+            <div class="kt-cond-title">抗譫妄薬の選択と用量</div>
             <div class="kt-drug-grid" data-drug-group="anti_delirium"
                  data-options='[{"name":"ハロペリドール","short":"HAL","placeholder":"2.5 mg 頓用"},
                                 {"name":"クエチアピン","short":"QTP","placeholder":"25 mg 就寝前"},
@@ -457,20 +500,91 @@
                                 {"name":"オランザピン","short":"OLZ","placeholder":"2.5 mg 就寝前"}]'></div>
             <div class="kt-drug-custom"><input type="text" data-drug-custom="anti_delirium" placeholder="その他"></div>
           </div>
-        </div>
 
-        <!-- 不眠 -->
-        <div class="kt-item">
-          <div class="kt-item-label">不眠 — メモ</div>
-          <div class="kt-item-body">
-            <textarea class="kt-text-input" data-text="insomnia" rows="1" placeholder="例：夜間の覚醒頻回、入眠困難、昼夜逆転 等"></textarea>
+          <div class="kt-step-nav">
+            <button type="button" class="kt-btn-prev" data-prev="3">← 前へ</button>
+            <button type="button" class="kt-btn-next" data-next="5">次へ →</button>
           </div>
         </div>
+      </div>
 
-        <!-- 二次性脳損傷予防 -->
-        <div class="kt-item">
-          <div class="kt-item-label">二次性脳損傷予防</div>
-          <div class="kt-item-body">
+      <!-- ─── Step 5: 睡眠 ─── -->
+      <div class="kt-step" data-step="5" hidden>
+        <div class="kt-step-inner">
+          <div class="kt-step-header-bar">
+            <div class="kt-step-badge">5</div>
+            <div class="kt-step-title-bar">睡眠・不眠（Sleep）<span class="kt-step-en">Hypnotics</span></div>
+          </div>
+
+          <div class="kt-q">不眠の症状はありますか？</div>
+          <div class="kt-yn">
+            <button type="button" class="kt-yn-btn" data-q="has_insomnia" data-answer="yes">あり</button>
+            <button type="button" class="kt-yn-btn btn-no" data-q="has_insomnia" data-answer="no">なし</button>
+          </div>
+          <div class="kt-cond" data-show-if="has_insomnia=yes" hidden>
+            <div class="kt-cond-title">不眠の内容（メモ）</div>
+            <textarea class="kt-text-input" data-text="insomnia" rows="1" placeholder="例：夜間覚醒頻回、入眠困難、昼夜逆転 等"></textarea>
+            <div class="kt-cond-title" style="margin-top:10px;">睡眠薬の選択と用量</div>
+            <div class="kt-drug-grid" data-drug-group="hypnotics"
+                 data-options='[{"name":"ラメルテオン","short":"RMT","placeholder":"8 mg 就寝前"},
+                                {"name":"スボレキサント","short":"SVT","placeholder":"15 mg 就寝前"},
+                                {"name":"レンボレキサント","short":"LMV","placeholder":"5 mg 就寝前"},
+                                {"name":"トラゾドン","short":"TRZ","placeholder":"25 mg 就寝前"}]'></div>
+            <div class="kt-drug-custom"><input type="text" data-drug-custom="hypnotics" placeholder="その他"></div>
+          </div>
+
+          <div class="kt-step-nav">
+            <button type="button" class="kt-btn-prev" data-prev="4">← 前へ</button>
+            <button type="button" class="kt-btn-next" data-next="6">次へ →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── Step 6: 痙攣 ─── -->
+      <div class="kt-step" data-step="6" hidden>
+        <div class="kt-step-inner">
+          <div class="kt-step-header-bar">
+            <div class="kt-step-badge">6</div>
+            <div class="kt-step-title-bar">痙攣・てんかん（Seizure）<span class="kt-step-en">Anti-seizure</span></div>
+          </div>
+
+          <div class="kt-q">抗痙攣薬を使用していますか？（既往・予防・継続を含む）</div>
+          <div class="kt-yn">
+            <button type="button" class="kt-yn-btn" data-q="use_anti_seizure" data-answer="yes">はい</button>
+            <button type="button" class="kt-yn-btn btn-no" data-q="use_anti_seizure" data-answer="no">いいえ</button>
+          </div>
+          <div class="kt-cond" data-show-if="use_anti_seizure=yes" hidden>
+            <div class="kt-cond-title">薬剤と用量／<a class="drug-info-link" href="articles-gl-se-lancetneurol2024.html" target="_blank" style="font-size:0.7rem;background:#DBEAFE;color:#1D4ED8;padding:2px 7px;border-radius:4px;text-decoration:none;font-weight:700;">SE GL</a></div>
+            <div class="kt-drug-grid" data-drug-group="anti_seizure"
+                 data-options='[{"name":"レベチラセタム","short":"LEV","placeholder":"1000 mg q12h"},
+                                {"name":"ホスフェニトイン","short":"fPHT","placeholder":"loading 20 mg/kg"},
+                                {"name":"バルプロ酸","short":"VPA","placeholder":"loading 30 mg/kg"},
+                                {"name":"ラコサミド","short":"LCM","placeholder":"100 mg q12h"}]'></div>
+            <div class="kt-drug-custom"><input type="text" data-drug-custom="anti_seizure" placeholder="その他"></div>
+          </div>
+
+          <div class="kt-step-nav">
+            <button type="button" class="kt-btn-prev" data-prev="5">← 前へ</button>
+            <button type="button" class="kt-btn-next" data-next="7">次へ →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── Step 7: 二次性脳損傷予防 ─── -->
+      <div class="kt-step" data-step="7" hidden>
+        <div class="kt-step-inner">
+          <div class="kt-step-header-bar">
+            <div class="kt-step-badge">7</div>
+            <div class="kt-step-title-bar">二次性脳損傷予防<span class="kt-step-en">Neuroprotection</span></div>
+          </div>
+
+          <div class="kt-q">二次性脳損傷予防を意識した管理を行っていますか？</div>
+          <div class="kt-yn">
+            <button type="button" class="kt-yn-btn" data-q="use_neuroprotection" data-answer="yes">はい</button>
+            <button type="button" class="kt-yn-btn btn-no" data-q="use_neuroprotection" data-answer="no">いいえ</button>
+          </div>
+          <div class="kt-cond" data-show-if="use_neuroprotection=yes" hidden>
+            <div class="kt-cond-title">該当する項目を選択（複数可）</div>
             <div class="kt-checklist" data-checklist="neuro_protection">
               <label><input type="checkbox" value="頭部挙上30°">頭部挙上30°</label>
               <label><input type="checkbox" value="正常体温維持">正常体温維持</label>
@@ -483,13 +597,42 @@
             </div>
             <div class="kt-drug-custom" style="margin-top:6px;"><input type="text" data-text="neuro_protection_other" placeholder="その他（自由記載）"></div>
           </div>
-        </div>
 
-        <!-- 現在の問題点 -->
-        <div class="kt-item">
-          <div class="kt-item-label">現在の問題点</div>
-          <div class="kt-item-body">
-            <textarea class="kt-text-input" data-text="current_problems" rows="2" placeholder="例：意識回復遅延、興奮の制御困難、CAM-ICU陽性持続 等"></textarea>
+          <div class="kt-step-nav">
+            <button type="button" class="kt-btn-prev" data-prev="6">← 前へ</button>
+            <button type="button" class="kt-btn-next" data-next="8">次へ →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── Step 8: 現在の問題点 ─── -->
+      <div class="kt-step" data-step="8" hidden>
+        <div class="kt-step-inner">
+          <div class="kt-step-header-bar">
+            <div class="kt-step-badge">8</div>
+            <div class="kt-step-title-bar">現在の問題点<span class="kt-step-en">Active Issues</span></div>
+          </div>
+
+          <div class="kt-q">この神経系について、現在の問題点・気になる点は？（任意）</div>
+          <textarea class="kt-text-input" data-text="current_problems" rows="3" placeholder="例：意識回復遅延、興奮の制御困難、CAM-ICU 陽性持続、けいれんブレークスルー 等"></textarea>
+
+          <div class="kt-step-nav">
+            <button type="button" class="kt-btn-prev" data-prev="7">← 前へ</button>
+            <button type="button" class="kt-btn-next" data-next="9">完了 →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── Step 9: 完了サマリー（カード内に表示） ─── -->
+      <div class="kt-step" data-step="9" hidden>
+        <div class="kt-step-inner">
+          <div class="kt-step-header-bar">
+            <div class="kt-step-badge" style="background:#15803D;">✓</div>
+            <div class="kt-step-title-bar" style="background:linear-gradient(135deg,#15803D,#16A34A);">サマリー完成<span class="kt-step-en">Done</span></div>
+          </div>
+          <p style="font-size:0.84rem;color:#0F172A;margin:6px 0 12px;">右のサマリーパネルからカルテにコピペできます。修正したい項目があれば「前へ」で戻ってください。</p>
+          <div class="kt-step-nav">
+            <button type="button" class="kt-btn-prev" data-prev="8">← 前へ</button>
           </div>
         </div>
       </div>
@@ -500,7 +643,7 @@
       <div class="kt-output-panel">
         <div class="kt-output-h">カルテ サマリー（コピペ可）</div>
         <div class="kt-output-body">
-          <pre class="kt-output-pre empty" id="kt-output">項目を入力するとここに反映されます</pre>
+          <pre class="kt-output-pre empty" id="kt-output">Step 1 から入力するとここに反映されます</pre>
           <div class="kt-output-actions">
             <button type="button" class="kt-btn kt-btn-primary" id="kt-copy">📋 コピー</button>
             <button type="button" class="kt-btn kt-btn-secondary" id="kt-reset-all">全リセット</button>
@@ -512,38 +655,112 @@
 
   <div class="kt-disclaimer">
     <strong>注意：</strong>本ツールは入力支援を目的とした個人用メモジェネレーターです。<br>
-    生成されたテキストは必ず<strong>担当医が内容を確認</strong>のうえカルテに記載してください。患者を切り替える際は「全リセット」を押すか、ブラウザをリロードしてください（同一セッション内では入力が保持されます）。
+    生成されたテキストは必ず<strong>担当医が内容を確認</strong>のうえカルテに記載してください。患者を切り替える際は「全リセット」を押すか、ブラウザをリロードしてください。
   </div>
 </div>
 
 <script src="../script.js"></script>
 <script>
-/* ===== By Systemカルテ作成ツール ===== */
+/* ===== By Systemカルテ作成ツール（ステップ ウィザード） ===== */
 (function(){
+  var TOTAL_STEPS = 9;
+
   // ===== 状態 =====
   var state = {
+    intubated: null,          // 'yes' | 'no'
     rass_current: null,
     rass_target: null,
     gcs: { e:null, v:null, m:null },
+    use_sedatives: null,
     sedatives: { selected:{}, custom:'' },
     bps: null,
     nrs: null,
+    use_analgesics: null,
     analgesics: { selected:{}, custom:'' },
     cam_icu: null,
-    hypnotics: { selected:{}, custom:'' },
-    anti_seizure: { selected:{}, custom:'' },
+    use_anti_delirium: null,
     anti_delirium: { selected:{}, custom:'' },
+    has_insomnia: null,
     insomnia: '',
+    hypnotics: { selected:{}, custom:'' },
+    use_anti_seizure: null,
+    anti_seizure: { selected:{}, custom:'' },
+    use_neuroprotection: null,
     neuro_protection: [],
     neuro_protection_other: '',
     current_problems: ''
   };
 
   var RASS_VALUES = ['+4','+3','+2','+1','0','-1','-2','-3','-4','-5'];
+  var currentStep = 1;
+
+  // ===== Progress bar =====
+  var progress = document.getElementById('ktProgress');
+  for (var i = 1; i <= TOTAL_STEPS; i++) {
+    var p = document.createElement('div');
+    p.className = 'kt-progress-step';
+    p.dataset.step = i;
+    progress.appendChild(p);
+  }
+  function updateProgress(){
+    progress.querySelectorAll('.kt-progress-step').forEach(function(el){
+      var n = parseInt(el.dataset.step, 10);
+      el.classList.remove('active', 'completed');
+      if (n < currentStep) el.classList.add('completed');
+      else if (n === currentStep) el.classList.add('active');
+    });
+  }
+
+  // ===== Step show / hide =====
+  function showStep(n, scroll){
+    n = Math.max(1, Math.min(TOTAL_STEPS, n));
+    document.querySelectorAll('.kt-step').forEach(function(s){
+      var sn = parseInt(s.dataset.step, 10);
+      s.hidden = sn > n;
+      if (sn < n) s.classList.add('completed');
+      else s.classList.remove('completed');
+    });
+    currentStep = n;
+    updateProgress();
+    if (scroll) {
+      var t = document.querySelector('.kt-step[data-step="' + n + '"]');
+      if (t) t.scrollIntoView({ behavior:'smooth', block:'start' });
+    }
+  }
+
+  // ===== Yes/No 質問 =====
+  document.querySelectorAll('.kt-yn-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var q = btn.dataset.q;
+      var v = btn.dataset.answer;
+      state[q] = v;
+      // 同一 q のボタン群で selected を切り替え
+      document.querySelectorAll('.kt-yn-btn[data-q="' + q + '"]').forEach(function(b){
+        b.classList.toggle('selected', b === btn);
+      });
+      // 同じ step 内の条件付きを切り替え
+      updateConditionals();
+      render();
+    });
+  });
+
+  function updateConditionals(){
+    document.querySelectorAll('.kt-cond[data-show-if]').forEach(function(cond){
+      var expr = cond.dataset.showIf; // "key=value"
+      var parts = expr.split('=');
+      var key = parts[0], val = parts[1];
+      cond.hidden = (state[key] !== val);
+    });
+    // CAM-ICU の RASS -4/-5 注意ヒント
+    var hint = document.getElementById('cam-rass-hint');
+    if (hint) {
+      hint.hidden = !(state.rass_current === '-4' || state.rass_current === '-5');
+    }
+  }
 
   // ===== RASS chips =====
   document.querySelectorAll('[data-rass-role]').forEach(function(container){
-    var role = container.dataset.rassRole; // 'current' or 'target'
+    var role = container.dataset.rassRole;
     RASS_VALUES.forEach(function(v){
       var b = document.createElement('button');
       b.type = 'button';
@@ -552,8 +769,7 @@
       b.textContent = v;
       b.addEventListener('click', function(){
         var key = role === 'target' ? 'rass_target' : 'rass_current';
-        var cur = state[key];
-        if (cur === v) {
+        if (state[key] === v) {
           state[key] = null;
           b.classList.remove('selected');
         } else {
@@ -561,6 +777,7 @@
           container.querySelectorAll('.kt-chip').forEach(function(x){ x.classList.remove('selected'); });
           b.classList.add('selected');
         }
+        updateConditionals();
         render();
       });
       container.appendChild(b);
@@ -570,7 +787,7 @@
   // ===== GCS =====
   document.querySelectorAll('input[name^="gcs-"]').forEach(function(input){
     input.addEventListener('change', function(){
-      var part = input.name.split('-')[1]; // e | v | m
+      var part = input.name.split('-')[1];
       state.gcs[part] = parseInt(input.value, 10);
       updateGcsDisplay();
       render();
@@ -581,12 +798,17 @@
     if (state.gcs.e && state.gcs.v && state.gcs.m) {
       var total = state.gcs.e + state.gcs.v + state.gcs.m;
       t.innerHTML = '<strong>' + total + '点 (E' + state.gcs.e + 'V' + state.gcs.v + 'M' + state.gcs.m + ')</strong>';
-    } else {
-      t.textContent = '—';
-    }
+    } else { t.textContent = '—'; }
   }
+  var gcsReset = document.querySelector('[data-reset="gcs"]');
+  if (gcsReset) gcsReset.addEventListener('click', function(){
+    state.gcs = { e:null, v:null, m:null };
+    document.querySelectorAll('input[name^="gcs-"]').forEach(function(i){ i.checked = false; });
+    updateGcsDisplay();
+    render();
+  });
 
-  // ===== Drug groups (checkbox + dose input) =====
+  // ===== 薬剤グループ =====
   document.querySelectorAll('[data-drug-group]').forEach(function(container){
     var group = container.dataset.drugGroup;
     var options;
@@ -598,7 +820,7 @@
       row.innerHTML =
         '<input type="checkbox" id="' + id + '">' +
         '<label for="' + id + '">' + opt.name +
-          (opt.link ? ' <a href="' + opt.link + '" target="_blank" style="font-size:0.66rem;color:#1D4ED8;text-decoration:none;">[詳]</a>' : '') +
+          (opt.link ? ' <a class="drug-info-link" href="' + opt.link + '" target="_blank">[詳]</a>' : '') +
         '</label>' +
         '<input type="text" placeholder="' + opt.placeholder + '" disabled>';
       container.appendChild(row);
@@ -619,15 +841,12 @@
         render();
       });
       dose.addEventListener('input', function(){
-        if (state[group].selected[opt.name]) {
-          state[group].selected[opt.name].dose = dose.value;
-        }
+        if (state[group].selected[opt.name]) state[group].selected[opt.name].dose = dose.value;
         render();
       });
     });
   });
 
-  // ===== Drug custom (free text) =====
   document.querySelectorAll('[data-drug-custom]').forEach(function(input){
     var group = input.dataset.drugCustom;
     input.addEventListener('input', function(){
@@ -636,7 +855,7 @@
     });
   });
 
-  // ===== Numeric scales (BPS / NRS) =====
+  // ===== 数値スケール =====
   document.querySelectorAll('[data-num-scale]').forEach(function(container){
     var key = container.dataset.numScale;
     var min = parseInt(container.dataset.min, 10);
@@ -663,7 +882,7 @@
     }
   });
 
-  // ===== Single-select chip (CAM-ICU) =====
+  // ===== 単一選択チップ =====
   document.querySelectorAll('[data-single-select]').forEach(function(container){
     var key = container.dataset.singleSelect;
     container.querySelectorAll('.kt-chip').forEach(function(b){
@@ -682,7 +901,7 @@
     });
   });
 
-  // ===== Free text inputs =====
+  // ===== Free text =====
   document.querySelectorAll('[data-text]').forEach(function(el){
     var key = el.dataset.text;
     el.addEventListener('input', function(){
@@ -691,7 +910,7 @@
     });
   });
 
-  // ===== Checklist (neuro_protection) =====
+  // ===== チェックリスト =====
   document.querySelectorAll('[data-checklist]').forEach(function(container){
     var key = container.dataset.checklist;
     container.querySelectorAll('input[type=checkbox]').forEach(function(cb){
@@ -705,12 +924,12 @@
     });
   });
 
-  // ===== GCS reset =====
-  document.querySelector('[data-reset="gcs"]').addEventListener('click', function(){
-    state.gcs = { e:null, v:null, m:null };
-    document.querySelectorAll('input[name^="gcs-"]').forEach(function(i){ i.checked = false; });
-    updateGcsDisplay();
-    render();
+  // ===== ステップ ナビ =====
+  document.querySelectorAll('.kt-btn-next').forEach(function(b){
+    b.addEventListener('click', function(){ showStep(parseInt(b.dataset.next, 10), true); });
+  });
+  document.querySelectorAll('.kt-btn-prev').forEach(function(b){
+    b.addEventListener('click', function(){ showStep(parseInt(b.dataset.prev, 10), true); });
   });
 
   // ===== サマリー描画 =====
@@ -727,29 +946,28 @@
   function render(){
     var lines = ['＃1　Neurological system'];
 
-    // RASS（現在/目標）
-    if (state.rass_current != null || state.rass_target != null) {
-      var rassStr = '';
-      if (state.rass_current != null) rassStr += 'RASS ' + state.rass_current;
-      if (state.rass_target != null) rassStr += (rassStr ? '（目標 ' : 'RASS 目標 ') + state.rass_target + (rassStr.indexOf('（') !== -1 ? '）' : '');
-      lines.push('　[意識] ' + rassStr);
+    // 意識：RASS or GCS
+    var consc = [];
+    if (state.rass_current != null) {
+      var r = 'RASS ' + state.rass_current;
+      if (state.rass_target != null) r += '（目標 ' + state.rass_target + '）';
+      consc.push(r);
+    } else if (state.rass_target != null) {
+      consc.push('RASS 目標 ' + state.rass_target);
     }
-
-    // GCS
     if (state.gcs.e && state.gcs.v && state.gcs.m) {
       var t = state.gcs.e + state.gcs.v + state.gcs.m;
-      var lastLine = lines[lines.length - 1];
-      var gcsStr = 'GCS ' + t + '(E' + state.gcs.e + 'V' + state.gcs.v + 'M' + state.gcs.m + ')';
-      if (lastLine.indexOf('[意識]') !== -1) {
-        lines[lines.length - 1] = lastLine + ' / ' + gcsStr;
-      } else {
-        lines.push('　[意識] ' + gcsStr);
-      }
+      consc.push('GCS ' + t + '(E' + state.gcs.e + 'V' + state.gcs.v + 'M' + state.gcs.m + ')');
     }
+    if (consc.length) lines.push('　[意識] ' + consc.join(' / '));
 
     // 鎮静薬
-    var sed = fmtDrugs('sedatives');
-    if (sed) lines.push('　[鎮静薬] ' + sed);
+    if (state.use_sedatives === 'yes') {
+      var sed = fmtDrugs('sedatives');
+      if (sed) lines.push('　[鎮静薬] ' + sed);
+    } else if (state.use_sedatives === 'no') {
+      lines.push('　[鎮静薬] なし');
+    }
 
     // 疼痛スケール
     var pain = [];
@@ -758,31 +976,41 @@
     if (pain.length) lines.push('　[BPS/NRS] ' + pain.join(' / '));
 
     // 鎮痛薬
-    var anal = fmtDrugs('analgesics');
-    if (anal) lines.push('　[鎮痛薬] ' + anal);
+    if (state.use_analgesics === 'yes') {
+      var anal = fmtDrugs('analgesics');
+      if (anal) lines.push('　[鎮痛薬] ' + anal);
+    } else if (state.use_analgesics === 'no') {
+      lines.push('　[鎮痛薬] なし');
+    }
 
     // CAM-ICU
     if (state.cam_icu) lines.push('　[CAM-ICU] ' + state.cam_icu);
 
-    // 睡眠薬
-    var hyp = fmtDrugs('hypnotics');
-    if (hyp) lines.push('　[睡眠薬] ' + hyp);
+    // 抗譫妄薬
+    if (state.use_anti_delirium === 'yes') {
+      var ad = fmtDrugs('anti_delirium');
+      if (ad) lines.push('　[抗譫妄薬] ' + ad);
+    }
+
+    // 不眠 & 睡眠薬
+    if (state.has_insomnia === 'yes') {
+      if (state.insomnia.trim()) lines.push('　[不眠] ' + state.insomnia.trim());
+      var hyp = fmtDrugs('hypnotics');
+      if (hyp) lines.push('　[睡眠薬] ' + hyp);
+    }
 
     // 抗痙攣薬
-    var ase = fmtDrugs('anti_seizure');
-    if (ase) lines.push('　[抗痙攣薬] ' + ase);
-
-    // 抗譫妄薬
-    var ad = fmtDrugs('anti_delirium');
-    if (ad) lines.push('　[抗譫妄薬] ' + ad);
-
-    // 不眠
-    if (state.insomnia.trim()) lines.push('　[不眠] ' + state.insomnia.trim());
+    if (state.use_anti_seizure === 'yes') {
+      var ase = fmtDrugs('anti_seizure');
+      if (ase) lines.push('　[抗痙攣薬] ' + ase);
+    }
 
     // 二次性脳損傷予防
-    var np = state.neuro_protection.slice();
-    if (state.neuro_protection_other.trim()) np.push(state.neuro_protection_other.trim());
-    if (np.length) lines.push('　[二次性脳損傷予防] ' + np.join(', '));
+    if (state.use_neuroprotection === 'yes') {
+      var np = state.neuro_protection.slice();
+      if (state.neuro_protection_other.trim()) np.push(state.neuro_protection_other.trim());
+      if (np.length) lines.push('　[二次性脳損傷予防] ' + np.join(', '));
+    }
 
     // 現在の問題点
     if (state.current_problems.trim()) lines.push('　[現在の問題点] ' + state.current_problems.trim());
@@ -790,7 +1018,7 @@
     var out = document.getElementById('kt-output');
     if (lines.length === 1) {
       out.className = 'kt-output-pre empty';
-      out.textContent = '項目を入力するとここに反映されます';
+      out.textContent = 'Step 1 から入力するとここに反映されます';
     } else {
       out.className = 'kt-output-pre';
       out.textContent = lines.join('\n');
@@ -812,9 +1040,8 @@
       try { document.execCommand('copy'); } catch(e){}
       document.body.removeChild(ta);
     };
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).catch(copy);
-    } else copy();
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).catch(copy);
+    else copy();
     var btn = this;
     btn.classList.add('copied');
     var orig = btn.textContent;
@@ -828,7 +1055,8 @@
     location.reload();
   });
 
-  // 初期描画
+  // 初期化
+  showStep(1, false);
   render();
 })();
 </script>
