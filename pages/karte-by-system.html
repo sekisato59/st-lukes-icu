@@ -88,12 +88,11 @@
     .kt-step.completed .kt-step-title-bar { background:linear-gradient(135deg,#15803D,#16A34A); }
     .kt-step-title-bar .kt-step-en { font-size:0.7rem;color:rgba(255,255,255,0.7);font-weight:500;margin-left:auto; }
 
-    /* ===== 質問・回答 ===== */
+    /* ===== 質問・サブ見出し（同じ階層は全カテゴリで同じデザイン） ===== */
     .kt-q {
-      font-size:0.86rem;font-weight:700;color:#0F172A;margin:8px 0 10px;
-      display:flex;align-items:center;gap:8px;
+      font-size:0.86rem;font-weight:700;color:#0F172A;margin:10px 0 8px;
+      display:flex;align-items:center;gap:8px;line-height:1.5;
     }
-    .kt-q::before { content:"Q.";color:#1D4ED8;font-weight:900;font-size:0.82rem; }
     /* ===== Yes/No セグメンテッド トグル ===== */
     .kt-yn {
       display:inline-flex;background:#F1F5F9;border:1px solid #E2E8F0;border-radius:8px;
@@ -108,15 +107,15 @@
     .kt-yn-btn.selected { background:#1D4ED8;color:#fff;box-shadow:0 1px 2px rgba(0,0,0,0.08); }
     .kt-yn-btn.selected.btn-no { background:#64748B; }
 
-    /* ===== 条件付き内容 ===== */
+    /* ===== 条件付き内容（同じ階層は全カテゴリで同じデザイン） ===== */
     .kt-cond[hidden] { display:none; }
     .kt-cond {
-      margin-top:6px;padding:12px 14px;background:#F8FAFC;border:1px dashed #CBD5E1;border-radius:8px;
+      margin-top:6px;padding:12px 14px;background:#F8FAFC;border:1px solid #E2E8F0;border-radius:6px;
     }
     .kt-cond-title {
-      font-size:0.78rem;font-weight:800;color:#1E40AF;margin-bottom:8px;display:flex;align-items:center;gap:6px;
+      font-size:0.78rem;font-weight:700;color:#475569;margin-bottom:8px;
+      display:flex;align-items:center;gap:6px;flex-wrap:wrap;
     }
-    .kt-cond-title::before { content:"▸";color:#1E40AF; }
 
     /* ===== チップ（RASS / 選択肢） ===== */
     .kt-chips { display:flex;flex-wrap:wrap;gap:6px; }
@@ -219,8 +218,8 @@
       display:flex;align-items:center;gap:8px;flex-wrap:wrap;
     }
     .kt-drug-row label .kt-drug-short {
-      font-size:0.66rem;color:#64748B;background:#F1F5F9;padding:1px 6px;border-radius:3px;
-      font-family:ui-monospace,Menlo,Consolas,monospace;font-weight:800;letter-spacing:0.04em;
+      font-size:0.62rem;color:#94A3B8;background:transparent;padding:0;border-radius:0;
+      font-family:ui-monospace,Menlo,Consolas,monospace;font-weight:600;letter-spacing:0.04em;
     }
     .kt-drug-row input[type=checkbox] { margin:0;accent-color:#1E40AF;width:16px;height:16px; }
     .kt-drug-row input[type=text],
@@ -241,9 +240,14 @@
       font-size:0.72rem;color:#94A3B8;font-style:italic;margin-left:4px;
       grid-column:1 / -1;text-align:right;padding-right:4px;
     }
-    .kt-drug-row a.drug-info-link {
-      font-size:0.66rem;color:#1D4ED8;text-decoration:none;padding:1px 5px;background:#DBEAFE;border-radius:3px;
+    /* ===== 詳細リンク（全カテゴリで同じデザイン） ===== */
+    a.drug-info-link {
+      font-size:0.7rem;color:#64748B;text-decoration:none;padding:2px 7px;
+      background:transparent;border:1px solid #CBD5E1;border-radius:4px;font-weight:600;
+      transition:all 0.12s;
     }
+    a.drug-info-link:hover { background:#F1F5F9;color:#334155;border-color:#94A3B8; }
+    .kt-drug-row a.drug-info-link { font-size:0.62rem;padding:1px 5px; }
     @media (max-width:520px) {
       .kt-drug-row { grid-template-columns:24px 1fr;gap:6px; }
       .kt-drug-row input[type=text],
@@ -527,11 +531,11 @@
           <div class="kt-q">鎮静薬を使用していますか？</div>
           <div class="kt-yn">
             <button type="button" class="kt-yn-btn" data-q="use_sedatives" data-answer="yes">はい</button>
-            <button type="button" class="kt-yn-btn btn-no" data-q="use_sedatives" data-answer="no">いいえ</button>
+            <button type="button" class="kt-yn-btn btn-no" data-q="use_sedatives" data-answer="no" data-auto-next>いいえ</button>
           </div>
 
           <div class="kt-cond" data-show-if="use_sedatives=yes" hidden>
-            <div class="kt-cond-title">薬剤と用量を入力（複数選択可）／<a class="drug-info-link" href="articles-gl-sedatives-neuroicu2025.html" target="_blank" style="font-size:0.7rem;background:#DBEAFE;color:#1D4ED8;padding:2px 7px;border-radius:4px;text-decoration:none;font-weight:700;">薬剤情報まとめ</a></div>
+            <div class="kt-cond-title">薬剤と用量を入力（複数選択可）／<a class="drug-info-link" href="articles-gl-sedatives-neuroicu2025.html" target="_blank">薬剤情報まとめ</a></div>
             <div class="kt-drug-grid" data-drug-group="sedatives"
                  data-options='[{"name":"プロポフォール","short":"PROP","unit":"mL/h","placeholder":"5","convertTo":{"unit":"mg/h","factor":10,"note":"1% 製剤として換算"}},
                                 {"name":"デクスメデトミジン","short":"DEX","unit":"µg/kg/h","placeholder":"0.4"},
@@ -592,10 +596,10 @@
           <div class="kt-q" style="margin-top:14px;">鎮痛薬を使用していますか？</div>
           <div class="kt-yn">
             <button type="button" class="kt-yn-btn" data-q="use_analgesics" data-answer="yes">はい</button>
-            <button type="button" class="kt-yn-btn btn-no" data-q="use_analgesics" data-answer="no">いいえ</button>
+            <button type="button" class="kt-yn-btn btn-no" data-q="use_analgesics" data-answer="no" data-auto-next>いいえ</button>
           </div>
           <div class="kt-cond" data-show-if="use_analgesics=yes" hidden>
-            <div class="kt-cond-title">薬剤と用量を入力／<a class="drug-info-link" href="articles-gl-fentanyl-induction-jic2026.html" target="_blank" style="font-size:0.7rem;background:#DBEAFE;color:#1D4ED8;padding:2px 7px;border-radius:4px;text-decoration:none;font-weight:700;">フェンタニル情報</a></div>
+            <div class="kt-cond-title">薬剤と用量を入力／<a class="drug-info-link" href="articles-gl-fentanyl-induction-jic2026.html" target="_blank">フェンタニル情報</a></div>
             <div class="kt-drug-grid" data-drug-group="analgesics"
                  data-options='[{"name":"フェンタニル","short":"FEN","unit":"µg/h","placeholder":"40","link":"articles-gl-fentanyl-induction-jic2026.html"},
                                 {"name":"レミフェンタニル","short":"REM","unit":"γ","placeholder":"0.1","unitNote":"µg/kg/min"},
@@ -641,7 +645,7 @@
           <div class="kt-q" style="margin-top:14px;">抗譫妄薬を使用していますか？</div>
           <div class="kt-yn">
             <button type="button" class="kt-yn-btn" data-q="use_anti_delirium" data-answer="yes">はい</button>
-            <button type="button" class="kt-yn-btn btn-no" data-q="use_anti_delirium" data-answer="no">いいえ</button>
+            <button type="button" class="kt-yn-btn btn-no" data-q="use_anti_delirium" data-answer="no" data-auto-next>いいえ</button>
           </div>
           <div class="kt-cond" data-show-if="use_anti_delirium=yes" hidden>
             <div class="kt-cond-title">抗譫妄薬の選択と用量</div>
@@ -671,7 +675,7 @@
           <div class="kt-q">不眠の症状はありますか？</div>
           <div class="kt-yn">
             <button type="button" class="kt-yn-btn" data-q="has_insomnia" data-answer="yes">あり</button>
-            <button type="button" class="kt-yn-btn btn-no" data-q="has_insomnia" data-answer="no">なし</button>
+            <button type="button" class="kt-yn-btn btn-no" data-q="has_insomnia" data-answer="no" data-auto-next>なし</button>
           </div>
           <div class="kt-cond" data-show-if="has_insomnia=yes" hidden>
             <div class="kt-cond-title">不眠の内容（メモ）</div>
@@ -703,10 +707,10 @@
           <div class="kt-q">抗痙攣薬を使用していますか？（既往・予防・継続を含む）</div>
           <div class="kt-yn">
             <button type="button" class="kt-yn-btn" data-q="use_anti_seizure" data-answer="yes">はい</button>
-            <button type="button" class="kt-yn-btn btn-no" data-q="use_anti_seizure" data-answer="no">いいえ</button>
+            <button type="button" class="kt-yn-btn btn-no" data-q="use_anti_seizure" data-answer="no" data-auto-next>いいえ</button>
           </div>
           <div class="kt-cond" data-show-if="use_anti_seizure=yes" hidden>
-            <div class="kt-cond-title">薬剤と用量／<a class="drug-info-link" href="articles-gl-se-lancetneurol2024.html" target="_blank" style="font-size:0.7rem;background:#DBEAFE;color:#1D4ED8;padding:2px 7px;border-radius:4px;text-decoration:none;font-weight:700;">SE GL</a></div>
+            <div class="kt-cond-title">薬剤と用量／<a class="drug-info-link" href="articles-gl-se-lancetneurol2024.html" target="_blank">SE GL</a></div>
             <div class="kt-drug-grid" data-drug-group="anti_seizure"
                  data-options='[{"name":"レベチラセタム","short":"LEV","unit":"mg q12h","placeholder":"1000"},
                                 {"name":"ホスフェニトイン","short":"fPHT","unit":"mg/kg loading","placeholder":"20"},
@@ -733,7 +737,7 @@
           <div class="kt-q">二次性脳損傷予防を意識した管理を行っていますか？</div>
           <div class="kt-yn">
             <button type="button" class="kt-yn-btn" data-q="use_neuroprotection" data-answer="yes">はい</button>
-            <button type="button" class="kt-yn-btn btn-no" data-q="use_neuroprotection" data-answer="no">いいえ</button>
+            <button type="button" class="kt-yn-btn btn-no" data-q="use_neuroprotection" data-answer="no" data-auto-next>いいえ</button>
           </div>
           <div class="kt-cond" data-show-if="use_neuroprotection=yes" hidden>
             <div class="kt-cond-title">該当する項目を選択（複数可）</div>
@@ -882,19 +886,24 @@
     }
   }
 
-  // ===== Yes/No 質問 =====
+  // ===== Yes/No 質問（data-auto-next 付き → 選択後に自動で次へ進む） =====
   document.querySelectorAll('.kt-yn-btn').forEach(function(btn){
     btn.addEventListener('click', function(){
       var q = btn.dataset.q;
       var v = btn.dataset.answer;
       state[q] = v;
-      // 同一 q のボタン群で selected を切り替え
       document.querySelectorAll('.kt-yn-btn[data-q="' + q + '"]').forEach(function(b){
         b.classList.toggle('selected', b === btn);
       });
-      // 同じ step 内の条件付きを切り替え
       updateConditionals();
       render();
+
+      // data-auto-next（多くは「いいえ／なし」）→ 自動で次のステップへ
+      if (btn.hasAttribute('data-auto-next')) {
+        var step = btn.closest('.kt-step');
+        var nextBtn = step && step.querySelector('.kt-btn-next');
+        if (nextBtn) setTimeout(function(){ nextBtn.click(); }, 350);
+      }
     });
   });
 
