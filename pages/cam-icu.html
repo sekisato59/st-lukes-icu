@@ -523,11 +523,17 @@
         resultDetail.innerHTML = 'F1 陽性、F2 陽性、F3 陰性のため、F4（思考の混乱）の評価が必要です。';
       }
     }
+    // 親（karte-by-system）に結果を通知
+    function postResult(result, rassValue) {
+      if (location.search.indexOf('embed=1') === -1) return;
+      try { parent.postMessage({ type:'cam-icu-result', result: result, rass: rassValue }, '*'); } catch(e){}
+    }
     function showUnable() {
       resultCard.classList.add('visible','unable');
       resultCard.classList.remove('positive','negative');
       resultHead.textContent = '評価不能（Unable to assess）';
       resultDetail.innerHTML = '<strong>RASS −4 / −5</strong>（深鎮静・昏睡）のため CAM-ICU は評価できません。鎮静を浅くしてから再評価してください。';
+      postResult('unable', state.rass);
     }
     function showPositive() {
       resultCard.classList.add('visible','positive');
@@ -538,6 +544,7 @@
         '<strong>次の対応：</strong>原因評価（薬剤・電解質・感染・低酸素・脱水・拘束等）と非薬物的介入（早期離床・睡眠リズム・家族面会等）を優先。' +
         '低活動型なら Halo・抗精神病薬の有用性は限定的、過活動型・難治例で短期間使用を検討。<br>' +
         '<strong>サブタイプ：</strong>RASS &gt; 0 → 過活動型 ／ RASS ≤ 0 → 低活動型（最頻、見逃されやすい）。';
+      postResult('positive', state.rass);
     }
     function showNegative() {
       resultCard.classList.add('visible','negative');
@@ -545,9 +552,11 @@
       resultHead.textContent = 'CAM-ICU 陰性 — せん妄なし';
       resultDetail.innerHTML =
         '現時点でせん妄の所見はありません。ICU 入室中は <strong>1 シフトに 1 回以上</strong>の評価が推奨されます。';
+      postResult('negative', state.rass);
     }
     function hideResult() {
       resultCard.classList.remove('visible','positive','negative','unable');
+      postResult(null, null);
     }
 
     rassMinis.forEach(function(m){
