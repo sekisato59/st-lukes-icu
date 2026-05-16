@@ -129,6 +129,59 @@
     .kt-rass-pair { display:grid;grid-template-columns:max-content 1fr;gap:8px 12px;align-items:center; }
     .kt-rass-pair-label { font-size:0.75rem;font-weight:800;color:#475569; }
 
+    /* ===== Accordion（schedule-icu-conf の nx-acc を移植） ===== */
+    .kt-acc { border:1px solid #CBD5E1;border-radius:8px;margin:8px 0;overflow:hidden;background:#fff; }
+    .kt-acc summary {
+      padding:9px 14px;font-size:0.82rem;font-weight:700;color:#1D4ED8;cursor:pointer;
+      background:#F8FAFC;list-style:none;display:flex;align-items:center;gap:8px;
+    }
+    .kt-acc summary::-webkit-details-marker { display:none; }
+    .kt-acc summary::before { content:"▸";color:#1D4ED8;transition:transform 0.15s;font-size:0.9rem; }
+    .kt-acc[open] > summary::before { transform:rotate(90deg); }
+    .kt-acc[open] > summary { background:#EFF6FF;border-bottom:1px solid #CBD5E1; }
+    .kt-acc-out {
+      margin-left:auto;font-size:0.74rem;font-weight:800;padding:2px 9px;border-radius:999px;
+    }
+    .kt-acc-out.unset { color:#94A3B8;background:#F1F5F9;border:1px solid #E2E8F0; }
+    .kt-acc-out.set   { color:#fff;background:#1D4ED8;border:1px solid #1D4ED8; }
+    .kt-acc-out.set.target-out { background:#0369A1;border-color:#0369A1; }
+
+    /* ===== RASS ラダー（schedule-icu-conf の nx-rass を移植） ===== */
+    .kt-rass-ladder { background:#fff; }
+    .kt-rass-step {
+      padding:8px 14px;font-size:0.74rem;background:#F1F5F9;font-weight:700;color:#475569;
+      border-bottom:1px solid #CBD5E1;letter-spacing:0.02em;
+    }
+    .kt-rass-row {
+      display:grid;grid-template-columns:60px 1fr;gap:0;border-bottom:1px solid #E2E8F0;
+      align-items:stretch;cursor:pointer;transition:background 0.12s;
+    }
+    .kt-rass-row:last-child { border-bottom:none; }
+    .kt-rass-row:hover { background:#F8FAFC; }
+    .kt-rass-row.selected { background:#EFF6FF; }
+    .kt-rass-row.selected .kt-rass-text { font-weight:700;color:#0F172A; }
+    .kt-rass-score {
+      display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.92rem;
+      font-variant-numeric:tabular-nums;color:#fff;
+    }
+    .kt-rass-text { padding:9px 14px;font-size:0.78rem;line-height:1.55;color:#334155; }
+    .kt-rass-row[data-rass="+4"] .kt-rass-score,
+    .kt-rass-row[data-rass="+3"] .kt-rass-score,
+    .kt-rass-row[data-rass="+2"] .kt-rass-score,
+    .kt-rass-row[data-rass="+1"] .kt-rass-score { background:#DC2626; }
+    .kt-rass-row[data-rass="0"]  .kt-rass-score { background:#16A34A; }
+    .kt-rass-row[data-rass="-1"] .kt-rass-score,
+    .kt-rass-row[data-rass="-2"] .kt-rass-score,
+    .kt-rass-row[data-rass="-3"] .kt-rass-score,
+    .kt-rass-row[data-rass="-4"] .kt-rass-score,
+    .kt-rass-row[data-rass="-5"] .kt-rass-score { background:#1E40AF; }
+    .kt-rass-foot {
+      display:flex;align-items:center;justify-content:space-between;
+      padding:8px 14px;background:#F8FAFC;border-top:1px solid #E2E8F0;
+    }
+    .kt-rass-foot .selected-out { font-size:0.78rem;color:#475569; }
+    .kt-rass-foot .selected-out strong { color:#1D4ED8;margin-left:4px; }
+
     /* ===== GCS テーブル ===== */
     .kt-gcs-table {
       width:100%;border-collapse:collapse;font-size:0.78rem;margin-top:4px;
@@ -349,15 +402,50 @@
             <button type="button" class="kt-yn-btn btn-no" data-q="intubated" data-answer="no">いいえ（非挿管）</button>
           </div>
 
-          <!-- 挿管 YES → RASS -->
+          <!-- 挿管 YES → RASS（現在/目標の2つのアコーディオン） -->
           <div class="kt-cond" data-show-if="intubated=yes" hidden>
-            <div class="kt-cond-title">RASS で意識レベルを評価（現在 / 目標）</div>
-            <div class="kt-rass-pair">
-              <span class="kt-rass-pair-label">現在</span>
-              <div class="kt-chips" data-rass-role="current"></div>
-              <span class="kt-rass-pair-label">目標</span>
-              <div class="kt-chips" data-rass-role="target"></div>
-            </div>
+            <div class="kt-cond-title">RASS で意識レベルを評価</div>
+
+            <details class="kt-acc" data-rass-acc="current">
+              <summary>RASS（Richmond Agitation-Sedation Scale）<strong>現在</strong> — クリックで選択<span class="kt-acc-out unset" id="rass-current-out">未選択</span></summary>
+              <div class="kt-rass-ladder" data-rass-role="current">
+                <div class="kt-rass-step">① 30秒間 視診のみで観察</div>
+                <div class="kt-rass-row" data-rass="+4"><div class="kt-rass-score">+4</div><div class="kt-rass-text">暴力的で好戦的な行動</div></div>
+                <div class="kt-rass-row" data-rass="+3"><div class="kt-rass-score">+3</div><div class="kt-rass-text">興奮して攻撃的（チューブ自己抜去等）</div></div>
+                <div class="kt-rass-row" data-rass="+2"><div class="kt-rass-score">+2</div><div class="kt-rass-text">頻繁な非意図的運動・呼吸器ファイティング</div></div>
+                <div class="kt-rass-row" data-rass="+1"><div class="kt-rass-score">+1</div><div class="kt-rass-text">不安でそわそわするが攻撃的でも活発でもない</div></div>
+                <div class="kt-rass-row" data-rass="0"><div class="kt-rass-score">0</div><div class="kt-rass-text">意識清明・落ち着いている</div></div>
+                <div class="kt-rass-step">② 大声で名前を呼ぶ・開眼を伝える</div>
+                <div class="kt-rass-row" data-rass="-1"><div class="kt-rass-score">-1</div><div class="kt-rass-text">呼びかけで <strong>10秒以上</strong> の開眼と eye contact</div></div>
+                <div class="kt-rass-row" data-rass="-2"><div class="kt-rass-score">-2</div><div class="kt-rass-text">呼びかけで <strong>10秒未満</strong> の開眼と eye contact</div></div>
+                <div class="kt-rass-step">③ 10秒以上 eye contact なければ繰り返し</div>
+                <div class="kt-rass-row" data-rass="-3"><div class="kt-rass-score">-3</div><div class="kt-rass-text">呼びかけに動き/開眼あるが eye contact なし</div></div>
+                <div class="kt-rass-step">④ 動きがなければ肩を揺する・胸骨摩擦</div>
+                <div class="kt-rass-row" data-rass="-4"><div class="kt-rass-score">-4</div><div class="kt-rass-text">呼びかけ無反応だが身体刺激で動き/開眼あり</div></div>
+                <div class="kt-rass-row" data-rass="-5"><div class="kt-rass-score">-5</div><div class="kt-rass-text">呼びかけにも身体刺激にも無反応</div></div>
+                <div class="kt-rass-foot">
+                  <div class="selected-out">現在の RASS：<strong id="rass-current-display">—</strong></div>
+                  <button type="button" class="kt-reset-mini" data-reset="rass-current">リセット</button>
+                </div>
+              </div>
+            </details>
+
+            <details class="kt-acc" data-rass-acc="target">
+              <summary>RASS <strong>目標</strong> — クリックで選択<span class="kt-acc-out unset" id="rass-target-out">未選択</span></summary>
+              <div class="kt-rass-ladder" data-rass-role="target">
+                <div class="kt-rass-row" data-rass="+1"><div class="kt-rass-score">+1</div><div class="kt-rass-text">不安でそわそわするが攻撃的でも活発でもない</div></div>
+                <div class="kt-rass-row" data-rass="0"><div class="kt-rass-score">0</div><div class="kt-rass-text">意識清明・落ち着いている</div></div>
+                <div class="kt-rass-row" data-rass="-1"><div class="kt-rass-score">-1</div><div class="kt-rass-text">浅い鎮静（呼びかけで10秒以上開眼）</div></div>
+                <div class="kt-rass-row" data-rass="-2"><div class="kt-rass-score">-2</div><div class="kt-rass-text">軽度鎮静（呼びかけで10秒未満開眼）</div></div>
+                <div class="kt-rass-row" data-rass="-3"><div class="kt-rass-score">-3</div><div class="kt-rass-text">中等度鎮静（呼びかけに動き/開眼）</div></div>
+                <div class="kt-rass-row" data-rass="-4"><div class="kt-rass-score">-4</div><div class="kt-rass-text">深鎮静（身体刺激で反応）</div></div>
+                <div class="kt-rass-foot">
+                  <div class="selected-out">目標 RASS：<strong id="rass-target-display">—</strong></div>
+                  <button type="button" class="kt-reset-mini" data-reset="rass-target">リセット</button>
+                </div>
+              </div>
+            </details>
+
             <div class="kt-info-note"><span class="kt-info-icon"></span>挿管患者では原則として <strong>RASS 0、または −1〜−2 を目標</strong> に管理し、毎日の鎮静中断（DSI）を実施する。</div>
           </div>
 
@@ -691,7 +779,6 @@
     current_problems: ''
   };
 
-  var RASS_VALUES = ['+4','+3','+2','+1','0','-1','-2','-3','-4','-5'];
   var currentStep = 1;
 
   // ===== Progress bar =====
@@ -758,29 +845,60 @@
     }
   }
 
-  // ===== RASS chips =====
-  document.querySelectorAll('[data-rass-role]').forEach(function(container){
-    var role = container.dataset.rassRole;
-    RASS_VALUES.forEach(function(v){
-      var b = document.createElement('button');
-      b.type = 'button';
-      b.className = 'kt-chip' + (role === 'target' ? ' chip-target' : '');
-      b.dataset.value = v;
-      b.textContent = v;
-      b.addEventListener('click', function(){
-        var key = role === 'target' ? 'rass_target' : 'rass_current';
+  // ===== RASS ラダー（現在/目標、それぞれの details 内をクリックで選択） =====
+  document.querySelectorAll('.kt-rass-ladder').forEach(function(ladder){
+    var role = ladder.dataset.rassRole;  // 'current' | 'target'
+    var key = role === 'target' ? 'rass_target' : 'rass_current';
+    var outBadge = document.getElementById('rass-' + role + '-out');
+    var disp = document.getElementById('rass-' + role + '-display');
+
+    ladder.querySelectorAll('.kt-rass-row').forEach(function(row){
+      row.addEventListener('click', function(){
+        var v = row.dataset.rass;
         if (state[key] === v) {
           state[key] = null;
-          b.classList.remove('selected');
+          row.classList.remove('selected');
         } else {
           state[key] = v;
-          container.querySelectorAll('.kt-chip').forEach(function(x){ x.classList.remove('selected'); });
-          b.classList.add('selected');
+          ladder.querySelectorAll('.kt-rass-row').forEach(function(r){ r.classList.remove('selected'); });
+          row.classList.add('selected');
         }
+        updateRassDisplay(role);
         updateConditionals();
         render();
       });
-      container.appendChild(b);
+    });
+  });
+
+  function updateRassDisplay(role){
+    var key = role === 'target' ? 'rass_target' : 'rass_current';
+    var outBadge = document.getElementById('rass-' + role + '-out');
+    var disp = document.getElementById('rass-' + role + '-display');
+    if (state[key]) {
+      outBadge.textContent = 'RASS ' + state[key];
+      outBadge.className = 'kt-acc-out set' + (role === 'target' ? ' target-out' : '');
+      disp.textContent = state[key];
+    } else {
+      outBadge.textContent = '未選択';
+      outBadge.className = 'kt-acc-out unset';
+      disp.textContent = '—';
+    }
+  }
+
+  // RASS リセット ボタン
+  ['current','target'].forEach(function(role){
+    var btn = document.querySelector('[data-reset="rass-' + role + '"]');
+    if (!btn) return;
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      var key = role === 'target' ? 'rass_target' : 'rass_current';
+      state[key] = null;
+      document.querySelectorAll('.kt-rass-ladder[data-rass-role="' + role + '"] .kt-rass-row').forEach(function(r){
+        r.classList.remove('selected');
+      });
+      updateRassDisplay(role);
+      updateConditionals();
+      render();
     });
   });
 
