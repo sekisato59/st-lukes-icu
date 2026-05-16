@@ -11,7 +11,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style-v2.css?v=202605110530">
   <script src="search-index.js?v=20260512"></script>
-  <script src="recent-pages.js?v=20260516"></script>
+  <!-- recent-pages.js は日付ベースの ?v= で動的に読み込む（手動 bump 忘れ防止）-->
+  <script>document.write('<script src="recent-pages.js?v=' + new Date().toISOString().slice(0,10).replace(/-/g,'') + '"><\/script>');</script>
   <link rel="stylesheet" href="style-home.css?v=202605110530">
 </head>
 <body style="background-image:url('images/背景3.jpg');background-size:cover;background-position:center top;background-attachment:fixed;background-repeat:no-repeat;background-color:var(--hero-bg);">
@@ -70,7 +71,7 @@
         </div>
 
         <div id="dumNewsGrid" class="dum-news-grid" style="margin-left:calc(var(--dum-grid-shift) + var(--dum-card-pad));">
-          <!-- 新着3件は recent-pages.js から自動生成 -->
+          <!-- 新着6件は recent-pages.js から自動生成 -->
         </div>
         <hr style="margin:clamp(18px, 1rem + 1vw, 32px) calc(var(--dum-grid-shift) + var(--dum-card-pad)) 0;border:none;border-top:1px solid #D6DEE6;">
       </div>
@@ -568,7 +569,7 @@
       });
     })();
 
-    /* ===== 新着コンテンツ：recent-pages.js から日付降順で上位3件を描画 ===== */
+    /* ===== 新着コンテンツ：recent-pages.js から日付降順で上位6件を描画 ===== */
     (function(){
       var grid = document.getElementById('dumNewsGrid');
       if (!grid || typeof RECENT_PAGES === 'undefined' || !Array.isArray(RECENT_PAGES)) return;
@@ -580,8 +581,8 @@
         '症例':         'images/まとめアイコン.png'
       };
       function escape(s){ return String(s).replace(/[&<>"']/g, function(c){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]; }); }
-      var top3 = RECENT_PAGES.slice().sort(function(a,b){ return (b.date || '').localeCompare(a.date || ''); }).slice(0, 3);
-      grid.innerHTML = top3.map(function(p){
+      var top6 = RECENT_PAGES.slice().sort(function(a,b){ return (b.date || '').localeCompare(a.date || ''); }).slice(0, 6);
+      grid.innerHTML = top6.map(function(p){
         var cls = TAG_CLASS[p.tag] || '';
         var dateDisp = (p.date || '').replace(/-/g, '.');
         var iconSrc = TAG_ICON[p.tag] || p.thumb;
