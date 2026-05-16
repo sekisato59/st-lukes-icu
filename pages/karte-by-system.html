@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0">
+  <title>By Systemカルテ作成ツール | 聖路加ICU 便利ツール</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style-v2.css?v=202605110530">
+  <style>
+    html, body { max-width:100%;overflow-x:hidden; }
+    body { background:#F8FAFC; }
+
+    /* ===== バナー（共通） ===== */
+    .tools-banner { position:relative;width:100%;max-width:1294px;margin:64px auto 0;line-height:0; }
+    .tools-banner-img {
+      width:100%;height:auto;display:block;
+      -webkit-mask-image:linear-gradient(to bottom, #000 0%, #000 88%, transparent 100%);
+      mask-image:linear-gradient(to bottom, #000 0%, #000 88%, transparent 100%);
+    }
+    .tools-banner-overlay {
+      position:absolute;left:6%;top:50%;transform:translateY(-50%);
+      max-width:62%;line-height:1.4;
+    }
+    .tools-banner-title {
+      font-size:clamp(1.2rem,2.8vw,1.8rem);font-weight:900;
+      color:#0C4A6E;line-height:1.3;margin:0 0 8px;letter-spacing:-0.01em;
+      text-shadow:0 1px 6px rgba(255,255,255,0.85), 0 0 12px rgba(255,255,255,0.6);
+    }
+    .tools-banner-sub {
+      font-size:clamp(0.72rem,1.3vw,0.92rem);font-weight:600;color:#0369A1;
+      line-height:1.6;margin:0;
+      text-shadow:0 1px 4px rgba(255,255,255,0.85);
+    }
+    @media (max-width:600px) {
+      .tools-banner { line-height:1.4; }
+      .tools-banner-overlay {
+        position:static;transform:none;max-width:100%;
+        padding:14px 18px 4px;
+      }
+      .tools-banner-title { color:#0C4A6E;text-shadow:none;font-size:1.05rem !important;line-height:1.3 !important;margin:0 0 4px !important; }
+      .tools-banner-sub { color:#64748B;text-shadow:none;font-size:0.7rem !important;line-height:1.55 !important; }
+    }
+
+    .page-wrap {
+      max-width:1180px;margin:0 auto;
+      padding:0 clamp(16px,1rem+1.5vw,40px) clamp(40px,2rem+1.5vw,64px);
+      overflow-x:hidden;
+      font-family:'Noto Sans JP','Hiragino Kaku Gothic ProN','Hiragino Sans','Yu Gothic',sans-serif;
+    }
+    .back-wrapper { display:flex;align-items:center;margin:6px 0 12px; }
+    .back-btn {
+      display:inline-flex;align-items:center;justify-content:center;
+      padding:9px 16px;background:rgba(255,255,255,0.85);
+      border:1.5px solid #CBD5E1;border-radius:999px;color:#0F172A;
+      font-weight:700;font-size:0.82rem;text-decoration:none;
+    }
+    .back-btn:hover { background:#fff;border-color:#94A3B8; }
+
+    /* ===== 全体レイアウト：左：入力 / 右：サマリー ===== */
+    .kt-layout { display:grid;grid-template-columns:1fr 380px;gap:20px;align-items:start; }
+    @media (max-width:980px) { .kt-layout { grid-template-columns:1fr; } }
+
+    /* ===== 案内ボックス ===== */
+    .kt-instruction {
+      background:#EFF6FF;border:1.5px solid #93C5FD;border-radius:10px;
+      padding:12px 16px;margin:0 0 16px;
+      font-size:0.82rem;line-height:1.7;color:#0C4A6E;font-weight:500;
+    }
+    .kt-instruction strong { color:#0369A1;font-weight:800; }
+
+    /* ===== システムカード ===== */
+    .kt-system {
+      background:#fff;border:1px solid #E2E8F0;border-radius:12px;
+      box-shadow:0 1px 3px rgba(0,0,0,0.04);overflow:hidden;
+    }
+    .kt-system-h {
+      background:linear-gradient(135deg,#0F172A,#1E40AF);color:#fff;
+      padding:14px 20px;font-size:1.0rem;font-weight:900;letter-spacing:0.02em;
+      display:flex;align-items:center;gap:10px;
+    }
+    .kt-system-h .kt-system-num { font-size:1.4rem;opacity:0.7;font-weight:900; }
+    .kt-system-h .kt-system-en { font-size:0.72rem;color:rgba(255,255,255,0.6);font-weight:500;margin-left:auto; }
+
+    /* ===== 各 item ===== */
+    .kt-item {
+      padding:14px 20px;border-bottom:1px solid #E2E8F0;
+    }
+    .kt-item:last-child { border-bottom:none; }
+    .kt-item-label {
+      font-size:0.85rem;font-weight:800;color:#0F172A;margin-bottom:8px;
+      display:flex;align-items:center;gap:8px;
+    }
+    .kt-item-label .kt-info-link {
+      font-size:0.7rem;font-weight:700;color:#1D4ED8;text-decoration:none;
+      padding:2px 7px;background:#DBEAFE;border-radius:4px;
+      transition:background 0.15s;
+    }
+    .kt-item-label .kt-info-link:hover { background:#BFDBFE; }
+    .kt-item-hint {
+      font-size:0.72rem;color:#64748B;font-weight:500;margin-left:auto;
+    }
+    .kt-item-body { font-size:0.82rem;color:#334155; }
+
+    /* ===== チップ式選択 ===== */
+    .kt-chips { display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px; }
+    .kt-chip {
+      padding:5px 12px;background:#F1F5F9;border:1.5px solid #E2E8F0;border-radius:999px;
+      font-size:0.78rem;font-weight:700;color:#475569;cursor:pointer;
+      transition:all 0.12s;font-family:inherit;
+    }
+    .kt-chip:hover { background:#E2E8F0;border-color:#CBD5E1; }
+    .kt-chip.selected {
+      background:#1E40AF;border-color:#1E40AF;color:#fff;
+    }
+    .kt-chip.chip-target.selected {
+      background:#0369A1;border-color:#0369A1;
+    }
+
+    /* ===== RASS グリッド（横並び） ===== */
+    .kt-rass-pair {
+      display:grid;grid-template-columns:max-content 1fr;gap:8px 12px;
+      align-items:center;
+    }
+    .kt-rass-pair-label { font-size:0.75rem;font-weight:800;color:#475569; }
+
+    /* ===== GCS テーブル ===== */
+    .kt-gcs-table {
+      width:100%;border-collapse:collapse;font-size:0.78rem;margin-top:6px;
+    }
+    .kt-gcs-table th, .kt-gcs-table td {
+      padding:5px 8px;border:1px solid #E2E8F0;text-align:left;vertical-align:middle;
+    }
+    .kt-gcs-table th { background:#F1F5F9;font-weight:800;color:#475569;font-size:0.72rem; }
+    .kt-gcs-table td.cat { background:#F8FAFC;font-weight:800;width:90px;font-size:0.72rem;color:#475569; }
+    .kt-gcs-table td.pt { text-align:center;width:32px;font-weight:800;color:#1E40AF; }
+    .kt-gcs-table label { display:flex;align-items:center;gap:6px;cursor:pointer;font-size:0.76rem; }
+    .kt-gcs-table input[type=radio] { margin:0;accent-color:#1E40AF; }
+    .kt-gcs-total {
+      margin-top:6px;font-size:0.82rem;font-weight:800;color:#0F172A;
+      display:flex;align-items:center;gap:10px;
+    }
+    .kt-gcs-total .reset-mini {
+      padding:3px 10px;background:#F1F5F9;border:1px solid #CBD5E1;border-radius:6px;
+      font-size:0.7rem;font-weight:700;color:#64748B;cursor:pointer;font-family:inherit;
+    }
+    .kt-gcs-total .reset-mini:hover { background:#E2E8F0; }
+
+    /* ===== 薬剤入力（チップ + 用量） ===== */
+    .kt-drug-grid {
+      display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px;
+    }
+    .kt-drug-row {
+      display:flex;align-items:center;gap:6px;padding:5px 8px;background:#F8FAFC;
+      border:1px solid #E2E8F0;border-radius:6px;
+    }
+    .kt-drug-row.selected { background:#EFF6FF;border-color:#93C5FD; }
+    .kt-drug-row label { flex:1;font-size:0.78rem;font-weight:700;cursor:pointer;color:#334155; }
+    .kt-drug-row input[type=checkbox] { margin:0;accent-color:#1E40AF; }
+    .kt-drug-row input[type=text] {
+      width:90px;padding:3px 8px;font-size:0.78rem;border:1px solid #CBD5E1;border-radius:4px;
+      font-family:inherit;font-weight:500;
+    }
+    .kt-drug-row input[type=text]:disabled { background:#F1F5F9;color:#94A3B8; }
+    .kt-drug-row input[type=text]:focus { outline:2px solid #93C5FD;outline-offset:-1px;border-color:#1E40AF; }
+    .kt-drug-custom {
+      margin-top:6px;display:flex;gap:6px;
+    }
+    .kt-drug-custom input {
+      flex:1;padding:6px 10px;font-size:0.78rem;border:1px solid #CBD5E1;border-radius:6px;
+      font-family:inherit;
+    }
+    .kt-drug-custom input:focus { outline:2px solid #93C5FD;outline-offset:-1px; }
+
+    /* ===== Numeric scale (BPS / NRS) ===== */
+    .kt-num-scale { display:flex;flex-wrap:wrap;gap:4px;margin-bottom:6px; }
+    .kt-num-btn {
+      width:34px;height:34px;display:flex;align-items:center;justify-content:center;
+      background:#F1F5F9;border:1.5px solid #E2E8F0;border-radius:6px;
+      font-size:0.82rem;font-weight:800;color:#475569;cursor:pointer;font-family:inherit;
+    }
+    .kt-num-btn:hover { background:#E2E8F0; }
+    .kt-num-btn.selected { background:#1E40AF;border-color:#1E40AF;color:#fff; }
+    .kt-num-help { font-size:0.7rem;color:#94A3B8;margin-top:2px; }
+
+    /* ===== Free text input ===== */
+    .kt-text-input {
+      width:100%;padding:8px 12px;font-size:0.82rem;border:1px solid #CBD5E1;border-radius:6px;
+      font-family:inherit;line-height:1.55;color:#334155;
+      resize:vertical;min-height:42px;
+    }
+    .kt-text-input:focus { outline:2px solid #93C5FD;outline-offset:-1px;border-color:#1E40AF; }
+
+    /* ===== チェックリスト ===== */
+    .kt-checklist { display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:4px; }
+    .kt-checklist label {
+      display:flex;align-items:center;gap:6px;padding:4px 8px;cursor:pointer;
+      font-size:0.78rem;font-weight:500;color:#334155;border-radius:4px;
+    }
+    .kt-checklist label:hover { background:#F1F5F9; }
+    .kt-checklist input[type=checkbox] { margin:0;accent-color:#1E40AF; }
+
+    /* ===== サマリーパネル（右側 sticky） ===== */
+    .kt-output-panel {
+      position:sticky;top:80px;background:#fff;border:1px solid #E2E8F0;border-radius:12px;
+      box-shadow:0 4px 16px rgba(0,0,0,0.06);overflow:hidden;
+    }
+    .kt-output-h {
+      background:linear-gradient(135deg,#0F172A,#1E40AF);color:#fff;padding:12px 18px;
+      font-size:0.92rem;font-weight:900;display:flex;align-items:center;gap:10px;
+    }
+    .kt-output-h::before { content:"📋";font-size:1.0rem; }
+    .kt-output-body { padding:14px 16px; }
+    .kt-output-pre {
+      background:#F8FAFC;border:1px solid #E2E8F0;border-radius:8px;
+      padding:12px 14px;font-size:0.78rem;line-height:1.85;color:#0F172A;
+      font-family:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+      white-space:pre-wrap;word-break:break-word;
+      max-height:580px;overflow-y:auto;margin:0;
+    }
+    .kt-output-pre.empty {
+      color:#94A3B8;font-style:italic;font-family:inherit;text-align:center;padding:32px 14px;
+    }
+    .kt-output-actions {
+      display:flex;gap:8px;margin-top:12px;
+    }
+    .kt-btn {
+      flex:1;padding:9px 14px;border-radius:8px;font-family:inherit;
+      font-size:0.82rem;font-weight:800;cursor:pointer;text-align:center;
+      transition:all 0.12s;border:1.5px solid transparent;
+    }
+    .kt-btn-primary { background:#1E40AF;color:#fff;border-color:#1E40AF; }
+    .kt-btn-primary:hover { background:#1E3A8A;border-color:#1E3A8A; }
+    .kt-btn-primary.copied { background:#16A34A;border-color:#16A34A; }
+    .kt-btn-secondary { background:#F1F5F9;color:#475569;border-color:#CBD5E1; }
+    .kt-btn-secondary:hover { background:#E2E8F0;color:#334155; }
+
+    .kt-disclaimer {
+      font-size:0.72rem;color:#94A3B8;line-height:1.7;margin-top:24px;
+      padding:14px 16px;background:#F8FAFC;border-radius:8px;border:1px solid #E2E8F0;
+    }
+    .kt-disclaimer strong { color:#64748B; }
+
+    @media (max-width:600px) {
+      .page-wrap { padding:0 12px clamp(28px,1.5rem+1vw,40px) !important; }
+      .kt-system-h { font-size:0.88rem;padding:10px 14px; }
+      .kt-item { padding:10px 14px; }
+      .kt-item-label { font-size:0.78rem; }
+      .kt-output-panel { position:static; }
+    }
+
+    /* ===== 埋め込みモード（?embed=1 で navbar/banner/back を隠して iframe 用に） ===== */
+    body.embed-mode .navbar,
+    body.embed-mode .tools-banner,
+    body.embed-mode .back-wrapper { display:none !important; }
+    body.embed-mode .page-wrap { padding:6px 4px 12px !important; margin-top:0 !important; }
+    body.embed-mode { background:transparent !important; }
+  </style>
+  <script>
+    (function(){
+      if (location.search.indexOf('embed=1') !== -1) {
+        document.addEventListener('DOMContentLoaded', function(){
+          document.body.classList.add('embed-mode');
+          var ro = new ResizeObserver(function(){
+            parent.postMessage({ type:'tool-height', height: document.body.scrollHeight }, '*');
+          });
+          ro.observe(document.body);
+        });
+      }
+    })();
+  </script>
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <a href="../index.html" class="nav-logo">
+      <img src="../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+      <span class="nav-logo-text">聖路加国際病院ICU</span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-label="メニューを開く"><span></span><span></span><span></span></button>
+    <ul class="nav-menu" id="navMenu"></ul>
+  </div>
+</nav>
+
+<div class="tools-banner">
+  <img src="../images/便利ツール背景汎用.jpg" alt="" class="tools-banner-img" loading="lazy">
+  <div class="tools-banner-overlay">
+    <h1 class="tools-banner-title">By Systemカルテ作成ツール</h1>
+    <p class="tools-banner-sub">研修医向け：システムごとに患者状態を入力 → そのままコピペできるカルテサマリーを生成</p>
+  </div>
+</div>
+
+<div class="page-wrap">
+  <div class="back-wrapper"><a href="../index.html" class="back-btn">← ホームへ戻る</a></div>
+
+  <div class="kt-instruction">
+    <strong>MVP（第1リリース）：神経系（PADIS）のみ</strong>。入力した項目だけがサマリーに反映されます（空欄項目は自動的に省略）。<br>
+    薬剤は<strong>クリックで選択</strong>→ 用量を入力。複数選択可。リロードで全リセット。
+  </div>
+
+  <div class="kt-layout">
+    <!-- 左：入力フォーム -->
+    <div>
+      <div class="kt-system" id="kt-neuro">
+        <div class="kt-system-h">
+          <span class="kt-system-num">#1</span>
+          <span>神経系（Neurological system）</span>
+          <span class="kt-system-en">PADIS</span>
+        </div>
+
+        <!-- 意識（RASS） -->
+        <div class="kt-item">
+          <div class="kt-item-label">RASS（現在 / 目標）<span class="kt-item-hint">クリックで選択</span></div>
+          <div class="kt-item-body">
+            <div class="kt-rass-pair">
+              <span class="kt-rass-pair-label">現在</span>
+              <div class="kt-chips" data-rass-role="current"></div>
+              <span class="kt-rass-pair-label">目標</span>
+              <div class="kt-chips" data-rass-role="target"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- GCS -->
+        <div class="kt-item">
+          <div class="kt-item-label">GCS（Glasgow Coma Scale）<span class="kt-item-hint">非挿管時 / 各項目をクリック</span></div>
+          <div class="kt-item-body">
+            <table class="kt-gcs-table">
+              <thead><tr><th>項目</th><th>所見</th><th>点</th></tr></thead>
+              <tbody>
+                <tr><td rowspan="4" class="cat">開眼 E</td><td><label><input type="radio" name="gcs-e" value="4">自発的に開眼</label></td><td class="pt">4</td></tr>
+                <tr><td><label><input type="radio" name="gcs-e" value="3">呼びかけで開眼</label></td><td class="pt">3</td></tr>
+                <tr><td><label><input type="radio" name="gcs-e" value="2">痛み刺激で開眼</label></td><td class="pt">2</td></tr>
+                <tr><td><label><input type="radio" name="gcs-e" value="1">開眼しない</label></td><td class="pt">1</td></tr>
+                <tr><td rowspan="5" class="cat">言語 V</td><td><label><input type="radio" name="gcs-v" value="5">見当識あり</label></td><td class="pt">5</td></tr>
+                <tr><td><label><input type="radio" name="gcs-v" value="4">混乱した会話</label></td><td class="pt">4</td></tr>
+                <tr><td><label><input type="radio" name="gcs-v" value="3">不適切な単語</label></td><td class="pt">3</td></tr>
+                <tr><td><label><input type="radio" name="gcs-v" value="2">理解不能な発声</label></td><td class="pt">2</td></tr>
+                <tr><td><label><input type="radio" name="gcs-v" value="1">発声なし（挿管中は VT）</label></td><td class="pt">1</td></tr>
+                <tr><td rowspan="6" class="cat">運動 M</td><td><label><input type="radio" name="gcs-m" value="6">命令に従う</label></td><td class="pt">6</td></tr>
+                <tr><td><label><input type="radio" name="gcs-m" value="5">痛み刺激の局在</label></td><td class="pt">5</td></tr>
+                <tr><td><label><input type="radio" name="gcs-m" value="4">痛み刺激から逃避</label></td><td class="pt">4</td></tr>
+                <tr><td><label><input type="radio" name="gcs-m" value="3">異常屈曲</label></td><td class="pt">3</td></tr>
+                <tr><td><label><input type="radio" name="gcs-m" value="2">異常伸展</label></td><td class="pt">2</td></tr>
+                <tr><td><label><input type="radio" name="gcs-m" value="1">反応なし</label></td><td class="pt">1</td></tr>
+              </tbody>
+            </table>
+            <div class="kt-gcs-total">合計 <span id="gcs-total-display">—</span> <button type="button" class="reset-mini" data-reset="gcs">リセット</button></div>
+          </div>
+        </div>
+
+        <!-- 鎮静薬 -->
+        <div class="kt-item">
+          <div class="kt-item-label">
+            鎮静薬
+            <a class="kt-info-link" href="articles-gl-sedatives-neuroicu2025.html" target="_blank">薬剤情報</a>
+            <span class="kt-item-hint">複数選択可・用量入力</span>
+          </div>
+          <div class="kt-item-body">
+            <div class="kt-drug-grid" data-drug-group="sedatives"
+                 data-options='[{"name":"プロポフォール","short":"PROP","placeholder":"30 mg/h"},
+                                {"name":"デクスメデトミジン","short":"DEX","placeholder":"0.4 µg/kg/h"},
+                                {"name":"ミダゾラム","short":"MDZ","placeholder":"2 mg/h"},
+                                {"name":"ケタミン","short":"KET","placeholder":"0.2 mg/kg/h","link":"articles-gl-ketamine-bja2025.html"}]'></div>
+            <div class="kt-drug-custom"><input type="text" data-drug-custom="sedatives" placeholder="その他（例：チオペンタール 3 mg/kg/h）"></div>
+          </div>
+        </div>
+
+        <!-- 疼痛スケール BPS / NRS -->
+        <div class="kt-item">
+          <div class="kt-item-label">BPS（挿管） / NRS（非挿管）<span class="kt-item-hint">いずれか / クリックで選択</span></div>
+          <div class="kt-item-body">
+            <div style="display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start;">
+              <div>
+                <div style="font-size:0.72rem;font-weight:800;color:#475569;margin-bottom:3px;">BPS（3–12）</div>
+                <div class="kt-num-scale" data-num-scale="bps" data-min="3" data-max="12"></div>
+              </div>
+              <div>
+                <div style="font-size:0.72rem;font-weight:800;color:#475569;margin-bottom:3px;">NRS（0–10）</div>
+                <div class="kt-num-scale" data-num-scale="nrs" data-min="0" data-max="10"></div>
+              </div>
+            </div>
+            <div class="kt-num-help">BPS：表情・上肢の動き・人工呼吸器との同調（各1–4点）／NRS：患者自己申告 0=痛みなし～10=最大</div>
+          </div>
+        </div>
+
+        <!-- 鎮痛薬 -->
+        <div class="kt-item">
+          <div class="kt-item-label">
+            鎮痛薬
+            <a class="kt-info-link" href="articles-gl-fentanyl-induction-jic2026.html" target="_blank">薬剤情報</a>
+          </div>
+          <div class="kt-item-body">
+            <div class="kt-drug-grid" data-drug-group="analgesics"
+                 data-options='[{"name":"フェンタニル","short":"FEN","placeholder":"40 µg/h","link":"articles-gl-fentanyl-induction-jic2026.html"},
+                                {"name":"モルヒネ","short":"MOR","placeholder":"1 mg/h"},
+                                {"name":"アセトアミノフェン","short":"APAP","placeholder":"1000 mg q6h"},
+                                {"name":"ロピオン","short":"FLU","placeholder":"50 mg q8h"},
+                                {"name":"ケタミン","short":"KET","placeholder":"0.1 mg/kg/h","link":"articles-gl-ketamine-bja2025.html"}]'></div>
+            <div class="kt-drug-custom"><input type="text" data-drug-custom="analgesics" placeholder="その他"></div>
+          </div>
+        </div>
+
+        <!-- CAM-ICU -->
+        <div class="kt-item">
+          <div class="kt-item-label">CAM-ICU（せん妄評価） <a class="kt-info-link" href="cam-icu.html" target="_blank">採点ツール</a></div>
+          <div class="kt-item-body">
+            <div class="kt-chips" data-single-select="cam_icu">
+              <button type="button" class="kt-chip" data-value="陰性">陰性</button>
+              <button type="button" class="kt-chip" data-value="陽性">陽性</button>
+              <button type="button" class="kt-chip" data-value="評価不能（RASS −4/−5）">評価不能</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 睡眠薬 -->
+        <div class="kt-item">
+          <div class="kt-item-label">睡眠薬</div>
+          <div class="kt-item-body">
+            <div class="kt-drug-grid" data-drug-group="hypnotics"
+                 data-options='[{"name":"ラメルテオン","short":"RMT","placeholder":"8 mg 就寝前"},
+                                {"name":"スボレキサント","short":"SVT","placeholder":"15 mg 就寝前"},
+                                {"name":"レンボレキサント","short":"LMV","placeholder":"5 mg 就寝前"},
+                                {"name":"トラゾドン","short":"TRZ","placeholder":"25 mg 就寝前"}]'></div>
+            <div class="kt-drug-custom"><input type="text" data-drug-custom="hypnotics" placeholder="その他"></div>
+          </div>
+        </div>
+
+        <!-- 抗痙攣薬 -->
+        <div class="kt-item">
+          <div class="kt-item-label">
+            抗痙攣薬
+            <a class="kt-info-link" href="articles-gl-se-lancetneurol2024.html" target="_blank">薬剤情報</a>
+          </div>
+          <div class="kt-item-body">
+            <div class="kt-drug-grid" data-drug-group="anti_seizure"
+                 data-options='[{"name":"レベチラセタム","short":"LEV","placeholder":"1000 mg q12h"},
+                                {"name":"ホスフェニトイン","short":"fPHT","placeholder":"loading 20 mg/kg"},
+                                {"name":"バルプロ酸","short":"VPA","placeholder":"loading 30 mg/kg"},
+                                {"name":"ラコサミド","short":"LCM","placeholder":"100 mg q12h"}]'></div>
+            <div class="kt-drug-custom"><input type="text" data-drug-custom="anti_seizure" placeholder="その他"></div>
+          </div>
+        </div>
+
+        <!-- 抗譫妄薬 -->
+        <div class="kt-item">
+          <div class="kt-item-label">抗譫妄薬</div>
+          <div class="kt-item-body">
+            <div class="kt-drug-grid" data-drug-group="anti_delirium"
+                 data-options='[{"name":"ハロペリドール","short":"HAL","placeholder":"2.5 mg 頓用"},
+                                {"name":"クエチアピン","short":"QTP","placeholder":"25 mg 就寝前"},
+                                {"name":"リスペリドン","short":"RIS","placeholder":"0.5 mg 頓用"},
+                                {"name":"オランザピン","short":"OLZ","placeholder":"2.5 mg 就寝前"}]'></div>
+            <div class="kt-drug-custom"><input type="text" data-drug-custom="anti_delirium" placeholder="その他"></div>
+          </div>
+        </div>
+
+        <!-- 不眠 -->
+        <div class="kt-item">
+          <div class="kt-item-label">不眠 — メモ</div>
+          <div class="kt-item-body">
+            <textarea class="kt-text-input" data-text="insomnia" rows="1" placeholder="例：夜間の覚醒頻回、入眠困難、昼夜逆転 等"></textarea>
+          </div>
+        </div>
+
+        <!-- 二次性脳損傷予防 -->
+        <div class="kt-item">
+          <div class="kt-item-label">二次性脳損傷予防</div>
+          <div class="kt-item-body">
+            <div class="kt-checklist" data-checklist="neuro_protection">
+              <label><input type="checkbox" value="頭部挙上30°">頭部挙上30°</label>
+              <label><input type="checkbox" value="正常体温維持">正常体温維持</label>
+              <label><input type="checkbox" value="SpO₂ ≧94%">SpO₂ ≧94%</label>
+              <label><input type="checkbox" value="PaCO₂ 35-40">PaCO₂ 35-40</label>
+              <label><input type="checkbox" value="MAP ≧65">MAP ≧65</label>
+              <label><input type="checkbox" value="血糖 140-180">血糖 140-180</label>
+              <label><input type="checkbox" value="Na 135-145">Na 135-145</label>
+              <label><input type="checkbox" value="てんかん予防">てんかん予防</label>
+            </div>
+            <div class="kt-drug-custom" style="margin-top:6px;"><input type="text" data-text="neuro_protection_other" placeholder="その他（自由記載）"></div>
+          </div>
+        </div>
+
+        <!-- 現在の問題点 -->
+        <div class="kt-item">
+          <div class="kt-item-label">現在の問題点</div>
+          <div class="kt-item-body">
+            <textarea class="kt-text-input" data-text="current_problems" rows="2" placeholder="例：意識回復遅延、興奮の制御困難、CAM-ICU陽性持続 等"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 右：サマリー -->
+    <div>
+      <div class="kt-output-panel">
+        <div class="kt-output-h">カルテ サマリー（コピペ可）</div>
+        <div class="kt-output-body">
+          <pre class="kt-output-pre empty" id="kt-output">項目を入力するとここに反映されます</pre>
+          <div class="kt-output-actions">
+            <button type="button" class="kt-btn kt-btn-primary" id="kt-copy">📋 コピー</button>
+            <button type="button" class="kt-btn kt-btn-secondary" id="kt-reset-all">全リセット</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="kt-disclaimer">
+    <strong>注意：</strong>本ツールは入力支援を目的とした個人用メモジェネレーターです。<br>
+    生成されたテキストは必ず<strong>担当医が内容を確認</strong>のうえカルテに記載してください。患者を切り替える際は「全リセット」を押すか、ブラウザをリロードしてください（同一セッション内では入力が保持されます）。
+  </div>
+</div>
+
+<script src="../script.js"></script>
+<script>
+/* ===== By Systemカルテ作成ツール ===== */
+(function(){
+  // ===== 状態 =====
+  var state = {
+    rass_current: null,
+    rass_target: null,
+    gcs: { e:null, v:null, m:null },
+    sedatives: { selected:{}, custom:'' },
+    bps: null,
+    nrs: null,
+    analgesics: { selected:{}, custom:'' },
+    cam_icu: null,
+    hypnotics: { selected:{}, custom:'' },
+    anti_seizure: { selected:{}, custom:'' },
+    anti_delirium: { selected:{}, custom:'' },
+    insomnia: '',
+    neuro_protection: [],
+    neuro_protection_other: '',
+    current_problems: ''
+  };
+
+  var RASS_VALUES = ['+4','+3','+2','+1','0','-1','-2','-3','-4','-5'];
+
+  // ===== RASS chips =====
+  document.querySelectorAll('[data-rass-role]').forEach(function(container){
+    var role = container.dataset.rassRole; // 'current' or 'target'
+    RASS_VALUES.forEach(function(v){
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'kt-chip' + (role === 'target' ? ' chip-target' : '');
+      b.dataset.value = v;
+      b.textContent = v;
+      b.addEventListener('click', function(){
+        var key = role === 'target' ? 'rass_target' : 'rass_current';
+        var cur = state[key];
+        if (cur === v) {
+          state[key] = null;
+          b.classList.remove('selected');
+        } else {
+          state[key] = v;
+          container.querySelectorAll('.kt-chip').forEach(function(x){ x.classList.remove('selected'); });
+          b.classList.add('selected');
+        }
+        render();
+      });
+      container.appendChild(b);
+    });
+  });
+
+  // ===== GCS =====
+  document.querySelectorAll('input[name^="gcs-"]').forEach(function(input){
+    input.addEventListener('change', function(){
+      var part = input.name.split('-')[1]; // e | v | m
+      state.gcs[part] = parseInt(input.value, 10);
+      updateGcsDisplay();
+      render();
+    });
+  });
+  function updateGcsDisplay(){
+    var t = document.getElementById('gcs-total-display');
+    if (state.gcs.e && state.gcs.v && state.gcs.m) {
+      var total = state.gcs.e + state.gcs.v + state.gcs.m;
+      t.innerHTML = '<strong>' + total + '点 (E' + state.gcs.e + 'V' + state.gcs.v + 'M' + state.gcs.m + ')</strong>';
+    } else {
+      t.textContent = '—';
+    }
+  }
+
+  // ===== Drug groups (checkbox + dose input) =====
+  document.querySelectorAll('[data-drug-group]').forEach(function(container){
+    var group = container.dataset.drugGroup;
+    var options;
+    try { options = JSON.parse(container.dataset.options); } catch(e){ options = []; }
+    options.forEach(function(opt, idx){
+      var row = document.createElement('div');
+      row.className = 'kt-drug-row';
+      var id = 'drug-' + group + '-' + idx;
+      row.innerHTML =
+        '<input type="checkbox" id="' + id + '">' +
+        '<label for="' + id + '">' + opt.name +
+          (opt.link ? ' <a href="' + opt.link + '" target="_blank" style="font-size:0.66rem;color:#1D4ED8;text-decoration:none;">[詳]</a>' : '') +
+        '</label>' +
+        '<input type="text" placeholder="' + opt.placeholder + '" disabled>';
+      container.appendChild(row);
+      var cb = row.querySelector('input[type=checkbox]');
+      var dose = row.querySelector('input[type=text]');
+      cb.addEventListener('change', function(){
+        if (cb.checked) {
+          row.classList.add('selected');
+          dose.disabled = false;
+          dose.focus();
+          state[group].selected[opt.name] = { short: opt.short, dose: dose.value };
+        } else {
+          row.classList.remove('selected');
+          dose.disabled = true;
+          dose.value = '';
+          delete state[group].selected[opt.name];
+        }
+        render();
+      });
+      dose.addEventListener('input', function(){
+        if (state[group].selected[opt.name]) {
+          state[group].selected[opt.name].dose = dose.value;
+        }
+        render();
+      });
+    });
+  });
+
+  // ===== Drug custom (free text) =====
+  document.querySelectorAll('[data-drug-custom]').forEach(function(input){
+    var group = input.dataset.drugCustom;
+    input.addEventListener('input', function(){
+      state[group].custom = input.value;
+      render();
+    });
+  });
+
+  // ===== Numeric scales (BPS / NRS) =====
+  document.querySelectorAll('[data-num-scale]').forEach(function(container){
+    var key = container.dataset.numScale;
+    var min = parseInt(container.dataset.min, 10);
+    var max = parseInt(container.dataset.max, 10);
+    for (var i = min; i <= max; i++) {
+      (function(val){
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'kt-num-btn';
+        b.textContent = val;
+        b.addEventListener('click', function(){
+          if (state[key] === val) {
+            state[key] = null;
+            b.classList.remove('selected');
+          } else {
+            state[key] = val;
+            container.querySelectorAll('.kt-num-btn').forEach(function(x){ x.classList.remove('selected'); });
+            b.classList.add('selected');
+          }
+          render();
+        });
+        container.appendChild(b);
+      })(i);
+    }
+  });
+
+  // ===== Single-select chip (CAM-ICU) =====
+  document.querySelectorAll('[data-single-select]').forEach(function(container){
+    var key = container.dataset.singleSelect;
+    container.querySelectorAll('.kt-chip').forEach(function(b){
+      b.addEventListener('click', function(){
+        var v = b.dataset.value;
+        if (state[key] === v) {
+          state[key] = null;
+          b.classList.remove('selected');
+        } else {
+          state[key] = v;
+          container.querySelectorAll('.kt-chip').forEach(function(x){ x.classList.remove('selected'); });
+          b.classList.add('selected');
+        }
+        render();
+      });
+    });
+  });
+
+  // ===== Free text inputs =====
+  document.querySelectorAll('[data-text]').forEach(function(el){
+    var key = el.dataset.text;
+    el.addEventListener('input', function(){
+      state[key] = el.value;
+      render();
+    });
+  });
+
+  // ===== Checklist (neuro_protection) =====
+  document.querySelectorAll('[data-checklist]').forEach(function(container){
+    var key = container.dataset.checklist;
+    container.querySelectorAll('input[type=checkbox]').forEach(function(cb){
+      cb.addEventListener('change', function(){
+        var v = cb.value;
+        var idx = state[key].indexOf(v);
+        if (cb.checked && idx === -1) state[key].push(v);
+        else if (!cb.checked && idx !== -1) state[key].splice(idx, 1);
+        render();
+      });
+    });
+  });
+
+  // ===== GCS reset =====
+  document.querySelector('[data-reset="gcs"]').addEventListener('click', function(){
+    state.gcs = { e:null, v:null, m:null };
+    document.querySelectorAll('input[name^="gcs-"]').forEach(function(i){ i.checked = false; });
+    updateGcsDisplay();
+    render();
+  });
+
+  // ===== サマリー描画 =====
+  function fmtDrugs(group){
+    var parts = [];
+    Object.keys(state[group].selected).forEach(function(name){
+      var d = state[group].selected[name];
+      parts.push(name + (d.dose ? ' ' + d.dose : ''));
+    });
+    if (state[group].custom.trim()) parts.push(state[group].custom.trim());
+    return parts.join(', ');
+  }
+
+  function render(){
+    var lines = ['＃1　Neurological system'];
+
+    // RASS（現在/目標）
+    if (state.rass_current != null || state.rass_target != null) {
+      var rassStr = '';
+      if (state.rass_current != null) rassStr += 'RASS ' + state.rass_current;
+      if (state.rass_target != null) rassStr += (rassStr ? '（目標 ' : 'RASS 目標 ') + state.rass_target + (rassStr.indexOf('（') !== -1 ? '）' : '');
+      lines.push('　[意識] ' + rassStr);
+    }
+
+    // GCS
+    if (state.gcs.e && state.gcs.v && state.gcs.m) {
+      var t = state.gcs.e + state.gcs.v + state.gcs.m;
+      var lastLine = lines[lines.length - 1];
+      var gcsStr = 'GCS ' + t + '(E' + state.gcs.e + 'V' + state.gcs.v + 'M' + state.gcs.m + ')';
+      if (lastLine.indexOf('[意識]') !== -1) {
+        lines[lines.length - 1] = lastLine + ' / ' + gcsStr;
+      } else {
+        lines.push('　[意識] ' + gcsStr);
+      }
+    }
+
+    // 鎮静薬
+    var sed = fmtDrugs('sedatives');
+    if (sed) lines.push('　[鎮静薬] ' + sed);
+
+    // 疼痛スケール
+    var pain = [];
+    if (state.bps != null) pain.push('BPS ' + state.bps);
+    if (state.nrs != null) pain.push('NRS ' + state.nrs);
+    if (pain.length) lines.push('　[BPS/NRS] ' + pain.join(' / '));
+
+    // 鎮痛薬
+    var anal = fmtDrugs('analgesics');
+    if (anal) lines.push('　[鎮痛薬] ' + anal);
+
+    // CAM-ICU
+    if (state.cam_icu) lines.push('　[CAM-ICU] ' + state.cam_icu);
+
+    // 睡眠薬
+    var hyp = fmtDrugs('hypnotics');
+    if (hyp) lines.push('　[睡眠薬] ' + hyp);
+
+    // 抗痙攣薬
+    var ase = fmtDrugs('anti_seizure');
+    if (ase) lines.push('　[抗痙攣薬] ' + ase);
+
+    // 抗譫妄薬
+    var ad = fmtDrugs('anti_delirium');
+    if (ad) lines.push('　[抗譫妄薬] ' + ad);
+
+    // 不眠
+    if (state.insomnia.trim()) lines.push('　[不眠] ' + state.insomnia.trim());
+
+    // 二次性脳損傷予防
+    var np = state.neuro_protection.slice();
+    if (state.neuro_protection_other.trim()) np.push(state.neuro_protection_other.trim());
+    if (np.length) lines.push('　[二次性脳損傷予防] ' + np.join(', '));
+
+    // 現在の問題点
+    if (state.current_problems.trim()) lines.push('　[現在の問題点] ' + state.current_problems.trim());
+
+    var out = document.getElementById('kt-output');
+    if (lines.length === 1) {
+      out.className = 'kt-output-pre empty';
+      out.textContent = '項目を入力するとここに反映されます';
+    } else {
+      out.className = 'kt-output-pre';
+      out.textContent = lines.join('\n');
+    }
+  }
+
+  // ===== コピー =====
+  document.getElementById('kt-copy').addEventListener('click', function(){
+    var out = document.getElementById('kt-output');
+    if (out.classList.contains('empty')) return;
+    var text = out.textContent;
+    var copy = function(){
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); } catch(e){}
+      document.body.removeChild(ta);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).catch(copy);
+    } else copy();
+    var btn = this;
+    btn.classList.add('copied');
+    var orig = btn.textContent;
+    btn.textContent = '✓ コピーしました';
+    setTimeout(function(){ btn.classList.remove('copied'); btn.textContent = orig; }, 1600);
+  });
+
+  // ===== 全リセット =====
+  document.getElementById('kt-reset-all').addEventListener('click', function(){
+    if (!confirm('全項目をリセットして新規患者で開始しますか？')) return;
+    location.reload();
+  });
+
+  // 初期描画
+  render();
+})();
+</script>
+</body>
+</html>

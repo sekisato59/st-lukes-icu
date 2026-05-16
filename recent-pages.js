@@ -11,6 +11,13 @@
  */
 const RECENT_PAGES = [
   {
+    title: "【便利ツール】By Systemカルテ作成ツール — 神経系MVP",
+    url: "pages/karte-by-system.html",
+    date: "2026-05-16",
+    tag: "解説",
+    thumb: "images/header便利ツール.png"
+  },
+  {
     title: "【ID×ICU】発熱性好中球減少症（FN）板書ノート",
     url: "pages/id-icu-notes/note-fn.html",
     date: "2026-05-15",
