@@ -209,6 +209,12 @@
     }
     .kt-gcs-table th { background:#F1F5F9;font-weight:800;color:#475569;font-size:0.72rem; }
     .kt-gcs-table td.cat { background:#EFF6FF;font-weight:800;width:78px;font-size:0.72rem;color:#1E3A8A; }
+    /* BPS：カテゴリごとに色分けして境界を明確に */
+    .kt-gcs-table td.cat-face { background:#FECACA;color:#7F1D1D; }
+    .kt-gcs-table td.cat-arm  { background:#BFDBFE;color:#1E3A8A; }
+    .kt-gcs-table td.cat-vent { background:#BBF7D0;color:#14532D; }
+    /* カテゴリ間の境界線を強調 */
+    .kt-gcs-table tr.bps-row-end td { border-bottom:2px solid #94A3B8; }
     .kt-gcs-table td.pt { text-align:center;width:30px;font-weight:800;color:#1E40AF; }
     .kt-gcs-table label { display:flex;align-items:center;gap:6px;cursor:pointer;font-size:0.76rem; }
     .kt-gcs-table input[type=radio] { margin:0;accent-color:#1E40AF; }
@@ -536,9 +542,7 @@
       background:#1E40AF;color:#fff;border-color:#1E40AF;
     }
     .kt-output-pre {
-      background:#FAFBFC;border:1px solid #E2E8F0;border-radius:8px;
-      padding:14px 16px 14px calc(16px + 1em);
-      text-indent:-1em;  /* 折り返し時に [ 位置に揃える（行頭の全角space分だけ戻す） */
+      background:#FAFBFC;border:1px solid #E2E8F0;border-radius:8px;padding:14px 16px;
       font-size:0.78rem;line-height:1.9;color:#1E293B;
       font-family:'Noto Sans JP','Hiragino Kaku Gothic ProN','Hiragino Sans','Yu Gothic',system-ui,sans-serif;
       font-variant-numeric:tabular-nums;
@@ -584,10 +588,7 @@
       .kt-ana-subhead { font-size:0.66rem;margin:5px 0 2px; }
       .kt-drug-custom { gap:5px;margin-top:5px; }
       .kt-output-panel { position:static; }
-      .kt-output-pre {
-        font-size:0.74rem;line-height:1.75;
-        padding:11px 12px 11px calc(12px + 1em);
-      }
+      .kt-output-pre { font-size:0.74rem;line-height:1.75;padding:11px 12px; }
       /* アコーディオン見出しの英語部分はモバイルで非表示 → 折り返し防止 */
       .kt-acc-en { display:none; }
       .kt-acc summary { font-size:0.8rem;padding:7px 10px; }
@@ -809,18 +810,18 @@
                 <table class="kt-gcs-table">
                   <thead><tr><th>項目（観察ポイント）</th><th>所見</th><th>点</th></tr></thead>
                   <tbody>
-                    <tr><td rowspan="4" class="cat">表情<br><span style="font-weight:400;color:#64748B;font-size:0.68rem;">額・眉・目もとを見る</span></td><td><label><input type="radio" name="bps-face" value="1">穏やかな表情</label></td><td class="pt">1</td></tr>
-                    <tr><td><label><input type="radio" name="bps-face" value="2">部分的に緊張（額にしわが寄る程度）</label></td><td class="pt">2</td></tr>
-                    <tr><td><label><input type="radio" name="bps-face" value="3">完全に緊張（瞼をぎゅっと閉じる）</label></td><td class="pt">3</td></tr>
-                    <tr><td><label><input type="radio" name="bps-face" value="4">顔をしかめている（grimacing）</label></td><td class="pt">4</td></tr>
-                    <tr><td rowspan="4" class="cat">上肢の動き<br><span style="font-weight:400;color:#64748B;font-size:0.68rem;">腕や手の動きを見る</span></td><td><label><input type="radio" name="bps-arm" value="1">まったく動かない</label></td><td class="pt">1</td></tr>
-                    <tr><td><label><input type="radio" name="bps-arm" value="2">部分的に肘や手首を曲げる</label></td><td class="pt">2</td></tr>
-                    <tr><td><label><input type="radio" name="bps-arm" value="3">完全に屈曲し、手指まで握りこむ</label></td><td class="pt">3</td></tr>
-                    <tr><td><label><input type="radio" name="bps-arm" value="4">持続的に屈曲位（ずっと縮こまっている）</label></td><td class="pt">4</td></tr>
-                    <tr><td rowspan="4" class="cat">呼吸器同調<br><span style="font-weight:400;color:#64748B;font-size:0.68rem;">人工呼吸器と合っているか</span></td><td><label><input type="radio" name="bps-vent" value="1">よく適応している</label></td><td class="pt">1</td></tr>
-                    <tr><td><label><input type="radio" name="bps-vent" value="2">咳は出るが大部分は呼吸器に従っている</label></td><td class="pt">2</td></tr>
-                    <tr><td><label><input type="radio" name="bps-vent" value="3">呼吸器とファイティング（喧嘩している）</label></td><td class="pt">3</td></tr>
-                    <tr><td><label><input type="radio" name="bps-vent" value="4">まったくコントロールできない</label></td><td class="pt">4</td></tr>
+                    <tr class="bps-row-face"><td rowspan="4" class="cat cat-face">表情<br><span style="font-weight:400;color:#7F1D1D;font-size:0.68rem;">額・眉・目もとを見る</span></td><td><label><input type="radio" name="bps-face" value="1">穏やかな表情</label></td><td class="pt">1</td></tr>
+                    <tr class="bps-row-face"><td><label><input type="radio" name="bps-face" value="2">部分的に緊張（額にしわが寄る程度）</label></td><td class="pt">2</td></tr>
+                    <tr class="bps-row-face"><td><label><input type="radio" name="bps-face" value="3">完全に緊張（瞼をぎゅっと閉じる）</label></td><td class="pt">3</td></tr>
+                    <tr class="bps-row-face bps-row-end"><td><label><input type="radio" name="bps-face" value="4">顔をしかめている（grimacing）</label></td><td class="pt">4</td></tr>
+                    <tr class="bps-row-arm"><td rowspan="4" class="cat cat-arm">上肢の動き<br><span style="font-weight:400;color:#1E3A8A;font-size:0.68rem;">腕や手の動きを見る</span></td><td><label><input type="radio" name="bps-arm" value="1">まったく動かない</label></td><td class="pt">1</td></tr>
+                    <tr class="bps-row-arm"><td><label><input type="radio" name="bps-arm" value="2">部分的に肘や手首を曲げる</label></td><td class="pt">2</td></tr>
+                    <tr class="bps-row-arm"><td><label><input type="radio" name="bps-arm" value="3">完全に屈曲し、手指まで握りこむ</label></td><td class="pt">3</td></tr>
+                    <tr class="bps-row-arm bps-row-end"><td><label><input type="radio" name="bps-arm" value="4">持続的に屈曲位（ずっと縮こまっている）</label></td><td class="pt">4</td></tr>
+                    <tr class="bps-row-vent"><td rowspan="4" class="cat cat-vent">呼吸器同調<br><span style="font-weight:400;color:#14532D;font-size:0.68rem;">人工呼吸器と合っているか</span></td><td><label><input type="radio" name="bps-vent" value="1">よく適応している</label></td><td class="pt">1</td></tr>
+                    <tr class="bps-row-vent"><td><label><input type="radio" name="bps-vent" value="2">咳は出るが大部分は呼吸器に従っている</label></td><td class="pt">2</td></tr>
+                    <tr class="bps-row-vent"><td><label><input type="radio" name="bps-vent" value="3">呼吸器とファイティング（喧嘩している）</label></td><td class="pt">3</td></tr>
+                    <tr class="bps-row-vent"><td><label><input type="radio" name="bps-vent" value="4">まったくコントロールできない</label></td><td class="pt">4</td></tr>
                   </tbody>
                 </table>
                 <div class="kt-bps-result">
@@ -1938,19 +1939,19 @@
     var style = state.summary_style || 'detail';
     var lines = ['＃1　Neurological system'];
 
-    // セクション出力ヘルパー
-    // - detail: 1件なら同行、複数なら見出し＋インデント
+    // セクション出力ヘルパー（＃1 と同じ列に揃えるため [ は左端開始）
+    // - detail: 1件なら同行、複数なら見出し＋インデント（1全角空白）
     // - compact / balanced: 1行で「，」連結
     function pushSection(label, items){
       if (!items || !items.length) return;
       if (style === 'compact' || style === 'balanced') {
-        lines.push('　[' + label + '] ' + items.join('，'));
+        lines.push('[' + label + '] ' + items.join('，'));
       } else {
         if (items.length === 1) {
-          lines.push('　[' + label + '] ' + items[0]);
+          lines.push('[' + label + '] ' + items[0]);
         } else {
-          lines.push('　[' + label + ']');
-          items.forEach(function(s){ lines.push('　　' + s); });
+          lines.push('[' + label + ']');
+          items.forEach(function(s){ lines.push('　' + s); });
         }
       }
     }
@@ -1974,7 +1975,7 @@
     if (state.use_sedatives === 'yes') {
       pushSection('鎮静薬', fmtDrugsList('sedatives'));
     } else if (state.use_sedatives === 'no') {
-      lines.push('　[鎮静薬] なし');
+      lines.push('[鎮静薬] なし');
     }
 
     // 疼痛スケール
@@ -2016,36 +2017,36 @@
           nonEmpty.forEach(function(cat){
             cat.items.forEach(function(drug, i){
               if (i === 0) anaLines.push(cat.label + ': ' + drug);
-              else anaLines.push('　　' + drug);  // 4 全角インデント（ラベル直下に揃える）
+              else anaLines.push('　' + drug);  // サブラベル位置から少し下げる
             });
           });
           if (anaLines.length === 1) {
-            lines.push('　[鎮痛薬] ' + anaLines[0]);
+            lines.push('[鎮痛薬] ' + anaLines[0]);
           } else {
-            lines.push('　[鎮痛薬]');
-            anaLines.forEach(function(s){ lines.push('　　' + s); });
+            lines.push('[鎮痛薬]');
+            anaLines.forEach(function(s){ lines.push('　' + s); });
           }
         } else if (style === 'compact') {
-          // ② [鎮痛薬] と最初のサブカテゴリを同行、以降は左揃え
+          // ② [鎮痛薬] と最初のサブカテゴリを同行、以降は 1 全角インデント
           var subLines2 = nonEmpty.map(function(cat){
             return cat.label + ': ' + cat.items.join('，');
           });
-          lines.push('　[鎮痛薬] ' + subLines2[0]);
+          lines.push('[鎮痛薬] ' + subLines2[0]);
           for (var i = 1; i < subLines2.length; i++) lines.push('　' + subLines2[i]);
         } else {
           // ③ balanced: [鎮痛薬] 単独行、各サブカテゴリは「，」連結で1行
-          lines.push('　[鎮痛薬]');
+          lines.push('[鎮痛薬]');
           nonEmpty.forEach(function(cat){
-            lines.push('　　' + cat.label + ': ' + cat.items.join('，'));
+            lines.push('　' + cat.label + ': ' + cat.items.join('，'));
           });
         }
       }
     } else if (state.use_analgesics === 'no') {
-      lines.push('　[鎮痛薬] なし');
+      lines.push('[鎮痛薬] なし');
     }
 
     // CAM-ICU
-    if (state.cam_icu) lines.push('　[CAM-ICU] ' + state.cam_icu);
+    if (state.cam_icu) lines.push('[CAM-ICU] ' + state.cam_icu);
 
     // 抗譫妄薬
     if (state.use_anti_delirium === 'yes') {
@@ -2057,7 +2058,7 @@
 
     // 不眠 & 睡眠薬
     if (state.has_insomnia === 'yes') {
-      if (state.insomnia.trim()) lines.push('　[不眠] ' + state.insomnia.trim());
+      if (state.insomnia.trim()) lines.push('[不眠] ' + state.insomnia.trim());
       var hyp = fmtRowsList('hypnotics');
       var hypExtra = (state.hypnotics_extra || '').trim();
       if (hypExtra) hyp.push(hypExtra);
@@ -2074,11 +2075,11 @@
 
     // 二次性脳損傷予防（適用の有無のみ出力。チェック項目の転写は不要）
     if (state.use_neuroprotection === 'yes') {
-      lines.push('　[二次性脳損傷予防] 適用');
+      lines.push('[二次性脳損傷予防] 適用');
     }
 
     // 現在の問題点
-    if (state.current_problems.trim()) lines.push('　[現在の問題点] ' + state.current_problems.trim());
+    if (state.current_problems.trim()) lines.push('[現在の問題点] ' + state.current_problems.trim());
 
     var out = document.getElementById('kt-output');
     if (lines.length === 1) {
