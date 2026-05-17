@@ -145,7 +145,10 @@
     .kt-acc summary strong { color:#B45309; font-weight:800; }
     .kt-acc-out {
       margin-left:auto;font-size:0.72rem;font-weight:800;padding:2px 9px;border-radius:999px;
+      flex-shrink:0;white-space:nowrap;
     }
+    /* アコーディオン見出しの英語サブタイトル（モバイルでは非表示にして折り返し防止） */
+    .kt-acc-en { font-size:0.7rem;color:#64748B;font-weight:600;margin-left:4px; }
     .kt-acc-out.unset { color:#94A3B8;background:#fff;border:1px solid #CBD5E1; }
     .kt-acc-out.set   { color:#fff;background:#1D4ED8;border:1px solid #1D4ED8; }
     .kt-acc-out.set.target-out { background:#0369A1;border-color:#0369A1; }
@@ -205,7 +208,7 @@
       padding:5px 8px;border:1px solid #E2E8F0;text-align:left;vertical-align:middle;
     }
     .kt-gcs-table th { background:#F1F5F9;font-weight:800;color:#475569;font-size:0.72rem; }
-    .kt-gcs-table td.cat { background:#F8FAFC;font-weight:800;width:78px;font-size:0.72rem;color:#475569; }
+    .kt-gcs-table td.cat { background:#EFF6FF;font-weight:800;width:78px;font-size:0.72rem;color:#1E3A8A; }
     .kt-gcs-table td.pt { text-align:center;width:30px;font-weight:800;color:#1E40AF; }
     .kt-gcs-table label { display:flex;align-items:center;gap:6px;cursor:pointer;font-size:0.76rem; }
     .kt-gcs-table input[type=radio] { margin:0;accent-color:#1E40AF; }
@@ -559,12 +562,23 @@
       .kt-ana-section-head { font-size:0.74rem;padding:0 0 3px;margin-bottom:4px; }
       .kt-ana-subhead { font-size:0.66rem;margin:5px 0 2px; }
       .kt-drug-custom { gap:5px;margin-top:5px; }
-      .kt-drug-custom input {
-        padding:5px 9px;font-size:0.74rem;
-      }
-      .kt-text-input { padding:6px 10px;font-size:0.78rem;min-height:36px; }
       .kt-output-panel { position:static; }
       .kt-output-pre { font-size:0.74rem;line-height:1.75;padding:11px 12px; }
+      /* アコーディオン見出しの英語部分はモバイルで非表示 → 折り返し防止 */
+      .kt-acc-en { display:none; }
+      .kt-acc summary { font-size:0.8rem;padding:7px 10px; }
+      /* iOS Safari 対策：input/textarea は 16px 以上にして focus 時の自動ズームを防ぐ */
+      input[type=text],
+      input[type=number],
+      input[type=tel],
+      textarea {
+        font-size:16px !important;
+      }
+      .kt-drug-row input[type=number],
+      .kt-drug-row input[type=text] { padding:3px 5px;width:100%; }
+      .kt-ad-freq-input { width:36px;padding:1px 3px; }
+      .kt-drug-custom input { padding:6px 10px; }
+      .kt-text-input { padding:7px 10px;min-height:38px; }
     }
 
     /* ===== 埋め込みモード ===== */
@@ -640,7 +654,7 @@
             <div class="kt-cond-title">RASS で意識レベルを評価</div>
 
             <details class="kt-acc" data-rass-acc="current">
-              <summary>RASS（Richmond Agitation-Sedation Scale）<strong>現在</strong><span class="kt-acc-out unset" id="rass-current-out">未選択</span></summary>
+              <summary>RASS<span class="kt-acc-en">（Richmond Agitation-Sedation Scale）</span><strong>現在</strong><span class="kt-acc-out unset" id="rass-current-out">未選択</span></summary>
               <div class="kt-rass-ladder" data-rass-role="current">
                 <div class="kt-rass-step">① まずは 30 秒間、視診のみで患者さんを観察します（不穏なら +1〜+4、落ち着いていれば 0 を判定）</div>
                 <div class="kt-rass-row" data-rass="+4"><div class="kt-rass-score">+4</div><div class="kt-rass-text">暴力的で好戦的な行動</div></div>
@@ -686,7 +700,7 @@
           <div class="kt-cond" data-show-if="intubated=no" hidden>
             <div class="kt-cond-title">GCS で意識レベルを評価</div>
             <details class="kt-acc">
-              <summary>GCS（Glasgow Coma Scale）<span class="kt-acc-out unset" id="gcs-out">未入力</span></summary>
+              <summary>GCS<span class="kt-acc-en">（Glasgow Coma Scale）</span><span class="kt-acc-out unset" id="gcs-out">未入力</span></summary>
               <div style="padding:8px 10px;">
                 <table class="kt-gcs-table">
                   <thead><tr><th>項目</th><th>所見</th><th>点</th></tr></thead>
@@ -762,7 +776,7 @@
           <div class="kt-cond" data-show-if="intubated=yes" hidden>
             <div class="kt-cond-title">BPS（Behavioral Pain Scale）— 挿管患者用</div>
             <details class="kt-acc">
-              <summary>BPS（Behavioral Pain Scale）<span class="kt-acc-out unset" id="bps-out">未入力</span></summary>
+              <summary>BPS<span class="kt-acc-en">（Behavioral Pain Scale）</span><span class="kt-acc-out unset" id="bps-out">未入力</span></summary>
               <div style="padding:8px 10px;">
                 <div style="font-size:0.74rem;color:#475569;line-height:1.6;margin-bottom:8px;padding:6px 10px;background:#F8FAFC;border-radius:4px;">
                   挿管中の患者さんは痛みを自分で訴えられないため、<strong>表情・上肢の動き・人工呼吸器との同調</strong> の 3 項目を観察して点数化します。
@@ -898,7 +912,7 @@
                 </div>
               </div>
               <div class="kt-ad-row" data-ana-mode="po" data-ana-drug="トラムセット">
-                <div class="kt-ad-name">トラムセット<small>トラマドール+アセトアミノフェン</small></div>
+                <div class="kt-ad-name">トラムセット<small>1錠 = トラマドール 37.5mg + アセトアミノフェン 325mg</small></div>
                 <div class="kt-ad-doses">
                   <button type="button" class="kt-ad-dose-chip" data-dose="1">1</button>
                   <button type="button" class="kt-ad-dose-chip" data-dose="2">2</button>
@@ -1852,25 +1866,24 @@
     if (!freq) return '';
     return /^\d+$/.test(freq) ? '1日' + freq + '回' : freq;
   }
-  function fmtDrugs(group){
+  // drug-grid 形式の薬剤を配列で返す（鎮静薬・analgesics_cont・analgesics_pca）
+  function fmtDrugsList(group){
     var parts = [];
     Object.keys(state[group].selected).forEach(function(name){
       var d = state[group].selected[name];
       var s = cleanDrugName(name);
       if (d.dose) {
         s += ' ' + d.dose + (d.unit ? ' ' + d.unit : '');
-        if (d.converted) {
-          s += ' (' + d.converted.value + ' ' + d.converted.unit + ')';
-        }
+        if (d.converted) s += ' (' + d.converted.value + ' ' + d.converted.unit + ')';
       }
       parts.push(s);
     });
-    if (state[group].custom.trim()) parts.push(state[group].custom.trim());
-    return parts.join(', ');
+    if (state[group].custom && state[group].custom.trim()) parts.push(state[group].custom.trim());
+    return parts;
   }
 
-  // 汎用：rows-group 用フォーマッタ（睡眠薬・抗痙攣薬・抗譫妄薬）
-  function fmtRowsForGroup(groupKey){
+  // rows-group 形式の薬剤を配列で返す（抗譫妄薬・睡眠薬・抗痙攣薬）
+  function fmtRowsList(groupKey){
     var parts = [];
     Object.keys((state[groupKey] && state[groupKey].rows) || {}).forEach(function(drug){
       var r = state[groupKey].rows[drug];
@@ -1879,12 +1892,22 @@
       if (r.freq) s += ' ' + fmtFreq(r.freq);
       parts.push(s);
     });
-    return parts.join(', ');
+    return parts;
   }
 
-  // 抗譫妄薬は定期/PRN を分けて文字列化
   function render(){
     var lines = ['＃1　Neurological system'];
+
+    // セクション出力ヘルパー：1 件なら同行、複数なら見出し＋インデント
+    function pushSection(label, items){
+      if (!items || !items.length) return;
+      if (items.length === 1) {
+        lines.push('　[' + label + '] ' + items[0]);
+      } else {
+        lines.push('　[' + label + ']');
+        items.forEach(function(s){ lines.push('　　' + s); });
+      }
+    }
 
     // 意識：RASS or GCS
     var consc = [];
@@ -1899,12 +1922,11 @@
       var t = state.gcs.e + state.gcs.v + state.gcs.m;
       consc.push('GCS ' + t + '(E' + state.gcs.e + 'V' + state.gcs.v + 'M' + state.gcs.m + ')');
     }
-    if (consc.length) lines.push('　[意識] ' + consc.join(' / '));
+    pushSection('意識', consc);
 
     // 鎮静薬
     if (state.use_sedatives === 'yes') {
-      var sed = fmtDrugs('sedatives');
-      if (sed) lines.push('　[鎮静薬] ' + sed);
+      pushSection('鎮静薬', fmtDrugsList('sedatives'));
     } else if (state.use_sedatives === 'no') {
       lines.push('　[鎮静薬] なし');
     }
@@ -1913,10 +1935,10 @@
     var pain = [];
     if (state.bps != null) pain.push('BPS ' + state.bps);
     if (state.nrs != null) pain.push('NRS ' + state.nrs);
-    if (pain.length) lines.push('　[BPS/NRS] ' + pain.join(' / '));
+    pushSection('BPS/NRS', pain);
 
     // 鎮痛薬（持続/間欠/内服/PCA に分けて出力）
-    function fmtAnaRows(mode){
+    function fmtAnaRowsList(mode){
       var key = 'analgesics_' + mode;
       var parts = [];
       Object.keys(state[key].rows || {}).forEach(function(drug){
@@ -1927,33 +1949,26 @@
         if (r.freq) s += ' ' + fmtFreq(r.freq);
         parts.push(s);
       });
-      return parts.join(', ');
+      return parts;
     }
     if (state.use_analgesics === 'yes') {
-      var aLines = [];
+      var aBlocks = [];
 
-      // 持続点滴
-      var aCont = fmtDrugs('analgesics_cont');
-      if (aCont) aLines.push('持続点滴: ' + aCont);
+      var aCont = fmtDrugsList('analgesics_cont');
+      aCont.forEach(function(s){ aBlocks.push('持続点滴: ' + s); });
 
-      // 間欠
-      var aInt = fmtAnaRows('int');
-      if (aInt) aLines.push('間欠: ' + aInt);
+      var aInt = fmtAnaRowsList('int');
+      aInt.forEach(function(s){ aBlocks.push('間欠: ' + s); });
 
-      // 内服
-      var aPo = fmtAnaRows('po');
-      if (aPo) aLines.push('内服: ' + aPo);
+      var aPo = fmtAnaRowsList('po');
+      aPo.forEach(function(s){ aBlocks.push('内服: ' + s); });
 
-      // PCA（drug-grid + Epi-PCA + その他）
-      var aPca       = fmtDrugs('analgesics_pca');   // .custom も含む
-      var aEpiPca    = (state.analgesics_epi_pca || '').trim();
-      var pcaParts = []; if (aPca) pcaParts.push(aPca); if (aEpiPca) pcaParts.push('Epi-PCA ' + aEpiPca);
-      if (pcaParts.length) aLines.push('PCA: ' + pcaParts.join(', '));
+      var aPca = fmtDrugsList('analgesics_pca');
+      aPca.forEach(function(s){ aBlocks.push('IV-PCA: ' + s); });
+      var aEpiPca = (state.analgesics_epi_pca || '').trim();
+      if (aEpiPca) aBlocks.push('Epi-PCA: ' + aEpiPca);
 
-      if (aLines.length) {
-        lines.push('　[鎮痛薬]');
-        aLines.forEach(function(l){ lines.push('　　' + l); });
-      }
+      pushSection('鎮痛薬', aBlocks);
     } else if (state.use_analgesics === 'no') {
       lines.push('　[鎮痛薬] なし');
     }
@@ -1963,27 +1978,27 @@
 
     // 抗譫妄薬
     if (state.use_anti_delirium === 'yes') {
-      var ad = fmtRowsForGroup('anti_delirium');
+      var ad = fmtRowsList('anti_delirium');
       var adExtra = (state.anti_delirium_extra || '').trim();
-      var adParts = []; if (ad) adParts.push(ad); if (adExtra) adParts.push(adExtra);
-      if (adParts.length) lines.push('　[抗譫妄薬] ' + adParts.join(', '));
+      if (adExtra) ad.push(adExtra);
+      pushSection('抗譫妄薬', ad);
     }
 
     // 不眠 & 睡眠薬
     if (state.has_insomnia === 'yes') {
       if (state.insomnia.trim()) lines.push('　[不眠] ' + state.insomnia.trim());
-      var hyp = fmtRowsForGroup('hypnotics');
+      var hyp = fmtRowsList('hypnotics');
       var hypExtra = (state.hypnotics_extra || '').trim();
-      var hypParts = []; if (hyp) hypParts.push(hyp); if (hypExtra) hypParts.push(hypExtra);
-      if (hypParts.length) lines.push('　[睡眠薬] ' + hypParts.join(', '));
+      if (hypExtra) hyp.push(hypExtra);
+      pushSection('睡眠薬', hyp);
     }
 
     // 抗痙攣薬
     if (state.use_anti_seizure === 'yes') {
-      var ase = fmtRowsForGroup('anti_seizure');
+      var ase = fmtRowsList('anti_seizure');
       var aseExtra = (state.anti_seizure_extra || '').trim();
-      var aseParts = []; if (ase) aseParts.push(ase); if (aseExtra) aseParts.push(aseExtra);
-      if (aseParts.length) lines.push('　[抗痙攣薬] ' + aseParts.join(', '));
+      if (aseExtra) ase.push(aseExtra);
+      pushSection('抗痙攣薬', ase);
     }
 
     // 二次性脳損傷予防（適用の有無のみ出力。チェック項目の転写は不要）
