@@ -1309,9 +1309,9 @@
         <div class="kt-output-body">
           <div class="kt-style-picker">
             <span class="kt-style-picker-label">出力スタイル</span>
-            <button type="button" class="kt-style-btn active" data-style="detail">① 詳細</button>
-            <button type="button" class="kt-style-btn" data-style="compact">② コンパクト</button>
-            <button type="button" class="kt-style-btn" data-style="balanced">③ バランス</button>
+            <button type="button" class="kt-style-btn active" data-style="compact">① コンパクト</button>
+            <button type="button" class="kt-style-btn" data-style="balanced">② バランス</button>
+            <button type="button" class="kt-style-btn" data-style="detail">③ 詳細</button>
           </div>
           <pre class="kt-output-pre empty" id="kt-output">Step 1 から入力するとここに反映されます</pre>
           <div class="kt-output-actions">
@@ -1369,7 +1369,7 @@
     neuro_protection: [],
     neuro_protection_other: '',
     current_problems: '',
-    summary_style: 'detail'  // 'detail' | 'compact' | 'balanced'
+    summary_style: 'compact'  // 'compact'（①）| 'balanced'（②）| 'detail'（③）
   };
 
   // localStorage から出力スタイル設定を復元
@@ -1936,23 +1936,21 @@
   }
 
   function render(){
-    var style = state.summary_style || 'detail';
+    var style = state.summary_style || 'compact';
     var lines = ['＃1　Neurological system'];
 
-    // セクション出力ヘルパー（＃1 と同じ列に揃えるため [ は左端開始）
-    // - detail: 1件なら同行、複数なら見出し＋インデント（1全角空白）
-    // - compact / balanced: 1行で「，」連結
-    function pushSection(label, items){
+    // セクション出力ヘルパー（＃1 と同じ列で開始）
+    // - compact / balanced：常に 1 行（[ラベル] item，item，...）
+    // - detail：alwaysSplit=true なら必ず分割、それ以外は項目数で判定
+    function pushSection(label, items, opts){
+      opts = opts || {};
       if (!items || !items.length) return;
-      if (style === 'compact' || style === 'balanced') {
-        lines.push('[' + label + '] ' + items.join('，'));
+      var split = (style === 'detail') && (opts.alwaysSplit || items.length >= 2);
+      if (split) {
+        lines.push('[' + label + '] ');
+        items.forEach(function(s){ lines.push(s); });
       } else {
-        if (items.length === 1) {
-          lines.push('[' + label + '] ' + items[0]);
-        } else {
-          lines.push('[' + label + ']');
-          items.forEach(function(s){ lines.push('　' + s); });
-        }
+        lines.push('[' + label + '] ' + items.join('，'));
       }
     }
 
@@ -2011,33 +2009,27 @@
       var nonEmpty = anaCategories.filter(function(c){ return c.items.length > 0; });
 
       if (nonEmpty.length) {
-        if (style === 'detail') {
-          // ① サブカテゴリラベルは最初の薬剤のみに付け、続く薬剤はインデント
-          var anaLines = [];
+        if (style === 'compact') {
+          // ① 全サブカテゴリ・全薬剤を 1 行に連結。サブカテゴリの最初の薬剤にラベル付与
+          var parts = [];
           nonEmpty.forEach(function(cat){
             cat.items.forEach(function(drug, i){
-              if (i === 0) anaLines.push(cat.label + ': ' + drug);
-              else anaLines.push('　' + drug);  // サブラベル位置から少し下げる
+              parts.push(i === 0 ? cat.label + '：' + drug : drug);
             });
           });
-          if (anaLines.length === 1) {
-            lines.push('[鎮痛薬] ' + anaLines[0]);
-          } else {
-            lines.push('[鎮痛薬]');
-            anaLines.forEach(function(s){ lines.push('　' + s); });
-          }
-        } else if (style === 'compact') {
-          // ② [鎮痛薬] と最初のサブカテゴリを同行、以降は 1 全角インデント
-          var subLines2 = nonEmpty.map(function(cat){
-            return cat.label + ': ' + cat.items.join('，');
-          });
-          lines.push('[鎮痛薬] ' + subLines2[0]);
-          for (var i = 1; i < subLines2.length; i++) lines.push('　' + subLines2[i]);
-        } else {
-          // ③ balanced: [鎮痛薬] 単独行、各サブカテゴリは「，」連結で1行
-          lines.push('[鎮痛薬]');
+          lines.push('[鎮痛薬] ' + parts.join('，'));
+        } else if (style === 'balanced') {
+          // ② [鎮痛薬] 単独行 → 各サブカテゴリ「- ラベル：薬剤，薬剤」を 1 行ずつ
+          lines.push('[鎮痛薬] ');
           nonEmpty.forEach(function(cat){
-            lines.push('　' + cat.label + ': ' + cat.items.join('，'));
+            lines.push('- ' + cat.label + '：' + cat.items.join('，'));
+          });
+        } else {
+          // ③ detail: [鎮痛薬] 単独行 → 各サブカテゴリラベル単独行 → 薬剤を 1 行ずつ
+          lines.push('[鎮痛薬] ');
+          nonEmpty.forEach(function(cat){
+            lines.push('- ' + cat.label + '：');
+            cat.items.forEach(function(drug){ lines.push(drug); });
           });
         }
       }
@@ -2048,29 +2040,29 @@
     // CAM-ICU
     if (state.cam_icu) lines.push('[CAM-ICU] ' + state.cam_icu);
 
-    // 抗譫妄薬
+    // 抗譫妄薬（③では常に分割表示）
     if (state.use_anti_delirium === 'yes') {
       var ad = fmtRowsList('anti_delirium');
       var adExtra = (state.anti_delirium_extra || '').trim();
       if (adExtra) ad.push(adExtra);
-      pushSection('抗譫妄薬', ad);
+      pushSection('抗譫妄薬', ad, { alwaysSplit:true });
     }
 
-    // 不眠 & 睡眠薬
+    // 不眠 & 睡眠薬（③では常に分割表示）
     if (state.has_insomnia === 'yes') {
       if (state.insomnia.trim()) lines.push('[不眠] ' + state.insomnia.trim());
       var hyp = fmtRowsList('hypnotics');
       var hypExtra = (state.hypnotics_extra || '').trim();
       if (hypExtra) hyp.push(hypExtra);
-      pushSection('睡眠薬', hyp);
+      pushSection('睡眠薬', hyp, { alwaysSplit:true });
     }
 
-    // 抗痙攣薬
+    // 抗痙攣薬（③では常に分割表示）
     if (state.use_anti_seizure === 'yes') {
       var ase = fmtRowsList('anti_seizure');
       var aseExtra = (state.anti_seizure_extra || '').trim();
       if (aseExtra) ase.push(aseExtra);
-      pushSection('抗痙攣薬', ase);
+      pushSection('抗痙攣薬', ase, { alwaysSplit:true });
     }
 
     // 二次性脳損傷予防（適用の有無のみ出力。チェック項目の転写は不要）
