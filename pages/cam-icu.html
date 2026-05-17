@@ -435,7 +435,7 @@
       </div>
       <div class="err-input">
         <label for="f2err">エラー数：</label>
-        <input type="number" id="f2err" min="0" max="10" step="1" value="0">
+        <input type="number" id="f2err" min="0" max="10" step="1" placeholder="0">
         <span style="font-size:0.78rem;color:#64748B;">／10 回中</span>
       </div>
     </div>
@@ -579,8 +579,20 @@
       if (!f1) { showNegative(); step2.classList.add('disabled'); return; }
       step2.classList.remove('disabled');
 
-      // Feature 2
-      state.f2err = parseInt(f2err.value) || 0;
+      // Feature 2 — エラー数が未入力なら結果に誘導しない
+      var f2raw = (f2err.value || '').trim();
+      if (f2raw === '') {
+        // F1 = 陽性 だが F2 未入力 → 結果保留＋ヒント表示
+        setStepStatus(step2, 'disabled');
+        step4.classList.add('disabled');
+        resultCard.classList.add('visible','unable');
+        resultCard.classList.remove('positive','negative');
+        resultHead.textContent = 'Feature 2（注意力テスト）を入力してください';
+        resultDetail.innerHTML = 'F1 が陽性です。次に <strong>SAVEAHAART テスト</strong> のエラー数（0〜10）を入力してください。';
+        postResult(null, state.rass);
+        return;
+      }
+      state.f2err = parseInt(f2raw, 10) || 0;
       var f2 = state.f2err >= 2;
       setStepStatus(step2, f2 ? 'failed' : 'passed');
       if (!f2) { showNegative(); step4.classList.add('disabled'); return; }
@@ -699,11 +711,11 @@
       r.addEventListener('change', evaluate);
     });
     resetBtn.addEventListener('click', function(){
-      state = { rass:null, f1:null, f2err:0, f4errs:0 };
+      state = { rass:null, f1:null, f2err:null, f4errs:0 };
       rassRows.forEach(function(r){ r.classList.remove('selected'); });
       [step1, step2, step3, step4].forEach(function(s){ setStepStatus(s, 'disabled'); });
       document.querySelectorAll('input[type="radio"]').forEach(function(r){ r.checked = false; });
-      f2err.value = 0;
+      f2err.value = '';
       f3result.textContent = '—';
       f3result.style.background = '';
       f3result.style.color = '';
