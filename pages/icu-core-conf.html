@@ -21,6 +21,39 @@
     .core-passport-empty { visibility:hidden;font-size:0.6rem;padding:2px 8px; }
     .core-staff { font-size:0.72rem;color:var(--muted);white-space:nowrap;text-align:right; }
     .core-arrow { color:var(--muted);font-size:0.8rem; }
+
+    /* ===== Multi-action card（動画＋PDF の2ボタン、テキストはカード中央・ボタンは右下） ===== */
+    .core-card-multi {
+      cursor:default;
+      position:relative;
+      min-height:200px;
+      align-content:center;
+    }
+    .core-card-multi:hover { background:transparent; }
+    /* 動画 / PDF ボタンは絶対配置で右下に固定（テキスト行は align-content で中央へ） */
+    .core-card-multi .core-actions {
+      position:absolute;
+      right:22px;
+      bottom:16px;
+    }
+    .core-actions { display:flex;gap:8px;flex-shrink:0; }
+    .core-btn {
+      display:inline-flex;align-items:center;justify-content:center;gap:6px;
+      padding:8px 18px;border-radius:6px;text-decoration:none;
+      font-size:0.78rem;font-weight:700;letter-spacing:0.02em;line-height:1.2;
+      white-space:nowrap;transition:transform 0.15s, box-shadow 0.15s, background 0.15s;
+      min-width:84px;
+    }
+    .core-btn-video {
+      background:linear-gradient(135deg,#1269B0,#1586C0);color:#fff;border:1px solid transparent;
+    }
+    .core-btn-video:hover { transform:translateY(-1px);box-shadow:0 3px 8px rgba(18,105,176,0.32); }
+    .core-btn-pdf {
+      background:#fff;color:#08214A;border:1.5px solid #1269B0;
+    }
+    .core-btn-pdf:hover { background:#EFF6FF;border-color:#08214A; }
+    .core-btn-ico { font-size:0.65rem;line-height:1; }
+
     @media (max-width:600px) {
       .core-card { grid-template-columns:90px 1fr;gap:8px 12px; }
       .core-img { width:90px; }
@@ -29,6 +62,13 @@
       .core-passport, .core-passport-empty { grid-column:2;justify-self:start; }
       .core-staff { grid-column:2;text-align:left; }
       .core-arrow { display:none; }
+      .core-card-multi {
+        min-height:0;align-content:stretch;padding-bottom:16px;
+      }
+      .core-card-multi .core-actions {
+        position:static;grid-column:2;width:100%;margin-top:8px;justify-content:flex-start;
+      }
+      .core-btn { flex:1;padding:7px 10px;font-size:0.72rem;min-width:0; }
     }
   </style>
 </head>
@@ -111,13 +151,17 @@
     </div>
     <div class="card" style="margin-bottom:8px;border-radius:0 0 var(--radius) var(--radius);">
       <div class="card-inner" style="padding:0;">
-        <a href="https://lukemcmi-my.sharepoint.com/:b:/g/personal/sekisato_luke_ac_jp/IQC9CyfrSaVuTIJHbImVnptqAeCfYgPFPmANxQWY1kkPtlE?e=9dDp6Q" target="_blank" rel="noopener" class="core-card">
-          <!-- TODO: 「透析」サムネ画像（旧ファイル「聖路加ICU透析_ページ_01.png」は不在） --><img src="../images/11.png" alt="透析" class="core-img">
+        <div class="core-card core-card-multi">
+          <img src="../images/ICUコアカン透析.png" alt="透析" class="core-img">
           <span class="core-title">透析</span>
           <span class="core-passport">ICU PASSPORT該当項目</span>
           <span class="core-staff">担当：宮﨑先生</span>
-          <span class="core-arrow">→</span>
-        </a>
+          <span class="core-arrow" aria-hidden="true" style="visibility:hidden;">→</span>
+          <div class="core-actions">
+            <a href="https://lukemcmi-my.sharepoint.com/:v:/g/personal/sekisato_luke_ac_jp/IQAgk6OUy4CQSqYNsMgytMQMATYIiod-sNzBrHgzRLqwE3g?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=Fuz8X9" target="_blank" rel="noopener" class="core-btn core-btn-video"><span class="core-btn-ico">▶</span>動画</a>
+            <a href="https://lukemcmi-my.sharepoint.com/:b:/g/personal/sekisato_luke_ac_jp/IQAIDqEVyFqLSLVpMdYqFy2lAdhBwTso2nSlbG72nK4yuAw?e=VMukAf" target="_blank" rel="noopener" class="core-btn core-btn-pdf">PDF</a>
+          </div>
+        </div>
         <a href="https://lukemcmi-my.sharepoint.com/:b:/g/personal/sekisato_luke_ac_jp/IQDmEr169yMCSpmgg_zkhrPnAUvxeTHYIK9RPrN3CNnSF00?e=n7J23D" target="_blank" rel="noopener" class="core-card">
           <img src="../images/11.png" alt="透析患者のプレゼン" class="core-img">
           <span class="core-title">透析患者のプレゼン</span>

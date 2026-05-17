@@ -2,7 +2,7 @@
  * 新着コンテンツ用 ページ一覧
  *
  * - サイト内で新たに作成された主要なページを date 降順（新→旧）で記載してください。
- * - index.html の「新着コンテンツ」セクションでは date が新しい上位3件が自動表示されます。
+ * - index.html の「新着コンテンツ」セクションでは date が新しい上位6件が自動表示されます。
  * - 新規ページを追加するときは配列の先頭に新しいエントリを追加してください。
  *
  * date  : "YYYY-MM-DD"
@@ -10,6 +10,13 @@
  * thumb : サムネイル画像パス（images/ 以下）
  */
 const RECENT_PAGES = [
+  {
+    title: "動脈ラインからの血液培養は汚染率が末梢穿刺と同等・静脈カテーテルより低い可能性 — SR・メタ解析（CID 2025）",
+    url: "pages/articles-gl-bccontam2025.html",
+    date: "2026-05-17",
+    tag: "論文",
+    thumb: "images/IDICUtop.png"
+  },
   {
     title: "【処方ガイド】整腸剤の使い分け — 研修医のためのクイックリファレンス",
     url: "pages/disease-topics/dt-intestinal-regulators.html",
