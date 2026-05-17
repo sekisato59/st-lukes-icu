@@ -29,13 +29,47 @@
     .ie-grid2-box { background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:14px; }
     .ie-grid2-name { font-size:0.82rem;font-weight:800;color:var(--text);margin-bottom:6px; }
     .ie-grid2-body { font-size:0.8rem;color:var(--text);line-height:1.7; }
-    @media (max-width:600px) { .ie-grid2 { grid-template-columns:1fr; } }
     .alert-yellow { background:#FFFBEB;border:1px solid #FDE68A;border-radius:8px;padding:12px 16px;margin-bottom:16px; }
     .alert-green { background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;padding:12px 16px;margin-bottom:16px; }
     .ie-sidebar { width:220px;flex-shrink:0; }
     .ie-sidebar-card { background:#fff;border:1px solid var(--border);border-radius:8px;padding:14px 16px;position:sticky;top:80px; }
     .ie-sidebar-title { font-size:0.78rem;font-weight:800;color:var(--text);margin-bottom:10px;padding-bottom:6px;border-bottom:2px solid #2D7A4F; }
-    @media (max-width:900px) { .ie-sidebar { display:none; } .gl-layout { flex-direction:column; } }
+
+    /* タブレット：サイドバー非表示・縦並び */
+    @media (max-width:900px) {
+      .ie-sidebar { display:none; }
+      .gl-layout { flex-direction:column;gap:0;padding:20px 16px 60px; }
+      .gl-main { max-width:100%; }
+    }
+
+    /* モバイル：レイアウト・タイポ・テーブル・図の調整 */
+    @media (max-width:600px) {
+      .gl-layout { padding:14px 12px 48px; }
+      .ie-grid2 { grid-template-columns:1fr; }
+      /* テーブル：はみ出さないように横スクロール可・nowrap解除 */
+      .ie-table { display:block;width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;font-size:0.74rem; }
+      .ie-table thead, .ie-table tbody, .ie-table tr { display:table-row-group; }
+      .ie-table thead { display:table-header-group; }
+      .ie-table tr { display:table-row; }
+      .ie-table th, .ie-table td { padding:6px 8px;font-size:0.74rem;line-height:1.55; }
+      /* nowrap で固定幅指定されているラベルセルだけ wrap 許可 */
+      .ie-table th[style*="nowrap"], .ie-table td[style*="nowrap"] {
+        white-space:normal !important;
+        width:auto !important;
+        min-width:60px;
+      }
+      .ie-table th[style*="white-space:nowrap"], .ie-table td[style*="white-space:nowrap"] {
+        white-space:normal !important;
+      }
+      /* 図はモバイル幅いっぱいに */
+      .ie-figure img { max-width:100%; }
+      .ie-figure figcaption { max-width:100%;font-size:0.72rem; }
+      /* 章バナーのフォントサイズを縮小 */
+      .ch-banner { padding:14px 16px;margin-top:32px; }
+      .ch-banner > div:first-of-type + div { font-size:1.1rem !important; }
+      /* SECTION 見出しの左パディング調整 */
+      h3[id^="ics-"] { font-size:1rem !important;padding-left:10px !important; }
+    }
   </style>
 </head>
 <body>
