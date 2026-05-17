@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>整腸剤の使い分け — 研修医のための処方ガイド | 聖路加ICU</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../style-v2.css?v=202605160100">
+  <style>
+    .subpage-hero { padding: calc(64px + 14px) 0 16px !important; }
+    .content-wrap { display:flex;gap:32px;align-items:flex-start;max-width:1294px;margin:0 auto;padding:32px 20px 80px; }
+    .main-col { flex:1;min-width:0;max-width:900px; }
+
+    .ie-table { width:100%;border-collapse:collapse;font-size:0.82rem;margin-top:10px; }
+    .ie-table th { background:#FFFBEB;border:1px solid #FDE68A;padding:8px 12px;font-weight:700;font-size:0.78rem;text-align:left;vertical-align:middle; }
+    .ie-table td { border:1px solid var(--border);padding:8px 12px;vertical-align:top;line-height:1.7; }
+    .ie-table tr:nth-child(even) td { background:#F8FAFC; }
+    .ie-table td.center { text-align:center; }
+    .ie-table td.ok { background:#FFF7E6 !important;text-align:center;font-weight:700;color:#B45309; }
+
+    .ie-flow { display:flex;flex-direction:column;gap:0; }
+    .ie-flow-item { display:flex;align-items:flex-start;gap:14px;background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:14px 16px;margin-bottom:6px; }
+    .ie-flow-arrow { text-align:center;color:#B45309;font-size:1.1rem;font-weight:700;padding:2px 0 6px; }
+    .ie-flow-num { width:28px;height:28px;border-radius:50%;background:#B45309;color:#fff;font-size:0.78rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px; }
+
+    .ie-stat-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px; }
+    @media (max-width:520px) { .ie-stat-grid { grid-template-columns:1fr 1fr; } }
+    .ie-stat { background:#FFFBEB;border:1px solid #FDE68A;border-radius:8px;padding:14px 12px;text-align:center; }
+    .ie-stat-val { font-size:1.25rem;font-weight:900;color:#B45309;line-height:1.3; }
+    .ie-stat-label { font-size:0.68rem;color:var(--muted);margin-top:5px;line-height:1.5; }
+
+    .alert-red    { background:#FEF2F2;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#7F1D1D;line-height:1.7; }
+    .alert-blue   { background:#EFF6FF;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#1E3A5F;line-height:1.7; }
+
+    /* ── エビデンス参照リンク ── */
+    .ev-ref {
+      display:inline-block;
+      font-size:0.62rem;font-weight:800;
+      padding:1px 6px;border-radius:3px;
+      background:#EFF6FF;color:#1D4ED8;
+      text-decoration:none;
+      margin-left:4px;
+      vertical-align:0.05em;
+      border:1px solid #BFDBFE;
+      letter-spacing:0.02em;
+      transition:all 0.15s;
+    }
+    .ev-ref:hover { background:#DBEAFE;color:#1E40AF; }
+
+    /* ── 製剤プロファイルカード（グリッド表組み型） ── */
+    .drug-card {
+      background:#fff;
+      border:1px solid #FDE68A;
+      border-radius:10px;
+      margin-bottom:14px;
+      overflow:hidden;
+      box-shadow:0 2px 6px rgba(180,83,9,0.08);
+    }
+    .drug-head {
+      background:linear-gradient(135deg, #FEF3C7 0%, #FFFBEB 100%);
+      padding:12px 16px;
+      border-bottom:1px solid #FDE68A;
+      display:flex;
+      flex-wrap:wrap;
+      align-items:center;
+      gap:10px;
+    }
+    .drug-name-block { flex:1;min-width:0; }
+    .drug-name { font-size:1.02rem;font-weight:900;color:#7A4106;line-height:1.35; }
+    .drug-name.danger { color:#B91C1C; }
+    .drug-generic { font-size:0.74rem;color:#92400E;margin-top:2px;line-height:1.4; }
+    .drug-tag {
+      display:inline-block;
+      font-size:0.68rem;font-weight:800;
+      padding:4px 10px;border-radius:4px;
+      background:#FED7AA;color:#7A4106;
+      letter-spacing:0.04em;
+      white-space:nowrap;
+    }
+    .drug-tag.ab { background:#86EFAC;color:#14532D; }
+    .drug-body { padding:0; }
+    .drug-row {
+      display:grid;
+      grid-template-columns:108px 1fr;
+      border-bottom:1px solid #F1F5F9;
+    }
+    .drug-row:last-child { border-bottom:none; }
+    .drug-label {
+      background:#FFFBEB;
+      padding:11px 14px;
+      font-size:0.74rem;font-weight:800;
+      color:#92400E;
+      border-right:1px solid #FDE68A;
+      display:flex;align-items:flex-start;
+      letter-spacing:0.02em;
+    }
+    .drug-value {
+      padding:11px 16px;
+      font-size:0.85rem;line-height:1.8;
+      color:#374151;
+    }
+    .drug-value strong { color:#7A4106; }
+    @media (max-width:560px) {
+      .drug-row { grid-template-columns:1fr; }
+      .drug-label { border-right:none;border-bottom:1px solid #FDE68A;padding:6px 14px;font-size:0.7rem; }
+      .drug-value { padding:10px 14px 12px; }
+    }
+
+    .ie-sidebar { width:220px;flex-shrink:0;position:sticky;top:80px; }
+    .ie-sidebar-card { background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px 12px;box-shadow:0 2px 8px rgba(0,0,0,0.05); }
+    .ie-sidebar-title { font-size:0.62rem;font-weight:800;color:#B45309;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:10px;padding-bottom:6px;border-bottom:2px solid #FDE68A; }
+    .ie-toc-chapter { display:block;font-size:0.75rem;font-weight:700;color:var(--text);padding:6px 8px;border-radius:5px;text-decoration:none;margin-top:6px;transition:background .15s; }
+    .ie-toc-chapter:hover { background:#FFFBEB; }
+    .ie-toc-section { display:block;font-size:0.7rem;color:var(--muted);padding:3px 8px 3px 18px;text-decoration:none;transition:color .15s; }
+    .ie-toc-section:hover { color:#B45309; }
+    @media (max-width:900px) { .ie-sidebar { display:none; } }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="../../index.html" class="nav-logo">
+        <img src="../../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+        <span class="nav-logo-text">聖路加国際病院ICU</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-menu" id="navMenu"></ul>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="subpage-hero hero-image-bg hero-image-disease">
+    <div class="container" style="max-width:1294px;margin:0 auto;padding:0 20px;">
+      <a href="../disease-topics.html" class="back-link">&larr; 【研修医向け】マニュアル一覧へ戻る</a>
+      <div style="font-size:0.72rem;color:rgba(255,255,255,0.6);margin-bottom:6px;letter-spacing:0.08em;">GASTROENTEROLOGY / PRESCRIPTION GUIDE</div>
+      <h1 style="font-size:clamp(1.3rem,3vw,1.75rem);font-weight:900;color:#fff;line-height:1.35;margin-bottom:12px;">
+        整腸剤の使い分け — 研修医のための処方ガイド
+      </h1>
+      <div>
+        <span class="ie-badge">処方Tips</span>
+        <span class="ie-badge">Review</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== MAIN LAYOUT ===== -->
+  <div class="content-wrap">
+
+    <div class="main-col">
+
+      <!-- 導入 -->
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <p class="rule-body">電子カルテで「整腸剤」を検索するとビオフェルミン・ラックビー・ミヤBM・ビオスリー・ビオフェルミンR・ラックビーRなど多数の製剤が並ぶ。<strong>製剤間の大規模臨床比較試験は存在せず、使い分けの確固たるエビデンスは確立していない</strong>。一方で<span class="mark-yellow"><strong>菌種により消化管部位への親和性・抗菌薬への耐性・芽胞形成の有無が異なり、臨床シーンに応じた合理的な選択は可能</strong></span>である。</p>
+          <p class="rule-body" style="margin-top:8px;">本ページはレビュー形式で、<strong>整腸剤の作用機序 → 含有菌種の性質 → 製剤の分類と特徴 → 抗菌薬との併用ルール</strong>の順に体系的に整理し、最後に処方時のクイックリファレンスとピットフォールを示す。「なぜこの整腸剤を選んだか」を一つひとつ説明できる形での処方を目指す内容である。</p>
+        </div>
+      </div>
+
+      <!-- 略語一覧 -->
+      <div class="card" style="margin-bottom:24px;">
+        <div class="card-inner">
+          <h3 class="rule-title" style="margin-bottom:10px;">本ページで使用する略語・用語</h3>
+          <table style="width:100%;border-collapse:collapse;font-size:0.8rem;line-height:1.6;">
+            <tbody>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:140px;color:var(--blue);">プロバイオティクス</td><td style="padding:4px 8px;">適量を摂取することで宿主に健康効果をもたらす生きた微生物（probiotics）</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">偏性嫌気性菌</td><td style="padding:4px 8px;">酸素のない環境でのみ発育する菌（例：ビフィズス菌・酪酸菌）</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">通性嫌気性菌</td><td style="padding:4px 8px;">酸素の有無を問わず発育する菌（例：乳酸菌＝ラクトミン）</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">偏性好気性菌</td><td style="padding:4px 8px;">酸素のある環境でのみ発育する菌（例：糖化菌）</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">芽胞（がほう）</td><td style="padding:4px 8px;">細菌が劣悪環境で形成する休眠形態。熱・乾燥・抗菌薬・胃酸に著しく耐性</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">耐性乳酸菌</td><td style="padding:4px 8px;">抗菌薬耐性を人為的に獲得させた乳酸菌・ビフィズス菌製剤（ビオフェルミンR・ラックビーR）</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">活性生菌剤</td><td style="padding:4px 8px;">通常の有用菌をそのまま製剤化したもの（抗菌薬非併用時に使用）</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">合剤／配合剤</td><td style="padding:4px 8px;">複数の菌種を1製剤に含むもの（例：ビオフェルミン配合散・ビオスリー）</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">H. pylori</td><td style="padding:4px 8px;"><i>Helicobacter pylori</i> — ピロリ菌。除菌療法時に下痢・軟便を高頻度に併発する</td></tr>
+              <tr><td style="padding:4px 8px;font-weight:700;color:var(--blue);">ニューキノロン系</td><td style="padding:4px 8px;">レボフロキサシン（クラビット）・シプロフロキサシン等のフルオロキノロン系抗菌薬</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════ -->
+      <!-- ═══ 第1章：整腸剤の作用と菌種 ═══ -->
+      <!-- ═══════════════════════════════════════════ -->
+      <div id="ir-ch1" class="gl-chapter-banner dt first"><div class="gl-chapter-title">第1章 整腸剤の作用と菌種</div><div class="gl-chapter-subtitle">Mechanism &amp; the Five Useful Bacteria</div></div>
+
+      <h3 id="ir-s1-mechanism" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+        <span class="section-label dt">SECTION 1</span>
+        整腸剤の働き — 「pHを下げて有害菌を抑え、有用菌を増やす」
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">整腸剤が腸内環境に与える効果</h3>
+          <p class="rule-body">整腸剤は<span class="mark-yellow"><strong>腸内pHを低下させることにより、有害細菌の増殖を抑え、腸内有用菌の増殖を促進し、腐敗物質を減少させる</strong></span>。これにより下痢・軟便・便秘・腹部膨満感などの腹部症状を改善する目的で使用される。</p>
+          <p class="rule-body" style="margin-top:8px;">pHを下げる主体は、菌種が産生する<strong>乳酸・酢酸・酪酸</strong>などの短鎖脂肪酸である。特に<strong>酪酸は大腸のエネルギー源</strong>として機能する（大玉 2024 表2ヘッダー）。</p>
+          <div class="alert-blue" style="margin-top:10px;"><strong>臨床ポイント：</strong>整腸剤は腸内細菌叢の改善を介した作用であり、即時の止瀉効果を狙う薬剤ではない。患者によって反応が異なるため、症状改善が見られない場合は次の製剤を試すのが一般的な使われ方である。</div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">「使い分けのエビデンス」は確立していないという前提</h3>
+          <p class="rule-body">本ガイドの前提として、<span class="mark-red"><strong>製剤間の大規模臨床比較試験はなく、どの整腸剤がどの病態に最も有効かを示すエビデンスは確立していない</strong></span>。</p>
+          <p class="rule-body" style="margin-top:8px;">したがって本ページの「使い分け」は、<strong>菌種の生物学的性質（pH親和性・消化管部位への親和性・抗菌薬耐性・芽胞形成の有無）に基づく合理的選択</strong>であり、「AのほうがBより有効」という比較ではない。患者ごとに反応が異なるため、効果が乏しければ次の薬を試すという経験的なローテーションも一般的な使い方である。</p>
+        </div>
+      </div>
+
+      <h3 id="ir-s1-five-bacteria" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+        整腸剤に使われる5つの代表的な腸内有用菌
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">5菌種の比較表（大玉 2024 表1より）</h3>
+          <p class="rule-body">日本で使われている整腸剤の主要な含有菌は以下の5種である。<strong>増殖部位・酸素要求性・芽胞形成・産生物質・抗菌薬耐性</strong>がそれぞれ異なる。</p>
+          <table class="ie-table" style="margin-top:12px;">
+            <thead>
+              <tr>
+                <th style="width:14%;">菌種</th>
+                <th style="width:16%;text-align:center;">主な増殖部位</th>
+                <th style="width:14%;text-align:center;">酸素要求性</th>
+                <th style="width:10%;text-align:center;">芽胞</th>
+                <th style="width:18%;text-align:center;">産生物質</th>
+                <th>臨床的特徴</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="white-space:nowrap;"><strong>ビフィズス菌</strong></td>
+                <td class="center">小腸下部〜大腸</td>
+                <td class="center">偏性嫌気性</td>
+                <td class="center">なし</td>
+                <td class="center">乳酸・酢酸</td>
+                <td>有害菌の発育を抑制。整腸剤として最も古くから使用される</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;"><strong>乳酸菌</strong>（ラクトミン）</td>
+                <td class="center">小腸下部〜大腸</td>
+                <td class="center">通性嫌気性</td>
+                <td class="center">なし</td>
+                <td class="center">乳酸</td>
+                <td>酸素環境に強く、ビフィズス菌より幅広い消化管部位で発育可能</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;"><strong>糖化菌</strong></td>
+                <td class="center">小腸上部</td>
+                <td class="center">偏性好気性</td>
+                <td class="center" style="background:#FEF3C7;font-weight:700;color:#B45309;">あり</td>
+                <td class="center">— （乳酸菌の増殖を促進）</td>
+                <td><span class="mark-yellow"><strong>芽胞形成→抗菌薬の影響を受けにくい</strong></span>。乳酸菌増殖促進作用</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;"><strong>酪酸菌</strong></td>
+                <td class="center">大腸</td>
+                <td class="center">偏性嫌気性</td>
+                <td class="center" style="background:#FEF3C7;font-weight:700;color:#B45309;">あり</td>
+                <td class="center">酪酸</td>
+                <td><span class="mark-yellow"><strong>芽胞形成・酪酸産生能高い・胃酸や種々の抗菌薬に抵抗性</strong></span></td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;"><strong>宮入菌</strong>（酪酸菌の一種）</td>
+                <td class="center">大腸</td>
+                <td class="center">偏性嫌気性</td>
+                <td class="center" style="background:#FEF3C7;font-weight:700;color:#B45309;">あり</td>
+                <td class="center">酪酸・酢酸</td>
+                <td><span class="mark-red"><strong>胃酸に安定・抗菌薬に安定→抗菌薬と併用可</strong></span>。酪酸は腸管内炎症を抑える</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="alert-yellow" style="margin-top:10px;"><strong>補足：</strong>宮入菌（<i>Clostridium butyricum</i> MIYAIRI 588）は酪酸菌の一種で、ミヤBM®に含有される代表的菌株。「酪酸菌」≒「宮入菌」と理解しても臨床上は大きな問題はない。</div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">「芽胞形成」がなぜ臨床的に重要か</h3>
+          <p class="rule-body">芽胞（がほう）とは、細菌が劣悪な環境（熱・乾燥・抗菌薬・胃酸）に晒された際に形成する<strong>休眠形態</strong>である。芽胞は通常の栄養細胞より圧倒的に環境ストレスに強く、消化管内に到達するまで生存しやすい。</p>
+          <p class="rule-body" style="margin-top:8px;">整腸剤として服用したとき：</p>
+          <ul style="margin:8px 0 0 20px;font-size:0.85rem;line-height:1.9;">
+            <li><strong>芽胞形成菌（糖化菌・酪酸菌・宮入菌）：</strong>胃酸を通過し、抗菌薬に曝露されても生存できる → <span class="mark-yellow"><strong>抗菌薬併用時の整腸剤として理に適う</strong></span></li>
+            <li><strong>芽胞非形成菌（ビフィズス菌・乳酸菌）：</strong>抗菌薬に弱く、併用時には殺菌されて効果が出にくい → 単独使用が原則。抗菌薬併用するなら「耐性」獲得株（ビオフェルミンR/ラックビーR）を選ぶ</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════ -->
+      <!-- ═══ 第2章：製剤の分類と特徴 ═══ -->
+      <!-- ═══════════════════════════════════════════ -->
+      <div id="ir-ch2" class="gl-chapter-banner dt"><div class="gl-chapter-title">第2章 製剤の分類と特徴</div><div class="gl-chapter-subtitle">Drug-by-Drug Profile</div></div>
+
+      <h3 id="ir-s2-active" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+        <span class="section-label dt">SECTION 1</span>
+        活性生菌剤（抗菌薬を併用しない場合の基本）
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">活性生菌剤の総論</h3>
+          <p class="rule-body">活性生菌剤は<strong>腸内細菌叢の異常による諸症状を改善する</strong>目的で使われる。抗菌薬と併用しない通常の整腸目的（便秘・軟便・下痢・腹部膨満）の第一選択である。</p>
+          <p class="rule-body" style="margin-top:8px;">合剤では<strong>共生作用により菌数が増加し、効果の増強が期待できる</strong>。例えばビオスリー®は3種類の生菌を含む整腸剤で、糖化菌が乳酸菌を、乳酸菌が酪酸菌の増殖を促進させることで整腸効果が期待できる。</p>
+          <p class="rule-body" style="margin-top:8px;">患者によっては、どの菌株の服用が症状改善に効果的かわからない場合がある。<span class="mark-yellow"><strong>症状の改善が見られない場合は次の薬を試すのが一般的な整腸剤の使われ方</strong></span>である。</p>
+        </div>
+      </div>
+
+      <!-- ビオフェルミン -->
+      <div class="drug-card">
+        <div class="drug-head">
+          <div class="drug-name-block">
+            <div class="drug-name">ビオフェルミン® 錠 / 配合散</div>
+            <div class="drug-generic">ビフィズス菌（錠）／糖化菌＋乳酸菌（配合散）</div>
+          </div>
+          <div class="drug-tag">活性生菌剤</div>
+        </div>
+        <div class="drug-body">
+          <div class="drug-row">
+            <div class="drug-label">含有菌</div>
+            <div class="drug-value">
+              <strong>錠：</strong>ビフィズス菌 12 mg<br>
+              <strong>配合散：</strong>糖化菌 4 mg（芽胞形成）＋乳酸菌 6 mg
+            </div>
+          </div>
+          <div class="drug-row">
+            <div class="drug-label">使いどころ</div>
+            <div class="drug-value">抗菌薬を併用しない便秘・軟便・腹部膨満感に対する基本処方。最も古くから使われている整腸剤の一つで、外来・病棟ともに処方頻度が高い。</div>
+          </div>
+          <div class="drug-row">
+            <div class="drug-label">剤形選択</div>
+            <div class="drug-value">錠剤が飲めない場合は<strong>配合散</strong>を選ぶ。配合散には糖化菌（芽胞形成）と乳酸菌の2菌種が含まれる。</div>
+          </div>
+          <div class="drug-row">
+            <div class="drug-label">注意</div>
+            <div class="drug-value">ビオフェルミン®「錠」（ビフィズス菌単独）は<strong>抗菌薬併用時の保険適応がない</strong>。抗菌薬併用時は<strong>ビオフェルミンR®</strong>を選ぶ。</div>
+          </div>
+          <div class="drug-row">
+            <div class="drug-label">添付文書</div>
+            <div class="drug-value"><a href="https://www.pmda.go.jp/PmdaSearch/rdSearch/02/2316012A1132?user=1" target="_blank" rel="noopener" style="color:#1D4ED8;">ビオフェルミン配合散 添付文書（PMDA）</a></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ラックビー -->
+      <div class="drug-card">
+        <div class="drug-head">
+          <div class="drug-name-block">
+            <div class="drug-name">ラックビー® 錠 / 微粒N</div>
+            <div class="drug-generic">ビフィズス菌</div>
+          </div>
+          <div class="drug-tag">活性生菌剤</div>
+        </div>
+        <div class="drug-body">
+          <div class="drug-row">
+            <div class="drug-label">含有菌</div>
+            <div class="drug-value">ビフィズス菌 10 mg（錠・微粒Nとも）</div>
+          </div>
+          <div class="drug-row">
+            <div class="drug-label">使いどころ</div>
+            <div class="drug-value">ビオフェルミン®錠とほぼ同等の位置づけ。ビフィズス菌のみを単独で含む活性生菌剤。</div>
+          </div>
+          <div class="drug-row">
+            <div class="drug-label">剤形選択</div>
+            <div class="drug-value">「微粒N」は粉末状で、小児や経管投与で使いやすい。</div>
+          </div>
+          <div class="drug-row">
+            <div class="drug-label">注意</div>
+            <div class="drug-value">抗菌薬併用時は<strong>ラックビーR®</strong>を選ぶ（後述）。</div>
+          </div>
+          <div class="drug-row">
+            <div class="drug-label">添付文書</div>
+            <div class="drug-value"><a href="https://www.pmda.go.jp/PmdaSearch/rdSearch/02/2316014B1030?user=1" target="_blank" rel="noopener" style="color:#1D4ED8;">ラックビー微粒N／ラックビー錠 添付文書（PMDA）</a></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ミヤBM -->
+      <div class="drug-card">
+        <div class="drug-head">
+          <div class="drug-name-block">
+            <div class="drug-name danger">ミヤBM® 錠 / 細粒</div>
+            <div class="drug-generic">酪酸菌（宮入菌）</div>
+          </div>
+          <div class="drug-tag ab">抗菌薬併用可</div>
+        </div>
+        <div class="drug-body">
+          <div class="drug-row">
+            <div class="drug-label">含有菌</div>
+            <div class="drug-value"><strong>錠：</strong>酪酸菌（宮入菌）20 mg<br><strong>細粒：</strong>40 mg<br>いずれも<strong>芽胞形成</strong></div>
+          </div>
+          <div class="drug-row">
+            <div class="drug-label">使いどころ</div>
+            <div class="drug-value"><span class="mark-yellow"><strong>抗菌薬併用下での整腸が必要な場面の主力</strong></span>。芽胞形成のため胃酸・抗菌薬の影響を受けにくく、耐性生菌剤が無効な場合の代替にもなる。</div>
+          </div>
+          <div class="drug-row">
+            <div class="drug-label">特筆適応</div>
+            <div class="drug-value"><span class="mark-red"><strong>H. pylori 除菌療法時</strong></span>の下痢・軟便の予防のため除菌薬と併用されることが多い（除菌療法は抗菌薬を含む併用療法で下痢が高頻度に出るため）。</div>
+          </div>
+          <div class="drug-row">
+            <div class="drug-label">注意</div>
+            <div class="drug-value">レセプト病名として「下痢症」が必要となる場合がある。</div>
+          </div>
+          <div class="drug-row">
+            <div class="drug-label">添付文書</div>
+            <div class="drug-value"><a href="https://www.pmda.go.jp/PmdaSearch/rdSearch/02/2316009C1026?user=1" target="_blank" rel="noopener" style="color:#1D4ED8;">ミヤBM細粒／ミヤBM錠 添付文書（PMDA）</a></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ビオスリー -->
+      <div class="drug-card">
+        <div class="drug-head">
+          <div class="drug-name-block">
+            <div class="drug-name">ビオスリー® 配合錠 / 配合散</div>
+            <div class="drug-generic">糖化菌＋乳酸菌＋酪酸菌の3菌種配合</div>
+          </div>
+          <div class="drug-tag ab">抗菌薬併用可</div>
+        </div>
+        <div class="drug-body">
+          <div class="drug-row">
+            <div class="drug-label">含有菌</div>
+            <div class="drug-value"><strong>配合錠1錠中：</strong>糖化菌 10 mg（芽胞形成）＋乳酸菌 2 mg＋酪酸菌 10 mg（芽胞形成）</div>
+          </div>
+          <div class="drug-row">
+            <div class="drug-label">使いどころ</div>
+            <div class="drug-value">3菌種配合による<strong>共生作用</strong>を期待する処方。糖化菌→乳酸菌→酪酸菌の順に増殖が促進されるとされ、合剤ならではの「菌数増加」「効果増強」を狙える。</div>
+          </div>
+          <div class="drug-row">
+            <div class="drug-label">抗菌薬併用</div>
+            <div class="drug-value">糖化菌・酪酸菌が芽胞形成のため抗菌薬影響を受けにくく、併用可能。</div>
+          </div>
+          <div class="drug-row">
+            <div class="drug-label">剤形選択</div>
+            <div class="drug-value">錠剤の内服が困難な場合は配合散を選ぶ（生菌成分量は剤形ごとに異なるため添付文書を参照）。</div>
+          </div>
+          <div class="drug-row">
+            <div class="drug-label">添付文書</div>
+            <div class="drug-value"><a href="https://www.pmda.go.jp/PmdaSearch/rdSearch/02/2316017B1041?user=1" target="_blank" rel="noopener" style="color:#1D4ED8;">ビオスリー配合散／配合錠／配合OD錠 添付文書（PMDA）</a></div>
+          </div>
+        </div>
+      </div>
+
+      <h3 id="ir-s2-resistant" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+        耐性生菌剤（抗菌薬併用時）
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">耐性生菌剤の総論</h3>
+          <p class="rule-body">耐性生菌剤は<strong>抗菌薬・化学療法薬投与時の腸内細菌叢の異常による諸症状を改善する</strong>目的で使われる。抗菌薬耐性を人為的に獲得させた乳酸菌・ビフィズス菌を含み、抗菌薬と同時に服用しても殺菌されずに腸内で機能できるよう設計されている。</p>
+          <div class="alert-yellow" style="margin-top:10px;"><strong>重要：</strong>「耐性」は<span class="mark-red">特定の抗菌薬に対する耐性</span>であり、すべての抗菌薬に耐性ではない。後述する保険適応となる抗菌薬群以外と併用する場合は、芽胞形成菌（ミヤBM / ビオスリー）の選択を検討する。</div>
+        </div>
+      </div>
+
+      <!-- ビオフェルミンR -->
+      <div class="drug-card">
+        <div class="drug-head">
+          <div class="drug-name-block">
+            <div class="drug-name">ビオフェルミンR® 錠 / 散</div>
+            <div class="drug-generic">耐性乳酸菌（ラクトミン）</div>
+          </div>
+          <div class="drug-tag ab">抗菌薬併用可</div>
+        </div>
+        <div class="drug-body">
+          <div class="drug-row">
+            <div class="drug-label">含有菌</div>
+            <div class="drug-value">耐性乳酸菌（ラクトミン）6 mg</div>
+          </div>
+          <div class="drug-row">
+            <div class="drug-label">使いどころ</div>
+            <div class="drug-value">後述の保険適応抗菌薬（ペニシリン系・セファロスポリン系・アミノグリコシド系・マクロライド系・テトラサイクリン系・ナリジクス酸）と併用する整腸目的の標準処方。</div>
+          </div>
+          <div class="drug-row">
+            <div class="drug-label">レセプト</div>
+            <div class="drug-value">抗菌薬投与による下痢予防・治療目的で処方される。</div>
+          </div>
+          <div class="drug-row">
+            <div class="drug-label">添付文書</div>
+            <div class="drug-value"><a href="https://www.pmda.go.jp/PmdaSearch/rdSearch/02/2316004B1036?user=1" target="_blank" rel="noopener" style="color:#1D4ED8;">ビオフェルミンR散／ビオフェルミンR錠 添付文書（PMDA）</a> — 「4. 効能又は効果」欄で併用可能な抗菌薬系統を確認できる</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ラックビーR -->
+      <div class="drug-card">
+        <div class="drug-head">
+          <div class="drug-name-block">
+            <div class="drug-name">ラックビーR® 錠</div>
+            <div class="drug-generic">耐性ビフィズス菌</div>
+          </div>
+          <div class="drug-tag ab">抗菌薬併用可</div>
+        </div>
+        <div class="drug-body">
+          <div class="drug-row">
+            <div class="drug-label">含有菌</div>
+            <div class="drug-value">耐性ビフィズス菌 10 mg</div>
+          </div>
+          <div class="drug-row">
+            <div class="drug-label">使いどころ</div>
+            <div class="drug-value">ビオフェルミンR®と同様、抗菌薬併用時の選択肢。</div>
+          </div>
+          <div class="drug-row">
+            <div class="drug-label">注意</div>
+            <div class="drug-value"><span class="mark-red"><strong>ラックビーR®はテトラサイクリン系に対する保険適応がない</strong></span><a href="https://www.pmda.go.jp/PmdaSearch/rdSearch/02/2316019B1059?user=1" target="_blank" rel="noopener" class="ev-ref">添付文書 4項</a>。テトラサイクリン系（ミノマイシン・ドキシサイクリン等）と併用するならビオフェルミンR®を選ぶ。</div>
+          </div>
+          <div class="drug-row">
+            <div class="drug-label">添付文書</div>
+            <div class="drug-value"><a href="https://www.pmda.go.jp/PmdaSearch/rdSearch/02/2316019B1059?user=1" target="_blank" rel="noopener" style="color:#1D4ED8;">ラックビーR散 添付文書（PMDA）</a> — 「4. 効能又は効果」欄に列挙される抗菌薬系統は<strong>ペニシリン系・セファロスポリン系・アミノグリコシド系・マクロライド系・ナリジクス酸のみ</strong>で、<strong>テトラサイクリン系は含まれない</strong>（2026年5月時点で本ページ作成者がPMDA添付文書本文を確認済み）</div>
+          </div>
+        </div>
+      </div>
+
+      <h3 id="ir-s2-spore" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+        <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>
+        芽胞形成菌の臨床的位置づけ
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">「耐性生菌剤が無効・適応外」のときの代替</h3>
+          <p class="rule-body"><span class="mark-yellow"><strong>酪酸菌（ミヤBM®）は芽胞形成菌であるため、抗菌薬の影響を受けにくく、耐性乳酸菌製剤が臨床的に無効な場合の代替製剤になりうる</strong></span>。同様に、糖化菌＋酪酸菌の芽胞を含むビオスリー®も代替候補となる。</p>
+          <p class="rule-body" style="margin-top:8px;">特に以下のシーンで芽胞形成菌が選ばれる：</p>
+          <ol style="margin:8px 0 0 22px;font-size:0.85rem;line-height:1.9;">
+            <li>耐性乳酸菌が保険適応外の抗菌薬（ニューキノロン系・ホスホマイシン系）と併用するとき</li>
+            <li>耐性乳酸菌製剤を使用しても下痢が改善しないとき</li>
+            <li>H. pylori 除菌療法時（伝統的にミヤBM®が選ばれる）</li>
+          </ol>
+          <p class="rule-body" style="margin-top:8px;">レセプト上は<strong>傷病名「下痢症」が必要</strong>となる場面があるため、処方時に病名追加を忘れない。</p>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════ -->
+      <!-- ═══ 第3章：抗菌薬との併用 ═══ -->
+      <!-- ═══════════════════════════════════════════ -->
+      <div id="ir-ch3" class="gl-chapter-banner dt"><div class="gl-chapter-title">第3章 抗菌薬との併用 — どの製剤を選ぶか</div><div class="gl-chapter-subtitle">Choosing the Right Probiotic with Antibiotics</div></div>
+
+      <h3 id="ir-s3-coverage" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+        <span class="section-label dt">SECTION 1</span>
+        耐性乳酸菌が保険適応となる抗菌薬
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">併用対象となる抗菌薬リスト</h3>
+          <p class="rule-body">耐性乳酸菌製剤（ビオフェルミンR® / ラックビーR®）が併用の対象となる抗菌薬は以下に限定される。これ以外の抗菌薬と併用する場合は<strong>保険適応外</strong>となり、芽胞形成菌（ミヤBM / ビオスリー）を選ぶ。</p>
+          <table class="ie-table" style="margin-top:12px;">
+            <thead>
+              <tr>
+                <th style="width:14%;text-align:center;">分類</th>
+                <th style="width:24%;">抗菌薬系統</th>
+                <th>代表薬</th>
+                <th style="width:14%;text-align:center;">ビオフェルミンR</th>
+                <th style="width:14%;text-align:center;">ラックビーR</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td rowspan="6" style="white-space:nowrap;background:#DCFCE7;color:#166534;font-weight:700;text-align:center;vertical-align:middle;">① 保険適応</td>
+                <td><strong>ペニシリン系</strong></td>
+                <td>ABPC、AMPC、PIPC、SBT/ABPC など</td>
+                <td class="center" style="color:#166534;font-weight:700;">○</td>
+                <td class="center" style="color:#166534;font-weight:700;">○</td>
+              </tr>
+              <tr>
+                <td><strong>セファロスポリン系</strong></td>
+                <td>CEZ、CTRX、CFPM、CDTR-PI など</td>
+                <td class="center" style="color:#166534;font-weight:700;">○</td>
+                <td class="center" style="color:#166534;font-weight:700;">○</td>
+              </tr>
+              <tr>
+                <td><strong>アミノグリコシド系</strong></td>
+                <td>GM、AMK、TOB など</td>
+                <td class="center" style="color:#166534;font-weight:700;">○</td>
+                <td class="center" style="color:#166534;font-weight:700;">○</td>
+              </tr>
+              <tr>
+                <td><strong>マクロライド系</strong></td>
+                <td>CAM、AZM、EM など</td>
+                <td class="center" style="color:#166534;font-weight:700;">○</td>
+                <td class="center" style="color:#166534;font-weight:700;">○</td>
+              </tr>
+              <tr>
+                <td><strong>テトラサイクリン系</strong></td>
+                <td>MINO、DOXY など</td>
+                <td class="center" style="color:#166534;font-weight:700;">○</td>
+                <td class="center" style="color:#DC2626;font-weight:700;">×*</td>
+              </tr>
+              <tr>
+                <td><strong>ナリジクス酸</strong></td>
+                <td>ナリジクス酸（旧キノロン系）</td>
+                <td class="center" style="color:#166534;font-weight:700;">○</td>
+                <td class="center" style="color:#166534;font-weight:700;">○</td>
+              </tr>
+              <tr>
+                <td rowspan="2" style="white-space:nowrap;background:#FEE2E2;color:#991B1B;font-weight:700;text-align:center;vertical-align:middle;">② 保険適応外</td>
+                <td><strong>ニューキノロン系</strong><br><span style="font-size:0.72rem;color:var(--muted);">（フルオロキノロン系）</span></td>
+                <td>LVFX（クラビット）、CPFX、STFX など</td>
+                <td class="center" style="color:#DC2626;font-weight:700;">×</td>
+                <td class="center" style="color:#DC2626;font-weight:700;">×</td>
+              </tr>
+              <tr>
+                <td><strong>ホスホマイシン系</strong></td>
+                <td>FOM</td>
+                <td class="center" style="color:#DC2626;font-weight:700;">×</td>
+                <td class="center" style="color:#DC2626;font-weight:700;">×</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="alert-red" style="margin-top:12px;">
+            <strong>* ラックビーR®はテトラサイクリン系に対する保険適応はない</strong><a href="https://www.pmda.go.jp/PmdaSearch/rdSearch/02/2316019B1059?user=1" target="_blank" rel="noopener" class="ev-ref">添付文書 4項</a>。テトラサイクリン系（ミノマイシン®・ビブラマイシン®等）と整腸剤を併用するなら、<span class="mark-yellow"><strong>ビオフェルミンR®</strong></span>を選ぶ。<br>
+            <span style="font-size:0.76rem;color:#7F1D1D;">→ <a href="https://www.pmda.go.jp/PmdaSearch/rdSearch/02/2316019B1059?user=1" target="_blank" rel="noopener" style="color:#1D4ED8;font-weight:700;">ラックビーR散 添付文書（PMDA）</a> 4. 効能又は効果 欄に列挙される系統：ペニシリン系・セファロスポリン系・アミノグリコシド系・マクロライド系・ナリジクス酸（テトラサイクリン系の記載なし）</span>
+          </div>
+          <div class="alert-blue" style="margin-top:10px;font-size:0.78rem;"><strong>エビデンス参照：</strong>本表の各製剤の併用可能抗菌薬は、各添付文書の「4. 効能又は効果」欄に基づく。<br>
+            ・<a href="https://www.pmda.go.jp/PmdaSearch/rdSearch/02/2316004B1036?user=1" target="_blank" rel="noopener" style="color:#1D4ED8;font-weight:700;">ビオフェルミンR散／錠 添付文書（PMDA）</a><br>
+            ・<a href="https://www.pmda.go.jp/PmdaSearch/rdSearch/02/2316019B1059?user=1" target="_blank" rel="noopener" style="color:#1D4ED8;font-weight:700;">ラックビーR散 添付文書（PMDA）</a>
+          </div>
+        </div>
+      </div>
+
+      <h3 id="ir-s3-quinolone" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+        ニューキノロン系・ホスホマイシン系併用時の選択
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">耐性乳酸菌が使えない抗菌薬群への対応</h3>
+          <p class="rule-body">レボフロキサシン（クラビット®）等のニューキノロン系、およびホスホマイシン系（FOM）と整腸剤を併用したい場合、<strong>耐性乳酸菌製剤は保険適応外</strong>となる。この場合の選択肢は以下の通り：</p>
+          <div class="ie-flow" style="margin-top:14px;">
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">A</div>
+              <div style="flex:1;"><p class="rule-body"><strong>ミヤBM®</strong>（酪酸菌）<br>芽胞形成菌のため、ニューキノロン・ホスホマイシン下でも生存しやすい。レセプト病名「下痢症」を併記する。</p></div>
+            </div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">B</div>
+              <div style="flex:1;"><p class="rule-body"><strong>ビオスリー®配合錠</strong><br>糖化菌＋酪酸菌の芽胞2菌種を含む配合剤。複数菌の共生作用を期待できる。</p></div>
+            </div>
+          </div>
+          <div class="alert-blue" style="margin-top:10px;"><strong>ワンポイント：</strong>「クラビット®＋ビオフェルミンR®」の組み合わせは<span class="mark-red">保険適応外</span>となる。処方時には抗菌薬の系統と整腸剤の保険適応の組み合わせを確認したい。</div>
+        </div>
+      </div>
+
+      <h3 id="ir-s3-hpylori" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+        <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>
+        H. pylori 除菌療法時の選択
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">除菌療法の副作用としての下痢・軟便に対する第一選択</h3>
+          <p class="rule-body"><i>H. pylori</i> 除菌療法は抗菌薬を含む併用療法であり、下痢・軟便がしばしば副作用として出現し、アドヒアランス低下や脱落の原因となる。</p>
+          <p class="rule-body" style="margin-top:8px;"><span class="mark-yellow"><strong>ミヤBM® は宮入菌を含有し、H. pylori 除菌療法時の下痢・軟便の予防のため除菌薬と併用されることが多い</strong></span>。除菌療法の処方セットにあらかじめ組み込んでおく運用が定着している。</p>
+          <div class="alert-yellow" style="margin-top:10px;"><strong>処方上の留意：</strong>除菌療法のレジメン（抗菌薬の選択・用量・期間）は1次／2次・施設プロトコルにより異なる。本ページは整腸剤併用の位置づけのみを示しており、具体的な処方は所属施設の除菌プロトコル・添付文書を参照すること。</div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════ -->
+      <!-- ═══ 第4章：クイックリファレンス ═══ -->
+      <!-- ═══════════════════════════════════════════ -->
+      <div id="ir-ch4" class="gl-chapter-banner dt"><div class="gl-chapter-title">第4章 処方時のクイックリファレンス</div><div class="gl-chapter-subtitle">Practical Quick Reference at the Bedside</div></div>
+
+      <h3 id="ir-s4-scene" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+        <span class="section-label dt">SECTION 1</span>
+        処方時の判断フロー — 3つの質問
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">処方時に最初に判断する3つの質問</h3>
+          <p class="rule-body">第1〜3章の内容を実践に落とし込むと、処方時に確認すべきポイントは以下の3つにまとまる。</p>
+          <div class="ie-flow" style="margin-top:14px;">
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">Q1</div>
+              <div style="flex:1;"><p class="rule-body"><strong>抗菌薬を併用するか？</strong><br>→ Yes なら<span class="mark-yellow"><strong>耐性生菌剤</strong></span>（ビオフェルミンR / ラックビーR）または<span class="mark-yellow"><strong>芽胞形成菌</strong></span>（ミヤBM / ビオスリー）。No なら活性生菌剤で十分。</p></div>
+            </div>
+            <div class="ie-flow-arrow">↓</div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">Q2</div>
+              <div style="flex:1;"><p class="rule-body"><strong>その抗菌薬はニューキノロン系・ホスホマイシン系か？</strong><br>→ Yes なら耐性乳酸菌は<span class="mark-red"><strong>保険適応外</strong></span>。<span class="mark-yellow"><strong>ミヤBM</strong></span>または<span class="mark-yellow"><strong>ビオスリー</strong></span>（芽胞形成菌）を選ぶ。</p></div>
+            </div>
+            <div class="ie-flow-arrow">↓</div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">Q3</div>
+              <div style="flex:1;"><p class="rule-body"><strong>H. pylori 除菌療法中か？</strong><br>→ Yes なら<span class="mark-yellow"><strong>ミヤBM</strong></span>を併用処方する（除菌薬による下痢・軟便の予防を目的に頻用される）。</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h3 id="ir-s4-table" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+        製剤早見表（生菌成分 1g または 1錠中）
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">活性生菌剤 vs 耐性生菌剤 — 一目で分かる対照表</h3>
+          <p class="rule-body">大玉 2024（羊土社『内科外来これ一冊、必携書』）の表2を整理して再掲。「○」のセル下に生菌量と「芽胞形成」「耐性」を明記している。</p>
+          <table class="ie-table" style="margin-top:12px;">
+            <colgroup>
+              <col style="width:14%;">
+              <col style="width:18%;">
+              <col style="width:13%;">
+              <col style="width:13%;">
+              <col style="width:13%;">
+              <col style="width:13%;">
+              <col style="width:16%;">
+            </colgroup>
+            <thead>
+              <tr>
+                <th rowspan="2" style="text-align:center;">分類</th>
+                <th rowspan="2" style="text-align:center;">商品名</th>
+                <th style="text-align:center;">偏性好気性</th>
+                <th style="text-align:center;">通性嫌気性</th>
+                <th colspan="2" style="text-align:center;">偏性嫌気性</th>
+                <th rowspan="2" style="text-align:center;">抗菌薬との併用</th>
+              </tr>
+              <tr>
+                <th style="text-align:center;font-size:0.72rem;">糖化菌（サポート役）</th>
+                <th style="text-align:center;font-size:0.72rem;">乳酸菌（ラクトミン）</th>
+                <th style="text-align:center;font-size:0.72rem;">酪酸菌（大腸エネルギー源）</th>
+                <th style="text-align:center;font-size:0.72rem;">ビフィズス菌</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td rowspan="6" style="white-space:nowrap;background:#FFFBEB;font-weight:700;color:#B45309;text-align:center;vertical-align:middle;">活性生菌剤</td>
+                <td style="white-space:nowrap;"><strong>ビオフェルミン®錠</strong></td>
+                <td class="center">—</td>
+                <td class="center">—</td>
+                <td class="center">—</td>
+                <td class="ok">○<br><span style="font-size:0.7rem;font-weight:400;">12 mg</span></td>
+                <td class="center">—</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;"><strong>ビオフェルミン®配合散</strong></td>
+                <td class="ok">○<br><span style="font-size:0.7rem;font-weight:400;">4 mg<br>芽胞形成</span></td>
+                <td class="ok">○<br><span style="font-size:0.7rem;font-weight:400;">6 mg</span></td>
+                <td class="center">—</td>
+                <td class="center">—</td>
+                <td class="center">—</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;"><strong>ラックビー®錠</strong></td>
+                <td class="center">—</td>
+                <td class="center">—</td>
+                <td class="center">—</td>
+                <td class="ok">○<br><span style="font-size:0.7rem;font-weight:400;">10 mg</span></td>
+                <td class="center">—</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;"><strong>ラックビー®微粒N</strong></td>
+                <td class="center">—</td>
+                <td class="center">—</td>
+                <td class="center">—</td>
+                <td class="ok">○<br><span style="font-size:0.7rem;font-weight:400;">10 mg</span></td>
+                <td class="center">—</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;"><strong style="color:#DC2626;">ミヤBM®錠</strong></td>
+                <td class="center">—</td>
+                <td class="center">—</td>
+                <td class="ok">○<br><span style="font-size:0.7rem;font-weight:400;">20 mg<br>芽胞形成</span></td>
+                <td class="center">—</td>
+                <td class="center" style="background:#DCFCE7;color:#166534;font-weight:700;">併用可</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;"><strong>ビオスリー®配合錠</strong></td>
+                <td class="ok">○<br><span style="font-size:0.7rem;font-weight:400;">10 mg<br>芽胞形成</span></td>
+                <td class="ok">○<br><span style="font-size:0.7rem;font-weight:400;">2 mg</span></td>
+                <td class="ok">○<br><span style="font-size:0.7rem;font-weight:400;">10 mg<br>芽胞形成</span></td>
+                <td class="center">—</td>
+                <td class="center" style="background:#DCFCE7;color:#166534;font-weight:700;">併用可</td>
+              </tr>
+              <tr>
+                <td rowspan="2" style="white-space:nowrap;background:#FEF3C7;font-weight:700;color:#92400E;text-align:center;vertical-align:middle;">耐性生菌剤</td>
+                <td style="white-space:nowrap;"><strong>ビオフェルミンR®錠</strong></td>
+                <td class="center">—</td>
+                <td class="ok">○<br><span style="font-size:0.7rem;font-weight:400;">6 mg<br>耐性</span></td>
+                <td class="center">—</td>
+                <td class="center">—</td>
+                <td class="center" style="background:#DCFCE7;color:#166534;font-weight:700;">併用可</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;"><strong>ラックビーR®錠</strong></td>
+                <td class="center">—</td>
+                <td class="center">—</td>
+                <td class="center">—</td>
+                <td class="ok">○<br><span style="font-size:0.7rem;font-weight:400;">10 mg<br>耐性</span></td>
+                <td class="center" style="background:#DCFCE7;color:#166534;font-weight:700;">併用可</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="alert-blue" style="margin-top:12px;font-size:0.8rem;"><strong>表の読み方：</strong>「芽胞形成」と書かれている菌は、抗菌薬や胃酸の影響を受けにくい。「耐性」と書かれている菌は、人為的に抗菌薬耐性を獲得させたもので、特定の抗菌薬との併用時のみ生存できる。緑色の「併用可」セルは、抗菌薬使用下でも有用菌として機能することが期待できる製剤。</div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════ -->
+      <!-- ═══ 第5章：処方時のピットフォール ═══ -->
+      <!-- ═══════════════════════════════════════════ -->
+      <div id="ir-ch5" class="gl-chapter-banner dt"><div class="gl-chapter-title">第5章 処方時のピットフォール</div><div class="gl-chapter-subtitle">Pitfalls to Avoid</div></div>
+
+      <h3 id="ir-s5-switch" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+        <span class="section-label dt">SECTION 1</span>
+        スイッチングと剤形選択
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">「効かないから増量」ではなく「次の製剤を試す」</h3>
+          <p class="rule-body">繰り返しになるが、整腸剤は患者ごとに反応が異なる。<strong>症状の改善が見られない場合は次の薬を試す</strong>のが一般的な使われ方であり、漫然と同じ製剤を長期処方し続けるのは合理的ではない。</p>
+          <p class="rule-body" style="margin-top:8px;">スイッチングの実践例：</p>
+          <ul style="margin:6px 0 0 22px;font-size:0.85rem;line-height:1.9;">
+            <li>ビオフェルミン®錠（ビフィズス菌単独）→ 反応乏しければ → ビオスリー®配合錠（3菌種配合）</li>
+            <li>ビオフェルミンR®（耐性乳酸菌）→ 抗菌薬併用下で効果乏しければ → ミヤBM®（芽胞形成酪酸菌）</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">剤形選択 — 錠剤が飲めるか・経管投与か</h3>
+          <table class="ie-table" style="margin-top:8px;">
+            <thead><tr><th style="width:30%;">患者背景</th><th>推奨剤形</th></tr></thead>
+            <tbody>
+              <tr><td>通常の経口内服可能</td><td>錠剤（ビオフェルミン®錠、ラックビー®錠、ミヤBM®錠、ビオスリー®配合錠、ビオフェルミンR®錠、ラックビーR®錠）</td></tr>
+              <tr><td>嚥下困難・小児</td><td>散・微粒・細粒（ビオフェルミン®配合散、ラックビー®微粒N、ミヤBM®細粒、ビオスリー®配合散）</td></tr>
+              <tr><td>経管投与</td><td>散・微粒・細粒を選び、水で懸濁して投与</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <h3 id="ir-s5-receipt" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+        レセプト・保険適応のチェック
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">よくある「保険上の落とし穴」</h3>
+          <table class="ie-table" style="margin-top:8px;">
+            <thead><tr><th style="width:34%;">パターン</th><th>注意点</th></tr></thead>
+            <tbody>
+              <tr><td><strong>クラビット®＋ビオフェルミンR®</strong></td><td><span class="mark-red">保険適応外</span>。ニューキノロン系には耐性乳酸菌の適応がない → ミヤBM® / ビオスリー®へ切り替え</td></tr>
+              <tr><td><strong>ホスホマイシン＋ビオフェルミンR®</strong></td><td><span class="mark-red">保険適応外</span>。同上 → ミヤBM® / ビオスリー®へ</td></tr>
+              <tr><td><strong>ミノマイシン®＋ラックビーR®</strong></td><td><span class="mark-red">保険適応外</span>。ラックビーR®はテトラサイクリン系に保険適応なし → ビオフェルミンR®へ切り替え</td></tr>
+              <tr><td><strong>ミヤBM®単独処方</strong></td><td>抗菌薬非併用での処方時は<strong>傷病名「下痢症」</strong>等の併記が必要となる場面がある</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════ -->
+      <!-- ═══ SUMMARY ═══ -->
+      <!-- ═══════════════════════════════════════════ -->
+      <h3 id="ir-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+        <span class="section-label dt">SUMMARY</span>
+        整腸剤の使い分け — 5つのキーメッセージ
+      </h3>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span class="summary-num dt">①</span>
+              <span class="rule-body"><strong>大規模比較試験はないと知る：</strong>製剤間の使い分けは「菌種の生物学的性質に基づく合理的選択」であって「Aの方がBより有効」という比較ではない。効果が乏しければ次の製剤を試す経験的ローテーションが現実的。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span class="summary-num dt">②</span>
+              <span class="rule-body"><strong>抗菌薬非併用なら活性生菌剤：</strong>便秘・軟便・腹部膨満にはビオフェルミン®錠／ラックビー®錠が基本。1剤で複数菌の効果を狙うならビオスリー®配合錠。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span class="summary-num dt">③</span>
+              <span class="rule-body"><strong>抗菌薬併用時は系統で選ぶ：</strong>ペニシリン・セフェム・アミノグリコシド・マクロライド・テトラサイクリン*・ナリジクス酸 → ビオフェルミンR® / ラックビーR®。ニューキノロン・ホスホマイシン → ミヤBM® / ビオスリー®（耐性乳酸菌は保険適応外）。<span style="font-size:0.72rem;color:#9CA3AF;">* ラックビーR®はテトラサイクリン系に保険適応なし。</span></span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span class="summary-num dt">④</span>
+              <span class="rule-body"><strong>芽胞形成菌が代替の切り札：</strong>耐性乳酸菌が無効・適応外のときはミヤBM®（酪酸菌）／ビオスリー®（糖化菌＋酪酸菌の芽胞）を選ぶ。H. pylori 除菌療法時の下痢予防にはミヤBM®が伝統的に頻用される。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+              <span class="summary-num dt">⑤</span>
+              <span class="rule-body"><strong>剤形と保険病名を忘れない：</strong>嚥下困難・経管投与なら散／微粒／細粒を選択。ミヤBM®等は処方時にレセプト病名「下痢症」の追加が必要となる場面がある。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 出典 -->
+      <div style="margin-top:24px;padding:14px 18px;background:#F8FAFC;border:1px solid var(--border);border-radius:8px;font-size:0.74rem;color:#4B5563;line-height:1.8;">
+        <div style="font-weight:800;color:#374151;font-size:0.78rem;margin-bottom:8px;">出典・参考文献</div>
+
+        <div style="margin-bottom:10px;">
+          <div style="font-weight:700;color:#7A4106;font-size:0.72rem;margin-bottom:4px;">▼ 主たる一次資料（直接参照）</div>
+          ・<strong>大玉 信一（著）：患者さんを総合的に診るための 内科外来これ一冊、必携書. 羊土社, 2024年8月</strong> — 本ページの表1（生菌の分類と特徴）・表2（整腸剤の分類と特徴）の出典書籍<br>
+          ・伊川 勇：整腸剤の一覧・使い分け・抗菌薬との併用【医療用医薬品】. ファーマシスタ, 2016（<a href="https://pharmacista.jp/contents/skillup/academic_info/intestinal_remedy/2432/" target="_blank" rel="noopener" style="color:#1D4ED8;">記事URL</a>） — 各製剤の含有菌種・抗菌薬併用ルールの補完確認に使用
+        </div>
+
+        <div style="margin-bottom:10px;">
+          <div style="font-weight:700;color:#7A4106;font-size:0.72rem;margin-bottom:4px;">▼ 各製剤の添付文書（PMDA医薬品医療機器情報提供HP / 2026年5月時点）</div>
+          ・<a href="https://www.pmda.go.jp/PmdaSearch/rdSearch/02/2316012A1132?user=1" target="_blank" rel="noopener" style="color:#1D4ED8;">ビオフェルミン配合散</a>（販売：ビオフェルミン製薬／大正製薬）<br>
+          ・<a href="https://www.pmda.go.jp/PmdaSearch/rdSearch/02/2316014B1030?user=1" target="_blank" rel="noopener" style="color:#1D4ED8;">ラックビー微粒N／ラックビー錠</a>（販売：興和）<br>
+          ・<a href="https://www.pmda.go.jp/PmdaSearch/rdSearch/02/2316009C1026?user=1" target="_blank" rel="noopener" style="color:#1D4ED8;">ミヤBM細粒／ミヤBM錠</a>（販売：ミヤリサン製薬）<br>
+          ・<a href="https://www.pmda.go.jp/PmdaSearch/rdSearch/02/2316017B1041?user=1" target="_blank" rel="noopener" style="color:#1D4ED8;">ビオスリー配合散／配合錠／配合OD錠</a>（販売：東亜薬品工業）<br>
+          ・<a href="https://www.pmda.go.jp/PmdaSearch/rdSearch/02/2316004B1036?user=1" target="_blank" rel="noopener" style="color:#1D4ED8;">ビオフェルミンR散／ビオフェルミンR錠</a>（販売：ビオフェルミン製薬／大正製薬）<br>
+          ・<a href="https://www.pmda.go.jp/PmdaSearch/rdSearch/02/2316019B1059?user=1" target="_blank" rel="noopener" style="color:#1D4ED8;">ラックビーR散</a>（販売：興和）<br>
+          <span style="font-size:0.7rem;color:#9CA3AF;">PMDA医薬品情報検索トップ：<a href="https://www.pmda.go.jp/PmdaSearch/iyakuSearch/" target="_blank" rel="noopener" style="color:#1D4ED8;">https://www.pmda.go.jp/PmdaSearch/iyakuSearch/</a></span>
+        </div>
+
+        <div style="padding-top:8px;border-top:1px solid #E2E8F0;font-size:0.7rem;color:#9CA3AF;">
+          本資料は教育目的で作成したサマリーです。診断・治療方針の決定には必ず原典および各製剤の最新の添付文書を参照してください。製剤情報は2026年5月時点のものです。
+        </div>
+      </div>
+      <p style="font-size:0.75rem;color:var(--muted);text-align:right;margin-top:8px;">制作：ICU 関谷</p>
+
+    </div><!-- /.main-col -->
+
+    <!-- ── サイドバー目次 ── -->
+    <aside class="ie-sidebar">
+      <div class="ie-sidebar-card">
+        <div class="ie-sidebar-title">目次</div>
+
+        <a href="#ir-ch1" class="ie-toc-chapter">第1章 作用と菌種</a>
+        <a href="#ir-s1-mechanism" class="ie-toc-section">S1 — 整腸剤の働き</a>
+        <a href="#ir-s1-five-bacteria" class="ie-toc-section">S2 — 5つの代表菌</a>
+
+        <a href="#ir-ch2" class="ie-toc-chapter">第2章 製剤の分類</a>
+        <a href="#ir-s2-active" class="ie-toc-section">S1 — 活性生菌剤</a>
+        <a href="#ir-s2-resistant" class="ie-toc-section">S2 — 耐性生菌剤</a>
+        <a href="#ir-s2-spore" class="ie-toc-section">S3 — 芽胞形成菌</a>
+
+        <a href="#ir-ch3" class="ie-toc-chapter">第3章 抗菌薬併用</a>
+        <a href="#ir-s3-coverage" class="ie-toc-section">S1 — 適応抗菌薬リスト</a>
+        <a href="#ir-s3-quinolone" class="ie-toc-section">S2 — キノロン併用時</a>
+        <a href="#ir-s3-hpylori" class="ie-toc-section">S3 — H. pylori 除菌</a>
+
+        <a href="#ir-ch4" class="ie-toc-chapter">第4章 クイックリファレンス</a>
+        <a href="#ir-s4-scene" class="ie-toc-section">S1 — 処方時の判断フロー</a>
+        <a href="#ir-s4-table" class="ie-toc-section">S2 — 製剤早見表</a>
+
+        <a href="#ir-ch5" class="ie-toc-chapter">第5章 ピットフォール</a>
+        <a href="#ir-s5-switch" class="ie-toc-section">S1 — スイッチング・剤形</a>
+        <a href="#ir-s5-receipt" class="ie-toc-section">S2 — レセプト</a>
+
+        <a href="#ir-summary" class="ie-toc-chapter">SUMMARY</a>
+      </div>
+    </aside>
+
+  </div><!-- /.content-wrap -->
+
+  <script src="../../script.js"></script>
+  <script src="../../mob-toc.js"></script>
+  <script src="../../abbr-tooltip.js"></script>
+</body>
+</html>

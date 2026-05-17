@@ -512,14 +512,26 @@
       right:2.5%;
       transform:translateY(-50%);
       display:grid;
-      grid-template-columns:repeat(4, minmax(0, 1fr));
-      column-gap:clamp(14px, 0.6rem + 1.4vw, 32px);
-      row-gap:14px;
+      grid-template-columns:repeat(5, minmax(0, 1fr));
+      column-gap:clamp(12px, 0.5rem + 1.2vw, 28px);
+      row-gap:10px;
       width:62%;
       max-width:880px;
-      line-height:1.5;
+      line-height:1.4;
     }
     .dum-footer-col { min-width:0; }
+    /* 「講義動画／ツール」列は項目が多いため 2 サブカラム化（grid 上は 2 列分を占有） */
+    .dum-footer-col-wide {
+      grid-column: span 2;
+      column-count: 2;
+      column-gap: clamp(10px, 0.4rem + 0.6vw, 18px);
+    }
+    .dum-footer-col-wide .dum-footer-h {
+      column-span: all;
+    }
+    .dum-footer-col-wide a {
+      break-inside: avoid;
+    }
     .dum-footer-h {
       font-size:clamp(0.66rem, 0.42rem + 0.4vw, 0.82rem);
       font-weight:900;color:#0D4F8C;
@@ -547,11 +559,12 @@
     @media (max-width:1024px) {
       .dum-footer-cols {
         width:65%;
-        column-gap:12px;
-        row-gap:10px;
+        column-gap:10px;
+        row-gap:7px;
       }
-      .dum-footer-h { font-size:0.62rem;padding-bottom:3px;margin-bottom:5px; }
-      .dum-footer-col a { font-size:0.6rem;padding:1px 0; }
+      .dum-footer-h { font-size:0.6rem;padding-bottom:2px;margin-bottom:4px; }
+      .dum-footer-col a { font-size:0.58rem;padding:0; }
+      .dum-footer-col-wide { column-gap:8px; }
     }
 
     /* モバイル：フッター画像（建物写真）は非表示。導線パネルのみを別カードとして残す。 */
@@ -567,6 +580,8 @@
         column-gap:14px;row-gap:14px;
         box-shadow:0 2px 12px rgba(13,79,140,0.06);
       }
+      /* モバイルでは sub-column 化を解除（縦に普通に並ばせる） */
+      .dum-footer-col-wide { grid-column:span 1;column-count:1; }
       .dum-footer-h { font-size:0.74rem;margin-bottom:6px; }
       .dum-footer-col a { font-size:0.72rem;white-space:normal; }
     }

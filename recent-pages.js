@@ -11,6 +11,13 @@
  */
 const RECENT_PAGES = [
   {
+    title: "【処方ガイド】整腸剤の使い分け — 研修医のためのクイックリファレンス",
+    url: "pages/disease-topics/dt-intestinal-regulators.html",
+    date: "2026-05-18",
+    tag: "解説",
+    thumb: "images/icu-study.jpg"
+  },
+  {
     title: "【保存版】ワクチン外来 — 肺炎球菌・帯状疱疹ワクチン",
     url: "pages/articles-gl-vaccine-outpatient.html",
     date: "2026-05-17",
