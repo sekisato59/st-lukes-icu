@@ -735,10 +735,12 @@
       na:0, k:0, cr:0, hct:0, wbc:0, gcs:0,
       age:0, chronic:0
     };
+    var dirty = false; // ユーザー操作があったかどうか（合計 0 点と "未入力" の区別用）
 
     function setRowPts(id, pts) {
       var row = document.getElementById('v-'+id);
       if (!row) return;
+      // CSS の [data-pts="N"] 属性セレクタで pill の色が決まるためクランプして書き込む
       row.dataset.pts = Math.min(12, pts);
       var pill = document.getElementById('pts-'+id);
       if (pill) pill.textContent = pts;
@@ -755,11 +757,11 @@
         ptsState[v] = parseInt(opt.dataset.pts, 10) || 0;
         update();
       }
-      sel.addEventListener('change', apply);
-      apply();
+      sel.addEventListener('change', function(){ dirty = true; apply(); });
+      apply(); // 初期化（dirty は false のまま）
     });
 
-    if (akiEl) akiEl.addEventListener('change', update);
+    if (akiEl) akiEl.addEventListener('change', function(){ dirty = true; update(); });
 
     /* ===== リセットボタン ===== */
     document.getElementById('resetAllBtn').addEventListener('click', function(){
@@ -776,6 +778,7 @@
         ptsState[v] = parseInt(opt.dataset.pts, 10) || 0;
       });
       if (akiEl) akiEl.checked = false;
+      dirty = false;
       update();
     });
 
@@ -813,7 +816,7 @@
       document.getElementById('bd-chr').textContent = ptsState.chronic;
 
       var mortMsg, detail, sev;
-      if (total === 0)      { mortMsg = '—';       detail = '各項目を選択すると予測死亡率が表示されます。'; sev = ''; }
+      if (!dirty)           { mortMsg = '—';       detail = '各項目を選択すると予測死亡率が表示されます。'; sev = ''; }
       else if (total <= 4)  { mortMsg = '約 4 %';  detail = '軽症。経過観察で良好な見通し。';                 sev = 'sev-mild'; }
       else if (total <= 9)  { mortMsg = '約 8 %';  detail = '軽〜中等症。標準的な ICU ケアで対応可能。';       sev = 'sev-mild'; }
       else if (total <= 14) { mortMsg = '約 15 %'; detail = '中等症。多臓器サポートを要する可能性。';         sev = 'sev-mod'; }
