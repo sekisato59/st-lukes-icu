@@ -38,6 +38,7 @@
     { system: 'id',           file: 'q-id-01.html',           title: '細菌感染症で入院中、経過が思わしくないときに考えることは？' },
     { system: 'id',           file: 'q-id-02.html',           title: '蜂窩織炎の治療期間はどのくらいですか？' },
     { system: 'nutrition',    file: 'q-nutrition-01.html',    title: '血糖降下薬を使っていない患者さんで低血糖がありました（早朝空腹時）。どう考えますか？' },
+    { system: 'nutrition',    file: 'q-nutrition-02.html',    title: '病棟でのインスリン療法の基本' },
     { system: 'presentation', file: 'q-presentation-01.html', title: '病棟でのプレゼンテーションのポイントは？' },
     { system: 'other',        file: 'q-other-01.html',        title: '病棟業務のToDoの優先順位がうまくつけられません。どう考えればよいですか？' }
   ];
@@ -250,6 +251,14 @@
       { kind: 'disease', title: '糖尿病 — 診断・分類・合併症・DKA/HHS・治療薬',                                     url: '../disease-topics/dt-diabetes.html' },
       { kind: 'paper',   title: 'IVインスリンからSCインスリンへの切替え — Endocr Pract 2020',                       url: '../articles-gl-insulin-iv2sc2020.html' },
       { kind: 'paper',   title: 'NICE-SUGAR試験 — 重症患者の血糖管理 NEJM 2009',                                    url: '../articles-gl-nice-sugar-nejm2009.html' }
+    ],
+    'q-nutrition-02.html': [
+      { kind: 'gl',      title: 'ADA SoC 2026 第16章 入院時の糖尿病ケア',                                          url: '../articles-gl-ada-soc2026-ch16.html' },
+      { kind: 'gl',      title: 'ADA SoC 2026 第6章 血糖目標・低血糖・高血糖クリーゼ',                              url: '../articles-gl-ada-soc2026-ch6.html' },
+      { kind: 'paper',   title: 'IVインスリンからSCインスリンへの切替え — Endocr Pract 2020',                       url: '../articles-gl-insulin-iv2sc2020.html' },
+      { kind: 'paper',   title: 'NICE-SUGAR試験 — 重症患者の血糖管理 NEJM 2009',                                    url: '../articles-gl-nice-sugar-nejm2009.html' },
+      { kind: 'disease', title: 'ICUにおける血糖コントロール',                                                       url: '../disease-topics/dt-glucose.html' },
+      { kind: 'disease', title: '糖尿病 — 診断・分類・合併症・DKA/HHS・治療薬',                                     url: '../disease-topics/dt-diabetes.html' }
     ],
     'q-presentation-01.html': [],
     'q-other-01.html': []

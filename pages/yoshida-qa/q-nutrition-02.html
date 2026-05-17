@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>病棟でのインスリン療法の基本 | 吉田先生のお悩み相談コーナー | 聖路加ICU</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../style-v2.css?v=202605110530">
+  <style>
+    :root { --qa-primary:#0F766E;--qa-primary-dark:#134E4A;--qa-primary-light:#F0FDFA;--qa-body-line-height:1.72;--qa-paragraph-gap:0; }
+    .subpage-hero { background: linear-gradient(150deg, #042F2E 0%, #134E4A 55%, #0F766E 100%) !important; }
+    .qa-detail { max-width:900px;margin:0 auto;padding:22px 20px 48px;font-size:0.84rem;font-weight:400;line-height:var(--qa-body-line-height);color:var(--text); }
+    .qa-back { display:inline-block;margin-bottom:16px;font-size:0.84rem;font-weight:600;color:var(--qa-primary-dark);text-decoration:none;letter-spacing:0.02em; }
+    .qa-back:hover { color:var(--qa-primary); }
+    .qa-sys-tag { display:inline-block;background:var(--qa-primary-light);color:var(--qa-primary-dark);font-size:0.84rem;font-weight:600;padding:4px 12px;border-radius:5px;margin-bottom:14px;letter-spacing:0.02em; }
+    .qa-box-q { display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,var(--qa-primary-dark),var(--qa-primary));color:#fff;border-radius:10px;padding:9px 14px;margin-bottom:10px;box-shadow:0 6px 20px rgba(15,118,110,0.22); }
+    .qa-box-q-badge { flex-shrink:0;width:26px;height:26px;border-radius:50%;background:#fff;color:var(--qa-primary-dark);display:inline-flex;align-items:center;justify-content:center;font-size:0.84rem;font-weight:700;font-family:ui-monospace,Menlo,Consolas,monospace; }
+    .qa-box-q-text { flex:1;font-size:0.88rem;font-weight:500;line-height:1.45;margin:0; }
+    .qa-box-a { background:#fff;border:1px solid #99F6E4;border-radius:10px;padding:10px 14px 12px;margin-bottom:18px;box-shadow:0 4px 14px rgba(15,118,110,0.08); }
+    .qa-box-a-head { display:flex;align-items:center;gap:8px;margin-bottom:8px;padding-bottom:7px;border-bottom:1px solid var(--qa-primary-light); }
+    .qa-box-a-badge { flex-shrink:0;width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--qa-primary-dark),var(--qa-primary));color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:0.84rem;font-weight:900;font-family:ui-monospace,Menlo,Consolas,monospace; }
+    .qa-box-a-author { font-size:0.82rem;font-weight:600;color:var(--qa-primary-dark);letter-spacing:0.02em; }
+    .qa-box-a-content { font-size:0.84rem;line-height:var(--qa-body-line-height);color:var(--text);font-weight:400; }
+    /* ===== 本文の統一行間 =====
+       目的：本文（テキストボックス外）の行間を、
+       paragraph 内の自然折り返し / <br> / <p>→<p> のいずれでも常に
+       var(--qa-body-line-height) で一致させる。
+       テキストボックス（.qa-card / .qa-quote / .qa-thm / .qa-figure-caption /
+       テーブルセル など）の中はこのルールを適用しない（個別 line-height を維持）。 */
+    .qa-box-a-content > p {
+      margin:0 0 var(--qa-paragraph-gap) !important;
+      font-size:0.84rem;
+      line-height:var(--qa-body-line-height) !important;
+      font-weight:400;
+    }
+    .qa-box-a-content > p + p { margin-top:0 !important; }
+    .qa-box-a-content > p:last-child { margin-bottom:0 !important; }
+    /* 本文 <p> 直下のインライン要素も親と同じ行間を継承させる */
+    .qa-box-a-content > p > strong,
+    .qa-box-a-content > p > em,
+    .qa-box-a-content > p > span,
+    .qa-box-a-content > p > a,
+    .qa-box-a-content > p > br { line-height:inherit; }
+    .qa-box-a-content strong { color:var(--qa-primary-dark);font-weight:700; }
+    .qa-box-a-content em { font-style:italic; }
+    /* セクションバナー */
+    .qa-section-title {
+      margin:22px 0 10px;padding:6px 0 6px 14px;
+      font-size:0.92rem;font-weight:900;color:var(--qa-primary-dark);
+      border-left:4px solid var(--qa-primary);line-height:1.45;
+    }
+    .qa-section-title .qa-section-sub {
+      display:block;font-size:0.7rem;font-weight:700;color:var(--qa-primary);
+      letter-spacing:0.1em;margin-bottom:2px;
+    }
+    /* カード */
+    .qa-card { border-radius:6px;overflow:hidden;margin:12px 0;border:1px solid #99F6E4; }
+    .qa-card-h { background:linear-gradient(135deg,var(--qa-primary-dark),var(--qa-primary));color:#fff;padding:6px 14px;font-weight:800;font-size:0.86rem;line-height:1.45; }
+    .qa-card-body { padding:10px 14px;background:var(--qa-primary-light); }
+    .qa-card-body > *:first-child { margin-top:0; }
+    .qa-card-body > *:last-child { margin-bottom:0; }
+    .qa-card-body p { margin:4px 0;font-size:0.84rem;line-height:1.72; }
+    .qa-box-a-content ul {
+      margin:6px 0 8px 1.25em;
+      padding:0;
+      line-height:var(--qa-body-line-height);
+    }
+    .qa-box-a-content li { margin:3px 0; }
+    /* サブセクション */
+    .qa-subsection {
+      display:block;margin:12px 0 6px;padding:0 0 3px;
+      font-size:0.88rem;font-weight:800;color:var(--qa-primary-dark);
+      border-bottom:2px solid var(--qa-primary);line-height:1.4;
+    }
+    .qa-subsection::before { content:"▸ ";color:var(--qa-primary);font-weight:900; }
+    /* 引用ボックス（>） */
+    .qa-quote {
+      background:#fff;border:1px solid #99F6E4;border-radius:6px;
+      padding:8px 14px;margin:6px 0;
+      font-size:0.86rem;font-weight:600;color:var(--qa-primary-dark);
+      line-height:1.55;
+    }
+    .qa-quote::before { content:"❝ ";color:var(--qa-primary);font-weight:900; }
+    /* 図 */
+    .qa-figure { margin:14px 0 18px;text-align:center; }
+    .qa-figure img {
+      max-width:100%;height:auto;display:block;margin:0 auto;
+      border:1px solid #E2E8F0;border-radius:6px;background:#fff;
+    }
+    .qa-figure-caption {
+      font-size:0.74rem;color:var(--muted);margin-top:6px;line-height:1.5;
+      font-weight:600;letter-spacing:0.02em;
+    }
+    /* テーブル */
+    .qa-detail table {
+      width:100%;border-collapse:collapse;margin:12px 0 16px;
+      font-size:0.82rem;background:#fff;
+      border:1px solid #99F6E4;border-radius:6px;overflow:hidden;
+    }
+    .qa-detail th, .qa-detail td {
+      padding:8px 11px;text-align:left;line-height:1.65;
+      border-bottom:1px solid #E2E8F0;border-right:1px solid #E2E8F0;
+    }
+    .qa-detail th {
+      background:linear-gradient(135deg,var(--qa-primary-dark),var(--qa-primary));
+      color:#fff;font-weight:700;font-size:0.82rem;line-height:1.5;
+    }
+    .qa-detail tr:last-child td { border-bottom:none; }
+    .qa-detail th:last-child, .qa-detail td:last-child { border-right:none; }
+    .qa-detail tbody tr:nth-child(even) { background:var(--qa-primary-light); }
+    /* 血糖表：白黒ベース（原図に準ずる）・2日目を枠で強調 */
+    .insulin-table {
+      font-size:0.72rem;background:#fff;
+      border:1px solid #D1D5DB;border-radius:4px;
+    }
+    .insulin-table th, .insulin-table td {
+      background:#fff !important;color:#1F2937;
+      padding:8px 8px;border:1px solid #D1D5DB;
+      font-weight:400;line-height:1.62;text-align:center;
+      vertical-align:middle;
+    }
+    .insulin-table thead th {
+      background:#F3F4F6 !important;color:#1F2937;
+      font-weight:700;font-size:0.78rem;
+    }
+    .insulin-table th:first-child, .insulin-table td:first-child {
+      background:#F9FAFB !important;color:#1F2937;
+      font-weight:700;white-space:nowrap;font-size:0.78rem;
+    }
+    .insulin-table tbody tr:nth-child(even) td,
+    .insulin-table tbody tr:nth-child(even) th { background:#fff !important; }
+    .insulin-table .hl-col {
+      background:#F0FDFA !important;
+      font-weight:700;
+      border-left:3px solid var(--qa-primary) !important;
+      border-right:3px solid var(--qa-primary) !important;
+    }
+    .insulin-table thead th.hl-col {
+      background:#CCFBF1 !important;
+      border-top:3px solid var(--qa-primary) !important;
+    }
+    .insulin-table tbody tr:last-child td.hl-col {
+      border-bottom:3px solid var(--qa-primary) !important;
+    }
+    .insulin-table .ins-drug {
+      display:inline-block;font-size:0.62rem;color:#6B7280;
+      line-height:1.42;margin:3px 0;
+    }
+    .insulin-table .ins-bg { font-size:0.92rem;font-weight:700;color:#111827; }
+    .insulin-table .ins-dose { font-size:0.74rem;color:#374151;font-weight:600; }
+    /* 責任インスリン表：セル中央寄せ */
+    .resp-table th, .resp-table td { text-align:center !important; }
+    .dose-table {
+      width:100%;
+      margin:12px 0 16px !important;
+      border-color:#99F6E4 !important;
+      box-shadow:0 4px 14px rgba(15,118,110,0.08);
+    }
+    .dose-table th,
+    .dose-table td {
+      padding:10px 14px !important;
+      font-size:0.86rem;
+      line-height:1.55;
+      text-align:center !important;
+    }
+    .dose-table th:last-child,
+    .dose-table td:last-child {
+      text-align:center !important;
+      white-space:nowrap;
+      font-weight:700;
+    }
+    .dose-table tbody tr:nth-child(even) { background:#F8FFFD; }
+    @media (max-width: 600px) {
+      .insulin-table { font-size:0.66rem; }
+      .insulin-table th, .insulin-table td { padding:4px 4px;word-break:break-word; }
+      .insulin-table th:first-child, .insulin-table td:first-child { font-size:0.7rem; }
+      .insulin-table .ins-drug { font-size:0.58rem; }
+      .insulin-table .ins-bg { font-size:0.82rem; }
+    }
+    /* マーカー（緑） */
+    .qa-box-a-content .mark-yellow {
+      background: linear-gradient(transparent 55%, rgba(34,197,94,0.42) 55%);
+      padding: 0 2px;
+    }
+    /* Take Home Message */
+    .qa-thm {
+      background:linear-gradient(135deg,#F0FDFA,#ECFDF5);
+      border:2px solid var(--qa-primary);border-radius:10px;
+      padding:14px 18px;margin:18px 0 8px;
+    }
+    .qa-thm-head {
+      font-size:0.92rem;font-weight:900;color:var(--qa-primary-dark);
+      letter-spacing:0.08em;margin-bottom:8px;
+      padding-bottom:6px;border-bottom:2px solid #99F6E4;
+    }
+    .qa-thm ul { margin:0;padding-left:0;list-style:none; }
+    .qa-thm li {
+      position:relative;padding:4px 0 4px 22px;font-size:0.84rem;line-height:1.6;
+    }
+    .qa-thm li::before {
+      content:"✓";position:absolute;left:3px;top:3px;
+      color:var(--qa-primary);font-weight:900;font-size:0.92rem;
+    }
+    .qa-reference-note {
+      font-size:0.72rem;color:#6B7280;margin:12px 0 0;
+      line-height:var(--qa-body-line-height);
+    }
+    @media (max-width: 600px) {
+      .qa-detail { padding:16px 14px 36px;font-size:0.78rem; }
+      .qa-back { font-size:0.78rem; }
+      .qa-sys-tag { font-size:0.76rem;padding:3px 10px; }
+      .qa-box-q { padding:8px 12px;gap:10px; }
+      .qa-box-q-badge { width:22px;height:22px;font-size:0.76rem; }
+      .qa-box-q-text { font-size:0.82rem; }
+      .qa-box-a { padding:8px 12px 10px; }
+      .qa-box-a-badge { width:22px;height:22px;font-size:0.76rem; }
+      .qa-box-a-author { font-size:0.78rem; }
+      .qa-box-a-content { font-size:0.78rem;line-height:var(--qa-body-line-height); }
+      .qa-box-a-content > p {
+        font-size:0.78rem;
+        line-height:var(--qa-body-line-height) !important;
+        margin:0 0 var(--qa-paragraph-gap) !important;
+      }
+      .qa-box-a-content > p + p { margin-top:0 !important; }
+      .qa-card-h { padding:5px 10px;font-size:0.8rem; }
+      .qa-card-body { padding:8px 10px; }
+      .qa-card-body p { font-size:0.78rem; }
+      .qa-subsection { font-size:0.82rem; }
+      .qa-section-title { font-size:0.86rem;padding-left:10px; }
+      .qa-detail table { font-size:0.74rem; }
+      .qa-detail th, .qa-detail td { padding:7px 8px; }
+      .dose-table { width:100%; }
+      .dose-table th, .dose-table td { font-size:0.8rem;padding:8px 10px !important; }
+      .qa-quote { font-size:0.8rem;padding:7px 12px; }
+      .qa-thm-head { font-size:0.86rem; }
+      .qa-thm li { font-size:0.78rem; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="../../index.html" class="nav-logo">
+        <img src="../../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+        <span class="nav-logo-text">聖路加国際病院ICU</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="メニューを開く"><span></span><span></span><span></span></button>
+      <ul class="nav-menu" id="navMenu"></ul>
+    </div>
+  </nav>
+  <div style="width:100%;max-width:1294px;margin:64px auto 0;padding:0;line-height:0;">
+    <img src="../../images/header吉田先生.png" alt="【9+10】吉田先生のお悩み相談コーナー — YOSHIDA Q&amp;A · BY SYSTEM"
+      style="width:100%;height:auto;display:block;-webkit-mask-image:linear-gradient(to bottom, #000 0%, #000 85%, transparent 100%);mask-image:linear-gradient(to bottom, #000 0%, #000 85%, transparent 100%);">
+  </div>
+  <div class="qa-detail">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;gap:12px;flex-wrap:wrap;">
+      <a href="../yoshida-qa.html" class="qa-back" style="margin-bottom:0;">← Q&amp;A 一覧へ戻る</a>
+      <span class="qa-sys-tag" style="margin-bottom:0;">栄養 / 代謝系 ／ Nutritional / Metabolic System</span>
+    </div>
+    <div class="qa-box-q">
+      <span class="qa-box-q-badge">Q</span>
+      <p class="qa-box-q-text">病棟でのインスリン療法の基本</p>
+    </div>
+    <div class="qa-box-a">
+      <div class="qa-box-a-head">
+        <span class="qa-box-a-badge">A</span>
+        <span class="qa-box-a-author">関谷先生の回答</span>
+      </div>
+      <div class="qa-box-a-content">
+        <!-- ═══ 1. インスリン分泌の基本 ═══ -->
+        <h3 class="qa-section-title"><span class="qa-section-sub">SECTION 1</span>インスリン分泌の基本</h3>
+        <p>健常成人では、インスリン分泌は大きく2つに分かれます。</p>
+        <div class="qa-card">
+          <div class="qa-card-h">◎ 基礎インスリン</div>
+          <div class="qa-card-body">
+            <p>食事に関係なく、常に少量ずつ分泌されているインスリンです。血糖値が大きく上がっていない時間帯でも、<strong>肝臓からの糖放出を抑え、空腹時血糖を安定させる役割</strong>があります。</p>
+          </div>
+        </div>
+        <div class="qa-card">
+          <div class="qa-card-h">◎ 追加インスリン</div>
+          <div class="qa-card-body">
+            <p>食事などで血糖が上昇したときに、その刺激に反応して分泌されるインスリンです。<strong>食後血糖の上昇を抑える役割</strong>があります。</p>
+          </div>
+        </div>
+        <div class="qa-figure">
+          <img src="../../images/insulin1.jpg" alt="基礎インスリンと追加インスリンの分泌イメージ">
+          <div class="qa-figure-caption">図1：基礎インスリンと追加インスリンの分泌イメージ</div>
+        </div>
+        <p>図1 では、青の横帯が <strong>1日中持続している基礎インスリン分泌</strong> を、朝食・昼食・夕食ごとに立ち上がる青い山が <strong>食事に反応した追加インスリン分泌</strong> を表しています。就寝時には追加分泌は基礎レベルまで落ち着きます。</p>
+        <p>このように、実際のインスリン分泌は<span class="mark-yellow"><strong>「基礎インスリン」と「食事ごとの追加インスリン」の組み合わせ</strong></span>で成り立っています。</p>
+        <!-- ═══ 2. インスリン療法は生理的分泌の再現 ═══ -->
+        <h3 class="qa-section-title"><span class="qa-section-sub">SECTION 2</span>インスリン療法は生理的分泌の再現である</h3>
+        <p>病棟でのインスリン療法では、この生理的なインスリン分泌を真似するように製剤を選びます。</p>
+        <div class="qa-card">
+          <div class="qa-card-h">◎ 基礎インスリンに相当するもの — 持効型インスリン</div>
+          <div class="qa-card-body">
+            <p>基礎インスリンに相当するのが、<strong>持効型インスリン</strong>です。当院では、主に<strong>グラルギン</strong>を使用しています。</p>
+          </div>
+        </div>
+        <div class="qa-card">
+          <div class="qa-card-h">◎ 追加インスリンに相当するもの — 超速効型インスリン</div>
+          <div class="qa-card-body">
+            <p>追加インスリンに相当するのが、<strong>超速効型インスリン</strong>です。当院では、主に<strong>ヒューマログ</strong>を使用しています。</p>
+          </div>
+        </div>
+        <div class="qa-figure">
+          <img src="../../images/insulin2.jpg" alt="持効型・超速効型インスリンの効果と責任インスリンの対応">
+          <div class="qa-figure-caption">図2：持効型・超速効型インスリンの効果（上段）と、各タイミングの責任インスリン（下段）</div>
+        </div>
+        <p>図2 の <strong>上段</strong> をご覧ください。緑のなだらかなライン（持効型溶解）が <strong>1日を通して低い濃度で持続</strong> し、基礎インスリンの役割を担います。一方、朝食・昼食・夕食のタイミングで赤いシャープなピーク（超速効型）が立ち上がり、<strong>食後の血糖上昇を抑える役割</strong> を担います。</p>
+        <p>図2 の <strong>下段</strong> では、朝食前 → 朝食後・昼食前 → 昼食後・夕食前 → 夕食後 と、各タイミングで測定する血糖値に対して、<span class="mark-yellow"><strong>どのインスリンが主に影響を与えているか（責任インスリン）</strong></span>を矢印で示しています。この「責任インスリン」の考え方は、<strong>セクション5 以降</strong> で詳しく説明します。</p>
+        <!-- ═══ 3. 1型 or 2型糖尿病 ═══ -->
+        <h3 class="qa-section-title"><span class="qa-section-sub">SECTION 3</span>まず確認すべきこと：1型糖尿病か、2型糖尿病か</h3>
+        <p>インスリンを考えるうえで、最初に確認すべきなのは、<span class="mark-yellow"><strong>患者が1型糖尿病か2型糖尿病か</strong></span>です。</p>
+        <div class="qa-card">
+          <div class="qa-card-h">◎ 1型糖尿病</div>
+          <div class="qa-card-body">
+            <p>1型糖尿病では、<strong>基礎インスリンの分泌もほとんどありません</strong>。そのため、インスリンが不足すると、細胞内に糖を取り込めなくなります。その結果、ケトン体が増加し、<strong>ケトアシドーシス</strong>を起こす危険があります。</p>
+            <p>したがって、1型糖尿病の患者では、<span class="mark-yellow"><strong>たとえ食事が摂れない状況でも、基礎インスリンの投与が必要</strong></span>です。</p>
+            <div class="qa-quote">1型糖尿病では、インスリンを完全に中止することは基本的にありません。</div>
+          </div>
+        </div>
+        <div class="qa-card">
+          <div class="qa-card-h">◎ 2型糖尿病</div>
+          <div class="qa-card-body">
+            <p>2型糖尿病では、インスリン分泌自体は<strong>ある程度保たれていることも多い</strong>です。主な問題は、細胞でインスリンが効きにくくなることです。これを<strong>インスリン抵抗性の上昇</strong>といいます。</p>
+          </div>
+        </div>
+        <!-- ═══ 4. 病棟での血糖目標 ═══ -->
+        <h3 class="qa-section-title"><span class="qa-section-sub">SECTION 4</span>病棟での血糖目標</h3>
+        <p>詳細は省きますが、NICE-SUGAR trialなどを踏まえると、病棟での血糖値はおおむね<span class="mark-yellow"><strong>140〜180 mg/dL</strong></span>を目標に考えるとよいです。もちろん、患者背景や低血糖リスクによって個別化は必要ですが、まずはこの範囲を大まかな目安として押さえておくとよいです。</p>
+        <!-- ═══ 5. 責任インスリン ═══ -->
+        <h3 class="qa-section-title"><span class="qa-section-sub">SECTION 5</span>責任インスリンとは</h3>
+        <p>次に、責任インスリンについて説明します。</p>
+        <p>責任インスリンとは、<span class="mark-yellow"><strong>あるタイミングで測定した血糖値に対して、主に影響しているインスリン</strong></span>のことです。ここを理解していないと、どのインスリンを増減すればよいのかがわからなくなります。</p>
+        <p>視覚的なイメージは、前述の <strong>図2 の下段</strong> をご参照ください。朝食前血糖は <strong>持効型インスリン</strong>、朝食後・昼食前血糖は <strong>朝食前の超速効型</strong>、昼食後・夕食前血糖は <strong>昼食前の超速効型</strong>、夕食後血糖は <strong>夕食前の超速効型</strong> — というように、それぞれの血糖値には主に影響しているインスリンが決まっています。</p>
+        <!-- ═══ 6. 実際の血糖表をどう読むか ═══ -->
+        <h3 class="qa-section-title"><span class="qa-section-sub">SECTION 6</span>実際の血糖表をどう読むか</h3>
+        <p>ある患者の3日分の食事区分・血糖値・ヒューマログ投与量を並べた血糖表が以下です。<strong>中央の列（2日目）</strong> に注目して血糖推移を見ていきます。</p>
+        <table class="insulin-table">
+          <colgroup>
+            <col style="width:13%;">
+            <col style="width:29%;">
+            <col style="width:29%;">
+            <col style="width:29%;">
+          </colgroup>
+          <thead>
+            <tr><th></th><th>1日目</th><th class="hl-col">2日目</th><th>3日目</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>朝食前</td>
+              <td><span class="ins-bg">180</span><br><span class="ins-drug">(ハイアラート)ヒューマログ注<br>ミリオペン[300単位/3mL/キット]</span><br><span class="ins-dose">0単位</span></td>
+              <td class="hl-col"><span class="ins-bg">152</span><br><span class="ins-drug">(ハイアラート)ヒューマログ注<br>ミリオペン[300単位/3mL/キット]</span><br><span class="ins-dose">0単位</span></td>
+              <td><span class="ins-bg">202</span><br><span class="ins-drug">(ハイアラート)ヒューマログ注<br>ミリオペン[300単位/3mL/キット]</span><br><span class="ins-dose">2単位</span></td>
+            </tr>
+            <tr>
+              <td>昼食前</td>
+              <td><span class="ins-bg">242</span><br><span class="ins-drug">(ハイアラート)ヒューマログ注<br>ミリオペン[300単位/3mL/キット]</span><br><span class="ins-dose">2単位</span></td>
+              <td class="hl-col"><span class="ins-bg">288</span><br><span class="ins-drug">(ハイアラート)ヒューマログ注<br>ミリオペン[300単位/3mL/キット]</span><br><span class="ins-dose">4単位</span></td>
+              <td><span class="ins-bg">325</span><br><span class="ins-drug">(ハイアラート)ヒューマログ注<br>ミリオペン[300単位/3mL/キット]</span><br><span class="ins-dose">4単位</span></td>
+            </tr>
+            <tr>
+              <td>夕食前</td>
+              <td><span class="ins-bg">359</span><br><span class="ins-drug">(ハイアラート)ヒューマログ注<br>ミリオペン[300単位/3mL/キット]</span><br><span class="ins-dose">6単位</span></td>
+              <td class="hl-col"><span class="ins-bg">366</span><br><span class="ins-drug">(ハイアラート)ヒューマログ注<br>ミリオペン[300単位/3mL/キット]</span><br><span class="ins-dose">6単位</span></td>
+              <td><span class="ins-bg">412</span><br><span class="ins-drug">(ハイアラート)ヒューマログ注<br>ミリオペン[300単位/3mL/キット]</span><br><span class="ins-dose">2単位</span></td>
+            </tr>
+            <tr>
+              <td>21時</td>
+              <td><span class="ins-bg">256</span><br><span class="ins-drug">(ハイアラート)ヒューマログ注<br>ミリオペン[300単位/3mL/キット]</span><br><span class="ins-dose">4単位</span></td>
+              <td class="hl-col"><span class="ins-bg">317</span><br><span class="ins-drug">(ハイアラート)ヒューマログ注<br>ミリオペン[300単位/3mL/キット]</span><br><span class="ins-dose">6単位</span></td>
+              <td><span class="ins-bg">404</span></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="qa-figure-caption">図3：実際の血糖表（食事区分・血糖値・ヒューマログ投与量）</div>
+        <p>2日目の中央列を上から順に見ていきます。<strong>朝食前 152 mg/dL</strong> はそこまで高くありません。一方で、<strong>昼食前 288 → 夕食前 366 → 就寝前(21時) 317 mg/dL</strong> と、日中を通して血糖が大きく上昇しています。</p>
+        <p>このとき、持効型インスリンを増やせば、昼食前・夕食前・就寝前の血糖は下がるかもしれません。</p>
+        <p>しかし、<span class="mark-yellow"><strong>朝食前血糖（152 mg/dL）はすでに目標に近い</strong></span>ため、持効型インスリンを増やすと、翌朝の朝食前に<strong>低血糖を起こす可能性</strong>があります。</p>
+        <p>そのため、このパターンでは、持効型インスリンを増量するよりも、<strong>日中の食事に対応するヒューマログを調整する方が自然</strong>です。</p>
+        <div class="qa-card">
+          <div class="qa-card-h">◎ 具体的な対応例</div>
+          <div class="qa-card-body">
+            <p>具体的には、</p>
+            <ul style="margin:5px 0 5px 18px;padding:0;">
+              <li>朝食前のヒューマログを追加する</li>
+              <li>昼食前のヒューマログを増量する</li>
+              <li>夕食前のヒューマログを調整する</li>
+            </ul>
+            <p>といった対応を考えます。</p>
+          </div>
+        </div>
+        <!-- ═══ 7. 夕食前血糖の責任インスリン ═══ -->
+        <h3 class="qa-section-title"><span class="qa-section-sub">SECTION 7</span>夕食前血糖の責任インスリン</h3>
+        <p>ここで、図3の <strong>2日目・夕食前血糖 366 mg/dL</strong> に注目してみます。</p>
+        <div class="qa-quote"><strong>366 mg/dL</strong></div>
+        <p>この血糖値の責任インスリンはどれでしょうか。</p>
+        <p>ここで「夕食直前のインスリン」と考えてしまいがちですが、<strong>これはよくある間違い</strong>です。</p>
+        <p>正解は、<span class="mark-yellow"><strong>昼食直前に投与したインスリン</strong></span>です。</p>
+        <p>夕食直前に測定した血糖値は、<strong>昼食後から夕食前までの血糖推移を反映</strong>しています。そのため、主に昼食直前に投与したヒューマログが、この血糖値の責任インスリンになります。</p>
+        <p>つまり、夕食前血糖を下げたい場合には、<span class="mark-yellow"><strong>夕食前のインスリンを増やすのではなく、昼食前のヒューマログを調整する</strong></span>ことを考えます。</p>
+        <!-- ═══ 8. 責任インスリンの基本ルール ═══ -->
+        <h3 class="qa-section-title"><span class="qa-section-sub">SECTION 8</span>責任インスリンの基本ルール</h3>
+        <p>責任インスリンの考え方を単純化すると、以下のようになります。</p>
+        <table class="resp-table">
+          <thead>
+            <tr><th>測定した血糖</th><th>主な責任インスリン</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>朝食前血糖</td><td>持効型インスリン</td></tr>
+            <tr><td>昼食前血糖</td><td>朝食前の超速効型インスリン</td></tr>
+            <tr><td>夕食前血糖</td><td>昼食前の超速効型インスリン</td></tr>
+            <tr><td>就寝前血糖</td><td>夕食前の超速効型</td></tr>
+          </tbody>
+        </table>
+        <p>基本的には、<span class="mark-yellow"><strong>血糖を測定した1つ前のタイミングで投与したインスリン</strong></span>が、その血糖値の責任インスリンになります。</p>
+        <p>ただし、朝食前血糖については、<strong>夜間から早朝にかけて作用している持効型インスリン</strong>の影響を強く受けます。</p>
+        <!-- ═══ 9. スライディングスケール ═══ -->
+        <h3 class="qa-section-title"><span class="qa-section-sub">SECTION 9</span>スライディングスケールとは</h3>
+        <p>次に、スライディングスケールについて説明します。2日目のインスリン量を見ると、以下のようになっています。</p>
+        <table class="dose-table">
+          <thead>
+            <tr><th>タイミング</th><th>ヒューマログ投与量</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>朝食前</td><td>0単位</td></tr>
+            <tr><td>昼食前</td><td>4単位</td></tr>
+            <tr><td>夕食前</td><td>6単位</td></tr>
+            <tr><td>21時</td><td>6単位</td></tr>
+          </tbody>
+        </table>
+        <p>これは、あらかじめ決められた固定量というより、<strong>スライディングスケールに従って投与</strong>されたものと考えられます。スライディングスケールとは、<span class="mark-yellow"><strong>血糖を測定したタイミングで、その血糖値に応じてインスリンを投与する方法</strong></span>です。つまり、血糖上昇を予測して前もって打つのではなく、<strong>血糖が上がったことを確認してから、後追いでインスリンを投与</strong>する方法です。</p>
+        <div class="qa-figure">
+          <img src="../../images/insulin4.jpg" alt="スライディングスケールのみ と インスリン固定打ち の血糖推移比較">
+          <div class="qa-figure-caption">図4：スライディングスケールのみ（左）と インスリン固定打ち（右）の血糖推移比較</div>
+        </div>
+        <p>図4 を左右で見比べると、左の <strong>スライディングスケールのみ</strong> では血糖が目標帯（ピンク）を大きく超えて上昇してからインスリンが入るのに対し、右の <strong>固定打ち</strong> では事前投与により血糖の山が低く抑えられているのが分かります。</p>
+        <!-- ═══ 10. スライディングスケールの問題点 ═══ -->
+        <h3 class="qa-section-title"><span class="qa-section-sub">SECTION 10</span>スライディングスケールの問題点</h3>
+        <p>スライディングスケールは一見便利ですが、<strong>あくまで対症療法</strong>です。上の図4（左図）をイメージしながら読み進めてください。</p>
+        <p>例えば、朝食前血糖が目標範囲内だったとします。この場合、スライディングスケールではヒューマログは投与されません。</p>
+        <p>しかし、その後に食事を摂ると血糖は上昇します。<strong>昼食前に血糖を測定して初めて、高血糖に気づきます</strong>。そこで、その血糖値に応じてヒューマログを投与します（図4 の左図では、昼食直前にスケールに応じて投与された分が緑色で示されています）。</p>
+        <p>つまり、スライディングスケールでは、<span class="mark-yellow"><strong>高血糖が起きてから対応する</strong></span>という形になります。そのため、<span class="mark-yellow"><strong>高血糖を予防するというより、高血糖になった後に補正する治療</strong></span>です。</p>
+        <!-- ═══ 11. 固定打ち ═══ -->
+        <h3 class="qa-section-title"><span class="qa-section-sub">SECTION 11</span>固定打ちの考え方</h3>
+        <p>一方で、固定打ちは、<span class="mark-yellow"><strong>食後の血糖上昇を見越して、あらかじめインスリンを投与する方法</strong></span>です。上の図4 の右図を見ながら読み進めてください。</p>
+        <p>朝食前血糖が目標範囲内であっても、その後に食事を摂れば血糖は上昇します。そのため、<strong>食後血糖の上昇を見越して、朝食前にヒューマログを固定量で投与</strong>します。図4 の右図では、青く塗られた領域が固定打ちで補われたインスリン効果を表しています。</p>
+        <p>その結果、昼食前の血糖上昇を抑えやすくなり、<strong>血糖値は目標血糖（ピンクの帯）の範囲内に収まりやすくなります</strong>。同様に、昼食前にもヒューマログを固定打ちすることで、昼食後から夕食前にかけての血糖上昇を抑えることができます。</p>
+        <p>このように、固定打ちは、<span class="mark-yellow"><strong>高血糖が起きる前に予防する治療</strong></span>と考えるとわかりやすいです。</p>
+        <!-- ═══ 12. スライディング vs 固定打ち ═══ -->
+        <h3 class="qa-section-title"><span class="qa-section-sub">SECTION 12</span>スライディングスケールと固定打ちの違い</h3>
+        <p>スライディングスケールと固定打ちの違いをまとめると、以下のようになります。</p>
+        <table>
+          <thead>
+            <tr><th></th><th>スライディングスケール</th><th>固定打ち</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>投与の考え方</strong></td><td>血糖を測ってから後追いで投与</td><td>食後血糖上昇を見越して事前に投与</td></tr>
+            <tr><td><strong>目的</strong></td><td>高血糖の補正</td><td>高血糖の予防</td></tr>
+            <tr><td><strong>メリット</strong></td><td>導入しやすい、摂食量が読めない時に使いやすい</td><td>血糖変動を抑えやすい</td></tr>
+            <tr><td><strong>デメリット</strong></td><td>高血糖の時間が残りやすい</td><td>食事摂取不良時に低血糖リスクがある</td></tr>
+          </tbody>
+        </table>
+        <p>スライディングスケールは便利ですが、<span class="mark-yellow"><strong>血糖パターンが見えてきたら、スライディングスケールのみで対応し続けるのではなく、固定打ちに移行していくことが大切</strong></span>です。</p>
+        <!-- ═══ 13. スライディングスケールが適している場面 ═══ -->
+        <h3 class="qa-section-title"><span class="qa-section-sub">SECTION 13</span>スライディングスケールが適している場面</h3>
+        <p>ただし、スライディングスケールにもメリットはあります。たとえば、以下のような場面です。</p>
+        <div class="qa-card">
+          <div class="qa-card-h">◎ スライディングスケールが適している場面</div>
+          <div class="qa-card-body">
+            <ul style="margin:4px 0;padding-left:1.4em;line-height:var(--qa-body-line-height);list-style:disc outside;">
+              <li>摂食中の2型糖尿病患者</li>
+              <li>摂食量が不安定な患者</li>
+              <li>ステロイド投与開始時</li>
+              <li>血糖値が不安定で予測困難な場合</li>
+              <li>入院直後で、まだ血糖パターンが読めない場合</li>
+            </ul>
+          </div>
+        </div>
+        <p>このような場面では、<strong>まずスライディングスケールで対応し、血糖推移を見ながら固定打ちへ移行する</strong>のが実践的です。</p>
+        <!-- ═══ 14. 固定打ちの注意点 ═══ -->
+        <h3 class="qa-section-title"><span class="qa-section-sub">SECTION 14</span>固定打ちの注意点</h3>
+        <p>固定打ちは、あらかじめインスリンを投与する方法です。そのため、<span class="mark-yellow"><strong>何らかの理由でその後の血糖が予想ほど上がらなかった場合、インスリンが効きすぎて低血糖を起こす可能性</strong></span>があります。</p>
+        <p>特に注意が必要なのは、以下のような場合です。</p>
+        <div class="qa-card">
+          <div class="qa-card-h">◎ 固定打ちで低血糖リスクが高まる場面</div>
+          <div class="qa-card-body">
+            <ul style="margin:0;padding:0;line-height:var(--qa-body-line-height);list-style:none;">
+              <li>・食事摂取量が少ない</li>
+              <li>・食事が中止になった</li>
+              <li>・嘔吐した</li>
+              <li>・検査や処置で食事時間がずれた</li>
+              <li>・全身状態が変化した</li>
+            </ul>
+          </div>
+        </div>
+        <p>固定打ちを行う場合は、<strong>「本当に予定通り食事が摂れるか」を確認すること</strong>が重要です。</p>
+        <!-- ═══ 15. 実践的なまとめ ═══ -->
+        <h3 class="qa-section-title"><span class="qa-section-sub">SECTION 15</span>実践的なまとめ</h3>
+        <p>病棟でインスリン療法を考えるときは、まず<strong>1型糖尿病か2型糖尿病か</strong>を確認します。</p>
+        <p>1型糖尿病では、食事が摂れなくても<strong>基礎インスリンを中止してはいけません</strong>。</p>
+        <p>インスリン調整では、<span class="mark-yellow"><strong>測定した血糖値に対して、どのインスリンが責任インスリンなのかを考えます</strong></span>。</p>
+        <p>スライディングスケールは便利ですが、<strong>高血糖が起きてから対応する対症療法</strong>です。</p>
+        <p>入院直後や摂食量が不安定な時期には、スライディングスケールから開始してもよいです。しかし、<strong>血糖パターンが見えてきたら、固定打ちに移行し、血糖上昇を予防すること</strong>が大切です。</p>
+        <!-- ═══ Take Home Message ═══ -->
+        <div class="qa-thm">
+          <div class="qa-thm-head">TAKE HOME MESSAGE</div>
+          <ul>
+            <li>インスリン分泌は<strong>「基礎インスリン」と「追加インスリン」</strong>に分けて考える</li>
+            <li>1型糖尿病では、食事が摂れなくても<strong>基礎インスリンを中止しない</strong></li>
+            <li>血糖を見たら、まず<strong>「責任インスリン」</strong>を考える</li>
+            <li>夕食前血糖が高いときの責任インスリンは、<strong>夕食前ではなく昼食前のインスリン</strong></li>
+            <li>スライディングスケールは<strong>後追いの対症療法</strong></li>
+            <li>血糖パターンが見えてきたら、<strong>固定打ちで血糖上昇を予防</strong>する</li>
+            <li>固定打ちは有効だが、<strong>食事摂取不良時の低血糖</strong>に注意する</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!-- 関連した質問 -->
+    <div class="qa-related" data-type="questions">
+      <h3 class="qa-related-title">関連した質問</h3>
+      <div class="qa-related-list"></div>
+    </div>
+    <!-- 関連したページ -->
+    <div class="qa-related" data-type="pages">
+      <h3 class="qa-related-title">関連したページ</h3>
+      <div class="qa-related-list"></div>
+    </div>
+    <p class="qa-reference-note">一部の図の作成には『糖尿病治療ガイド2024』日本糖尿病学会(編著)、出版社：文光堂を使用・参照しています。</p>
+    <p style="font-size:0.72rem;color:#9CA3AF;margin-top:16px;line-height:var(--qa-body-line-height);">
+      本ページの回答は教育目的で作成されたものです。実際の診療判断は患者個別の状況に応じて行ってください。
+    </p>
+    <p style="font-size:0.75rem;color:var(--muted);text-align:right;margin-top:8px;">回答：関谷先生 ／ 制作：ICU 関谷</p>
+  </div>
+  <script src="../../script.js"></script>
+  <script src="../../yoshida-qa-data.js"></script>
+</body>
+</html>

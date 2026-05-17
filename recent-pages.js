@@ -11,6 +11,27 @@
  */
 const RECENT_PAGES = [
   {
+    title: "内包梗塞 — 解剖局在と臨床所見",
+    url: "pages/articles-gl-ics-sm25.html",
+    date: "2026-05-18",
+    tag: "解説",
+    thumb: "images/coma-fig3-localization.png"
+  },
+  {
+    title: "AIは医師の終わりではない — JAMA Viewpoint 2026",
+    url: "pages/articles-gl-ai-physician2026.html",
+    date: "2026-05-18",
+    tag: "論文",
+    thumb: "images/朝カンファ風景.webp"
+  },
+  {
+    title: "AI時代の臨床的専門性の育て方 — No Struggle, No Mastery（JAMA 2026）",
+    url: "pages/articles-gl-ai-expertise2026.html",
+    date: "2026-05-18",
+    tag: "論文",
+    thumb: "images/朝カンファ風景.webp"
+  },
+  {
     title: "【処方ガイド】整腸剤の使い分け — 研修医のためのクイックリファレンス",
     url: "pages/disease-topics/dt-intestinal-regulators.html",
     date: "2026-05-18",
