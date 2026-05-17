@@ -516,12 +516,33 @@
       font-size:0.65rem;font-weight:500;color:#94A3B8;letter-spacing:0;
     }
     .kt-output-body { padding:12px 14px; }
+    /* ===== 出力スタイル選択 ===== */
+    .kt-style-picker {
+      display:flex;align-items:center;gap:4px;
+      margin-bottom:8px;flex-wrap:wrap;
+    }
+    .kt-style-picker-label {
+      font-size:0.66rem;color:#64748B;font-weight:700;margin-right:4px;
+      letter-spacing:0.02em;
+    }
+    .kt-style-btn {
+      padding:3px 10px;border:1px solid #CBD5E1;border-radius:5px;
+      background:#fff;font-size:0.7rem;font-weight:700;color:#64748B;
+      cursor:pointer;font-family:inherit;
+      transition:all 0.12s;letter-spacing:0.02em;
+    }
+    .kt-style-btn:hover { background:#F1F5F9;border-color:#94A3B8; }
+    .kt-style-btn.active {
+      background:#1E40AF;color:#fff;border-color:#1E40AF;
+    }
     .kt-output-pre {
-      background:#FAFBFC;border:1px solid #E2E8F0;border-radius:8px;padding:14px 16px;
+      background:#FAFBFC;border:1px solid #E2E8F0;border-radius:8px;
+      padding:14px 16px 14px calc(16px + 1em);
+      text-indent:-1em;  /* 折り返し時に [ 位置に揃える（行頭の全角space分だけ戻す） */
       font-size:0.78rem;line-height:1.9;color:#1E293B;
       font-family:'Noto Sans JP','Hiragino Kaku Gothic ProN','Hiragino Sans','Yu Gothic',system-ui,sans-serif;
       font-variant-numeric:tabular-nums;
-      white-space:pre-wrap;word-break:break-word;max-height:580px;overflow-y:auto;margin:0;
+      white-space:pre-wrap;overflow-wrap:anywhere;max-height:580px;overflow-y:auto;margin:0;
       letter-spacing:0.01em;
     }
     .kt-output-pre.empty {
@@ -563,7 +584,10 @@
       .kt-ana-subhead { font-size:0.66rem;margin:5px 0 2px; }
       .kt-drug-custom { gap:5px;margin-top:5px; }
       .kt-output-panel { position:static; }
-      .kt-output-pre { font-size:0.74rem;line-height:1.75;padding:11px 12px; }
+      .kt-output-pre {
+        font-size:0.74rem;line-height:1.75;
+        padding:11px 12px 11px calc(12px + 1em);
+      }
       /* アコーディオン見出しの英語部分はモバイルで非表示 → 折り返し防止 */
       .kt-acc-en { display:none; }
       .kt-acc summary { font-size:0.8rem;padding:7px 10px; }
@@ -1282,6 +1306,12 @@
           <span class="kt-output-h-sub">コピペで貼り付け可</span>
         </div>
         <div class="kt-output-body">
+          <div class="kt-style-picker">
+            <span class="kt-style-picker-label">出力スタイル</span>
+            <button type="button" class="kt-style-btn active" data-style="detail">① 詳細</button>
+            <button type="button" class="kt-style-btn" data-style="compact">② コンパクト</button>
+            <button type="button" class="kt-style-btn" data-style="balanced">③ バランス</button>
+          </div>
           <pre class="kt-output-pre empty" id="kt-output">Step 1 から入力するとここに反映されます</pre>
           <div class="kt-output-actions">
             <button type="button" class="kt-btn kt-btn-primary" id="kt-copy">コピー</button>
@@ -1337,8 +1367,17 @@
     use_neuroprotection: null,
     neuro_protection: [],
     neuro_protection_other: '',
-    current_problems: ''
+    current_problems: '',
+    summary_style: 'detail'  // 'detail' | 'compact' | 'balanced'
   };
+
+  // localStorage から出力スタイル設定を復元
+  try {
+    var savedStyle = localStorage.getItem('kt-summary-style');
+    if (savedStyle === 'detail' || savedStyle === 'compact' || savedStyle === 'balanced') {
+      state.summary_style = savedStyle;
+    }
+  } catch(e){}
 
   var currentStep = 1;
 
@@ -1896,16 +1935,23 @@
   }
 
   function render(){
+    var style = state.summary_style || 'detail';
     var lines = ['＃1　Neurological system'];
 
-    // セクション出力ヘルパー：1 件なら同行、複数なら見出し＋インデント
+    // セクション出力ヘルパー
+    // - detail: 1件なら同行、複数なら見出し＋インデント
+    // - compact / balanced: 1行で「，」連結
     function pushSection(label, items){
       if (!items || !items.length) return;
-      if (items.length === 1) {
-        lines.push('　[' + label + '] ' + items[0]);
+      if (style === 'compact' || style === 'balanced') {
+        lines.push('　[' + label + '] ' + items.join('，'));
       } else {
-        lines.push('　[' + label + ']');
-        items.forEach(function(s){ lines.push('　　' + s); });
+        if (items.length === 1) {
+          lines.push('　[' + label + '] ' + items[0]);
+        } else {
+          lines.push('　[' + label + ']');
+          items.forEach(function(s){ lines.push('　　' + s); });
+        }
       }
     }
 
@@ -1952,23 +1998,48 @@
       return parts;
     }
     if (state.use_analgesics === 'yes') {
-      var aBlocks = [];
-
-      var aCont = fmtDrugsList('analgesics_cont');
-      aCont.forEach(function(s){ aBlocks.push('持続点滴: ' + s); });
-
-      var aInt = fmtAnaRowsList('int');
-      aInt.forEach(function(s){ aBlocks.push('間欠: ' + s); });
-
-      var aPo = fmtAnaRowsList('po');
-      aPo.forEach(function(s){ aBlocks.push('内服: ' + s); });
-
-      var aPca = fmtDrugsList('analgesics_pca');
-      aPca.forEach(function(s){ aBlocks.push('IV-PCA: ' + s); });
+      // 各サブカテゴリの薬剤リストを集める
+      var anaCategories = [
+        { label: '持続点滴', items: fmtDrugsList('analgesics_cont') },
+        { label: '間欠',     items: fmtAnaRowsList('int') },
+        { label: '内服',     items: fmtAnaRowsList('po') },
+        { label: 'IV-PCA',   items: fmtDrugsList('analgesics_pca') }
+      ];
       var aEpiPca = (state.analgesics_epi_pca || '').trim();
-      if (aEpiPca) aBlocks.push('Epi-PCA: ' + aEpiPca);
+      if (aEpiPca) anaCategories.push({ label: 'Epi-PCA', items: [aEpiPca] });
+      var nonEmpty = anaCategories.filter(function(c){ return c.items.length > 0; });
 
-      pushSection('鎮痛薬', aBlocks);
+      if (nonEmpty.length) {
+        if (style === 'detail') {
+          // ① サブカテゴリラベルは最初の薬剤のみに付け、続く薬剤はインデント
+          var anaLines = [];
+          nonEmpty.forEach(function(cat){
+            cat.items.forEach(function(drug, i){
+              if (i === 0) anaLines.push(cat.label + ': ' + drug);
+              else anaLines.push('　　' + drug);  // 4 全角インデント（ラベル直下に揃える）
+            });
+          });
+          if (anaLines.length === 1) {
+            lines.push('　[鎮痛薬] ' + anaLines[0]);
+          } else {
+            lines.push('　[鎮痛薬]');
+            anaLines.forEach(function(s){ lines.push('　　' + s); });
+          }
+        } else if (style === 'compact') {
+          // ② [鎮痛薬] と最初のサブカテゴリを同行、以降は左揃え
+          var subLines2 = nonEmpty.map(function(cat){
+            return cat.label + ': ' + cat.items.join('，');
+          });
+          lines.push('　[鎮痛薬] ' + subLines2[0]);
+          for (var i = 1; i < subLines2.length; i++) lines.push('　' + subLines2[i]);
+        } else {
+          // ③ balanced: [鎮痛薬] 単独行、各サブカテゴリは「，」連結で1行
+          lines.push('　[鎮痛薬]');
+          nonEmpty.forEach(function(cat){
+            lines.push('　　' + cat.label + ': ' + cat.items.join('，'));
+          });
+        }
+      }
     } else if (state.use_analgesics === 'no') {
       lines.push('　[鎮痛薬] なし');
     }
@@ -2018,6 +2089,25 @@
       out.textContent = lines.join('\n');
     }
   }
+
+  // ===== 出力スタイル切替 =====
+  (function initStylePicker(){
+    var btns = document.querySelectorAll('.kt-style-btn');
+    // 初期状態：state.summary_style に合わせて active を設定
+    btns.forEach(function(b){
+      b.classList.toggle('active', b.dataset.style === state.summary_style);
+    });
+    btns.forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var s = btn.dataset.style;
+        if (state.summary_style === s) return;
+        state.summary_style = s;
+        btns.forEach(function(b){ b.classList.toggle('active', b.dataset.style === s); });
+        try { localStorage.setItem('kt-summary-style', s); } catch(e){}
+        render();
+      });
+    });
+  })();
 
   // ===== コピー =====
   document.getElementById('kt-copy').addEventListener('click', function(){
