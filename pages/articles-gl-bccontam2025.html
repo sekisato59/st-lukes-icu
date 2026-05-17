@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>動脈ラインからの血液培養汚染率：メタ解析 2025 | 聖路加ICU</title>
+  <link rel="stylesheet" href="../style-v2.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    .alert-yellow { background:#FFFBEB; border:1px solid #FDE68A; border-radius:var(--radius); padding:12px 16px; margin-bottom:12px; }
+    .alert-green  { background:#F0FDF4; border:1px solid #BBF7D0; border-radius:var(--radius); padding:12px 16px; margin-bottom:12px; }
+    .compare-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:12px 0; }
+    .compare-box { background:#F8FAFC; border:1px solid var(--border); border-radius:8px; padding:14px 16px; }
+    .compare-title { font-size:0.78rem; font-weight:900; color:var(--blue); margin-bottom:8px; }
+    .compare-rate { font-size:1.3rem; font-weight:900; line-height:1.2; }
+    .compare-label { font-size:0.72rem; color:var(--muted); margin-top:2px; }
+    .compare-rd { font-size:0.8rem; color:var(--text); margin-top:8px; padding-top:8px; border-top:1px solid var(--border); line-height:1.5; }
+    @media(max-width:600px){ .compare-grid { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <a href="../index.html" class="nav-logo">
+      <img src="../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+      <span class="nav-logo-text">聖路加国際病院ICU</span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-menu" id="navMenu"></ul>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<div class="subpage-hero hero-image-bg">
+  <div class="container">
+    <a href="articles-guidelines.html#art-infection" class="back-link">← 一覧へ戻る</a>
+    <h1 class="subpage-title">動脈ラインからの血液培養汚染率<br>静脈穿刺・静脈カテーテルとの比較<br>系統的レビューとメタ解析</h1>
+    <p class="subpage-subtitle">#7 INFECTIOUS DISEASE</p>
+    <div>
+      <span class="ie-badge">Clinical Infectious Diseases</span>
+      <span class="ie-badge">2025年</span>
+      <span class="ie-badge">SR + メタ解析</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MAIN ===== -->
+<div class="container" style="display:flex;gap:32px;align-items:flex-start;padding-top:32px;padding-bottom:48px;">
+
+  <!-- MAIN CONTENT -->
+  <main style="flex:1;min-width:0;max-width:900px;">
+
+    <!-- 略語一覧 -->
+    <div class="card" style="margin-bottom:24px;">
+      <div class="card-inner">
+        <h3 class="rule-title" style="margin-bottom:10px;">本ページで使用する略語一覧</h3>
+        <table style="width:100%;border-collapse:collapse;font-size:0.8rem;line-height:1.6;">
+          <tbody>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:110px;color:var(--blue);">RD</td><td style="padding:4px 8px;">risk difference — リスク差（2群間の汚染率の絶対差）</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CI</td><td style="padding:4px 8px;">confidence interval — 信頼区間</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">I²</td><td style="padding:4px 8px;">統計的異質性を示す指標（高いほどばらつきが大きい）</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">GRADE</td><td style="padding:4px 8px;">Grading of Recommendations Assessment, Development and Evaluation — エビデンスの確実性評価手法（高/中/低/非常に低い）</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">PRISMA</td><td style="padding:4px 8px;">Preferred Reporting Items for Systematic Reviews and Meta-Analyses — SR報告ガイドライン</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">PROSPERO</td><td style="padding:4px 8px;">SR登録データベース（事前登録番号：CRD42023486227）</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CVC</td><td style="padding:4px 8px;">central venous catheter — 中心静脈カテーテル</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">PICC</td><td style="padding:4px 8px;">peripherally inserted central catheter — 末梢挿入型中心静脈カテーテル</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">PICU</td><td style="padding:4px 8px;">pediatric intensive care unit — 小児集中治療室</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">ED</td><td style="padding:4px 8px;">emergency department — 救急外来</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">ROBINS-E</td><td style="padding:4px 8px;">Risk Of Bias In Non-randomized studies of Exposures — 非ランダム化研究のバイアスリスク評価ツール</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">PECOS</td><td style="padding:4px 8px;">Population / Exposure / Comparison / Outcome / Study design — 研究クエスチョン整理フレームワーク</td></tr>
+            <tr><td style="padding:4px 8px;font-weight:700;color:var(--blue);">M-H法</td><td style="padding:4px 8px;">Mantel-Haenszel random-effects model — ランダム効果モデルによるプール解析手法</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 章バナー -->
+    <div id="bc-overview" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:0;margin-bottom:0;">
+      <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+      <div style="font-size:1.3rem;font-weight:900;position:relative;">研究概要</div>
+      <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Background & Objectives</div>
+    </div>
+
+    <!-- Section 1: 背景 -->
+    <h3 id="bc-bg" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+      背景と臨床的問題意識
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">血液培養の検体採取：ICUの現実</h3>
+        <p class="rule-body">血液培養の汚染とは、真の菌血症ではなく非病原性微生物が培養瓶に混入した状態であり、ICUでは依然として大きな課題だ。汚染が生じると病原体の同定が困難となり、抗菌薬の適正使用が妨げられるとともに不必要な抗菌薬投与につながる。さらに個々の患者予後を悪化させるだけでなく、医療者の負担増加や薬剤耐性菌の拡大という社会的問題にも直結する。</p>
+        <p class="rule-body">末梢静脈穿刺（venipuncture）は血液培養の金標準とされている。しかしICU患者では、血管内留置デバイス・高度な皮膚浮腫・凝固障害といった因子が静脈穿刺を困難にすることが多い。また静脈穿刺は労働集約的であり、抗菌薬開始の遅延・患者苦痛・針刺し事故のリスクという点でも不利がある。</p>
+        <p class="rule-body">ICU患者にはほぼ常時、動脈ライン（arterial catheter）が留置されており、持続血圧モニタリングや繰り返しの動脈血液ガス採血に利用されている。動脈ラインからの血液培養採取は追加の針穿刺が不要であり、素早い採血容量の確保が可能で、患者苦痛や職業的針刺し事故のリスクを低減できる。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">ガイドラインの現状とエビデンスの空白</h3>
+        <p class="rule-body">現在の臨床ガイドライン（SCCM/IDSA 2023、IDSA 2011）は、汚染リスクへの懸念から血管内カテーテルからの血液培養採取を広く推奨していない。しかしこの勧告は主に静脈カテーテル（特に中心静脈カテーテル）からのデータに基づいており、動脈ラインからの採取に特化した包括的な評価はなされていなかった。</p>
+        <p class="rule-body">動脈ラインと静脈カテーテルには技術的差異がある。動脈ラインではクローズドサンプリングシステムが普及しており、ストップコックや留置針ハブの操作回数が少ないため、経カテーテルの細菌汚染リスクが低い可能性がある。一方、静脈カテーテルはハブ汚染に対してより脆弱とされる。この研究は動脈ラインと静脈穿刺・静脈カテーテルの汚染率を初めて系統的に比較した。</p>
+      </div>
+    </div>
+
+    <!-- 章バナー -->
+    <div id="bc-methods" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+      <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+      <div style="font-size:1.3rem;font-weight:900;position:relative;">研究デザインと対象研究</div>
+      <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Methods & Included Studies</div>
+    </div>
+
+    <!-- Section 2: 方法 -->
+    <h3 id="bc-design" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+      <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+      研究デザインと検索戦略
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">方法の概要</h3>
+        <p class="rule-body">PRISMAガイドラインに従ったシステマティックレビューとメタ解析。PROSPEROに事前登録（CRD42023486227）。</p>
+        <div class="ie-flow" style="margin-top:12px;">
+          <div class="ie-flow-item">
+            <div class="ie-flow-num">1</div>
+            <div style="flex:1;"><p class="rule-body"><strong>検索データベース：</strong>MEDLINE / Embase / Cochrane Library。検索期間は各データベースの創設〜2023年12月5日まで。</p></div>
+          </div>
+          <div class="ie-flow-arrow">↓</div>
+          <div class="ie-flow-item">
+            <div class="ie-flow-num">2</div>
+            <div style="flex:1;"><p class="rule-body"><strong>対象（PECOS）：</strong>重症成人・小児患者で血液培養採取を行った者。動脈カテーテル採取 vs 末梢静脈穿刺 or 静脈カテーテル採取を比較した RCT または観察研究。アウトカムは血液培養汚染率。</p></div>
+          </div>
+          <div class="ie-flow-arrow">↓</div>
+          <div class="ie-flow-item">
+            <div class="ie-flow-num">3</div>
+            <div style="flex:1;"><p class="rule-body"><strong>統計解析：</strong>Mantel-Haenszel ランダム効果モデルでリスク差（RD）と95% CIを算出（Review Manager 5.4）。事前設定した臨床的に意味のある最小差は絶対リスク差 2.0%。</p></div>
+          </div>
+          <div class="ie-flow-arrow">↓</div>
+          <div class="ie-flow-item">
+            <div class="ie-flow-num">4</div>
+            <div style="flex:1;"><p class="rule-body"><strong>エビデンスの確実性：</strong>GRADEアプローチで評価。バイアスリスクはROBINS-Eツールで判定。</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 3: 含まれた研究 -->
+    <h3 id="bc-studies" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+      <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>
+      含まれた6研究の特徴
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">含まれた研究の全体像</h3>
+        <p class="rule-body">6件の観察研究が選定され、合計 8,533 件の血液培養が解析対象となった。すべて観察研究（RCT なし）。3件が低バイアスリスク、3件がバイアスへの懸念ありと判定された。ファンネルプロットの目視で有意な出版バイアスは認めなかった。</p>
+        <div class="ie-stat-grid" style="margin-top:12px;">
+          <div class="ie-stat">
+            <div class="ie-stat-val">6</div>
+            <div class="ie-stat-label">含まれた<br>観察研究数</div>
+          </div>
+          <div class="ie-stat">
+            <div class="ie-stat-val">8,533</div>
+            <div class="ie-stat-label">解析した<br>血液培養総数</div>
+          </div>
+          <div class="ie-stat">
+            <div class="ie-stat-val">2001–2023</div>
+            <div class="ie-stat-label">含まれた研究の<br>発表年範囲</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">含まれた6研究の一覧</h3>
+        <table class="ie-table">
+          <thead>
+            <tr>
+              <th style="white-space:nowrap;">第一著者・発表年</th>
+              <th style="white-space:nowrap;">研究デザイン</th>
+              <th style="white-space:nowrap;">施設・対象</th>
+              <th style="white-space:nowrap;">患者</th>
+              <th style="white-space:nowrap;">比較対象</th>
+              <th style="white-space:nowrap;">血液培養数</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="white-space:nowrap;"><strong>Everts RJ</strong><br><span style="font-size:0.72rem;color:var(--muted);">2001</span></td>
+              <td>後ろ向き</td>
+              <td style="white-space:nowrap;">三次医療<br>センター</td>
+              <td style="white-space:nowrap;">成人・小児</td>
+              <td>末梢穿刺・CVC・PICC・ポート</td>
+              <td style="white-space:nowrap;">2,816</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;"><strong>Martinez JA</strong><br><span style="font-size:0.72rem;color:var(--muted);">2002</span></td>
+              <td>後ろ向き<br>コホート</td>
+              <td style="white-space:nowrap;">外科・心臓<br>外科ICU</td>
+              <td style="white-space:nowrap;">成人</td>
+              <td>末梢穿刺・CVC</td>
+              <td style="white-space:nowrap;">998</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;"><strong>McBryde ES</strong><br><span style="font-size:0.72rem;color:var(--muted);">2005</span></td>
+              <td>後ろ向き<br>（DB）</td>
+              <td style="white-space:nowrap;">血液腫瘍・<br>ICU</td>
+              <td style="white-space:nowrap;">成人・小児</td>
+              <td>末梢穿刺・CVC・ポート</td>
+              <td style="white-space:nowrap;">1,914</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;"><strong>Berger I</strong><br><span style="font-size:0.72rem;color:var(--muted);">2018</span></td>
+              <td>観察研究</td>
+              <td style="white-space:nowrap;">PICU</td>
+              <td style="white-space:nowrap;">小児</td>
+              <td>末梢穿刺</td>
+              <td style="white-space:nowrap;">552</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;"><strong>Nakayama I</strong><br><span style="font-size:0.72rem;color:var(--muted);">2023</span></td>
+              <td>前向き</td>
+              <td style="white-space:nowrap;">ICU（複数）</td>
+              <td style="white-space:nowrap;">成人（≥20歳）</td>
+              <td>末梢穿刺</td>
+              <td style="white-space:nowrap;">1,180</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;"><strong>Ota K</strong><br><span style="font-size:0.72rem;color:var(--muted);">2023</span></td>
+              <td>前向き<br>コホート</td>
+              <td style="white-space:nowrap;">救急外来（ED）</td>
+              <td style="white-space:nowrap;">成人（≥20歳）</td>
+              <td>末梢穿刺・CVC・末梢静脈カテーテル・ポート</td>
+              <td style="white-space:nowrap;">1,073</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 章バナー -->
+    <div id="bc-results" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+      <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+      <div style="font-size:1.3rem;font-weight:900;position:relative;">主要結果</div>
+      <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Primary Outcomes</div>
+    </div>
+
+    <!-- Section 4: 動脈ライン vs 末梢静脈穿刺 -->
+    <h3 id="bc-art-vs-vp" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 4</span>
+      動脈ライン vs 末梢静脈穿刺
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">結果：末梢穿刺と汚染率は同等（低確実性）</h3>
+        <p class="rule-body">5つの研究（Everts 2001・Martinez 2002・McBryde 2005・Nakayama 2023・Ota 2023）が動脈ラインと末梢静脈穿刺を比較した。粗汚染率は動脈ライン 28/1,355（2.1%）、末梢静脈穿刺 103/4,539（2.3%）。プール解析の結果、動脈ラインは末梢静脈穿刺と比較して汚染率に差がない可能性が示された。</p>
+        <div class="compare-grid">
+          <div class="compare-box">
+            <div class="compare-title">動脈ライン採取</div>
+            <div class="compare-rate" style="color:#2D7A4F;">2.1%</div>
+            <div class="compare-label">28/1,355 件</div>
+          </div>
+          <div class="compare-box">
+            <div class="compare-title">末梢静脈穿刺</div>
+            <div class="compare-rate" style="color:var(--text);">2.3%</div>
+            <div class="compare-label">103/4,539 件</div>
+          </div>
+        </div>
+        <div class="ie-stat-grid" style="margin-top:12px;">
+          <div class="ie-stat">
+            <div class="ie-stat-val">+0.01</div>
+            <div class="ie-stat-label">プールRD<br>（動脈 vs 末梢穿刺）</div>
+          </div>
+          <div class="ie-stat">
+            <div class="ie-stat-val">−0.01〜+0.02</div>
+            <div class="ie-stat-label">95% CI</div>
+          </div>
+          <div class="ie-stat">
+            <div class="ie-stat-val">57%</div>
+            <div class="ie-stat-label">I²（統計的<br>異質性）</div>
+          </div>
+        </div>
+        <div class="alert-green" style="margin-top:12px;">
+          <p class="rule-body" style="margin:0;"><strong>GRADEエビデンス確実性：低。</strong>事前に設定した臨床的意味のある最小差（絶対 RD 2.0%）の範囲内に収まっており、動脈ラインからの血液培養採取が末梢静脈穿刺と比較して汚染率を増加させない可能性がある。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">サブグループ解析：小児では注意が必要</h3>
+        <p class="rule-body">成人サブグループでは臨床的に意味のある差は認められなかった。一方、小児サブグループ（Berger 2018 単施設）では、動脈ライン採取で汚染率が上昇する方向のCIが示された（11/276 vs 4/276；RD 0.03；95% CI −0.002〜0.05）。ただし統計的有意差なく、効果修飾の検定でも有意な差は認められなかった。</p>
+        <div class="alert-yellow">
+          <p class="rule-body" style="margin:0;"><strong>小児への外挿は慎重に。</strong>小児では1セット1本採取が一般的（成人は1セット2本）であり、汚染と真の菌血症の区別がより困難。また小児のエビデンスは単施設研究1件のみであり、成人での知見をそのまま適用することはできない。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 5: 動脈ライン vs 静脈カテーテル -->
+    <h3 id="bc-art-vs-vc" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+      <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 5</span>
+      動脈ライン vs 静脈カテーテル
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">結果：静脈カテーテルより汚染率が低い可能性（低確実性）</h3>
+        <p class="rule-body">粗汚染率は動脈ライン 15/480（3.1%）、静脈カテーテル 211/2,639（8.0%）。プール解析ではポイント推定値は動脈ラインに有利な方向を示したが、CIが0を含み統計的有意差はなかった。ただし中心静脈カテーテル（CVC）を比較群としたサブグループ解析では、CIが0を含まない結果が得られた。</p>
+        <div class="compare-grid">
+          <div class="compare-box">
+            <div class="compare-title">動脈ライン採取</div>
+            <div class="compare-rate" style="color:#2D7A4F;">3.1%</div>
+            <div class="compare-label">15/480 件</div>
+          </div>
+          <div class="compare-box">
+            <div class="compare-title">静脈カテーテル採取</div>
+            <div class="compare-rate" style="color:#DC2626;">8.0%</div>
+            <div class="compare-label">211/2,639 件</div>
+          </div>
+        </div>
+        <div class="ie-stat-grid" style="margin-top:12px;">
+          <div class="ie-stat" style="background:#F0FDF4;border-color:#BBF7D0;">
+            <div class="ie-stat-val" style="color:#2D7A4F;">−0.05</div>
+            <div class="ie-stat-label">プールRD<br>（動脈 vs 静脈カテ）</div>
+          </div>
+          <div class="ie-stat">
+            <div class="ie-stat-val">−0.11〜+0.01</div>
+            <div class="ie-stat-label">95% CI<br>（0を含む）</div>
+          </div>
+          <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+            <div class="ie-stat-val" style="color:#DC2626;">87%</div>
+            <div class="ie-stat-label">I²（高度な<br>統計的異質性）</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">CVCサブグループ解析：より明確な差</h3>
+        <p class="rule-body">静脈カテーテルの中でも CVC に絞ったサブグループ解析では、動脈ラインとの比較でより大きなリスク差が示され、CIが0を含まない結果となった。CVCは特に汚染リスクが高く（過去の報告で汚染率 4.0〜13%）、動脈ラインとの差がより明確に現れた。ただしエビデンスの確実性は低く、I²は 92% と高度の異質性を認めた。</p>
+        <div class="ie-stat-grid" style="margin-top:12px;">
+          <div class="ie-stat" style="background:#F0FDF4;border-color:#BBF7D0;">
+            <div class="ie-stat-val" style="color:#2D7A4F;">−0.09</div>
+            <div class="ie-stat-label">プールRD<br>（動脈 vs CVC）</div>
+          </div>
+          <div class="ie-stat" style="background:#F0FDF4;border-color:#BBF7D0;">
+            <div class="ie-stat-val" style="color:#2D7A4F;">−0.17〜−0.01</div>
+            <div class="ie-stat-label">95% CI<br>（0を含まない）</div>
+          </div>
+          <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+            <div class="ie-stat-val" style="color:#DC2626;">92%</div>
+            <div class="ie-stat-label">I²（CVC<br>サブグループ）</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 章バナー -->
+    <div id="bc-discussion" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+      <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+      <div style="font-size:1.3rem;font-weight:900;position:relative;">考察・臨床的含意・限界点</div>
+      <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Discussion & Clinical Implications</div>
+    </div>
+
+    <!-- Section 6: 考察 -->
+    <h3 id="bc-discussion-main" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+      <span style="color:#16A34A;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 6</span>
+      考察：なぜ動脈ラインは静脈カテーテルより汚染が少ないのか
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">以前のメタ解析との違い</h3>
+        <p class="rule-body">これまでのシステマティックレビュー（Snyder SR 2012）では、カテーテル全般から採取した血液培養は末梢静脈穿刺より汚染率が有意に高いと報告されていた（OR 2.69；95% CI 2.03〜3.57）。しかしこの解析は動脈カテーテルと静脈カテーテルを一括で集計しており、両者の異なるリスクプロフィールが埋もれていた。本メタ解析は動脈ラインと静脈ラインを分離して解析した初めての系統的検討であり、動脈ラインが静脈カテーテルとは異なる安全性プロフィールを持つことを明らかにした。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">動脈ラインの汚染率が低い理由（推定機序）</h3>
+        <p class="rule-body">動脈ラインと静脈カテーテルには技術的な差異がある。経カテーテルの血液培養汚染はストップコックやカテーテルハブでの細菌定着が一因とされており、これらがマイクロ生物の侵入口となる。動脈ラインではクローズドサンプリングシステムが広く使用されており、ハブ操作の回数を減らして細菌汚染リスクを低下させる。一方、静脈カテーテルではこのようなシステムを持たないものが多く、ハブ定着に対してより脆弱とされる。この機序上の差異が、動脈ライン採取で低い汚染率が観察される一因である可能性がある。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">臨床的含意：ICU での血液培養採取戦略</h3>
+        <p class="rule-body">本研究の結果は、末梢静脈穿刺が困難な成人重症患者において、動脈ラインからの血液培養採取が合理的な選択肢になりうることを示唆している。また、既存のガイドラインが推奨しているように、静脈カテーテルからの血液培養採取は避けるべきという方針を支持する結果でもある。</p>
+        <div class="alert-green">
+          <p class="rule-body" style="margin:0;"><strong>コンビネーションアプローチの提案：</strong>著者らは、1セットを末梢静脈穿刺で、もう1セットを動脈ラインで採取するコンビネーションアプローチが、診断精度の最適化と手技効率の向上の両立という観点から有望であると述べている。現時点でのペア培養研究からのエビデンスもこの戦略を支持するとしているが、さらなる研究が必要とされている。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 7: 限界点 -->
+    <h3 id="bc-limitations" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 7</span>
+      本研究の限界点
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">4つの主要な限界点</h3>
+        <div class="ie-flow">
+          <div class="ie-flow-item">
+            <div class="ie-flow-num" style="background:#DC2626;">1</div>
+            <div style="flex:1;"><p class="rule-body"><strong>汚染の定義が研究間で異なる：</strong>後ろ向き解析において汚染と真の菌血症を区別することはもともと難しく、各研究で独自の定義が使われていた。ただしCIは事前設定した臨床的意味のある差（RD 2.0%）の範囲内に収まっていた。</p></div>
+          </div>
+          <div class="ie-flow-arrow">↓</div>
+          <div class="ie-flow-item">
+            <div class="ie-flow-num" style="background:#DC2626;">2</div>
+            <div style="flex:1;"><p class="rule-body"><strong>すべて観察研究・RCTなし：</strong>多施設研究が少なく、広い発表年範囲にまたがっている。3件にはバイアスへの懸念が残る。ほぼ同時（5分以内）の二重採取設計がコンファウンディングを減らす工夫だが限界がある。</p></div>
+          </div>
+          <div class="ie-flow-arrow">↓</div>
+          <div class="ie-flow-item">
+            <div class="ie-flow-num" style="background:#DC2626;">3</div>
+            <div style="flex:1;"><p class="rule-body"><strong>臨床的異質性：</strong>カテーテル挿入部位・留置期間・採取手技の違いを研究レベルデータの限界から十分に制御できなかった。特に静脈カテーテル比較では I²=87% と高度の異質性を認めた。</p></div>
+          </div>
+          <div class="ie-flow-arrow">↓</div>
+          <div class="ie-flow-item">
+            <div class="ie-flow-num" style="background:#DC2626;">4</div>
+            <div style="flex:1;"><p class="rule-body"><strong>小児エビデンスは単施設研究1件のみ：</strong>小児では採取本数の違い（1本/セット vs 成人2本/セット）が汚染と真の菌血症の鑑別をさらに困難にする。小児への一般化には限界がある。</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUMMARY -->
+    <h3 id="bc-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+      この論文のキーメッセージ
+    </h3>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+            <span class="rule-body"><strong>動脈ライン採取の汚染率は末梢静脈穿刺と同等：</strong>プールRD +0.01（95% CI −0.01〜+0.02）。粗汚染率は動脈ライン 2.1%・末梢穿刺 2.3%。エビデンス確実性は低いが、事前設定の臨床的最小差（2.0%）の範囲内に収まった。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+            <span class="rule-body"><strong>静脈カテーテルより汚染率が低い可能性：</strong>プールRD −0.05（95% CI −0.11〜+0.01）。粗汚染率は動脈ライン 3.1%・静脈カテーテル 8.0%。CVCサブグループではRD −0.09（CI −0.17〜−0.01）と0を含まない結果。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+            <span class="rule-body"><strong>動脈ラインの汚染率が低い推定機序：</strong>クローズドサンプリングシステムによるハブ操作の減少が、静脈カテーテル比較での低汚染率の一因と考えられる。過去の個別研究でも動脈ライン採取の汚染率は0.3〜2.3%（末梢穿刺の0.7〜2.6%に相当）と低く、CVC採取の4.0〜13%とは大きく異なる。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+            <span class="rule-body"><strong>ICU成人での臨床的含意：</strong>末梢静脈穿刺が困難な成人重症患者では、動脈ラインからの血液培養採取が合理的な代替法になりうる。「末梢穿刺1セット＋動脈ライン1セット」のコンビネーションアプローチが診断精度と効率性を両立する可能性がある。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+            <span class="rule-body"><strong>小児・エビデンスの確実性・今後の課題：</strong>全エビデンス確実性はGRADEで「低」。小児サブグループ（1施設）では動脈ライン採取で汚染率が高い方向の傾向あり。すべて観察研究でI²が高く、さらなる多施設研究・前向き研究が必要。</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 出典注記 -->
+    <p style="font-size:0.72rem;color:#9CA3AF;margin-top:16px;line-height:1.7;">
+      出典：Koroki T, Fujii M, Kotani Y, et al. Contamination of blood cultures drawn from arterial catheters versus venipuncture or venous catheters in critically ill patients: a systematic review and meta-analysis. Clinical Infectious Diseases. 2025.<br>
+      DOI：<a href="https://doi.org/10.1093/cid/ciaf260" target="_blank" rel="noopener" style="color:#60A5FA;">https://doi.org/10.1093/cid/ciaf260</a><br>
+      本資料は教育目的で作成したサマリーです。診断・治療方針の決定には必ず原典を参照してください。
+    </p>
+    <p style="font-size:0.75rem;color:var(--muted);text-align:right;margin-top:8px;">制作：ICU 関谷</p>
+
+  </main>
+
+  <!-- SIDEBAR -->
+  <aside class="ie-sidebar">
+    <div class="ie-sidebar-card">
+      <div class="ie-sidebar-title">目次</div>
+      <a href="#bc-overview" class="ie-toc-chapter">研究概要</a>
+      <a href="#bc-bg" class="ie-toc-section">S1 — 背景と臨床的問題意識</a>
+      <a href="#bc-methods" class="ie-toc-chapter">研究デザインと対象研究</a>
+      <a href="#bc-design" class="ie-toc-section">S2 — 研究デザインと検索戦略</a>
+      <a href="#bc-studies" class="ie-toc-section">S3 — 含まれた6研究の特徴</a>
+      <a href="#bc-results" class="ie-toc-chapter">主要結果</a>
+      <a href="#bc-art-vs-vp" class="ie-toc-section">S4 — 動脈ライン vs 末梢静脈穿刺</a>
+      <a href="#bc-art-vs-vc" class="ie-toc-section">S5 — 動脈ライン vs 静脈カテーテル</a>
+      <a href="#bc-discussion" class="ie-toc-chapter">考察・臨床的含意・限界点</a>
+      <a href="#bc-discussion-main" class="ie-toc-section">S6 — 考察</a>
+      <a href="#bc-limitations" class="ie-toc-section">S7 — 限界点</a>
+      <a href="#bc-summary" class="ie-toc-section">SUMMARY</a>
+    </div>
+  </aside>
+
+</div>
+
+<script src="../script.js"></script>
+<script src="../abbr-tooltip.js"></script>
+</body>
+</html>
