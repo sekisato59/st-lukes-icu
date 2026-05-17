@@ -11,6 +11,13 @@
  */
 const RECENT_PAGES = [
   {
+    title: "【吉田先生Q&A】病棟でのインスリン療法の基本",
+    url: "pages/yoshida-qa/q-nutrition-02.html",
+    date: "2026-05-15",
+    tag: "解説",
+    thumb: "images/header吉田先生.png"
+  },
+  {
     title: "動脈ラインからの血液培養は汚染率が末梢穿刺と同等・静脈カテーテルより低い可能性 — SR・メタ解析（CID 2025）",
     url: "pages/articles-gl-bccontam2025.html",
     date: "2026-05-17",
