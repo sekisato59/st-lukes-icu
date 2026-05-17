@@ -156,9 +156,11 @@
     /* ===== RASS ラダー（schedule-icu-conf の nx-rass を移植） ===== */
     .kt-rass-ladder { background:#fff; }
     .kt-rass-step {
-      padding:8px 14px;font-size:0.74rem;background:#F1F5F9;font-weight:700;color:#475569;
-      border-bottom:1px solid #CBD5E1;letter-spacing:0.02em;
+      padding:10px 14px;font-size:0.78rem;background:#EFF6FF;font-weight:800;color:#1E40AF;
+      border-top:1.5px solid #BFDBFE;border-bottom:1.5px solid #BFDBFE;
+      letter-spacing:0.02em;line-height:1.55;
     }
+    .kt-rass-ladder .kt-rass-step:first-child { border-top:none; }
     .kt-rass-row {
       display:grid;grid-template-columns:60px 1fr;gap:0;border-bottom:1px solid #E2E8F0;
       align-items:stretch;cursor:pointer;transition:background 0.12s;
@@ -186,13 +188,13 @@
     .kt-rass-row[data-rass="+4"] .kt-rass-score,
     .kt-rass-row[data-rass="+3"] .kt-rass-score,
     .kt-rass-row[data-rass="+2"] .kt-rass-score,
-    .kt-rass-row[data-rass="+1"] .kt-rass-score { background:#DC2626; }
-    .kt-rass-row[data-rass="0"]  .kt-rass-score { background:#16A34A; }
+    .kt-rass-row[data-rass="+1"] .kt-rass-score { background:#F87171; }
+    .kt-rass-row[data-rass="0"]  .kt-rass-score { background:#4ADE80; }
     .kt-rass-row[data-rass="-1"] .kt-rass-score,
     .kt-rass-row[data-rass="-2"] .kt-rass-score,
     .kt-rass-row[data-rass="-3"] .kt-rass-score,
     .kt-rass-row[data-rass="-4"] .kt-rass-score,
-    .kt-rass-row[data-rass="-5"] .kt-rass-score { background:#1E40AF; }
+    .kt-rass-row[data-rass="-5"] .kt-rass-score { background:#60A5FA; }
     .kt-rass-foot {
       display:flex;align-items:center;justify-content:space-between;
       padding:8px 14px;background:#F8FAFC;border-top:1px solid #E2E8F0;
@@ -476,6 +478,152 @@
     }
     .kt-checklist label:hover { background:#F1F5F9; }
     .kt-checklist input[type=checkbox] { margin:0;accent-color:#1E40AF; }
+
+    /* ===== 問題点リスト（縦・1プロブレム1行） ===== */
+    .kt-prob-list {
+      display:flex;flex-direction:column;gap:6px;margin-bottom:14px;
+    }
+    .kt-prob-row {
+      display:flex;align-items:center;gap:10px;
+      width:100%;padding:10px 14px;background:#fff;
+      border:1.5px solid #CBD5E1;border-radius:8px;
+      font-size:0.84rem;font-weight:700;color:#475569;
+      cursor:pointer;font-family:inherit;text-align:left;
+      transition:all 0.15s;
+    }
+    .kt-prob-row::before {
+      content:'○';display:inline-block;width:18px;font-size:0.95rem;color:#CBD5E1;
+      transition:all 0.15s;
+    }
+    .kt-prob-row.selected::before { content:'●';color:#1E40AF; }
+    .kt-prob-row:hover:not(:disabled):not(.coming) { background:#F1F5F9;border-color:#94A3B8; }
+    .kt-prob-row.selected {
+      background:#EFF6FF;border-color:#1E40AF;color:#1E3A8A;
+    }
+    .kt-prob-row.coming, .kt-prob-row:disabled {
+      opacity:0.5;cursor:not-allowed;color:#94A3B8;
+    }
+    .kt-prob-row small { font-size:0.7rem;font-weight:500;opacity:0.75;margin-left:auto; }
+
+    /* ===== Problem 詳細パネル ===== */
+    .kt-prob-panel {
+      margin-top:8px;padding:14px 16px;background:#fff;
+      border:1px solid #E2E8F0;border-radius:8px;
+    }
+    .kt-prob-panel[hidden] { display:none; }
+    .kt-prob-panel-head {
+      font-size:0.92rem;font-weight:800;color:#1E3A8A;margin-bottom:4px;
+      padding-bottom:8px;border-bottom:2px solid #BFDBFE;
+    }
+    .kt-prob-sub-title {
+      font-size:0.78rem;font-weight:800;color:#334155;
+      margin:16px 0 6px;letter-spacing:0.02em;
+    }
+    .kt-prob-sub-title small {
+      font-size:0.68rem;font-weight:500;color:#94A3B8;margin-left:6px;
+    }
+
+    /* ===== AIUEOTIPS（グループ + 各疾患を1行） ===== */
+    .kt-aiueo { display:flex;flex-direction:column;gap:10px; }
+    .kt-aiueo-group {
+      border:1px solid #E2E8F0;border-radius:6px;overflow:hidden;background:#fff;
+    }
+    .kt-aiueo-group-head {
+      display:flex;align-items:center;gap:10px;
+      padding:8px 12px;background:#F8FAFC;
+      border-bottom:1px solid #E2E8F0;
+    }
+    .kt-aiueo-letter {
+      width:24px;height:24px;border-radius:50%;background:#EFF6FF;color:#1E40AF;
+      font-weight:900;font-size:0.78rem;display:flex;align-items:center;justify-content:center;
+      flex-shrink:0;
+    }
+    .kt-aiueo-group-title {
+      font-size:0.78rem;font-weight:800;color:#1E3A8A;letter-spacing:0.02em;
+    }
+    .kt-aiueo-group-title small {
+      font-size:0.68rem;font-weight:500;color:#94A3B8;margin-left:6px;
+    }
+    .kt-aiueo-items { display:flex;flex-direction:column; }
+    .kt-aiueo-item {
+      display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;
+      padding:5px 12px;border-top:1px solid #F1F5F9;
+    }
+    .kt-aiueo-item:first-child { border-top:none; }
+    .kt-aiueo-item.suspect { background:#FFF7ED; }
+    .kt-aiueo-item.confirm { background:#FEE2E2; }
+    .kt-aiueo-item-name {
+      font-size:0.76rem;font-weight:600;color:#0F172A;line-height:1.35;
+    }
+    .kt-aiueo-chips {
+      display:inline-flex;background:#F1F5F9;border-radius:5px;padding:2px;gap:0;
+    }
+    .kt-aiueo-chip {
+      padding:3px 11px;background:transparent;border:none;border-radius:3px;
+      font-size:0.7rem;font-weight:700;color:#64748B;cursor:pointer;font-family:inherit;
+      transition:all 0.15s;
+    }
+    .kt-aiueo-chip:hover { color:#334155; }
+    .kt-aiueo-chip[data-status="鑑別"].selected { background:#EA580C;color:#fff; }
+    .kt-aiueo-chip[data-status="確定"].selected { background:#B91C1C;color:#fff; }
+    .kt-aiueo-tx {
+      grid-column:1 / -1;padding:6px 10px;margin-top:4px;
+      background:#FFFBEB;border:1px dashed #FDE68A;border-radius:5px;
+      font-size:0.72rem;color:#78350F;line-height:1.6;
+    }
+    .kt-aiueo-tx[hidden] { display:none; }
+    .kt-aiueo-tx-label {
+      font-weight:800;font-size:0.68rem;color:#B45309;letter-spacing:0.02em;margin-right:6px;
+    }
+
+    /* ===== 検査パネル ===== */
+    .kt-exam-grid { display:flex;flex-direction:column;gap:6px; }
+    .kt-exam-row {
+      display:grid;grid-template-columns:auto 138px 1fr;gap:8px;align-items:center;
+      padding:8px 10px;background:#fff;border:1px solid #E2E8F0;border-radius:6px;
+    }
+    .kt-exam-row label.kt-exam-name {
+      display:flex;align-items:center;gap:6px;font-size:0.8rem;font-weight:700;color:#334155;
+      white-space:nowrap;cursor:pointer;min-width:120px;
+    }
+    .kt-exam-row label.kt-exam-name input[type=checkbox] {
+      margin:0;accent-color:#1E40AF;width:15px;height:15px;
+    }
+    .kt-exam-row input[type=date],
+    .kt-exam-row input[type=text] {
+      width:100%;padding:4px 8px;font-size:0.78rem;border:1px solid #E2E8F0;border-radius:4px;
+      font-family:inherit;color:#334155;
+    }
+    .kt-exam-row input[type=date] {
+      padding:3px 6px;font-size:0.74rem;color:#475569;
+    }
+    .kt-exam-row input[type=date]:focus,
+    .kt-exam-row input[type=text]:focus { outline:2px solid #93C5FD;outline-offset:-1px;border-color:#1E40AF; }
+    .kt-exam-row input[type=date]:disabled,
+    .kt-exam-row input[type=text]:disabled { background:#F8FAFC;color:#CBD5E1;border-color:#E2E8F0;cursor:not-allowed; }
+
+    /* ===== 自由記載 ===== */
+    .kt-prob-free { margin-top:14px; }
+    .kt-prob-free input[type=text] {
+      width:100%;padding:6px 10px;font-size:0.78rem;border:1px solid #CBD5E1;border-radius:5px;
+      font-family:inherit;color:#334155;
+    }
+    .kt-prob-free input[type=text]:focus { outline:2px solid #93C5FD;outline-offset:-1px;border-color:#1E40AF; }
+
+    @media (max-width:600px){
+      .kt-aiueo-item {
+        grid-template-columns:1fr;gap:6px;padding:8px 10px;
+      }
+      .kt-aiueo-chips { justify-self:start; }
+      .kt-aiueo-item-name { font-size:0.78rem; }
+      .kt-aiueo-chip { padding:4px 11px;font-size:0.72rem; }
+      .kt-prob-row { padding:9px 12px;font-size:0.8rem; }
+      .kt-exam-row {
+        grid-template-columns:1fr;gap:4px;
+      }
+      .kt-exam-row label.kt-exam-name { min-width:0; }
+      .kt-exam-row input[type=date] { width:auto; }
+    }
 
     /* ===== ステップ ナビ ===== */
     .kt-step-nav {
@@ -1274,8 +1422,408 @@
             <div class="kt-step-title-bar">現在の問題点<span class="kt-step-en">Active Issues</span></div>
           </div>
 
-          <div class="kt-q">この神経系について、現在の問題点・気になる点は？（任意）</div>
-          <textarea class="kt-text-input" data-text="current_problems" rows="3" placeholder="例：意識回復遅延、興奮の制御困難、CAM-ICU 陽性持続、けいれんブレークスルー 等"></textarea>
+          <div class="kt-q">現在の active な問題点は？</div>
+          <div class="kt-prob-list">
+            <button type="button" class="kt-prob-row" data-prob="意識障害">#意識障害</button>
+            <button type="button" class="kt-prob-row coming" data-prob="痙攣・てんかん" disabled>#痙攣・てんかん <small>準備中</small></button>
+            <button type="button" class="kt-prob-row coming" data-prob="脳卒中疑い" disabled>#脳卒中疑い <small>準備中</small></button>
+            <button type="button" class="kt-prob-row coming" data-prob="髄膜炎・脳炎疑い" disabled>#髄膜炎・脳炎疑い <small>準備中</small></button>
+            <button type="button" class="kt-prob-row coming" data-prob="麻痺・運動障害" disabled>#麻痺・運動障害 <small>準備中</small></button>
+            <button type="button" class="kt-prob-row coming" data-prob="頭痛" disabled>#頭痛 <small>準備中</small></button>
+          </div>
+
+          <!-- ===== #意識障害パネル ===== -->
+          <div class="kt-prob-panel" data-prob-panel="意識障害" hidden>
+            <div class="kt-prob-panel-head">#意識障害 — 鑑別 → 検査</div>
+
+            <div class="kt-prob-sub-title">A. 鑑別 <small>AIUEOTIPS — 各疾患を「鑑別／確定」で評価。選択で参考治療を展開</small></div>
+            <div class="kt-aiueo">
+              <!-- A: Alcohol / Acidosis -->
+              <div class="kt-aiueo-group">
+                <div class="kt-aiueo-group-head">
+                  <span class="kt-aiueo-letter">A</span>
+                  <span class="kt-aiueo-group-title">Alcohol / Acidosis</span>
+                </div>
+                <div class="kt-aiueo-items">
+                  <div class="kt-aiueo-item" data-dx="alcohol">
+                    <span class="kt-aiueo-item-name">アルコール離脱</span>
+                    <div class="kt-aiueo-chips">
+                      <button type="button" class="kt-aiueo-chip" data-status="鑑別">鑑別</button>
+                      <button type="button" class="kt-aiueo-chip" data-status="確定">確定</button>
+                    </div>
+                    <div class="kt-aiueo-tx" hidden><span class="kt-aiueo-tx-label">参考治療</span>ベンゾジアゼピン（ジアゼパム・ロラゼパム）＋チアミン 100mg IV</div>
+                  </div>
+                  <div class="kt-aiueo-item" data-dx="acidosis">
+                    <span class="kt-aiueo-item-name">代謝性アシドーシス</span>
+                    <div class="kt-aiueo-chips">
+                      <button type="button" class="kt-aiueo-chip" data-status="鑑別">鑑別</button>
+                      <button type="button" class="kt-aiueo-chip" data-status="確定">確定</button>
+                    </div>
+                    <div class="kt-aiueo-tx" hidden><span class="kt-aiueo-tx-label">参考治療</span>原疾患治療＋必要に応じて HCO₃⁻ 補正（pH＜7.1 等）</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- I: Insulin -->
+              <div class="kt-aiueo-group">
+                <div class="kt-aiueo-group-head">
+                  <span class="kt-aiueo-letter">I</span>
+                  <span class="kt-aiueo-group-title">Insulin <small>血糖異常</small></span>
+                </div>
+                <div class="kt-aiueo-items">
+                  <div class="kt-aiueo-item" data-dx="hypoglycemia">
+                    <span class="kt-aiueo-item-name">低血糖</span>
+                    <div class="kt-aiueo-chips">
+                      <button type="button" class="kt-aiueo-chip" data-status="鑑別">鑑別</button>
+                      <button type="button" class="kt-aiueo-chip" data-status="確定">確定</button>
+                    </div>
+                    <div class="kt-aiueo-tx" hidden><span class="kt-aiueo-tx-label">参考治療</span>50% ブドウ糖 20mL IV、再検（BS＜70mg/dL）</div>
+                  </div>
+                  <div class="kt-aiueo-item" data-dx="dka">
+                    <span class="kt-aiueo-item-name">DKA（糖尿病性ケトアシドーシス）</span>
+                    <div class="kt-aiueo-chips">
+                      <button type="button" class="kt-aiueo-chip" data-status="鑑別">鑑別</button>
+                      <button type="button" class="kt-aiueo-chip" data-status="確定">確定</button>
+                    </div>
+                    <div class="kt-aiueo-tx" hidden><span class="kt-aiueo-tx-label">参考治療</span>補液（生食）＋速効型インスリン持続静注、K 補正、誘因検索</div>
+                  </div>
+                  <div class="kt-aiueo-item" data-dx="hhs">
+                    <span class="kt-aiueo-item-name">HHS（高浸透圧高血糖症候群）</span>
+                    <div class="kt-aiueo-chips">
+                      <button type="button" class="kt-aiueo-chip" data-status="鑑別">鑑別</button>
+                      <button type="button" class="kt-aiueo-chip" data-status="確定">確定</button>
+                    </div>
+                    <div class="kt-aiueo-tx" hidden><span class="kt-aiueo-tx-label">参考治療</span>補液（緩徐な高浸透圧補正）＋速効型インスリン持続静注、K 補正</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- U: Uremia -->
+              <div class="kt-aiueo-group">
+                <div class="kt-aiueo-group-head">
+                  <span class="kt-aiueo-letter">U</span>
+                  <span class="kt-aiueo-group-title">Uremia <small>尿毒症</small></span>
+                </div>
+                <div class="kt-aiueo-items">
+                  <div class="kt-aiueo-item" data-dx="uremia">
+                    <span class="kt-aiueo-item-name">尿毒症性脳症</span>
+                    <div class="kt-aiueo-chips">
+                      <button type="button" class="kt-aiueo-chip" data-status="鑑別">鑑別</button>
+                      <button type="button" class="kt-aiueo-chip" data-status="確定">確定</button>
+                    </div>
+                    <div class="kt-aiueo-tx" hidden><span class="kt-aiueo-tx-label">参考治療</span>緊急血液透析の適応評価（AEIOU）、誘因（薬剤・脱水）の除去</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- E: Encephalopathy -->
+              <div class="kt-aiueo-group">
+                <div class="kt-aiueo-group-head">
+                  <span class="kt-aiueo-letter">E</span>
+                  <span class="kt-aiueo-group-title">Encephalopathy <small>脳症</small></span>
+                </div>
+                <div class="kt-aiueo-items">
+                  <div class="kt-aiueo-item" data-dx="hep_enc">
+                    <span class="kt-aiueo-item-name">肝性脳症</span>
+                    <div class="kt-aiueo-chips">
+                      <button type="button" class="kt-aiueo-chip" data-status="鑑別">鑑別</button>
+                      <button type="button" class="kt-aiueo-chip" data-status="確定">確定</button>
+                    </div>
+                    <div class="kt-aiueo-tx" hidden><span class="kt-aiueo-tx-label">参考治療</span>ラクツロース＋リファキシミン、誘因除去（消化管出血・感染・電解質）</div>
+                  </div>
+                  <div class="kt-aiueo-item" data-dx="htn_enc">
+                    <span class="kt-aiueo-item-name">高血圧性脳症</span>
+                    <div class="kt-aiueo-chips">
+                      <button type="button" class="kt-aiueo-chip" data-status="鑑別">鑑別</button>
+                      <button type="button" class="kt-aiueo-chip" data-status="確定">確定</button>
+                    </div>
+                    <div class="kt-aiueo-tx" hidden><span class="kt-aiueo-tx-label">参考治療</span>ニカルジピン等で緩徐に降圧</div>
+                  </div>
+                  <div class="kt-aiueo-item" data-dx="wernicke">
+                    <span class="kt-aiueo-item-name">Wernicke 脳症</span>
+                    <div class="kt-aiueo-chips">
+                      <button type="button" class="kt-aiueo-chip" data-status="鑑別">鑑別</button>
+                      <button type="button" class="kt-aiueo-chip" data-status="確定">確定</button>
+                    </div>
+                    <div class="kt-aiueo-tx" hidden><span class="kt-aiueo-tx-label">参考治療</span>チアミン 100〜500mg IV をブドウ糖投与に先行</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- E: Electrolytes -->
+              <div class="kt-aiueo-group">
+                <div class="kt-aiueo-group-head">
+                  <span class="kt-aiueo-letter">E</span>
+                  <span class="kt-aiueo-group-title">Electrolytes <small>電解質異常</small></span>
+                </div>
+                <div class="kt-aiueo-items">
+                  <div class="kt-aiueo-item" data-dx="hyponatremia">
+                    <span class="kt-aiueo-item-name">低 Na 血症</span>
+                    <div class="kt-aiueo-chips">
+                      <button type="button" class="kt-aiueo-chip" data-status="鑑別">鑑別</button>
+                      <button type="button" class="kt-aiueo-chip" data-status="確定">確定</button>
+                    </div>
+                    <div class="kt-aiueo-tx" hidden><span class="kt-aiueo-tx-label">参考治療</span>症候性は 3% NaCl 100mL を 10分で bolus、補正速度 8mEq/24h 以内</div>
+                  </div>
+                  <div class="kt-aiueo-item" data-dx="hypernatremia">
+                    <span class="kt-aiueo-item-name">高 Na 血症</span>
+                    <div class="kt-aiueo-chips">
+                      <button type="button" class="kt-aiueo-chip" data-status="鑑別">鑑別</button>
+                      <button type="button" class="kt-aiueo-chip" data-status="確定">確定</button>
+                    </div>
+                    <div class="kt-aiueo-tx" hidden><span class="kt-aiueo-tx-label">参考治療</span>緩徐に補正（10〜12mEq/24h 以内）、自由水補充</div>
+                  </div>
+                  <div class="kt-aiueo-item" data-dx="hypercalcemia">
+                    <span class="kt-aiueo-item-name">高 Ca 血症</span>
+                    <div class="kt-aiueo-chips">
+                      <button type="button" class="kt-aiueo-chip" data-status="鑑別">鑑別</button>
+                      <button type="button" class="kt-aiueo-chip" data-status="確定">確定</button>
+                    </div>
+                    <div class="kt-aiueo-tx" hidden><span class="kt-aiueo-tx-label">参考治療</span>生食輸液＋ビスフォスフォネート・カルシトニン</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- E: Endocrine -->
+              <div class="kt-aiueo-group">
+                <div class="kt-aiueo-group-head">
+                  <span class="kt-aiueo-letter">E</span>
+                  <span class="kt-aiueo-group-title">Endocrine <small>内分泌</small></span>
+                </div>
+                <div class="kt-aiueo-items">
+                  <div class="kt-aiueo-item" data-dx="adrenal_insuf">
+                    <span class="kt-aiueo-item-name">副腎機能低下症</span>
+                    <div class="kt-aiueo-chips">
+                      <button type="button" class="kt-aiueo-chip" data-status="鑑別">鑑別</button>
+                      <button type="button" class="kt-aiueo-chip" data-status="確定">確定</button>
+                    </div>
+                    <div class="kt-aiueo-tx" hidden><span class="kt-aiueo-tx-label">参考治療</span>ヒドロコルチゾン 100mg IV＋輸液</div>
+                  </div>
+                  <div class="kt-aiueo-item" data-dx="hypothyroid">
+                    <span class="kt-aiueo-item-name">甲状腺機能低下症</span>
+                    <div class="kt-aiueo-chips">
+                      <button type="button" class="kt-aiueo-chip" data-status="鑑別">鑑別</button>
+                      <button type="button" class="kt-aiueo-chip" data-status="確定">確定</button>
+                    </div>
+                    <div class="kt-aiueo-tx" hidden><span class="kt-aiueo-tx-label">参考治療</span>レボチロキシン補充</div>
+                  </div>
+                  <div class="kt-aiueo-item" data-dx="myxedema">
+                    <span class="kt-aiueo-item-name">粘液水腫性昏睡</span>
+                    <div class="kt-aiueo-chips">
+                      <button type="button" class="kt-aiueo-chip" data-status="鑑別">鑑別</button>
+                      <button type="button" class="kt-aiueo-chip" data-status="確定">確定</button>
+                    </div>
+                    <div class="kt-aiueo-tx" hidden><span class="kt-aiueo-tx-label">参考治療</span>レボチロキシン IV＋ヒドロコルチゾン（副腎不全合併）＋保温</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- O: Opiate / Overdose -->
+              <div class="kt-aiueo-group">
+                <div class="kt-aiueo-group-head">
+                  <span class="kt-aiueo-letter">O</span>
+                  <span class="kt-aiueo-group-title">Opiate / Overdose <small>薬物中毒</small></span>
+                </div>
+                <div class="kt-aiueo-items">
+                  <div class="kt-aiueo-item" data-dx="opioid_tox">
+                    <span class="kt-aiueo-item-name">オピオイド中毒</span>
+                    <div class="kt-aiueo-chips">
+                      <button type="button" class="kt-aiueo-chip" data-status="鑑別">鑑別</button>
+                      <button type="button" class="kt-aiueo-chip" data-status="確定">確定</button>
+                    </div>
+                    <div class="kt-aiueo-tx" hidden><span class="kt-aiueo-tx-label">参考治療</span>ナロキソン 0.04〜0.4mg IV から漸増（縮瞳＋呼吸抑制で疑う）</div>
+                  </div>
+                  <div class="kt-aiueo-item" data-dx="bzd_tox">
+                    <span class="kt-aiueo-item-name">ベンゾジアゼピン中毒</span>
+                    <div class="kt-aiueo-chips">
+                      <button type="button" class="kt-aiueo-chip" data-status="鑑別">鑑別</button>
+                      <button type="button" class="kt-aiueo-chip" data-status="確定">確定</button>
+                    </div>
+                    <div class="kt-aiueo-tx" hidden><span class="kt-aiueo-tx-label">参考治療</span>支持療法が基本（フルマゼニルは痙攣誘発リスクあり慎重投与）</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- T: Trauma / Temperature -->
+              <div class="kt-aiueo-group">
+                <div class="kt-aiueo-group-head">
+                  <span class="kt-aiueo-letter">T</span>
+                  <span class="kt-aiueo-group-title">Trauma / Temperature <small>外傷・体温異常</small></span>
+                </div>
+                <div class="kt-aiueo-items">
+                  <div class="kt-aiueo-item" data-dx="trauma">
+                    <span class="kt-aiueo-item-name">頭部外傷</span>
+                    <div class="kt-aiueo-chips">
+                      <button type="button" class="kt-aiueo-chip" data-status="鑑別">鑑別</button>
+                      <button type="button" class="kt-aiueo-chip" data-status="確定">確定</button>
+                    </div>
+                    <div class="kt-aiueo-tx" hidden><span class="kt-aiueo-tx-label">参考治療</span>頭部 CT＋脳神経外科コンサルト、ICP コントロール</div>
+                  </div>
+                  <div class="kt-aiueo-item" data-dx="hypothermia">
+                    <span class="kt-aiueo-item-name">低体温症</span>
+                    <div class="kt-aiueo-chips">
+                      <button type="button" class="kt-aiueo-chip" data-status="鑑別">鑑別</button>
+                      <button type="button" class="kt-aiueo-chip" data-status="確定">確定</button>
+                    </div>
+                    <div class="kt-aiueo-tx" hidden><span class="kt-aiueo-tx-label">参考治療</span>復温（加温輸液・体外循環）</div>
+                  </div>
+                  <div class="kt-aiueo-item" data-dx="heatstroke">
+                    <span class="kt-aiueo-item-name">熱中症</span>
+                    <div class="kt-aiueo-chips">
+                      <button type="button" class="kt-aiueo-chip" data-status="鑑別">鑑別</button>
+                      <button type="button" class="kt-aiueo-chip" data-status="確定">確定</button>
+                    </div>
+                    <div class="kt-aiueo-tx" hidden><span class="kt-aiueo-tx-label">参考治療</span>蒸散・冷却装置で積極冷却</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- I: Infection -->
+              <div class="kt-aiueo-group">
+                <div class="kt-aiueo-group-head">
+                  <span class="kt-aiueo-letter">I</span>
+                  <span class="kt-aiueo-group-title">Infection <small>感染症</small></span>
+                </div>
+                <div class="kt-aiueo-items">
+                  <div class="kt-aiueo-item" data-dx="bact_meningitis">
+                    <span class="kt-aiueo-item-name">細菌性髄膜炎</span>
+                    <div class="kt-aiueo-chips">
+                      <button type="button" class="kt-aiueo-chip" data-status="鑑別">鑑別</button>
+                      <button type="button" class="kt-aiueo-chip" data-status="確定">確定</button>
+                    </div>
+                    <div class="kt-aiueo-tx" hidden><span class="kt-aiueo-tx-label">参考治療</span>血液培養2セット → 経験的抗菌薬（セフトリアキソン＋バンコマイシン±アンピシリン）±デキサメタゾン（抗菌薬投与前 or 同時）</div>
+                  </div>
+                  <div class="kt-aiueo-item" data-dx="hsv_enc">
+                    <span class="kt-aiueo-item-name">単純ヘルペス脳炎</span>
+                    <div class="kt-aiueo-chips">
+                      <button type="button" class="kt-aiueo-chip" data-status="鑑別">鑑別</button>
+                      <button type="button" class="kt-aiueo-chip" data-status="確定">確定</button>
+                    </div>
+                    <div class="kt-aiueo-tx" hidden><span class="kt-aiueo-tx-label">参考治療</span>アシクロビル 10mg/kg q8h</div>
+                  </div>
+                  <div class="kt-aiueo-item" data-dx="sepsis_enc">
+                    <span class="kt-aiueo-item-name">敗血症性脳症</span>
+                    <div class="kt-aiueo-chips">
+                      <button type="button" class="kt-aiueo-chip" data-status="鑑別">鑑別</button>
+                      <button type="button" class="kt-aiueo-chip" data-status="確定">確定</button>
+                    </div>
+                    <div class="kt-aiueo-tx" hidden><span class="kt-aiueo-tx-label">参考治療</span>原疾患（感染源）の治療、支持療法</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- P: Psychiatric -->
+              <div class="kt-aiueo-group">
+                <div class="kt-aiueo-group-head">
+                  <span class="kt-aiueo-letter">P</span>
+                  <span class="kt-aiueo-group-title">Psychiatric <small>精神疾患</small></span>
+                </div>
+                <div class="kt-aiueo-items">
+                  <div class="kt-aiueo-item" data-dx="psych">
+                    <span class="kt-aiueo-item-name">精神疾患（緊張病・転換性障害 等）</span>
+                    <div class="kt-aiueo-chips">
+                      <button type="button" class="kt-aiueo-chip" data-status="鑑別">鑑別</button>
+                      <button type="button" class="kt-aiueo-chip" data-status="確定">確定</button>
+                    </div>
+                    <div class="kt-aiueo-tx" hidden><span class="kt-aiueo-tx-label">参考治療</span>器質的原因の除外が最優先。精神科コンサルト</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- S: Stroke -->
+              <div class="kt-aiueo-group">
+                <div class="kt-aiueo-group-head">
+                  <span class="kt-aiueo-letter">S</span>
+                  <span class="kt-aiueo-group-title">Stroke <small>脳卒中</small></span>
+                </div>
+                <div class="kt-aiueo-items">
+                  <div class="kt-aiueo-item" data-dx="isch_stroke">
+                    <span class="kt-aiueo-item-name">脳梗塞</span>
+                    <div class="kt-aiueo-chips">
+                      <button type="button" class="kt-aiueo-chip" data-status="鑑別">鑑別</button>
+                      <button type="button" class="kt-aiueo-chip" data-status="確定">確定</button>
+                    </div>
+                    <div class="kt-aiueo-tx" hidden><span class="kt-aiueo-tx-label">参考治療</span>発症 4.5h 以内・適応あり → rt-PA／LVO は機械的血栓回収療法（〜24h、条件付き）</div>
+                  </div>
+                  <div class="kt-aiueo-item" data-dx="ich">
+                    <span class="kt-aiueo-item-name">脳出血</span>
+                    <div class="kt-aiueo-chips">
+                      <button type="button" class="kt-aiueo-chip" data-status="鑑別">鑑別</button>
+                      <button type="button" class="kt-aiueo-chip" data-status="確定">確定</button>
+                    </div>
+                    <div class="kt-aiueo-tx" hidden><span class="kt-aiueo-tx-label">参考治療</span>早期降圧（SBP＜140mmHg 目標、症例により）、脳神経外科コンサルト</div>
+                  </div>
+                  <div class="kt-aiueo-item" data-dx="sah">
+                    <span class="kt-aiueo-item-name">クモ膜下出血</span>
+                    <div class="kt-aiueo-chips">
+                      <button type="button" class="kt-aiueo-chip" data-status="鑑別">鑑別</button>
+                      <button type="button" class="kt-aiueo-chip" data-status="確定">確定</button>
+                    </div>
+                    <div class="kt-aiueo-tx" hidden><span class="kt-aiueo-tx-label">参考治療</span>脳神経外科コンサルト、再出血予防（降圧・安静）</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- S: Seizure -->
+              <div class="kt-aiueo-group">
+                <div class="kt-aiueo-group-head">
+                  <span class="kt-aiueo-letter">S</span>
+                  <span class="kt-aiueo-group-title">Seizure <small>痙攣・てんかん</small></span>
+                </div>
+                <div class="kt-aiueo-items">
+                  <div class="kt-aiueo-item" data-dx="status_ep">
+                    <span class="kt-aiueo-item-name">てんかん重積</span>
+                    <div class="kt-aiueo-chips">
+                      <button type="button" class="kt-aiueo-chip" data-status="鑑別">鑑別</button>
+                      <button type="button" class="kt-aiueo-chip" data-status="確定">確定</button>
+                    </div>
+                    <div class="kt-aiueo-tx" hidden><span class="kt-aiueo-tx-label">参考治療</span>第1相 ベンゾジアゼピン（ジアゼパム・ロラゼパム・ミダゾラム）→ 第2相 レベチラセタム／フェニトイン／バルプロ酸（SE GL 参照）</div>
+                  </div>
+                  <div class="kt-aiueo-item" data-dx="ncse">
+                    <span class="kt-aiueo-item-name">非痙攣性てんかん重積</span>
+                    <div class="kt-aiueo-chips">
+                      <button type="button" class="kt-aiueo-chip" data-status="鑑別">鑑別</button>
+                      <button type="button" class="kt-aiueo-chip" data-status="確定">確定</button>
+                    </div>
+                    <div class="kt-aiueo-tx" hidden><span class="kt-aiueo-tx-label">参考治療</span>EEG（脳波）で診断、てんかん重積に準じた治療</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="kt-prob-sub-title">B. 検査 <small>実施した検査をチェック → 日付（カレンダー）と所見を入力</small></div>
+            <div class="kt-exam-grid">
+              <div class="kt-exam-row">
+                <label class="kt-exam-name"><input type="checkbox" data-exam="ct">頭部 CT</label>
+                <input type="date" data-exam-date="ct" disabled>
+                <input type="text" data-exam-find="ct" placeholder="所見（例：明らかな出血・新規梗塞なし）" disabled>
+              </div>
+              <div class="kt-exam-row">
+                <label class="kt-exam-name"><input type="checkbox" data-exam="mri">頭部 MRI</label>
+                <input type="date" data-exam-date="mri" disabled>
+                <input type="text" data-exam-find="mri" placeholder="所見（例：DWI で急性期梗塞像なし）" disabled>
+              </div>
+              <div class="kt-exam-row">
+                <label class="kt-exam-name"><input type="checkbox" data-exam="csf">髄液検査</label>
+                <input type="date" data-exam-date="csf" disabled>
+                <input type="text" data-exam-find="csf" placeholder="例：細胞 12/μL（単核優位）, 蛋白 65mg/dL, 糖 60mg/dL" disabled>
+              </div>
+              <div class="kt-exam-row">
+                <label class="kt-exam-name"><input type="checkbox" data-exam="eeg">脳波 (EEG)</label>
+                <input type="date" data-exam-date="eeg" disabled>
+                <input type="text" data-exam-find="eeg" placeholder="所見（例：全般性徐波、てんかん性放電なし）" disabled>
+              </div>
+              <div class="kt-exam-row">
+                <label class="kt-exam-name"><input type="checkbox" data-exam="neuro">神経学的所見</label>
+                <input type="date" data-exam-date="neuro" disabled>
+                <input type="text" data-exam-find="neuro" placeholder="例：瞳孔 R 3.0/L 3.0 mm 対光反射±, 麻痺なし" disabled>
+              </div>
+            </div>
+
+            <div class="kt-prob-free">
+              <input type="text" data-prob-extra="意識障害" placeholder="その他・自由記載">
+            </div>
+          </div>
 
           <div class="kt-step-nav">
             <button type="button" class="kt-btn-prev" data-prev="7">← 前へ</button>
@@ -1368,7 +1916,17 @@
     use_neuroprotection: null,
     neuro_protection: [],
     neuro_protection_other: '',
-    current_problems: '',
+    // ===== 現在の問題点（Step 8） =====
+    problems: {
+      active: {},                // { '意識障害': true, ... }
+      consciousness: {
+        aiueo: {},               // { 'alcohol': '鑑別' | '確定', 'hypoglycemia': '確定', ... }
+        exams: {},               // { ct:true, mri:false, ... }
+        examDates: {},           // { ct:'2026-05-15', ... }
+        examFindings: {},        // { ct:'所見テキスト', ... }
+        extra: ''
+      }
+    },
     summary_style: 'compact'  // 'compact'（①）| 'balanced'（②）| 'detail'（③）
   };
 
@@ -1803,6 +2361,95 @@
     });
   });
 
+  // ===== 現在の問題点（Step 8） =====
+  // 問題点行（縦リスト）：選択でパネル表示
+  document.querySelectorAll('.kt-prob-row[data-prob]').forEach(function(row){
+    if (row.disabled) return;
+    row.addEventListener('click', function(){
+      var p = row.dataset.prob;
+      var on = !row.classList.contains('selected');
+      row.classList.toggle('selected', on);
+      if (on) state.problems.active[p] = true;
+      else delete state.problems.active[p];
+      var panel = document.querySelector('.kt-prob-panel[data-prob-panel="' + p + '"]');
+      if (panel) panel.hidden = !on;
+      render();
+    });
+  });
+
+  // AIUEOTIPS：各疾患（item）の 疑い／確定 チップ
+  document.querySelectorAll('.kt-aiueo-item').forEach(function(item){
+    var dx = item.dataset.dx;
+    item.querySelectorAll('.kt-aiueo-chip').forEach(function(c){
+      c.addEventListener('click', function(){
+        var st = c.dataset.status;
+        var cur = state.problems.consciousness.aiueo[dx];
+        if (cur === st) {
+          // 同じものを再クリックで解除
+          delete state.problems.consciousness.aiueo[dx];
+          st = null;
+        } else {
+          state.problems.consciousness.aiueo[dx] = st;
+        }
+        item.querySelectorAll('.kt-aiueo-chip').forEach(function(cc){
+          cc.classList.toggle('selected', st && cc.dataset.status === st);
+        });
+        item.classList.remove('suspect', 'confirm');
+        if (st === '鑑別') item.classList.add('suspect');
+        else if (st === '確定') item.classList.add('confirm');
+        var tx = item.querySelector('.kt-aiueo-tx');
+        if (tx) tx.hidden = !st;
+        render();
+      });
+    });
+  });
+
+  // 検査チェックボックス（実施／未実施）+ 日付・所見テキストの enable/disable
+  document.querySelectorAll('[data-exam]').forEach(function(cb){
+    cb.addEventListener('change', function(){
+      var k = cb.dataset.exam;
+      state.problems.consciousness.exams[k] = cb.checked;
+      var date = document.querySelector('[data-exam-date="' + k + '"]');
+      var find = document.querySelector('[data-exam-find="' + k + '"]');
+      if (date) {
+        date.disabled = !cb.checked;
+        if (!cb.checked) {
+          date.value = '';
+          delete state.problems.consciousness.examDates[k];
+        }
+      }
+      if (find) {
+        find.disabled = !cb.checked;
+        if (!cb.checked) {
+          find.value = '';
+          delete state.problems.consciousness.examFindings[k];
+        }
+      }
+      render();
+    });
+  });
+  document.querySelectorAll('[data-exam-date]').forEach(function(inp){
+    inp.addEventListener('input', function(){
+      state.problems.consciousness.examDates[inp.dataset.examDate] = inp.value;
+      render();
+    });
+  });
+  document.querySelectorAll('[data-exam-find]').forEach(function(inp){
+    inp.addEventListener('input', function(){
+      state.problems.consciousness.examFindings[inp.dataset.examFind] = inp.value;
+      render();
+    });
+  });
+
+  // 問題点フリーテキスト
+  document.querySelectorAll('[data-prob-extra]').forEach(function(inp){
+    inp.addEventListener('input', function(){
+      var key = inp.dataset.probExtra;
+      if (key === '意識障害') state.problems.consciousness.extra = inp.value;
+      render();
+    });
+  });
+
   // ===== チェックリスト =====
   document.querySelectorAll('[data-checklist]').forEach(function(container){
     var key = container.dataset.checklist;
@@ -1933,6 +2580,119 @@
       parts.push(s);
     });
     return parts;
+  }
+
+  // ===== Step 8 用：問題点出力ヘルパー =====
+  // 各疾患（AIUEOTIPS の sub-item）。letter は出力の参考表示用
+  var AIUEO_DX = {
+    alcohol:        { letter:'A', label:'アルコール離脱' },
+    acidosis:       { letter:'A', label:'代謝性アシドーシス' },
+    hypoglycemia:   { letter:'I', label:'低血糖' },
+    dka:            { letter:'I', label:'DKA' },
+    hhs:            { letter:'I', label:'HHS' },
+    uremia:         { letter:'U', label:'尿毒症性脳症' },
+    hep_enc:        { letter:'E', label:'肝性脳症' },
+    htn_enc:        { letter:'E', label:'高血圧性脳症' },
+    wernicke:       { letter:'E', label:'Wernicke 脳症' },
+    hyponatremia:   { letter:'E', label:'低 Na 血症' },
+    hypernatremia:  { letter:'E', label:'高 Na 血症' },
+    hypercalcemia:  { letter:'E', label:'高 Ca 血症' },
+    adrenal_insuf:  { letter:'E', label:'副腎機能低下症' },
+    hypothyroid:    { letter:'E', label:'甲状腺機能低下症' },
+    myxedema:       { letter:'E', label:'粘液水腫性昏睡' },
+    opioid_tox:     { letter:'O', label:'オピオイド中毒' },
+    bzd_tox:        { letter:'O', label:'ベンゾジアゼピン中毒' },
+    trauma:         { letter:'T', label:'頭部外傷' },
+    hypothermia:    { letter:'T', label:'低体温症' },
+    heatstroke:     { letter:'T', label:'熱中症' },
+    bact_meningitis:{ letter:'I', label:'細菌性髄膜炎' },
+    hsv_enc:        { letter:'I', label:'単純ヘルペス脳炎' },
+    sepsis_enc:     { letter:'I', label:'敗血症性脳症' },
+    psych:          { letter:'P', label:'精神疾患' },
+    isch_stroke:    { letter:'S', label:'脳梗塞' },
+    ich:            { letter:'S', label:'脳出血' },
+    sah:            { letter:'S', label:'クモ膜下出血' },
+    status_ep:      { letter:'S', label:'てんかん重積' },
+    ncse:           { letter:'S', label:'非痙攣性てんかん重積' }
+  };
+  var EXAM_LABEL = {
+    ct: '頭部CT',
+    mri: '頭部MRI',
+    csf: '髄液検査',
+    eeg: 'EEG（脳波）',
+    neuro: '神経学的所見'
+  };
+
+  // 日付（yyyy-mm-dd）を yyyy/M/d 形式に整形
+  function fmtExamDate(ymd){
+    if (!ymd) return '';
+    var parts = String(ymd).split('-');
+    if (parts.length !== 3) return ymd;
+    return parts[0] + '/' + parseInt(parts[1], 10) + '/' + parseInt(parts[2], 10);
+  }
+
+  function collectConsciousness(){
+    // AIUEOTIPS：確定 / 鑑別 を分けて集める
+    var confirmed = [];
+    var differential = [];
+    Object.keys(state.problems.consciousness.aiueo).forEach(function(k){
+      var st = state.problems.consciousness.aiueo[k];
+      var d = AIUEO_DX[k];
+      if (!d || !st) return;
+      if (st === '確定') confirmed.push(d.label);
+      else if (st === '鑑別') differential.push(d.label);
+    });
+    // 検査（日付 → 所見の順で付加）
+    var exams = [];
+    Object.keys(state.problems.consciousness.exams).forEach(function(k){
+      if (!state.problems.consciousness.exams[k]) return;
+      var s = EXAM_LABEL[k];
+      var dt  = fmtExamDate(state.problems.consciousness.examDates[k]);
+      var fnd = (state.problems.consciousness.examFindings[k] || '').trim();
+      if (dt)  s += ' ' + dt;
+      if (fnd) s += '（' + fnd + '）';
+      exams.push(s);
+    });
+    return {
+      confirmed: confirmed,
+      differential: differential,
+      exams: exams,
+      extra: (state.problems.consciousness.extra || '').trim()
+    };
+  }
+
+  function renderProblems(lines, style){
+    var activeProbs = Object.keys(state.problems.active).filter(function(k){ return state.problems.active[k]; });
+    if (!activeProbs.length) return;
+
+    activeProbs.forEach(function(p){
+      lines.push('#' + p);
+      if (p !== '意識障害') return;
+      var c = collectConsciousness();
+
+      // 確定：1 疾患 1 行で全角スペース字下げ（出力スタイルによらず固定）
+      c.confirmed.forEach(function(label){
+        lines.push('　#' + label);
+      });
+
+      // 鑑別：1 行に連結
+      if (c.differential.length) {
+        lines.push('- その他鑑別：' + c.differential.join('，'));
+      }
+
+      // 検査：出力スタイル準拠
+      if (c.exams.length) {
+        if (style === 'detail') {
+          lines.push('- 検査：');
+          c.exams.forEach(function(x){ lines.push('  ・' + x); });
+        } else {
+          lines.push('- 検査：' + c.exams.join('，'));
+        }
+      }
+
+      // 備考
+      if (c.extra) lines.push('- 備考：' + c.extra);
+    });
   }
 
   function render(){
@@ -2070,8 +2830,8 @@
       lines.push('[二次性脳損傷予防] 適用');
     }
 
-    // 現在の問題点
-    if (state.current_problems.trim()) lines.push('[現在の問題点] ' + state.current_problems.trim());
+    // ===== 現在の問題点 =====
+    renderProblems(lines, style);
 
     var out = document.getElementById('kt-output');
     if (lines.length === 1) {

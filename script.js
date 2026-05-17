@@ -57,10 +57,12 @@
         { href: 'pages/schedule-weekly-id-icu.html',  label: 'ID×ICU Conference 動画集' }
       ])
     + dd('便利ツール', [
-        { href: 'pages/abx-calculator.html',     label: '抗菌薬投与量 一発計算' },
+        // 公開停止中（再公開時は次行のコメントアウト解除）
+        // { href: 'pages/abx-calculator.html',     label: '抗菌薬投与量 一発計算' },
         { href: 'pages/ldl-target.html',         label: 'LDL目標値チェッカー' },
-        { href: 'pages/nutrition-calc.html',     label: '必要カロリー・蛋白量 計算' },
-        { href: 'pages/transfusion-calc.html',   label: '輸血量 → 上昇予測（RBC・PC）' },
+        // 公開停止中（再公開時は次行のコメントアウト解除）
+        // { href: 'pages/nutrition-calc.html',     label: '必要カロリー・蛋白量 計算' },
+        { href: 'pages/transfusion-calc.html',   label: '輸血量 → 期待上昇予測（RBC・PC・FFP）' },
         { href: 'pages/apache-ii.html',          label: 'APACHE II スコア' },
         { href: 'pages/sofa.html',               label: 'SOFA-2 スコア（2026 改訂）' },
         { href: 'pages/rass.html',               label: 'RASS（鎮静評価）' },

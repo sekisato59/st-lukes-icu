@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0">
-  <title>輸血量 → 上昇予測（RBC・PC）| 聖路加ICU 便利ツール</title>
+  <title>輸血量 → 期待上昇予測（RBC・PC・FFP）| 聖路加ICU 便利ツール</title>
   <meta name="robots" content="noindex, nofollow">
   <link rel="icon" type="image/png" href="../images/logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -132,7 +132,7 @@
       border:2px solid #6EE7B7;display:none;
     }
     .result-card.visible { display:block; }
-    .result-grid { display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px; }
+    .result-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-bottom:16px; }
     @media (max-width:480px) { .result-grid { grid-template-columns:1fr; } }
     .result-box {
       background:rgba(255,255,255,0.85);border-radius:10px;padding:16px 18px;
@@ -191,6 +191,44 @@
     .tool-instruction strong {
       color:#047857;font-weight:800;
     }
+
+    /* ===== 計算式の解説ブロック（初学者向け） ===== */
+    .formula-explain {
+      margin-top:20px;background:#F8FAFC;border:1px solid var(--border);
+      border-radius:12px;padding:16px 20px;
+    }
+    .formula-explain-title {
+      font-size:0.84rem;font-weight:900;color:#047857;letter-spacing:0.03em;
+      margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid #E2E8F0;
+    }
+    .formula-block {
+      background:#fff;border:1px solid #E2E8F0;border-radius:8px;
+      padding:11px 14px;margin-bottom:10px;
+    }
+    .formula-block:last-of-type { margin-bottom:0; }
+    .formula-title {
+      font-size:0.82rem;font-weight:800;color:#047857;
+      margin-bottom:6px;padding-bottom:4px;border-bottom:1.5px dashed #A7F3D0;
+    }
+    .formula-eq {
+      font-size:0.82rem;color:#0F172A;line-height:1.7;margin:6px 0 8px;
+      padding:8px 12px;background:#ECFDF5;border-radius:6px;
+      font-family:ui-monospace,Menlo,Consolas,monospace;
+    }
+    .formula-eq strong { color:#047857;font-weight:800; }
+    .formula-list {
+      margin:0;padding-left:18px;font-size:0.75rem;line-height:1.75;color:#475569;
+    }
+    .formula-list li { margin-bottom:3px; }
+    .formula-list strong { color:#1E293B;font-weight:700; }
+    @media (max-width:600px) {
+      .formula-explain { padding:12px 14px; }
+      .formula-explain-title { font-size:0.78rem; }
+      .formula-block { padding:10px 12px; }
+      .formula-title { font-size:0.78rem; }
+      .formula-eq { font-size:0.75rem;padding:7px 10px; }
+      .formula-list { font-size:0.72rem;line-height:1.7;padding-left:16px; }
+    }
   </style>
 </head>
 <body>
@@ -211,8 +249,8 @@
 <div class="tools-banner">
   <img src="../images/便利ツール背景汎用.jpg" alt="" class="tools-banner-img" loading="lazy">
   <div class="tools-banner-overlay">
-    <h1 class="tools-banner-title">輸血量 → 期待上昇予測（RBC・PC）</h1>
-    <p class="tools-banner-sub">RBC・PC 輸血効果予測</p>
+    <h1 class="tools-banner-title">輸血量 → 期待上昇予測（RBC・PC・FFP）</h1>
+    <p class="tools-banner-sub">RBC・PC・FFP 輸血効果予測</p>
   </div>
 </div>
 
@@ -220,7 +258,7 @@
   <div class="back-wrapper">
     <a href="../index.html" class="back-btn">← ホームへ戻る</a>
   </div>
-    <div class="tool-instruction">日本の照射赤血球液-LR（RBC-LR）と濃厚血小板（PC）について、輸血単位数から Hb・血小板の期待上昇値を体重補正で算出します。<br><strong>出血量・脾機能亢進・抗体・敗血症等で実測値は低くなる</strong>ことがあります。</div>
+    <div class="tool-instruction">日本の照射赤血球液-LR（RBC-LR）・濃厚血小板（PC）・新鮮凍結血漿（FFP-LR）について、輸血単位数から Hb／血小板／凝固因子活性の期待上昇値を体重補正で算出します。<br><strong>出血量・脾機能亢進・抗体・敗血症・DIC・消費亢進等で実測値は低くなる</strong>ことがあります。</div>
   <form id="toolForm" onsubmit="return false;" autocomplete="off">
 
   <!-- ===== 入力 ===== -->
@@ -238,6 +276,10 @@
       <div class="form-field">
         <label for="plt0">輸血前 Plt <span class="form-unit">×10⁴/μL（任意）</span></label>
         <input type="number" id="plt0" min="0" max="200" step="0.1" inputmode="decimal" enterkeyhint="next" placeholder="例 1.5">
+      </div>
+      <div class="form-field">
+        <label for="fib0">輸血前 Fibrinogen <span class="form-unit">mg/dL（任意）</span></label>
+        <input type="number" id="fib0" min="0" max="1000" step="1" inputmode="decimal" enterkeyhint="next" placeholder="例 120">
       </div>
     </div>
   </div>
@@ -257,7 +299,17 @@
     <div class="form-grid">
       <div class="form-field">
         <label for="pc">PC <span class="form-unit">単位（10 / 15 / 20 単位）</span></label>
-        <input type="number" id="pc" min="0" max="40" step="1" inputmode="numeric" enterkeyhint="done" placeholder="例 10">
+        <input type="number" id="pc" min="0" max="40" step="1" inputmode="numeric" enterkeyhint="next" placeholder="例 10">
+      </div>
+    </div>
+  </div>
+
+  <div class="input-card">
+    <h2 class="input-card-title">FFP（新鮮凍結血漿）</h2>
+    <div class="form-grid">
+      <div class="form-field">
+        <label for="ffp">FFP-LR240 <span class="form-unit">単位（1単位 ≒ 240 mL）</span></label>
+        <input type="number" id="ffp" min="0" max="40" step="1" inputmode="numeric" enterkeyhint="done" placeholder="例 4">
       </div>
     </div>
   </div>
@@ -277,6 +329,12 @@
         <div class="result-value" id="pcDelta">—</div>
         <div class="result-after" id="pcAfter"></div>
       </div>
+      <div class="result-box" id="ffpResultBox" style="display:none;">
+        <div class="result-label">FFP：凝固因子活性 上昇予測</div>
+        <div class="result-value" id="ffpDelta">—</div>
+        <div class="result-after" id="ffpAfter"></div>
+        <div style="font-size:0.65rem;color:#64748B;margin-top:4px;">参考：ΔFib&nbsp;<span id="ffpFib">—</span></div>
+      </div>
     </div>
     <div class="result-formula" id="resultFormula"></div>
   </div>
@@ -284,22 +342,76 @@
   <!-- ===== 参考表 ===== -->
   <div class="ref-card">
     <h3>体重別 期待上昇値（参考早見表）</h3>
-    <table class="ref-table">
+    <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;">
+    <table class="ref-table" style="min-width:560px;">
       <thead>
-        <tr><th>体重</th><th>RBC 2単位</th><th>RBC 4単位</th><th>PC 10単位</th><th>PC 20単位</th></tr>
+        <tr>
+          <th>体重</th>
+          <th>RBC 2単位<br><span style="font-weight:400;color:#94A3B8;">ΔHb</span></th>
+          <th>RBC 4単位<br><span style="font-weight:400;color:#94A3B8;">ΔHb</span></th>
+          <th>PC 10単位<br><span style="font-weight:400;color:#94A3B8;">ΔPlt</span></th>
+          <th>PC 20単位<br><span style="font-weight:400;color:#94A3B8;">ΔPlt</span></th>
+          <th>FFP 4単位<br><span style="font-weight:400;color:#94A3B8;">Δ凝固活性</span></th>
+          <th>FFP 8単位<br><span style="font-weight:400;color:#94A3B8;">Δ凝固活性</span></th>
+        </tr>
       </thead>
       <tbody>
-        <tr><td>40 kg</td><td>+ 1.5 g/dL</td><td>+ 3.0 g/dL</td><td>+ 7.5 ×10⁴/μL</td><td>+ 15.0 ×10⁴/μL</td></tr>
-        <tr><td>50 kg</td><td>+ 1.2 g/dL</td><td>+ 2.4 g/dL</td><td>+ 6.0 ×10⁴/μL</td><td>+ 12.0 ×10⁴/μL</td></tr>
-        <tr><td>60 kg</td><td>+ 1.0 g/dL</td><td>+ 2.0 g/dL</td><td>+ 5.0 ×10⁴/μL</td><td>+ 10.0 ×10⁴/μL</td></tr>
-        <tr><td>70 kg</td><td>+ 0.86 g/dL</td><td>+ 1.7 g/dL</td><td>+ 4.3 ×10⁴/μL</td><td>+ 8.6 ×10⁴/μL</td></tr>
-        <tr><td>80 kg</td><td>+ 0.75 g/dL</td><td>+ 1.5 g/dL</td><td>+ 3.8 ×10⁴/μL</td><td>+ 7.5 ×10⁴/μL</td></tr>
+        <tr><td>40 kg</td><td>+ 1.5 g/dL</td><td>+ 3.0 g/dL</td><td>+ 7.5 ×10⁴/μL</td><td>+ 15.0 ×10⁴/μL</td><td>+ 60 %</td><td>+ 120 %</td></tr>
+        <tr><td>50 kg</td><td>+ 1.2 g/dL</td><td>+ 2.4 g/dL</td><td>+ 6.0 ×10⁴/μL</td><td>+ 12.0 ×10⁴/μL</td><td>+ 48 %</td><td>+ 96 %</td></tr>
+        <tr><td>60 kg</td><td>+ 1.0 g/dL</td><td>+ 2.0 g/dL</td><td>+ 5.0 ×10⁴/μL</td><td>+ 10.0 ×10⁴/μL</td><td>+ 40 %</td><td>+ 80 %</td></tr>
+        <tr><td>70 kg</td><td>+ 0.86 g/dL</td><td>+ 1.7 g/dL</td><td>+ 4.3 ×10⁴/μL</td><td>+ 8.6 ×10⁴/μL</td><td>+ 34 %</td><td>+ 69 %</td></tr>
+        <tr><td>80 kg</td><td>+ 0.75 g/dL</td><td>+ 1.5 g/dL</td><td>+ 3.8 ×10⁴/μL</td><td>+ 7.5 ×10⁴/μL</td><td>+ 30 %</td><td>+ 60 %</td></tr>
       </tbody>
     </table>
-    <p style="font-size:0.72rem;color:#64748B;margin:10px 0 0;line-height:1.7;">
-      <strong>計算式：</strong>
-      ΔHb (g/dL) = 単位数 × 30 ÷ 体重(kg)　／
-      ΔPlt (×10⁴/μL) = 単位数 × 30 ÷ 体重(kg)
+    </div>
+  </div>
+
+  <!-- ===== 計算式の意味（初学者向け解説） ===== -->
+  <div class="formula-explain">
+    <div class="formula-explain-title">▍ なぜこの式になるの？</div>
+    <p style="font-size:0.78rem;color:#475569;line-height:1.75;margin:0 0 12px;">
+      製剤に含まれる成分量と、患者の循環血液量（あるいは循環血漿量）の比から、「投与した成分がどれだけ希釈されて何 g/dL（または %）上がるか」を計算しています。下記の数字は厚生労働省『血液製剤の使用指針』および日本赤十字社の添付文書に基づきます。
+    </p>
+
+    <div class="formula-block">
+      <div class="formula-title">RBC（赤血球濃厚液-LR）</div>
+      <div class="formula-eq">ΔHb (g/dL) = <strong>RBC単位数 × 30 ÷ 体重 (kg)</strong></div>
+      <ul class="formula-list">
+        <li><strong>1単位の中身：</strong>RBC-LR 1単位 ≒ 140 mL、含有 Hb ≒ 約 26〜28 g</li>
+        <li><strong>循環血液量：</strong>成人で 約 70 mL/kg → 体重 60 kg なら血液 ≒ 4,200 mL ≒ 42 dL</li>
+        <li><strong>理論計算：</strong>26 g ÷ 42 dL ≒ 0.62 g/dL、つまり 1単位で <strong>約 40/体重 (g/dL)</strong> 上がるはず</li>
+        <li><strong>実際は？</strong>脾臓への一時分布や測定誤差で、実測値は理論値の約 7〜8 割。それを丸めた経験値が <strong>「30」</strong> です</li>
+        <li><strong>例：</strong>体重 60 kg に RBC 2単位 → 2 × 30 ÷ 60 = <strong>+ 1.0 g/dL</strong> 上昇予測</li>
+      </ul>
+    </div>
+
+    <div class="formula-block">
+      <div class="formula-title">PC（濃厚血小板）</div>
+      <div class="formula-eq">ΔPlt (×10⁴/μL) = <strong>PC単位数 × 30 ÷ 体重 (kg)</strong></div>
+      <ul class="formula-list">
+        <li><strong>1単位の中身：</strong>PC 1単位 ≒ 20 mL、含有血小板 ≒ 約 0.2 × 10¹¹ 個</li>
+        <li><strong>循環血液量：</strong>同じく 70 mL/kg</li>
+        <li><strong>理論計算：</strong>0.2 × 10¹¹ ÷ (70 × BW × 10³ μL) ≒ <strong>約 30/体重 (×10⁴/μL)</strong></li>
+        <li><strong>実際は？</strong>脾貯留・抗体・敗血症・DIC・発熱があると上昇率が低下。輸血後 1時間（CCI）と 24時間（24h-CCI）で効果判定するのが標準</li>
+        <li><strong>例：</strong>体重 60 kg に PC 10単位 → 10 × 30 ÷ 60 = <strong>+ 5.0 ×10⁴/μL</strong> 上昇予測</li>
+      </ul>
+    </div>
+
+    <div class="formula-block">
+      <div class="formula-title">FFP（新鮮凍結血漿）</div>
+      <div class="formula-eq">Δ凝固因子活性 (%) = <strong>FFP単位数 × 600 ÷ 体重 (kg)</strong></div>
+      <ul class="formula-list">
+        <li><strong>1単位の中身：</strong>FFP-LR240 は 1単位 = 240 mL（旧 FFP-LR120 は 120 mL → 係数を半分の「300」で計算）</li>
+        <li><strong>循環血漿量：</strong>成人で 約 40 mL/kg（赤血球を除いた血漿部分）→ 体重 60 kg なら血漿 ≒ 2,400 mL</li>
+        <li><strong>理論計算：</strong>240 mL ÷ (40 × BW) × 100 % = <strong>600/体重 (%)</strong>
+        <span style="color:#94A3B8;">（投与した血漿が患者の血漿に均等に混じると仮定）</span></li>
+        <li><strong>例：</strong>体重 60 kg に FFP 4単位 → 4 × 600 ÷ 60 = <strong>+ 40 %</strong>（凝固因子活性が 30% → 70% に上昇する見込み）</li>
+        <li><strong>臨床の目安：</strong>術前補正なら凝固因子活性 ≥ 30〜40%、活動性出血では ≥ 50% を目標。8〜12 mL/kg の投与で約 20〜30% 上昇するのが典型的</li>
+      </ul>
+    </div>
+
+    <p style="font-size:0.72rem;color:#94A3B8;margin:10px 0 0;line-height:1.7;">
+      <strong>共通の注意：</strong>これらは「製剤が体内に均等に分布する」という理想値です。出血進行中・脾機能亢進・抗体・敗血症・DIC・消費亢進・発熱があると実測値はもっと低くなります。輸血効果の判定は <strong>輸血前後の検査値を実測する</strong> のが原則です。
     </p>
   </div>
 
@@ -316,25 +428,33 @@
     var bwEl   = document.getElementById('bw');
     var hb0El  = document.getElementById('hb0');
     var plt0El = document.getElementById('plt0');
+    var fib0El = document.getElementById('fib0');
     var rbcEl  = document.getElementById('rbc');
     var pcEl   = document.getElementById('pc');
+    var ffpEl  = document.getElementById('ffp');
     var card   = document.getElementById('resultCard');
     var rbcBox = document.getElementById('rbcResultBox');
     var pcBox  = document.getElementById('pcResultBox');
+    var ffpBox = document.getElementById('ffpResultBox');
     var rbcDelta = document.getElementById('rbcDelta');
     var pcDelta  = document.getElementById('pcDelta');
+    var ffpDelta = document.getElementById('ffpDelta');
     var rbcAfter = document.getElementById('rbcAfter');
     var pcAfter  = document.getElementById('pcAfter');
+    var ffpAfter = document.getElementById('ffpAfter');
+    var ffpFib   = document.getElementById('ffpFib');
     var formula  = document.getElementById('resultFormula');
 
     function compute() {
       var bw  = parseFloat(bwEl.value);
       var hb0 = parseFloat(hb0El.value);
       var pl0 = parseFloat(plt0El.value);
+      var fb0 = parseFloat(fib0El.value);
       var rbc = parseInt(rbcEl.value);
       var pc  = parseInt(pcEl.value);
+      var ffp = parseInt(ffpEl.value);
 
-      var hasInput = (rbc > 0 || pc > 0);
+      var hasInput = (rbc > 0 || pc > 0 || ffp > 0);
       var validBw  = (bw && bw > 0);
       if (!hasInput || !validBw) { card.classList.remove('visible'); return; }
 
@@ -363,10 +483,27 @@
       } else {
         pcBox.style.display = 'none';
       }
+      // FFP
+      if (ffp > 0) {
+        // Δ凝固因子活性 (%) = FFP単位数 × 240(mL/単位) × 100 ÷ [40(mL/kg) × BW] = FFP × 600 / BW
+        // ΔFib (mg/dL) = FFP単位数 × 240 × Fib_FFP(150-200 mg/dL avg) ÷ [40 × BW] = FFP × 約 1000/BW（Fib_FFP=170前提）
+        var dFactor = (ffp * 600) / bw; // %
+        var dFib    = (ffp * 1000) / bw; // mg/dL（FFP内 Fib ≒ 170 mg/dL 想定）
+        ffpDelta.textContent = '+ ' + dFactor.toFixed(0) + ' %';
+        ffpAfter.textContent = '凝固因子活性（理論値）';
+        ffpFib.textContent = !isNaN(fb0)
+          ? '+ ' + dFib.toFixed(0) + ' mg/dL（輸血後 ≒ ' + (fb0 + dFib).toFixed(0) + '）'
+          : '+ ' + dFib.toFixed(0) + ' mg/dL';
+        ffpBox.style.display = '';
+        lines.push('Δ凝固因子活性 = ' + ffp + ' × 600 ÷ ' + bw.toFixed(1) + ' = ' + dFactor.toFixed(1) + ' %');
+        lines.push('ΔFib ≒ ' + ffp + ' × 1000 ÷ ' + bw.toFixed(1) + ' = ' + dFib.toFixed(0) + ' mg/dL');
+      } else {
+        ffpBox.style.display = 'none';
+      }
       formula.textContent = lines.join('\n');
       card.classList.add('visible');
     }
-    [bwEl, hb0El, plt0El, rbcEl, pcEl].forEach(function(el){
+    [bwEl, hb0El, plt0El, fib0El, rbcEl, pcEl, ffpEl].forEach(function(el){
       el.addEventListener('input', compute);
     });
   })();
