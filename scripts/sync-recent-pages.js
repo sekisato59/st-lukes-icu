@@ -76,9 +76,25 @@ function listFiles() {
 }
 
 // ----------------------------------------------------------
+// 現在 staged な新規ファイル（commit 前）を検出
+//   pre-commit hook で実行された場合、新規追加ファイルは
+//   まだ git log に現れないので、これらを「今コミット中」として扱う
+// ----------------------------------------------------------
+function getStagedNewFiles() {
+  try {
+    const out = execSync('git diff --cached --diff-filter=A --name-only', { encoding: 'utf8' });
+    return new Set(out.trim().split('\n').filter(Boolean));
+  } catch (_) {
+    return new Set();
+  }
+}
+const STAGED_NEW = getStagedNewFiles();
+
+// ----------------------------------------------------------
 // git 初回コミット日時 (フル ISO datetime)
 //   - 内部ソート用にフル ISO（時刻まで）を取得
 //   - 出力時は .slice(0, 10) で YYYY-MM-DD に整形
+//   - staged 中の新規ファイル（pre-commit hook 実行中）は今の時刻を使用
 // ----------------------------------------------------------
 function getCreationDateTime(filepath) {
   try {
@@ -87,10 +103,12 @@ function getCreationDateTime(filepath) {
       { encoding: 'utf8' }
     );
     const dates = out.trim().split('\n').filter(Boolean);
-    if (!dates.length) return null;
-    return dates[dates.length - 1]; // 例: "2026-05-18T23:46:25+09:00"
-  } catch (_) {
+    if (dates.length) return dates[dates.length - 1]; // 例: "2026-05-18T23:46:25+09:00"
+    // git log で見つからないが staged されている → pre-commit 中の新規ファイル
+    if (STAGED_NEW.has(filepath)) return new Date().toISOString();
     return null;
+  } catch (_) {
+    return STAGED_NEW.has(filepath) ? new Date().toISOString() : null;
   }
 }
 

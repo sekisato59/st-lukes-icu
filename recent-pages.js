@@ -10,6 +10,13 @@
  */
 const RECENT_PAGES = [
   {
+    title: "レジオネラ症 — Lancet Seminar 2016（Cunha・Burillo・Bouza）",
+    url: "pages/articles-gl-legionnaires-lancet2016.html",
+    date: "2026-05-19",
+    tag: "ガイドライン",
+    thumb: "images/IDICUtop.png"
+  },
+  {
     title: "HUSとatypical HUS — 病態生理の全体像（Blood 2017）",
     url: "pages/articles-gl-hus-blood2017.html",
     date: "2026-05-19",
