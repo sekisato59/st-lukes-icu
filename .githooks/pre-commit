@@ -22,13 +22,26 @@ if [ ! -f scripts/sync-recent-pages.js ]; then
   exit 0
 fi
 
-# 静かに実行
+# 1) recent-pages.js を自動再生成
 node scripts/sync-recent-pages.js > /dev/null
-
-# 差分があれば recent-pages.js をステージに追加
 if ! git diff --quiet recent-pages.js 2>/dev/null; then
   git add recent-pages.js
   echo "[pre-commit] recent-pages.js を自動更新してステージしました"
+fi
+
+# 2) ページ整合性監査（worktree leftover / 略語ポップアップ漏れ）
+if [ -f scripts/audit-pages.js ]; then
+  audit_out=$(node scripts/audit-pages.js 2>&1)
+  audit_exit=$?
+  # 問題があれば警告のみ表示（コミットはブロックしない・--strict ではないため exit 0 のまま）
+  if echo "$audit_out" | grep -qE "Worktree leftover|略語一覧あり/abbr-tooltip"; then
+    echo ""
+    echo "⚠ [pre-commit] ページ監査で問題を検出しました："
+    echo "$audit_out" | grep -E "^\[|^  -" | sed 's/^/  /'
+    echo ""
+    echo "  詳細は: node scripts/audit-pages.js"
+    echo ""
+  fi
 fi
 
 exit 0
