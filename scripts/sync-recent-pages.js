@@ -105,16 +105,17 @@ function extractTitle(filepath) {
   const m = html.match(/<title>([\s\S]+?)<\/title>/);
   if (!m) return path.basename(filepath, '.html');
   let title = m[1].trim();
-  const suffixes = [
-    ' | 吉田先生のお悩み相談コーナー | 聖路加ICU',
-    ' | 聖路加ICU ローテーターガイド',
-    ' | 聖路加ICU',
-    ' - 聖路加ICU',
+  // 空白の有無に関わらず、末尾の「| 聖路加ICU」系サフィックスを除去
+  const suffixPatterns = [
+    /\s*\|\s*吉田先生のお悩み相談コーナー\s*\|\s*聖路加ICU\s*$/,
+    /\s*\|\s*聖路加ICU\s*ローテーターガイド\s*$/,
+    /\s*\|\s*聖路加ICU\s*$/,
+    /\s*-\s*聖路加ICU\s*$/,
   ];
-  for (const s of suffixes) {
-    if (title.endsWith(s)) { title = title.slice(0, -s.length); break; }
+  for (const re of suffixPatterns) {
+    title = title.replace(re, '');
   }
-  return title;
+  return title.trim();
 }
 
 // ----------------------------------------------------------

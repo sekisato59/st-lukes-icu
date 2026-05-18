@@ -10,7 +10,14 @@
  */
 const RECENT_PAGES = [
   {
-    title: "強皮症腎クリーゼ レビュー（J Rheumatol 2014）| 聖路加ICU",
+    title: "全身性強皮症（SSc）— Lancet 2023 Seminar",
+    url: "pages/articles-gl-ssc-lancet2023.html",
+    date: "2026-05-19",
+    tag: "ガイドライン",
+    thumb: "images/朝カンファ風景.webp"
+  },
+  {
+    title: "強皮症腎クリーゼ レビュー（J Rheumatol 2014）",
     url: "pages/articles-gl-src2014.html",
     date: "2026-05-19",
     tag: "ガイドライン",
@@ -710,21 +717,21 @@ const RECENT_PAGES = [
     thumb: "images/icu-study.jpg"
   },
   {
-    title: "非重症インフルエンザへの抗ウイルス薬 NMA（JAMA Internal Medicine 2025）| 聖路加ICU",
+    title: "非重症インフルエンザへの抗ウイルス薬 NMA（JAMA Internal Medicine 2025）",
     url: "pages/articles-gl-influenza-nma-jamaintmed2025.html",
     date: "2026-04-10",
     tag: "ガイドライン",
     thumb: "images/IDICUtop.png"
   },
   {
-    title: "インフルエンザ総説 — Lancet Seminar 2022（Uyeki et al.）| 聖路加ICU",
+    title: "インフルエンザ総説 — Lancet Seminar 2022（Uyeki et al.）",
     url: "pages/articles-gl-influenza-lancet2022.html",
     date: "2026-04-10",
     tag: "ガイドライン",
     thumb: "images/IDICUtop.png"
   },
   {
-    title: "ノイラミニダーゼ阻害薬（NAI）レビュー — ザナミビル・オセルタミビル（NEJM 2005）| 聖路加ICU",
+    title: "ノイラミニダーゼ阻害薬（NAI）レビュー — ザナミビル・オセルタミビル（NEJM 2005）",
     url: "pages/articles-gl-nai-influenza2005.html",
     date: "2026-04-10",
     tag: "ガイドライン",
@@ -878,14 +885,14 @@ const RECENT_PAGES = [
     thumb: "images/icu-study.jpg"
   },
   {
-    title: "低ナトリウム血症の診断と管理（JAMA Review 2022）| 聖路加ICU",
+    title: "低ナトリウム血症の診断と管理（JAMA Review 2022）",
     url: "pages/articles-gl-hyponatremia-jama2022.html",
     date: "2026-04-05",
     tag: "論文",
     thumb: "images/朝カンファ風景.webp"
   },
   {
-    title: "低ナトリウム血症 治療スタンダード 2024（NDT）| 聖路加ICU",
+    title: "低ナトリウム血症 治療スタンダード 2024（NDT）",
     url: "pages/articles-gl-hyponatremia-ndt2024.html",
     date: "2026-04-05",
     tag: "論文",
@@ -899,7 +906,7 @@ const RECENT_PAGES = [
     thumb: "images/朝カンファ風景.webp"
   },
   {
-    title: "非HIV免疫不全患者のPCP予防 — コクランメタ解析（Cochrane 2014）| 聖路加ICU",
+    title: "非HIV免疫不全患者のPCP予防 — コクランメタ解析（Cochrane 2014）",
     url: "pages/articles-gl-pcp-cochrane2014.html",
     date: "2026-04-05",
     tag: "論文",
@@ -913,14 +920,14 @@ const RECENT_PAGES = [
     thumb: "images/朝カンファ風景.webp"
   },
   {
-    title: "たこつぼ（ストレス）心筋症の臨床像と転帰 — 国際たこつぼ登録研究（NEJM 2015）| 聖路加ICU",
+    title: "たこつぼ（ストレス）心筋症の臨床像と転帰 — 国際たこつぼ登録研究（NEJM 2015）",
     url: "pages/articles-gl-takotsubo-nejm2015.html",
     date: "2026-04-05",
     tag: "ガイドライン",
     thumb: "images/朝カンファ風景.webp"
   },
   {
-    title: "たこつぼ症候群の病態生理（Circulation 2017）| 聖路加ICU",
+    title: "たこつぼ症候群の病態生理（Circulation 2017）",
     url: "pages/articles-gl-takotsubo-patho2017.html",
     date: "2026-04-05",
     tag: "ガイドライン",
@@ -934,7 +941,7 @@ const RECENT_PAGES = [
     thumb: "images/icu-study.jpg"
   },
   {
-    title: "カテーテル関連上肢静脈血栓症（UpToDate 2024）| 聖路加ICU",
+    title: "カテーテル関連上肢静脈血栓症（UpToDate 2024）",
     url: "pages/articles-gl-catheter-uedvt-ut2024.html",
     date: "2026-04-04",
     tag: "ガイドライン",
@@ -955,21 +962,21 @@ const RECENT_PAGES = [
     thumb: "images/朝カンファ風景.webp"
   },
   {
-    title: "GLP-1受容体作動薬 — 総説（NEJM 2026）| 聖路加ICU",
+    title: "GLP-1受容体作動薬 — 総説（NEJM 2026）",
     url: "pages/articles-gl-glp1-nejm2026.html",
     date: "2026-04-04",
     tag: "ガイドライン",
     thumb: "images/朝カンファ風景.webp"
   },
   {
-    title: "HIV感染者のニューモシスチス肺炎（PCP）予防・治療ガイドライン（NIH/HIVMA/IDSA 2025）| 聖路加ICU",
+    title: "HIV感染者のニューモシスチス肺炎（PCP）予防・治療ガイドライン（NIH/HIVMA/IDSA 2025）",
     url: "pages/articles-gl-hiv-pcp2025.html",
     date: "2026-04-04",
     tag: "ガイドライン",
     thumb: "images/IDICUtop.png"
   },
   {
-    title: "がん患者のPCP予防・診断（NCCN Infections GL 2026）| 聖路加ICU",
+    title: "がん患者のPCP予防・診断（NCCN Infections GL 2026）",
     url: "pages/articles-gl-pcp-nccn2026.html",
     date: "2026-04-04",
     tag: "ガイドライン",
@@ -983,7 +990,7 @@ const RECENT_PAGES = [
     thumb: "images/IDICUtop.png"
   },
   {
-    title: "非HIV PCP におけるステロイド補助療法と臨床転帰（CHEST 2025）| 聖路加ICU",
+    title: "非HIV PCP におけるステロイド補助療法と臨床転帰（CHEST 2025）",
     url: "pages/articles-gl-pcp-steroid-chest2025.html",
     date: "2026-04-04",
     tag: "ガイドライン",
@@ -1144,7 +1151,7 @@ const RECENT_PAGES = [
     thumb: "images/icu-study.jpg"
   },
   {
-    title: "ADA 入院中の糖尿病管理 2026（第16章）| 聖路加ICU",
+    title: "ADA 入院中の糖尿病管理 2026（第16章）",
     url: "pages/articles-gl-ada-soc2026-ch16.html",
     date: "2026-04-03",
     tag: "ガイドライン",
@@ -1158,7 +1165,7 @@ const RECENT_PAGES = [
     thumb: "images/朝カンファ風景.webp"
   },
   {
-    title: "ADA 高齢者糖尿病ガイドライン 2026（第13章）| 聖路加ICU",
+    title: "ADA 高齢者糖尿病ガイドライン 2026（第13章）",
     url: "pages/articles-gl-ada-olderadults2026.html",
     date: "2026-04-03",
     tag: "ガイドライン",
@@ -1221,21 +1228,21 @@ const RECENT_PAGES = [
     thumb: "images/朝カンファ風景.webp"
   },
   {
-    title: "ARISSトライアル：敗血症性ショックへのアルブミン補充療法 多施設RCT（JAMA Network Open 2026）| 聖路加ICU",
+    title: "ARISSトライアル：敗血症性ショックへのアルブミン補充療法 多施設RCT（JAMA Network Open 2026）",
     url: "pages/articles-gl-ariss2026.html",
     date: "2026-04-02",
     tag: "ガイドライン",
     thumb: "images/朝カンファ風景.webp"
   },
   {
-    title: "アピキサバン vs リバーロキサバン — 急性VTE出血リスク比較（COBRRA試験, NEJM 2026）| 聖路加ICU",
+    title: "アピキサバン vs リバーロキサバン — 急性VTE出血リスク比較（COBRRA試験, NEJM 2026）",
     url: "pages/articles-gl-cobrra-nejm2026.html",
     date: "2026-04-02",
     tag: "ガイドライン",
     thumb: "images/朝カンファ風景.webp"
   },
   {
-    title: "めまいの評価と管理 — TiTrATE・BPPV・前庭神経炎・HINTS（AFP 2023）| 聖路加ICU",
+    title: "めまいの評価と管理 — TiTrATE・BPPV・前庭神経炎・HINTS（AFP 2023）",
     url: "pages/articles-gl-dizziness2023.html",
     date: "2026-04-02",
     tag: "ガイドライン",
@@ -1312,7 +1319,7 @@ const RECENT_PAGES = [
     thumb: "images/icu-study.jpg"
   },
   {
-    title: "脳卒中治療ガイドライン 2021〔改訂2025〕| 聖路加ICU",
+    title: "脳卒中治療ガイドライン 2021〔改訂2025〕",
     url: "pages/articles-gl-jcs-stroke2025.html",
     date: "2026-04-01",
     tag: "ガイドライン",
@@ -1354,7 +1361,7 @@ const RECENT_PAGES = [
     thumb: "images/朝カンファ風景.webp"
   },
   {
-    title: "ENIO研究：ABI患者のSBTモードは抜管予後を予測しない（Intensive Care Med 2025）| 聖路加ICU",
+    title: "ENIO研究：ABI患者のSBTモードは抜管予後を予測しない（Intensive Care Med 2025）",
     url: "pages/articles-gl-enio-extubation2025.html",
     date: "2026-04-01",
     tag: "ガイドライン",
@@ -1375,7 +1382,7 @@ const RECENT_PAGES = [
     thumb: "images/朝カンファ風景.webp"
   },
   {
-    title: "ICU獲得性高ナトリウム血症：経腸フリーウォーター vs 5%ブドウ糖（JA 2023）| 聖路加ICU",
+    title: "ICU獲得性高ナトリウム血症：経腸フリーウォーター vs 5%ブドウ糖（JA 2023）",
     url: "pages/articles-gl-hypernatremia-ja2023.html",
     date: "2026-04-01",
     tag: "ガイドライン",
@@ -1466,7 +1473,7 @@ const RECENT_PAGES = [
     thumb: "images/朝カンファ風景.webp"
   },
   {
-    title: "アルブミン20%の薬理と臨床応用 包括的レビュー（Critical Care 2026）| 聖路加ICU",
+    title: "アルブミン20%の薬理と臨床応用 包括的レビュー（Critical Care 2026）",
     url: "pages/articles-gl-albumin20-cc2026.html",
     date: "2026-03-31",
     tag: "ガイドライン",
@@ -1494,7 +1501,7 @@ const RECENT_PAGES = [
     thumb: "images/朝カンファ風景.webp"
   },
   {
-    title: "びまん性肺胞出血（DAH）— 定義・診断・原因疾患別治療（CHEST 2010）| 聖路加ICU",
+    title: "びまん性肺胞出血（DAH）— 定義・診断・原因疾患別治療（CHEST 2010）",
     url: "pages/articles-gl-dah-chest2010.html",
     date: "2026-03-31",
     tag: "ガイドライン",
@@ -1508,7 +1515,7 @@ const RECENT_PAGES = [
     thumb: "images/朝カンファ風景.webp"
   },
   {
-    title: "ENIO研究：急性脳障害患者におけるSBT様式と抜管アウトカム（ICM 2025）| 聖路加ICU",
+    title: "ENIO研究：急性脳障害患者におけるSBT様式と抜管アウトカム（ICM 2025）",
     url: "pages/articles-gl-enio-sbt2025.html",
     date: "2026-03-31",
     tag: "ガイドライン",
@@ -1529,7 +1536,7 @@ const RECENT_PAGES = [
     thumb: "images/朝カンファ風景.webp"
   },
   {
-    title: "閉経後骨粗鬆症 診断・治療（NEJM 2023）| 聖路加ICU",
+    title: "閉経後骨粗鬆症 診断・治療（NEJM 2023）",
     url: "pages/articles-gl-osteoporosis-nejm2023.html",
     date: "2026-03-31",
     tag: "ガイドライン",
@@ -1543,35 +1550,35 @@ const RECENT_PAGES = [
     thumb: "images/朝カンファ風景.webp"
   },
   {
-    title: "横紋筋融解症 ナラティブレビュー（Chest 2026）| 聖路加ICU",
+    title: "横紋筋融解症 ナラティブレビュー（Chest 2026）",
     url: "pages/articles-gl-rhabdo-chest2026.html",
     date: "2026-03-31",
     tag: "ガイドライン",
     thumb: "images/朝カンファ風景.webp"
   },
   {
-    title: "SA-AKI コンセンサスレポート ADQI 28th（Nature Reviews Nephrology 2023）| 聖路加ICU",
+    title: "SA-AKI コンセンサスレポート ADQI 28th（Nature Reviews Nephrology 2023）",
     url: "pages/articles-gl-sa-aki2023.html",
     date: "2026-03-31",
     tag: "ガイドライン",
     thumb: "images/朝カンファ風景.webp"
   },
   {
-    title: "重症市中肺炎（sCAP）：現在の概念と論争点（ICM 2025 ナラティブレビュー）| 聖路加ICU",
+    title: "重症市中肺炎（sCAP）：現在の概念と論争点（ICM 2025 ナラティブレビュー）",
     url: "pages/articles-gl-scap-icm2025.html",
     date: "2026-03-31",
     tag: "ガイドライン",
     thumb: "images/IDICUtop.png"
   },
   {
-    title: "敗血症性心筋症（SICM）レビュー（Chest 2025）| 聖路加ICU",
+    title: "敗血症性心筋症（SICM）レビュー（Chest 2025）",
     url: "pages/articles-gl-sicm-chest2025.html",
     date: "2026-03-31",
     tag: "ガイドライン",
     thumb: "images/朝カンファ風景.webp"
   },
   {
-    title: "低酸素性呼吸不全における気管挿管の閾値は存在するか？ — コホート研究（AJRCCM 2023）| 聖路加ICU",
+    title: "低酸素性呼吸不全における気管挿管の閾値は存在するか？ — コホート研究（AJRCCM 2023）",
     url: "pages/articles-gl-yarnell-imv2023.html",
     date: "2026-03-31",
     tag: "ガイドライン",
@@ -1620,7 +1627,7 @@ const RECENT_PAGES = [
     thumb: "images/IDICUtop.png"
   },
   {
-    title: "経腸栄養 入院患者における実践（NEJM 2025）| 聖路加ICU",
+    title: "経腸栄養 入院患者における実践（NEJM 2025）",
     url: "pages/articles-gl-en-nejm2025.html",
     date: "2026-03-31",
     tag: "ガイドライン",
@@ -1648,14 +1655,14 @@ const RECENT_PAGES = [
     thumb: "images/IDICUtop.png"
   },
   {
-    title: "院内細菌性髄膜炎 — 疫学・診断・抗菌薬治療（NEJM 2010）| 聖路加ICU",
+    title: "院内細菌性髄膜炎 — 疫学・診断・抗菌薬治療（NEJM 2010）",
     url: "pages/articles-gl-nosocomial-meningitis2010.html",
     date: "2026-03-31",
     tag: "ガイドライン",
     thumb: "images/IDICUtop.png"
   },
   {
-    title: "重症患者の栄養再考 — エネルギー・タンパク質投与の再考（ICM 2024）| 聖路加ICU",
+    title: "重症患者の栄養再考 — エネルギー・タンパク質投与の再考（ICM 2024）",
     url: "pages/articles-gl-stoppe-nutrition2024.html",
     date: "2026-03-31",
     tag: "ガイドライン",
@@ -1697,14 +1704,14 @@ const RECENT_PAGES = [
     thumb: "images/朝カンファ風景.webp"
   },
   {
-    title: "代謝性アシドーシス 最新エビデンス（ICM 2025）| 聖路加ICU",
+    title: "代謝性アシドーシス 最新エビデンス（ICM 2025）",
     url: "pages/articles-gl-metabolic-acidosis2025.html",
     date: "2026-03-30",
     tag: "ガイドライン",
     thumb: "images/朝カンファ風景.webp"
   },
   {
-    title: "混合性酸塩基平衡障害 Core Curriculum 2025（AJKD）| 聖路加ICU",
+    title: "混合性酸塩基平衡障害 Core Curriculum 2025（AJKD）",
     url: "pages/articles-gl-mixed-acidbase2025.html",
     date: "2026-03-30",
     tag: "ガイドライン",
@@ -1795,7 +1802,7 @@ const RECENT_PAGES = [
     thumb: "images/IDICUtop.png"
   },
   {
-    title: "低ナトリウム血症 診断・治療ガイドライン（ESICM/ESE/ERA-EDTA 2014）| 聖路加ICU",
+    title: "低ナトリウム血症 診断・治療ガイドライン（ESICM/ESE/ERA-EDTA 2014）",
     url: "pages/articles-gl-hn2014.html",
     date: "2026-03-28",
     tag: "ガイドライン",
