@@ -45,6 +45,13 @@ const RECENT_PAGES = [
     thumb: "images/legionella-fq-fig2-forest-all.png"
   },
   {
+    title: "SSc関連間質性肺疾患（SSc-ILD）— スクリーニング・治療ガイドライン実践",
+    url: "pages/articles-gl-ssc-ild2026.html",
+    date: "2026-05-18",
+    tag: "ガイドライン",
+    thumb: "images/朝カンファ風景.webp"
+  },
+  {
     title: "AI時代の臨床的専門性の育て方 — No Struggle, No Mastery（JAMA 2026）",
     url: "pages/articles-gl-ai-expertise2026.html",
     date: "2026-05-18",
