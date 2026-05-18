@@ -10,11 +10,11 @@
  */
 const RECENT_PAGES = [
   {
-    title: "強皮症腎クリーゼ（SRC）— 診断・治療レビュー",
+    title: "強皮症腎クリーゼ レビュー（J Rheumatol 2014）| 聖路加ICU",
     url: "pages/articles-gl-src2014.html",
-    date: "2026-05-18",
-    tag: "論文",
-    thumb: "images/icu-study.jpg"
+    date: "2026-05-19",
+    tag: "ガイドライン",
+    thumb: "images/朝カンファ風景.webp"
   },
   {
     title: "FQ vs マクロライド：レジオネラ肺炎治療",

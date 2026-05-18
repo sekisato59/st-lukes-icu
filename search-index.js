@@ -862,6 +862,14 @@ const SEARCH_INDEX = [
   {"title":"SRC — 第5章 治療","url":"pages/articles-gl-src2014.html#src-ch5","desc":"SRC › 第5章","keywords":"ACEi 48時間 最大量 76% 1年生存 Ca拮抗薬 利尿薬 禁忌 β遮断薬 血漿交換 無効 透析 33% 離脱 2年 腎移植 56.7% 予防的ACEi HR 2.42 Ca拮抗薬 予防"},
   {"title":"SRC — 第6章 予後","url":"pages/articles-gl-src2014.html#src-ch6","desc":"SRC › 第6章","keywords":"1年死亡率 85% 24% 5年生存 65% 予後不良 男性 高齢 CHF Cr 3mg 3日 透析 前向き 36% 1年死亡"},
 
+  // ── 全身性強皮症（SSc）Lancet 2023 Seminar ──
+  {"title":"全身性強皮症（SSc）— Lancet 2023 Seminar","url":"pages/articles-gl-ssc-lancet2023.html","desc":"全身性強皮症の病態生理・早期診断・臓器合併症スクリーニング・免疫調節療法・血管療法の総説","keywords":"全身性強皮症 強皮症 SSc scleroderma dcSSc lcSSc Raynaud レイノー 間質性肺疾患 ILD 肺高血圧 PAH 腎クリーゼ SRC 消化管 MMF ミコフェノール酸 ニンテダニブ nintedanib リツキシマブ rituximab トシリズマブ tocilizumab HSCT 造血幹細胞移植 ACEI 抗Scl-70 抗RNAポリメラーゼ3 抗セントロメア mRSS Volkmann Lancet 2023"},
+  {"title":"全身性強皮症 — Raynaud現象から確定診断への進展","url":"pages/articles-gl-ssc-lancet2023.html#ssc-early","desc":"SSc 第2章 › 早期診断","keywords":"Raynaud レイノー 早期診断 VEDOSS LeRoy Medsger 爪郭毛細血管 capillaroscopy puffy fingers 65.9% 94.1% 1.3% 皮膚亜型 dcSSc lcSSc"},
+  {"title":"全身性強皮症 — 自己抗体プロフィールと臓器合併症予測","url":"pages/articles-gl-ssc-lancet2023.html#ssc-antibody","desc":"SSc 第2章 › 抗体","keywords":"抗セントロメア 抗Scl-70 抗トポイソメラーゼ1 抗RNAポリメラーゼ3 anti-Scl70 anti-centromere 分類基準 ACR EULAR 2013 ANA 抗核抗体 95%"},
+  {"title":"全身性強皮症 — ILD・PAH・腎クリーゼ・消化管 臓器合併症","url":"pages/articles-gl-ssc-lancet2023.html#ssc-ch3","desc":"SSc 第3章 › 臓器合併症スクリーニング","keywords":"間質性肺疾患 ILD HRCT FVC DLCO 進行性肺線維化 NSIP UIP PAH 肺高血圧 右心カテーテル DETECT 腎クリーゼ SRC 消化管 GAVE 偽性閉塞 pseudo-obstruction 便失禁 腱の摩擦音 tendon friction rubs"},
+  {"title":"全身性強皮症 — 治療戦略（MMF・TCZ・RTX・Nintedanib・HSCT）","url":"pages/articles-gl-ssc-lancet2023.html#ssc-ch4","desc":"SSc 第4章 › 免疫調節療法","keywords":"MMF ミコフェノール酸 SLS 2 シクロホスファミド cyclophosphamide トシリズマブ tocilizumab リツキシマブ rituximab ニンテダニブ nintedanib 52.4 93.3 HSCT ASSIST SCOT mRSS 6.3 造血幹細胞移植 FVC低下"},
+  {"title":"全身性強皮症 — ACEI・血管療法・対症療法","url":"pages/articles-gl-ssc-lancet2023.html#ssc-ch5","desc":"SSc 第5章 › 血管療法・対症療法","keywords":"ACEI 腎クリーゼ SRC 10% 85% Ca拮抗薬 アムロジピン ニフェジピン PDE5阻害薬 シルデナフィル タダラフィル ERA ボセンタン アンブリセンタン セレキシパグ リオシグアト プロスタサイクリン イロプロスト 対症療法"},
+
   // ── 横紋筋融解症 ナラティブレビュー（Chest 2026）──
   {"title":"横紋筋融解症 — 臨床指向型ナラティブレビュー（Chest 2026）","url":"pages/articles-gl-rhabdo-chest2026.html","desc":"横紋筋融解症の疫学・病態生理・診断アプローチ・臨床所見・AKI・治療管理の包括的レビュー","keywords":"横紋筋融解症 rhabdomyolysis CK クレアチニンキナーゼ creatine kinase ミオグロビン myoglobin ミオグロビン尿 myoglobinuria AKI 急性腎障害 McMahonスコア McMahon score HyperCKemia 輸液 晶質液 重炭酸ナトリウム bicarbonate マンニトール mannitol RRT 腎代替療法 コンパートメント症候群 圧挫損傷 スタチン IMNM 免疫介在性壊死性筋症 皮膚筋炎 痙攣 悪性高熱症 横紋筋 筋融解 Richert Chest 2026"},
   {"title":"横紋筋融解症 — McMahonスコア（AKI/死亡予測）","url":"pages/articles-gl-rhabdo-chest2026.html#rhabdo-s8","desc":"RRT必要なAKIと院内死亡の複合アウトカムを予測。スコア>6でハイリスク（感度86%、特異度68%）","keywords":"McMahonスコア McMahon score AKI予測 死亡予測 RRT リスク分類 CK 40000 重炭酸 リン 高齢 女性 クレアチニン カルシウム"},
