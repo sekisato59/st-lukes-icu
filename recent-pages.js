@@ -10,6 +10,13 @@
  */
 const RECENT_PAGES = [
   {
+    title: "サッカーのヘディングと血液バイオマーカー急性変動 — p-Tau217・S100B（JAMA Neurol 2026）",
+    url: "pages/articles-gl-soccer-heading2026.html",
+    date: "2026-05-19",
+    tag: "論文",
+    thumb: "images/朝カンファ風景.webp"
+  },
+  {
     title: "皮下注射による抗菌薬投与 — いつ・どう使うか（CID 2026）",
     url: "pages/articles-gl-sc-abx2026.html",
     date: "2026-05-19",
@@ -57,13 +64,6 @@ const RECENT_PAGES = [
     date: "2026-05-18",
     tag: "論文",
     thumb: "images/legionella-fq-fig2-forest-all.png"
-  },
-  {
-    title: "サッカーヘディングと血液バイオマーカー急性変動 2026",
-    url: "pages/articles-gl-soccer-heading2026.html",
-    date: "2026-05-18",
-    tag: "ガイドライン",
-    thumb: "images/朝カンファ風景.webp"
   },
   {
     title: "AI時代の臨床的専門性の育て方 — No Struggle, No Mastery（JAMA 2026）",
