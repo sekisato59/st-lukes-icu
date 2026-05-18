@@ -1,0 +1,34 @@
+#!/bin/sh
+# .githooks/pre-commit
+#
+# コミット前に recent-pages.js を再生成し、変更があれば自動的にステージする。
+# これにより「新規ページを作っても新着コンテンツに出ない」バグを根絶する。
+#
+# 有効化方法（リポジトリごとに1回だけ実行）:
+#   git config core.hooksPath .githooks
+
+set -e
+
+if ! command -v node >/dev/null 2>&1; then
+  echo "[pre-commit] node が見つからないため recent-pages.js の自動同期をスキップしました"
+  exit 0
+fi
+
+# プロジェクトルートに移動（git のトップレベル）
+ROOT="$(git rev-parse --show-toplevel)"
+cd "$ROOT"
+
+if [ ! -f scripts/sync-recent-pages.js ]; then
+  exit 0
+fi
+
+# 静かに実行
+node scripts/sync-recent-pages.js > /dev/null
+
+# 差分があれば recent-pages.js をステージに追加
+if ! git diff --quiet recent-pages.js 2>/dev/null; then
+  git add recent-pages.js
+  echo "[pre-commit] recent-pages.js を自動更新してステージしました"
+fi
+
+exit 0
