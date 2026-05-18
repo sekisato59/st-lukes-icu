@@ -76,9 +76,11 @@ function listFiles() {
 }
 
 // ----------------------------------------------------------
-// git 初回コミット日 (YYYY-MM-DD)
+// git 初回コミット日時 (フル ISO datetime)
+//   - 内部ソート用にフル ISO（時刻まで）を取得
+//   - 出力時は .slice(0, 10) で YYYY-MM-DD に整形
 // ----------------------------------------------------------
-function getCreationDate(filepath) {
+function getCreationDateTime(filepath) {
   try {
     const out = execSync(
       `git log --diff-filter=A --follow --format=%aI -- "${filepath}"`,
@@ -86,7 +88,7 @@ function getCreationDate(filepath) {
     );
     const dates = out.trim().split('\n').filter(Boolean);
     if (!dates.length) return null;
-    return dates[dates.length - 1].slice(0, 10);
+    return dates[dates.length - 1]; // 例: "2026-05-18T23:46:25+09:00"
   } catch (_) {
     return null;
   }
@@ -171,27 +173,27 @@ const files = listFiles();
 const entries = [];
 
 for (const f of files) {
-  const date = getCreationDate(f);
-  if (!date) continue; // 未コミットファイルはスキップ
+  const datetime = getCreationDateTime(f);
+  if (!datetime) continue; // 未コミットファイルはスキップ
   const fullPath = path.join(ROOT, f);
   if (!fs.existsSync(fullPath)) continue;
   const html = fs.readFileSync(fullPath, 'utf8');
   const auto = {
     title: extractTitle(f),
     url: f,
-    date,
+    date: datetime.slice(0, 10), // 出力は YYYY-MM-DD
     tag: inferTag(f, html),
     thumb: inferThumb(f, html),
   };
   const ov = overrides[f] || {};
-  entries.push({ ...auto, ...ov });
+  // _sortKey はソート用の hidden field（出力には含めない）
+  entries.push({ ...auto, ...ov, _sortKey: datetime });
 }
 
-// 日付降順、同日は title 昇順で安定化
-entries.sort((a, b) => {
-  if (a.date !== b.date) return b.date.localeCompare(a.date);
-  return a.title.localeCompare(b.title, 'ja');
-});
+// フル ISO 時刻で降順ソート（最新コミットが先頭に来る）。
+// JS の Array.sort は ES2019 以降で stable のため、index.html の date のみソート
+// （tie-breaker は元の配列順を維持）でもこの順序が保持される。
+entries.sort((a, b) => b._sortKey.localeCompare(a._sortKey));
 
 const output = [
   '/**',
