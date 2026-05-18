@@ -44,23 +44,36 @@
 
     /* モバイル：レイアウト・タイポ・テーブル・図の調整 */
     @media (max-width:600px) {
-      .gl-layout { padding:14px 12px 48px; }
+      /* ページ全体の横スクロールを禁止（テキストボックスが一緒に動かないようにする） */
+      html, body { overflow-x:hidden; max-width:100vw; }
+      .gl-layout { padding:14px 12px 48px;max-width:100vw;overflow-x:hidden; }
+      .gl-main { max-width:100%;min-width:0;overflow-x:hidden; }
+      .card, .card-inner { max-width:100%;overflow-x:hidden; }
+
       .ie-grid2 { grid-template-columns:1fr; }
-      /* テーブル：はみ出さないように横スクロール可・nowrap解除 */
-      .ie-table { display:block;width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;font-size:0.74rem; }
-      .ie-table thead, .ie-table tbody, .ie-table tr { display:table-row-group; }
-      .ie-table thead { display:table-header-group; }
-      .ie-table tr { display:table-row; }
-      .ie-table th, .ie-table td { padding:6px 8px;font-size:0.74rem;line-height:1.55; }
-      /* nowrap で固定幅指定されているラベルセルだけ wrap 許可 */
-      .ie-table th[style*="nowrap"], .ie-table td[style*="nowrap"] {
-        white-space:normal !important;
-        width:auto !important;
-        min-width:60px;
+
+      /* テーブル：縮めて画面内に収める（table-layout:fixed + word-break）。
+         display:block + overflow-x:auto は子要素の display:table-row-group と相性が悪く
+         親コンテナが内容を抱えきれず、ページ全体が横スクロールする原因になっていたため廃止。 */
+      .ie-table {
+        width:100%;
+        table-layout:fixed;
+        font-size:0.74rem;
+        word-break:break-word;
+        overflow-wrap:break-word;
       }
+      .ie-table th, .ie-table td {
+        padding:6px 7px;font-size:0.74rem;line-height:1.55;
+        word-break:break-word;overflow-wrap:break-word;
+      }
+      /* nowrap で固定幅指定されているラベルセルもモバイルでは wrap 許可 */
+      .ie-table th[style*="nowrap"], .ie-table td[style*="nowrap"],
       .ie-table th[style*="white-space:nowrap"], .ie-table td[style*="white-space:nowrap"] {
         white-space:normal !important;
+        width:auto !important;
+        min-width:0 !important;
       }
+
       /* 図はモバイル幅いっぱいに */
       .ie-figure img { max-width:100%; }
       .ie-figure figcaption { max-width:100%;font-size:0.72rem; }
