@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HUSとatypical HUS — 病態生理の全体像（Blood 2017）| 聖路加ICU</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style-v2.css?v=202605190000">
+  <style>
+/* Layout */
+    .content-wrap { display:flex;gap:32px;align-items:flex-start;max-width:1294px;margin:0 auto;padding:32px 20px 80px; }
+    .main-col { flex:1;min-width:0;max-width:900px; }
+    .ie-toc-chapter { display:block;font-size:0.8rem;font-weight:700;color:var(--text);padding:6px 0;border-bottom:1px solid var(--border);text-decoration:none;line-height:1.4; }
+    .ie-toc-section { display:block;font-size:0.75rem;color:var(--muted);padding:4px 0 4px 10px;text-decoration:none;line-height:1.4;border-left:2px solid var(--border); }
+
+    /* Tables */
+    .ie-table { width:100%;border-collapse:collapse;font-size:0.82rem;margin-top:10px; }
+    .ie-table th { background:#F0FDF4;border:1px solid #BBF7D0;padding:8px 12px;font-weight:700;font-size:0.78rem;text-align:left; }
+    .ie-table td { border:1px solid var(--border);padding:8px 12px;vertical-align:top;line-height:1.7; }
+    .ie-table tr:nth-child(even) td { background:#F8FAFC; }
+
+    /* Flow */
+    .ie-flow { display:flex;flex-direction:column;gap:0; }
+    .ie-flow-item { display:flex;align-items:flex-start;gap:14px;background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:14px 16px; }
+    .ie-flow-arrow { text-align:center;color:#2D7A4F;font-size:1.1rem;font-weight:700;padding:4px 0; }
+    .ie-flow-num { width:28px;height:28px;border-radius:50%;background:#2D7A4F;color:#fff;font-size:0.78rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0; }
+
+    /* Stat grid */
+    .ie-stat-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px; }
+    @media (max-width:520px) { .ie-stat-grid { grid-template-columns:1fr 1fr; } }
+    .ie-stat { background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;padding:14px 12px;text-align:center; }
+    .ie-stat-val { font-size:1.25rem;font-weight:900;color:#2D7A4F;line-height:1.3; }
+    .ie-stat-label { font-size:0.68rem;color:var(--muted);margin-top:5px;line-height:1.5; }
+
+    /* Alerts */
+    .alert-red    { background:#FEF2F2;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#7F1D1D;line-height:1.7; }
+    .alert-yellow { background:#FFFBEB;border:1px solid #FDE68A;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#78350F;line-height:1.7; }
+    .alert-green  { background:#F0FDF4;border:1px solid #BBF7D0;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#14532D;line-height:1.7; }
+
+    /* Alpha card */
+    .ie-alpha { margin-top:10px; }
+    .ie-alpha-inner { background:#F5F3FF;border:1px solid #DDD6FE;border-radius:8px;padding:14px 16px; }
+    .ie-alpha-header { display:flex;align-items:center;gap:8px;margin-bottom:8px; }
+    .ie-alpha-badge { background:#7C3AED;color:#fff;font-size:0.68rem;font-weight:800;padding:2px 7px;border-radius:4px;letter-spacing:0.04em; }
+    .ie-alpha-title { font-size:0.85rem;font-weight:800;color:#4C1D95; }
+
+    /* Sidebar */
+    .ie-sidebar { width:220px;flex-shrink:0;position:sticky;top:80px;max-height:calc(100vh - 100px);overflow-y:auto; }
+    .ie-sidebar-card { background:#fff;border:1px solid var(--border);border-radius:10px;padding:16px 14px; }
+    .ie-sidebar-title { font-size:0.75rem;font-weight:800;color:var(--muted);letter-spacing:0.08em;margin-bottom:10px;text-transform:uppercase; }
+    @media (max-width:900px) { .ie-sidebar { display:none; } }
+
+    /* Outcome grid (for Table 1) */
+    .out-grid { display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px; }
+    @media (max-width:520px) { .out-grid { grid-template-columns:1fr; } }
+    .out-box { background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:12px 14px; }
+    .out-box-red { background:#FEF2F2;border-color:#FECACA; }
+    .out-box-orange { background:#FFF7ED;border-color:#FED7AA; }
+    .out-box-green { background:#F0FDF4;border-color:#BBF7D0; }
+    .out-gene { font-size:0.8rem;font-weight:800;color:var(--text);margin-bottom:4px; }
+    .out-freq { font-size:1.1rem;font-weight:900;color:#DC2626;line-height:1.2; }
+    .out-sub { font-size:0.68rem;color:var(--muted);line-height:1.5;margin-top:3px; }
+
+    .section-label { color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px; }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="../index.html" class="nav-logo">
+        <img src="../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+        <span class="nav-logo-text">聖路加国際病院ICU</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-menu" id="navMenu"></ul>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <div class="subpage-hero hero-image-bg">
+    <div class="container">
+      <div style="padding:40px 0 32px;">
+        <a href="articles-guidelines.html#art-heme" class="back-link">← 注目論文・ガイドラインまとめへ戻る</a>
+        <h1 style="font-size:clamp(1.2rem,3vw,1.7rem);font-weight:900;color:#fff;line-height:1.4;margin-bottom:10px;">
+          HUSとatypical HUS<br>— 病態生理の全体像
+        </h1>
+        <p style="color:rgba(255,255,255,0.75);font-size:0.85rem;margin-bottom:14px;line-height:1.6;">
+          STEC-HUS・aHUS・secondary HUSの違いと共通する悪循環機序、エクリズマブの位置づけ
+        </p>
+        <div>
+          <span class="ie-badge">Blood 2017</span>
+          <span class="ie-badge">Jokiranta TS</span>
+          <span class="ie-badge">Review</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== CONTENT ===== -->
+  <div class="content-wrap">
+
+    <!-- Main column -->
+    <div class="main-col">
+
+      <!-- 略語一覧 -->
+      <div class="card" style="margin-bottom:24px;" id="hus-abbr">
+        <div class="card-inner">
+          <h3 class="rule-title" style="margin-bottom:10px;">本ページで使用する略語一覧</h3>
+          <table style="width:100%;border-collapse:collapse;font-size:0.8rem;line-height:1.6;">
+            <tbody>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">略語</td><td style="padding:4px 8px;">正式名称 — 日本語訳</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">HUS</td><td style="padding:4px 8px;">Hemolytic Uremic Syndrome — 溶血性尿毒症症候群</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">aHUS</td><td style="padding:4px 8px;">atypical HUS — 非典型溶血性尿毒症症候群（補体制御異常による）</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">TMA</td><td style="padding:4px 8px;">Thrombotic Microangiopathy — 血栓性微小血管症</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">TTP</td><td style="padding:4px 8px;">Thrombotic Thrombocytopenic Purpura — 血栓性血小板減少性紫斑病</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">STEC</td><td style="padding:4px 8px;">Shiga Toxin-producing Escherichia coli — 志賀毒素産生性大腸菌</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">MAHA</td><td style="padding:4px 8px;">Microangiopathic Hemolytic Anemia — 微小血管障害性溶血性貧血</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">AKI</td><td style="padding:4px 8px;">Acute Kidney Injury — 急性腎障害</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CFH</td><td style="padding:4px 8px;">Complement Factor H — 補体因子H（主要な補体制御因子）</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">MCP (CD46)</td><td style="padding:4px 8px;">Membrane Cofactor Protein — 膜補因子タンパク質（補体制御因子）</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">MAC</td><td style="padding:4px 8px;">Membrane Attack Complex — 膜侵襲複合体（C5b-9）</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">C5a</td><td style="padding:4px 8px;">Complement factor 5a — 補体第5成分フラグメントa（アナフィラトキシン）</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">DGKε</td><td style="padding:4px 8px;">Diacylglycerol Kinase epsilon — ジアシルグリセロールキナーゼε（非補体系aHUS原因）</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">PNH</td><td style="padding:4px 8px;">Paroxysmal Nocturnal Hemoglobinuria — 発作性夜間ヘモグロビン尿症</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">HELLP</td><td style="padding:4px 8px;">Hemolysis, Elevated Liver enzymes, Low Platelet count — HELLPシンドローム</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">DIC</td><td style="padding:4px 8px;">Disseminated Intravascular Coagulation — 播種性血管内凝固症候群</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">APS</td><td style="padding:4px 8px;">Antiphospholipid Syndrome — 抗リン脂質抗体症候群</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CAPS</td><td style="padding:4px 8px;">Catastrophic APS — 劇症型抗リン脂質抗体症候群</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">SSc</td><td style="padding:4px 8px;">Systemic Sclerosis — 全身性強皮症</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">ESRD</td><td style="padding:4px 8px;">End-Stage Renal Disease — 末期腎不全</td></tr>
+              <tr><td style="padding:4px 8px;font-weight:700;color:var(--blue);">GAG</td><td style="padding:4px 8px;">Glycosaminoglycan — グリコサミノグリカン（細胞表面の制御シグナル）</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ===== SECTION 1 ===== -->
+      <h3 id="s1-overview" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span class="section-label">SECTION 1</span>
+        HUSとは何か — TMAスペクトラムと3分類
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">血栓性微小血管症（TMA）の位置づけ</h3>
+          <p class="rule-body">HUSは<span class="mark-red"><strong>血栓性微小血管症（TMA）</strong></span>の1つである。TMAの共通病態は、①微小血管障害性溶血性貧血（MAHA）、②血小板減少、③細小血管内血栓による臓器障害の三徴である。臨床で最も頻繁に遭遇するTMAは<strong>STEC-HUS</strong>（志賀毒素産生性大腸菌感染症）と<strong>TTP</strong>（血栓性血小板減少性紫斑病）で、これに続いて<strong>aHUS</strong>（非典型HUS）、<strong>secondary HUS</strong>（二次性HUS）がある。HUSの3つの型はいずれも微小血管内血栓と腎障害を来たすが、病態機序は大きく異なる。</p>
+          <p class="rule-body" style="margin-top:8px;">なお、TMAの病態はHUSのみならず、HELLP症候群、DIC、悪性高血圧、抗リン脂質抗体症候群（APS）、強皮症腎クリーゼなどでも観察される。</p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">HUSの3分類</h3>
+          <table class="ie-table" style="margin-top:0;">
+            <thead>
+              <tr>
+                <th style="white-space:nowrap;width:120px;">分類</th>
+                <th>主な原因・病態</th>
+                <th style="white-space:nowrap;width:130px;">特徴</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="white-space:nowrap;"><strong>STEC-HUS</strong><br><span style="font-size:0.72rem;color:var(--muted);">典型的HUS</span></td>
+                <td>志賀毒素産生性大腸菌（STEC）感染後に発症。血清型O157:H7またはO104:H4が代表</td>
+                <td>胃腸炎後数日で発症。腸管外症状はSTECの糸球体内皮へのGb3強発現による組織親和性で説明される</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;"><strong>aHUS</strong><br><span style="font-size:0.72rem;color:var(--muted);">非典型HUS</span></td>
+                <td>補体代替経路の制御異常（遺伝子変異または自己抗体）が主因。感染は「トリガー」にとどまる</td>
+                <td>感染や既存疾患とは独立して補体が自己細胞を攻撃。再発しやすく予後不良例が多い</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;"><strong>Secondary HUS</strong><br><span style="font-size:0.72rem;color:var(--muted);">二次性HUS</span></td>
+                <td>自己免疫疾患・移植・悪性腫瘍・妊娠・特定の細胞毒性薬・感染症などの基礎疾患・病態が誘因</td>
+                <td>基礎疾患が直接的な細胞障害・補体活性化を来たす。基礎疾患への対応が基本</td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="rule-body" style="margin-top:10px;">STEC-HUS・aHUS・secondary HUSは同一の臨床三徴（MAHA・血小板減少・AKI）を呈することがある。一部の患者では補体制御異常・自己抗体が複数型にまたがって検出され、病態の「共通性」が示唆されている。</p>
+        </div>
+      </div>
+
+      <!-- ===== SECTION 2 ===== -->
+      <h3 id="s2-stec" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+        STEC-HUSの病態 — 志賀毒素による内皮障害
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">志賀毒素の作用機序</h3>
+          <p class="rule-body">STEC-HUSは志賀毒素（Shiga toxin）が細胞膜糖脂質<strong>Gb3</strong>に結合することで開始される。Gb3はドメインBが認識し、ドメインAが細胞内に取り込まれてタンパク合成を停止させ、アポトーシスを誘導する。腎障害が前景に立つ理由として、糸球体内皮細胞へのGb3強発現が挙げられており、これがSTECの組織親和性を説明している。</p>
+          <p class="rule-body" style="margin-top:8px;">志賀毒素はさらに内皮細胞において<strong>組織因子（tissue factor）の機能的発現を増強</strong>し、微小血管内血栓形成に寄与する。加えて内皮細胞・赤血球・血小板への直接的な障害作用を持つ。</p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">STEC-HUSの経過と予後</h3>
+          <p class="rule-body">STEC-HUSは通常、胃腸炎発症の数日後に発症し、<strong>自然軽快することが多い</strong>。ただし急性腎障害・全身臓器障害により重症化することもある。2011年のドイツを中心とした欧州流行では死亡率は最大5%に達した。大半の患者はエクリズマブに対して明確な反応を示さず、補体阻害療法の主たる適応ではない。</p>
+          <div class="ie-stat-grid">
+            <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+              <div class="ie-stat-val" style="color:#DC2626;">最大5%</div>
+              <div class="ie-stat-label">STEC-HUS大流行時<br>（2011年ドイツ）の死亡率</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">O157:H7</div>
+              <div class="ie-stat-label">代表的STEC血清型<br>（O104:H4も含む）</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">自然軽快</div>
+              <div class="ie-stat-label">STEC-HUSの<br>典型的な経過</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== SECTION 3 ===== -->
+      <h3 id="s3-ahus" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+        <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>
+        aHUSの病態 — 補体制御異常と遺伝子変異
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">aHUSの本態：補体代替経路の制御破綻</h3>
+          <p class="rule-body">aHUSは現在の分類では「感染や既存疾患に伴わないHUS」と定義される。その多くは補体代替経路の制御異常（遺伝子変異または自己抗体）によって、自己細胞（内皮細胞・赤血球・血小板）への過剰な補体攻撃が生じることで発症する。感染症（上気道炎など）がaHUS発症に先行することも多いが、これはあくまで「トリガー」であり「原因」とは区別される。</p>
+          <p class="rule-body" style="margin-top:8px;">aHUS患者の30〜50%には補体系の明らかな異常が検出されず、その一部は<strong>DGKε（ジアシルグリセロールキナーゼε）活性障害</strong>、コバラミンC欠乏、プラスミノーゲン欠乏が関与する。これらは補体系とは直接連動しない経路である。</p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">aHUSの遺伝子変異と予後（Table 1）</h3>
+          <p class="rule-body" style="margin-bottom:12px;">以下はaHUS患者における主要な遺伝子異常の頻度と3〜10年後の転帰（死亡またはESRD）をまとめたものである。</p>
+          <table class="ie-table">
+            <thead>
+              <tr>
+                <th style="white-space:nowrap;">遺伝子/タンパク</th>
+                <th>型</th>
+                <th style="white-space:nowrap;">頻度 (%)</th>
+                <th style="white-space:nowrap;">死亡/ESRD<br>3〜10年後 (%)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="white-space:nowrap;"><strong>Factor H</strong><br><span style="font-size:0.72rem;color:var(--muted);">CFH/CFHR1 hybrid含む</span></td>
+                <td>補体制御の喪失</td>
+                <td style="white-space:nowrap;font-weight:700;">24〜28%</td>
+                <td style="white-space:nowrap;"><span class="mark-red"><strong>70〜80%</strong></span></td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;"><strong>MCP (CD46)</strong></td>
+                <td>補体制御の喪失</td>
+                <td style="white-space:nowrap;">5〜9%*</td>
+                <td style="white-space:nowrap;">&lt;20%</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;"><strong>Factor I</strong></td>
+                <td>補体制御の喪失</td>
+                <td style="white-space:nowrap;">4〜8%</td>
+                <td style="white-space:nowrap;">60〜70%</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;"><strong>C3</strong></td>
+                <td>補体活性化の亢進</td>
+                <td style="white-space:nowrap;">2〜8%</td>
+                <td style="white-space:nowrap;">60〜70%</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;"><strong>Factor B</strong></td>
+                <td>補体活性化の亢進</td>
+                <td style="white-space:nowrap;">0〜4%</td>
+                <td style="white-space:nowrap;">70%</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;"><strong>Thrombomodulin</strong></td>
+                <td>補体制御の喪失<br>+凝固促進</td>
+                <td style="white-space:nowrap;">0〜5%</td>
+                <td style="white-space:nowrap;">50〜60%</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;"><strong>抗Factor H<br>自己抗体</strong><br><span style="font-size:0.72rem;color:var(--muted);">CFHR1/3欠損と関連</span></td>
+                <td>補体制御の喪失</td>
+                <td style="white-space:nowrap;">3〜10%†</td>
+                <td style="white-space:nowrap;">30〜70%</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;"><strong>DGKε</strong></td>
+                <td>血栓促進性<br>（補体非依存）</td>
+                <td style="white-space:nowrap;">0〜3%‡</td>
+                <td style="white-space:nowrap;">46%</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;"><strong>異常なし</strong></td>
+                <td>不明</td>
+                <td style="white-space:nowrap;">30〜48%</td>
+                <td style="white-space:nowrap;">50%</td>
+              </tr>
+            </tbody>
+          </table>
+          <p style="font-size:0.72rem;color:var(--muted);margin-top:8px;line-height:1.6;">
+            *MCP (CD46)単独ヘテロ接合変異は通常7〜8%だが、他の補体遺伝子変異との複合変異としては最大22%に達する。<br>
+            †インドの小児aHUS症例では56%に抗Factor H自己抗体が報告されている。<br>
+            ‡DGKε変異は生後1年以内発症例に多く（この集団では5〜27%）。
+          </p>
+          <div class="alert-red" style="margin-top:12px;">
+            <strong>臨床的ポイント：</strong>Factor H変異は最多かつ最も予後不良（3〜10年でESRD・死亡が70〜80%）。MCP (CD46)変異は比較的予後良好（&lt;20%）で、両者は同じ「補体制御喪失」であっても転帰が大きく異なる。
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== SECTION 4 ===== -->
+      <h3 id="s4-secondary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+        <span style="color:#16A34A;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 4</span>
+        Secondary HUS — 基礎疾患・誘因と補体の関与
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">Secondary HUSの主な原因・誘因</h3>
+          <p class="rule-body">Secondary HUSは基礎疾患または病態が誘因となる。これらに共通するのは直接的な細胞障害、補体系全体の活性化促進、または自己細胞上での補体活性化亢進のいずれかである。</p>
+          <table class="ie-table" style="margin-top:10px;">
+            <thead>
+              <tr>
+                <th style="white-space:nowrap;">カテゴリ</th>
+                <th>代表例</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="white-space:nowrap;"><strong>感染症</strong></td>
+                <td>Streptococcus pneumoniae（最多報告）、インフルエンザウイルス</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;"><strong>移植</strong></td>
+                <td>固形臓器移植、骨髄移植</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;"><strong>自己免疫疾患</strong></td>
+                <td>全身性強皮症（SSc）、全身性エリテマトーデス（SLE）、CAPS</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;"><strong>悪性腫瘍</strong></td>
+                <td>各種がん</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;"><strong>妊娠・産後</strong></td>
+                <td>妊娠関連・産後</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;"><strong>細胞毒性薬</strong></td>
+                <td>特定の化学療法薬</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">感染症がHUSを引き起こす機序 — シアル酸仮説</h3>
+          <p class="rule-body">S. pneumoniaeとインフルエンザAウイルスは、いずれも自己細胞表面からシアル酸を除去する強力な<strong>ニューラミニダーゼ</strong>を持つ。著者らの研究では、因子H（Factor H）が自己の赤血球・血小板・内皮細胞表面で補体代替経路を制御するためには、細胞表面の<span class="mark-yellow"><strong>シアル酸（およびGAG）への結合が必須</strong></span>であることが示された。</p>
+          <p class="rule-body" style="margin-top:8px;">微生物のニューラミニダーゼがシアル酸を除去することで、因子Hが自己細胞を正常に認識できなくなり、補体代替経路が自己細胞上で過剰に活性化される可能性がある。これがS. pneumoniae感染やインフルエンザA感染に伴うsecondary HUSの一機序として提案されている。</p>
+          <div class="ie-alpha">
+            <div class="ie-alpha-inner">
+              <div class="ie-alpha-header">
+                <span class="ie-alpha-badge">＋α</span>
+                <span class="ie-alpha-title">aHUSにおける因子H変異とシアル酸認識障害</span>
+              </div>
+              <p class="rule-body" style="color:#4C1D95;">aHUSで観察されるFactor H変異の一部は、C3bへの結合障害のほか、細胞表面のシアル酸やGAGへの結合障害として機能する。Factor HがC3bに結合しても、自己細胞の「self-signal」（シアル酸/GAG）と同時に結合できなければ、制御は働かない。この機序はsecondary HUSとaHUSの病態が部分的に共通することを示唆している。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== SECTION 5 ===== -->
+      <h3 id="s5-complement" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span class="section-label">SECTION 5</span>
+        補体系の基礎 — 代替経路と自己・非自己の識別
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">補体活性化の3経路と代替経路の特殊性</h3>
+          <p class="rule-body">補体系は古典経路・レクチン経路・代替経路の3経路から活性化される。古典経路はIgG/IgMへのC1q結合、レクチン経路はマンノース結合レクチンや線維ゲリン類による糖鎖認識を起点とする。</p>
+          <p class="rule-body" style="margin-top:8px;">これらと異なり、<span class="mark-red"><strong>代替経路は血漿中で自発的・持続的に低レベルのC3b付着が起きる「盲目的な射撃」</strong></span>に基づく。すなわち、血漿に接触するほぼすべての生物学的表面（自己細胞を含む）にC3bが沈着し続ける。この初期C3b沈着が迅速に不活化されれば表面は守られるが、不活化されなければC3 convertase（C3bBb）が形成されさらなるC3b沈着が増幅するという、独特の仕組みになっている。</p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">補体制御因子と自己細胞の保護</h3>
+          <p class="rule-body">主要な補体制御因子は<strong>血漿中の因子H・因子I</strong>および<strong>細胞膜上のCD35・CD46・CD55・CD59</strong>である。これらが協調して自己細胞表面のC3bを不活化し、C3 convertase（C3bBb）の崩壊を促進する。</p>
+          <table class="ie-table" style="margin-top:10px;">
+            <thead>
+              <tr>
+                <th style="white-space:nowrap;">因子</th>
+                <th>局在</th>
+                <th>機能</th>
+                <th style="white-space:nowrap;">細胞別の注意点</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="white-space:nowrap;"><strong>Factor H</strong></td>
+                <td>血漿</td>
+                <td>C3bのFactor Iによる分解補助・C3bBbの崩壊促進</td>
+                <td>シアル酸/GAGへの同時結合が自己細胞認識に必須</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;"><strong>Factor I</strong></td>
+                <td>血漿</td>
+                <td>C3bのタンパク分解的不活化（補因子依存）</td>
+                <td>—</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;"><strong>CD46 (MCP)</strong></td>
+                <td>細胞膜</td>
+                <td>Factor IのC3b不活化を補助</td>
+                <td>赤血球にはCD46がない</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;"><strong>CD55</strong></td>
+                <td>細胞膜</td>
+                <td>C3 convertaseの崩壊促進</td>
+                <td>—</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;"><strong>CD59</strong></td>
+                <td>細胞膜</td>
+                <td>MAC（C5b-9）の膜への組み込みを阻害</td>
+                <td>全血漿接触細胞に存在</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;"><strong>CD35</strong></td>
+                <td>細胞膜</td>
+                <td>C3b不活化を補助</td>
+                <td>血小板にはCD35がない</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">Factor Hによる自己・非自己識別</h3>
+          <p class="rule-body">補体代替経路が自己細胞を攻撃しない鍵は<strong>Factor Hの識別機構</strong>にある。Factor HがC3bに結合し、さらに自己細胞表面のシアル酸やGAGに同時結合することで初めて効率的な補体制御が成立する。Factor HがC3bだけでなく細胞表面分子にも結合できなければ制御は不十分となる。</p>
+          <p class="rule-body" style="margin-top:8px;">aHUSではこの識別機構が破綻しており、自己細胞に沈着したC3bがFactor Hによって制御されずC3 convertaseを形成し続け、制御不能な補体活性化が持続する。</p>
+          <div class="ie-flow" style="margin-top:12px;">
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">1</div>
+              <div style="flex:1;"><p class="rule-body"><strong>C3b沈着（代替経路による自発的低レベル活性化）：</strong>血漿接触すべての表面に常時C3bが付着する</p></div>
+            </div>
+            <div class="ie-flow-arrow">↓</div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">2</div>
+              <div style="flex:1;"><p class="rule-body"><strong>Factor Hの識別：</strong>自己細胞上のシアル酸/GAGとC3bに同時結合 → Factor Iによる不活化 → 表面を保護</p></div>
+            </div>
+            <div class="ie-flow-arrow">↓ 正常（自己細胞）</div>
+            <div class="ie-flow-item" style="background:#F0FDF4;border-color:#BBF7D0;">
+              <div class="ie-flow-num" style="background:#16A34A;">✓</div>
+              <div style="flex:1;"><p class="rule-body"><strong>制御 &gt; 活性化 → 病理なし</strong>：自己細胞は守られる</p></div>
+            </div>
+            <div class="ie-flow-arrow">↓ aHUS（制御異常）</div>
+            <div class="ie-flow-item" style="background:#FEF2F2;border-color:#FECACA;">
+              <div class="ie-flow-num" style="background:#DC2626;">!</div>
+              <div style="flex:1;"><p class="rule-body"><strong>制御 &lt; 活性化 → aHUSまたはsecondary HUS：</strong>C3 convertaseが形成・増幅し、MACが自己細胞を攻撃する</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== SECTION 6 ===== -->
+      <h3 id="s6-cycle" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 6</span>
+        補体・凝固・血小板の三者連関 — TMA形成の悪循環
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">溶血の2つの機序</h3>
+          <p class="rule-body">HUSにおける溶血（MAHA）とスキストサイト出現の機序として2つが議論されている。第一は<strong>微小血栓による毛細血管狭窄</strong>で赤血球が機械的に破砕されるという伝統的説明である。ただし正常赤血球の変形能は高く、直径3μm未満の毛細血管は通過不可能であり、微小血栓単独で溶血・スキストサイト形成が起きることは実験的に証明されていない。</p>
+          <p class="rule-body" style="margin-top:8px;">第二は<strong>補体介在性溶血</strong>の直接的または間接的寄与である。赤血球は補体膜侵襲複合体（MAC）に対して有効な修復系を持たないため、核を持つ細胞より脆弱である。一方で、PNHの補体介在性溶血ではスキストサイトが典型的ではなく、C3b/C3d沈着による赤血球膜硬化が溶血・スキストサイト形成に関与する可能性も提案されている。</p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">補体による内皮細胞障害と凝固系への波及</h3>
+          <p class="rule-body">aHUSにおける内皮細胞障害は補体のMACによる直接的な溶解または亜溶解性攻撃に起因する。障害された内皮からは組織因子が発現し、さらに一酸化窒素（NO）産生が低下する。これが内皮の凝固促進状態（procoagulative state）をつくる。</p>
+          <p class="rule-body" style="margin-top:8px;">加えて、<strong>C5a</strong>が内皮細胞に作用して組織因子活性を誘導する。一方でトロンビンが補体C5を切断してC5a産生を促進するという双方向性フィードバックも存在し、補体と凝固は相互に増幅し合う。</p>
+          <div class="ie-stat-grid">
+            <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+              <div class="ie-stat-val" style="color:#DC2626;">C5a</div>
+              <div class="ie-stat-label">内皮での組織因子誘導<br>→ 凝固促進状態</div>
+            </div>
+            <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+              <div class="ie-stat-val" style="color:#DC2626;">MAC</div>
+              <div class="ie-stat-label">内皮・血小板への<br>直接障害・活性化</div>
+            </div>
+            <div class="ie-stat" style="background:#FFF7ED;border-color:#FED7AA;">
+              <div class="ie-stat-val" style="color:#EA580C;">Thrombin</div>
+              <div class="ie-stat-label">C5切断によりC5a産生<br>→ 補体活性化を増幅</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">血小板の役割とTMA悪循環モデル</h3>
+          <p class="rule-body">血小板は血漿に常時さらされており、Factor HおよびCD55・CD59などの膜制御因子によって補体攻撃から保護されている（CD35は血小板にない）。aHUSではこの保護が崩れ、MAC形成が血小板を活性化・凝集させる。また<strong>C5aも直接血小板を活性化</strong>し、MACによる血小板プロトロンビナーゼ活性化が凝固を促進する。</p>
+          <p class="rule-body" style="margin-top:8px;">このようにHUSの病態は単線的ではなく、複数の並行過程が同時進行する<strong>悪循環（vicious cycle）</strong>として理解される。補体活性化 → 内皮障害・血小板活性化 → 凝固亢進・血栓形成 → 組織虚血・細胞障害 → 損傷誘発性補体活性化 → さらなる補体活性化、というループが形成される。このプロセスは出発点が内皮障害・血小板活性化・凝固促進状態のいずれからでも始まりうるため、STEC-HUS・aHUS・secondary HUSが類似の臨床像を示す理由となっている。</p>
+          <div class="alert-yellow" style="margin-top:10px;">
+            <strong>Key concept：</strong>HUSの悪循環は「補体 → 血小板 → 凝固」の一方向ではなく、複数のフィードバックループが同時に作動する。この概念は、補体阻害が適応病態（aHUS）では劇的な効果をもたらす一方、STEC-HUSでは多くの場合効果が限定的であることの説明にもなる。
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== SECTION 7 ===== -->
+      <h3 id="s7-treatment" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+        <span style="color:#16A34A;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 7</span>
+        治療的補体阻害の意義と限界 — エクリズマブを中心に
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">エクリズマブの適応と有効性</h3>
+          <p class="rule-body">エクリズマブ（eculizumab）はC5を標的とする補体阻害薬であり、aHUSにおいてはC5の切断を阻害することでC5aおよびMACの産生を抑制する。<span class="mark-green"><strong>補体遺伝子変異（CFH・CFI・CD46・C3・CFB）や抗Factor H自己抗体を有するaHUS患者に有効</strong></span>であり、迅速な微小血管血栓の抑制が確認されている。</p>
+          <p class="rule-body" style="margin-top:8px;">Secondary HUSに対する有効性は体系的には評価されていないが、以下の症例群でエクリズマブが有益であったとする報告がある：</p>
+          <ul class="rule-body" style="margin-top:6px;padding-left:1.4em;">
+            <li>自己免疫疾患関連（強皮症・SLE・CAPS）</li>
+            <li>産後TMA</li>
+            <li>HIV感染関連</li>
+            <li>細胞毒性薬関連</li>
+            <li>固形臓器または骨髄移植後</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">エクリズマブが効かない・効きにくい状況</h3>
+          <div class="alert-red">
+            <strong>エクリズマブが有効でないと考えられる状況（原著より）</strong>
+            <ul style="margin-top:6px;padding-left:1.4em;">
+              <li><strong>DGKε変異に伴うaHUS：</strong>病態が補体系外の経路（ジアシルグリセロールキナーゼε活性障害）による血栓促進であり、C5阻害では対応できない</li>
+              <li><strong>コバラミンC欠乏に伴うaHUS（成人期発症）：</strong>報告例は限られるがエクリズマブへの反応が不良</li>
+              <li><strong>STEC-HUSの大多数：</strong>補体の関与は部分的であり、多くは明確な治療反応を示さない。ただし一部の重症・神経合併例ではエクリズマブが有益との報告がある</li>
+              <li><strong>TTP：</strong>ADAMTS13欠乏が主体であり血漿療法が基本。エクリズマブは難治性・再発例に試用される程度にとどまる</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">エクリズマブ中止後の経過</h3>
+          <p class="rule-body">エクリズマブ中止後、多くの患者は再発しない。しかし<strong>Factor H変異を有する患者は中止後に再発しやすい</strong>ことが複数の研究で示されている。エクリズマブ治療中止後に再発するかどうかは、遺伝子変異の型（特にCFH変異の存在）が予測因子として挙げられており、中止判断には慎重なリスク評価が求められる。</p>
+          <p class="rule-body" style="margin-top:8px;">aHUSの急性期が収束した後も内皮細胞活性化が数ヶ月間持続することが確認されており、また補体活性化マーカー（C3断片・Factor B）がエクリズマブ投与開始後数ヶ月かけて徐々に正常化することが報告されている。</p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">補体阻害の適応拡大の可能性</h3>
+          <p class="rule-body">aHUSとPNH以外にも、血栓形成と補体活性化が並行して観察される疾患は多い。PNH・敗血症・DIC・虚血再灌流障害・CAPSなど複数の疾患において、補体の代替経路または古典経路が病態の一部を担っている可能性がある。著者はこれらの疾患における「内皮障害 → 凝固・血栓 → 組織虚血 → 補体活性化」の正のフィードバックループが共通の最終経路となりうると提唱しており、将来的に補体阻害療法の適応範囲が拡大する可能性を示している。</p>
+          <div class="ie-alpha">
+            <div class="ie-alpha-inner">
+              <div class="ie-alpha-header">
+                <span class="ie-alpha-badge">＋α</span>
+                <span class="ie-alpha-title">感染症と補体活性化の増幅 — 急性期蛋白としての補体</span>
+              </div>
+              <p class="rule-body" style="color:#4C1D95;">C3・C1s・Factor B・C5・C4・C1qなど複数の補体蛋白は急性期反応物質であり、感染・炎症時に肝臓での産生が増加する。この補体蛋白濃度の上昇は補体活性化を直接引き起こすわけではないが、既存の感染・組織障害によって補体活性化が生じた際に活性化を増幅しうる。これがaHUS患者において感染がトリガーとなる機序の一部を説明する。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== SUMMARY ===== -->
+      <h3 id="summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:36px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+        本論文のキーメッセージ
+      </h3>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+              <span class="rule-body"><strong>HUSは3型に分類されるTMAである：</strong>STEC-HUS（志賀毒素感染後、通常自然軽快）・aHUS（補体制御異常、予後不良）・secondary HUS（基礎疾患・誘因あり）は同一の臨床三徴（MAHA・血小板減少・AKI）を呈するが病態機序は大きく異なる。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+              <span class="rule-body"><strong>aHUSはFactor H変異が最多かつ最も予後不良：</strong>Factor H変異は頻度24〜28%で最多。3〜10年以内にESRDまたは死亡に至る割合が70〜80%と最も高い。一方MCP (CD46)変異は予後が比較的良好（&lt;20%）であり、同じ補体制御異常でも転帰が大きく異なる。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+              <span class="rule-body"><strong>補体・内皮・血小板・凝固の「悪循環」がHUSの共通最終経路：</strong>C5a・MACによる内皮障害と凝固促進、血小板活性化・凝集、組織虚血・損傷誘発性補体再活性化が正のフィードバックループを形成する。この悪循環がSTEC-HUS・aHUS・secondary HUSに共通する臨床像の説明になる。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+              <span class="rule-body"><strong>エクリズマブはaHUSに有効だが、DGKε変異・コバラミンC欠乏・STEC-HUSの大多数・TTPには効果がない：</strong>補体系外の病態が主体の場合やSTEC-HUSには奏効しない。Secondary HUSに対しては一部（SSc・SLE・CAPS・産後・移植後）で有益との報告がある。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+              <span class="rule-body"><strong>S. pneumoniaeやインフルエンザAのニューラミニダーゼが自己細胞のシアル酸を除去し、Factor Hの自己認識を障害することがsecondary HUSの一機序として提案されている：</strong>Factor Hは自己細胞表面のシアル酸/GAGとC3bに同時結合することで制御を発揮するため、シアル酸の除去はaHUSと類似した制御破綻を引き起こしうる。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 出典 -->
+      <p style="font-size:0.72rem;color:#9CA3AF;margin-top:16px;line-height:1.7;">
+        出典：Jokiranta TS. HUS and atypical HUS. Blood. 2017;129(21):2847-2856.<br>
+        DOI：<a href="https://doi.org/10.1182/blood-2016-11-709865" target="_blank" rel="noopener" style="color:#60A5FA;">https://doi.org/10.1182/blood-2016-11-709865</a><br>
+        本資料は教育目的で作成したサマリーです。診断・治療方針の決定には必ず原典を参照してください。
+      </p>
+      <p style="font-size:0.75rem;color:var(--muted);text-align:right;margin-top:8px;">制作：ICU 関谷</p>
+
+    </div><!-- /main-col -->
+
+    <!-- ===== SIDEBAR ===== -->
+    <aside class="ie-sidebar">
+      <div class="ie-sidebar-card">
+        <div class="ie-sidebar-title">目次</div>
+        <a href="#hus-abbr" class="ie-toc-chapter">略語一覧</a>
+        <a href="#s1-overview" class="ie-toc-chapter">S1 — TMAスペクトラムと3分類</a>
+        <a href="#s2-stec" class="ie-toc-chapter">S2 — STEC-HUSの病態</a>
+        <a href="#s3-ahus" class="ie-toc-chapter">S3 — aHUSと補体制御異常</a>
+        <a href="#s4-secondary" class="ie-toc-chapter">S4 — Secondary HUS</a>
+        <a href="#s5-complement" class="ie-toc-chapter">S5 — 補体系の基礎</a>
+        <a href="#s6-cycle" class="ie-toc-chapter">S6 — 補体・凝固・血小板の連関</a>
+        <a href="#s7-treatment" class="ie-toc-chapter">S7 — 治療的補体阻害</a>
+        <a href="#summary" class="ie-toc-chapter">SUMMARY</a>
+      </div>
+    </aside>
+
+  </div><!-- /content-wrap -->
+
+  <script src="../script.js"></script>
+  <script src="../abbr-tooltip.js"></script>
+</body>
+</html>
