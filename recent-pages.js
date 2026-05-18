@@ -11,6 +11,13 @@
  */
 const RECENT_PAGES = [
   {
+    title: "FQ vs マクロライド：レジオネラ肺炎治療",
+    url: "pages/articles-gl-legionella-fq2021.html",
+    date: "2026-05-18",
+    tag: "論文",
+    thumb: "images/legionella-fq-fig2-forest-all.png"
+  },
+  {
     title: "内包梗塞 — 解剖局在と臨床所見",
     url: "pages/articles-gl-ics-sm25.html",
     date: "2026-05-18",
