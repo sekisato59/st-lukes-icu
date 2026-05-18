@@ -10,6 +10,13 @@
  */
 const RECENT_PAGES = [
   {
+    title: "強皮症腎クリーゼ（SRC）— 診断・治療レビュー",
+    url: "pages/articles-gl-src2014.html",
+    date: "2026-05-18",
+    tag: "論文",
+    thumb: "images/icu-study.jpg"
+  },
+  {
     title: "FQ vs マクロライド：レジオネラ肺炎治療",
     url: "pages/articles-gl-legionella-fq2021.html",
     date: "2026-05-18",
