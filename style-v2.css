@@ -2181,24 +2181,20 @@ a.resource-item:hover .resource-name { color: var(--blue); }
      （display:block + overflow-x:auto によりテーブル自身がスクロール領域となり、
      テキストボックス全体は横にずれない。Bootstrap の .table-responsive と同じ手法）
      ※ <tbody>/<tr>/<td> の display は一切上書きしない。ブラウザの匿名テーブル
-        生成に任せることでセルの整列が崩れない。 */
-  .ie-table {
+        生成に任せることでセルの整列が崩れない。
+     ※ クラスに依存せず全テーブルに適用する。理由は「.ie-table を付け忘れた
+        テーブル」や独自クラス（dose-table, ref-table, renal-table, kt-gcs-table,
+        recent-table, spec-table, nx-scale-table 等）でも同じバグが再発するため。 */
+  table {
     display: block;
     width: 100%;
     max-width: 100%;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
-    font-size: 0.75rem;
   }
+  .ie-table { font-size: 0.75rem; }
   .ie-table th, .ie-table td { padding: 6px 8px; }
-  .card-inner table {
-    display: block;
-    width: 100%;
-    max-width: 100%;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    font-size: 0.75rem;
-  }
+  .card-inner table { font-size: 0.75rem; }
   /* ページ全体の横スクロールは禁止のままにし、テーブル個別のスクロールだけ許可 */
   html, body { overflow-x: hidden; max-width: 100vw; }
 
