@@ -2177,10 +2177,38 @@ a.resource-item:hover .resource-name { color: var(--blue); }
   .ie-stat-val { font-size: 1.1rem; }
   .ie-stat-label { font-size: 0.63rem; }
 
-  /* テーブル：モバイル文字サイズ縮小 */
-  .ie-table { font-size: 0.75rem; }
-  .ie-table th, .ie-table td { padding: 6px 8px; }
-  .card-inner table { font-size: 0.75rem; }
+  /* テーブル：モバイル文字サイズ縮小 + 画面幅に収める（横スクロール抑止） */
+  .ie-table {
+    font-size: 0.75rem;
+    table-layout: fixed;
+    width: 100%;
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+  .ie-table th, .ie-table td {
+    padding: 6px 8px;
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+  /* nowrap で固定幅指定されているラベルセルもモバイルでは強制的に改行許可 */
+  .ie-table th[style*="nowrap"], .ie-table td[style*="nowrap"],
+  .ie-table th[style*="white-space:nowrap"], .ie-table td[style*="white-space:nowrap"] {
+    white-space: normal !important;
+    width: auto !important;
+    min-width: 0 !important;
+  }
+  /* style-v2.css 内のグローバル .ie-table th の nowrap も解除 */
+  .ie-table th { white-space: normal; }
+  .card-inner table {
+    font-size: 0.75rem;
+    table-layout: fixed;
+    width: 100%;
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+  /* ページ全体の横スクロールを禁止（テーブルがあふれた場合の安全網。
+     これによりテキストボックスごと横移動する不具合を防ぐ） */
+  html, body { overflow-x: hidden; max-width: 100vw; }
 
   /* フローチャート */
   .ie-flow-item { padding: 10px 12px; font-size: 0.78rem; }
