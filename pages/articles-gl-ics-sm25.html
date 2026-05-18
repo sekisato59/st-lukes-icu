@@ -52,26 +52,18 @@
 
       .ie-grid2 { grid-template-columns:1fr; }
 
-      /* テーブル：縮めて画面内に収める（table-layout:fixed + word-break）。
-         display:block + overflow-x:auto は子要素の display:table-row-group と相性が悪く
-         親コンテナが内容を抱えきれず、ページ全体が横スクロールする原因になっていたため廃止。 */
+      /* テーブル：テーブル単体のみ横スクロール可（display:block + overflow-x:auto）。
+         子要素の display は上書きせずブラウザの匿名テーブル生成に任せる。 */
       .ie-table {
+        display:block;
         width:100%;
-        table-layout:fixed;
+        max-width:100%;
+        overflow-x:auto;
+        -webkit-overflow-scrolling:touch;
         font-size:0.74rem;
-        word-break:break-word;
-        overflow-wrap:break-word;
       }
       .ie-table th, .ie-table td {
         padding:6px 7px;font-size:0.74rem;line-height:1.55;
-        word-break:break-word;overflow-wrap:break-word;
-      }
-      /* nowrap で固定幅指定されているラベルセルもモバイルでは wrap 許可 */
-      .ie-table th[style*="nowrap"], .ie-table td[style*="nowrap"],
-      .ie-table th[style*="white-space:nowrap"], .ie-table td[style*="white-space:nowrap"] {
-        white-space:normal !important;
-        width:auto !important;
-        min-width:0 !important;
       }
 
       /* 図はモバイル幅いっぱいに */
