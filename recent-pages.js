@@ -10,6 +10,13 @@
  */
 const RECENT_PAGES = [
   {
+    title: "HUSとatypical HUS — 病態生理の全体像（Blood 2017）",
+    url: "pages/articles-gl-hus-blood2017.html",
+    date: "2026-05-19",
+    tag: "ガイドライン",
+    thumb: "images/朝カンファ風景.webp"
+  },
+  {
     title: "全身性強皮症（SSc）— Lancet 2023 Seminar",
     url: "pages/articles-gl-ssc-lancet2023.html",
     date: "2026-05-19",
