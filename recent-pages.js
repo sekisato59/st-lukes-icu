@@ -13,7 +13,7 @@ const RECENT_PAGES = [
     title: "ポリクローナル高ガンマグロブリン血症 — 評価・解釈・管理（Lancet Haematol 2021）",
     url: "pages/articles-gl-polyclonal-hgg2021.html",
     date: "2026-05-19",
-    tag: "ガイドライン",
+    tag: "論文",
     thumb: "images/IDICUtop.png"
   },
   {

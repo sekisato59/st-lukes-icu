@@ -657,8 +657,23 @@ button { cursor: pointer; font-family: inherit; }
   transform: translateY(-3px);
   box-shadow: var(--shadow);
 }
-.card-inner { padding: 20px 24px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-.card-inner table { font-size: 0.82rem; line-height: 1.6; }
+/* .card-inner には overflow-x を付けない（過去の経緯）：
+   .card-inner に overflow-x:auto を付けると、内側のテーブルが card-inner より
+   広い時に「テキストボックス全体（本文の <p> も含めて）が横にスクロール」する
+   バグになる。表だけが横スクロールするよう、スクロール責任はテーブル自身に持たせる。 */
+.card-inner { padding: 20px 24px; }
+/* テーブル自身を横スクロール可能な block 要素にする（Bootstrap .table-responsive と同等）。
+   display:block にしても <thead>/<tbody>/<tr>/<td> の display は default のままで、
+   ブラウザの anonymous table 生成によりセル整列は保たれる。 */
+.card-inner table {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
 .card-inner ul { list-style: disc; padding-left: 18px; }
 .card-inner li { font-size: 0.875rem; color: var(--muted); margin-bottom: 5px; }
 .role-card-list li { color: #fff !important; }

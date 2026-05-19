@@ -12,6 +12,22 @@
     .dt-source a { font-size:0.68rem; color:#9CA3AF; text-decoration:none; transition:color 0.15s; }
     .dt-source a:hover { color:#2D7A4F; }
     .dt-source::before { content:""; }
+    /* Table 1：免疫グロブリン基準値表のセル内チップ表示
+       ；区切りのべた書きを止め、項目ごとに薄いチップで分けて視認性を上げる */
+    .ig-table { table-layout:fixed; }
+    .ig-table col.ig-col-name  { width:120px; }
+    .ig-table col.ig-col-ref   { width:130px; }
+    .ig-table .ig-name { font-weight:800; color:#1F2937; font-size:0.88rem; letter-spacing:0.02em; }
+    .ig-table .ig-ref  { font-variant-numeric: tabular-nums; color:#374151; }
+    .ig-table .ig-causes { display:flex; flex-wrap:wrap; gap:6px 6px; margin:0; padding:0; list-style:none; }
+    .ig-table .ig-causes li {
+      display:inline-block; background:#F3F4F6; border:1px solid #E5E7EB; color:#1F2937;
+      font-size:0.78rem; line-height:1.45; padding:3px 9px; border-radius:999px; font-weight:500;
+    }
+    @media (max-width:600px) {
+      .ig-table { min-width:560px; }
+      .ig-table .ig-causes li { font-size:0.74rem; padding:2px 8px; }
+    }
   </style>
 </head>
 <body>
@@ -111,7 +127,12 @@
       <div class="card-inner">
         <h3 class="rule-title">免疫グロブリン基準値と上昇の原因（Table 1）</h3>
         <p class="rule-body">以下は各免疫グロブリンの基準値と、ポリクローナル上昇をきたす代表的原因のまとめである。本レビューは成人のポリクローナル IgG 上昇に焦点を絞っている。</p>
-        <table class="ie-table" style="margin-top:12px;">
+        <table class="ie-table ig-table" style="margin-top:12px;">
+          <colgroup>
+            <col class="ig-col-name">
+            <col class="ig-col-ref">
+            <col>
+          </colgroup>
           <thead>
             <tr>
               <th style="white-space:nowrap;">免疫グロブリン</th>
@@ -121,29 +142,70 @@
           </thead>
           <tbody>
             <tr>
-              <td style="white-space:nowrap;font-weight:700;">IgG</td>
-              <td style="white-space:nowrap;">7.0–16.0 g/L</td>
-              <td>肝疾患；自己免疫・血管炎；感染・炎症；血液疾患；非血液悪性腫瘍；IgG4関連疾患；免疫不全症候群；医原性（IVIG投与）</td>
+              <td class="ig-name">IgG</td>
+              <td class="ig-ref" style="white-space:nowrap;">7.0–16.0 g/L</td>
+              <td>
+                <ul class="ig-causes">
+                  <li>肝疾患</li>
+                  <li>自己免疫・血管炎</li>
+                  <li>感染・炎症</li>
+                  <li>血液疾患</li>
+                  <li>非血液悪性腫瘍</li>
+                  <li>IgG4関連疾患</li>
+                  <li>免疫不全症候群</li>
+                  <li>医原性（IVIG投与）</li>
+                </ul>
+              </td>
             </tr>
             <tr>
-              <td style="white-space:nowrap;font-weight:700;">IgM</td>
-              <td style="white-space:nowrap;">0.4–2.3 g/L</td>
-              <td>B細胞免疫グロブリンクラススイッチング障害；急性感染症；hyper-IgM症候群</td>
+              <td class="ig-name">IgM</td>
+              <td class="ig-ref" style="white-space:nowrap;">0.4–2.3 g/L</td>
+              <td>
+                <ul class="ig-causes">
+                  <li>B細胞クラススイッチング障害</li>
+                  <li>急性感染症</li>
+                  <li>hyper-IgM症候群</li>
+                </ul>
+              </td>
             </tr>
             <tr>
-              <td style="white-space:nowrap;font-weight:700;">IgA</td>
-              <td style="white-space:nowrap;">0.7–4.0 g/L</td>
-              <td>肝硬変；過剰飲酒；IgA血管炎；HIV感染；自己免疫疾患（セリアック病・RA・SLE）；IgA腎症</td>
+              <td class="ig-name">IgA</td>
+              <td class="ig-ref" style="white-space:nowrap;">0.7–4.0 g/L</td>
+              <td>
+                <ul class="ig-causes">
+                  <li>肝硬変</li>
+                  <li>過剰飲酒</li>
+                  <li>IgA血管炎</li>
+                  <li>HIV感染</li>
+                  <li>セリアック病</li>
+                  <li>RA</li>
+                  <li>SLE</li>
+                  <li>IgA腎症</li>
+                </ul>
+              </td>
             </tr>
             <tr>
-              <td style="white-space:nowrap;font-weight:700;">IgD</td>
-              <td style="white-space:nowrap;">&lt;153 mg/L</td>
-              <td>Hyper-IgD症候群（多くはMVK変異；IgA上昇を合併）</td>
+              <td class="ig-name">IgD</td>
+              <td class="ig-ref" style="white-space:nowrap;">&lt;153 mg/L</td>
+              <td>
+                <ul class="ig-causes">
+                  <li>Hyper-IgD症候群（MVK変異）</li>
+                  <li>IgA上昇を合併することが多い</li>
+                </ul>
+              </td>
             </tr>
             <tr>
-              <td style="white-space:nowrap;font-weight:700;">IgE</td>
-              <td style="white-space:nowrap;">&lt;430 μg/L</td>
-              <td>アレルギー・アトピー・喘息；リンパ腫；Hyper-IgE症候群（STAT3変異）</td>
+              <td class="ig-name">IgE</td>
+              <td class="ig-ref" style="white-space:nowrap;">&lt;430 μg/L</td>
+              <td>
+                <ul class="ig-causes">
+                  <li>アレルギー</li>
+                  <li>アトピー</li>
+                  <li>喘息</li>
+                  <li>リンパ腫</li>
+                  <li>Hyper-IgE症候群（STAT3変異）</li>
+                </ul>
+              </td>
             </tr>
           </tbody>
         </table>
