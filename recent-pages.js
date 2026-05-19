@@ -31,6 +31,13 @@ const RECENT_PAGES = [
     thumb: "images/朝カンファ風景.webp"
   },
   {
+    title: "異常な肝血液検査値の解釈 (BMJ 2025) | St. Luke's ICU",
+    url: "pages/articles-gl-lft-bmj2025.html",
+    date: "2026-05-19",
+    tag: "論文",
+    thumb: "images/IDICUtop.png"
+  },
+  {
     title: "脳MRIで偶発的に検出される頭蓋内圧亢進の画像所見と乳頭浮腫との関連（JAMA Neurol 2021）",
     url: "pages/articles-gl-mri-ih-jamaneurol2021.html",
     date: "2026-05-19",

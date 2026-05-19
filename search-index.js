@@ -1718,5 +1718,11 @@ const SEARCH_INDEX = [
 
   // ── ICUルール／吉田Q&A ──
   {"title":"ICUのルール — 診療方針・運用ルール総覧","url":"pages/icu-policy-rules.html","desc":"聖路加ICUの診療方針と運用ルール。ICU独自の決まり事・指示書・転棟・転入転出・夜間オンコール・各種同意書","keywords":"ICUルール 診療方針 ICU policy 病棟ルール ICU運用 入退室 ICU入室 ICU退室 オンコール 当直 同意書 急変 RRS Rapid Response System 病棟業務 セット展開 病棟長 レジデント"},
-  {"title":"吉田先生のお悩み相談コーナー","url":"pages/yoshida-qa.html","desc":"病棟業務で生じた疑問について吉田先生と一緒に解決するQ&Aコーナー。プレゼンテーション・カルテ記載・指示出し・コンサルト","keywords":"吉田先生 お悩み相談 Q&A 病棟業務 プレゼンテーション 申し送り カルテ記載 指示出し コンサルテーション 研修医教育 9+10"}
+  {"title":"吉田先生のお悩み相談コーナー","url":"pages/yoshida-qa.html","desc":"病棟業務で生じた疑問について吉田先生と一緒に解決するQ&Aコーナー。プレゼンテーション・カルテ記載・指示出し・コンサルト","keywords":"吉田先生 お悩み相談 Q&A 病棟業務 プレゼンテーション 申し送り カルテ記載 指示出し コンサルテーション 研修医教育 9+10"},
+
+  // ── 肝血液検査の評価・解釈 ──
+  {"title":"異常な肝血液検査値の解釈 — 5ステップアルゴリズム・FIB-4・MASLD管理（BMJ 2025）","url":"pages/articles-gl-lft-bmj2025.html","desc":"Stewart S et al. BMJ 2025。LBT21.7%が異常値・追加検査は50%のみ（n=95977）。4パターン（孤立性高ビリルビン・肝炎・胆汁うっ滞・合成不全）×5ステップアルゴリズム。MASLD38%・GGT高度上昇HR6.64・FIB-4カットオフ・ARLD管理","keywords":"肝血液検査 LBT LFT 肝機能検査 ALT AST ALP GGT ビリルビン アルブミン INR 異常値 解釈 肝疾患 MASLD NAFLD 脂肪肝 代謝関連 ARLD アルコール関連肝疾患 MetALD 慢性肝疾患 DILI 薬剤性肝障害 AIH 自己免疫性肝炎 PBC PSC Gilbert症候群 溶血 FIB-4 線維化 肝線維化 FIB4 トランジエントエラストグラフィ フィブロスキャン De Ritis比 AUDIT-C SADQ HBV HCV 肝炎 肝スクリーン 超音波 肝臓超音波 SGLT2 GLP-1 スタチン 紹介 合成不全 HCC 肝細胞癌 BMJ 2025 Stewart $"},
+  {"title":"第1章 背景・疫学・肝血液検査の基本（BMJ LFT 2025）","url":"pages/articles-gl-lft-bmj2025.html#lft-ch1","desc":"BMJ 2025 › LBT21.7%が異常・追加検査50%のみ（n=95977）。MASLD38%（95%CI 33.71-42.49）が慢性肝疾患最多原因。コアLBT構成・解釈5原則（低感度・低特異度・原因不明再検禁止・単独判断禁止・程度より原因でリスク規定）","keywords":"LBT LFT 肝血液検査 21.7% 50% 95977 MASLD 38% 33.71 42.49 慢性肝疾患 ARLD アルコール 5.4% HBV 3.8% ALT AST ALP GGT ビリルビン アルブミン INR FBC 解釈原則 低感度 低特異度 $"},
+  {"title":"第2章 管理アルゴリズム5ステップ（BMJ LFT 2025）","url":"pages/articles-gl-lft-bmj2025.html#lft-ch2","desc":"BMJ 2025 › Step1臨床評価（AUDIT-C・薬剤歴）→Step2パターン分類（孤立性高ビリルビン・肝炎パターン・胆汁うっ滞・合成不全）→Step3追加検査→Step4-5診断管理。GGT高度上昇HR6.64（95%CI 4.96-8.88）・De Ritis比>1","keywords":"5ステップ アルゴリズム Step 孤立性高ビリルビン 肝炎パターン 胆汁うっ滞 合成不全 Gilbert症候群 溶血 MASLD ARLD MetALD AUDIT-C SADQ インテリジェントLBT 43% GGT HR 6.64 1.84 4.96 8.88 1.53 2.23 De Ritis比 AST ALT 線維化 肝硬変 $"},
+  {"title":"第3章 肝線維化評価・長期管理・紹介基準（BMJ LFT 2025）","url":"pages/articles-gl-lft-bmj2025.html#lft-ch3","desc":"BMJ 2025 › FIB-4スコア：<1.3低リスク（1-3年再評価）・1.3-2.67中間・>2.67高リスク（65歳以上は>2.0）で肝専門医紹介。ARLDにFIB-4不適→直接エラストグラフィ。スタチンはALT/AST<3×ULN処方可。年次レビュー・多職種連携","keywords":"FIB-4 線維化 肝線維化 1.3 2.67 2.0 65歳 エラストグラフィ フィブロスキャン ELF スタチン 3×ULN 年次レビュー 多職種 紹介基準 LBT 2.5×ULN HCC 合成不全 診断不明 ARLD $"}
 ];
