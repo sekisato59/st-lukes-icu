@@ -10,6 +10,20 @@
  */
 const RECENT_PAGES = [
   {
+    title: "異常な肝血液検査値の解釈 (BMJ 2025) | St. Luke's ICU",
+    url: "pages/articles-gl-lft-bmj2025.html",
+    date: "2026-05-20",
+    tag: "論文",
+    thumb: "images/IDICUtop.png"
+  },
+  {
+    title: "甲状腺疾患診断ガイドライン2024 — 日本甲状腺学会",
+    url: "pages/articles-gl-jta-thyroid2024.html",
+    date: "2026-05-19",
+    tag: "ガイドライン",
+    thumb: "images/朝カンファ風景.webp"
+  },
+  {
     title: "ポリクローナル高ガンマグロブリン血症 — 評価・解釈・管理（Lancet Haematol 2021）",
     url: "pages/articles-gl-polyclonal-hgg2021.html",
     date: "2026-05-19",
@@ -29,13 +43,6 @@ const RECENT_PAGES = [
     date: "2026-05-19",
     tag: "ガイドライン",
     thumb: "images/朝カンファ風景.webp"
-  },
-  {
-    title: "異常な肝血液検査値の解釈 (BMJ 2025) | St. Luke's ICU",
-    url: "pages/articles-gl-lft-bmj2025.html",
-    date: "2026-05-19",
-    tag: "論文",
-    thumb: "images/IDICUtop.png"
   },
   {
     title: "脳MRIで偶発的に検出される頭蓋内圧亢進の画像所見と乳頭浮腫との関連（JAMA Neurol 2021）",
