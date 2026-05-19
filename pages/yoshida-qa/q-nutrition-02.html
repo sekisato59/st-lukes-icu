@@ -86,14 +86,19 @@
       line-height:1.55;
     }
     .qa-quote::before { content:"❝ ";color:var(--qa-primary);font-weight:900; }
-    /* 図 */
-    .qa-figure { margin:14px 0 18px;text-align:center; }
+    /* 図 — 横に長い表は qa-figure 内だけで横スクロールする（親テキストボックスは動かさない） */
+    .qa-figure {
+      margin:14px 0 18px;text-align:center;
+      overflow-x:auto;-webkit-overflow-scrolling:touch;
+    }
     .qa-figure img {
       max-width:100%;height:auto;display:block;margin:0 auto;
       border:1px solid #E2E8F0;border-radius:6px;background:#fff;
     }
     /* qa-figure 内のテーブルは外側 qa-figure の margin で間隔制御する */
     .qa-figure > table { margin:0; }
+    /* qa-figure 内テーブルのキャプションはスクロール領域に巻き込まれないよう sticky-left 風に常に左端から開始 */
+    .qa-figure > .qa-figure-caption { position:sticky;left:0; }
     .qa-figure-caption {
       font-size:0.74rem;color:var(--muted);margin-top:6px;line-height:1.5;
       font-weight:600;letter-spacing:0.02em;
@@ -178,11 +183,12 @@
     }
     .dose-table tbody tr:nth-child(even) { background:#F8FFFD; }
     @media (max-width: 600px) {
-      .insulin-table { font-size:0.66rem; }
-      .insulin-table th, .insulin-table td { padding:4px 4px;word-break:break-word; }
-      .insulin-table th:first-child, .insulin-table td:first-child { font-size:0.7rem; }
-      .insulin-table .ins-drug { font-size:0.58rem; }
-      .insulin-table .ins-bg { font-size:0.82rem; }
+      /* モバイル時、横長の血糖表は縮めずに qa-figure 内で横スクロールさせる */
+      .insulin-table { font-size:0.68rem;min-width:520px; }
+      .insulin-table th, .insulin-table td { padding:5px 6px; }
+      .insulin-table th:first-child, .insulin-table td:first-child { font-size:0.72rem; }
+      .insulin-table .ins-drug { font-size:0.6rem; }
+      .insulin-table .ins-bg { font-size:0.84rem; }
     }
     /* マーカー（緑） */
     .qa-box-a-content .mark-yellow {

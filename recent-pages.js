@@ -10,8 +10,15 @@
  */
 const RECENT_PAGES = [
   {
-    title: "脳MRIで偶発的に検出される頭蓋内圧亢進の画像所見と乳頭浮腫との関連（JAMA Neurol 2021）",
-    url: "pages/articles-gl-mri-ih-jamaneurol2021.html",
+    title: "ポリクローナル高ガンマグロブリン血症 — 評価・解釈・管理（Lancet Haematol 2021）",
+    url: "pages/articles-gl-polyclonal-hgg2021.html",
+    date: "2026-05-19",
+    tag: "ガイドライン",
+    thumb: "images/IDICUtop.png"
+  },
+  {
+    title: "ロクロニウム高用量と初回挿管成功率 — 2つの多施設RCTの二次解析（AJRCCM 2026）",
+    url: "pages/articles-gl-rocuronium2026.html",
     date: "2026-05-19",
     tag: "ガイドライン",
     thumb: "images/朝カンファ風景.webp"
@@ -24,18 +31,11 @@ const RECENT_PAGES = [
     thumb: "images/朝カンファ風景.webp"
   },
   {
-    title: "ロクロニウム高用量と初回挿管成功率 — 2つの多施設RCTの二次解析（AJRCCM 2026）",
-    url: "pages/articles-gl-rocuronium2026.html",
+    title: "脳MRIで偶発的に検出される頭蓋内圧亢進の画像所見と乳頭浮腫との関連（JAMA Neurol 2021）",
+    url: "pages/articles-gl-mri-ih-jamaneurol2021.html",
     date: "2026-05-19",
     tag: "ガイドライン",
     thumb: "images/朝カンファ風景.webp"
-  },
-  {
-    title: "ポリクローナル高ガンマグロブリン血症 — 評価・解釈・管理（Lancet Haematol 2021）",
-    url: "pages/articles-gl-polyclonal-hgg2021.html",
-    date: "2026-05-19",
-    tag: "ガイドライン",
-    thumb: "images/IDICUtop.png"
   },
   {
     title: "サッカーのヘディングと血液バイオマーカー急性変動 — p-Tau217・S100B（JAMA Neurol 2026）",
