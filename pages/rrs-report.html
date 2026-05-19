@@ -1,0 +1,1639 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RRS対応記録 一発作成 | 聖路加ICU 便利ツール</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style-v2.css?v=202605191000">
+  <style>
+    /* ===== ベーストークン ===== */
+    :root {
+      --rrs-bg:        #F7F4EE;   /* 暖かいオフホワイト */
+      --rrs-card:      #FFFFFF;
+      --rrs-card-alt:  #FBF7F0;   /* 強調サブセクション */
+      --rrs-line:      #E8E2D5;   /* 細い境界線 */
+      --rrs-line-2:    #D9D1BF;   /* やや濃い境界線 */
+      --rrs-ink:       #1C1A17;   /* 主要テキスト */
+      --rrs-ink-2:     #5E5A52;   /* 二次テキスト */
+      --rrs-ink-3:     #98948C;   /* 補助テキスト */
+      --rrs-accent:    #8B1A1A;   /* ICU 系アクセント（落ち着いた crimson） */
+      --rrs-accent-2:  #A52A2A;
+      --rrs-accent-soft: #FAEDED;
+      --rrs-ward:      #4B5563;   /* 病棟系アクセント */
+      --rrs-ward-soft: #EEF1F5;
+    }
+
+    html, body { max-width:100%;overflow-x:hidden; }
+    body {
+      background:var(--rrs-bg);
+      color:var(--rrs-ink);
+      font-feature-settings:"palt" 1;
+    }
+
+    /* ===== バナー ===== */
+    .tools-banner { position:relative;width:100%;max-width:1294px;margin:64px auto 0;line-height:0; }
+    .tools-banner-img {
+      width:100%;height:auto;display:block;
+      -webkit-mask-image:linear-gradient(to bottom, #000 0%, #000 86%, transparent 100%);
+      mask-image:linear-gradient(to bottom, #000 0%, #000 86%, transparent 100%);
+    }
+    .tools-banner-overlay {
+      position:absolute;left:7%;top:50%;transform:translateY(-50%);max-width:62%;line-height:1.4;
+    }
+    .tools-banner-title {
+      font-size:clamp(1.3rem,3vw,2rem);font-weight:800;color:var(--rrs-accent);line-height:1.25;
+      margin:0 0 6px;letter-spacing:-0.015em;
+      text-shadow:0 1px 8px rgba(255,253,247,0.92), 0 0 14px rgba(255,253,247,0.65);
+    }
+    .tools-banner-sub {
+      font-size:clamp(0.72rem,1.3vw,0.9rem);font-weight:500;color:var(--rrs-ink-2);
+      line-height:1.65;margin:0;letter-spacing:0.01em;
+      text-shadow:0 1px 4px rgba(255,253,247,0.9);
+    }
+    @media (max-width:600px) {
+      .tools-banner { line-height:1.4; }
+      .tools-banner-overlay { position:static;transform:none;max-width:100%;padding:14px 18px 4px; }
+      .tools-banner-title { color:var(--rrs-accent);text-shadow:none;font-size:1.1rem !important;line-height:1.25 !important;margin:0 0 4px !important; }
+      .tools-banner-sub { color:var(--rrs-ink-2);text-shadow:none;font-size:0.72rem !important;line-height:1.6 !important; }
+    }
+
+    .page-wrap {
+      max-width:1200px;margin:0 auto;
+      padding:0 clamp(16px,1rem+1.5vw,40px) clamp(40px,2rem+1.5vw,64px);
+      overflow-x:hidden;
+      font-family:'Noto Sans JP','Hiragino Kaku Gothic ProN','Hiragino Sans','Yu Gothic',sans-serif;
+      color:var(--rrs-ink);
+    }
+    .back-wrapper { display:flex;align-items:center;margin:8px 0 18px; }
+    .back-btn {
+      display:inline-flex;align-items:center;justify-content:center;padding:8px 16px;
+      background:rgba(255,255,255,0.7);border:1px solid var(--rrs-line-2);border-radius:8px;
+      color:var(--rrs-ink-2);font-weight:600;font-size:0.78rem;text-decoration:none;
+      letter-spacing:0.02em;transition:all 0.15s;
+    }
+    .back-btn:hover { background:#fff;border-color:var(--rrs-ink-3);color:var(--rrs-ink); }
+
+    /* ===== インストラクション ===== */
+    .rrs-instruction {
+      position:relative;
+      background:#fff;border:1px solid var(--rrs-line);border-radius:10px;
+      padding:14px 18px 14px 22px;margin:0 0 20px;
+      font-size:0.8rem;line-height:1.75;color:var(--rrs-ink-2);font-weight:500;
+    }
+    .rrs-instruction::before {
+      content:"";position:absolute;left:0;top:14px;bottom:14px;width:3px;
+      background:var(--rrs-accent);border-radius:0 2px 2px 0;
+    }
+    .rrs-instruction strong { color:var(--rrs-ink);font-weight:700; }
+
+    /* ===== レイアウト ===== */
+    .rrs-layout { display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:24px;align-items:start; }
+    @media (max-width:980px) { .rrs-layout { grid-template-columns:1fr;gap:18px; } }
+
+    .rrs-form { min-width:0; }
+
+    /* ===== セクション ===== */
+    .rrs-section {
+      background:var(--rrs-card);border:1px solid var(--rrs-line);border-radius:14px;
+      padding:24px 28px 26px;margin-bottom:16px;
+      transition:border-color 0.2s, box-shadow 0.2s;
+    }
+    .rrs-section:hover { border-color:var(--rrs-line-2); }
+
+    .rrs-section-header {
+      display:flex;align-items:center;gap:12px;
+      margin:-2px 0 20px;
+      padding-bottom:14px;border-bottom:1px solid var(--rrs-line);
+    }
+    .rrs-section-num {
+      width:30px;height:30px;border-radius:50%;
+      background:var(--rrs-accent);color:#fff;
+      font-size:0.74rem;font-weight:700;letter-spacing:0.05em;
+      display:flex;align-items:center;justify-content:center;flex-shrink:0;
+    }
+    .rrs-section-num.ward { background:var(--rrs-ward); }
+    .rrs-section-title {
+      flex:1;font-size:0.98rem;font-weight:700;letter-spacing:-0.005em;line-height:1.35;
+      color:var(--rrs-ink);margin:0;
+    }
+    .rrs-section-aside {
+      font-size:0.68rem;font-weight:500;color:var(--rrs-ink-3);letter-spacing:0.04em;
+    }
+
+    /* ===== フィールド ===== */
+    .rrs-field { margin-bottom:18px; }
+    .rrs-field:last-child { margin-bottom:0; }
+    .rrs-label {
+      display:block;font-size:0.8rem;font-weight:600;color:var(--rrs-ink);
+      margin-bottom:9px;line-height:1.45;letter-spacing:0.005em;
+    }
+    .rrs-label-helper {
+      font-size:0.7rem;color:var(--rrs-ink-3);font-weight:400;margin-left:6px;letter-spacing:0;
+    }
+
+    /* サブフィールド（条件付きで表示する詳細セクション） */
+    .rrs-field-sub {
+      background:var(--rrs-card-alt);border:1px solid var(--rrs-line);
+      border-radius:10px;padding:16px 18px;margin-top:14px;
+      transition:opacity 0.25s, background 0.25s, border-color 0.25s;
+    }
+    .rrs-field-sub.dim {
+      opacity:0.45;background:transparent;border-color:var(--rrs-line);
+    }
+    .rrs-field-sub-note {
+      display:inline-flex;align-items:center;gap:6px;
+      font-size:0.68rem;color:var(--rrs-accent);font-weight:700;
+      margin-bottom:14px;letter-spacing:0.08em;text-transform:uppercase;
+    }
+    .rrs-field-sub-note::before {
+      content:"";width:14px;height:1px;background:var(--rrs-accent);display:inline-block;
+    }
+
+    /* ===== ピル型ボタン ===== */
+    .rrs-pill-row { display:flex;gap:6px;flex-wrap:wrap; }
+    .rrs-pill {
+      display:inline-flex;align-items:center;justify-content:center;
+      padding:7px 14px;border-radius:8px;
+      border:1px solid var(--rrs-line-2);background:#fff;
+      font-size:0.78rem;font-weight:500;color:var(--rrs-ink-2);cursor:pointer;
+      transition:all 0.15s cubic-bezier(0.4, 0, 0.2, 1);user-select:none;letter-spacing:0.01em;
+      font-family:inherit;
+    }
+    .rrs-pill:hover {
+      background:var(--rrs-accent-soft);border-color:var(--rrs-accent);color:var(--rrs-accent);
+    }
+    .rrs-pill.active {
+      background:var(--rrs-ink);border-color:var(--rrs-ink);color:#fff;font-weight:600;
+    }
+    .rrs-pill.active:hover { background:var(--rrs-ink);color:#fff; }
+    .rrs-pill.compact { padding:6px 12px;font-size:0.74rem; }
+
+    /* Yes / No / 不明（3-state、識別色を変える） */
+    .rrs-pill.yn { min-width:48px;padding:6px 12px;font-size:0.74rem;font-weight:500; }
+    .rrs-pill.yn:hover { background:var(--rrs-accent-soft);border-color:var(--rrs-accent);color:var(--rrs-accent); }
+    .rrs-pill.yn.active { background:var(--rrs-accent);border-color:var(--rrs-accent);color:#fff; }
+    .rrs-pill.yn.no:hover { background:var(--rrs-ward-soft);border-color:var(--rrs-ward);color:var(--rrs-ward); }
+    .rrs-pill.yn.no.active { background:var(--rrs-ward);border-color:var(--rrs-ward);color:#fff; }
+    .rrs-pill.yn.unknown:hover { background:#F4F1EC;border-color:var(--rrs-ink-3);color:var(--rrs-ink-2); }
+    .rrs-pill.yn.unknown.active { background:var(--rrs-ink-3);border-color:var(--rrs-ink-3);color:#fff; }
+
+    /* ===== テキスト入力 ===== */
+    .rrs-input {
+      width:100%;max-width:100%;
+      padding:9px 12px;border:1px solid var(--rrs-line-2);border-radius:8px;
+      font-size:0.84rem;font-family:inherit;color:var(--rrs-ink);background:#fff;
+      box-sizing:border-box;transition:border-color 0.15s, box-shadow 0.15s;
+    }
+    .rrs-input:focus {
+      outline:none;border-color:var(--rrs-accent);
+      box-shadow:0 0 0 3px rgba(139,26,26,0.08);
+    }
+    .rrs-input.small { max-width:140px; }
+    .rrs-textarea {
+      width:100%;max-width:100%;
+      padding:10px 12px;border:1px solid var(--rrs-line-2);border-radius:8px;
+      font-size:0.84rem;font-family:inherit;color:var(--rrs-ink);background:#fff;
+      box-sizing:border-box;resize:vertical;min-height:46px;line-height:1.65;
+      transition:border-color 0.15s, box-shadow 0.15s;
+    }
+    .rrs-textarea:focus {
+      outline:none;border-color:var(--rrs-accent);
+      box-shadow:0 0 0 3px rgba(139,26,26,0.08);
+    }
+    .rrs-textarea::placeholder, .rrs-input::placeholder { color:var(--rrs-ink-3); }
+
+    /* 時刻入力 + 翌日チェック */
+    .rrs-time-row { display:flex;align-items:center;gap:14px;flex-wrap:wrap; }
+    .rrs-nextday {
+      display:inline-flex;align-items:center;gap:7px;font-size:0.77rem;color:var(--rrs-ink-2);
+      cursor:pointer;user-select:none;font-weight:500;
+    }
+    .rrs-nextday input {
+      width:15px;height:15px;cursor:pointer;
+      accent-color:var(--rrs-accent);
+    }
+
+    /* 介入グリッド */
+    .rrs-intv-grid {
+      display:grid;grid-template-columns:1fr auto;gap:10px 16px;align-items:center;
+      padding:4px 0;
+    }
+    .rrs-intv-grid + .rrs-intv-grid {
+      border-top:1px dashed var(--rrs-line);padding-top:10px;margin-top:4px;
+    }
+    .rrs-intv-label {
+      font-size:0.79rem;color:var(--rrs-ink);font-weight:500;letter-spacing:0.005em;
+    }
+    @media (max-width:600px) {
+      .rrs-intv-grid { grid-template-columns:1fr;gap:5px 0;padding:6px 0; }
+      .rrs-intv-label { margin-top:4px;font-size:0.78rem;font-weight:600; }
+    }
+
+    /* グループ見出し（要請基準・原因セクション） */
+    .rrs-group-head {
+      font-size:0.7rem;font-weight:700;color:var(--rrs-ink-3);
+      margin:16px 0 8px;letter-spacing:0.1em;text-transform:uppercase;
+    }
+    .rrs-group-head:first-child { margin-top:0; }
+
+    /* ===== 出力プレビュー（紙のような質感） ===== */
+    .rrs-output {
+      position:sticky;top:80px;
+      background:var(--rrs-card);border:1px solid var(--rrs-line);border-radius:14px;
+      overflow:hidden;
+      box-shadow:0 1px 2px rgba(0,0,0,0.02), 0 8px 24px rgba(28,26,23,0.05);
+    }
+    @media (max-width:980px) { .rrs-output { position:static; } }
+    .rrs-output-h {
+      background:linear-gradient(180deg, #F5EEDF 0%, #EFE6D2 100%);
+      color:var(--rrs-ink);
+      padding:14px 20px 13px;
+      display:flex;align-items:center;gap:10px;
+      border-bottom:1px solid #D9D1BF;
+      position:relative;letter-spacing:-0.005em;
+    }
+    .rrs-output-h-icon {
+      width:18px;height:18px;flex-shrink:0;
+      background:var(--rrs-accent);
+      -webkit-mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z'/><polyline points='14 2 14 8 20 8'/><line x1='9' y1='13' x2='15' y2='13'/><line x1='9' y1='17' x2='15' y2='17'/></svg>") no-repeat center / contain;
+              mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z'/><polyline points='14 2 14 8 20 8'/><line x1='9' y1='13' x2='15' y2='13'/><line x1='9' y1='17' x2='15' y2='17'/></svg>") no-repeat center / contain;
+    }
+    .rrs-output-h-title {
+      font-size:0.88rem;font-weight:700;letter-spacing:-0.005em;line-height:1.3;
+      color:var(--rrs-ink);
+    }
+    .rrs-output-h-sub {
+      font-size:0.6rem;font-weight:700;color:var(--rrs-ink-3);margin-left:auto;
+      letter-spacing:0.16em;text-transform:uppercase;
+      padding:3px 9px;border:1px solid var(--rrs-line-2);border-radius:4px;
+      background:rgba(255,255,255,0.5);
+    }
+    .rrs-output-body { padding:14px 16px 16px; }
+    .rrs-output-pre {
+      background:#FBF8F2;color:#2A2620;
+      border:1px solid var(--rrs-line);border-radius:8px;
+      padding:16px 18px;
+      font-size:0.73rem;line-height:1.95;
+      font-family:'SF Mono',Menlo,Consolas,'Source Code Pro',monospace;
+      white-space:pre-wrap;word-break:break-word;
+      max-height:65vh;overflow-y:auto;margin:0;
+      scrollbar-width:thin;scrollbar-color:var(--rrs-line-2) transparent;
+    }
+    .rrs-output-pre::-webkit-scrollbar { width:6px; }
+    .rrs-output-pre::-webkit-scrollbar-thumb { background:var(--rrs-line-2);border-radius:3px; }
+    .rrs-output-actions { display:flex;gap:10px;margin-top:12px; }
+    .rrs-btn {
+      flex:1;padding:10px 14px;border-radius:9px;border:1px solid transparent;
+      font-size:0.82rem;font-weight:600;cursor:pointer;transition:all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+      letter-spacing:0.02em;font-family:inherit;
+    }
+    .rrs-btn-primary {
+      background:var(--rrs-ink);color:#fff;border-color:var(--rrs-ink);
+    }
+    .rrs-btn-primary:hover {
+      background:#2D2A24;border-color:#2D2A24;
+      transform:translateY(-1px);box-shadow:0 6px 16px rgba(28,26,23,0.18);
+    }
+    .rrs-btn-primary.copied {
+      background:#166534;border-color:#166534;
+    }
+    .rrs-btn-secondary {
+      background:transparent;border-color:var(--rrs-line-2);color:var(--rrs-ink-2);
+    }
+    .rrs-btn-secondary:hover {
+      background:#fff;border-color:var(--rrs-ink-3);color:var(--rrs-ink);
+    }
+
+    /* ===== フォーム末尾アクションバー（コピー・全リセット） ===== */
+    .rrs-bottom-actions {
+      display:flex;justify-content:center;gap:12px;
+      margin:24px 0 6px;padding:20px 0 4px;
+      border-top:1px solid var(--rrs-line);
+    }
+    .rrs-bottom-actions .rrs-btn {
+      flex:0 0 auto;min-width:180px;padding:11px 24px;font-size:0.85rem;
+      display:inline-flex;align-items:center;justify-content:center;
+    }
+    .rrs-bottom-actions .rrs-btn-primary {
+      box-shadow:0 2px 8px rgba(28,26,23,0.08);
+    }
+    @media (max-width:600px) {
+      .rrs-bottom-actions { gap:10px;margin-top:18px;padding-top:16px; }
+      .rrs-bottom-actions .rrs-btn { min-width:0;flex:1;padding:10px 14px;font-size:0.8rem; }
+    }
+
+    /* ===== トップへ戻るボタン ===== */
+    .rrs-back-to-top {
+      display:flex;justify-content:center;margin:14px 0 4px;
+    }
+    .rrs-to-top-btn {
+      display:inline-flex;align-items:center;gap:8px;
+      padding:9px 22px;border-radius:999px;
+      border:1px solid var(--rrs-line-2);background:#fff;
+      color:var(--rrs-ink-2);font-size:0.78rem;font-weight:600;
+      cursor:pointer;font-family:inherit;letter-spacing:0.02em;
+      transition:all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .rrs-to-top-btn:hover {
+      color:var(--rrs-accent);border-color:var(--rrs-accent);
+      transform:translateY(-2px);box-shadow:0 4px 10px rgba(139,26,26,0.10);
+    }
+    .rrs-to-top-btn svg { color:inherit; }
+
+    /* ===== ディスクレーマ ===== */
+    .rrs-disclaimer {
+      margin-top:24px;padding:14px 18px;background:transparent;
+      border:1px solid var(--rrs-line);border-radius:10px;
+      font-size:0.73rem;line-height:1.75;color:var(--rrs-ink-3);
+    }
+    .rrs-disclaimer strong { color:var(--rrs-ink-2);font-weight:700; }
+
+    /* 補助情報リンク */
+    .rrs-help {
+      display:inline-flex;align-items:center;gap:3px;
+      font-size:0.68rem;color:var(--rrs-ink-3);text-decoration:none;
+      padding:2px 8px;border-radius:4px;background:#F4F1EC;font-weight:600;
+      margin-left:8px;cursor:pointer;letter-spacing:0.02em;transition:all 0.15s;
+    }
+    .rrs-help:hover { background:var(--rrs-accent-soft);color:var(--rrs-accent); }
+    .rrs-help-panel {
+      margin-top:10px;background:var(--rrs-card-alt);border:1px solid var(--rrs-line);
+      border-radius:8px;font-size:0.72rem;line-height:1.7;color:var(--rrs-ink-2);
+      max-height:0;overflow:hidden;
+      transition:max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1), padding 0.2s, margin 0.2s, border-width 0.2s;
+      padding:0 14px;margin-top:0;border-width:0;
+    }
+    .rrs-help-panel.open {
+      max-height:2200px;padding:14px 16px;margin-top:10px;border-width:1px;
+    }
+    .rrs-help-panel strong { color:var(--rrs-ink);font-weight:700; }
+    .rrs-help-panel ul { margin:4px 0 0;padding-left:18px; }
+    .rrs-help-panel li { margin-bottom:3px; }
+
+    /* ===== 情報パネル（CPC 定義など常時表示） ===== */
+    .rrs-info-panel {
+      background:var(--rrs-card-alt);border:1px solid var(--rrs-line);border-radius:8px;
+      padding:12px 16px;margin-top:12px;
+      font-size:0.72rem;line-height:1.7;color:var(--rrs-ink-2);
+    }
+    .rrs-info-panel-h {
+      font-size:0.62rem;font-weight:700;color:var(--rrs-ink-3);
+      letter-spacing:0.14em;text-transform:uppercase;margin-bottom:8px;
+      padding-bottom:6px;border-bottom:1px solid var(--rrs-line);
+    }
+    .rrs-info-panel-cols { display:grid;grid-template-columns:1fr 1fr;gap:14px 22px; }
+    @media (max-width:600px) { .rrs-info-panel-cols { grid-template-columns:1fr;gap:10px; } }
+    .rrs-info-panel strong { display:block;color:var(--rrs-ink);font-weight:700;margin-bottom:4px;font-size:0.74rem; }
+    .rrs-info-panel ul { margin:0;padding-left:18px; }
+    .rrs-info-panel li { margin-bottom:3px; }
+    .rrs-info-panel b { color:var(--rrs-accent);font-weight:700; }
+
+    /* ===== NEWS2 計算機 ===== */
+    .news2-h {
+      display:flex;align-items:baseline;gap:10px;
+      margin:-2px 0 16px;padding-bottom:11px;border-bottom:1px solid var(--rrs-line-2);
+    }
+    .news2-h-title {
+      font-size:0.92rem;font-weight:800;color:var(--rrs-ink);letter-spacing:-0.01em;
+      display:flex;align-items:baseline;gap:7px;
+    }
+    .news2-h-title::before {
+      content:"";display:inline-block;width:5px;height:14px;
+      background:var(--rrs-accent);border-radius:2px;align-self:center;
+    }
+    .news2-h-note {
+      font-size:0.64rem;color:var(--rrs-ink-3);margin-left:auto;
+      letter-spacing:0.02em;
+    }
+
+    /* ── パラメータカード：2 カラムグリッド ── */
+    .news2-grid {
+      display:grid;grid-template-columns:1fr 1fr;gap:10px;
+    }
+    @media (max-width:600px) { .news2-grid { grid-template-columns:1fr; } }
+
+    .news2-card {
+      background:#fff;border:1.5px solid var(--rrs-line);border-radius:9px;
+      padding:11px 12px;
+      transition:border-color 0.2s, background 0.2s;
+    }
+    .news2-card[data-pts="0"] { border-color:#A7D0A8;background:#F6FBF6; }
+    .news2-card[data-pts="1"] { border-color:#E5C97A;background:#FCFAF1; }
+    .news2-card[data-pts="2"] { border-color:#E29A6A;background:#FCF4EC; }
+    .news2-card[data-pts="3"] { border-color:#D88080;background:#FCEEEE; }
+
+    .news2-card-head {
+      display:flex;align-items:center;justify-content:space-between;
+      margin-bottom:8px;gap:8px;
+    }
+    .news2-card-name {
+      font-size:0.77rem;font-weight:700;color:var(--rrs-ink);
+      letter-spacing:0.005em;line-height:1.3;
+    }
+    .news2-card-unit {
+      font-size:0.62rem;font-weight:500;color:var(--rrs-ink-3);
+      margin-left:4px;letter-spacing:0.02em;
+    }
+    .news2-card-pill {
+      font-size:0.74rem;font-weight:800;color:#fff;background:#98948C;
+      padding:1px 9px;border-radius:999px;min-width:34px;text-align:center;
+      font-family:ui-monospace,Menlo,Consolas,monospace;
+      letter-spacing:-0.01em;flex-shrink:0;
+    }
+    .news2-card[data-pts="0"] .news2-card-pill { background:#3A6F3D; }
+    .news2-card[data-pts="1"] .news2-card-pill { background:#A57F1F; }
+    .news2-card[data-pts="2"] .news2-card-pill { background:#B05A24; }
+    .news2-card[data-pts="3"] .news2-card-pill { background:#9A2828; }
+
+    .news2-select {
+      font-family:inherit;font-size:0.77rem;font-weight:500;
+      padding:7px 28px 7px 11px;
+      border:1px solid var(--rrs-line-2);border-radius:7px;
+      background:#fff;color:var(--rrs-ink);cursor:pointer;
+      width:100%;box-sizing:border-box;height:34px;
+      appearance:none;-webkit-appearance:none;-moz-appearance:none;
+      background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="%235E5A52" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6,9 12,15 18,9"/></svg>');
+      background-repeat:no-repeat;background-position:right 10px center;
+      font-variant-numeric:tabular-nums;line-height:1.3;letter-spacing:0.005em;
+    }
+    .news2-select:focus {
+      outline:none;border-color:var(--rrs-accent);
+      box-shadow:0 0 0 3px rgba(139,26,26,0.08);
+    }
+    .news2-select optgroup {
+      font-style:normal;font-weight:800;color:var(--rrs-accent);background:#FAEDED;
+    }
+    .news2-select option { color:var(--rrs-ink);font-weight:500;background:#fff; }
+
+    /* ── 結果カード ── */
+    .news2-result {
+      margin-top:18px;padding:14px 16px;
+      background:#fff;border:1px solid var(--rrs-line);border-radius:10px;
+      display:flex;align-items:center;gap:16px;
+      transition:border-color 0.2s, background 0.2s;
+    }
+    .news2-score-badge {
+      width:68px;height:68px;border-radius:14px;
+      background:#F4F1EC;border:2px solid var(--rrs-line);
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      flex-shrink:0;
+      transition:all 0.2s;
+    }
+    .news2-score-num {
+      font-size:1.85rem;font-weight:800;color:var(--rrs-ink);line-height:1;
+      letter-spacing:-0.03em;font-feature-settings:"tnum" 1;
+    }
+    .news2-score-suffix {
+      font-size:0.55rem;font-weight:800;color:var(--rrs-ink-3);
+      letter-spacing:0.16em;text-transform:uppercase;margin-top:4px;
+    }
+    .news2-result-text { flex:1;display:flex;flex-direction:column;gap:3px;min-width:0; }
+    .news2-result-title { font-size:0.84rem;font-weight:700;color:var(--rrs-ink);line-height:1.35; }
+    .news2-result-detail { font-size:0.72rem;color:var(--rrs-ink-2);line-height:1.6; }
+
+    /* 段階別の色（バッジ・タイトル） */
+    .news2-result[data-level="ok"]       { border-color:#A7D0A8;background:#F6FBF6; }
+    .news2-result[data-level="ok"]       .news2-score-badge { background:#E0F0DE;border-color:#7DAE7F; }
+    .news2-result[data-level="ok"]       .news2-score-num   { color:#2A5530; }
+    .news2-result[data-level="ok"]       .news2-result-title{ color:#2A5530; }
+
+    .news2-result[data-level="mid"]      { border-color:#E5C97A;background:#FCFAF1; }
+    .news2-result[data-level="mid"]      .news2-score-badge { background:#F2E5BC;border-color:#D7B658; }
+    .news2-result[data-level="mid"]      .news2-score-num   { color:#6E5212; }
+    .news2-result[data-level="mid"]      .news2-result-title{ color:#6E5212; }
+
+    .news2-result[data-level="high"]     { border-color:#E29A6A;background:#FCF4EC; }
+    .news2-result[data-level="high"]     .news2-score-badge { background:#F0D4BB;border-color:#D17F49; }
+    .news2-result[data-level="high"]     .news2-score-num   { color:#7B391C; }
+    .news2-result[data-level="high"]     .news2-result-title{ color:#7B391C; }
+
+    .news2-result[data-level="critical"] { border-color:#D88080;background:#FCEEEE; }
+    .news2-result[data-level="critical"] .news2-score-badge { background:#EDC8C8;border-color:#C25A5A; }
+    .news2-result[data-level="critical"] .news2-score-num   { color:#6E2222; }
+    .news2-result[data-level="critical"] .news2-result-title{ color:#6E2222; }
+
+    .news2-actions { margin-top:10px;display:flex;justify-content:flex-end; }
+
+    @media (max-width:600px) {
+      .news2-card { padding:10px 11px; }
+      .news2-card-name { font-size:0.75rem; }
+      .news2-card-pill { font-size:0.72rem;padding:1px 8px;min-width:32px; }
+      .news2-select { height:32px;font-size:0.74rem;padding:5px 26px 5px 10px; }
+      .news2-result { padding:12px 13px;gap:13px; }
+      .news2-score-badge { width:58px;height:58px;border-radius:11px; }
+      .news2-score-num { font-size:1.55rem; }
+      .news2-score-suffix { font-size:0.5rem; }
+      .news2-result-title { font-size:0.78rem; }
+      .news2-result-detail { font-size:0.68rem; }
+    }
+
+    /* ===== モバイル対応 ===== */
+    @media (max-width:600px) {
+      .rrs-section { padding:18px 18px 20px;border-radius:12px; }
+      .rrs-section-title { font-size:0.88rem; }
+      .rrs-section-num { width:26px;height:26px;font-size:0.7rem; }
+      .rrs-label { font-size:0.77rem;margin-bottom:8px; }
+      .rrs-pill { padding:6px 12px;font-size:0.74rem; }
+      .rrs-pill.compact, .rrs-pill.yn { padding:5px 10px;font-size:0.7rem; }
+      .rrs-output-pre { font-size:0.7rem;line-height:1.9;padding:14px 14px;max-height:none; }
+      .rrs-output-h { padding:12px 16px 11px;gap:9px; }
+      .rrs-output-h-title { font-size:0.82rem; }
+      .rrs-output-h-icon { width:16px;height:16px; }
+      .rrs-output-h-sub { font-size:0.55rem;padding:2px 7px;letter-spacing:0.14em; }
+      .rrs-instruction { font-size:0.76rem;padding:12px 14px 12px 18px; }
+      .rrs-field-sub { padding:14px 14px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <a href="../index.html" class="nav-logo">
+      <img src="../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+      <span class="nav-logo-text">聖路加国際病院ICU</span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-menu" id="navMenu"></ul>
+  </div>
+</nav>
+
+<!-- ===== バナー ===== -->
+<div class="tools-banner">
+  <img src="../images/便利ツール背景汎用.jpg" alt="" class="tools-banner-img" loading="lazy">
+  <div class="tools-banner-overlay">
+    <h1 class="tools-banner-title">RRS対応記録 一発作成</h1>
+    <p class="tools-banner-sub">フォーム選択 → そのままカルテに貼れる対応記録テンプレートを自動生成</p>
+  </div>
+</div>
+
+<div class="page-wrap">
+  <div class="back-wrapper"><a href="../index.html" class="back-btn">← ホームへ戻る</a></div>
+
+  <div class="rrs-instruction">
+    <strong>使い方：</strong>各項目を選択・入力すると、右側のプレビューが即座に更新されます。記載が不要な項目は空欄のまま（□未選択）にしてください。完成したら「コピー」を押してカルテに貼り付けます。
+  </div>
+
+  <div class="rrs-layout">
+
+    <!-- ============================================================ -->
+    <!-- LEFT: FORM                                                    -->
+    <!-- ============================================================ -->
+    <div class="rrs-form">
+
+      <!-- Section 1: 病棟記載部 -->
+      <section class="rrs-section">
+        <div class="rrs-section-header">
+          <div class="rrs-section-num ward">1</div>
+          <h2 class="rrs-section-title">病棟医師または看護師 記載欄</h2>
+          <span class="rrs-section-aside">WARD</span>
+        </div>
+
+          <div class="rrs-field">
+            <label class="rrs-label" for="ward-call-time">ICU相談PHS 連絡時刻</label>
+            <input type="time" id="ward-call-time" class="rrs-input small">
+          </div>
+
+          <div class="rrs-field">
+            <label class="rrs-label" for="ward-call-reason">ICU相談PHS コール理由<span class="rrs-label-helper">（簡潔に記載）</span></label>
+            <textarea id="ward-call-reason" class="rrs-textarea" rows="2" placeholder="例：呼吸数 30 回/分、SpO2 88% に低下"></textarea>
+          </div>
+
+          <div class="rrs-field">
+            <label class="rrs-label">ICUチームの病棟訪室</label>
+            <div class="rrs-pill-row" data-name="ward-visit">
+              <button type="button" class="rrs-pill" data-val="あり">あり</button>
+              <button type="button" class="rrs-pill" data-val="なし">なし</button>
+            </div>
+          </div>
+
+      </section>
+
+      <!-- Section 2: ICU記載部 - 基本情報 -->
+      <section class="rrs-section">
+        <div class="rrs-section-header">
+          <div class="rrs-section-num">2</div>
+          <h2 class="rrs-section-title">ICUチーム 記載欄 — 入院前情報</h2>
+          <span class="rrs-section-aside">ICU</span>
+        </div>
+
+          <div class="rrs-field">
+            <label class="rrs-label">入院主病名</label>
+            <div class="rrs-pill-row" data-name="admit-dx">
+              <button type="button" class="rrs-pill" data-val="院外心停止後">院外心停止後</button>
+              <button type="button" class="rrs-pill" data-val="外傷">外傷</button>
+              <button type="button" class="rrs-pill" data-val="感染症">感染症</button>
+              <button type="button" class="rrs-pill" data-val="産科疾患（妊娠～産後1週まで）">産科疾患（妊娠～産後1週まで）</button>
+              <button type="button" class="rrs-pill" data-val="悪性腫瘍">悪性腫瘍</button>
+              <button type="button" class="rrs-pill" data-val="内科（心臓系）">内科（心臓系）</button>
+              <button type="button" class="rrs-pill" data-val="内科（非心臓系）">内科（非心臓系）</button>
+              <button type="button" class="rrs-pill" data-val="外科（心臓系）">外科（心臓系）</button>
+              <button type="button" class="rrs-pill" data-val="外科（非心臓系）">外科（非心臓系）</button>
+              <button type="button" class="rrs-pill" data-val="その他">その他</button>
+            </div>
+          </div>
+
+          <div class="rrs-field">
+            <label class="rrs-label">
+              入院時 CPC <span class="rrs-label-helper">（成人 or 小児を選択）</span>
+            </label>
+            <div class="rrs-pill-row" data-name="cpc-type" style="margin-bottom:6px;">
+              <button type="button" class="rrs-pill compact" data-val="adult">成人</button>
+              <button type="button" class="rrs-pill compact" data-val="ped">小児</button>
+            </div>
+            <div class="rrs-pill-row" data-name="cpc-adult" data-show-when="cpc-type=adult">
+              <button type="button" class="rrs-pill compact" data-val="CPC1">CPC1</button>
+              <button type="button" class="rrs-pill compact" data-val="CPC2">CPC2</button>
+              <button type="button" class="rrs-pill compact" data-val="CPC3">CPC3</button>
+              <button type="button" class="rrs-pill compact" data-val="CPC4">CPC4</button>
+              <button type="button" class="rrs-pill compact" data-val="CPC5">CPC5</button>
+            </div>
+            <div class="rrs-pill-row" data-name="cpc-ped" data-show-when="cpc-type=ped" style="display:none;">
+              <button type="button" class="rrs-pill compact" data-val="mPCPC1">mPCPC1</button>
+              <button type="button" class="rrs-pill compact" data-val="mPCPC2">mPCPC2</button>
+              <button type="button" class="rrs-pill compact" data-val="mPCPC3">mPCPC3</button>
+              <button type="button" class="rrs-pill compact" data-val="mPCPC4">mPCPC4</button>
+              <button type="button" class="rrs-pill compact" data-val="mPCPC5">mPCPC5</button>
+            </div>
+            <div class="rrs-info-panel">
+              <div class="rrs-info-panel-h">CPC 定義</div>
+              <div class="rrs-info-panel-cols">
+                <div>
+                  <strong>成人 CPC</strong>
+                  <ul>
+                    <li><b>CPC1</b>：脳機能良好 — 意識・覚醒明瞭、仕事・日常生活可能</li>
+                    <li><b>CPC2</b>：中等度脳障害 — 意識あり、非常勤仕事・日常生活独立に十分</li>
+                    <li><b>CPC3</b>：重度脳障害 — 意識あり、日常生活を他者に依存</li>
+                    <li><b>CPC4</b>：昏睡・植物状態 — 意識なし</li>
+                    <li><b>CPC5</b>：脳死</li>
+                  </ul>
+                </div>
+                <div>
+                  <strong>小児 mPCPC</strong>
+                  <ul>
+                    <li><b>mPCPC1</b>：正常 — 年齢相応</li>
+                    <li><b>mPCPC2</b>：軽度〜中等度脳障害（管理可能 or 活動制限）</li>
+                    <li><b>mPCPC3</b>：重度脳障害 — 過剰に他者依存</li>
+                    <li><b>mPCPC4</b>：昏睡 or 植物状態</li>
+                    <li><b>mPCPC5</b>：脳死</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="rrs-field">
+            <label class="rrs-label">イベント前の酸素投与の有無</label>
+            <div class="rrs-pill-row" data-name="o2-before">
+              <button type="button" class="rrs-pill" data-val="あり">あり</button>
+              <button type="button" class="rrs-pill" data-val="なし">なし</button>
+              <button type="button" class="rrs-pill" data-val="記載なし">記載なし</button>
+            </div>
+          </div>
+
+          <div class="rrs-field">
+            <label class="rrs-label">ICU退出後 72時間以内</label>
+            <div class="rrs-pill-row" data-name="icu72">
+              <button type="button" class="rrs-pill" data-val="Yes">Yes</button>
+              <button type="button" class="rrs-pill" data-val="No">No</button>
+            </div>
+          </div>
+
+          <div class="rrs-field">
+            <label class="rrs-label">処置後の鎮静ないし全麻後の 24時間以内</label>
+            <div class="rrs-pill-row" data-name="sed24">
+              <button type="button" class="rrs-pill" data-val="Yes">Yes</button>
+              <button type="button" class="rrs-pill" data-val="No">No</button>
+            </div>
+          </div>
+
+          <div class="rrs-field">
+            <label class="rrs-label">術後 1週間以内</label>
+            <div class="rrs-pill-row" data-name="postop1w">
+              <button type="button" class="rrs-pill" data-val="Yes">Yes</button>
+              <button type="button" class="rrs-pill" data-val="No">No</button>
+            </div>
+          </div>
+
+          <!-- 条件付き：いずれか Yes 選択時に記載必須 -->
+          <div class="rrs-field-sub dim" id="postop-detail-wrap">
+            <div class="rrs-field-sub-note">→ 上記いずれかが Yes の場合に記載</div>
+
+            <div class="rrs-field">
+              <label class="rrs-label">ASA-PS</label>
+              <div class="rrs-pill-row" data-name="asa">
+                <button type="button" class="rrs-pill compact" data-val="１">1</button>
+                <button type="button" class="rrs-pill compact" data-val="２">2</button>
+                <button type="button" class="rrs-pill compact" data-val="３">3</button>
+                <button type="button" class="rrs-pill compact" data-val="４">4</button>
+                <button type="button" class="rrs-pill compact" data-val="５">5</button>
+                <button type="button" class="rrs-pill compact" data-val="６">6</button>
+              </div>
+            </div>
+
+            <div class="rrs-field">
+              <label class="rrs-label">緊急手術であったか</label>
+              <div class="rrs-pill-row" data-name="emergency-op">
+                <button type="button" class="rrs-pill" data-val="あり">あり</button>
+                <button type="button" class="rrs-pill" data-val="なし">なし</button>
+              </div>
+            </div>
+
+            <div class="rrs-field" style="margin-bottom:0;">
+              <label class="rrs-label" for="or-exit">手術エリア 退室時刻</label>
+              <input type="datetime-local" id="or-exit" class="rrs-input small" style="max-width:220px;">
+            </div>
+
+          </div>
+
+          <div class="rrs-field" style="margin-top:14px;">
+            <label class="rrs-label">コードステータス</label>
+            <div class="rrs-pill-row" data-name="code-status">
+              <button type="button" class="rrs-pill" data-val="Full">Full</button>
+              <button type="button" class="rrs-pill" data-val="DNAR">DNAR</button>
+              <button type="button" class="rrs-pill" data-val="一部制限あり">一部制限あり</button>
+              <button type="button" class="rrs-pill" data-val="記載なし">記載なし</button>
+            </div>
+          </div>
+
+      </section>
+
+      <!-- Section 3: 起動情報 -->
+      <section class="rrs-section">
+        <div class="rrs-section-header">
+          <div class="rrs-section-num">3</div>
+          <h2 class="rrs-section-title">起動・到着・終了</h2>
+          <span class="rrs-section-aside">ICU</span>
+        </div>
+
+          <div class="rrs-field">
+            <label class="rrs-label">起動者</label>
+            <div class="rrs-pill-row" data-name="activator">
+              <button type="button" class="rrs-pill" data-val="Dr">Dr</button>
+              <button type="button" class="rrs-pill" data-val="Ns">Ns</button>
+              <button type="button" class="rrs-pill" data-val="その他">その他</button>
+            </div>
+            <input type="text" id="activator-other" class="rrs-input small" placeholder="その他：内容" style="margin-top:6px;max-width:260px;display:none;">
+          </div>
+
+          <div class="rrs-field">
+            <label class="rrs-label">起動場所</label>
+            <div class="rrs-pill-row" data-name="location">
+              <button type="button" class="rrs-pill" data-val="病室">病室</button>
+              <button type="button" class="rrs-pill" data-val="検査室">検査室</button>
+              <button type="button" class="rrs-pill" data-val="その他">その他</button>
+            </div>
+            <input type="text" id="location-other" class="rrs-input small" placeholder="その他：場所" style="margin-top:6px;max-width:260px;display:none;">
+          </div>
+
+          <div class="rrs-field">
+            <label class="rrs-label">到着時刻</label>
+            <div class="rrs-time-row">
+              <input type="time" id="arrival-time" class="rrs-input small">
+              <label class="rrs-nextday"><input type="checkbox" id="arrival-nextday"> 翌日</label>
+            </div>
+          </div>
+
+          <div class="rrs-field" style="margin-bottom:0;">
+            <label class="rrs-label">終了時刻</label>
+            <div class="rrs-time-row">
+              <input type="time" id="end-time" class="rrs-input small">
+              <label class="rrs-nextday"><input type="checkbox" id="end-nextday"> 翌日</label>
+            </div>
+          </div>
+
+      </section>
+
+      <!-- Section 4: 要請基準 -->
+      <section class="rrs-section">
+        <div class="rrs-section-header">
+          <div class="rrs-section-num">4</div>
+          <h2 class="rrs-section-title">要請基準 <span style="font-size:0.7rem;font-weight:500;opacity:0.8;">（複数選択可）</span></h2>
+          <span class="rrs-section-aside">ICU</span>
+        </div>
+
+          <div class="rrs-group-head">早期警告スコア</div>
+          <div class="rrs-pill-row" data-name="trig-news2" data-multi="true">
+            <button type="button" class="rrs-pill compact" data-val="警告スコアのコール基準">NEWS2 コール基準</button>
+            <a class="rrs-help" data-help="news2-calc">NEWS2を計算 ▼</a>
+          </div>
+          <div class="rrs-help-panel" id="news2-calc">
+            <div class="news2-h">
+              <span class="news2-h-title">NEWS2 計算</span>
+              <span class="news2-h-note">※ カルテプレビューには反映されません</span>
+            </div>
+
+            <div class="news2-grid">
+
+              <!-- 呼吸回数 -->
+              <div class="news2-card" id="n2-resp" data-pts="0">
+                <div class="news2-card-head">
+                  <div class="news2-card-name">呼吸回数<span class="news2-card-unit">/分</span></div>
+                  <div class="news2-card-pill" id="n2-pts-resp">0</div>
+                </div>
+                <select class="news2-select" data-var="resp">
+                  <option data-pts="0" selected>12〜20（正常） → 0 点</option>
+                  <option data-pts="3">≤8 → +3 点</option>
+                  <option data-pts="1">9〜11 → +1 点</option>
+                  <option data-pts="2">21〜24 → +2 点</option>
+                  <option data-pts="3">≥25 → +3 点</option>
+                </select>
+              </div>
+
+              <!-- SpO2（Scale 1 / 2 を optgroup で統合） -->
+              <div class="news2-card" id="n2-spo2" data-pts="0">
+                <div class="news2-card-head">
+                  <div class="news2-card-name">SpO₂<span class="news2-card-unit">%</span></div>
+                  <div class="news2-card-pill" id="n2-pts-spo2">0</div>
+                </div>
+                <select class="news2-select" data-var="spo2">
+                  <optgroup label="Scale 1 ─ 通常患者">
+                    <option data-pts="0" selected>≥96（正常） → 0 点</option>
+                    <option data-pts="1">94〜95 → +1 点</option>
+                    <option data-pts="2">92〜93 → +2 点</option>
+                    <option data-pts="3">≤91 → +3 点</option>
+                  </optgroup>
+                  <optgroup label="Scale 2 ─ COPD（室内気・目標 88〜92%）">
+                    <option data-pts="0">88〜92（目標範囲） → 0 点</option>
+                    <option data-pts="0">≥93 → 0 点</option>
+                    <option data-pts="1">86〜87 → +1 点</option>
+                    <option data-pts="2">84〜85 → +2 点</option>
+                    <option data-pts="3">≤83 → +3 点</option>
+                  </optgroup>
+                  <optgroup label="Scale 2 ─ COPD（酸素投与下・目標 88〜92%）">
+                    <option data-pts="0">88〜92（目標範囲） → 0 点</option>
+                    <option data-pts="1">86〜87 → +1 点</option>
+                    <option data-pts="1">93〜94 → +1 点</option>
+                    <option data-pts="2">84〜85 → +2 点</option>
+                    <option data-pts="2">95〜96 → +2 点</option>
+                    <option data-pts="3">≤83 → +3 点</option>
+                    <option data-pts="3">≥97 → +3 点</option>
+                  </optgroup>
+                </select>
+              </div>
+
+              <!-- 室内気 / 酸素 -->
+              <div class="news2-card" id="n2-air" data-pts="0">
+                <div class="news2-card-head">
+                  <div class="news2-card-name">室内気 / 酸素</div>
+                  <div class="news2-card-pill" id="n2-pts-air">0</div>
+                </div>
+                <select class="news2-select" data-var="air">
+                  <option data-pts="0" selected>室内気 → 0 点</option>
+                  <option data-pts="2">酸素投与 → +2 点</option>
+                </select>
+              </div>
+
+              <!-- 収縮期血圧 -->
+              <div class="news2-card" id="n2-sbp" data-pts="0">
+                <div class="news2-card-head">
+                  <div class="news2-card-name">収縮期血圧<span class="news2-card-unit">mmHg</span></div>
+                  <div class="news2-card-pill" id="n2-pts-sbp">0</div>
+                </div>
+                <select class="news2-select" data-var="sbp">
+                  <option data-pts="0" selected>111〜219（正常） → 0 点</option>
+                  <option data-pts="1">101〜110 → +1 点</option>
+                  <option data-pts="2">91〜100 → +2 点</option>
+                  <option data-pts="3">≤90 → +3 点</option>
+                  <option data-pts="3">≥220 → +3 点</option>
+                </select>
+              </div>
+
+              <!-- 脈拍数 -->
+              <div class="news2-card" id="n2-pulse" data-pts="0">
+                <div class="news2-card-head">
+                  <div class="news2-card-name">脈拍数<span class="news2-card-unit">/分</span></div>
+                  <div class="news2-card-pill" id="n2-pts-pulse">0</div>
+                </div>
+                <select class="news2-select" data-var="pulse">
+                  <option data-pts="0" selected>51〜90（正常） → 0 点</option>
+                  <option data-pts="1">41〜50 → +1 点</option>
+                  <option data-pts="1">91〜110 → +1 点</option>
+                  <option data-pts="2">111〜130 → +2 点</option>
+                  <option data-pts="3">≤40 → +3 点</option>
+                  <option data-pts="3">≥131 → +3 点</option>
+                </select>
+              </div>
+
+              <!-- 意識 -->
+              <div class="news2-card" id="n2-cns" data-pts="0">
+                <div class="news2-card-head">
+                  <div class="news2-card-name">意識</div>
+                  <div class="news2-card-pill" id="n2-pts-cns">0</div>
+                </div>
+                <select class="news2-select" data-var="cns">
+                  <option data-pts="0" selected>清明 → 0 点</option>
+                  <option data-pts="3">清明でない → +3 点</option>
+                </select>
+              </div>
+
+              <!-- 体温 -->
+              <div class="news2-card" id="n2-temp" data-pts="0">
+                <div class="news2-card-head">
+                  <div class="news2-card-name">体温<span class="news2-card-unit">℃</span></div>
+                  <div class="news2-card-pill" id="n2-pts-temp">0</div>
+                </div>
+                <select class="news2-select" data-var="temp">
+                  <option data-pts="0" selected>36.1〜38.0（正常） → 0 点</option>
+                  <option data-pts="1">35.1〜36.0 → +1 点</option>
+                  <option data-pts="1">38.1〜39.0 → +1 点</option>
+                  <option data-pts="2">≥39.1 → +2 点</option>
+                  <option data-pts="3">≤35.0 → +3 点</option>
+                </select>
+              </div>
+
+            </div>
+
+            <div class="news2-result" id="news2-result">
+              <div class="news2-score-badge">
+                <div class="news2-score-num" id="news2-score">—</div>
+                <div class="news2-score-suffix">pts</div>
+              </div>
+              <div class="news2-result-text">
+                <div class="news2-result-title" id="news2-result-title">未評価</div>
+                <div class="news2-result-detail" id="news2-result-detail">各項目を選択してください</div>
+              </div>
+            </div>
+            <div class="news2-actions">
+              <button type="button" class="rrs-btn rrs-btn-secondary" id="news2-reset" style="padding:6px 12px;font-size:0.74rem;">NEWS2のみリセット</button>
+            </div>
+          </div>
+
+          <div class="rrs-group-head">呼吸</div>
+          <div class="rrs-pill-row" data-name="trig-resp" data-multi="true">
+            <button type="button" class="rrs-pill compact" data-val="頻呼吸">頻呼吸</button>
+            <button type="button" class="rrs-pill compact" data-val="徐呼吸">徐呼吸</button>
+            <button type="button" class="rrs-pill compact" data-val="新たな呼吸困難">新たな呼吸困難</button>
+            <button type="button" class="rrs-pill compact" data-val="SpO2低下">SpO2低下</button>
+          </div>
+
+          <div class="rrs-group-head">循環</div>
+          <div class="rrs-pill-row" data-name="trig-circ" data-multi="true">
+            <button type="button" class="rrs-pill compact" data-val="低血圧">低血圧</button>
+            <button type="button" class="rrs-pill compact" data-val="頻脈">頻脈</button>
+            <button type="button" class="rrs-pill compact" data-val="徐脈">徐脈</button>
+            <button type="button" class="rrs-pill compact" data-val="胸痛">胸痛</button>
+          </div>
+
+          <div class="rrs-group-head">意識</div>
+          <div class="rrs-pill-row" data-name="trig-cns" data-multi="true">
+            <button type="button" class="rrs-pill compact" data-val="意識レベル低下">意識レベル低下</button>
+            <button type="button" class="rrs-pill compact" data-val="異常な興奮">異常な興奮</button>
+            <button type="button" class="rrs-pill compact" data-val="痙攣">痙攣</button>
+          </div>
+
+          <div class="rrs-group-head">何らかの懸念</div>
+          <div class="rrs-pill-row" data-name="trig-concern" data-multi="true">
+            <button type="button" class="rrs-pill compact" data-val="患者に対する懸念">患者に対する懸念</button>
+          </div>
+
+          <div class="rrs-group-head">その他</div>
+          <div class="rrs-pill-row" data-name="trig-other" data-multi="true">
+            <button type="button" class="rrs-pill compact" data-val="大量出血">大量出血</button>
+            <button type="button" class="rrs-pill compact" data-val="ｱﾅﾌｨﾗｷｼｰショック">ｱﾅﾌｨﾗｷｼｰショック</button>
+            <button type="button" class="rrs-pill compact" data-val="新たな外傷">新たな外傷</button>
+            <button type="button" class="rrs-pill compact" data-val="制御できない疼痛">制御できない疼痛</button>
+            <button type="button" class="rrs-pill compact" data-val="尿量低下">尿量低下</button>
+            <button type="button" class="rrs-pill compact" data-val="主治医が対応不可能/連絡がつかない">主治医が対応不可能/連絡がつかない</button>
+          </div>
+
+          <div class="rrs-group-head">要請基準以外</div>
+          <div class="rrs-pill-row" data-name="trig-non" data-multi="true">
+            <button type="button" class="rrs-pill compact" data-val="要請基準以外の異常">要請基準以外の異常</button>
+            <button type="button" class="rrs-pill compact" data-val="CCOTからの要請">CCOTからの要請</button>
+            <button type="button" class="rrs-pill compact" data-val="記載なし">記載なし</button>
+          </div>
+
+      </section>
+
+      <!-- Section 5: イベントの原因 -->
+      <section class="rrs-section">
+        <div class="rrs-section-header">
+          <div class="rrs-section-num">5</div>
+          <h2 class="rrs-section-title">イベントの原因 <span style="font-size:0.7rem;font-weight:500;opacity:0.8;">（複数選択可）</span></h2>
+          <span class="rrs-section-aside">ICU</span>
+        </div>
+
+          <div class="rrs-group-head">呼吸</div>
+          <div class="rrs-pill-row" data-name="cause-resp" data-multi="true">
+            <button type="button" class="rrs-pill compact" data-val="窒息/痰詰まり">窒息/痰詰まり</button>
+            <button type="button" class="rrs-pill compact" data-val="呼吸不全">呼吸不全</button>
+            <button type="button" class="rrs-pill compact" data-val="緊張性気胸">緊張性気胸</button>
+          </div>
+
+          <div class="rrs-group-head">心血管</div>
+          <div class="rrs-pill-row" data-name="cause-cardio" data-multi="true">
+            <button type="button" class="rrs-pill compact" data-val="心筋梗塞/心筋虚血">心筋梗塞/心筋虚血</button>
+            <button type="button" class="rrs-pill compact" data-val="心不全">心不全</button>
+            <button type="button" class="rrs-pill compact" data-val="不整脈">不整脈</button>
+            <button type="button" class="rrs-pill compact" data-val="その他の心原性ショック">その他の心原性ショック</button>
+            <button type="button" class="rrs-pill compact" data-val="肺塞栓">肺塞栓</button>
+            <button type="button" class="rrs-pill compact" data-val="心タンポナーデ">心タンポナーデ</button>
+            <button type="button" class="rrs-pill compact" data-val="大動脈解離・大動脈瘤破裂">大動脈解離・大動脈瘤破裂</button>
+          </div>
+
+          <div class="rrs-group-head">循環血液減少</div>
+          <div class="rrs-pill-row" data-name="cause-hypo" data-multi="true">
+            <button type="button" class="rrs-pill compact" data-val="大量出血">大量出血</button>
+            <button type="button" class="rrs-pill compact" data-val="その他の循環血液量減少性ショック">その他の循環血液量減少性ショック</button>
+          </div>
+
+          <div class="rrs-group-head">血液分布異常</div>
+          <div class="rrs-pill-row" data-name="cause-dist" data-multi="true">
+            <button type="button" class="rrs-pill compact" data-val="感染症/敗血症">感染症/敗血症</button>
+            <button type="button" class="rrs-pill compact" data-val="その他の血液分布異常性ショック">その他の血液分布異常性ショック</button>
+          </div>
+
+          <div class="rrs-group-head">その他</div>
+          <div class="rrs-pill-row" data-name="cause-other" data-multi="true">
+            <button type="button" class="rrs-pill compact" data-val="脳血管障害">脳血管障害</button>
+            <button type="button" class="rrs-pill compact" data-val="代謝障害/電解質異常">代謝障害/電解質異常</button>
+            <button type="button" class="rrs-pill compact" data-val="低血糖">低血糖</button>
+            <button type="button" class="rrs-pill compact" data-val="低体温">低体温</button>
+            <button type="button" class="rrs-pill compact" data-val="中毒">中毒</button>
+            <button type="button" class="rrs-pill compact" data-val="外傷">外傷</button>
+          </div>
+
+          <div class="rrs-pill-row" data-name="cause-misc" data-multi="true" style="margin-top:8px;">
+            <button type="button" class="rrs-pill compact" data-val="上記以外">上記以外</button>
+            <button type="button" class="rrs-pill compact" data-val="原因不明">原因不明</button>
+          </div>
+
+      </section>
+
+      <!-- Section 6: 介入 -->
+      <section class="rrs-section">
+        <div class="rrs-section-header">
+          <div class="rrs-section-num">6</div>
+          <h2 class="rrs-section-title">介入</h2>
+          <span class="rrs-section-aside">ICU</span>
+        </div>
+          <div id="intv-list"></div>
+      </section>
+
+      <!-- Section 7: RRS転帰・チーム形態 -->
+      <section class="rrs-section">
+        <div class="rrs-section-header">
+          <div class="rrs-section-num">7</div>
+          <h2 class="rrs-section-title">RRS転帰・チーム形態</h2>
+          <span class="rrs-section-aside">ICU</span>
+        </div>
+
+          <div class="rrs-field">
+            <label class="rrs-label">対応中の心停止</label>
+            <div class="rrs-pill-row" data-name="arrest">
+              <button type="button" class="rrs-pill" data-val="心停止なし">心停止なし</button>
+              <button type="button" class="rrs-pill" data-val="到着時心停止">到着時心停止</button>
+              <button type="button" class="rrs-pill" data-val="対応中に心停止">対応中に心停止</button>
+            </div>
+          </div>
+
+          <div class="rrs-field">
+            <label class="rrs-label">RRS転帰</label>
+            <div class="rrs-pill-row" data-name="rrs-outcome">
+              <button type="button" class="rrs-pill" data-val="死亡退院">死亡退院</button>
+              <button type="button" class="rrs-pill" data-val="転院">転院</button>
+              <button type="button" class="rrs-pill" data-val="病棟移動あり（ICU・CCM・ICCU）">病棟移動あり（ICU・CCM・ICCU）</button>
+              <button type="button" class="rrs-pill" data-val="病棟移動あり（ICU以外→HCU・IMCU）">病棟移動あり（ICU以外→HCU・IMCU）</button>
+              <button type="button" class="rrs-pill" data-val="病棟移動なし（外来患者の帰宅含む）">病棟移動なし（外来患者の帰宅含む）</button>
+              <button type="button" class="rrs-pill" data-val="その他">その他</button>
+            </div>
+          </div>
+
+          <div class="rrs-field">
+            <label class="rrs-label">対応終了時のコードステータス</label>
+            <div class="rrs-pill-row" data-name="end-code">
+              <button type="button" class="rrs-pill" data-val="Full">Full</button>
+              <button type="button" class="rrs-pill" data-val="DNAR">DNAR</button>
+              <button type="button" class="rrs-pill" data-val="一部制限">一部制限</button>
+            </div>
+          </div>
+
+          <div class="rrs-field" style="margin-bottom:0;">
+            <label class="rrs-label">チーム形態</label>
+            <div class="rrs-pill-row" data-name="team">
+              <button type="button" class="rrs-pill" data-val="RRT">RRT</button>
+              <button type="button" class="rrs-pill" data-val="MET">MET</button>
+            </div>
+          </div>
+
+      </section>
+
+      <!-- Section 8: Situation -->
+      <section class="rrs-section">
+        <div class="rrs-section-header">
+          <div class="rrs-section-num">8</div>
+          <h2 class="rrs-section-title">出動記録詳細 — Situation（発生状況）</h2>
+          <span class="rrs-section-aside">ICU</span>
+        </div>
+          <textarea id="situation" class="rrs-textarea" rows="5" placeholder="発生状況を自由記述（例：○月○日○時、病棟看護師より「SpO2 が 88% まで低下」とコール。訪室時、…）"></textarea>
+      </section>
+
+      <div class="rrs-bottom-actions">
+        <button type="button" class="rrs-btn rrs-btn-primary rrs-copy-btn">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-2px;margin-right:5px;"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>コピー</span>
+        </button>
+        <button type="button" class="rrs-btn rrs-btn-secondary rrs-reset-btn">全リセット</button>
+      </div>
+
+      <div class="rrs-back-to-top">
+        <button type="button" class="rrs-to-top-btn" id="rrs-to-top" aria-label="ページの最上部へ戻る">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="18 15 12 9 6 15"/></svg>
+          <span>トップへ戻る</span>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- RIGHT: PREVIEW                                                -->
+    <!-- ============================================================ -->
+    <aside class="rrs-output">
+      <div class="rrs-output-h">
+        <div class="rrs-output-h-icon" aria-hidden="true"></div>
+        <span class="rrs-output-h-title">カルテ プレビュー</span>
+        <span class="rrs-output-h-sub">コピペ可</span>
+      </div>
+      <div class="rrs-output-body">
+        <pre class="rrs-output-pre" id="rrs-output"></pre>
+        <div class="rrs-output-actions">
+          <button type="button" class="rrs-btn rrs-btn-primary rrs-copy-btn" id="rrs-copy">コピー</button>
+          <button type="button" class="rrs-btn rrs-btn-secondary rrs-reset-btn" id="rrs-reset">全リセット</button>
+        </div>
+      </div>
+    </aside>
+
+  </div>
+
+  <div class="rrs-disclaimer">
+    <strong>注意：</strong>本ツールは記録テンプレートの入力支援用です。生成されたテキストは必ず<strong>担当医が内容を確認</strong>のうえカルテに記載してください。患者を切り替える際は「全リセット」を押すか、ブラウザをリロードしてください。
+  </div>
+</div>
+
+<script src="../script.js"></script>
+<script>
+/* ============================================================
+   RRS対応記録 一発作成 — フォーム状態管理 + プレビュー生成
+   ============================================================ */
+(function(){
+
+  // ===== 介入項目（順序固定） =====
+  var INTV_ITEMS = [
+    { key:'overall',     label:'介入の有無' },
+    { key:'o2',          label:'酸素投与・増量' },
+    { key:'suction',     label:'吸引' },
+    { key:'nppv',        label:'NPPV' },
+    { key:'bvm',         label:'バックバルブマスク換気' },
+    { key:'intubation',  label:'挿管' },
+    { key:'cpr',         label:'胸骨圧迫' },
+    { key:'defib',       label:'除細動・カルディオバージョン' },
+    { key:'transfusion', label:'輸血' },
+    { key:'fluid_bolus', label:'輸液ボーラス（500ml以上）' },
+    { key:'lab_order',   label:'検査オーダー' },
+    { key:'medication',  label:'薬物療法' }
+  ];
+
+  // ===== 介入 UI 生成 =====
+  var intvList = document.getElementById('intv-list');
+  INTV_ITEMS.forEach(function(it){
+    var row = document.createElement('div');
+    row.className = 'rrs-intv-grid';
+    row.innerHTML =
+      '<div class="rrs-intv-label">' + it.label + '</div>' +
+      '<div class="rrs-pill-row" data-name="intv-' + it.key + '">' +
+      '  <button type="button" class="rrs-pill yn" data-val="あり">あり</button>' +
+      '  <button type="button" class="rrs-pill yn no" data-val="なし">なし</button>' +
+      '  <button type="button" class="rrs-pill yn unknown" data-val="不明">不明</button>' +
+      '</div>';
+    intvList.appendChild(row);
+  });
+
+  // ===== 状態 =====
+  var state = {};
+  function getState(name){ return state[name]; }
+  function setState(name, val){ state[name] = val; render(); }
+
+  // ===== ピル選択イベント =====
+  document.querySelectorAll('.rrs-pill-row').forEach(function(row){
+    var name = row.getAttribute('data-name');
+    var multi = row.getAttribute('data-multi') === 'true';
+    row.addEventListener('click', function(e){
+      var btn = e.target.closest('.rrs-pill');
+      if(!btn) return;
+      var val = btn.getAttribute('data-val');
+      if(multi){
+        var arr = state[name] || [];
+        var idx = arr.indexOf(val);
+        if(idx >= 0){ arr.splice(idx, 1); btn.classList.remove('active'); }
+        else        { arr.push(val);     btn.classList.add('active'); }
+        state[name] = arr.slice();
+      } else {
+        if(state[name] === val){
+          state[name] = null;
+          btn.classList.remove('active');
+        } else {
+          state[name] = val;
+          row.querySelectorAll('.rrs-pill').forEach(function(b){ b.classList.remove('active'); });
+          btn.classList.add('active');
+        }
+      }
+      onStateChange(name);
+      render();
+    });
+  });
+
+  function onStateChange(name){
+    // CPC 種別変更で表示行切り替え
+    if(name === 'cpc-type'){
+      var t = state['cpc-type'];
+      document.querySelector('[data-name="cpc-adult"]').style.display = (t === 'adult') ? '' : 'none';
+      document.querySelector('[data-name="cpc-ped"]').style.display   = (t === 'ped')   ? '' : 'none';
+      if(t === 'adult') state['cpc-ped'] = null;
+      if(t === 'ped')   state['cpc-adult'] = null;
+      clearActive('cpc-ped');
+      clearActive('cpc-adult');
+    }
+    // 起動者「その他」入力欄
+    if(name === 'activator'){
+      document.getElementById('activator-other').style.display = (state['activator'] === 'その他') ? '' : 'none';
+    }
+    if(name === 'location'){
+      document.getElementById('location-other').style.display = (state['location'] === 'その他') ? '' : 'none';
+    }
+    // 術後系 Yes/No に応じて条件付きセクションをハイライト
+    if(name === 'icu72' || name === 'sed24' || name === 'postop1w'){
+      var any = state['icu72'] === 'Yes' || state['sed24'] === 'Yes' || state['postop1w'] === 'Yes';
+      document.getElementById('postop-detail-wrap').classList.toggle('dim', !any);
+    }
+  }
+
+  function clearActive(name){
+    var row = document.querySelector('[data-name="' + name + '"]');
+    if(row) row.querySelectorAll('.rrs-pill').forEach(function(b){ b.classList.remove('active'); });
+  }
+
+  // ===== テキスト系イベント =====
+  ['ward-call-time','ward-call-reason','activator-other','location-other',
+   'arrival-time','arrival-nextday','end-time','end-nextday',
+   'or-exit','situation'].forEach(function(id){
+    var el = document.getElementById(id);
+    el.addEventListener('input', render);
+    el.addEventListener('change', render);
+  });
+
+  // ===== トップへ戻る =====
+  document.getElementById('rrs-to-top').addEventListener('click', function(){
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  // ===== ヘルプパネル開閉（NEWS2 など） =====
+  document.querySelectorAll('.rrs-help').forEach(function(h){
+    h.addEventListener('click', function(e){
+      e.preventDefault();
+      e.stopPropagation();
+      var id = h.getAttribute('data-help');
+      var panel = document.getElementById(id);
+      if(panel){
+        var open = panel.classList.toggle('open');
+        h.textContent = open ? h.textContent.replace('▼','▲') : h.textContent.replace('▲','▼');
+      }
+    });
+  });
+
+  // ===== NEWS2 計算機（ドロップダウン式） =====
+  //   各 .news2-select の選択 option から data-pts を読み出して合計を計算。
+  //   合計 ≥ 7 で「警告スコアのコール基準」ピルを自動的に有効化する。
+  //   カルテプレビュー (render) には NEWS2 スコア自体は反映しない。
+  var NEWS2_KEYS = ['resp','spo2','air','sbp','pulse','cns','temp'];
+
+  function getCardPts(key){
+    var sel = document.querySelector('.news2-select[data-var="' + key + '"]');
+    if(!sel) return 0;
+    var opt = sel.options[sel.selectedIndex];
+    return opt ? parseInt(opt.getAttribute('data-pts') || '0', 10) : 0;
+  }
+
+  function updateNews2Card(key){
+    var pts = getCardPts(key);
+    var card = document.getElementById('n2-' + key);
+    var pill = document.getElementById('n2-pts-' + key);
+    if(card) card.setAttribute('data-pts', String(pts));
+    if(pill) pill.textContent = pts;
+  }
+
+  document.querySelectorAll('.news2-select').forEach(function(sel){
+    sel.addEventListener('change', function(){
+      var key = sel.getAttribute('data-var');
+      updateNews2Card(key);
+      updateNews2Result();
+    });
+  });
+
+  function updateNews2Result(){
+    var scoreEl  = document.getElementById('news2-score');
+    var titleEl  = document.getElementById('news2-result-title');
+    var detailEl = document.getElementById('news2-result-detail');
+    var resultEl = document.getElementById('news2-result');
+
+    var total = 0;
+    var hasAny3 = false;
+    NEWS2_KEYS.forEach(function(k){
+      var v = getCardPts(k);
+      total += v;
+      if(v === 3) hasAny3 = true;
+    });
+    scoreEl.textContent = total;
+
+    var level, title, detail;
+    if(total === 0){
+      level = 'ok';
+      title = '通常モニタリングを継続';
+      detail = '通常のバイタルサイン測定';
+    } else if(total >= 7){
+      level = 'critical';
+      title = '持続モニタリングが必須';
+      detail = 'すぐに当直医 call and/or ICU相談PHS call';
+    } else if(total >= 5 || hasAny3){
+      level = 'high';
+      title = (hasAny3 ? '1項目で3点 ─ ' : '合計5〜6点 ─ ') + '最低1時間毎のモニタリング';
+      detail = '当直医に相談 and/or ICU相談PHS を検討';
+    } else {
+      level = 'mid';
+      title = '合計' + total + '点 ─ 最低4〜6時間毎のモニタリング';
+      detail = '看護師がモニタリング頻度を増やすか判断';
+    }
+    titleEl.textContent = title;
+    detailEl.textContent = detail;
+    resultEl.setAttribute('data-level', level);
+
+    // ≥7 点で「警告スコアのコール基準」を自動チェック
+    syncCallCriterion(total);
+  }
+
+  function syncCallCriterion(total){
+    var val = '警告スコアのコール基準';
+    var name = 'trig-news2';
+    var arr = state[name] || [];
+    var btn = document.querySelector('[data-name="' + name + '"] [data-val="' + val + '"]');
+    if(total >= 7){
+      if(arr.indexOf(val) === -1){
+        arr.push(val);
+        state[name] = arr;
+        if(btn) btn.classList.add('active');
+        render();
+      }
+    }
+    // <7 では何もしない（ユーザの手動選択を尊重）
+  }
+
+  // NEWS2 のみリセット
+  document.getElementById('news2-reset').addEventListener('click', function(){
+    document.querySelectorAll('.news2-select').forEach(function(sel){
+      sel.selectedIndex = 0;  // 各 select の先頭オプション（= 正常値）
+      var key = sel.getAttribute('data-var');
+      updateNews2Card(key);
+    });
+    updateNews2Result();
+  });
+
+  // 初期描画
+  NEWS2_KEYS.forEach(updateNews2Card);
+  updateNews2Result();
+
+  // ===== レンダリング =====
+  var BOX_ON = '■', BOX_OFF = '□';
+  function chk(name, val){
+    return (state[name] === val ? BOX_ON : BOX_OFF) + val;
+  }
+  function chkMulti(name, val){
+    var arr = state[name] || [];
+    return (arr.indexOf(val) >= 0 ? BOX_ON : BOX_OFF) + val;
+  }
+  function chkBool(condition, label){
+    return (condition ? BOX_ON : BOX_OFF) + label;
+  }
+  function timeStr(id, nextdayId){
+    var v = document.getElementById(id).value;
+    var nd = nextdayId ? document.getElementById(nextdayId).checked : false;
+    if(!v) return '〇時〇分' + (nextdayId ? '　' + chkBool(nd, '翌日') : '');
+    var parts = v.split(':');
+    var line = parts[0] + '時' + parts[1] + '分';
+    if(nextdayId) line += '　' + chkBool(nd, '翌日');
+    return line;
+  }
+  function datetimeStr(id){
+    var v = document.getElementById(id).value;
+    if(!v) return '〇月〇日〇時';
+    var d = new Date(v);
+    if(isNaN(d.getTime())) return '〇月〇日〇時';
+    return (d.getMonth()+1) + '月' + d.getDate() + '日' + d.getHours() + '時' +
+      (d.getMinutes() ? d.getMinutes() + '分' : '');
+  }
+  function textOrPlaceholder(id, ph){
+    var v = (document.getElementById(id).value || '').trim();
+    return v || ph;
+  }
+
+  function render(){
+    var lines = [];
+
+    // ===== 病棟記載部 =====
+    lines.push('★病棟医師または看護師記載欄★');
+    lines.push('ICU相談PHS連絡時刻：' + timeStr('ward-call-time'));
+    lines.push('');
+    lines.push('ICU相談PHSコール理由：' + textOrPlaceholder('ward-call-reason', '（簡潔に記載）'));
+    lines.push('');
+    lines.push('ICUチームの病棟訪室：' + chk('ward-visit', 'あり') + '　' + chk('ward-visit', 'なし'));
+    lines.push('');
+
+    // ===== ICUチーム記載部 =====
+    lines.push('★ICUチーム記載欄★');
+
+    // 入院主病名
+    var dxOpts = ['院外心停止後','外傷','感染症','産科疾患（妊娠～産後1週まで）','悪性腫瘍','内科（心臓系）','内科（非心臓系）','外科（心臓系）','外科（非心臓系）','その他'];
+    lines.push('入院主病名：' + dxOpts.map(function(v){ return chk('admit-dx', v); }).join('　'));
+
+    // 入院時 CPC
+    lines.push('入院時CPC：');
+    var cpcType = state['cpc-type'];
+    var adultParts = ['CPC1','CPC2','CPC3','CPC4','CPC5'].map(function(v){
+      return (cpcType === 'adult' && state['cpc-adult'] === v ? BOX_ON : BOX_OFF) + v;
+    });
+    var pedParts = ['mPCPC1','mPCPC2','mPCPC3','mPCPC4','mPCPC5'].map(function(v){
+      return (cpcType === 'ped' && state['cpc-ped'] === v ? BOX_ON : BOX_OFF) + v;
+    });
+    lines.push('　成人：' + adultParts.join('　') + '（指導医コメント参照）');
+    lines.push('　小児：' + pedParts.join('　') + '（指導医コメント参照）');
+
+    // 酸素
+    lines.push('イベント前の酸素投与の有無：' + chk('o2-before','あり') + '　' + chk('o2-before','なし') + '　' + chk('o2-before','記載なし'));
+
+    // Yes/No 3つ
+    lines.push('ICU退出後72時間以内：' + chk('icu72','Yes') + '　' + chk('icu72','No'));
+    lines.push('処置後の鎮静ないし全麻後の24時間以内：' + chk('sed24','Yes') + '　' + chk('sed24','No'));
+    lines.push('術後1週間以内：' + chk('postop1w','Yes') + '　' + chk('postop1w','No'));
+    lines.push('→Yes選択時以下記載必須');
+    lines.push('　ASA-PS：' + ['１','２','３','４','５','６'].map(function(v){ return chk('asa', v); }).join('　'));
+    lines.push('　緊急手術であったか：' + chk('emergency-op','あり') + '　' + chk('emergency-op','なし'));
+    lines.push('　手術エリア退室時刻：' + datetimeStr('or-exit'));
+
+    // コードステータス
+    lines.push('コードステータス：' + ['Full','DNAR','一部制限あり','記載なし'].map(function(v){ return chk('code-status', v); }).join('　'));
+
+    // 起動者
+    var actLine = ['Dr','Ns'].map(function(v){ return chk('activator', v); }).join('　') + '　';
+    var actOther = (document.getElementById('activator-other').value || '').trim();
+    actLine += (state['activator'] === 'その他' ? BOX_ON : BOX_OFF) + 'その他（' + actOther + '）';
+    lines.push('起動者：' + actLine);
+
+    // 起動場所
+    var locLine = ['病室','検査室'].map(function(v){ return chk('location', v); }).join('　') + '　';
+    var locOther = (document.getElementById('location-other').value || '').trim();
+    locLine += (state['location'] === 'その他' ? BOX_ON : BOX_OFF) + 'その他（' + locOther + '）';
+    lines.push('起動場所：' + locLine);
+
+    // 起動・到着・終了時刻
+    lines.push('起動時刻：別記');
+    lines.push('到着時刻：' + timeStr('arrival-time', 'arrival-nextday'));
+    lines.push('終了時刻：' + timeStr('end-time', 'end-nextday'));
+
+    // 要請基準
+    lines.push('要請基準（複数選択可）');
+    lines.push('　早期警告スコア（NEWS2）：' + chkMulti('trig-news2','警告スコアのコール基準'));
+    lines.push('　呼吸：' + ['頻呼吸','徐呼吸','新たな呼吸困難','SpO2低下'].map(function(v){ return chkMulti('trig-resp', v); }).join('　'));
+    lines.push('　循環：' + ['低血圧','頻脈','徐脈','胸痛'].map(function(v){ return chkMulti('trig-circ', v); }).join('　'));
+    lines.push('　意識：' + ['意識レベル低下','異常な興奮','痙攣'].map(function(v){ return chkMulti('trig-cns', v); }).join('　'));
+    lines.push('　何らかの懸念：' + chkMulti('trig-concern','患者に対する懸念'));
+    lines.push('　その他：' + ['大量出血','ｱﾅﾌｨﾗｷｼｰショック','新たな外傷','制御できない疼痛','尿量低下','主治医が対応不可能/連絡がつかない'].map(function(v){ return chkMulti('trig-other', v); }).join('　'));
+    lines.push('　要請基準以外：' + ['要請基準以外の異常','CCOTからの要請'].map(function(v){ return chkMulti('trig-non', v); }).join('　'));
+    lines.push('　' + chkMulti('trig-non','記載なし'));
+
+    // イベントの原因
+    lines.push('イベントの原因');
+    lines.push('　呼吸：' + ['窒息/痰詰まり','呼吸不全','緊張性気胸'].map(function(v){ return chkMulti('cause-resp', v); }).join('　'));
+    lines.push('　心血管：' + ['心筋梗塞/心筋虚血','心不全','不整脈','その他の心原性ショック','肺塞栓','心タンポナーデ','大動脈解離・大動脈瘤破裂'].map(function(v){ return chkMulti('cause-cardio', v); }).join('　'));
+    lines.push('　循環血液減少：' + ['大量出血','その他の循環血液量減少性ショック'].map(function(v){ return chkMulti('cause-hypo', v); }).join('　'));
+    lines.push('　血液分布異常：' + ['感染症/敗血症','その他の血液分布異常性ショック'].map(function(v){ return chkMulti('cause-dist', v); }).join('　'));
+    lines.push('　その他：' + ['脳血管障害','代謝障害/電解質異常','低血糖','低体温','中毒','外傷'].map(function(v){ return chkMulti('cause-other', v); }).join('　'));
+    lines.push('　' + ['上記以外','原因不明'].map(function(v){ return chkMulti('cause-misc', v); }).join('　'));
+
+    // 介入
+    lines.push('介入');
+    INTV_ITEMS.forEach(function(it){
+      var n = 'intv-' + it.key;
+      lines.push('　' + it.label + '：' + chk(n,'あり') + '　' + chk(n,'なし') + '　' + chk(n,'不明'));
+    });
+
+    // RRS転帰
+    lines.push('RRS転帰');
+    var arrest = state['arrest'];
+    var arrestNone = arrest === '心停止なし' ? BOX_ON : BOX_OFF;
+    var arrestYes  = (arrest === '到着時心停止' || arrest === '対応中に心停止') ? BOX_ON : BOX_OFF;
+    var arrestOnArr = arrest === '到着時心停止' ? BOX_ON : BOX_OFF;
+    var arrestDuring = arrest === '対応中に心停止' ? BOX_ON : BOX_OFF;
+    lines.push('　対応中の心停止：' + arrestNone + '心停止なし　' + arrestYes + '心停止あり→' + arrestOnArr + '到着時心停止　' + arrestDuring + '対応中に心停止');
+    lines.push('　RRS転帰：' + ['死亡退院','転院','病棟移動あり（ICU・CCM・ICCU）','病棟移動あり（ICU以外→HCU・IMCU）','病棟移動なし（外来患者の帰宅含む）','その他'].map(function(v){ return chk('rrs-outcome', v); }).join('　'));
+    lines.push('　対応終了時のコードステータス：' + ['Full','DNAR','一部制限'].map(function(v){ return chk('end-code', v); }).join('　'));
+
+    // チーム形態
+    lines.push('チーム形態：' + ['RRT','MET'].map(function(v){ return chk('team', v); }).join('　'));
+
+    // Situation
+    lines.push(' ');
+    lines.push('出動記録詳細');
+    lines.push('Situation：発生状況');
+    lines.push('');
+    var sit = (document.getElementById('situation').value || '').trim();
+    if(sit) lines.push(sit);
+    lines.push('');
+    lines.push('上記の通り、ICU相談PHSに対して対応を行った。');
+
+    document.getElementById('rrs-output').textContent = lines.join('\n');
+  }
+
+  // ===== コピー（プレビュー脇 + フォーム末尾、両方にバインド） =====
+  document.querySelectorAll('.rrs-copy-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var txt = document.getElementById('rrs-output').textContent;
+      if(navigator.clipboard && window.isSecureContext){
+        navigator.clipboard.writeText(txt).then(showCopied).catch(fallbackCopy);
+      } else {
+        fallbackCopy();
+      }
+      function fallbackCopy(){
+        var ta = document.createElement('textarea');
+        ta.value = txt;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try{ document.execCommand('copy'); } catch(e){}
+        document.body.removeChild(ta);
+        showCopied();
+      }
+      function showCopied(){
+        // クリックされたボタンだけでなく全コピー用ボタンを一斉に更新
+        document.querySelectorAll('.rrs-copy-btn').forEach(function(b){
+          if(b.dataset.origHtml === undefined) b.dataset.origHtml = b.innerHTML;
+          b.innerHTML = '✓ コピー完了';
+          b.classList.add('copied');
+        });
+        setTimeout(function(){
+          document.querySelectorAll('.rrs-copy-btn').forEach(function(b){
+            if(b.dataset.origHtml !== undefined){
+              b.innerHTML = b.dataset.origHtml;
+              delete b.dataset.origHtml;
+            }
+            b.classList.remove('copied');
+          });
+        }, 1500);
+      }
+    });
+  });
+
+  // ===== 全リセット（プレビュー脇 + フォーム末尾、両方にバインド） =====
+  function doFullReset(){
+    if(!confirm('入力内容をすべてリセットします。よろしいですか？')) return;
+    state = {};
+    document.querySelectorAll('.rrs-pill.active').forEach(function(b){ b.classList.remove('active'); });
+    ['ward-call-time','ward-call-reason','activator-other','location-other',
+     'arrival-time','end-time','or-exit','situation'].forEach(function(id){
+      document.getElementById(id).value = '';
+    });
+    ['arrival-nextday','end-nextday'].forEach(function(id){
+      document.getElementById(id).checked = false;
+    });
+    document.querySelector('[data-name="cpc-ped"]').style.display = 'none';
+    document.querySelector('[data-name="cpc-adult"]').style.display = '';
+    document.getElementById('activator-other').style.display = 'none';
+    document.getElementById('location-other').style.display = 'none';
+    document.getElementById('postop-detail-wrap').classList.add('dim');
+    // NEWS2 計算機も合わせてリセット
+    document.querySelectorAll('.news2-select').forEach(function(sel){
+      sel.selectedIndex = 0;
+      var key = sel.getAttribute('data-var');
+      if(typeof updateNews2Card === 'function') updateNews2Card(key);
+    });
+    if(typeof updateNews2Result === 'function') updateNews2Result();
+    render();
+  }
+  document.querySelectorAll('.rrs-reset-btn').forEach(function(btn){
+    btn.addEventListener('click', doFullReset);
+  });
+
+  // ===== 初期描画 =====
+  render();
+
+})();
+</script>
+
+</body>
+</html>

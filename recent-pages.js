@@ -17,6 +17,13 @@ const RECENT_PAGES = [
     thumb: "images/朝カンファ風景.webp"
   },
   {
+    title: "脳MRIで偶発的に検出される頭蓋内圧亢進の画像所見と乳頭浮腫との関連（JAMA Neurol 2021）",
+    url: "pages/articles-gl-mri-ih-jamaneurol2021.html",
+    date: "2026-05-19",
+    tag: "ガイドライン",
+    thumb: "images/朝カンファ風景.webp"
+  },
+  {
     title: "皮下注射による抗菌薬投与 — いつ・どう使うか（CID 2026）",
     url: "pages/articles-gl-sc-abx2026.html",
     date: "2026-05-19",

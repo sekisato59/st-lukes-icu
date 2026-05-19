@@ -57,17 +57,19 @@
         { href: 'pages/schedule-weekly-id-icu.html',  label: 'ID×ICU Conference 動画集' }
       ])
     + dd('便利ツール', [
+        // 並び順：英字 A–Z → 50音（あいうえお）順
+        { href: 'pages/apache-ii.html',          label: 'APACHE II スコア' },
+        { href: 'pages/karte-by-system.html',    label: 'By Systemカルテ作成ツール' },
+        { href: 'pages/cam-icu.html',            label: 'CAM-ICU（せん妄評価）' },
+        { href: 'pages/ldl-target.html',         label: 'LDL目標値チェッカー' },
+        { href: 'pages/rass.html',               label: 'RASS（鎮静評価）' },
+        { href: 'pages/rrs-report.html',         label: 'RRS対応記録 一発作成' },
+        { href: 'pages/sofa.html',               label: 'SOFA-2 スコア（2026 改訂）' },
+        { href: 'pages/karte-abbreviations.html',label: 'カルテ略語対策' },
         // 公開停止中（再公開時は次行のコメントアウト解除）
         // { href: 'pages/abx-calculator.html',     label: '抗菌薬投与量 一発計算' },
-        { href: 'pages/ldl-target.html',         label: 'LDL目標値チェッカー' },
-        // 公開停止中（再公開時は次行のコメントアウト解除）
         // { href: 'pages/nutrition-calc.html',     label: '必要カロリー・蛋白量 計算' },
-        { href: 'pages/transfusion-calc.html',   label: '輸血量 → 期待上昇予測（RBC・PC・FFP）' },
-        { href: 'pages/apache-ii.html',          label: 'APACHE II スコア' },
-        { href: 'pages/sofa.html',               label: 'SOFA-2 スコア（2026 改訂）' },
-        { href: 'pages/rass.html',               label: 'RASS（鎮静評価）' },
-        { href: 'pages/cam-icu.html',            label: 'CAM-ICU（せん妄評価）' },
-        { href: 'pages/karte-abbreviations.html',label: 'カルテ略語対策' }
+        { href: 'pages/transfusion-calc.html',   label: '輸血量 → 期待上昇予測（RBC・PC・FFP）' }
       ])
     + '<li><a href="' + basePath + 'pages/recent-all.html" class="nav-link nav-link-search" id="globalSearchTrigger" aria-label="サイト内コンテンツ検索">検索<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left:4px;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></a></li>';
 
@@ -405,12 +407,18 @@ if (copyBtn) {
     document.body.appendChild(drawer);
 
     // サイドバーカードの中身（タイトル除く）をドロワー本文へクローン
-    var card = sidebar.querySelector('.ie-sidebar-card, .bm-sidebar-card, .sys-sidebar-card') || sidebar;
+    // 複数の sidebar-card がある場合は全カードをコピーし、2枚目以降は
+    // タイトル（関連ページ等）も含めて区切りとして表示する。
+    var cards = sidebar.querySelectorAll('.ie-sidebar-card, .bm-sidebar-card, .sys-sidebar-card');
+    if (!cards.length) cards = [sidebar];
     var body = drawer.querySelector('.mob-toc-body');
-    Array.prototype.forEach.call(card.children, function(child) {
-      var cls = child.className || '';
-      if (typeof cls === 'string' && /sidebar-title/.test(cls)) return;
-      body.appendChild(child.cloneNode(true));
+    Array.prototype.forEach.call(cards, function(card, cardIdx) {
+      Array.prototype.forEach.call(card.children, function(child) {
+        var cls = child.className || '';
+        // 1枚目のタイトルはドロワーのヘッダーに表示済みなのでスキップ
+        if (cardIdx === 0 && typeof cls === 'string' && /sidebar-title/.test(cls)) return;
+        body.appendChild(child.cloneNode(true));
+      });
     });
 
     function open() {

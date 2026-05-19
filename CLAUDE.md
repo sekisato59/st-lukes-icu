@@ -778,3 +778,58 @@ git config core.hooksPath .githooks
   - `pages/{articles-guidelines,disease-topics}.html` → genre `カタログ`
 - `tag` → `type` 変換：`ガイドライン`→`ガイドライン`、`症例`→`Case`、`解説`→`Review`、それ以外（`論文`等）→ 空。
 - 厳密な system 分類（呼吸器系・循環器系等）が必要な GL ページは、引き続き `all-pages.js` に直接登録するほうが望ましい（重複した場合は `all-pages.js` 側のメタが優先）。
+
+---
+
+## 関連ページ（articles-gl-*.html 末尾の RELATED ブロック）
+
+各 `articles-gl-*.html` の末尾に「関連ページ」セクションを自動挿入する。本文内容の類似度に基づいて全 GL ページから最大10件を抽出する。
+
+### 仕組み
+
+[`scripts/sync-related-articles.js`](scripts/sync-related-articles.js) が以下を実行する：
+
+1. `search-index.js` 内の各ページのエントリ（page-level + chapter-level）から `title` / `desc` / `keywords` を集めて corpus を作成
+2. 日本語向け簡易トークナイズ（漢字 2-gram + カタカナ語 + ASCII語）
+3. TF-IDF + cosine similarity で全ページ間の類似度を計算
+4. 類似度 `MIN_SCORE`（既定 0.08）以上の上位最大10件を選定（弱いマッチがない場合は10件未満でも OK）
+5. 本文末尾の `<!-- RELATED:START -->` 〜 `<!-- RELATED:END -->` ブロック（カード形式）と、サイドバー目次の `<!-- RELATED-TOC:START -->` 〜 `<!-- RELATED-TOC:END -->` ブロック（コンパクトなリンクリスト）の両方を HTML に inject
+
+### 手動編集禁止
+
+`<!-- RELATED:START -->` 〜 `<!-- RELATED:END -->` と `<!-- RELATED-TOC:START -->` 〜 `<!-- RELATED-TOC:END -->` の中身は自動生成。手動編集してもコミット時に上書きされる。
+
+### ピン留め・除外（オーバーライド）
+
+特定の関連ページを必ず上位に出す/除外したい場合は、[`related-articles-overrides.json`](related-articles-overrides.json) を編集：
+
+```json
+{
+  "pages/articles-gl-aha-pe2026.html": {
+    "pin": [
+      "pages/articles-gl-jcs-vte2025.html",
+      "pages/articles-gl-adjust-dvt2026.html"
+    ],
+    "exclude": [
+      "pages/articles-gl-XXX.html"
+    ]
+  }
+}
+```
+
+- `pin`: 類似度に関わらず上位に固定（記載順）
+- `exclude`: 候補から完全に除外
+
+### 新規ページ追加時の動作
+
+- pre-commit hook が `scripts/sync-related-articles.js` を実行し、すべての GL ページの関連ブロックを再計算してステージに追加する
+- 新規ページが既存ページの top-10 を更新する場合があるため、commit に「多くの GL ページ修正」が含まれることがある（これは設計上の正常動作）
+- 優先順位を細かく調整したい場合は overrides JSON で個別ピン留め
+
+### 手動で再生成したいとき
+
+```bash
+node scripts/sync-related-articles.js                  # 再生成
+node scripts/sync-related-articles.js --check          # 差分があれば終了コード 1
+node scripts/sync-related-articles.js --verbose        # 各ページの top-N をログ出力
+```

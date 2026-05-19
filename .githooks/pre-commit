@@ -29,7 +29,18 @@ if ! git diff --quiet recent-pages.js 2>/dev/null; then
   echo "[pre-commit] recent-pages.js を自動更新してステージしました"
 fi
 
-# 2) ページ整合性監査（worktree leftover / 略語ポップアップ漏れ）
+# 2) articles-gl-*.html の「関連ページ」ブロックを自動再生成
+if [ -f scripts/sync-related-articles.js ]; then
+  node scripts/sync-related-articles.js > /dev/null
+  changed=$(git diff --name-only -- 'pages/articles-gl-*.html' 2>/dev/null)
+  if [ -n "$changed" ]; then
+    echo "$changed" | xargs git add
+    n=$(echo "$changed" | wc -l | tr -d ' ')
+    echo "[pre-commit] 関連ページブロックを ${n} ファイルで自動更新してステージしました"
+  fi
+fi
+
+# 3) ページ整合性監査（worktree leftover / 略語ポップアップ漏れ）
 if [ -f scripts/audit-pages.js ]; then
   audit_out=$(node scripts/audit-pages.js 2>&1)
   audit_exit=$?
