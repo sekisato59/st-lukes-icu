@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SBT中の呼吸力学・吸気努力モニタリングによるハイリスク患者の抜管失敗予測（AJRCCM 2025）| 聖路加ICU</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style-v2.css?v=202605190000">
+  <style>
+/* Layout */
+    .content-wrap { display:flex;gap:32px;align-items:flex-start;max-width:1294px;margin:0 auto;padding:32px 20px 80px; }
+    .main-col { flex:1;min-width:0;max-width:900px; }
+    .ie-toc-chapter { display:block;font-size:0.8rem;font-weight:700;color:var(--text);padding:6px 0;border-bottom:1px solid var(--border);text-decoration:none;line-height:1.4; }
+    .ie-toc-section { display:block;font-size:0.75rem;color:var(--muted);padding:4px 0 4px 10px;text-decoration:none;line-height:1.4;border-left:2px solid var(--border); }
+
+    /* Tables */
+    .ie-table { width:100%;border-collapse:collapse;font-size:0.82rem;margin-top:10px; }
+    .ie-table th { background:#F0FDF4;border:1px solid #BBF7D0;padding:8px 12px;font-weight:700;font-size:0.78rem;text-align:left; }
+    .ie-table td { border:1px solid var(--border);padding:8px 12px;vertical-align:top;line-height:1.7; }
+    .ie-table tr:nth-child(even) td { background:#F8FAFC; }
+
+    /* Flow */
+    .ie-flow { display:flex;flex-direction:column;gap:0; }
+    .ie-flow-item { display:flex;align-items:flex-start;gap:14px;background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:14px 16px; }
+    .ie-flow-arrow { text-align:center;color:#2D7A4F;font-size:1.1rem;font-weight:700;padding:4px 0; }
+    .ie-flow-num { width:28px;height:28px;border-radius:50%;background:#2D7A4F;color:#fff;font-size:0.78rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0; }
+
+    /* Stat grid */
+    .ie-stat-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px; }
+    @media (max-width:520px) { .ie-stat-grid { grid-template-columns:1fr 1fr; } }
+    .ie-stat { background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;padding:14px 12px;text-align:center; }
+    .ie-stat-val { font-size:1.25rem;font-weight:900;color:#2D7A4F;line-height:1.3; }
+    .ie-stat-label { font-size:0.68rem;color:var(--muted);margin-top:5px;line-height:1.5; }
+    .ie-stat.red { background:#FEF2F2;border-color:#FECACA; }
+    .ie-stat.red .ie-stat-val { color:#DC2626; }
+    .ie-stat.orange { background:#FFF7ED;border-color:#FED7AA; }
+    .ie-stat.orange .ie-stat-val { color:#EA580C; }
+
+    /* Score card */
+    .ie-score-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-top:10px; }
+    .ie-score-card { background:#F8FAFC;border:1px solid var(--border);border-radius:8px;overflow:hidden; }
+    .ie-score-head { background:#E0F2E9;padding:8px 14px;font-size:0.78rem;font-weight:800;color:#166534; }
+    .ie-score-items { padding:10px 14px; }
+    .ie-score-item { display:block;font-size:0.8rem;line-height:1.7;padding:2px 0; }
+    .ie-score-pt { display:inline-block;font-size:0.72rem;font-weight:800;color:#2D7A4F;background:#D1FAE5;border-radius:3px;padding:0 5px;margin-right:6px; }
+    .ie-score-foot { padding:6px 14px 10px;font-size:0.75rem;color:var(--muted);font-style:italic; }
+
+    /* Alerts */
+    .alert-red { background:#FEF2F2;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#7F1D1D;line-height:1.7; }
+    .alert-blue { background:#EFF6FF;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#1E3A5F;line-height:1.7; }
+    .alert-green { background:#F0FDF4;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#14532D;line-height:1.7; }
+
+    /* Alpha card */
+    .ie-alpha { background:#FAF5FF;border:1px solid #E9D5FF;border-radius:8px;margin-bottom:12px; }
+    .ie-alpha-inner { padding:14px 16px; }
+    .ie-alpha-header { display:flex;align-items:center;gap:8px;margin-bottom:8px; }
+    .ie-alpha-badge { font-size:0.65rem;font-weight:800;color:#6D28D9;background:#EDE9FE;padding:2px 7px;border-radius:4px; }
+    .ie-alpha-title { font-size:0.85rem;font-weight:700;color:#4C1D95; }
+
+    /* Sidebar */
+    .ie-sidebar { width:220px;flex-shrink:0;position:sticky;top:80px; }
+    .ie-sidebar-card { background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px;font-size:0.78rem; }
+    .ie-sidebar-title { font-size:0.7rem;font-weight:800;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;padding-bottom:8px;border-bottom:1px solid var(--border);margin-bottom:8px; }
+    @media(max-width:900px){ .ie-sidebar{display:none;} }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="../index.html" class="nav-logo">
+        <img src="../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+        <span class="nav-logo-text">聖路加国際病院ICU</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-menu" id="navMenu"></ul>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <div class="subpage-hero hero-image-bg">
+    <div class="container">
+      <a href="articles-guidelines.html#art-resp" class="back-link">← 注目論文・ガイドラインまとめへ戻る</a>
+      <h1 class="subpage-title">SBT中の呼吸力学・吸気努力モニタリングによる<br>ハイリスク患者の抜管失敗予測</h1>
+      <p class="subpage-subtitle">#3 RESPIRATORY / 抜管・ウィーニング</p>
+      <div>
+        <span class="ie-badge">Murgolo F, Grieco DL, Grasso S, et al.</span>
+        <span class="ie-badge">Am J Respir Crit Care Med 2025年12月</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== CONTENT ===== -->
+  <div class="content-wrap">
+
+    <div class="main-col">
+
+      <!-- 略語一覧 -->
+      <div class="card" style="margin-bottom:24px;">
+        <div class="card-inner">
+          <h3 class="rule-title" style="margin-bottom:10px;">本ページで使用する略語一覧</h3>
+          <table style="width:100%;border-collapse:collapse;font-size:0.8rem;line-height:1.6;">
+            <tbody>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:130px;color:var(--blue);">SBT</td><td style="padding:4px 8px;">Spontaneous Breathing Trial — 自発呼吸試験</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">DPOCC</td><td style="padding:4px 8px;">呼気終末閉塞時の気道内圧陰性偏向 — 吸気努力の非侵襲的代替指標</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CRS/PBW</td><td style="padding:4px 8px;">体重補正呼吸系コンプライアンス（ml/cmH₂O/kg）</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">P0.1</td><td style="padding:4px 8px;">吸気開始から100ミリ秒間の閉塞圧 — 呼吸ドライブの指標</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">PAV+</td><td style="padding:4px 8px;">Proportional Assist Ventilation plus — 比例補助換気</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">PSV</td><td style="padding:4px 8px;">Pressure Support Ventilation — 圧支持換気</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">RSBI</td><td style="padding:4px 8px;">Rapid Shallow Breathing Index — 浅速呼吸指数（呼吸数 ÷ 一回換気量）</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">PBW</td><td style="padding:4px 8px;">Predicted Body Weight — 予測体重</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">AUC</td><td style="padding:4px 8px;">Area Under the Curve — ROC曲線下面積</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">HFNC</td><td style="padding:4px 8px;">High-Flow Nasal Cannula — 高流量鼻カニュラ酸素療法</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">NIV</td><td style="padding:4px 8px;">Non-Invasive Ventilation — 非侵襲的陽圧換気</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">PEEP</td><td style="padding:4px 8px;">Positive End-Expiratory Pressure — 呼気終末陽圧</td></tr>
+              <tr><td style="padding:4px 8px;font-weight:700;color:var(--blue);">ICU</td><td style="padding:4px 8px;">Intensive Care Unit — 集中治療室</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ===== 章1：背景と研究目的 ===== -->
+      <div id="ch1" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:0;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">第1章 背景と研究目的</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Background &amp; Rationale</div>
+      </div>
+
+      <h3 id="s1-conventional" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+        SBT従来評価指標の限界
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">SBTとは何か、なぜ限界があるのか</h3>
+          <p class="rule-body">自発呼吸試験（SBT）は、人工呼吸管理からの離脱準備が整った患者を選別するための確立された手法である。現行ガイドラインでは、SBTの成否を判断するために呼吸数・一回換気量・血行動態・ガス交換などの従来パラメータをモニタリングするよう推奨している。</p>
+          <p class="rule-body">しかし、これらの指標には根本的な限界がある。低レベルの圧支持換気（PSV 7 cmH₂O）を用いた「支持的SBT」は、多くの患者がSBT合格基準を満たせるようにするため時間短縮に有利だが、実際の抜管後の呼吸仕事量を過小評価するリスクがある。すなわち、従来指標でSBTに「合格」しながらも、呼吸力学や吸気努力に潜在的な破綻が生じており、抜管後に再挿管を要する患者が一定数存在する。</p>
+          <p class="rule-body">呼吸コンプライアンス・吸気努力・呼吸ドライブは、呼吸窮迫のより直接的な反映因子であると考えられている。気道閉塞圧を利用した手法（吸気終末閉塞→プラトー圧からコンプライアンス計算、呼気終末閉塞→DPOCCで吸気努力推定、P0.1→呼吸ドライブ評価）により、これらのパラメータを非侵襲的に評価できることが示されてきた。しかし、<strong>支持的SBT中にこれらを系統的にモニタリングすることが抜管アウトカムを予測するかどうか</strong>は不明であった。</p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">研究目的</h3>
+          <p class="rule-body">本研究の目的は、抜管ハイリスク患者において、<strong>SBT誘発性の呼吸系コンプライアンス変化・吸気努力（DPOCC）・呼吸ドライブ（P0.1）が、抜管アウトカムと関連するか</strong>を検討することである。イタリア5施設の前向き多施設観察研究として実施された（2022年9月〜2024年4月）。</p>
+        </div>
+      </div>
+
+      <!-- ===== 章2：研究デザイン・対象 ===== -->
+      <div id="ch2" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">第2章 研究デザイン・対象患者</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Study Design &amp; Patient Population</div>
+      </div>
+
+      <h3 id="s2-design" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+        研究概要と組み入れ基準
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">研究の基本情報</h3>
+          <div class="ie-stat-grid">
+            <div class="ie-stat">
+              <div class="ie-stat-val">238</div>
+              <div class="ie-stat-label">解析対象患者数<br>（408例スクリーニング）</div>
+            </div>
+            <div class="ie-stat red">
+              <div class="ie-stat-val">46例（19%）</div>
+              <div class="ie-stat-label">72時間以内に<br>再挿管（抜管失敗）</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">5施設</div>
+              <div class="ie-stat-label">イタリア4病院<br>（2022/9〜2024/4）</div>
+            </div>
+          </div>
+          <p class="rule-body" style="margin-top:12px;">408例をスクリーニングし、このうち69例（気管切開29例・神経筋疾患18例・同意拒否22例）を除外した339例が初回SBTを実施した。88例がSBT不通過（ガス交換不良34例・高呼吸数22例・低一回換気量16例・高RSBI 16例）となり、251例が研究に組み入れられた。このうち13例が緊急手術のため再挿管され（呼吸窮迫なし）、最終的に238例を解析した。72時間後〜7日以内に再挿管された患者はいなかった。</p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">対象患者の選択基準：抜管ハイリスク患者</h3>
+          <p class="rule-body">組み入れ基準は、18歳以上かつ以下の<strong>抜管ハイリスク因子</strong>を1つ以上有し、30分間のSBT（PEEP 5 cmH₂O、PS 7 cmH₂O）を従来基準で合格した患者とした。</p>
+          <div class="ie-score-grid">
+            <div class="ie-score-card">
+              <div class="ie-score-head">抜管ハイリスク因子（いずれか1つ以上）</div>
+              <div class="ie-score-items">
+                <div class="ie-score-item"><span class="ie-score-pt">①</span>年齢 &gt;65歳</div>
+                <div class="ie-score-item"><span class="ie-score-pt">②</span>心不全が人工呼吸の主因</div>
+                <div class="ie-score-item"><span class="ie-score-pt">③</span>中等度〜重度COPD</div>
+                <div class="ie-score-item"><span class="ie-score-pt">④</span>抜管日のAPACHE II &gt;12</div>
+                <div class="ie-score-item"><span class="ie-score-pt">⑤</span>BMI &gt;30 kg/m²</div>
+                <div class="ie-score-item"><span class="ie-score-pt">⑥</span>咳嗽反射の不良</div>
+                <div class="ie-score-item"><span class="ie-score-pt">⑦</span>人工呼吸期間 &gt;7日</div>
+                <div class="ie-score-item"><span class="ie-score-pt">⑧</span>併存疾患 &gt;2つ</div>
+              </div>
+              <div class="ie-score-foot">除外：気管切開・既知の神経筋疾患</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">患者背景（Table 1より）</h3>
+          <p class="rule-body">抜管成功群（192例）と抜管失敗群（46例）で、年齢・性別・APACHE II・人工呼吸期間・診断・各ハイリスク因子のいずれにも有意差はなく、両群は背景因子において均一であった。</p>
+          <table class="ie-table" style="margin-top:10px;">
+            <thead>
+              <tr>
+                <th style="white-space:nowrap;">項目</th>
+                <th style="white-space:nowrap;">抜管成功（n=192）</th>
+                <th style="white-space:nowrap;">抜管失敗（n=46）</th>
+                <th style="white-space:nowrap;">p値</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td style="white-space:nowrap;">年齢（歳）</td><td>64 [57–72]</td><td>63 [58–70]</td><td>0.851</td></tr>
+              <tr><td style="white-space:nowrap;">男性</td><td>60%</td><td>59%</td><td>0.882</td></tr>
+              <tr><td style="white-space:nowrap;">APACHE II（入室時）</td><td>17 [13–21]</td><td>15 [13–20]</td><td>0.444</td></tr>
+              <tr><td style="white-space:nowrap;">APACHE II（抜管日）</td><td>13 [9–16]</td><td>13 [11–16]</td><td>0.085</td></tr>
+              <tr><td style="white-space:nowrap;">人工呼吸期間（日）</td><td>5 [4–6]</td><td>4 [4–6]</td><td>0.690</td></tr>
+              <tr><td style="white-space:nowrap;">BMI（kg/m²）</td><td>29 [26–34]</td><td>29 [26–32]</td><td>0.673</td></tr>
+              <tr><td style="white-space:nowrap;">主診断：呼吸不全</td><td>59%</td><td>52%</td><td>0.456</td></tr>
+              <tr><td style="white-space:nowrap;">PEEP（cmH₂O）</td><td>7 [6–8]</td><td>7 [6–8]</td><td>0.980</td></tr>
+              <tr><td style="white-space:nowrap;">PS（cmH₂O）</td><td>9 [8–10]</td><td>9 [8–10]</td><td>0.834</td></tr>
+              <tr><td style="white-space:nowrap;">VT/PBW（ml/kg）</td><td>7.7 [7.2–8.5]</td><td>7.8 [7.3–8.5]</td><td>0.990</td></tr>
+            </tbody>
+          </table>
+          <p class="rule-body" style="margin-top:8px;">収縮期血圧のみ成功群より失敗群でわずかに高かった（120 vs 127 mmHg、p=0.031）が、他のすべての血行動態指標・ガス交換指標は有意差なし。</p>
+        </div>
+      </div>
+
+      <!-- ===== 章3：方法 ===== -->
+      <div id="ch3" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">第3章 SBTプロトコルと測定パラメータ</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">SBT Protocol &amp; Monitoring Parameters</div>
+      </div>
+
+      <h3 id="s3-protocol" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+        <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>
+        2段階SBTプロトコル
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">プロトコル全体の流れ</h3>
+          <p class="rule-body">本研究では、SBTを2段階で実施した。まず通常の臨床SBTでスクリーニングし、その後研究用SBTで詳細な呼吸力学モニタリングを行った。</p>
+          <div class="ie-flow" style="margin-top:12px;">
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">1</div>
+              <div style="flex:1;"><p class="rule-body"><strong>スクリーニングSBT（PSV）：</strong>PEEP 5 cmH₂O、PS 7 cmH₂O、30分間。従来基準（呼吸数・VT・血行動態・ガス交換）で合格を確認。</p></div>
+            </div>
+            <div class="ie-flow-arrow">↓</div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">2</div>
+              <div style="flex:1;"><p class="rule-body"><strong>再換気（1時間）：</strong>ベースライン設定に戻し、第1回SBTによる疲労を回復させる。</p></div>
+            </div>
+            <div class="ie-flow-arrow">↓</div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">3</div>
+              <div style="flex:1;"><p class="rule-body"><strong>研究用SBT（PAV+）：</strong>Puritan Bennett 840使用。吸気圧は初回SBTと同一（7 cmH₂O相当）、PEEP・FiO₂は不変。30分間、5分ごとに自動的に呼吸力学を計測。</p></div>
+            </div>
+            <div class="ie-flow-arrow">↓</div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">4</div>
+              <div style="flex:1;"><p class="rule-body"><strong>再換気（1時間）：</strong>疲労回避のためベースライン設定に戻す。</p></div>
+            </div>
+            <div class="ie-flow-arrow">↓</div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">5</div>
+              <div style="flex:1;"><p class="rule-body"><strong>抜管 + HFNC：</strong>全例に高流量鼻カニュラを適用。再挿管の決定は担当医が行い、研究結果は非盲検で行った（研究データはblindとせず）。なお抜管前のNIV救済はなし。</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h3 id="s3-params" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+        <span style="color:#16A34A;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 4</span>
+        監視パラメータと測定方法
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">5分ごとに記録した呼吸パラメータ（計6時点）</h3>
+          <table class="ie-table" style="margin-top:10px;">
+            <thead>
+              <tr>
+                <th style="white-space:nowrap;">パラメータ</th>
+                <th style="white-space:nowrap;">測定方法</th>
+                <th>臨床的意味</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="white-space:nowrap;"><strong>CRS/PBW</strong><br><span style="font-size:0.72rem;color:var(--muted);">ml/cmH₂O/kg</span></td>
+                <td>PAV+アルゴリズムによる<br>吸気終末マイクロ閉塞</td>
+                <td>肺のコンプライアンス（弾性）。低下は肺胞虚脱・過膨張・浮腫を示唆。体重補正により個人差を標準化</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;"><strong>DPOCC</strong><br><span style="font-size:0.72rem;color:var(--muted);">cmH₂O</span></td>
+                <td>呼気終末閉塞マニューバ<br>（1呼吸）</td>
+                <td>呼気終末閉塞直後の吸気で生じる気道内圧の陰性偏向。<strong>吸気努力（仕事量の代替指標）</strong>。ほぼすべての現代的人工呼吸器で測定可能</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;"><strong>P0.1</strong><br><span style="font-size:0.72rem;color:var(--muted);">cmH₂O</span></td>
+                <td>閉塞後100ミリ秒の<br>気道内圧変化</td>
+                <td><strong>呼吸ドライブ（神経出力）の指標</strong>。神経駆動と運動出力の乖離（神経機械的アンカップリング）を反映</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;"><strong>WOB</strong><br><span style="font-size:0.72rem;color:var(--muted);">J/s</span></td>
+                <td>PAV+アルゴリズム<br>（二次エンドポイント）</td>
+                <td>呼吸仕事量。DPOCCと強い相関（r=0.78〜0.86）があり、DPOCCがWOBの有用な代替指標となる</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;"><strong>RR・VT/PBW</strong><br><span style="font-size:0.72rem;color:var(--muted);">・RSBI</span></td>
+                <td>自動記録</td>
+                <td>従来のSBT評価パラメータ</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="alert-blue" style="margin-bottom:16px;">
+        <strong>PAV+の利点と限界：</strong>PAV+は呼吸力学を継続的・非侵襲的・オペレーター非依存に測定できる。しかし解析時点でPuritan Bennett 840は市場から撤退しており、再現性に限界がある。一方、DPOCCとCRS/PBWの測定自体はほぼすべての最新人工呼吸器で実施可能であり、本研究の知見は広く応用できる。
+      </div>
+
+      <!-- ===== 章4：主要結果 ===== -->
+      <div id="ch4" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">第4章 主要結果</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Primary Results — SBT中の呼吸力学変化</div>
+      </div>
+
+      <h3 id="s4-trends" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 5</span>
+        SBT中のパラメータ推移：成功群 vs 失敗群
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">従来指標は両群で差なし</h3>
+          <p class="rule-body">SBT全経過を通じて、<strong>呼吸数・VT/PBW・RSBI・気道抵抗・内因性PEEP・ガス交換・血行動態は、抜管成功群と失敗群の間に有意差がなかった</strong>。これが本研究の核心的メッセージである。従来のSBT評価指標だけでは、呼吸窮迫の初期サインを捉えられないことを示している。</p>
+          <div class="alert-red" style="margin-top:10px;">
+            <strong>重要：</strong>SBT中の呼吸数・一回換気量は、最終的に再挿管となる患者でも安定したままであった。これは、「頻呼吸がなければ安心」という直感に反する。呼吸筋が弾性負荷の増大に対して換気量を維持しようと代償している間、呼吸数は上昇しない。頻呼吸はより後期のサインである。
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">SBT中の呼吸力学変化（Table 2より）</h3>
+          <p class="rule-body">SBT開始5分時点では両群のCRS/PBW・DPOCCに有意差はなかった。しかしSBT終了時（30分）には、失敗群で以下の顕著な変化が生じていた。</p>
+          <table class="ie-table" style="margin-top:10px;">
+            <colgroup>
+              <col style="width:24%">
+              <col style="width:19%">
+              <col style="width:19%">
+              <col style="width:19%">
+              <col style="width:19%">
+            </colgroup>
+            <thead>
+              <tr>
+                <th style="white-space:nowrap;">パラメータ</th>
+                <th style="white-space:nowrap;">成功群 5分</th>
+                <th style="white-space:nowrap;">成功群 30分</th>
+                <th style="white-space:nowrap;">失敗群 5分</th>
+                <th style="white-space:nowrap;">失敗群 30分</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="white-space:nowrap;"><strong>CRS/PBW</strong><br><span style="font-size:0.72rem;color:var(--muted);">ml/cmH₂O/kg</span></td>
+                <td>1.1 [0.9–1.3]</td>
+                <td>1.1 [0.9–1.3]</td>
+                <td>1.0 [0.8–1.2]</td>
+                <td style="background:#FEF2F2;font-weight:700;color:#DC2626;">0.7 [0.6–0.9]*†</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;"><strong>DPOCC</strong><br><span style="font-size:0.72rem;color:var(--muted);">cmH₂O</span></td>
+                <td>11 [9–13]</td>
+                <td>10 [9–13]</td>
+                <td>12 [10–15]</td>
+                <td style="background:#FEF2F2;font-weight:700;color:#DC2626;">18 [15–20]*†</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;"><strong>P0.1</strong><br><span style="font-size:0.72rem;color:var(--muted);">cmH₂O</span></td>
+                <td>1.8 [1.5–2.2]</td>
+                <td>2.6 [2.4–2.8]†</td>
+                <td>2.0 [1.5–2.4]</td>
+                <td>3.2 [2.9–3.6]*†</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;"><strong>プラトー圧</strong><br><span style="font-size:0.72rem;color:var(--muted);">cmH₂O</span></td>
+                <td>12 [11–13]</td>
+                <td>12 [11–13]</td>
+                <td>13 [12–14]</td>
+                <td style="background:#FEF2F2;font-weight:700;color:#DC2626;">16 [14–19]*†</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;"><strong>駆動圧</strong><br><span style="font-size:0.72rem;color:var(--muted);">cmH₂O</span></td>
+                <td>7 [6–8]</td>
+                <td>7 [6–8]</td>
+                <td>8 [7–9]</td>
+                <td style="background:#FEF2F2;font-weight:700;color:#DC2626;">11 [9–14]*†</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;"><strong>呼吸仕事量</strong><br><span style="font-size:0.72rem;color:var(--muted);">J/s</span></td>
+                <td>0.6 [0.3–0.8]</td>
+                <td>0.6 [0.4–0.8]</td>
+                <td>0.6 [0.5–0.7]</td>
+                <td style="background:#FEF2F2;font-weight:700;color:#DC2626;">1.1 [0.8–1.4]*†</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;"><strong>VT/PBW</strong><br><span style="font-size:0.72rem;color:var(--muted);">ml/kg</span></td>
+                <td>7.9 [7.3–8.5]</td>
+                <td>8.0 [7.6–8.5]</td>
+                <td>7.6 [7.1–8.4]</td>
+                <td>7.9 [7.5–8.5]</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;"><strong>呼吸数</strong><br><span style="font-size:0.72rem;color:var(--muted);">回/分</span></td>
+                <td>21 [19–23]</td>
+                <td>21 [19–24]</td>
+                <td>20 [18–23]</td>
+                <td>22 [16–25]</td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="rule-body" style="margin-top:8px;font-size:0.75rem;color:var(--muted);">*成功群と有意差あり、†同群内の5分時点と有意差あり（P &lt;0.001）</p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">SBT誘発性変化の大きさ（失敗群）</h3>
+          <div class="ie-stat-grid">
+            <div class="ie-stat red">
+              <div class="ie-stat-val">−0.3 ml/cmH₂O/kg</div>
+              <div class="ie-stat-label">CRS/PBW低下<br>（95%CI −0.4〜−0.2）</div>
+            </div>
+            <div class="ie-stat red">
+              <div class="ie-stat-val">+5 cmH₂O</div>
+              <div class="ie-stat-label">DPOCC増加<br>（95%CI 4〜6）</div>
+            </div>
+            <div class="ie-stat orange">
+              <div class="ie-stat-val">+1.2 cmH₂O</div>
+              <div class="ie-stat-label">P0.1増加<br>（95%CI 0.8〜1.9）</div>
+            </div>
+          </div>
+          <p class="rule-body" style="margin-top:12px;">成功群では、CRS/PBWとDPOCCはSBT全期間を通じて安定していた。P0.1は両群で上昇したが、失敗群でより顕著であった。SBT誘発性の変化量（5分時との差）は、SBT終了時の絶対値よりも予測精度が高かった。</p>
+        </div>
+      </div>
+
+      <!-- ===== 章5：予測精度 ===== -->
+      <div id="ch5" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">第5章 予測精度と時間的解析</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Discriminatory Capacity &amp; Time-to-Event Analysis</div>
+      </div>
+
+      <h3 id="s5-roc" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 6</span>
+        ROC解析：各パラメータの予測精度
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">SBT誘発性変化による予測（最良指標）</h3>
+          <p class="rule-body">SBT中の変化量（5分→30分の差）は、終了時の絶対値よりも一貫して予測精度が高かった。特にDPOCCの変化が最も強力な予測因子であった。</p>
+          <div class="ie-stat-grid">
+            <div class="ie-stat red">
+              <div class="ie-stat-val">AUC 0.94</div>
+              <div class="ie-stat-label">DPOCC増加 &gt;2 cmH₂O<br>感度89%・特異度93%</div>
+            </div>
+            <div class="ie-stat orange">
+              <div class="ie-stat-val">AUC 0.90</div>
+              <div class="ie-stat-label">CRS/PBW低下 ≤−0.2 ml/cmH₂O/kg<br>感度80%・特異度83%</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">AUC 0.69</div>
+              <div class="ie-stat-label">P0.1増加 &gt;0.8 cmH₂O<br>感度72%・特異度60%</div>
+            </div>
+          </div>
+          <table class="ie-table" style="margin-top:14px;">
+            <thead>
+              <tr>
+                <th style="white-space:nowrap;">パラメータ（変化量）</th>
+                <th style="white-space:nowrap;">AUC [95%CI]</th>
+                <th style="white-space:nowrap;">カットオフ</th>
+                <th style="white-space:nowrap;">感度</th>
+                <th style="white-space:nowrap;">特異度</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="background:#FEF2F2;">
+                <td style="white-space:nowrap;font-weight:700;">DPOCC増加</td>
+                <td style="font-weight:700;">0.94 [0.90–0.97]</td>
+                <td>&gt;2 [&gt;1; &gt;3] cmH₂O</td>
+                <td style="font-weight:700;">89%</td>
+                <td style="font-weight:700;">93%</td>
+              </tr>
+              <tr style="background:#FFF7ED;">
+                <td style="white-space:nowrap;font-weight:700;">CRS/PBW低下</td>
+                <td style="font-weight:700;">0.90 [0.84–0.93]</td>
+                <td>≤−0.2 ml/cmH₂O/kg</td>
+                <td>80%</td>
+                <td>83%</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;">プラトー圧増加</td>
+                <td>0.89 [0.84–0.92]</td>
+                <td>&gt;2 cmH₂O</td>
+                <td>74%</td>
+                <td>91%</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;">駆動圧増加</td>
+                <td>0.86 [0.84–0.92]</td>
+                <td>&gt;2 cmH₂O</td>
+                <td>74%</td>
+                <td>91%</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;">P0.1増加</td>
+                <td>0.69 [0.62–0.75]</td>
+                <td>&gt;0.8 cmH₂O</td>
+                <td>72%</td>
+                <td>60%</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;">RSBI増加</td>
+                <td>0.57 [0.51–0.67]</td>
+                <td>&gt;2</td>
+                <td>57%</td>
+                <td>66%</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;">VT/PBW変化</td>
+                <td>0.54 [0.47–0.60]</td>
+                <td>—</td>
+                <td>54%</td>
+                <td>57%</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;">呼吸数変化</td>
+                <td>0.51 [0.45–0.58]</td>
+                <td>—</td>
+                <td>—</td>
+                <td>—</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">SBT終了時の絶対値による予測（参考）</h3>
+          <p class="rule-body">終了時の絶対値も相応の予測精度を示したが、変化量には及ばなかった。特にP0.1の絶対値（AUC 0.86）は、変化量（AUC 0.69）より予測精度が高い点は注目に値する。</p>
+          <table class="ie-table" style="margin-top:10px;">
+            <thead>
+              <tr>
+                <th style="white-space:nowrap;">パラメータ（終了時絶対値）</th>
+                <th style="white-space:nowrap;">AUC [95%CI]</th>
+                <th style="white-space:nowrap;">カットオフ</th>
+                <th style="white-space:nowrap;">感度</th>
+                <th style="white-space:nowrap;">特異度</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="background:#FEF2F2;">
+                <td style="white-space:nowrap;font-weight:700;">DPOCC</td>
+                <td style="font-weight:700;">0.91 [0.86–0.94]</td>
+                <td>&gt;14 cmH₂O</td>
+                <td>80%</td>
+                <td>90%</td>
+              </tr>
+              <tr style="background:#FFF7ED;">
+                <td style="white-space:nowrap;font-weight:700;">CRS/PBW</td>
+                <td style="font-weight:700;">0.88 [0.81–0.92]</td>
+                <td>&lt;0.9 ml/cmH₂O/kg</td>
+                <td>89%</td>
+                <td>76%</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;">プラトー圧</td>
+                <td>0.87 [0.83–0.91]</td>
+                <td>&gt;13 cmH₂O</td>
+                <td>87%</td>
+                <td>76%</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;">駆動圧</td>
+                <td>0.87 [0.83–0.91]</td>
+                <td>&gt;8 cmH₂O</td>
+                <td>87%</td>
+                <td>76%</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;">P0.1</td>
+                <td>0.86 [0.81–0.90]</td>
+                <td>&gt;2.8 cmH₂O</td>
+                <td>78%</td>
+                <td>78%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <h3 id="s5-time" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 7</span>
+        再挿管までの時間との相関（探索的解析）
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">SBT中の変化が大きいほど早期に再挿管</h3>
+          <p class="rule-body">失敗群46例を、SBT中のDPOCC・CRS/PBW・P0.1変化量の大きさによって3分位（T1〜T3）に分類し、再挿管までの時間を比較した。DPOCCとCRS/PBWは変化が大きいほど再挿管が早く、それぞれのスプライン回帰ではDPOCCが再挿管時間と強い逆相関を示した。</p>
+          <table class="ie-table" style="margin-top:10px;">
+            <thead>
+              <tr>
+                <th style="white-space:nowrap;">指標</th>
+                <th style="white-space:nowrap;">T1（最小変化）</th>
+                <th style="white-space:nowrap;">T2（中間）</th>
+                <th style="white-space:nowrap;">T3（最大変化）</th>
+                <th style="white-space:nowrap;">R²</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="white-space:nowrap;"><strong>DPOCC増加</strong></td>
+                <td>55±12時間</td>
+                <td>30±9時間</td>
+                <td style="background:#FEF2F2;font-weight:700;color:#DC2626;">12±4時間</td>
+                <td style="font-weight:700;">0.89</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;"><strong>CRS/PBW低下</strong></td>
+                <td>45±14時間</td>
+                <td>—</td>
+                <td style="background:#FFF7ED;font-weight:700;color:#EA580C;">20±12時間</td>
+                <td>0.46</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;">P0.1増加</td>
+                <td colspan="3" style="color:var(--muted);">各分位間で有意差なし</td>
+                <td>0.02</td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="rule-body" style="margin-top:10px;">DPOCCの変化量は再挿管時間と強い逆相関（R²=0.89）を示し、SBT中の吸気努力増大の大きさが、実際の呼吸不全発症のタイミングを反映していることが示された。すなわちDPOCCの急激な増加は「早期の抜管失敗」を予告するサインである。</p>
+        </div>
+      </div>
+
+      <div class="ie-alpha">
+        <div class="ie-alpha-inner">
+          <div class="ie-alpha-header">
+            <span class="ie-alpha-badge">＋α</span>
+            <span class="ie-alpha-title">DPOCC・CRS/PBWの相関関係：コンプライアンス低下が吸気努力増大を引き起こす</span>
+          </div>
+          <p class="rule-body" style="color:#4C1D95;">失敗群において、SBT誘発性のCRS/PBW低下とDPOCC増加の間には有意な逆相関（r=−0.71、P&lt;0.001）があった。成功群でも逆相関はみられたが弱かった（r=−0.48）。これは、肺のコンプライアンス低下（弾性負荷の増大）に対して呼吸筋が吸気努力を増すことで換気量を維持しようとする病態生理学的代償を反映している。また、DPOCC変化と呼吸仕事量変化の相関は失敗群（r=0.78）・成功群（r=0.86）ともに強く、DPOCCが仕事量の良好な代替指標であることが確認された。</p>
+        </div>
+      </div>
+
+      <!-- ===== 章6：考察 ===== -->
+      <div id="ch6" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">第6章 考察・臨床的意義・限界</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Discussion &amp; Clinical Implications</div>
+      </div>
+
+      <h3 id="s6-pathophys" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 8</span>
+        病態生理学的解釈
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">SBT中にコンプライアンスが低下するメカニズム</h3>
+          <p class="rule-body">失敗群で観察されたCRS/PBWの進行性低下には複数の機序が関与していると考えられる。</p>
+          <table class="ie-table" style="margin-top:10px;">
+            <tbody>
+              <tr><td style="white-space:nowrap;font-weight:700;">動的過膨張</td><td>自発呼吸の増加に伴う呼気終末肺容量の変動</td></tr>
+              <tr><td style="white-space:nowrap;font-weight:700;">微小無気肺</td><td>補助換気の減少による肺胞虚脱</td></tr>
+              <tr><td style="white-space:nowrap;font-weight:700;">潜在性肺水腫</td><td>特に心疾患既往患者での心肺相互作用（胸腔内圧上昇→静脈還流増加→左室後負荷増大）</td></tr>
+              <tr><td style="white-space:nowrap;font-weight:700;">呼気筋関与</td><td>呼気筋の漸進的動員が機能的残気量を低下させ、コンプライアンスを悪化させる</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">代償の連鎖：コンプライアンス低下 → 吸気努力増大 → 頻呼吸（遅れて発症）</h3>
+          <p class="rule-body">失敗患者での病態の時系列は以下のように理解できる。まずCRS/PBWが低下し弾性負荷が増大する。これに対して呼吸筋が吸気努力（DPOCC）を増加させることで換気量（VT）を維持しようとする。この代償が機能している間、VTと呼吸数は変化しない。代償が限界に達した段階で初めて頻呼吸が顕在化する。</p>
+          <p class="rule-body">本研究での呼吸数・VT安定かつDPOCC増大という観察は、まさにこの代償段階を捉えたものである。従来のSBT指標（頻呼吸・VT低下）は、代償が破綻した後期の変化を検出するに過ぎず、DPOCCはより早期の吸気負荷増大を反映していると解釈できる。</p>
+        </div>
+      </div>
+
+      <h3 id="s6-clinical" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+        <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 9</span>
+        臨床への応用と今後の課題
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">NIV介入の患者選別への応用可能性</h3>
+          <p class="rule-body">抜管後の呼吸サポートを必要とする「真のハイリスク患者」を個別化することは重要な課題である。現行のハイリスク基準（年齢・COPD・心疾患など）は臨床歴や既往症に依存しており、抜管時の生理学的状態を反映していない。そのため、ハイリスク患者全員にNIVを適用する研究では、治療効果を得るためのNNTが10を超えることも多く、費用対効果の問題が生じている。</p>
+          <p class="rule-body">本研究の知見は、<strong>SBT中のDPOCC増大・CRS/PBW低下を呈した患者が最もNIV恩恵を受ける可能性がある</strong>ことを示唆している。NIVはPEEPで肺胞リクルートメントを促しコンプライアンスを改善し、PSで吸気努力（DPOCC）を軽減する。この機序は、本研究で特定された失敗のパターンに直接対応するものである。</p>
+          <div class="alert-green" style="margin-top:10px;">
+            <strong>実践的メッセージ：</strong>SBT中にDPOCCが >2 cmH₂O増加する、またはCRS/PBWが ≤−0.2 ml/cmH₂O/kg低下するハイリスク患者は、抜管後NIVの候補として優先的に考慮できる可能性がある。ただし本研究はあくまで観察研究であり、介入効果を検証したものではない。
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">DPOCCの測定可能性と実用性</h3>
+          <p class="rule-body">本研究でのDPOCC測定にはPAV+（Puritan Bennett 840）を使用したが、このベンチレーターはすでに市場から撤退している。しかし、DPOCCの測定自体は<strong>呼気終末閉塞マニューバによりほぼすべての現代的人工呼吸器で実施可能</strong>であり（ベッドサイドでの閉塞ボタン操作）、食道圧などの高度なモニタリングを必要としない。同様に、CRS/PBWも吸気終末閉塞によるプラトー圧からほとんどの人工呼吸器で計算可能である。</p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">研究の限界</h3>
+          <table class="ie-table" style="margin-top:10px;">
+            <tbody>
+              <tr>
+                <td style="white-space:nowrap;font-weight:700;">① 2回のSBT実施</td>
+                <td>スクリーニングSBTの疲労が研究用SBTのDPOCC・P0.1に影響した可能性がある。1時間の再換気で軽減を試みたが、完全な除外はできない</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;font-weight:700;">② PAV+の非汎用性</td>
+                <td>研究プロトコルはPuritan Bennett 840に依存。ただし、DPOCCとCRS/PBWは他の人工呼吸器でも測定可能であり、知見の一般化は可能と考えられる</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;font-weight:700;">③ 単回の閉塞測定</td>
+                <td>DPOCC・P0.1は1呼吸での閉塞で測定。先行研究では3回の平均が推奨されており、測定変動が生じた可能性がある</td>
+              </tr>
+              <tr>
+                <td style="white-space:nowrap;font-weight:700;">④ 観察研究</td>
+                <td>DPOCC・CRS/PBWを用いた介入（NIV選択など）の有効性は本研究では検証できない。介入研究が必要</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ===== SUMMARY ===== -->
+      <h3 id="summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:40px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+        本研究のキーメッセージ
+      </h3>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+              <span class="rule-body"><strong>従来SBT基準の盲点：</strong>PSV 7 cmH₂Oで施行したSBTを従来基準（呼吸数・VT・ガス交換）で通過したハイリスク患者の19%が72時間以内に再挿管となったが、SBT中の呼吸数・VTは両群で差がなかった。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+              <span class="rule-body"><strong>DPOCCが最強の予測因子：</strong>SBT中のDPOCC増加 &gt;2 cmH₂O（AUC 0.94、感度89%、特異度93%）は、単一の非侵襲的指標として突出した予測精度を示した。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+              <span class="rule-body"><strong>CRS/PBWも強力な予測因子：</strong>CRS/PBW低下 ≤−0.2 ml/cmH₂O/kg（AUC 0.90、感度80%、特異度83%）も非常に高い予測精度を示した。コンプライアンス低下と吸気努力増大は強く相関した（r=−0.71）。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+              <span class="rule-body"><strong>DPOCCの変化量が再挿管時間を予測：</strong>失敗群内でDPOCC変化が最大の三分位は平均12±4時間で再挿管。変化が小さい三分位は55±12時間と遅く（R²=0.89）、SBT中の変化の大きさが「いつ」失敗するかを反映していた。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+              <span class="rule-body"><strong>P0.1の予測力は限定的：</strong>P0.1は両群で上昇するため変化量の識別精度は低かった（AUC 0.69）。DPOCCとCRS/PBWの系統的モニタリングによって、NIVが最も恩恵をもたらす「真のハイリスク」患者を選別できる可能性がある。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 出典注記 -->
+      <p style="font-size:0.72rem;color:#9CA3AF;margin-top:16px;line-height:1.7;">
+        出典：Murgolo F, Spadaro S, Grieco DL, Bertoni M, Pisani L, Spinazzola G, Di Mussi R, Michi T, Bartolomeo N, Fanelli V, Terragni P, Antonelli M, Ranieri VM, Grasso S. Assessment of Respiratory Mechanics and Inspiratory Effort During Spontaneous Breathing Trials to Predict Extubation Failure in High-Risk Patients. Am J Respir Crit Care Med. 2025;211(12):2340–2351.<br>
+        DOI：<a href="https://doi.org/10.1164/rccm.202503-0544OC" target="_blank" rel="noopener" style="color:#60A5FA;">https://doi.org/10.1164/rccm.202503-0544OC</a><br>
+        本資料は教育目的で作成したサマリーです。診断・治療方針の決定には必ず原典論文を参照してください。
+      </p>
+      <p style="font-size:0.75rem;color:var(--muted);text-align:right;margin-top:8px;">制作：ICU 関谷</p>
+
+      <!-- RELATED:START — auto-generated by scripts/sync-related-articles.js. Do not edit. -->
+      <section id="related-articles" class="related-articles" aria-label="関連ページ">
+        <h3 class="related-articles-title">関連ページ</h3>
+        <div class="related-articles-grid">
+        <a href="articles-gl-enio-sbt2025.html" class="related-card">
+          <div class="related-card-title">急性脳障害患者におけるSBTと抜管アウトカム：ENIO研究</div>
+          <div class="related-card-badge">ICM 2025</div>
+          <div class="related-card-desc">ABI患者839例の国際コホート（ENIO）post-hoc解析。SBT様式（PSV/T-ピース/CPAP）は抜管失敗と無関連。活発な咳嗽のみが唯一の独立予測因子（OR 0.52）</div>
+        </a>
+        <a href="articles-gl-enio-extubation2025.html" class="related-card">
+          <div class="related-card-title">ENIO研究：ABI患者のSBTモードは抜管予後を予測しない</div>
+          <div class="related-card-badge">ICM 2025</div>
+          <div class="related-card-desc">急性脳損傷患者839例のpost-hoc解析。PSV/T-piece/CPAPのいずれも抜管失敗と無関連。力強い咳のみが有意な予測因子（OR 0.52、p=0.007）</div>
+        </a>
+        <a href="articles-gl-esicm-ards2023.html" class="related-card">
+          <div class="related-card-title">ESICM ARDSガイドライン 2023 — 定義・表現型・呼吸サポート戦略</div>
+          
+          <div class="related-card-desc">Grasselli G et al. ESICM Taskforce on ARDS (Intensive Care Med 2023)。9ドメイン21推奨。HFNO推奨（挿管RR 0.89）、低Vt 4–8 mL/kg PBW推奨、腹臥位強推奨（PROSEVA 90日死亡率RR 0.58）、長時間高圧RM禁止、VV-ECMO推奨（EOLIA基準・RR 0.72）、ECCO2R不推奨（RR 1.03・脳出血4.5%）、NMBAルーティン不推奨（ACURASYS vs ROSE）。</div>
+        </a>
+        <a href="articles-gl-ivc-fr2018.html" class="related-card">
+          <div class="related-card-title">IVC超音波による輸液反応性予測の精度 — 系統的レビュー・メタ解析</div>
+          <div class="related-card-badge">JICM 2018</div>
+          <div class="related-card-desc">26論文・1,709例のメタ解析。Caval IndexのAUC 0.71・感度0.72・特異度0.75。極度の異質性が示され、IVC超音波は輸液反応性予測の信頼性が低いと結論づけられた。</div>
+        </a>
+        </div>
+      </section>
+      <!-- RELATED:END -->
+
+    </div><!-- /main-col -->
+
+    <!-- ===== サイドバー目次 ===== -->
+    <aside class="ie-sidebar">
+      <div class="ie-sidebar-card">
+        <div class="ie-sidebar-title">目次</div>
+        <a href="#ch1" class="ie-toc-chapter">第1章 背景と研究目的</a>
+        <a href="#s1-conventional" class="ie-toc-section">S1 — 従来SBT指標の限界</a>
+        <a href="#ch2" class="ie-toc-chapter">第2章 研究デザイン・対象</a>
+        <a href="#s2-design" class="ie-toc-section">S2 — 概要と組み入れ基準</a>
+        <a href="#ch3" class="ie-toc-chapter">第3章 SBTプロトコルと測定</a>
+        <a href="#s3-protocol" class="ie-toc-section">S3 — 2段階SBTプロトコル</a>
+        <a href="#s3-params" class="ie-toc-section">S4 — 監視パラメータ</a>
+        <a href="#ch4" class="ie-toc-chapter">第4章 主要結果</a>
+        <a href="#s4-trends" class="ie-toc-section">S5 — SBT中の推移</a>
+        <a href="#ch5" class="ie-toc-chapter">第5章 予測精度と時間解析</a>
+        <a href="#s5-roc" class="ie-toc-section">S6 — ROC解析</a>
+        <a href="#s5-time" class="ie-toc-section">S7 — 再挿管時間との相関</a>
+        <a href="#ch6" class="ie-toc-chapter">第6章 考察・臨床的意義</a>
+        <a href="#s6-pathophys" class="ie-toc-section">S8 — 病態生理学的解釈</a>
+        <a href="#s6-clinical" class="ie-toc-section">S9 — 臨床への応用</a>
+        <a href="#summary" class="ie-toc-section">SUMMARY</a>
+        <!-- RELATED-TOC:START — auto-generated by scripts/sync-related-articles.js. Do not edit. -->
+        <a href="#related-articles" class="ie-toc-chapter ie-toc-related">関連ページ</a>
+        <!-- RELATED-TOC:END -->
+      </div>
+    </aside>
+
+  </div><!-- /content-wrap -->
+
+  <script src="../script.js"></script>
+  <script src="../abbr-tooltip.js"></script>
+</body>
+</html>

@@ -17,6 +17,27 @@ const RECENT_PAGES = [
     thumb: "images/朝カンファ風景.webp"
   },
   {
+    title: "SBT中の呼吸力学・吸気努力モニタリングによるハイリスク患者の抜管失敗予測（AJRCCM 2025）",
+    url: "pages/articles-gl-sbt-mechanics2025.html",
+    date: "2026-05-19",
+    tag: "ガイドライン",
+    thumb: "images/朝カンファ風景.webp"
+  },
+  {
+    title: "ロクロニウム高用量と初回挿管成功率 — 2つの多施設RCTの二次解析（AJRCCM 2026）",
+    url: "pages/articles-gl-rocuronium2026.html",
+    date: "2026-05-19",
+    tag: "ガイドライン",
+    thumb: "images/朝カンファ風景.webp"
+  },
+  {
+    title: "ポリクローナル高ガンマグロブリン血症 — 評価・解釈・管理（Lancet Haematol 2021）",
+    url: "pages/articles-gl-polyclonal-hgg2021.html",
+    date: "2026-05-19",
+    tag: "ガイドライン",
+    thumb: "images/IDICUtop.png"
+  },
+  {
     title: "サッカーのヘディングと血液バイオマーカー急性変動 — p-Tau217・S100B（JAMA Neurol 2026）",
     url: "pages/articles-gl-soccer-heading2026.html",
     date: "2026-05-19",
