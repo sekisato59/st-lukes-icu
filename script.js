@@ -448,53 +448,58 @@ if (copyBtn) {
   }
 })();
 
-// ===== ie-table 横スクロール自動化 =====
-// 3列以上のテーブルに min-width を付与し、親が overflow-x:auto を持っていれば横スクロールが効く。
-// 親が .card-inner 以外で overflow-x を持たない場合は、テーブルをスクロールラッパー <div> で包む。
-// 狭い列幅で文章が頻回に折り返される視認性問題を解消する。
+// ===== テーブル横スクロール自動ラップ =====
+// 全コンテンツ系テーブルを .ie-table-scroll で自動ラップ（Bootstrap .table-responsive 流）。
+// テーブル自身は display:table のまま、ラッパが overflow-x:auto を担うことで、
+// 「テキストボックス全体が横スクロールする」「セル内 inline-block が境界を超える」
+// 「border-collapse が display:block で崩れる」等の display:block 由来の事故を一切起こさない。
 (function(){
-  function ensureScrollable(table){
+  // ラップ対象外（ナビ・サイドバー等のレイアウト系テーブル）
+  function shouldSkip(table){
+    if (table.dataset.scrollApplied === '1') return true;
+    if (table.closest('.ie-table-scroll')) return true;
+    if (table.closest('nav, .navbar, .nav-menu, .ie-sidebar, .mob-toc-drawer, .qa-figure')) return true;
+    return false;
+  }
+  function wrapWithScroll(table){
+    if (shouldSkip(table)) return;
     var parent = table.parentElement;
     if (!parent) return;
-    if (parent.classList.contains('ie-table-scroll')) return;
-    // .card-inner には既に overflow-x:auto が設定済み（style-v2.css）
-    if (parent.classList.contains('card-inner')) return;
-    var cs = window.getComputedStyle(parent);
-    if (cs.overflowX === 'auto' || cs.overflowX === 'scroll') return;
     var wrap = document.createElement('div');
     wrap.className = 'ie-table-scroll';
-    wrap.style.overflowX = 'auto';
-    wrap.style.webkitOverflowScrolling = 'touch';
-    wrap.style.margin = (table.style.marginTop || '10px') + ' 0';
+    // table 自身の margin を引き継いで、ラップ後の余白を保つ
+    var cs = window.getComputedStyle(table);
+    wrap.style.marginTop = cs.marginTop;
+    wrap.style.marginBottom = cs.marginBottom;
     parent.insertBefore(wrap, table);
     wrap.appendChild(table);
+    table.dataset.scrollApplied = '1';
   }
-  function applyMinWidth(){
-    document.querySelectorAll('table.ie-table').forEach(function(table){
-      if (table.dataset.scrollApplied) return;
-      var firstRow = table.querySelector('thead tr') || table.querySelector('tr');
-      if (!firstRow) return;
-      var cells = firstRow.querySelectorAll('th, td');
-      var cols = 0;
-      cells.forEach(function(c){
-        cols += parseInt(c.getAttribute('colspan') || '1', 10);
-      });
-      if (cols >= 5) {
-        table.style.minWidth = '900px';
-      } else if (cols === 4) {
-        table.style.minWidth = '760px';
-      } else if (cols === 3) {
-        table.style.minWidth = '600px';
-      } else {
-        return;
-      }
-      ensureScrollable(table);
-      table.dataset.scrollApplied = '1';
+  function applyMinWidth(table){
+    var firstRow = table.querySelector('thead tr') || table.querySelector('tr');
+    if (!firstRow) return;
+    var cells = firstRow.querySelectorAll('th, td');
+    var cols = 0;
+    cells.forEach(function(c){
+      cols += parseInt(c.getAttribute('colspan') || '1', 10);
+    });
+    // .ie-table は視認性確保のため min-width を付与（モバイル時に表が縮みすぎないように）。
+    // それ以外のテーブルはコンテンツに任せる（カラム数だけで一律 min-width を付けると過剰）。
+    if (!table.classList.contains('ie-table')) return;
+    if (cols >= 5)      table.style.minWidth = '900px';
+    else if (cols === 4) table.style.minWidth = '760px';
+    else if (cols === 3) table.style.minWidth = '600px';
+  }
+  function processAll(){
+    document.querySelectorAll('table').forEach(function(table){
+      if (shouldSkip(table)) return;
+      applyMinWidth(table);
+      wrapWithScroll(table);
     });
   }
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', applyMinWidth);
+    document.addEventListener('DOMContentLoaded', processAll);
   } else {
-    applyMinWidth();
+    processAll();
   }
 })();

@@ -657,22 +657,42 @@ button { cursor: pointer; font-family: inherit; }
   transform: translateY(-3px);
   box-shadow: var(--shadow);
 }
-/* .card-inner には overflow-x を付けない（過去の経緯）：
-   .card-inner に overflow-x:auto を付けると、内側のテーブルが card-inner より
-   広い時に「テキストボックス全体（本文の <p> も含めて）が横にスクロール」する
-   バグになる。表だけが横スクロールするよう、スクロール責任はテーブル自身に持たせる。 */
+/* .card-inner には overflow-x を絶対に付けない：
+   .card-inner に overflow-x:auto を付けると、内側のテーブルが card-inner より広い時に
+   「テキストボックス全体（本文の <p> も含めて）が横にスクロール」するバグになる。
+   スクロールは必ず「テーブルを包む .ie-table-scroll ラッパ div」が担う（Bootstrap .table-responsive 流）。
+   JS（script.js）が DOMContentLoaded で全テーブルを自動ラップする。 */
 .card-inner { padding: 20px 24px; }
-/* テーブル自身を横スクロール可能な block 要素にする（Bootstrap .table-responsive と同等）。
-   display:block にしても <thead>/<tbody>/<tr>/<td> の display は default のままで、
-   ブラウザの anonymous table 生成によりセル整列は保たれる。 */
-.card-inner table {
+.card-inner table { font-size: 0.82rem; line-height: 1.6; }
+
+/* FOUC 抑制 — JS が走る前の一瞬の間、card-inner 直下のテーブルが overflow しても、
+   テキストボックス全体ではなくテーブル単独でスクロールするように。
+   ※ "> 直接子" セレクタにすることで、JS が .ie-table-scroll でラップした後は
+     自動的に適用されなくなる（ラップ後のテーブルは card-inner の直接子ではない）。 */
+.card-inner > table {
   display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* テーブル横スクロール用ラッパ（JS が自動付与） — Bootstrap .table-responsive 同等。
+   ラッパが overflow を持ち、テーブル自体は display:table のまま（border-collapse・
+   cell 整列・inline-block 子要素が自然にレンダリングされ、display:block 由来の
+   「セル境界からはみ出す」「動作が不安定」事故が起きない）。 */
+.ie-table-scroll {
   width: 100%;
   max-width: 100%;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
-  font-size: 0.82rem;
-  line-height: 1.6;
+  margin: 10px 0 16px;
+}
+.ie-table-scroll > table {
+  display: table !important;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  overflow: visible;
 }
 .card-inner ul { list-style: disc; padding-left: 18px; }
 .card-inner li { font-size: 0.875rem; color: var(--muted); margin-bottom: 5px; }
@@ -2192,14 +2212,11 @@ a.resource-item:hover .resource-name { color: var(--blue); }
   .ie-stat-val { font-size: 1.1rem; }
   .ie-stat-label { font-size: 0.63rem; }
 
-  /* テーブル：モバイル文字サイズ縮小 + テーブル単体のみ横スクロール可
-     （display:block + overflow-x:auto によりテーブル自身がスクロール領域となり、
-     テキストボックス全体は横にずれない。Bootstrap の .table-responsive と同じ手法）
-     ※ <tbody>/<tr>/<td> の display は一切上書きしない。ブラウザの匿名テーブル
-        生成に任せることでセルの整列が崩れない。
-     ※ クラスに依存せず全テーブルに適用する。理由は「.ie-table を付け忘れた
-        テーブル」や独自クラス（dose-table, ref-table, renal-table, kt-gcs-table,
-        recent-table, spec-table, nx-scale-table 等）でも同じバグが再発するため。 */
+  /* テーブル：モバイル文字サイズ縮小 + FOUC 抑制（JS 未到達時の保険）
+     スクロール責任は .ie-table-scroll ラッパに統一済み（script.js が自動付与）。
+     ここでは「ラッパに包まれる前のテーブル」だけが display:block で単独スクロールする。
+     ラッパで包まれたテーブルは .ie-table-scroll > table { display:table !important } で
+     正常な display:table に復帰する。 */
   table {
     display: block;
     width: 100%;
