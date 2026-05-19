@@ -7,12 +7,13 @@
   if (!navMenu) return;
 
   // basePath: script.js の src 属性からルートへの相対パスを算出
+  //   ※ キャッシュバスター ?v=... を含む場合は除去する
   var basePath = '';
   var scripts = document.getElementsByTagName('script');
   for (var i = 0; i < scripts.length; i++) {
     var src = scripts[i].getAttribute('src') || '';
     if (src.indexOf('script.js') !== -1) {
-      basePath = src.replace('script.js', '');
+      basePath = src.replace(/script\.js(\?[^#]*)?$/, '');
       break;
     }
   }
