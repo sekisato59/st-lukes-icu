@@ -47,11 +47,11 @@
         { href: 'pages/bacteria-map.html',  label: '【感染症】細菌マップ' },
         { href: 'pages/icu-core-conf.html', label: 'レジデントのICU資料集' }
       ])
-    + dd('論文GL', [
-        { href: 'pages/articles-guidelines.html', label: 'ICU' },
-        { href: 'pages/articles-outpatient.html', label: '外来' }
+    + dd('論文GL・疾患まとめ', [
+        { href: 'pages/articles-guidelines.html', label: '論文GL（ICU）' },
+        { href: 'pages/articles-outpatient.html', label: '論文GL（外来）' },
+        { href: 'pages/disease-topics.html',      label: '疾患マニュアル' }
       ])
-    + single('pages/disease-topics.html', '疾患マニュアル')
     + dd('講義動画', [
         { href: 'pages/video-lectures.html',          label: '聖路加ICU動画講座集' },
         { href: 'pages/schedule-weekly-id-icu.html',  label: 'ID×ICU Conference 動画集' }
