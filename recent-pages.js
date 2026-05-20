@@ -10,18 +10,18 @@
  */
 const RECENT_PAGES = [
   {
+    title: "甲状腺疾患診断ガイドライン2024 — 日本甲状腺学会",
+    url: "pages/articles-gl-jta-thyroid2024.html",
+    date: "2026-05-20",
+    tag: "ガイドライン",
+    thumb: "images/朝カンファ風景.webp"
+  },
+  {
     title: "異常な肝血液検査値の解釈 (BMJ 2025) | St. Luke's ICU",
     url: "pages/articles-gl-lft-bmj2025.html",
     date: "2026-05-20",
     tag: "論文",
     thumb: "images/IDICUtop.png"
-  },
-  {
-    title: "甲状腺疾患診断ガイドライン2024 — 日本甲状腺学会",
-    url: "pages/articles-gl-jta-thyroid2024.html",
-    date: "2026-05-19",
-    tag: "ガイドライン",
-    thumb: "images/朝カンファ風景.webp"
   },
   {
     title: "ポリクローナル高ガンマグロブリン血症 — 評価・解釈・管理（Lancet Haematol 2021）",
