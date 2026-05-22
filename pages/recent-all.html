@@ -203,7 +203,7 @@
         <select id="f-system">
           <option value="">すべて</option>
         </select>
-        <input id="f-search" type="search" placeholder="キーワード検索（例：B型肝炎、敗血症、ARDS。スペース区切りでAND検索）" autofocus>
+        <input id="f-search" type="search" inputmode="search" enterkeyhint="search" autocomplete="off" placeholder="キーワード検索（例：B型肝炎、敗血症、ARDS。スペース区切りでAND検索）" autofocus>
         <span class="count">表示：<strong id="row-count">—</strong> / <span id="row-total">—</span> 件</span>
       </div>
 
@@ -546,6 +546,37 @@
       $q.addEventListener('input', render);
 
       render();
+
+      // ===== モバイル含めてページ open 時に検索窓へフォーカス＋キーボード起動を試みる =====
+      // 注: iOS Safari は user gesture なしのプログラム的フォーカスではキーボードを開かない
+      // ことが多い。Android Chrome や PC ブラウザでは確実に発火する。
+      // iOS でも初回タップ／スクロールなどの user gesture を 1 度でも検出したら即座に focus する。
+      function focusSearch(){
+        try {
+          $q.focus({ preventScroll: true });
+          $q.click();
+          if (typeof $q.setSelectionRange === 'function') {
+            $q.setSelectionRange($q.value.length, $q.value.length);
+          }
+        } catch (e) {}
+      }
+      // 即座に試す（PC・Android Chrome ではこれだけでキーボードが立ち上がる）
+      focusSearch();
+      // 描画安定後に再試行（layout 完了後の方が高確率で成功する端末がある）
+      requestAnimationFrame(function(){ requestAnimationFrame(focusSearch); });
+      setTimeout(focusSearch, 50);
+      setTimeout(focusSearch, 250);
+      // iOS Safari 対策：初回 user gesture（タップ／スクロール／キー入力）を 1 度検出したら即フォーカス
+      var firstGestureHandlers = ['touchstart','pointerdown','click','keydown','scroll'];
+      function onFirstGesture(){
+        focusSearch();
+        firstGestureHandlers.forEach(function(ev){
+          window.removeEventListener(ev, onFirstGesture, true);
+        });
+      }
+      firstGestureHandlers.forEach(function(ev){
+        window.addEventListener(ev, onFirstGesture, { capture: true, once: false, passive: true });
+      });
     })();
   </script>
 </body>
