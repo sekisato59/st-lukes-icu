@@ -1809,27 +1809,6 @@ const RECENT_PAGES = [
     thumb: "images/朝カンファ風景.webp"
   },
   {
-    title: "ペラミビル（ラピアクタ）— インフルエンザ治療薬レビュー",
-    url: "pages/articles-gl-peramivir-baseline2.html",
-    date: "2026-03-30",
-    tag: "ガイドライン",
-    thumb: "images/IDICUtop.png"
-  },
-  {
-    title: "ペラミビル（静注ノイラミニダーゼ阻害薬）レビュー",
-    url: "pages/articles-gl-peramivir-review-baseline.html",
-    date: "2026-03-30",
-    tag: "ガイドライン",
-    thumb: "images/IDICUtop.png"
-  },
-  {
-    title: "ペラミビル（Alpivab）レビュー：単純性インフルエンザの治療",
-    url: "pages/articles-gl-peramivir-review.html",
-    date: "2026-03-30",
-    tag: "ガイドライン",
-    thumb: "images/IDICUtop.png"
-  },
-  {
     title: "ペラミビル（Rapiacta®）レビュー — 非重症インフルエンザ治療",
     url: "pages/articles-gl-peramivir2018.html",
     date: "2026-03-30",
