@@ -10,15 +10,15 @@
  */
 const RECENT_PAGES = [
   {
-    title: "耐性GNRと新規抗菌薬 — 板書ノート | ID×ICUカンファレンス",
-    url: "pages/id-icu-notes/note-resistant-gnr.html",
+    title: "カンジダ菌血症と抗真菌薬 — 板書ノート | ID×ICUカンファレンス",
+    url: "pages/id-icu-notes/note-candida.html",
     date: "2026-05-23",
     tag: "解説",
     thumb: "images/IDICUtop.png"
   },
   {
-    title: "カンジダ菌血症と抗真菌薬 — 板書ノート | ID×ICUカンファレンス",
-    url: "pages/id-icu-notes/note-candida.html",
+    title: "耐性GNRと新規抗菌薬 — 板書ノート | ID×ICUカンファレンス",
+    url: "pages/id-icu-notes/note-resistant-gnr.html",
     date: "2026-05-23",
     tag: "解説",
     thumb: "images/IDICUtop.png"
