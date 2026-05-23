@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>耐性GNRと新規抗菌薬 — 板書ノート | ID×ICUカンファレンス | 聖路加ICU</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../style-v2.css?v=20260523b">
+  <style>
+    /* ===== ID×ICU 板書ノート 専用テーマ ===== */
+    .gl-chapter-banner {
+      background: linear-gradient(150deg, #2E1065 0%, #6D28D9 100%) !important;
+    }
+    .section-label.icu { color: #7C3AED; }
+
+    /* ===== バナー画像 + テキストオーバーレイ ===== */
+    .vap-banner {
+      position: relative; width: 100%; max-width: 1294px;
+      margin: 64px auto 0; line-height: 0;
+    }
+    .vap-banner-img {
+      width: 100%; height: auto; display: block;
+      -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 85%, transparent 100%);
+      mask-image: linear-gradient(to bottom, #000 0%, #000 85%, transparent 100%);
+    }
+    .vap-banner-overlay {
+      position: absolute; left: 5%; top: 50%;
+      transform: translateY(-50%); max-width: 55%; line-height: 1.4;
+    }
+    .vap-banner-back {
+      display: inline-block; font-size: 0.78rem; font-weight: 700;
+      color: #6D28D9; text-decoration: none; margin-bottom: 12px;
+    }
+    .vap-banner-back:hover { color: #4C1D95; }
+    .vap-banner-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+    .vap-banner-tags span {
+      display: inline-block; background: rgba(245,243,255,0.85); color: #4C1D95;
+      font-size: 0.68rem; font-weight: 700; padding: 3px 10px; border-radius: 4px;
+      letter-spacing: 0.04em; backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+    }
+    .vap-banner-title {
+      font-size: clamp(1.1rem, 2.6vw, 1.6rem); font-weight: 900;
+      line-height: 1.35; margin: 0 0 6px; color: #4C1D95;
+    }
+    .vap-banner-sub { font-size: clamp(0.78rem, 1.4vw, 0.92rem); font-weight: 700; color: #6D28D9; margin: 0 0 6px; }
+    .vap-banner-lecturer { font-size: clamp(0.72rem, 1.2vw, 0.82rem); color: #7C3AED; margin: 0; }
+    @media (max-width: 900px) { .vap-banner-overlay { max-width: 60%; left: 4%; top: 45%; } }
+    @media (max-width: 600px) {
+      .vap-banner { line-height: 1.4; }
+      .vap-banner-overlay { position: static; transform: none; max-width: 100%; padding: 12px 18px 4px; }
+    }
+
+    /* ====== モバイル用 ====== */
+    @media (max-width: 600px) {
+      .card-inner h3.rule-title { font-size: 0.92rem; }
+      .card-inner h4.sub-head { font-size: 0.88rem; }
+      .card-inner .rule-body, .card-inner ul li, .card-inner ol li,
+      .card-inner p { font-size: 0.78rem; line-height: 1.65; }
+      .keypoint, .danger { font-size: 0.76rem; line-height: 1.6; padding: 7px 10px; }
+      .keypoint::before, .danger::before { font-size: 0.6rem; padding: 1px 6px; margin-right: 6px; }
+      .note-btn-video { font-size: 0.76rem; padding: 8px 14px; }
+      .ie-main-col h3[id^="ch"] { font-size: 0.98rem !important; }
+      .gl-chapter-banner .gl-chapter-title { font-size: 1.02rem !important; }
+    }
+
+    /* ====== 見出し ====== */
+    .card-inner h3.rule-title {
+      font-size: 0.98rem; color: var(--text); padding-bottom: 6px;
+      border-bottom: 2px solid #C4B5FD; margin: 0 0 10px;
+    }
+    .card-inner h4.sub-head {
+      font-size: 0.95rem; font-weight: 900; color: #4C1D95;
+      margin: 14px 0 6px; letter-spacing: 0.02em; line-height: 1.4;
+    }
+    .card-inner h4.sub-head::before { content: '●'; color: #7C3AED; margin-right: 8px; font-size: 0.78rem; vertical-align: 1px; }
+    .card-inner h4.sub-head:first-child { margin-top: 0; }
+
+    /* ====== 本文 ====== */
+    .card-inner .rule-body, .card-inner ul li, .card-inner ol li,
+    .card-inner p { color: #475569; line-height: 1.7; }
+    .card-inner p { margin: 4px 0; }
+    .card-inner ul, .card-inner ol { list-style: disc; padding-left: 26px; margin: 4px 0 8px; }
+    .card-inner ul li, .card-inner ol li { margin-bottom: 3px; }
+    .card-inner ul li::marker { color: #C4B5FD; }
+    .card-inner strong { color: var(--text); font-weight: 700; }
+    .card-inner em { font-style: italic; color: #1F2937; }
+
+    /* ====== 警告ボックス ====== */
+    .keypoint {
+      background: #FFFBEB; border: 1px solid #FDE68A; border-radius: 6px;
+      padding: 8px 12px; margin: 8px 0; font-size: 0.82rem; line-height: 1.65; color: #78350F;
+    }
+    .keypoint::before {
+      content: '注意'; display: inline-block; background: #F59E0B; color: #fff;
+      font-size: 0.64rem; font-weight: 800; padding: 1px 7px; border-radius: 3px;
+      margin-right: 8px; letter-spacing: 0.06em;
+    }
+    .keypoint strong { color: #92400E; }
+    .danger {
+      background: #FEF2F2; border: 1px solid #FECACA; border-radius: 6px;
+      padding: 8px 12px; margin: 8px 0; font-size: 0.82rem; line-height: 1.65; color: #7F1D1D;
+    }
+    .danger::before {
+      content: '重要'; display: inline-block; background: #DC2626; color: #fff;
+      font-size: 0.64rem; font-weight: 800; padding: 1px 7px; border-radius: 3px;
+      margin-right: 8px; letter-spacing: 0.06em;
+    }
+    .danger strong { color: #7F1D1D; }
+
+    /* ====== 録画ボタン ====== */
+    .note-actions { display: flex; gap: 10px; margin: 0 0 12px; flex-wrap: wrap; }
+    .note-btn-video {
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+      background: linear-gradient(135deg, #6D28D9, #7C3AED);
+      color: #fff; font-size: 0.82rem; font-weight: 700;
+      padding: 9px 18px; border-radius: 8px; text-decoration: none;
+      letter-spacing: 0.04em; line-height: 1;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .note-btn-video:hover { transform: translateY(-1px); box-shadow: 0 4px 10px rgba(124,58,237,0.32); }
+
+    /* ====== 耐性機序アイコン ====== */
+    .resistance-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 10px; margin: 8px 0;
+    }
+    .resistance-box {
+      background: #F5F3FF; border: 1px solid #DDD6FE; border-radius: 8px;
+      padding: 10px 14px;
+    }
+    .resistance-num {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 22px; height: 22px; background: #7C3AED; color: #fff;
+      border-radius: 50%; font-weight: 900; font-size: 0.76rem;
+      margin-right: 6px; flex-shrink: 0;
+    }
+    .resistance-title {
+      font-size: 0.88rem; font-weight: 800; color: #4C1D95;
+      display: flex; align-items: center; margin-bottom: 6px;
+    }
+    .resistance-body { font-size: 0.82rem; color: #475569; line-height: 1.65; }
+
+    /* ====== Ambler 分類グリッド ====== */
+    .ambler-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 8px; margin: 10px 0;
+    }
+    @media (max-width: 600px) { .ambler-grid { grid-template-columns: repeat(2, 1fr); } }
+    .ambler-box {
+      border-radius: 8px; padding: 10px 12px; text-align: center;
+    }
+    .ambler-box.serine { background: #EFF6FF; border: 1px solid #BFDBFE; }
+    .ambler-box.metallo { background: #FEF3C7; border: 1px solid #FDE68A; }
+    .ambler-class {
+      font-size: 1.1rem; font-weight: 900; margin-bottom: 4px;
+    }
+    .ambler-box.serine .ambler-class { color: #1D4ED8; }
+    .ambler-box.metallo .ambler-class { color: #B45309; }
+    .ambler-active {
+      font-size: 0.72rem; color: #6B7280; margin-bottom: 6px;
+    }
+    .ambler-enzyme {
+      font-size: 0.78rem; font-weight: 700;
+    }
+    .ambler-box.serine .ambler-enzyme { color: #1D4ED8; }
+    .ambler-box.metallo .ambler-enzyme { color: #B45309; }
+
+    /* ====== CRE/CPE ベン図ボックス ====== */
+    .cpe-cre-layout {
+      display: flex; gap: 12px; align-items: stretch; flex-wrap: wrap; margin: 10px 0;
+    }
+    .cpe-box {
+      flex: 1; min-width: 180px; border-radius: 8px; padding: 10px 14px;
+    }
+    .cpe-box.cre { background: #FFF7ED; border: 1px solid #FED7AA; }
+    .cpe-box.cpe { background: #FEF2F2; border: 1px solid #FECACA; }
+    .cpe-label {
+      font-size: 0.78rem; font-weight: 800; margin-bottom: 6px;
+    }
+    .cpe-box.cre .cpe-label { color: #C2410C; }
+    .cpe-box.cpe .cpe-label { color: #991B1B; }
+    .cpe-body { font-size: 0.82rem; color: #475569; line-height: 1.65; }
+
+    /* ====== 薬剤カード ====== */
+    .drug-card {
+      background: #F8FAFC; border: 1px solid var(--border); border-radius: 10px;
+      margin: 8px 0 16px; overflow: hidden;
+    }
+    .drug-card-head {
+      background: linear-gradient(135deg, #1E1B4B 0%, #4338CA 100%);
+      padding: 10px 16px; display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;
+    }
+    .drug-card-abbr {
+      font-size: 0.88rem; font-weight: 900; color: #fff; letter-spacing: 0.06em;
+      font-family: ui-monospace, Menlo, Consolas, monospace;
+    }
+    .drug-card-brand {
+      font-size: 0.78rem; color: #C7D2FE; font-weight: 700;
+    }
+    .drug-card-body { padding: 12px 16px; }
+
+    /* ====== 感受性スペクトラム表（色付き） ====== */
+    .sp-ex   { color: #16A34A; font-weight: 900; font-size: 1.05rem; }
+    .sp-ok   { color: #1D4ED8; font-weight: 700; }
+    .sp-var  { color: #B45309; font-weight: 700; }
+    .sp-no   { color: #DC2626; font-weight: 900; }
+    .sp-head-esbl  { background: #EFF6FF; color: #1E40AF; }
+    .sp-head-ampc  { background: #F0FDF4; color: #166534; }
+    .sp-head-cpe   { background: #FEF3C7; color: #92400E; }
+    .sp-head-mbl   { background: #FFF7ED; color: #9A3412; }
+    .sp-head-dtrp  { background: #F5F3FF; color: #4C1D95; }
+    .sp-head-crab  { background: #FEF2F2; color: #7F1D1D; }
+    .sp-head-smal  { background: #F0FDF4; color: #166534; }
+
+    /* ====== 用量テーブル（コンパクト） ====== */
+    .dose-table {
+      width: 100%; border-collapse: collapse;
+      font-size: 0.8rem; color: #475569; margin-top: 8px;
+    }
+    .dose-table th {
+      background: #F1F5F9; color: var(--text); font-weight: 700;
+      padding: 5px 8px; border: 1px solid var(--border); text-align: left;
+      font-size: 0.78rem;
+    }
+    .dose-table td {
+      padding: 5px 8px; border: 1px solid var(--border);
+      vertical-align: top; line-height: 1.55;
+    }
+    .dose-table tr:nth-child(even) td { background: #F8FAFC; }
+    .dose-table td strong { color: var(--text); }
+
+    /* ====== 引用 ====== */
+    .citation {
+      font-size: 0.7rem; color: #9CA3AF; font-style: italic;
+      display: block; margin-top: 6px; padding-left: 14px;
+    }
+
+    /* card 間隔 */
+    .card .card-inner { padding: 14px 18px; }
+    .card { margin-bottom: 12px !important; }
+    .gl-chapter-banner { margin-top: 32px !important; padding: 14px 20px !important; }
+    .gl-chapter-banner.first { margin-top: 8px !important; }
+    .gl-chapter-banner .gl-chapter-title { font-size: 1.15rem !important; }
+
+    /* ie-table 色調整 */
+    .card-inner .ie-table td { color: #475569; }
+    .card-inner .ie-table th { color: var(--text); }
+
+    /* S. maltophilia 治療選択肢 */
+    .tx-option {
+      display: flex; align-items: flex-start; gap: 10px;
+      padding: 7px 0; border-bottom: 1px dashed #DDD6FE;
+    }
+    .tx-option:last-child { border-bottom: none; }
+    .tx-num {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 22px; height: 22px; min-width: 22px;
+      background: #4338CA; color: #fff; border-radius: 50%;
+      font-weight: 900; font-size: 0.76rem; margin-top: 2px;
+    }
+    .tx-body { flex: 1; font-size: 0.84rem; color: #475569; line-height: 1.65; }
+    .tx-body strong { color: var(--text); }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="../../index.html" class="nav-logo">
+        <img src="../../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+        <span class="nav-logo-text">聖路加国際病院ICU</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-menu" id="navMenu"></ul>
+    </div>
+  </nav>
+
+  <!-- ===== HEADER ===== -->
+  <div class="vap-banner">
+    <img src="../../images/headerID*ICUpage.png" alt="ID×ICUカンファレンス 板書ノート" class="vap-banner-img">
+    <div class="vap-banner-overlay">
+      <div class="vap-banner-tags">
+        <span>ID×ICU カンファレンス</span>
+        <span>感染症 / 抗菌薬各論</span>
+      </div>
+      <h1 class="vap-banner-title">耐性GNRと新規抗菌薬 — 板書ノート</h1>
+      <p class="vap-banner-sub">耐性機序 ／ β-ラクタマーゼ分類 ／ S. maltophilia ／ 耐性緑膿菌 ／ 新規βラクタム各論</p>
+      <p class="vap-banner-lecturer">レジュメ作成：ICU 関谷，森先生</p>
+    </div>
+  </div>
+
+  <!-- ===== MAIN CONTAINER ===== -->
+  <div class="container" style="max-width:1294px;margin:0 auto;padding:8px 20px 32px;">
+    <div class="ie-page-flex">
+
+      <!-- ===== MAIN CONTENT ===== -->
+      <div class="ie-main-col">
+
+        <!-- 録画リンク（前半・後半） -->
+        <div class="note-actions">
+          <a href="https://lukemcmi-my.sharepoint.com/:v:/g/personal/sekisato_luke_ac_jp/IQB0IpyGASMITLbwNBCa7ILGAVMGcK2V5_2a0gZ2ohsRBp8?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=BpCNQp" target="_blank" rel="noopener" class="note-btn-video"><span style="font-size:0.7rem;">▶</span>レクチャー動画（前半）</a>
+          <a href="https://lukemcmi-my.sharepoint.com/:v:/g/personal/sekisato_luke_ac_jp/IQCOZ-gmcZApTJrDay_aVXCiASBYP_FTHPL2wIsfmirObRc?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=XvFl3B" target="_blank" rel="noopener" class="note-btn-video"><span style="font-size:0.7rem;">▶</span>レクチャー動画（後半）</a>
+        </div>
+
+        <!-- 略語一覧 -->
+        <div class="card" style="margin-top:0;margin-bottom:24px;">
+          <div class="card-inner">
+            <h3 class="rule-title">本ページで使用する略語一覧</h3>
+            <table style="width:100%;border-collapse:collapse;font-size:0.78rem;line-height:1.6;color:#475569;">
+              <tbody>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:160px;color:var(--blue);">GNR</td><td style="padding:4px 8px;">Gram-Negative Rod — グラム陰性桿菌</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">PBP</td><td style="padding:4px 8px;">Penicillin-Binding Protein — ペニシリン結合蛋白</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">ESBL</td><td style="padding:4px 8px;">Extended-Spectrum β-Lactamase — 基質特異性拡張型β-ラクタマーゼ</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">AmpC</td><td style="padding:4px 8px;">AmpC β-Lactamase（Class C）— 誘導型産生が問題</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">MBL</td><td style="padding:4px 8px;">Metallo-β-Lactamase — メタロβ-ラクタマーゼ（Class B、亜鉛依存）</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CRE</td><td style="padding:4px 8px;">Carbapenem-Resistant Enterobacteriaceae — カルバペネム耐性腸内細菌</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CPE</td><td style="padding:4px 8px;">Carbapenemase-Producing Enterobacteriaceae — カルバペネマーゼ産生腸内細菌</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">MDRP</td><td style="padding:4px 8px;">Multidrug-Resistant <em>Pseudomonas aeruginosa</em> — 多剤耐性緑膿菌</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CRPA</td><td style="padding:4px 8px;">Carbapenem-Resistant <em>P. aeruginosa</em> — カルバペネム耐性緑膿菌</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">DTRP</td><td style="padding:4px 8px;">Difficult-to-Treat Resistance <em>P. aeruginosa</em> — 難治耐性緑膿菌</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CRAB</td><td style="padding:4px 8px;">Carbapenem-Resistant <em>Acinetobacter baumannii</em></td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CTLZ/TAZ</td><td style="padding:4px 8px;">Ceftolozane/Tazobactam — セフトロザン/タゾバクタム（ザバクサ®）</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CAZ/AVI</td><td style="padding:4px 8px;">Ceftazidime/Avibactam — セフタジジム/アビバクタム（ザビセフタ®）</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CFDC</td><td style="padding:4px 8px;">Cefiderocol — セフィデロコル（フェトロージャ®）</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">TGC</td><td style="padding:4px 8px;">Tigecycline — チゲサイクリン（タイガシル®）</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CL</td><td style="padding:4px 8px;">Colistin — コリスチン（オルドレブ®）</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">AZT</td><td style="padding:4px 8px;">Aztreonam — アズトレオナム（アザクタム®）、モノバクタム系</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">MNZ</td><td style="padding:4px 8px;">Metronidazole — メトロニダゾール（嫌気性菌カバー）</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">ST合剤</td><td style="padding:4px 8px;">Sulfamethoxazole-Trimethoprim — ST合剤（バクトリム®）</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">PDC</td><td style="padding:4px 8px;">Pseudomonas-derived Cephalosporinase — 緑膿菌由来セファロスポリナーゼ（AmpC型）</td></tr>
+                <tr><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CrCl</td><td style="padding:4px 8px;">Creatinine Clearance — クレアチニンクリアランス（mL/分）</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- 第1章　Gram陰性桿菌の耐性機序 -->
+        <!-- ═══════════════════════════════════════ -->
+        <div id="ch1" class="gl-chapter-banner first">
+          <div class="gl-chapter-title">第1章　Gram 陰性桿菌の耐性機序</div>
+          <div class="gl-chapter-subtitle">Resistance Mechanisms of GNR — 4つの分子機構</div>
+        </div>
+
+        <h3 id="ch1-s1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 1</span>
+          4つの耐性機序
+        </h3>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <p class="rule-body" style="margin-bottom:12px;">ICUにおいて遭遇する多剤耐性菌の中心は Gram 陰性桿菌である。Gram 陰性桿菌の耐性は単一の仕組みによるものではなく、<strong>複数の分子機構が重層的に組み合わさり</strong>成立している。</p>
+            <!-- ── GNR 細菌細胞 断面図（PDFスライドより） ── -->
+            <div style="margin:10px 0 14px;">
+              <img src="../../images/gnr-resistance-mechanism.png"
+                   alt="Gram陰性桿菌の4つの耐性機序（PDFスライドより）"
+                   style="width:100%;max-width:680px;height:auto;display:block;margin:0 auto;border-radius:6px;">
+            </div>
+
+            <!-- 4機序の簡潔な説明 -->
+            <table style="width:100%;border-collapse:collapse;font-size:0.82rem;">
+              <tbody>
+                <tr style="border-bottom:1px solid #E2E8F0;">
+                  <td style="padding:7px 10px;white-space:nowrap;vertical-align:top;">
+                    <span style="display:inline-block;width:20px;height:20px;background:#F59E0B;color:#fff;border-radius:50%;font-weight:900;font-size:0.72rem;text-align:center;line-height:20px;margin-right:6px;">1</span><strong style="color:#78350F;">修飾・分解</strong>
+                  </td>
+                  <td style="padding:7px 10px;color:#475569;vertical-align:top;"><strong>β-ラクタマーゼ産生。</strong>ペリプラズムでβ-ラクタム環を加水分解して不活化。ESBL・KPC・MBL などの酵素が代表例。</td>
+                </tr>
+                <tr style="border-bottom:1px solid #E2E8F0;">
+                  <td style="padding:7px 10px;white-space:nowrap;vertical-align:top;">
+                    <span style="display:inline-block;width:20px;height:20px;background:#EF4444;color:#fff;border-radius:50%;font-weight:900;font-size:0.72rem;text-align:center;line-height:20px;margin-right:6px;">2</span><strong style="color:#991B1B;">侵入阻害</strong>
+                  </td>
+                  <td style="padding:7px 10px;color:#475569;vertical-align:top;"><strong>ポーリン蛋白の欠失・変化。</strong>外膜の透過性が下がり細胞内濃度が保たれない。緑膿菌（OprD消失）・腸内細菌に多い。</td>
+                </tr>
+                <tr style="border-bottom:1px solid #E2E8F0;">
+                  <td style="padding:7px 10px;white-space:nowrap;vertical-align:top;">
+                    <span style="display:inline-block;width:20px;height:20px;background:#7C3AED;color:#fff;border-radius:50%;font-weight:900;font-size:0.72rem;text-align:center;line-height:20px;margin-right:6px;">3</span><strong style="color:#4C1D95;">標的部位の変化</strong>
+                  </td>
+                  <td style="padding:7px 10px;color:#475569;vertical-align:top;"><strong>PBP変異。</strong>β-ラクタムが結合すべき標的酵素の形が変化し、薬剤が結合できなくなる。</td>
+                </tr>
+                <tr>
+                  <td style="padding:7px 10px;white-space:nowrap;vertical-align:top;">
+                    <span style="display:inline-block;width:20px;height:20px;background:#16A34A;color:#fff;border-radius:50%;font-weight:900;font-size:0.72rem;text-align:center;line-height:20px;margin-right:6px;">4</span><strong style="color:#14532D;">排出亢進</strong>
+                  </td>
+                  <td style="padding:7px 10px;color:#475569;vertical-align:top;"><strong>エフラックスポンプ過剰発現。</strong>侵入した抗菌薬を能動的に細胞外へ排出。緑膿菌（MexAB-OprM）・腸内細菌（AcrAB-TolC）が代表。</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- 第2章　β-ラクタマーゼ産生菌 -->
+        <!-- ═══════════════════════════════════════ -->
+        <div id="ch2" class="gl-chapter-banner">
+          <div class="gl-chapter-title">第2章　β-ラクタマーゼ産生菌</div>
+          <div class="gl-chapter-subtitle">β-Lactamase-Producing Organisms — Ambler 分類と臨床的影響</div>
+        </div>
+
+        <!-- ── Ambler分類 ── -->
+        <h3 id="ch2-s1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 1</span>
+          Ambler 分類（Class A〜D）
+        </h3>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <p class="rule-body" style="margin-bottom:12px;">β-ラクタマーゼはβ-ラクタム環を加水分解して抗菌薬を不活化させる酵素の総称。<strong>Ambler 分類</strong>はアミノ酸配列に基づく分子分類で、Class A〜D に分類される。<strong>Class B のみ活性中心に亜鉛（金属）を持つ「メタロβ-ラクタマーゼ（MBL）」</strong>で、モノバクタム系を含む幅広い抗菌薬を加水分解する。</p>
+            <!-- Ambler 分類図（PDFスライドより） -->
+            <img src="../../images/gnr-ambler-classification.png"
+                 alt="Ambler分類（Class A〜D）（PDFスライドより）"
+                 style="width:100%;max-width:680px;height:auto;display:block;margin:10px auto;border-radius:6px;">
+            <p class="keypoint" style="margin-top:4px;"><strong>MBL（Class B）の特徴：</strong>モノバクタム系（AZT）は MBL では分解されない。ただし MBL 産生菌の多くは同時に ESBL などのセリン β-ラクタマーゼも産生するため、AZT 単剤では不十分 → CAZ/AVI との併用が必要。</p>
+          </div>
+        </div>
+
+        <!-- ── AmpC ── -->
+        <h3 id="ch2-s2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 2</span>
+          AmpC 産生菌
+        </h3>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <p class="rule-body">多くの腸内細菌科や非発酵グラム陰性菌が基底レベルで産生するβラクタマーゼ（Class C）。<strong>ペニシリン系・第3世代までのセファロスポリンを分解</strong>し耐性を示す。クラブラン酸などの一般的なβ-ラクタマーゼ阻害薬や<strong>セファマイシン系（セフメタゾールなど）にも耐性</strong>を示す点が ESBL と異なる。</p>
+            <div class="danger" style="margin-top:10px;">
+              <strong>■ 誘導型 AmpC 産生の高リスク菌 3つ ■</strong><br>
+              <span style="display:inline-block;margin-top:4px;">① <em><strong>Enterobacter cloacae</strong></em>　② <em><strong>Klebsiella aerogenes</strong></em>　③ <em><strong>Citrobacter freundii</strong></em></span>
+            </div>
+            <p class="rule-body" style="margin-top:8px;">第3世代セファロスポリン等に曝されることで酵素の産生量が増加し、<strong>治療中に耐性化するリスクが高い</strong>。感受性があってもこれらの抗菌薬使用は避け、<strong>第4世代セファロスポリン（セフェピム）またはカルバペネム系</strong>で治療を行う。</p>
+          </div>
+        </div>
+
+        <!-- ── ESBL ── -->
+        <h3 id="ch2-s3" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 3</span>
+          ESBL 産生菌
+        </h3>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <p class="rule-body">大部分のペニシリン系・セファロスポリン系・さらに<strong>アズトレオナムまでを不活化</strong>可能な β-ラクタマーゼ（主に Class A）。大腸菌やクレブシエラなど腸内細菌目細菌で多く見られる。</p>
+            <p class="rule-body" style="margin-top:6px;">重症例では従来カルバペネム系が選択されてきたが、<strong>セフトロザン/タゾバクタム・セフタジジム・アビバクタム・セフィデロコル</strong>なども活性を示し注目されている。</p>
+            <div class="keypoint" style="margin-top:10px;">
+              <strong>ESBL 産生菌のカバーを考慮する状況（Rottier WC et al. CID 2015）：</strong><br>
+              ① 過去90日以内に ESBL 検出歴（陽性尤度比 11.7）<br>
+              ② 過去30日以内に第3世代セフェム使用歴（陽性尤度比 2.2）<br>
+              ③ 過去30日以内にキノロン系抗菌薬使用歴（陽性尤度比 1.7）
+            </div>
+          </div>
+        </div>
+
+        <!-- ── CRE / CPE ── -->
+        <h3 id="ch2-s4" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 4</span>
+          CRE / CPE
+        </h3>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <div class="cpe-cre-layout">
+              <div class="cpe-box cre">
+                <div class="cpe-label">CRE（上位概念）</div>
+                <p class="cpe-body"><strong>Carbapenem-Resistant Enterobacteriaceae</strong><br>耐性化の機序を問わず、カルバペネム系抗菌薬に耐性を示す腸内細菌の総称。<br><small style="color:#9CA3AF;">※ カルバペネマーゼ非産生の機序（ポーリン変異+AmpC など）も含む</small></p>
+              </div>
+              <div class="cpe-box cpe">
+                <div class="cpe-label">CPE（CRE の部分集合）</div>
+                <p class="cpe-body"><strong>Carbapenemase-Producing Enterobacteriaceae</strong><br>Ambler Class A・B・D に属するカルバペネマーゼ産生によりカルバペネムに耐性を示す腸内細菌。<br><small style="color:#9CA3AF;">※ カルバペネマーゼを産生していても MIC ≤ 2 なら CRE 基準未満の場合あり</small></p>
+              </div>
+            </div>
+            <div class="danger" style="margin-top:8px;">治療は感受性が残る抗菌薬の種類・CPE かどうか・どのβラクタマーゼかを同定することが重要。<strong>必ず感染症科にコンサルトを行う。</strong></div>
+          </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- 第3章　耐性菌各論 -->
+        <!-- ═══════════════════════════════════════ -->
+        <div id="ch3" class="gl-chapter-banner">
+          <div class="gl-chapter-title">第3章　耐性菌各論</div>
+          <div class="gl-chapter-subtitle">Specific Drug-Resistant Organisms — S. maltophilia ／ 耐性緑膿菌</div>
+        </div>
+
+        <!-- ── S. maltophilia ── -->
+        <h3 id="ch3-s1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 1</span>
+          <em>Stenotrophomonas maltophilia</em>
+        </h3>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <p class="rule-body">多剤耐性を示すブドウ糖非発酵グラム陰性桿菌。ICU患者・<strong>好中球減少を伴う免疫不全患者</strong>で VAP（後者では大葉性肺炎も）・CRBSI・菌血症を生じる。</p>
+            <p class="rule-body" style="margin-top:6px;">セリン・メタロ両者のβ-ラクタマーゼ産生、アミノグリコシド修飾酵素、キノロン系感受性低下、複数の排出ポンプ発現など<strong>複数の耐性機序が複合</strong>し多様な抗菌薬に耐性を示す。</p>
+
+            <h4 class="sub-head">■ S. maltophilia に対する抗菌薬選択 ■（重症・免疫不全患者では2剤併用）</h4>
+            <div style="font-size:0.84rem;font-weight:800;color:#4C1D95;margin:8px 0 6px;">① 以下の4剤から2剤を選択：</div>
+            <table style="width:100%;border-collapse:separate;border-spacing:6px;margin-bottom:4px;">
+              <tbody>
+                <tr>
+                  <td style="vertical-align:top;width:50%;background:#EFF6FF;border:1.5px solid #BFDBFE;border-radius:8px;padding:10px 12px;">
+                    <div style="font-size:0.88rem;font-weight:900;color:#1E40AF;margin-bottom:3px;">ST合剤</div>
+                    <div style="font-size:0.71rem;color:#3B82F6;margin-bottom:6px;">Trimethoprim-Sulfamethoxazole</div>
+                    <div style="font-size:0.78rem;color:#1E3A8A;line-height:1.65;">第一選択。腎機能障害・骨髄抑制がない場合に優先。</div>
+                  </td>
+                  <td style="vertical-align:top;width:50%;background:#F0FDF4;border:1.5px solid #86EFAC;border-radius:8px;padding:10px 12px;">
+                    <div style="font-size:0.88rem;font-weight:900;color:#166534;margin-bottom:3px;">レボフロキサシン</div>
+                    <div style="font-size:0.71rem;color:#16A34A;margin-bottom:6px;">Levofloxacin</div>
+                    <div style="font-size:0.78rem;color:#14532D;line-height:1.65;">腎機能障害・骨髄抑制を有する場合に使用。</div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align:top;background:#FFF7ED;border:1.5px solid #FED7AA;border-radius:8px;padding:10px 12px;">
+                    <div style="font-size:0.88rem;font-weight:900;color:#C2410C;margin-bottom:3px;">セフィデロコル</div>
+                    <div style="font-size:0.71rem;color:#EA580C;margin-bottom:6px;">Cefiderocol</div>
+                    <div style="font-size:0.78rem;color:#7C2D12;line-height:1.65;">ST合剤・キノロン系の既使用例・耐性例で選択。</div>
+                  </td>
+                  <td style="vertical-align:top;background:#FAF5FF;border:1.5px solid #D8B4FE;border-radius:8px;padding:10px 12px;">
+                    <div style="font-size:0.88rem;font-weight:900;color:#7E22CE;margin-bottom:3px;">ミノサイクリン</div>
+                    <div style="font-size:0.71rem;color:#9333EA;margin-bottom:6px;">Minocycline</div>
+                    <div style="font-size:0.78rem;color:#581C87;line-height:1.65;">上記3剤いずれかとの2剤併用として組み込む。</div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div style="text-align:center;font-size:0.84rem;font-weight:700;color:#6B7280;padding:4px 0;">— または —</div>
+            <div style="background:#FFF7ED;border:1px solid #FED7AA;border-radius:8px;padding:10px 14px;margin:0 0 10px;">
+              <div style="font-size:0.82rem;font-weight:800;color:#C2410C;margin-bottom:4px;">② アズトレオナム（AZT）＋ セフタジジム・アビバクタム（CAZ/AVI）の併用</div>
+              <p style="font-size:0.82rem;color:#78350F;margin:0;">AZT はメタロβラクタマーゼでは分解されない一方、単体ではセリンβラクタマーゼにより分解されてしまう。CAZ/AVI によるセリンβラクタマーゼ阻害を追加することで両機序を同時に回避可能。</p>
+            </div>
+
+            <p style="font-size:0.84rem;font-weight:700;color:#4C1D95;margin-top:8px;margin-bottom:4px;">当院での①の使用例：</p>
+            <div class="tx-option">
+              <div class="tx-num">1</div>
+              <div class="tx-body"><strong>ST合剤 ＋ ミノサイクリン</strong>：腎機能障害や骨髄抑制がない場合</div>
+            </div>
+            <div class="tx-option">
+              <div class="tx-num">2</div>
+              <div class="tx-body"><strong>レボフロキサシン ＋ ミノサイクリン</strong>：腎機能障害や骨髄抑制を有する場合</div>
+            </div>
+            <div class="tx-option">
+              <div class="tx-num">3</div>
+              <div class="tx-body"><strong>セフィデロコル ＋ ミノサイクリン</strong>：ST合剤やキノロンの既使用例・耐性例</div>
+            </div>
+            <p class="keypoint" style="margin-top:10px;">血液悪性腫瘍・好中球減少患者では予防的にレボフロキサシン・ST合剤が投与されていることが多く、初期治療時点で既に曝露歴を持つ場合、<strong>セフィデロコルを早期に使用する機会が増加している。</strong></p>
+          </div>
+        </div>
+
+        <!-- ── 耐性緑膿菌 ── -->
+        <h3 id="ch3-s2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 2</span>
+          耐性緑膿菌（MDRP / CRPA / DTRP）
+        </h3>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <p class="rule-body">緑膿菌も染色体上の AmpC 型β-ラクタマーゼ（PDC）・ポーリン変異・排出ポンプの過剰発現・プラスミドを介したカルバペネマーゼ遺伝子獲得など、複数の機序が組み合わさり<strong>高度な薬剤耐性</strong>が形成される。</p>
+
+            <h4 class="sub-head">MDRP（多剤耐性緑膿菌）— Magiorakos らによる国際基準</h4>
+            <p class="rule-body">以下の<strong>8系統の抗菌薬のうち、3系統以上の薬剤に耐性</strong>を示すもの：</p>
+            <div style="overflow-x:auto;margin:6px 0 10px;">
+              <table class="ie-table" style="font-size:0.78rem;">
+                <tbody>
+                  <tr>
+                    <td style="white-space:nowrap;">① 抗緑膿菌用ペニシリン系</td>
+                    <td style="color:#6B7280;">ピペラシリン、PIPC/TAZ など</td>
+                  </tr>
+                  <tr>
+                    <td style="white-space:nowrap;">② 抗緑膿菌用セファロスポリン系</td>
+                    <td style="color:#6B7280;">セフタジジム、セフェピム</td>
+                  </tr>
+                  <tr>
+                    <td style="white-space:nowrap;">③ 抗緑膿菌用カルバペネム系</td>
+                    <td style="color:#6B7280;">イミペネム、メロペネム</td>
+                  </tr>
+                  <tr>
+                    <td style="white-space:nowrap;">④ モノバクタム系</td>
+                    <td style="color:#6B7280;">アズトレオナム</td>
+                  </tr>
+                  <tr>
+                    <td style="white-space:nowrap;">⑤ 抗緑膿菌用フルオロキノロン系</td>
+                    <td style="color:#6B7280;">シプロフロキサシン、レボフロキサシン</td>
+                  </tr>
+                  <tr>
+                    <td style="white-space:nowrap;">⑥ アミノグリコシド系</td>
+                    <td style="color:#6B7280;">アミカシン</td>
+                  </tr>
+                  <tr>
+                    <td style="white-space:nowrap;">⑦ ホスホマイシン</td>
+                    <td style="color:#6B7280;">—</td>
+                  </tr>
+                  <tr>
+                    <td style="white-space:nowrap;">⑧ ポリペプチド系</td>
+                    <td style="color:#6B7280;">コリスチン</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <h4 class="sub-head">CRPA — カルバペネム耐性緑膿菌</h4>
+            <p class="rule-body">カルバペネム系に耐性を示すもの。ピペラシリン・タゾバクタム、セフェピム、セフタジジム、アズトレオナムなど<strong>感受性のある従来のβ-ラクタム系抗菌薬を優先</strong>して使用する。</p>
+
+            <h4 class="sub-head">DTRP — 難治耐性緑膿菌</h4>
+            <p class="rule-body">第1選択薬である<strong>全てのβ-ラクタム系およびフルオロキノロン系に耐性</strong>を示すもの。</p>
+            <p class="rule-body" style="margin-top:6px;">推奨：<strong>CTLZ/TAZ / CAZ/AVI / イミペネム・レレバクタム / CFDC</strong></p>
+            <div class="keypoint" style="margin-top:6px;"><strong>MBL 産生菌の場合：</strong>CTLZ/TAZ は有効性が期待できない。<strong>① CFDC</strong> または <strong>② AZT + CAZ/AVI の併用</strong>が推奨される。</div>
+          </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- 第4章　耐性菌に有効な抗菌薬 各論 -->
+        <!-- ═══════════════════════════════════════ -->
+        <div id="ch4" class="gl-chapter-banner">
+          <div class="gl-chapter-title">第4章　耐性菌に有効な抗菌薬 各論</div>
+          <div class="gl-chapter-subtitle">New β-Lactam / β-Lactamase Inhibitor Combinations — スペクトラムと用量</div>
+        </div>
+
+        <!-- ── スペクトラム総覧表 ── -->
+        <h3 id="ch4-s1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 1</span>
+          耐性菌スペクトラム総覧
+        </h3>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <div style="overflow-x:auto;">
+              <table style="width:100%;border-collapse:collapse;font-size:0.82rem;min-width:620px;">
+                <colgroup>
+                  <col style="width:28%;">
+                  <col style="width:10%;"><col style="width:10%;"><col style="width:10%;">
+                  <col style="width:10%;"><col style="width:10%;"><col style="width:10%;"><col style="width:12%;">
+                </colgroup>
+                <thead>
+                  <tr>
+                    <th rowspan="2" style="border:1px solid var(--border);background:#F1F5F9;color:var(--text);padding:6px 10px;text-align:left;font-size:0.78rem;vertical-align:bottom;">薬剤</th>
+                    <th style="border:1px solid var(--border);text-align:center;padding:6px 4px;font-size:0.76rem;" class="sp-head-esbl">ESBL</th>
+                    <th style="border:1px solid var(--border);text-align:center;padding:6px 4px;font-size:0.76rem;" class="sp-head-ampc">AmpC</th>
+                    <th style="border:1px solid var(--border);text-align:center;padding:6px 4px;font-size:0.76rem;" class="sp-head-cpe">Class A<br>CPE</th>
+                    <th style="border:1px solid var(--border);text-align:center;padding:6px 4px;font-size:0.76rem;" class="sp-head-mbl">MBL</th>
+                    <th style="border:1px solid var(--border);text-align:center;padding:6px 4px;font-size:0.76rem;" class="sp-head-dtrp">DTRP</th>
+                    <th style="border:1px solid var(--border);text-align:center;padding:6px 4px;font-size:0.76rem;" class="sp-head-crab">CRAB</th>
+                    <th style="border:1px solid var(--border);text-align:center;padding:6px 4px;font-size:0.76rem;" class="sp-head-smal"><em>S. malt.</em></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- CTLZ/TAZ -->
+                  <tr>
+                    <td style="border:1px solid var(--border);padding:6px 10px;font-size:0.8rem;line-height:1.4;">
+                      <strong>CTLZ/TAZ</strong><br>
+                      <span style="font-size:0.72rem;color:#6B7280;">ザバクサ®</span>
+                    </td>
+                    <td style="border:1px solid var(--border);text-align:center;background:#EFF6FF;"><span class="sp-ok">○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;background:#F0FDF4;"><span class="sp-var">△〜○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;background:#FEF2F2;"><span class="sp-no">✕</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;background:#FEF2F2;"><span class="sp-no">✕</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;background:#F0FDF4;"><span class="sp-ex">◎</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;background:#FEF2F2;"><span class="sp-no">✕</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;background:#FEF2F2;"><span class="sp-no">✕</span></td>
+                  </tr>
+                  <!-- CAZ/AVI -->
+                  <tr style="background:#FAFAFA;">
+                    <td style="border:1px solid var(--border);padding:6px 10px;font-size:0.8rem;line-height:1.4;">
+                      <strong>CAZ/AVI</strong><br>
+                      <span style="font-size:0.72rem;color:#6B7280;">ザビセフタ®</span>
+                    </td>
+                    <td style="border:1px solid var(--border);text-align:center;background:#EFF6FF;"><span class="sp-ok">○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;background:#EFF6FF;"><span class="sp-ok">○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;background:#EFF6FF;"><span class="sp-ok">○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;background:#FEF2F2;"><span class="sp-no">✕</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;background:#FFF7ED;"><span class="sp-var">△〜○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;background:#FEF2F2;"><span class="sp-no">✕</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;background:#FEF2F2;"><span class="sp-no">✕</span></td>
+                  </tr>
+                  <!-- CFDC -->
+                  <tr>
+                    <td style="border:1px solid var(--border);padding:6px 10px;font-size:0.8rem;line-height:1.4;">
+                      <strong>CFDC</strong><br>
+                      <span style="font-size:0.72rem;color:#6B7280;">フェトロージャ®</span>
+                    </td>
+                    <td style="border:1px solid var(--border);text-align:center;background:#EFF6FF;"><span class="sp-ok">○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;background:#EFF6FF;"><span class="sp-ok">○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;background:#FFF7ED;"><span class="sp-var">△〜○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;background:#F0FDF4;"><span class="sp-ex">◎</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;background:#EFF6FF;"><span class="sp-ok">○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;background:#FFF7ED;"><span class="sp-var">△〜○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;background:#EFF6FF;"><span class="sp-ok">○</span></td>
+                  </tr>
+                  <!-- TGC -->
+                  <tr style="background:#FAFAFA;">
+                    <td style="border:1px solid var(--border);padding:6px 10px;font-size:0.8rem;line-height:1.4;">
+                      <strong>TGC</strong><br>
+                      <span style="font-size:0.72rem;color:#6B7280;">タイガシル®</span>
+                    </td>
+                    <td style="border:1px solid var(--border);text-align:center;background:#EFF6FF;"><span class="sp-ok">○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;background:#EFF6FF;"><span class="sp-ok">○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;background:#EFF6FF;"><span class="sp-ok">○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;background:#EFF6FF;"><span class="sp-ok">○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;background:#FEF2F2;"><span class="sp-no">✕</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;background:#FFF7ED;"><span class="sp-var">△〜○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;background:#EFF6FF;"><span class="sp-ok">○</span></td>
+                  </tr>
+                  <!-- Colistin -->
+                  <tr>
+                    <td style="border:1px solid var(--border);padding:6px 10px;font-size:0.8rem;line-height:1.4;">
+                      <strong>CL</strong><br>
+                      <span style="font-size:0.72rem;color:#6B7280;">オルドレブ®</span>
+                    </td>
+                    <td style="border:1px solid var(--border);text-align:center;background:#EFF6FF;"><span class="sp-ok">○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;background:#EFF6FF;"><span class="sp-ok">○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;background:#EFF6FF;"><span class="sp-ok">○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;background:#EFF6FF;"><span class="sp-ok">○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;background:#EFF6FF;"><span class="sp-ok">○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;background:#FFF7ED;"><span class="sp-var">△〜○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;background:#EFF6FF;"><span class="sp-ok">○</span></td>
+                  </tr>
+                  <!-- AZT -->
+                  <tr style="background:#FAFAFA;">
+                    <td style="border:1px solid var(--border);padding:6px 10px;font-size:0.8rem;line-height:1.4;">
+                      <strong>AZT</strong><br>
+                      <span style="font-size:0.72rem;color:#6B7280;">アザクタム®</span>
+                    </td>
+                    <td style="border:1px solid var(--border);text-align:center;background:#EFF6FF;"><span class="sp-ok">○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;background:#EFF6FF;"><span class="sp-ok">○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;background:#FEF2F2;"><span class="sp-no">✕</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;background:#EFF6FF;"><span class="sp-ok">○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;background:#EFF6FF;"><span class="sp-ok">○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;background:#FEF2F2;"><span class="sp-no">✕</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;background:#FEF2F2;"><span class="sp-no">✕</span></td>
+                  </tr>
+                  <!-- CAZ/AVI + AZT -->
+                  <tr>
+                    <td style="border:1px solid var(--border);padding:6px 10px;font-size:0.8rem;line-height:1.4;">
+                      <strong>CAZ/AVI + AZT</strong><br>
+                      <span style="font-size:0.72rem;color:#6B7280;">ザビセフタ® + アザクタム®</span>
+                    </td>
+                    <td style="border:1px solid var(--border);text-align:center;background:#EFF6FF;"><span class="sp-ok">○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;background:#EFF6FF;"><span class="sp-ok">○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;background:#EFF6FF;"><span class="sp-ok">○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;background:#EFF6FF;"><span class="sp-ok">○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;background:#FFF7ED;"><span class="sp-var">△〜○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;background:#FFF7ED;"><span class="sp-var">△〜○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;background:#EFF6FF;"><span class="sp-ok">○</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p style="font-size:0.72rem;color:var(--muted);margin-top:6px;">
+              ◎ 優れた活性 ／ ○ 有効 ／ △〜○ 感受性要確認 ／ ✕ 無効（または活性なし）<br>
+              CPE: カルバペネマーゼ産生腸内細菌目細菌 ／ MBL: メタロβ-ラクタマーゼ ／ DTRP: 難治耐性緑膿菌 ／ CRAB: カルバペネム耐性 <em>Acinetobacter baumannii</em>
+            </p>
+          </div>
+        </div>
+
+        <!-- ── 各論 ── -->
+        <h3 id="ch4-s2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 2</span>
+          薬剤各論・用量・腎機能調整
+        </h3>
+
+        <!-- ---- CTLZ/TAZ ---- -->
+        <div class="drug-card">
+          <div class="drug-card-head">
+            <span class="drug-card-abbr">CTLZ/TAZ</span>
+            <span class="drug-card-brand">セフトロザン/タゾバクタム — ザバクサ®</span>
+          </div>
+          <div class="drug-card-body">
+            <ul>
+              <li>新世代セファロスポリンのセフトロザンと、既存のβ-ラクタマーゼ阻害薬のタゾバクタムで構成。PBP への親和性が改善され、緑膿菌の主要耐性機構である<strong>「ポーリン変異」「排出ポンプ」の影響も受けにくい。</strong></li>
+              <li>感受性が確認された場合、<strong>DTRP による重症感染症の「第1選択薬」。</strong></li>
+              <li>CPE・CRAB・嫌気性菌に対しては治療困難。嫌気性菌カバーが必要な症例では<strong>メトロニダゾールを併用</strong>する。</li>
+            </ul>
+            <p style="font-size:0.84rem;font-weight:800;color:#4C1D95;margin-top:10px;margin-bottom:4px;">疾患毎の投与量</p>
+            <div style="overflow-x:auto;">
+              <table class="dose-table">
+                <thead><tr><th style="width:38%;">適応疾患</th><th>投与量・投与間隔</th><th>特記事項</th></tr></thead>
+                <tbody>
+                  <tr><td>HAP/VAP</td><td><strong>3 g を8時間ごと</strong></td><td>—</td></tr>
+                  <tr><td>DTRP による重症感染症</td><td><strong>3 g を8時間ごと</strong></td><td>適応外使用（Off-label）</td></tr>
+                  <tr><td>複雑性尿路感染症</td><td>1.5 g を8時間ごと<br><small>（耐性菌は 3 g）</small></td><td>—</td></tr>
+                  <tr><td>腹腔内感染症</td><td>1.5 g を8時間ごと<br><small>（耐性菌は 3 g）</small></td><td>メトロニダゾールと併用</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p style="font-size:0.84rem;font-weight:800;color:#4C1D95;margin-top:10px;margin-bottom:4px;">腎機能による用量調整</p>
+            <div style="overflow-x:auto;">
+              <table class="dose-table">
+                <thead>
+                  <tr>
+                    <th style="width:30%;">CrCl（mL/分）</th>
+                    <th>通常量「1.5 g/8時間ごと」</th>
+                    <th>通常量「3 g/8時間ごと」</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>&gt;50〜130</td><td>1.5 g を8時間ごと</td><td>3 g を8時間ごと</td></tr>
+                  <tr><td>30〜50</td><td>750 mg を8時間ごと</td><td>1.5 g を8時間ごと</td></tr>
+                  <tr><td>15〜29</td><td>375 mg を8時間ごと</td><td>750 mg を8時間ごと</td></tr>
+                  <tr><td>&lt;15（透析なし）</td><td colspan="2" style="text-align:center;color:#DC2626;">推奨用量なし（未検討）</td></tr>
+                  <tr><td>間欠的血液透析</td><td>初回 750 mg<br>その後 150 mg を8時間ごと</td><td>初回 2.25 g<br>その後 450 mg を8時間ごと</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ---- CAZ/AVI ---- -->
+        <div class="drug-card">
+          <div class="drug-card-head">
+            <span class="drug-card-abbr">CAZ/AVI</span>
+            <span class="drug-card-brand">セフタジジム/アビバクタム — ザビセフタ®</span>
+          </div>
+          <div class="drug-card-body">
+            <ul>
+              <li>既存の第3世代セファロスポリン（セフタジジム）と<strong>新規βラクタマーゼ阻害薬（アビバクタム）</strong>を組み合わせた抗菌薬。</li>
+              <li><strong>Ambler Class A・D のカルバペネマーゼ（CPE）</strong>に対し活性を有する。ただし <strong>Class B（MBL）に対しては単独で治療効果がない。</strong></li>
+              <li>AZT との併用により、セリンβラクタマーゼに対する CAZ/AVI の阻害作用と、MBL に対する AZT の安定性を両立させることが可能。</li>
+            </ul>
+            <p style="font-size:0.84rem;font-weight:800;color:#4C1D95;margin-top:10px;margin-bottom:4px;">疾患毎の投与量</p>
+            <div style="overflow-x:auto;">
+              <table class="dose-table">
+                <thead><tr><th style="width:38%;">適応疾患</th><th>投与量・投与間隔</th><th>備考</th></tr></thead>
+                <tbody>
+                  <tr><td>血流感染症 / HAP/VAP / 尿路感染症</td><td><strong>2.5 g を8時間ごと</strong><br><small>（2時間かけて投与）</small></td><td>重症例では3時間投与</td></tr>
+                  <tr><td>腹腔内感染症</td><td>2.5 g を8時間ごと</td><td>メトロニダゾールと併用</td></tr>
+                  <tr><td>MBL / 多剤耐性 <em>S. maltophilia</em></td><td>2.5 g を8時間ごと</td><td>AZT と併用（可能な限り同時投与）</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p style="font-size:0.84rem;font-weight:800;color:#4C1D95;margin-top:10px;margin-bottom:4px;">腎機能による用量調整</p>
+            <div style="overflow-x:auto;">
+              <table class="dose-table">
+                <thead><tr><th style="width:40%;">CrCl（mL/分）</th><th>投与量</th></tr></thead>
+                <tbody>
+                  <tr><td>&gt;50</td><td><strong>2.5 g を8時間ごと</strong></td></tr>
+                  <tr><td>31〜50</td><td>1.25 g を8時間ごと</td></tr>
+                  <tr><td>16〜30</td><td>0.94 g を12時間ごと</td></tr>
+                  <tr><td>6〜15</td><td>0.94 g を24時間ごと</td></tr>
+                  <tr><td>間欠的血液透析</td><td>透析後に 0.94 g 投与</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ---- CFDC ---- -->
+        <div class="drug-card">
+          <div class="drug-card-head">
+            <span class="drug-card-abbr">CFDC</span>
+            <span class="drug-card-brand">セフィデロコル — フェトロージャ®</span>
+          </div>
+          <div class="drug-card-body">
+            <ul>
+              <li><strong>鉄と結合するシデロフォア構造</strong>を持ち、細菌の鉄トランスポーターを利用して細胞内へ侵入する「トロイの木馬」機構。ポリン変異・排出ポンプの影響を受けにくく、各種カルバペネマーゼに対しても安定性を示す。</li>
+              <li><strong>MBL と判明した場合の第1選択薬のひとつ</strong>。ESCMID ガイドラインでも推奨されているが、海外では非感受性を示す割合も増加しており<strong>感受性試験の結果確認が望ましい。</strong></li>
+              <li>多剤耐性緑膿菌に対して CTLZ/TAZ など他の新規βラクタム系が無効な場合の治療オプション。</li>
+              <li><em>S. maltophilia</em> 感染症で ST合剤・レボフロキサシンが使用できない場合に選択可能。</li>
+            </ul>
+            <p style="font-size:0.84rem;font-weight:800;color:#4C1D95;margin-top:10px;margin-bottom:4px;">疾患毎の投与量</p>
+            <div style="overflow-x:auto;">
+              <table class="dose-table">
+                <thead><tr><th style="width:40%;">適応疾患</th><th>投与量・投与間隔</th><th>特記事項</th></tr></thead>
+                <tbody>
+                  <tr><td>HAP/VAP / 尿路感染症</td><td><strong>2 g を8時間ごと</strong></td><td>—</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p style="font-size:0.84rem;font-weight:800;color:#4C1D95;margin-top:10px;margin-bottom:4px;">腎機能による用量調整</p>
+            <div style="overflow-x:auto;">
+              <table class="dose-table">
+                <thead><tr><th style="width:40%;">CrCl（mL/分）</th><th>投与量</th></tr></thead>
+                <tbody>
+                  <tr><td>≥120（腎クリアランス亢進：ARC）</td><td><strong>2 g を6時間ごと</strong></td></tr>
+                  <tr><td>60〜&lt;120</td><td>2 g を8時間ごと（通常用量）</td></tr>
+                  <tr><td>30〜&lt;60</td><td>1.5 g を8時間ごと</td></tr>
+                  <tr><td>15〜&lt;30</td><td>1 g を8時間ごと</td></tr>
+                  <tr><td>&lt;15（透析なし）</td><td>750 mg を12時間ごと</td></tr>
+                  <tr><td>間欠的血液透析</td><td>750 mg を12時間ごと<br><small style="color:#6B7280;">透析日は透析終了直後に投与</small></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ---- TGC ---- -->
+        <div class="drug-card">
+          <div class="drug-card-head">
+            <span class="drug-card-abbr">TGC</span>
+            <span class="drug-card-brand">チゲサイクリン — タイガシル®</span>
+          </div>
+          <div class="drug-card-body">
+            <ul>
+              <li>テトラサイクリン系抗菌薬。多剤耐性グラム陰性桿菌に対する広域スペクトラムを有するが、<strong>3つの P に自然耐性がある（下記参照）。</strong></li>
+              <li>最大の特徴は<strong>分布容積が大きく血中濃度が上がりにくい</strong>点。静注後、薬剤は速やかに全身組織へ分布するため血清中・尿中濃度は比較的低い。肺組織への移行も十分でないと報告されており、<strong>菌血症・尿路感染症・VAP の治療には向かない。</strong>一方で組織移行性に優れ<strong>腹腔内感染症・皮膚軟部組織感染症</strong>に有用。</li>
+              <li>近年、毒性の比較的少ない新規βラクタム系配合剤が登場したため、現在は第1選択薬を使用できない場合の代替薬または<strong>併用療法の一部</strong>としての使用にとどまる。</li>
+            </ul>
+            <div class="danger" style="margin-top:6px;">
+              <strong>Tigecycline に耐性を示す3つの "P"（自然耐性）：</strong><br>
+              ① <em>Pseudomonas aeruginosa</em>　② <em>Proteus</em> spp.　③ <em>Providencia</em> spp.
+            </div>
+            <div class="keypoint" style="margin-top:6px;">
+              <strong>高用量レジメン（CRABや CRE などの重症感染症）：</strong><br>
+              初回 200 mg 静注、維持 100 mg を12時間ごと（腎機能による調整不要）
+            </div>
+          </div>
+        </div>
+
+        <!-- ---- Colistin ---- -->
+        <div class="drug-card">
+          <div class="drug-card-head">
+            <span class="drug-card-abbr">CL</span>
+            <span class="drug-card-brand">コリスチン — オルドレブ®</span>
+          </div>
+          <div class="drug-card-body">
+            <ul>
+              <li>ポリミキシン系抗菌薬に属する古典的抗菌薬。多剤耐性グラム陰性桿菌の増加に伴い「最後の切り札」として一時再評価された。</li>
+              <li>しかし、<strong>新規βラクタム/βラクタマーゼ阻害薬の登場と毒性の問題</strong>から、現在は他に有効な抗菌薬がない場合の<strong>救済療法</strong>の位置づけ。</li>
+              <li>重大な副作用として<strong>腎毒性および神経毒性</strong>が知られており、投与には慎重な判断が必要。<strong>単剤で使用することはない。</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- ---- AZT ---- -->
+        <div class="drug-card">
+          <div class="drug-card-head">
+            <span class="drug-card-abbr">AZT</span>
+            <span class="drug-card-brand">アズトレオナム — アザクタム®（モノバクタム系）</span>
+          </div>
+          <div class="drug-card-body">
+            <ul>
+              <li>モノバクタム系のβ-ラクタム系抗菌薬。多剤耐性菌では<strong>MBL 産生菌に対する治療の要</strong>として再評価されている。</li>
+              <li>MBL 産生菌の多くは同時に ESBL などの AZT を分解可能なセリン β-ラクタマーゼを産生しているため、<strong>CAZ/AVI などとの併用戦略</strong>が望ましい。</li>
+              <li>カルバペネマーゼ非産生の CRPA で AZT 感受性の場合にも、従来のβラクタム系薬のひとつとして治療の選択肢となる。</li>
+            </ul>
+            <div class="keypoint" style="margin-top:6px;"><strong>AZT 単剤が不十分な理由：</strong>MBL ではAZTは分解されないが、多くの MBL 産生菌は同時にセリンβ-ラクタマーゼ（ESBL）も産生し AZT を分解する。CAZ/AVI を追加することでセリンβ-ラクタマーゼを阻害し、AZT の活性を保ちながら両機序を同時に回避できる。</div>
+          </div>
+        </div>
+
+        <!-- 出典注記 -->
+        <p style="font-size:0.72rem;color:#9CA3AF;margin-top:24px;line-height:1.7;">
+          出典：ICU コアカンファレンス レジュメ「POINT 7. 感染症 &lt;多剤耐性菌と新規βラクタム・βラクタマーゼ阻害薬&gt;」<br>
+          参考文献：Rottier WC et al. Clin Infect Dis. 2015;60(11):1622–1630<br>
+          本資料は教育目的で作成したサマリーです。実際の治療方針の決定には必ず原典・最新のガイドラインを参照してください。
+        </p>
+        <p style="font-size:0.75rem;color:var(--muted);text-align:right;margin-top:8px;">制作：ICU 関谷，森先生</p>
+
+      </div><!-- /ie-main-col -->
+
+      <!-- ===== SIDEBAR ===== -->
+      <aside class="ie-sidebar">
+        <div class="ie-sidebar-card">
+          <div class="ie-sidebar-title">目次</div>
+          <a href="#ch1" class="ie-toc-chapter">第1章 耐性機序（前半）</a>
+          <a href="#ch1-s1" class="ie-toc-section">S1 — 4つの耐性機序</a>
+          <a href="#ch2" class="ie-toc-chapter">第2章 β-ラクタマーゼ産生菌（前半）</a>
+          <a href="#ch2-s1" class="ie-toc-section">S1 — Ambler 分類</a>
+          <a href="#ch2-s2" class="ie-toc-section">S2 — AmpC 産生菌</a>
+          <a href="#ch2-s3" class="ie-toc-section">S3 — ESBL 産生菌</a>
+          <a href="#ch2-s4" class="ie-toc-section">S4 — CRE / CPE</a>
+          <a href="#ch3" class="ie-toc-chapter">第3章 耐性菌各論（後半）</a>
+          <a href="#ch3-s1" class="ie-toc-section">S1 — S. maltophilia</a>
+          <a href="#ch3-s2" class="ie-toc-section">S2 — 耐性緑膿菌</a>
+          <a href="#ch4" class="ie-toc-chapter">第4章 新規抗菌薬 各論（後半）</a>
+          <a href="#ch4-s1" class="ie-toc-section">S1 — スペクトラム総覧</a>
+          <a href="#ch4-s2" class="ie-toc-section">S2 — 薬剤各論・用量</a>
+        </div>
+      </aside>
+
+    </div><!-- /ie-page-flex -->
+  </div><!-- /container -->
+
+  <script src="../../script.js?v=20260523b"></script>
+  <script src="../../abbr-tooltip.js"></script>
+</body>
+</html>

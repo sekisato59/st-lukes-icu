@@ -10,6 +10,20 @@
  */
 const RECENT_PAGES = [
   {
+    title: "耐性GNRと新規抗菌薬 — 板書ノート | ID×ICUカンファレンス",
+    url: "pages/id-icu-notes/note-resistant-gnr.html",
+    date: "2026-05-23",
+    tag: "解説",
+    thumb: "images/IDICUtop.png"
+  },
+  {
+    title: "カンジダ菌血症と抗真菌薬 — 板書ノート | ID×ICUカンファレンス",
+    url: "pages/id-icu-notes/note-candida.html",
+    date: "2026-05-23",
+    tag: "解説",
+    thumb: "images/IDICUtop.png"
+  },
+  {
     title: "甲状腺疾患診断ガイドライン2024 — 日本甲状腺学会",
     url: "pages/articles-gl-jta-thyroid2024.html",
     date: "2026-05-20",
