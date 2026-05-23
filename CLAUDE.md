@@ -833,3 +833,136 @@ node scripts/sync-related-articles.js                  # 再生成
 node scripts/sync-related-articles.js --check          # 差分があれば終了コード 1
 node scripts/sync-related-articles.js --verbose        # 各ページの top-N をログ出力
 ```
+
+---
+
+## ファイル構成マップ（AI 編集者向けクイックリファレンス）
+
+このセクションは **AI が「どこに何があるか」で迷わないため**の地図です。新規ページを作る／既存ページを修正する前に、必ずここを参照してください。
+
+### ルート直下（触ってよいもの）
+
+| ファイル | 役割 | 編集頻度 |
+|---|---|---|
+| `index.html` | サイトのトップページ | 中（新着・ツール追加時） |
+| `style-v2.css` | サイト全体の共通 CSS | 中（共通スタイル追加時） |
+| `style-home.css` | トップページ専用の追加 CSS | 低 |
+| `script.js` | ナビバー注入・テーブル横スクロール自動ラップ等の共通 JS | 低 |
+| `site-config.js` | サイト全体の設定（年・連絡先など） | 極低 |
+| `search-index.js` | サイト内検索のインデックス（GL/dt 単位＋章単位） | 高（新規ページ作成時） |
+| `all-pages.js` | 検索 DB（`recent-pages.js` と URL マージ） | 低 |
+| `recent-pages.js` | **自動生成・手動編集禁止**。pre-commit hook が更新 | — |
+| `recent-pages-overrides.json` | recent-pages の title/tag/thumb をカスタム指定 | 低 |
+| `related-articles-overrides.json` | 関連ページ自動生成の pin/exclude | 低 |
+| `yoshida-qa-data.js` | 吉田先生 Q&A の関連質問・関連ページマッピング | 中（Q&A 追加時） |
+| `abbr-tooltip.js` | 略語一覧テーブルから自動ツールチップを生成 | 極低 |
+| `mob-toc.js` | モバイル目次のドロワー実装 | 極低 |
+| `robots.txt` | 検索エンジン制御 | 極低 |
+| `CLAUDE.md` | **この文書**。AI への指示集 | 構造変更時 |
+
+### `pages/` ディレクトリ構造
+
+```
+pages/
+├── articles-gl-*.html       # 論文・GL まとめ（緑テーマ・197+ ページ）
+├── articles-guidelines.html # GL カタログ（#1〜#10 System 分類）
+├── articles-outpatient.html # 外来 GL カタログ
+├── disease-topics.html      # 疾患マニュアル カタログ
+├── disease-topics/
+│   └── dt-*.html            # 疾患トピックス総説（オレンジテーマ）
+├── id-icu-notes/
+│   └── note-*.html          # ID×ICU カンファ板書ノート（紫テーマ）
+├── yoshida-qa.html          # 吉田先生 Q&A 一覧
+├── yoshida-qa/
+│   └── q-*.html             # Q&A 個別ページ（緑テーマ・q-nutrition-02 が完成形リファレンス）
+├── bacteria-map.html        # 細菌マップ
+├── bacteria/
+│   └── *.html               # 細菌個別ページ（70+ 菌種）
+├── exam-*.html              # 試験ノート（インディゴテーマ）
+├── schedule-*.html          # 週次／勤務スケジュール
+├── staff-*.html             # スタッフ紹介
+├── icu-*.html               # ICU 情報系（about, policy, team 等）
+├── karte-*.html             # カルテ作成ツール／略語対策
+└── （ツール各種）            # apache-ii, sofa, rass, cam-icu, rrs-report 等
+```
+
+### `scripts/` — 自動化スクリプト
+
+| スクリプト | 役割 | 起動タイミング |
+|---|---|---|
+| `sync-recent-pages.js` | `recent-pages.js` を git 履歴から自動生成 | pre-commit hook |
+| `sync-related-articles.js` | 各 GL ページ末尾の関連ページブロックを TF-IDF で生成 | pre-commit hook |
+| `audit-pages.js` | ページ構造の整合性チェック（孤児・abbr-tooltip 等） | pre-commit hook（警告のみ） |
+| `sync-check.py` | dt-*.html 間の整合性チェック | 手動 |
+| `export-mainpage-slides.js` | スライド書き出し | 手動 |
+
+### コミット時に自動実行される hook
+
+`git config core.hooksPath .githooks`（clone 直後に 1 回必須）で：
+- `recent-pages.js` 再生成 → ステージに追加
+- 各 GL ページの関連ページブロック再生成 → 多数ファイルがステージに乗ることあり（正常）
+- `audit-pages.js` で警告表示（commit はブロックしない）
+
+### `.gitignore` 対象（commit 禁止）
+
+- `.claude/worktrees/` — Claude Code 自動 worktree（2.6GB 級）
+- `.claude/settings.local.json` — Claude Code ローカル設定
+- `*.pptx` — プレゼン資料
+- `モック集/`, `抗菌薬用量/`, `注目論文ガイドラインのまとめ/` — ローカル個人参照ディレクトリ
+- 一般的な OS／エディタ／ログ／キャッシュ
+
+---
+
+## AI 編集時の注意（必読）
+
+### やってよいこと
+
+- 既存 GL ページ／dt ページの本文・図表・SUMMARY 修正
+- 新規 GL/dt ページの作成（既存テンプレに従う）
+- 検索インデックス・カタログ・関連ページの追加
+- CSS の共通スタイル追加（`style-v2.css`）
+- ナビバー項目の追加（`script.js` の `navMenu.innerHTML` を編集）
+
+### やってはいけないこと
+
+| 行為 | 理由 |
+|---|---|
+| `recent-pages.js` の手動編集 | pre-commit hook で上書きされる |
+| 各 GL ページ末尾 `<!-- RELATED:START -->`〜`END` の手動編集 | pre-commit hook で上書きされる |
+| `<!-- RELATED-TOC:START -->`〜`END` の手動編集 | 同上 |
+| `.card-inner` に `overflow-x:auto` を付ける | 過去 3 回繰り返された「テキストボックスごと動く」バグの原因。テーブル横スクロールは [[feedback-table-horizontal-scroll]] 参照 |
+| テーブル自身に `display:block` を付ける | セル内 inline-block が境界を超えるなど不安定。代わりに JS が `.ie-table-scroll` ラッパで自動対応 |
+| PDF にない情報を補完 | ハルシネーション禁止。CLAUDE.md 冒頭の「ハルシネーション厳禁ルール」参照 |
+| DOI を記憶から生成 | 形式は合っていても中身が別論文になる。PDF/ユーザー提供/WebSearch 確認済みのみ |
+| 章バナーやセクション見出しに新規スタイル定義 | 既存の緑/オレンジ/紫テーマ規約に従う |
+| 吉田先生 Q&A に独自加筆（Pitfall・Pearl 等） | ユーザー原稿以外を勝手に追記しない。事故例あり（2026-05-14） |
+
+### 編集時の参照順
+
+新規／修正前に必ず確認：
+1. **CLAUDE.md**（この文書）— サイト全体ルール
+2. **対応するメモリファイル** `/Users/sekiyasatoshi/.claude/projects/.../memory/MEMORY.md` — 過去の指摘・教訓
+3. **テーマ別の完成形ページ**
+   - GL ページ → 任意の最新 articles-gl-*.html を参考に
+   - dt ページ → 任意の dt-*.html を参考に
+   - 吉田先生 Q&A → **[q-nutrition-02.html](pages/yoshida-qa/q-nutrition-02.html)（完成形リファレンス）**
+   - ID×ICU ノート → [note-meningitis.html](pages/id-icu-notes/note-meningitis.html)（最新）
+
+### キャッシュバスター運用
+
+- `style-v2.css?v=YYYYMMDD` / `script.js?v=YYYYMMDD` を全 HTML で使用
+- バージョンは「最後に共通ファイルを編集した日付」で全ページ一括統一する
+- 個別ページだけ別バージョンにしない（ユーザー側 cache miss の原因）
+- 統一手順は [Python ワンライナー（CLAUDE.md 改訂時に追記予定）] か単純な `find + sed`
+
+### 新規 GL/dt ページ作成チェックリスト
+
+- [ ] `articles-gl-{略称}.html` または `disease-topics/dt-{略称}.html` を作成
+- [ ] `articles-guidelines.html` または `disease-topics.html` の適切なセクションにリンク追加
+- [ ] `search-index.js` にエントリ追加（ページ単位 + 章単位）
+- [ ] `<script src="../script.js?v=YYYYMMDD"></script>` を末尾に
+- [ ] 略語一覧カードがあるページなら `<script src="../abbr-tooltip.js"></script>` も末尾に（全ページに入れて副作用なし）
+- [ ] ヒーローバナーに `<div class="container">`（`subpage-hero-content` 等は禁止）
+- [ ] ナビバー `<ul id="navMenu"></ul>` は空のまま（script.js が注入）
+- [ ] 出典注記を末尾に
+- [ ] commit すれば pre-commit hook が recent-pages / 関連ページを自動更新
