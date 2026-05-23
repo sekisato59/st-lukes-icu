@@ -2332,6 +2332,20 @@ a.resource-item:hover .resource-name { color: var(--blue); }
 @media (max-width:900px) { .mob-toc-fab { display:flex; } }
 @media (min-width:901px) { .mob-toc-fab,.mob-toc-overlay,.mob-toc-drawer { display:none !important; } }
 
+/* ===== AI質問ボタン（NotebookLM） ===== */
+.ai-fab {
+  position:fixed;bottom:20px;right:20px;z-index:999;
+  background:var(--blue);color:#fff;border:none;border-radius:50px;
+  padding:11px 18px 11px 14px;font-size:0.8rem;font-weight:700;
+  cursor:pointer;box-shadow:0 4px 16px rgba(37,99,235,0.35);
+  display:flex;align-items:center;gap:7px;
+  transition:transform 0.15s,box-shadow 0.15s;
+  font-family:inherit;letter-spacing:0.02em;line-height:1;
+}
+.ai-fab:hover { transform:scale(1.05);box-shadow:0 6px 22px rgba(37,99,235,0.45); }
+.ai-fab svg { width:16px;height:16px;fill:none;stroke:#fff;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0; }
+@media (max-width:900px) { .ai-fab { bottom:80px; } }
+
 /* ===== 略語ツールチップ ===== */
 abbr[data-tip] { text-decoration:none;border-bottom:1px dotted #9CA3AF;cursor:help; }
 #abbr-tooltip { position:fixed;z-index:9999;background:#1F2937;color:#fff;font-size:0.72rem;font-weight:400;padding:5px 12px;border-radius:6px;white-space:normal;line-height:1.5;box-shadow:0 2px 8px rgba(0,0,0,0.2);pointer-events:none;display:none;max-width:min(360px,calc(100vw - 16px));word-break:break-word; }
@@ -2354,3 +2368,44 @@ abbr[data-tip] { text-decoration:none;border-bottom:1px dotted #9CA3AF;cursor:he
    既存 TOC カード内の末尾に挿入される ie-toc-chapter で、上に区切り線を入れる */
 .ie-toc-chapter.ie-toc-related { margin-top:8px;padding-top:10px;border-top:1px dashed var(--border);color:#2D7A4F; }
 .ie-toc-chapter.ie-toc-related:hover { background:#F0FDF4;border-left-color:#2D7A4F; }
+
+/* =====================================================================
+   iOS Safari ズーム防止 — テキスト入力にフォーカスすると画面が拡大する問題
+   =====================================================================
+   iOS Safari は <input> / <textarea> / <select> の font-size が
+   16px 未満だとフォーカス時に画面を自動で拡大する仕様。これにより
+   モバイル版で「テキスト入力画面になると全体像が把握できなくなる」問題が
+   全ツールページ（recent-all, rrs-report, karte-by-system, abx-calculator,
+   nutrition-calc, transfusion-calc, ldl-target, apache-ii, cam-icu,
+   schedule-icu-conf, karte-abbreviations, pre-rotation-todo 等）で発生する。
+
+   対策：モバイル時、すべての入力要素を必ず 16px に統一する。
+   !important は各ページの inline @media font-size:0.78〜0.82rem !important
+   を確実に上書きするため。
+
+   見た目への影響：モバイル時の入力欄がわずかに大きく見えるが、これは
+   モダンな responsive UI（Bootstrap / Material 等）と同等の挙動。
+   実用性（ズーム発生回避）を優先する。
+   ===================================================================== */
+@media (max-width: 767px) {
+  /* :not(#__ios_zoom_safe) で specificity を ID 1個ぶん（+1,0,0）持ち上げて、
+     ツールページの inline <style> 内の `.form-field input { font-size:0.82rem !important }`
+     等を確実に上書きする（同じ !important 同士でも specificity が高い方が勝つ）。 */
+  input[type="text"]:not(#__ios_zoom_safe),
+  input[type="search"]:not(#__ios_zoom_safe),
+  input[type="number"]:not(#__ios_zoom_safe),
+  input[type="email"]:not(#__ios_zoom_safe),
+  input[type="tel"]:not(#__ios_zoom_safe),
+  input[type="password"]:not(#__ios_zoom_safe),
+  input[type="date"]:not(#__ios_zoom_safe),
+  input[type="datetime-local"]:not(#__ios_zoom_safe),
+  input[type="month"]:not(#__ios_zoom_safe),
+  input[type="time"]:not(#__ios_zoom_safe),
+  input[type="url"]:not(#__ios_zoom_safe),
+  input[type="week"]:not(#__ios_zoom_safe),
+  input:not([type]):not(#__ios_zoom_safe),
+  textarea:not(#__ios_zoom_safe),
+  select:not(#__ios_zoom_safe) {
+    font-size: 16px !important;
+  }
+}
