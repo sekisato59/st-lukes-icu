@@ -43,10 +43,11 @@
         { href: 'pages/icu-policy-rules.html',   label: 'ICUのルール' }
       ])
     + dd('学習コンテンツ', [
-        { href: 'pages/icu-passport.html',  label: 'ICU PASSPORT（レクチャーシート）' },
-        { href: 'pages/yoshida-qa.html',    label: '吉田先生のお悩み相談コーナー' },
-        { href: 'pages/bacteria-map.html',  label: '【感染症】細菌マップ' },
-        { href: 'pages/icu-core-conf.html', label: 'レジデントのICU資料集' }
+        { href: 'pages/yoshida-qa.html',              label: '【9+10】吉田先生のお悩み相談コーナー' },
+        { href: 'pages/bacteria-map.html',            label: '【感染症】細菌マップ' },
+        { href: 'pages/schedule-weekly-id-icu.html',  label: '【感染症】ID×ICU conference' },
+        { href: 'pages/icu-passport.html',            label: 'ICU PASSPORT（レクチャーシート）' },
+        { href: 'pages/icu-core-conf.html',           label: 'レジデントのICU資料集' }
       ])
     + dd('論文GL・疾患まとめ', [
         { href: 'pages/articles-guidelines.html', label: '論文GL（ICU）' },
