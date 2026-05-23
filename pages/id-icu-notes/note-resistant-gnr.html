@@ -192,29 +192,37 @@
     }
     .drug-card-head {
       background: linear-gradient(135deg, #1E1B4B 0%, #4338CA 100%);
-      padding: 10px 16px; display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;
+      padding: 12px 18px; display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;
     }
     .drug-card-abbr {
-      font-size: 0.88rem; font-weight: 900; color: #fff; letter-spacing: 0.06em;
+      font-size: 1.15rem; font-weight: 900; color: #fff; letter-spacing: 0.06em;
       font-family: ui-monospace, Menlo, Consolas, monospace;
     }
     .drug-card-brand {
-      font-size: 0.78rem; color: #C7D2FE; font-weight: 700;
+      font-size: 0.9rem; color: #C7D2FE; font-weight: 700;
     }
-    .drug-card-body { padding: 12px 16px; }
+    .drug-card-body { padding: 14px 18px; }
+    .drug-card-body ul { margin: 4px 0 0; padding-left: 20px; }
+    .drug-card-body ul li { font-size: 0.82rem; line-height: 1.7; margin-bottom: 5px; color: #475569; }
+    .drug-card-body ul li strong { color: var(--text); }
+    .drug-card-body .drug-subhead {
+      font-size: 0.9rem; font-weight: 800; color: #4C1D95;
+      margin: 14px 0 4px; padding-bottom: 4px; border-bottom: 1.5px solid #DDD6FE;
+    }
+    .drug-card-body .drug-subhead:first-child { margin-top: 4px; }
 
-    /* ====== 感受性スペクトラム表（色付き） ====== */
+    /* ====== 感受性スペクトラム表（記号のみ色付け、ヘッダは統一） ====== */
     .sp-ex   { color: #16A34A; font-weight: 900; font-size: 1.05rem; }
     .sp-ok   { color: #1D4ED8; font-weight: 700; }
     .sp-var  { color: #B45309; font-weight: 700; }
     .sp-no   { color: #DC2626; font-weight: 900; }
-    .sp-head-esbl  { background: #EFF6FF; color: #1E40AF; }
-    .sp-head-ampc  { background: #F0FDF4; color: #166534; }
-    .sp-head-cpe   { background: #FEF3C7; color: #92400E; }
-    .sp-head-mbl   { background: #FFF7ED; color: #9A3412; }
-    .sp-head-dtrp  { background: #F5F3FF; color: #4C1D95; }
-    .sp-head-crab  { background: #FEF2F2; color: #7F1D1D; }
-    .sp-head-smal  { background: #F0FDF4; color: #166534; }
+    .sp-head-esbl,
+    .sp-head-ampc,
+    .sp-head-cpe,
+    .sp-head-mbl,
+    .sp-head-dtrp,
+    .sp-head-crab,
+    .sp-head-smal  { background: #F1F5F9; color: var(--text); }
 
     /* ====== 用量テーブル（コンパクト） ====== */
     .dose-table {
@@ -413,9 +421,9 @@
         <div class="card" style="margin-bottom:12px;">
           <div class="card-inner">
             <p class="rule-body" style="margin-bottom:12px;">β-ラクタマーゼはβ-ラクタム環を加水分解して抗菌薬を不活化させる酵素の総称。<strong>Ambler 分類</strong>はアミノ酸配列に基づく分子分類で、Class A〜D に分類される。<strong>Class B のみ活性中心に亜鉛（金属）を持つ「メタロβ-ラクタマーゼ（MBL）」</strong>で、モノバクタム系を含む幅広い抗菌薬を加水分解する。</p>
-            <!-- Ambler 分類図（PDFスライドより） -->
-            <img src="../../images/gnr-ambler-classification.png"
-                 alt="Ambler分類（Class A〜D）（PDFスライドより）"
+            <!-- Ambler 分類図 -->
+            <img src="../../images/Ambler.png"
+                 alt="Ambler分類（Class A〜D）"
                  style="width:100%;max-width:680px;height:auto;display:block;margin:10px auto;border-radius:6px;">
             <p class="keypoint" style="margin-top:4px;"><strong>MBL（Class B）の特徴：</strong>モノバクタム系（AZT）は MBL では分解されない。ただし MBL 産生菌の多くは同時に ESBL などのセリン β-ラクタマーゼも産生するため、AZT 単剤では不十分 → CAZ/AVI との併用が必要。</p>
           </div>
@@ -429,12 +437,43 @@
 
         <div class="card" style="margin-bottom:12px;">
           <div class="card-inner">
-            <p class="rule-body">多くの腸内細菌科や非発酵グラム陰性菌が基底レベルで産生するβラクタマーゼ（Class C）。<strong>ペニシリン系・第3世代までのセファロスポリンを分解</strong>し耐性を示す。クラブラン酸などの一般的なβ-ラクタマーゼ阻害薬や<strong>セファマイシン系（セフメタゾールなど）にも耐性</strong>を示す点が ESBL と異なる。</p>
-            <div class="danger" style="margin-top:10px;">
-              <strong>■ 誘導型 AmpC 産生の高リスク菌 3つ ■</strong><br>
-              <span style="display:inline-block;margin-top:4px;">① <em><strong>Enterobacter cloacae</strong></em>　② <em><strong>Klebsiella aerogenes</strong></em>　③ <em><strong>Citrobacter freundii</strong></em></span>
+            <!-- ひとことで言うと（AmpC） -->
+            <div style="background:#FEF2F2;border:1px solid #FECACA;border-radius:8px;padding:10px 14px;margin:0 0 12px;">
+              <div style="font-size:0.72rem;font-weight:800;color:#B91C1C;letter-spacing:0.04em;margin-bottom:4px;">ひとことで言うと</div>
+              <div style="font-size:0.95rem;font-weight:800;color:#7F1D1D;line-height:1.55;">治療途中で セフトリアキソンが効かなくなる ことがある腸内細菌目（誘導耐性）</div>
             </div>
+
+            <p class="rule-body">多くの腸内細菌科や非発酵グラム陰性菌が基底レベルで産生するβラクタマーゼ（Class C）。<strong>ペニシリン系・第3世代までのセファロスポリンを分解</strong>し耐性を示す。クラブラン酸などの一般的なβ-ラクタマーゼ阻害薬や<strong>セファマイシン系（セフメタゾールなど）にも耐性</strong>を示す点が ESBL と異なる。</p>
             <p class="rule-body" style="margin-top:8px;">第3世代セファロスポリン等に曝されることで酵素の産生量が増加し、<strong>治療中に耐性化するリスクが高い</strong>。感受性があってもこれらの抗菌薬使用は避け、<strong>第4世代セファロスポリン（セフェピム）またはカルバペネム系</strong>で治療を行う。</p>
+
+            <!-- 高リスク3菌（縦並び） -->
+            <div style="background:#FEF2F2;border:1px solid #FECACA;border-radius:8px;padding:12px 16px;margin-top:12px;">
+              <div style="font-size:0.82rem;font-weight:800;color:#7F1D1D;margin-bottom:8px;">■ 誘導型 AmpC 産生の高リスク菌 3つ</div>
+              <div style="display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px dashed #FECACA;">
+                <span style="display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;background:#DC2626;color:#fff;border-radius:50%;font-weight:900;font-size:0.78rem;flex-shrink:0;">①</span>
+                <span style="font-size:0.88rem;color:#7F1D1D;"><em><strong>Enterobacter cloacae</strong></em></span>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px dashed #FECACA;">
+                <span style="display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;background:#DC2626;color:#fff;border-radius:50%;font-weight:900;font-size:0.78rem;flex-shrink:0;">②</span>
+                <span style="font-size:0.88rem;color:#7F1D1D;"><em><strong>Klebsiella aerogenes</strong></em></span>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;padding:6px 0;">
+                <span style="display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;background:#DC2626;color:#fff;border-radius:50%;font-weight:900;font-size:0.78rem;flex-shrink:0;">③</span>
+                <span style="font-size:0.88rem;color:#7F1D1D;"><em><strong>Citrobacter freundii</strong></em></span>
+              </div>
+            </div>
+
+            <!-- 旧来のニーモニック解説 -->
+            <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:12px 14px;margin-top:10px;">
+              <div style="font-size:0.82rem;font-weight:800;color:var(--text);margin-bottom:6px;">📖 旧来は「SPACE / SPICE / ESCPM」で覚えていた</div>
+              <p class="rule-body" style="margin:0 0 6px;font-size:0.82rem;">かつて AmpC 産生のリスク菌は、以下の頭文字で記憶されていました：</p>
+              <ul style="list-style:none;padding-left:0;margin:6px 0 0;font-size:0.8rem;line-height:1.9;">
+                <li><strong style="color:#0B4D85;">SPACE</strong> ＝ <em>Serratia / Pseudomonas / Acinetobacter / Citrobacter / Enterobacter</em></li>
+                <li><strong style="color:#0B4D85;">SPICE</strong> ＝ <em>Serratia / Providencia / Indole(+) Proteus / Citrobacter / Enterobacter</em></li>
+                <li><strong style="color:#0B4D85;">ESCPM</strong> ＝ <em>Enterobacter / Serratia / Citrobacter / Proteus(indole+) / Morganella</em></li>
+              </ul>
+              <p class="rule-body" style="margin:6px 0 0;font-size:0.8rem;color:var(--muted);"><strong style="color:#B45309;">⚠ 近年は見直しが進んでいる：</strong>これらの略語は AmpC 誘導リスクを過度に単純化しており「過剰診断」「過小診断」の両方を招くため、上記の高リスク3菌（<em>Enterobacter / K. aerogenes / C. freundii</em>）に絞った判断が推奨されています（2024 IDSA）。</p>
+            </div>
           </div>
         </div>
 
@@ -446,6 +485,12 @@
 
         <div class="card" style="margin-bottom:12px;">
           <div class="card-inner">
+            <!-- ひとことで言うと（ESBL） -->
+            <div style="background:#FEF2F2;border:1px solid #FECACA;border-radius:8px;padding:10px 14px;margin:0 0 12px;">
+              <div style="font-size:0.72rem;font-weight:800;color:#B91C1C;letter-spacing:0.04em;margin-bottom:4px;">ひとことで言うと</div>
+              <div style="font-size:0.95rem;font-weight:800;color:#7F1D1D;line-height:1.55;">セフトリアキソン・アズトレオナムを壊す酵素を作る腸内細菌目（カルバペネムはまだ効く）</div>
+            </div>
+
             <p class="rule-body">大部分のペニシリン系・セファロスポリン系・さらに<strong>アズトレオナムまでを不活化</strong>可能な β-ラクタマーゼ（主に Class A）。大腸菌やクレブシエラなど腸内細菌目細菌で多く見られる。</p>
             <p class="rule-body" style="margin-top:6px;">重症例では従来カルバペネム系が選択されてきたが、<strong>セフトロザン/タゾバクタム・セフタジジム・アビバクタム・セフィデロコル</strong>なども活性を示し注目されている。</p>
             <div class="keypoint" style="margin-top:10px;">
@@ -465,17 +510,12 @@
 
         <div class="card" style="margin-bottom:12px;">
           <div class="card-inner">
-            <div class="cpe-cre-layout">
-              <div class="cpe-box cre">
-                <div class="cpe-label">CRE（上位概念）</div>
-                <p class="cpe-body"><strong>Carbapenem-Resistant Enterobacteriaceae</strong><br>耐性化の機序を問わず、カルバペネム系抗菌薬に耐性を示す腸内細菌の総称。<br><small style="color:#9CA3AF;">※ カルバペネマーゼ非産生の機序（ポーリン変異+AmpC など）も含む</small></p>
-              </div>
-              <div class="cpe-box cpe">
-                <div class="cpe-label">CPE（CRE の部分集合）</div>
-                <p class="cpe-body"><strong>Carbapenemase-Producing Enterobacteriaceae</strong><br>Ambler Class A・B・D に属するカルバペネマーゼ産生によりカルバペネムに耐性を示す腸内細菌。<br><small style="color:#9CA3AF;">※ カルバペネマーゼを産生していても MIC ≤ 2 なら CRE 基準未満の場合あり</small></p>
-              </div>
-            </div>
-            <div class="danger" style="margin-top:8px;">治療は感受性が残る抗菌薬の種類・CPE かどうか・どのβラクタマーゼかを同定することが重要。<strong>必ず感染症科にコンサルトを行う。</strong></div>
+            <!-- CRE/CPE ベン図 -->
+            <img src="../../images/CPECRE.png"
+                 alt="CRE と CPE の関係（ベン図）"
+                 style="width:100%;max-width:560px;height:auto;display:block;margin:6px auto 12px;border-radius:6px;">
+            <p class="rule-body"><strong>CRE</strong>（Carbapenem-Resistant Enterobacteriaceae）はカルバペネム系抗菌薬に耐性を示す腸内細菌の<strong>総称（上位概念）</strong>で、耐性機序を問わない。<strong>CPE</strong>（Carbapenemase-Producing Enterobacteriaceae）は Ambler Class A・B・D の<strong>カルバペネマーゼ産生</strong>により耐性化したもので、CRE の部分集合に位置づけられる。</p>
+            <div class="danger" style="margin-top:10px;">治療は感受性が残る抗菌薬の種類・CPE かどうか・どのβラクタマーゼかを同定することが重要。<strong>必ず感染症科にコンサルトを行う。</strong></div>
           </div>
         </div>
 
@@ -499,39 +539,22 @@
             <p class="rule-body" style="margin-top:6px;">セリン・メタロ両者のβ-ラクタマーゼ産生、アミノグリコシド修飾酵素、キノロン系感受性低下、複数の排出ポンプ発現など<strong>複数の耐性機序が複合</strong>し多様な抗菌薬に耐性を示す。</p>
 
             <h4 class="sub-head">■ S. maltophilia に対する抗菌薬選択 ■（重症・免疫不全患者では2剤併用）</h4>
-            <div style="font-size:0.84rem;font-weight:800;color:#4C1D95;margin:8px 0 6px;">① 以下の4剤から2剤を選択：</div>
-            <table style="width:100%;border-collapse:separate;border-spacing:6px;margin-bottom:4px;">
-              <tbody>
-                <tr>
-                  <td style="vertical-align:top;width:50%;background:#EFF6FF;border:1.5px solid #BFDBFE;border-radius:8px;padding:10px 12px;">
-                    <div style="font-size:0.88rem;font-weight:900;color:#1E40AF;margin-bottom:3px;">ST合剤</div>
-                    <div style="font-size:0.71rem;color:#3B82F6;margin-bottom:6px;">Trimethoprim-Sulfamethoxazole</div>
-                    <div style="font-size:0.78rem;color:#1E3A8A;line-height:1.65;">第一選択。腎機能障害・骨髄抑制がない場合に優先。</div>
-                  </td>
-                  <td style="vertical-align:top;width:50%;background:#F0FDF4;border:1.5px solid #86EFAC;border-radius:8px;padding:10px 12px;">
-                    <div style="font-size:0.88rem;font-weight:900;color:#166534;margin-bottom:3px;">レボフロキサシン</div>
-                    <div style="font-size:0.71rem;color:#16A34A;margin-bottom:6px;">Levofloxacin</div>
-                    <div style="font-size:0.78rem;color:#14532D;line-height:1.65;">腎機能障害・骨髄抑制を有する場合に使用。</div>
-                  </td>
-                </tr>
-                <tr>
-                  <td style="vertical-align:top;background:#FFF7ED;border:1.5px solid #FED7AA;border-radius:8px;padding:10px 12px;">
-                    <div style="font-size:0.88rem;font-weight:900;color:#C2410C;margin-bottom:3px;">セフィデロコル</div>
-                    <div style="font-size:0.71rem;color:#EA580C;margin-bottom:6px;">Cefiderocol</div>
-                    <div style="font-size:0.78rem;color:#7C2D12;line-height:1.65;">ST合剤・キノロン系の既使用例・耐性例で選択。</div>
-                  </td>
-                  <td style="vertical-align:top;background:#FAF5FF;border:1.5px solid #D8B4FE;border-radius:8px;padding:10px 12px;">
-                    <div style="font-size:0.88rem;font-weight:900;color:#7E22CE;margin-bottom:3px;">ミノサイクリン</div>
-                    <div style="font-size:0.71rem;color:#9333EA;margin-bottom:6px;">Minocycline</div>
-                    <div style="font-size:0.78rem;color:#581C87;line-height:1.65;">上記3剤いずれかとの2剤併用として組み込む。</div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <div style="text-align:center;font-size:0.84rem;font-weight:700;color:#6B7280;padding:4px 0;">— または —</div>
-            <div style="background:#FFF7ED;border:1px solid #FED7AA;border-radius:8px;padding:10px 14px;margin:0 0 10px;">
-              <div style="font-size:0.82rem;font-weight:800;color:#C2410C;margin-bottom:4px;">② アズトレオナム（AZT）＋ セフタジジム・アビバクタム（CAZ/AVI）の併用</div>
-              <p style="font-size:0.82rem;color:#78350F;margin:0;">AZT はメタロβラクタマーゼでは分解されない一方、単体ではセリンβラクタマーゼにより分解されてしまう。CAZ/AVI によるセリンβラクタマーゼ阻害を追加することで両機序を同時に回避可能。</p>
+
+            <!-- ① 4剤から2剤を選択 -->
+            <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:12px 16px;margin:8px 0 10px;">
+              <div style="font-size:0.84rem;font-weight:800;color:var(--text);margin-bottom:6px;">① 以下の4剤から2剤を選択して併用</div>
+              <ul style="list-style:disc;padding-left:22px;margin:4px 0 0;font-size:0.85rem;line-height:1.85;">
+                <li><strong>ST合剤</strong>（Trimethoprim-Sulfamethoxazole）— 第一選択。腎機能障害・骨髄抑制がない場合に優先</li>
+                <li><strong>レボフロキサシン</strong>（Levofloxacin）— 腎機能障害・骨髄抑制を有する場合に使用</li>
+                <li><strong>セフィデロコル</strong>（Cefiderocol）— ST合剤・キノロン系の既使用例・耐性例で選択</li>
+                <li><strong>ミノサイクリン</strong>（Minocycline）— 上記3剤いずれかとの2剤併用として組み込む</li>
+              </ul>
+            </div>
+
+            <!-- ② AZT + CAZ/AVI -->
+            <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:12px 16px;margin:0 0 10px;">
+              <div style="font-size:0.84rem;font-weight:800;color:var(--text);margin-bottom:6px;">② アズトレオナム（AZT）＋ セフタジジム・アビバクタム（CAZ/AVI）の併用</div>
+              <p style="font-size:0.85rem;color:#475569;margin:0;line-height:1.7;">AZT はメタロβラクタマーゼでは分解されない一方、単体ではセリンβラクタマーゼにより分解されてしまう。CAZ/AVI によるセリンβラクタマーゼ阻害を追加することで両機序を同時に回避可能。</p>
             </div>
 
             <p style="font-size:0.84rem;font-weight:700;color:#4C1D95;margin-top:8px;margin-bottom:4px;">当院での①の使用例：</p>
@@ -654,13 +677,13 @@
                       <strong>CTLZ/TAZ</strong><br>
                       <span style="font-size:0.72rem;color:#6B7280;">ザバクサ®</span>
                     </td>
-                    <td style="border:1px solid var(--border);text-align:center;background:#EFF6FF;"><span class="sp-ok">○</span></td>
-                    <td style="border:1px solid var(--border);text-align:center;background:#F0FDF4;"><span class="sp-var">△〜○</span></td>
-                    <td style="border:1px solid var(--border);text-align:center;background:#FEF2F2;"><span class="sp-no">✕</span></td>
-                    <td style="border:1px solid var(--border);text-align:center;background:#FEF2F2;"><span class="sp-no">✕</span></td>
-                    <td style="border:1px solid var(--border);text-align:center;background:#F0FDF4;"><span class="sp-ex">◎</span></td>
-                    <td style="border:1px solid var(--border);text-align:center;background:#FEF2F2;"><span class="sp-no">✕</span></td>
-                    <td style="border:1px solid var(--border);text-align:center;background:#FEF2F2;"><span class="sp-no">✕</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;"><span class="sp-ok">○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;"><span class="sp-var">△〜○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;"><span class="sp-no">✕</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;"><span class="sp-no">✕</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;"><span class="sp-ex">◎</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;"><span class="sp-no">✕</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;"><span class="sp-no">✕</span></td>
                   </tr>
                   <!-- CAZ/AVI -->
                   <tr style="background:#FAFAFA;">
@@ -668,13 +691,13 @@
                       <strong>CAZ/AVI</strong><br>
                       <span style="font-size:0.72rem;color:#6B7280;">ザビセフタ®</span>
                     </td>
-                    <td style="border:1px solid var(--border);text-align:center;background:#EFF6FF;"><span class="sp-ok">○</span></td>
-                    <td style="border:1px solid var(--border);text-align:center;background:#EFF6FF;"><span class="sp-ok">○</span></td>
-                    <td style="border:1px solid var(--border);text-align:center;background:#EFF6FF;"><span class="sp-ok">○</span></td>
-                    <td style="border:1px solid var(--border);text-align:center;background:#FEF2F2;"><span class="sp-no">✕</span></td>
-                    <td style="border:1px solid var(--border);text-align:center;background:#FFF7ED;"><span class="sp-var">△〜○</span></td>
-                    <td style="border:1px solid var(--border);text-align:center;background:#FEF2F2;"><span class="sp-no">✕</span></td>
-                    <td style="border:1px solid var(--border);text-align:center;background:#FEF2F2;"><span class="sp-no">✕</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;"><span class="sp-ok">○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;"><span class="sp-ok">○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;"><span class="sp-ok">○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;"><span class="sp-no">✕</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;"><span class="sp-var">△〜○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;"><span class="sp-no">✕</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;"><span class="sp-no">✕</span></td>
                   </tr>
                   <!-- CFDC -->
                   <tr>
@@ -682,13 +705,13 @@
                       <strong>CFDC</strong><br>
                       <span style="font-size:0.72rem;color:#6B7280;">フェトロージャ®</span>
                     </td>
-                    <td style="border:1px solid var(--border);text-align:center;background:#EFF6FF;"><span class="sp-ok">○</span></td>
-                    <td style="border:1px solid var(--border);text-align:center;background:#EFF6FF;"><span class="sp-ok">○</span></td>
-                    <td style="border:1px solid var(--border);text-align:center;background:#FFF7ED;"><span class="sp-var">△〜○</span></td>
-                    <td style="border:1px solid var(--border);text-align:center;background:#F0FDF4;"><span class="sp-ex">◎</span></td>
-                    <td style="border:1px solid var(--border);text-align:center;background:#EFF6FF;"><span class="sp-ok">○</span></td>
-                    <td style="border:1px solid var(--border);text-align:center;background:#FFF7ED;"><span class="sp-var">△〜○</span></td>
-                    <td style="border:1px solid var(--border);text-align:center;background:#EFF6FF;"><span class="sp-ok">○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;"><span class="sp-ok">○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;"><span class="sp-ok">○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;"><span class="sp-var">△〜○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;"><span class="sp-ex">◎</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;"><span class="sp-ok">○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;"><span class="sp-var">△〜○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;"><span class="sp-ok">○</span></td>
                   </tr>
                   <!-- TGC -->
                   <tr style="background:#FAFAFA;">
@@ -696,13 +719,13 @@
                       <strong>TGC</strong><br>
                       <span style="font-size:0.72rem;color:#6B7280;">タイガシル®</span>
                     </td>
-                    <td style="border:1px solid var(--border);text-align:center;background:#EFF6FF;"><span class="sp-ok">○</span></td>
-                    <td style="border:1px solid var(--border);text-align:center;background:#EFF6FF;"><span class="sp-ok">○</span></td>
-                    <td style="border:1px solid var(--border);text-align:center;background:#EFF6FF;"><span class="sp-ok">○</span></td>
-                    <td style="border:1px solid var(--border);text-align:center;background:#EFF6FF;"><span class="sp-ok">○</span></td>
-                    <td style="border:1px solid var(--border);text-align:center;background:#FEF2F2;"><span class="sp-no">✕</span></td>
-                    <td style="border:1px solid var(--border);text-align:center;background:#FFF7ED;"><span class="sp-var">△〜○</span></td>
-                    <td style="border:1px solid var(--border);text-align:center;background:#EFF6FF;"><span class="sp-ok">○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;"><span class="sp-ok">○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;"><span class="sp-ok">○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;"><span class="sp-ok">○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;"><span class="sp-ok">○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;"><span class="sp-no">✕</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;"><span class="sp-var">△〜○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;"><span class="sp-ok">○</span></td>
                   </tr>
                   <!-- Colistin -->
                   <tr>
@@ -710,13 +733,13 @@
                       <strong>CL</strong><br>
                       <span style="font-size:0.72rem;color:#6B7280;">オルドレブ®</span>
                     </td>
-                    <td style="border:1px solid var(--border);text-align:center;background:#EFF6FF;"><span class="sp-ok">○</span></td>
-                    <td style="border:1px solid var(--border);text-align:center;background:#EFF6FF;"><span class="sp-ok">○</span></td>
-                    <td style="border:1px solid var(--border);text-align:center;background:#EFF6FF;"><span class="sp-ok">○</span></td>
-                    <td style="border:1px solid var(--border);text-align:center;background:#EFF6FF;"><span class="sp-ok">○</span></td>
-                    <td style="border:1px solid var(--border);text-align:center;background:#EFF6FF;"><span class="sp-ok">○</span></td>
-                    <td style="border:1px solid var(--border);text-align:center;background:#FFF7ED;"><span class="sp-var">△〜○</span></td>
-                    <td style="border:1px solid var(--border);text-align:center;background:#EFF6FF;"><span class="sp-ok">○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;"><span class="sp-ok">○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;"><span class="sp-ok">○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;"><span class="sp-ok">○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;"><span class="sp-ok">○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;"><span class="sp-ok">○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;"><span class="sp-var">△〜○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;"><span class="sp-ok">○</span></td>
                   </tr>
                   <!-- AZT -->
                   <tr style="background:#FAFAFA;">
@@ -724,13 +747,13 @@
                       <strong>AZT</strong><br>
                       <span style="font-size:0.72rem;color:#6B7280;">アザクタム®</span>
                     </td>
-                    <td style="border:1px solid var(--border);text-align:center;background:#EFF6FF;"><span class="sp-ok">○</span></td>
-                    <td style="border:1px solid var(--border);text-align:center;background:#EFF6FF;"><span class="sp-ok">○</span></td>
-                    <td style="border:1px solid var(--border);text-align:center;background:#FEF2F2;"><span class="sp-no">✕</span></td>
-                    <td style="border:1px solid var(--border);text-align:center;background:#EFF6FF;"><span class="sp-ok">○</span></td>
-                    <td style="border:1px solid var(--border);text-align:center;background:#EFF6FF;"><span class="sp-ok">○</span></td>
-                    <td style="border:1px solid var(--border);text-align:center;background:#FEF2F2;"><span class="sp-no">✕</span></td>
-                    <td style="border:1px solid var(--border);text-align:center;background:#FEF2F2;"><span class="sp-no">✕</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;"><span class="sp-ok">○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;"><span class="sp-ok">○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;"><span class="sp-no">✕</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;"><span class="sp-ok">○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;"><span class="sp-ok">○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;"><span class="sp-no">✕</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;"><span class="sp-no">✕</span></td>
                   </tr>
                   <!-- CAZ/AVI + AZT -->
                   <tr>
@@ -738,13 +761,13 @@
                       <strong>CAZ/AVI + AZT</strong><br>
                       <span style="font-size:0.72rem;color:#6B7280;">ザビセフタ® + アザクタム®</span>
                     </td>
-                    <td style="border:1px solid var(--border);text-align:center;background:#EFF6FF;"><span class="sp-ok">○</span></td>
-                    <td style="border:1px solid var(--border);text-align:center;background:#EFF6FF;"><span class="sp-ok">○</span></td>
-                    <td style="border:1px solid var(--border);text-align:center;background:#EFF6FF;"><span class="sp-ok">○</span></td>
-                    <td style="border:1px solid var(--border);text-align:center;background:#EFF6FF;"><span class="sp-ok">○</span></td>
-                    <td style="border:1px solid var(--border);text-align:center;background:#FFF7ED;"><span class="sp-var">△〜○</span></td>
-                    <td style="border:1px solid var(--border);text-align:center;background:#FFF7ED;"><span class="sp-var">△〜○</span></td>
-                    <td style="border:1px solid var(--border);text-align:center;background:#EFF6FF;"><span class="sp-ok">○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;"><span class="sp-ok">○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;"><span class="sp-ok">○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;"><span class="sp-ok">○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;"><span class="sp-ok">○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;"><span class="sp-var">△〜○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;"><span class="sp-var">△〜○</span></td>
+                    <td style="border:1px solid var(--border);text-align:center;"><span class="sp-ok">○</span></td>
                   </tr>
                 </tbody>
               </table>
@@ -774,7 +797,7 @@
               <li>感受性が確認された場合、<strong>DTRP による重症感染症の「第1選択薬」。</strong></li>
               <li>CPE・CRAB・嫌気性菌に対しては治療困難。嫌気性菌カバーが必要な症例では<strong>メトロニダゾールを併用</strong>する。</li>
             </ul>
-            <p style="font-size:0.84rem;font-weight:800;color:#4C1D95;margin-top:10px;margin-bottom:4px;">疾患毎の投与量</p>
+            <p class="drug-subhead">疾患毎の投与量</p>
             <div style="overflow-x:auto;">
               <table class="dose-table">
                 <thead><tr><th style="width:38%;">適応疾患</th><th>投与量・投与間隔</th><th>特記事項</th></tr></thead>
@@ -786,7 +809,7 @@
                 </tbody>
               </table>
             </div>
-            <p style="font-size:0.84rem;font-weight:800;color:#4C1D95;margin-top:10px;margin-bottom:4px;">腎機能による用量調整</p>
+            <p class="drug-subhead">腎機能による用量調整</p>
             <div style="overflow-x:auto;">
               <table class="dose-table">
                 <thead>
@@ -820,7 +843,7 @@
               <li><strong>Ambler Class A・D のカルバペネマーゼ（CPE）</strong>に対し活性を有する。ただし <strong>Class B（MBL）に対しては単独で治療効果がない。</strong></li>
               <li>AZT との併用により、セリンβラクタマーゼに対する CAZ/AVI の阻害作用と、MBL に対する AZT の安定性を両立させることが可能。</li>
             </ul>
-            <p style="font-size:0.84rem;font-weight:800;color:#4C1D95;margin-top:10px;margin-bottom:4px;">疾患毎の投与量</p>
+            <p class="drug-subhead">疾患毎の投与量</p>
             <div style="overflow-x:auto;">
               <table class="dose-table">
                 <thead><tr><th style="width:38%;">適応疾患</th><th>投与量・投与間隔</th><th>備考</th></tr></thead>
@@ -831,7 +854,7 @@
                 </tbody>
               </table>
             </div>
-            <p style="font-size:0.84rem;font-weight:800;color:#4C1D95;margin-top:10px;margin-bottom:4px;">腎機能による用量調整</p>
+            <p class="drug-subhead">腎機能による用量調整</p>
             <div style="overflow-x:auto;">
               <table class="dose-table">
                 <thead><tr><th style="width:40%;">CrCl（mL/分）</th><th>投与量</th></tr></thead>
@@ -860,7 +883,7 @@
               <li>多剤耐性緑膿菌に対して CTLZ/TAZ など他の新規βラクタム系が無効な場合の治療オプション。</li>
               <li><em>S. maltophilia</em> 感染症で ST合剤・レボフロキサシンが使用できない場合に選択可能。</li>
             </ul>
-            <p style="font-size:0.84rem;font-weight:800;color:#4C1D95;margin-top:10px;margin-bottom:4px;">疾患毎の投与量</p>
+            <p class="drug-subhead">疾患毎の投与量</p>
             <div style="overflow-x:auto;">
               <table class="dose-table">
                 <thead><tr><th style="width:40%;">適応疾患</th><th>投与量・投与間隔</th><th>特記事項</th></tr></thead>
@@ -869,7 +892,7 @@
                 </tbody>
               </table>
             </div>
-            <p style="font-size:0.84rem;font-weight:800;color:#4C1D95;margin-top:10px;margin-bottom:4px;">腎機能による用量調整</p>
+            <p class="drug-subhead">腎機能による用量調整</p>
             <div style="overflow-x:auto;">
               <table class="dose-table">
                 <thead><tr><th style="width:40%;">CrCl（mL/分）</th><th>投与量</th></tr></thead>
