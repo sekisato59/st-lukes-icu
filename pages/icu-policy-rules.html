@@ -273,19 +273,20 @@
 
     /* ===== 本文の左右マージン =====
        コンテンツ本文（.rule-body / .card-inner 直下の p・ul・ol）が
-       カード端に張り付くと窮屈に見えるため、左右に余白を確保する。
-       見出し（.rule-title）・カテゴリバッジ（.biz-cat）・alert-*・
-       画像 img や別途位置を持つ要素は影響を受けない設計。 */
+       カード端に張り付くと窮屈に見えるため、左右に margin で余白を確保。
+       margin を使うのは、既存のインライン padding-left（list bullet 位置決め）と
+       独立して動作し、インラインスタイルの specificity 影響を受けないため。
+       見出し（.rule-title）・カテゴリバッジ（.biz-cat）・alert-* / div / table /
+       img 等は影響を受けない設計（alert 等は自前で枠を持つので二重余白を避ける）。 */
     .biz-card .card-inner > .rule-body,
     .biz-card .card-inner > p,
     .biz-card .card-inner > ul,
-    .biz-card .card-inner > ol { padding-left:14px; padding-right:14px; }
-    /* alert-* / div / table 系は alert 自体の枠で余白を持つので二重に padding しない */
+    .biz-card .card-inner > ol { margin-left:14px; margin-right:14px; }
     @media (max-width:600px) {
       .biz-card .card-inner > .rule-body,
       .biz-card .card-inner > p,
       .biz-card .card-inner > ul,
-      .biz-card .card-inner > ol { padding-left:10px; padding-right:10px; }
+      .biz-card .card-inner > ol { margin-left:10px; margin-right:10px; }
     }
   </style>
 </head>
