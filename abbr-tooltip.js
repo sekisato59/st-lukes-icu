@@ -12,14 +12,19 @@
       if(cells.length<2) return;
       var abbr=cells[0].textContent.trim();
       var desc=cells[1].textContent.trim();
+      // ヘッダ行（"略語"）はスキップ
+      if(abbr==='略語') return;
       if(abbr) map[abbr]=desc;
     });
   });
   if(!Object.keys(map).length) return;
   // 略語を長い順にソート（部分一致を防ぐ）
   var keys=Object.keys(map).sort(function(a,b){return b.length-a.length;});
-  // 正規表現を構築（単語境界を考慮）
-  var pattern=new RegExp('(?<![a-zA-Z\u00C0-\u024F])(' + keys.map(function(k){return k.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');}).join('|') + ')(?![a-zA-Z\u00C0-\u024F])','g');
+  // 正規表現を構築
+  // ※後読みアサーション（lookbehind）は Safari 16.4未満で非対応のため、
+  //   前置キャプチャグループ (^|[^英字]) を使い全ブラウザ互換にする
+  var escaped=keys.map(function(k){return k.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');}).join('|');
+  var pattern=new RegExp('(^|[^a-zA-ZÀ-ɏ])('+escaped+')(?![a-zA-ZÀ-ɏ])','g');
   // メインコンテンツ領域を検出
   var mainCol=document.querySelector('.main-col')||document.querySelector('.ie-main-col')||document.querySelector('.gl-main')||document.querySelector('.container');
   if(!mainCol) return;
@@ -46,11 +51,13 @@
     var lastIdx=0;
     var m;
     while((m=pattern.exec(text))!==null){
-      if(m.index>lastIdx) frag.appendChild(document.createTextNode(text.slice(lastIdx,m.index)));
+      // m[1]=前置文字（""または非英字1文字）、m[2]=略語本体
+      var abbrStart=m.index+m[1].length;
+      if(abbrStart>lastIdx) frag.appendChild(document.createTextNode(text.slice(lastIdx,abbrStart)));
       var el=document.createElement('abbr');
-      el.setAttribute('data-tip',map[m[1]]);
+      el.setAttribute('data-tip',map[m[2]]);
       el.setAttribute('tabindex','0');
-      el.textContent=m[1];
+      el.textContent=m[2];
       frag.appendChild(el);
       lastIdx=pattern.lastIndex;
     }

@@ -10,6 +10,13 @@
  */
 const RECENT_PAGES = [
   {
+    title: "代謝性アルカローシス — 病態生理・診断・治療 Core Curriculum 2022（AJKD）",
+    url: "pages/articles-gl-met-alkalosis2022.html",
+    date: "2026-05-24",
+    tag: "ガイドライン",
+    thumb: "images/朝カンファ風景.webp"
+  },
+  {
     title: "上テント部開頭術後の痙攣予防 — NCS ガイドライン（Neurocrit Care 2026）",
     url: "pages/articles-gl-ncs-seizure2026.html",
     date: "2026-05-24",
@@ -35,13 +42,6 @@ const RECENT_PAGES = [
     url: "pages/articles-gl-hypernatremia-phys2026.html",
     date: "2026-05-24",
     tag: "論文",
-    thumb: "images/朝カンファ風景.webp"
-  },
-  {
-    title: "代謝性アルカローシス — 病態生理・診断・治療 Core Curriculum 2022（AJKD）",
-    url: "pages/articles-gl-met-alkalosis2022.html",
-    date: "2026-05-24",
-    tag: "ガイドライン",
     thumb: "images/朝カンファ風景.webp"
   },
   {
