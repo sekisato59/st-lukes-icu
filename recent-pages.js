@@ -24,6 +24,13 @@ const RECENT_PAGES = [
     thumb: "images/朝カンファ風景.webp"
   },
   {
+    title: "高ナトリウム血症 — 定量的アプローチによる治療戦略（N Engl J Med 2000, Adrogué & Madias）",
+    url: "pages/articles-gl-hypernatremia-nejm2000.html",
+    date: "2026-05-24",
+    tag: "ガイドライン",
+    thumb: "images/朝カンファ風景.webp"
+  },
+  {
     title: "カンジダ菌血症と抗真菌薬 — 板書ノート | ID×ICUカンファレンス",
     url: "pages/id-icu-notes/note-candida.html",
     date: "2026-05-23",
