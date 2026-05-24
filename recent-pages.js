@@ -10,6 +10,13 @@
  */
 const RECENT_PAGES = [
   {
+    title: "高ナトリウム血症 — 定量的アプローチによる治療戦略（N Engl J Med 2000, Adrogué & Madias）",
+    url: "pages/articles-gl-hypernatremia-nejm2000.html",
+    date: "2026-05-24",
+    tag: "ガイドライン",
+    thumb: "images/朝カンファ風景.webp"
+  },
+  {
     title: "CRBSI・CLABSI — 板書ノート | ID×ICUカンファレンス",
     url: "pages/id-icu-notes/note-crbsi.html",
     date: "2026-05-24",
@@ -24,8 +31,8 @@ const RECENT_PAGES = [
     thumb: "images/朝カンファ風景.webp"
   },
   {
-    title: "高ナトリウム血症 — 定量的アプローチによる治療戦略（N Engl J Med 2000, Adrogué & Madias）",
-    url: "pages/articles-gl-hypernatremia-nejm2000.html",
+    title: "上テント部開頭術後の痙攣予防 — NCS ガイドライン（Neurocrit Care 2026）",
+    url: "pages/articles-gl-ncs-seizure2026.html",
     date: "2026-05-24",
     tag: "ガイドライン",
     thumb: "images/朝カンファ風景.webp"
