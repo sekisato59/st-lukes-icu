@@ -10,6 +10,13 @@
  */
 const RECENT_PAGES = [
   {
+    title: "高ナトリウム血症の病態生理と病因 — Best Pract Res Clin Endocrinol Metab 2026 | 聖路加ICUガイド",
+    url: "pages/articles-gl-hypernatremia-phys2026.html",
+    date: "2026-05-24",
+    tag: "論文",
+    thumb: "images/朝カンファ風景.webp"
+  },
+  {
     title: "カンジダ菌血症と抗真菌薬 — 板書ノート | ID×ICUカンファレンス",
     url: "pages/id-icu-notes/note-candida.html",
     date: "2026-05-23",
