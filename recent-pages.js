@@ -10,6 +10,13 @@
  */
 const RECENT_PAGES = [
   {
+    title: "上テント部開頭術後の痙攣予防 — NCS ガイドライン（Neurocrit Care 2026）",
+    url: "pages/articles-gl-ncs-seizure2026.html",
+    date: "2026-05-24",
+    tag: "ガイドライン",
+    thumb: "images/朝カンファ風景.webp"
+  },
+  {
     title: "高ナトリウム血症 — 定量的アプローチによる治療戦略（N Engl J Med 2000, Adrogué & Madias）",
     url: "pages/articles-gl-hypernatremia-nejm2000.html",
     date: "2026-05-24",
@@ -31,8 +38,8 @@ const RECENT_PAGES = [
     thumb: "images/朝カンファ風景.webp"
   },
   {
-    title: "上テント部開頭術後の痙攣予防 — NCS ガイドライン（Neurocrit Care 2026）",
-    url: "pages/articles-gl-ncs-seizure2026.html",
+    title: "代謝性アルカローシス — 病態生理・診断・治療 Core Curriculum 2022（AJKD）",
+    url: "pages/articles-gl-met-alkalosis2022.html",
     date: "2026-05-24",
     tag: "ガイドライン",
     thumb: "images/朝カンファ風景.webp"
