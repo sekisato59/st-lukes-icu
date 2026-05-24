@@ -17,6 +17,13 @@ const RECENT_PAGES = [
     thumb: "images/朝カンファ風景.webp"
   },
   {
+    title: "CRBSI・CLABSI — 板書ノート | ID×ICUカンファレンス",
+    url: "pages/id-icu-notes/note-crbsi.html",
+    date: "2026-05-24",
+    tag: "解説",
+    thumb: "images/IDICUtop.png"
+  },
+  {
     title: "カンジダ菌血症と抗真菌薬 — 板書ノート | ID×ICUカンファレンス",
     url: "pages/id-icu-notes/note-candida.html",
     date: "2026-05-23",

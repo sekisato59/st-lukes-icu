@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CRBSI・CLABSI — 板書ノート | ID×ICUカンファレンス | 聖路加ICU</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../style-v2.css?v=20260524a">
+  <style>
+    /* ===== ID×ICU 板書ノート 専用テーマ ===== */
+    .gl-chapter-banner {
+      background: linear-gradient(150deg, #2E1065 0%, #6D28D9 100%) !important;
+    }
+    .section-label.icu { color: #7C3AED; }
+
+    /* ===== バナー画像 + テキストオーバーレイ ===== */
+    .vap-banner {
+      position: relative;
+      width: 100%;
+      max-width: 1294px;
+      margin: 64px auto 0;
+      line-height: 0;
+    }
+    .vap-banner-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 85%, transparent 100%);
+      mask-image: linear-gradient(to bottom, #000 0%, #000 85%, transparent 100%);
+    }
+    .vap-banner-overlay {
+      position: absolute;
+      left: 5%;
+      top: 50%;
+      transform: translateY(-50%);
+      max-width: 55%;
+      line-height: 1.4;
+    }
+    .vap-banner-back {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #6D28D9;
+      text-decoration: none;
+      margin-bottom: 12px;
+    }
+    .vap-banner-back:hover { color: #4C1D95; }
+    .vap-banner-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+    .vap-banner-tags span {
+      display: inline-block;
+      background: rgba(245,243,255,0.85);
+      color: #4C1D95;
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 4px;
+      letter-spacing: 0.04em;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
+    .vap-banner-title {
+      font-size: clamp(1.1rem, 2.6vw, 1.6rem);
+      font-weight: 900;
+      line-height: 1.35;
+      margin: 0 0 6px;
+      color: #4C1D95;
+    }
+    .vap-banner-sub {
+      font-size: clamp(0.78rem, 1.4vw, 0.92rem);
+      font-weight: 700;
+      color: #6D28D9;
+      margin: 0 0 6px;
+    }
+    .vap-banner-lecturer {
+      font-size: clamp(0.72rem, 1.2vw, 0.82rem);
+      color: #7C3AED;
+      margin: 0;
+    }
+    @media (max-width: 900px) {
+      .vap-banner-overlay { max-width: 60%; left: 4%; top: 45%; }
+    }
+    @media (max-width: 600px) {
+      .vap-banner { line-height: 1.4; }
+      .vap-banner-overlay {
+        position: static;
+        transform: none;
+        max-width: 100%;
+        padding: 12px 18px 4px;
+      }
+    }
+
+    /* ====== モバイル用 文字サイズ統一 ====== */
+    @media (max-width: 600px) {
+      .card-inner h3.rule-title { font-size: 0.92rem; }
+      .card-inner h4.sub-head { font-size: 0.88rem; }
+      .card-inner .rule-body,
+      .card-inner ul li,
+      .card-inner ol li,
+      .card-inner p,
+      .organism-list li { font-size: 0.78rem; line-height: 1.65; }
+      .keypoint, .danger { font-size: 0.76rem; line-height: 1.6; padding: 7px 10px; }
+      .keypoint::before, .danger::before { font-size: 0.6rem; padding: 1px 6px; margin-right: 6px; }
+      .bundle-num { width: 22px; height: 22px; min-width: 22px; font-size: 0.74rem; }
+      .bundle-step { padding: 8px 0; gap: 10px; }
+      .bundle-content p { font-size: 0.78rem; line-height: 1.6; }
+      .bundle-content .sub-note { font-size: 0.72rem; padding-left: 8px; }
+      .ie-alpha-inner { padding: 10px 12px; }
+      .ie-alpha-title { font-size: 0.84rem; }
+      .ie-alpha-badge { font-size: 0.62rem; padding: 1px 8px; }
+      .ie-alpha-inner p,
+      .ie-alpha-inner ul li { font-size: 0.76rem; line-height: 1.6; }
+      .note-btn-video { font-size: 0.76rem; padding: 8px 14px; }
+      .ie-main-col h3[id^="ch"] { font-size: 0.98rem !important; }
+      .gl-chapter-banner .gl-chapter-title { font-size: 1.02rem !important; }
+      .note-mini { font-size: 0.68rem !important; display: block; margin-top: 2px; }
+    }
+
+    /* ====== 見出し階層 ====== */
+    .card-inner h3.rule-title {
+      font-size: 0.98rem;
+      color: var(--text);
+      padding-bottom: 6px;
+      border-bottom: 2px solid #C4B5FD;
+      margin: 0 0 10px;
+    }
+    .card-inner h4.sub-head {
+      font-size: 0.95rem;
+      font-weight: 900;
+      color: #4C1D95;
+      margin: 14px 0 6px;
+      letter-spacing: 0.02em;
+      line-height: 1.4;
+    }
+    .card-inner h4.sub-head::before {
+      content: '●'; color: #7C3AED; margin-right: 8px; font-size: 0.78rem;
+      vertical-align: 1px;
+    }
+    .card-inner h4.sub-head:first-child { margin-top: 0; }
+
+    /* ====== 本文 ====== */
+    .card-inner .rule-body,
+    .card-inner ul li,
+    .card-inner ol li,
+    .card-inner p {
+      color: #475569;
+      line-height: 1.7;
+    }
+    .card-inner p { margin: 4px 0; }
+    .card-inner ul, .card-inner ol {
+      list-style: disc;
+      padding-left: 26px;
+      margin: 4px 0 8px;
+    }
+    .card-inner ul li, .card-inner ol li { margin-bottom: 3px; }
+    .card-inner ul li::marker { color: #C4B5FD; }
+    .card-inner strong { color: var(--text); font-weight: 700; }
+    .card-inner em { font-style: italic; color: #1F2937; }
+
+    /* 菌名リスト */
+    .organism-list { padding-left: 26px; list-style: disc; margin: 4px 0 8px; }
+    .organism-list li { margin-bottom: 3px; color: #6B7280; line-height: 1.6; }
+    .organism-list li::marker { color: #9CA3AF; }
+    .organism-list li em { font-weight: 600; color: #6B7280; font-style: italic; }
+    .organism-list li strong { color: #374151; font-weight: 800; }
+
+    /* ====== 警告 / 注意ボックス ====== */
+    .keypoint {
+      background: #FFFBEB; border: 1px solid #FDE68A; border-radius: 6px;
+      padding: 8px 12px; margin: 8px 0; font-size: 0.82rem; line-height: 1.65; color: #78350F;
+    }
+    .keypoint::before {
+      content: '注意'; display: inline-block;
+      background: #F59E0B; color: #fff; font-size: 0.64rem; font-weight: 800;
+      padding: 1px 7px; border-radius: 3px; margin-right: 8px;
+      letter-spacing: 0.06em;
+    }
+    .keypoint strong { color: #92400E; }
+
+    .danger {
+      background: #FEF2F2; border: 1px solid #FECACA; border-radius: 6px;
+      padding: 8px 12px; margin: 8px 0; font-size: 0.82rem; line-height: 1.65; color: #7F1D1D;
+    }
+    .danger::before {
+      content: '重要'; display: inline-block;
+      background: #DC2626; color: #fff; font-size: 0.64rem; font-weight: 800;
+      padding: 1px 7px; border-radius: 3px; margin-right: 8px;
+      letter-spacing: 0.06em;
+    }
+    .danger strong { color: #7F1D1D; }
+
+    /* ====== 治療バンドル ステップ ====== */
+    .bundle-flow { margin: 8px 0; }
+    .bundle-step {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 10px 0; border-bottom: 1px dashed #DDD6FE;
+    }
+    .bundle-step:last-child { border-bottom: none; padding-bottom: 0; }
+    .bundle-num {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 26px; height: 26px; min-width: 26px;
+      background: #DC2626; color: #fff;
+      border-radius: 50%; font-weight: 900; font-size: 0.82rem;
+      margin-top: 1px;
+    }
+    .bundle-content { flex: 1; }
+    .bundle-content p { margin: 2px 0; font-size: 0.85rem; color: #475569; line-height: 1.65; }
+    .bundle-content strong { color: var(--text); }
+    .bundle-content .sub-note {
+      font-size: 0.78rem; color: #6B7280; line-height: 1.6;
+      margin-top: 4px; padding-left: 12px;
+    }
+
+    /* ====== ＋α カード（紫） ====== */
+    .ie-alpha {
+      background: #FAF5FF; border: 1px solid #DDD6FE; border-radius: 10px;
+      margin: 10px 0; overflow: hidden;
+    }
+    .ie-alpha-inner { padding: 12px 16px; }
+    .ie-alpha-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+    .ie-alpha-badge {
+      background: #7C3AED; color: #fff; font-size: 0.7rem; font-weight: 800;
+      padding: 2px 10px; border-radius: 4px; letter-spacing: 0.06em;
+      white-space: nowrap;
+    }
+    .ie-alpha-title { font-size: 0.92rem; font-weight: 800; color: #4C1D95; }
+    .ie-alpha-inner p { font-size: 0.84rem; color: #4C1D95; line-height: 1.7; margin: 3px 0; }
+    .ie-alpha-inner ul { padding-left: 22px; list-style: disc; margin: 4px 0; }
+    .ie-alpha-inner ul li { font-size: 0.84rem; color: #4C1D95; line-height: 1.65; margin-bottom: 3px; }
+    .ie-alpha-inner ul li::marker { color: #C4B5FD; }
+    .ie-alpha-inner strong { color: #3B0764; }
+
+    /* ====== 録画ボタン ====== */
+    .note-actions { display: flex; gap: 10px; margin: 0 0 12px; flex-wrap: wrap; }
+    .note-btn-video {
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+      background: linear-gradient(135deg, #6D28D9, #7C3AED);
+      color: #fff; font-size: 0.82rem; font-weight: 700;
+      padding: 9px 18px; border-radius: 8px; text-decoration: none;
+      letter-spacing: 0.04em; line-height: 1;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .note-btn-video:hover {
+      transform: translateY(-1px); box-shadow: 0 4px 10px rgba(124,58,237,0.32);
+    }
+
+    /* ====== ie-table 色調整 ====== */
+    .card-inner .ie-table td { color: #475569; }
+    .card-inner .ie-table th { color: var(--text); }
+    .card-inner .ie-table strong { color: var(--text); }
+
+    /* card 間隔 */
+    .card .card-inner { padding: 14px 18px; }
+    .card { margin-bottom: 12px !important; }
+    .gl-chapter-banner { margin-top: 32px !important; padding: 14px 20px !important; }
+    .gl-chapter-banner.first { margin-top: 8px !important; }
+    .gl-chapter-banner .gl-chapter-title { font-size: 1.15rem !important; }
+
+    /* note-mini */
+    .note-mini { font-size: 0.74rem; color: #6B7280; }
+
+    /* ====== 引用 ====== */
+    .citation {
+      font-size: 0.7rem; color: #9CA3AF; font-style: italic;
+      display: block; margin-top: 8px; padding-left: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="../../index.html" class="nav-logo">
+        <img src="../../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+        <span class="nav-logo-text">聖路加国際病院ICU</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-menu" id="navMenu"></ul>
+    </div>
+  </nav>
+
+  <!-- ===== HEADER ===== -->
+  <div class="vap-banner">
+    <img src="../../images/headerID*ICUpage.png" alt="ID×ICUカンファレンス 板書ノート" class="vap-banner-img">
+    <div class="vap-banner-overlay">
+      <div class="vap-banner-tags">
+        <span>ID×ICU カンファレンス</span>
+        <span>2026年3月25日</span>
+        <span>感染症 / ICU</span>
+      </div>
+      <h1 class="vap-banner-title">CRBSI・CLABSI — 板書ノート</h1>
+      <p class="vap-banner-sub">カテーテル関連血流感染の診断・起因菌・治療・カテーテル管理</p>
+      <p class="vap-banner-lecturer">講義：森先生（感染症科） ／ 制作：ICU 関谷</p>
+    </div>
+  </div>
+
+  <!-- ===== MAIN CONTAINER ===== -->
+  <div class="container" style="max-width:1294px;margin:0 auto;padding:8px 20px 32px;">
+    <div class="ie-page-flex">
+
+      <!-- ===== MAIN CONTENT ===== -->
+      <div class="ie-main-col">
+
+        <!-- 録画リンク -->
+        <div class="note-actions">
+          <a href="https://lukemcmi-my.sharepoint.com/:v:/g/personal/sekisato_luke_ac_jp/IQBtUH8s8tkdTrVIJAvNgyzbAf4t4lGvBTvqXoT4Eomw5JY?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=JerTrm" target="_blank" rel="noopener" class="note-btn-video"><span style="font-size:0.7rem;">▶</span>レクチャー動画を視聴</a>
+        </div>
+
+        <!-- 略語一覧 -->
+        <div class="card" style="margin-top:0;margin-bottom:24px;">
+          <div class="card-inner">
+            <h3 class="rule-title">本ページで使用する略語一覧</h3>
+            <table style="width:100%;border-collapse:collapse;font-size:0.78rem;line-height:1.6;color:#475569;">
+              <tbody>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:160px;color:var(--blue);">CRBSI</td><td style="padding:4px 8px;">Catheter-Related Bloodstream Infection — カテーテル関連血流感染（臨床診断）</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CLABSI</td><td style="padding:4px 8px;">Central Line-Associated Bloodstream Infection — 中心ライン関連血流感染（サーベイランス定義）</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">DTP</td><td style="padding:4px 8px;">Differential Time to Positivity — 血液培養陽性化時間差</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CVC</td><td style="padding:4px 8px;">Central Venous Catheter — 中心静脈カテーテル</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">PICC</td><td style="padding:4px 8px;">Peripherally Inserted Central Catheter — 末梢挿入中心静脈カテーテル</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CoNS / CNS</td><td style="padding:4px 8px;">Coagulase-Negative Staphylococci — コアグラーゼ陰性ブドウ球菌</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">MSSA / MRSA</td><td style="padding:4px 8px;">Methicillin-Susceptible / Resistant <em>Staphylococcus aureus</em></td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">VCM</td><td style="padding:4px 8px;">Vancomycin — バンコマイシン</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CFPM</td><td style="padding:4px 8px;">Cefepime — セフェピム</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CTRX</td><td style="padding:4px 8px;">Ceftriaxone — セフトリアキソン</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">GnR</td><td style="padding:4px 8px;">Gram-negative Rods — グラム陰性桿菌</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">ALT</td><td style="padding:4px 8px;">Antimicrobial Lock Therapy — 抗菌薬ロック療法</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">Mica / MCFG</td><td style="padding:4px 8px;">Micafungin — ミカファンギン（抗真菌薬）</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">TTE / TEE</td><td style="padding:4px 8px;">Transthoracic / Transesophageal Echocardiography — 経胸壁/経食道心エコー</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">BCx</td><td style="padding:4px 8px;">Blood Culture — 血液培養</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">Mino</td><td style="padding:4px 8px;">Minocycline — ミノサイクリン（テトラサイクリン系）。バイオフィルム透過性が高く ALT の主成分として選択される</td></tr>
+                <tr><td style="padding:4px 8px;font-weight:700;color:var(--blue);">EDTA</td><td style="padding:4px 8px;">Ethylenediaminetetraacetic Acid — キレート剤。バイオフィルム脱安定化・抗菌効果を持ち、ヘパリンの代替として ALT で使用される</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- 第1章　定義と用語 -->
+        <!-- ═══════════════════════════════════════ -->
+        <div id="ch1" class="gl-chapter-banner first">
+          <div class="gl-chapter-title">第1章　定義と用語</div>
+          <div class="gl-chapter-subtitle">CRBSI vs CLABSI — 臨床診断とサーベイランス定義の違い</div>
+        </div>
+
+        <h3 id="ch1-s1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 1</span>
+          CRBSI と CLABSI
+        </h3>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <table class="ie-table">
+              <thead>
+                <tr><th style="width:20%;">用語</th><th style="width:30%;">正式名称</th><th>意味・使い所</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="white-space:nowrap;font-weight:700;color:#7C3AED;">CRBSI</td>
+                  <td style="white-space:nowrap;">Catheter-Related<br>Bloodstream Infection</td>
+                  <td><strong>臨床診断</strong>に用いる用語。カテーテル先端培養や DTP などの診断基準を満たした場合に使用する。</td>
+                </tr>
+                <tr>
+                  <td style="white-space:nowrap;font-weight:700;color:#DC2626;">CLABSI</td>
+                  <td style="white-space:nowrap;">Central Line-Associated<br>Bloodstream Infection</td>
+                  <td><strong>サーベイランス（院内感染対策）</strong>に用いる用語。中心ラインが留置中の患者に発症した BSI で、他の感染源が特定できない場合に定義される。臨床診断基準よりも広く、感染管理・QI 指標として使用される。</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="keypoint" style="margin-top:10px;">
+              CLABSI はサーベイランス用語のため、臨床的に「CRBSI ではない」と判断されても CLABSI としてカウントされる場合がある。感染管理部門との連携の際に区別を意識すること。
+            </div>
+          </div>
+        </div>
+
+        <!-- ── SUMMARY 第1章 ── -->
+        <h3 id="ch1-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span style="color:#7C3AED;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+          第1章のキーメッセージ
+        </h3>
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+                <span class="rule-body"><strong>CRBSI は臨床診断、CLABSI はサーベイランス定義：</strong>両者は異なる目的で使用される。臨床では CRBSI の基準（DTP・先端培養）を用い、感染管理では CLABSI が報告指標となる。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+                <span class="rule-body"><strong>CLABSI の方が広義：</strong>CRBSI 否定例でも他の感染源が特定できなければ CLABSI としてカウントされるため、感染管理部門への報告時は混同に注意する。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+                <span class="rule-body"><strong>FN には CLABSI を使ってはいけない：</strong>発熱性好中球減少症ではバクテリアルトランスロケーションが常に起きており「他フォーカスなし」を証明できない。FN 患者の BSI は必ず DTP を用いた CRBSI 基準で評価する。</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- 第2章　診断 -->
+        <!-- ═══════════════════════════════════════ -->
+        <div id="ch2" class="gl-chapter-banner">
+          <div class="gl-chapter-title">第2章　診断</div>
+          <div class="gl-chapter-subtitle">Differential Time to Positivity (DTP) による CRBSI の診断</div>
+        </div>
+
+        <h3 id="ch2-s1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 1</span>
+          DTP（Differential Time to Positivity）
+        </h3>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">DTP の概念と診断基準</h3>
+            <p class="rule-body">中心静脈ライン（CVC / PICC）と末梢静脈からそれぞれ血液培養を<strong>同時刻に採取</strong>し、それぞれの陽性化時間を比較する方法。</p>
+            <div class="danger" style="margin-top:10px;">
+              <strong>DTP ≥ 2時間（中心ラインの方が末梢より 2 時間以上早く陽性化）→ CRBSI を強く示唆</strong>
+            </div>
+            <p class="rule-body" style="margin-top:10px;">中心ラインのルーメン内に細菌が多量に存在するため、培養のシグナルが末梢血よりも早く出現するという原理に基づく。カテーテルを抜去せずに診断できる非侵襲的な手法として有用である。</p>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">DTP を適用できるデバイス</h3>
+            <table class="ie-table">
+              <thead>
+                <tr><th>デバイス</th><th>特徴</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="white-space:nowrap;font-weight:700;">CVC<br><span style="font-size:0.72rem;font-weight:400;color:#6B7280;">中心静脈カテーテル</span></td>
+                  <td>鎖骨下・内頚・大腿静脈から挿入。ICU で最も使用頻度が高い中心ライン。</td>
+                </tr>
+                <tr>
+                  <td style="white-space:nowrap;font-weight:700;">PICC<br><span style="font-size:0.72rem;font-weight:400;color:#6B7280;">末梢挿入中心静脈カテーテル</span></td>
+                  <td>上腕の末梢静脈から挿入し、先端は上大静脈に留置。長期使用に適しているが CRBSI リスクは CVC と同様に評価する。</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="keypoint" style="margin-top:10px;">
+              DTP は中心ラインと末梢静脈の<strong>同時採取</strong>が前提。時刻のずれがあると解釈が困難になる。採血時刻を正確に記録すること。
+            </div>
+          </div>
+        </div>
+
+        <!-- ── SUMMARY 第2章 ── -->
+        <h3 id="ch2-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span style="color:#7C3AED;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+          第2章のキーメッセージ
+        </h3>
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+                <span class="rule-body"><strong>DTP ≥ 2時間で CRBSI を診断：</strong>中心ラインと末梢静脈の血培を同時採取し、中心ラインが 2 時間以上早く陽性化した場合に CRBSI と診断する。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+                <span class="rule-body"><strong>CVC・PICC が対象：</strong>カテーテルを抜去せずに診断できる非侵襲的手法。採血時刻の正確な記録が解釈の前提となる。</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- 第3章　起因菌と経験的治療 -->
+        <!-- ═══════════════════════════════════════ -->
+        <div id="ch3" class="gl-chapter-banner">
+          <div class="gl-chapter-title">第3章　起因菌と経験的治療</div>
+          <div class="gl-chapter-subtitle">CRBSI の起因菌分類・経験的治療・確定治療</div>
+        </div>
+
+        <h3 id="ch3-s1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 1</span>
+          起因菌の分類
+        </h3>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <!-- 1. Normal pathogens -->
+            <div style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;padding:12px 16px;margin-bottom:10px;">
+              <div style="font-size:0.86rem;font-weight:800;color:#166534;margin-bottom:8px;">1. Normal pathogens（通常の起因菌）</div>
+              <div style="display:grid;grid-template-columns:minmax(160px, 200px) 1fr;gap:8px 14px;font-size:0.84rem;line-height:1.65;color:#14532D;">
+                <div style="font-weight:700;"><em>Coagulase-Negative Staphylococci</em><br><span style="font-size:0.74rem;color:#16A34A;font-weight:700;">（CoNS）</span></div>
+                <div>最頻度。皮膚常在菌。<em>S. epidermidis</em> が代表。</div>
+                <div style="font-weight:700;"><em>Staphylococcus aureus</em></div>
+                <div>皮膚常在菌でもあるが、下記の virulent 病原体として扱う場面も多い。</div>
+              </div>
+            </div>
+
+            <!-- 2. Virulent pathogens -->
+            <div style="background:#FEF2F2;border:1px solid #FECACA;border-radius:8px;padding:12px 16px;">
+              <div style="font-size:0.86rem;font-weight:800;color:#991B1B;margin-bottom:8px;">2. Virulent pathogens（毒力の強い起因菌）</div>
+              <div style="display:grid;grid-template-columns:minmax(160px, 200px) 1fr;gap:8px 14px;font-size:0.84rem;line-height:1.65;color:#7F1D1D;">
+                <div style="font-weight:700;"><em>Staphylococcus aureus</em><br><span style="font-size:0.74rem;color:#DC2626;font-weight:700;">（MSSA / MRSA）</span></div>
+                <div>菌血症の遷延・遠隔転移のリスクが高い。</div>
+                <div style="font-weight:700;"><em>Streptococcus</em> 属</div>
+                <div>—</div>
+                <div style="font-weight:700;"><em>Candida</em> 属</div>
+                <div>免疫不全・長期 TPN・広域抗菌薬使用で増加。</div>
+                <div style="font-weight:700;">GnR（グラム陰性桿菌）</div>
+                <div><em>K. pneumoniae</em>・<em>E. coli</em>・<em>P. aeruginosa</em> など。</div>
+              </div>
+            </div>
+
+            <div class="danger" style="margin-top:10px;">
+              <strong><em>S. aureus</em> と <em>Candida</em></strong> は必ずカテーテル抜去・精査が必要な virulent pathogens である。他フォーカスがない限り ABx のみで経過観察することは禁忌。
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">CoNS（弱い菌）vs Virulent pathogen — 血培陽性の解釈基準</h3>
+            <p class="rule-body">同じ「血培陽性」でも起因菌の virulence によって診断に必要な陽性本数が異なる。CoNS などのコンタミネーションが起こりやすい皮膚常在菌は1本の陽性だけでは本物の感染か汚染かを区別できない。</p>
+            <div style="overflow-x:auto;margin-top:10px;">
+              <table class="ie-table">
+                <thead>
+                  <tr><th style="width:38%;">菌の種類</th><th style="width:34%;">診断に必要な陽性本数</th><th>理由</th></tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td style="font-weight:700;color:#6B7280;white-space:nowrap;"><em>CoNS（S. epidermidis など）</em><br><em>Cutibacterium</em> など<br><span style="font-size:0.72rem;font-weight:400;">皮膚常在菌（弱い菌）</span></td>
+                    <td style="background:#FFFBEB;"><strong style="color:#B45309;">別々の機会に 2 本陽性</strong></td>
+                    <td>1 本のみではコンタミネーションの可能性が高い。場所・タイミングを変えた 2 本で確認する。</td>
+                  </tr>
+                  <tr>
+                    <td style="font-weight:700;white-space:nowrap;"><em>S. aureus・Streptococcus</em><br><em>Candida</em>・GnR<br><span style="font-size:0.72rem;font-weight:400;">Virulent pathogen</span></td>
+                    <td style="background:#FEF2F2;"><strong style="color:#DC2626;">1 本陽性で十分</strong></td>
+                    <td>皮膚常在菌ではなく採血時コンタミの可能性が低い。1 本陽性で直ちに本物の感染として対応する。</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="danger" style="margin-top:10px;">
+              CoNS が1本陽性の段階でカテーテルを抜去してはいけない。<strong>別々の機会に 2 本陽性</strong>を確認してから CRBSI の診断・対応をとる。「別々の機会」＝①中心ライン＋末梢の 2 か所から同時採血、②時間を変えて再採血、のいずれでも可。
+            </div>
+          </div>
+        </div>
+
+        <h3 id="ch3-s2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 2</span>
+          起因菌別の治療（経験的・確定治療）
+        </h3>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">CRBSI — 起因菌別 治療レジメン</h3>
+            <div style="overflow-x:auto;">
+              <table class="ie-table">
+                <thead>
+                  <tr>
+                    <th style="width:22%;">起因菌</th>
+                    <th style="width:28%;">経験的治療</th>
+                    <th>確定治療（感受性判明後）</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td style="white-space:nowrap;font-weight:700;"><em>S. aureus</em><br><span style="font-size:0.72rem;font-weight:400;color:#6B7280;">MRSA</span></td>
+                    <td><strong>VCM（バンコマイシン）</strong></td>
+                    <td>VCM 継続（TDM 管理）。<br><span class="note-mini">AUC/MIC ガイドに基づく TDM が推奨。</span></td>
+                  </tr>
+                  <tr>
+                    <td style="white-space:nowrap;font-weight:700;"><em>S. aureus</em><br><span style="font-size:0.72rem;font-weight:400;color:#6B7280;">MSSA</span></td>
+                    <td><strong>VCM</strong>（MRSA 除外まで）</td>
+                    <td>感受性確認後に<strong>セファゾリン（CEZ）</strong>または<strong>CFPM</strong> へ de-escalation。<br><span class="note-mini">βラクタム系は VCM より優れた臨床成績。必ずde-escalation する。</span></td>
+                  </tr>
+                  <tr>
+                    <td style="white-space:nowrap;font-weight:700;"><em>CoNS</em><br><span style="font-size:0.72rem;font-weight:400;color:#6B7280;">（CNS）</span></td>
+                    <td><strong>VCM</strong>（多くがメチシリン耐性）</td>
+                    <td>感受性に応じて de-escalation 検討。<br><span class="note-mini">単独コンタミネーションの可能性も除外する。</span></td>
+                  </tr>
+                  <tr>
+                    <td style="white-space:nowrap;font-weight:700;"><em>Streptococcus</em> 属</td>
+                    <td><strong>VCM</strong> または <strong>CTRX</strong></td>
+                    <td>CTRX または ABPC（菌種・感受性による）</td>
+                  </tr>
+                  <tr>
+                    <td style="white-space:nowrap;font-weight:700;">GnR<br><span style="font-size:0.72rem;font-weight:400;color:#6B7280;">グラム陰性桿菌</span></td>
+                    <td><strong>CFPM</strong>（緑膿菌カバー含む場合）</td>
+                    <td>感受性に応じて narrowing</td>
+                  </tr>
+                  <tr>
+                    <td style="white-space:nowrap;font-weight:700;"><em>Candida</em> 属</td>
+                    <td><strong>ミカファンギン 100 mg/日</strong></td>
+                    <td>菌種・感受性確認後に azole（FLCZ 等）への変更を検討。<br><span class="note-mini">C. glabrata/C. krusei は FLCZ 耐性のため azole 変更不可。</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="keypoint" style="margin-top:10px;">
+              <strong>経験的治療の基本は VCM（± CFPM）：</strong>MRSA・CoNS をカバーしつつ、GnR リスクが高い場合（発熱性好中球減少症・敗血症性ショック）は CFPM を追加する。
+            </div>
+          </div>
+        </div>
+
+        <!-- ── SUMMARY 第3章 ── -->
+        <h3 id="ch3-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span style="color:#7C3AED;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+          第3章のキーメッセージ
+        </h3>
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+                <span class="rule-body"><strong>起因菌は CoNS が最頻度だが S. aureus・Candida は virulent：</strong>S. aureus と Candida は必ず抜去と精査が必要で、抗菌薬単独での経過観察は禁忌。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+                <span class="rule-body"><strong>経験的治療の基本は VCM：</strong>MRSA・CoNS（多くがメチシリン耐性）をカバー。GnR リスク高（FN・ショック）では CFPM を追加する。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+                <span class="rule-body"><strong>MSSA 確認後は必ず de-escalation：</strong>βラクタム系（CEZ・CFPM）は VCM より優れた成績を示す。感受性判明後の変更を忘れない。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+                <span class="rule-body"><strong>CoNS は 2 本陽性を確認してから対応：</strong>CoNS 1 本陽性はコンタミネーションの可能性が高い。別々の機会に 2 本陽性を確認してから CRBSI と診断する。S. aureus・Candida など virulent pathogen は 1 本で十分。</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- 第4章　治療期間 -->
+        <!-- ═══════════════════════════════════════ -->
+        <div id="ch4" class="gl-chapter-banner">
+          <div class="gl-chapter-title">第4章　治療期間</div>
+          <div class="gl-chapter-subtitle">Duration of Therapy — 起因菌別の抗菌薬投与期間</div>
+        </div>
+
+        <h3 id="ch4-s1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+          <span class="section-label icu" style="color:#DC2626;">SECTION 1</span>
+          起因菌別の治療期間
+        </h3>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <table class="ie-table">
+              <thead>
+                <tr>
+                  <th style="width:28%;">起因菌</th>
+                  <th style="width:30%;">治療期間</th>
+                  <th>備考</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="font-weight:700;"><em>S. aureus</em><br><span style="font-size:0.72rem;font-weight:400;color:#6B7280;">（MSSA / MRSA）</span></td>
+                  <td style="background:#FEF2F2;"><strong style="color:#DC2626;">4〜6 週間</strong></td>
+                  <td><strong>TTE（経胸壁心エコー）必須</strong>。感染性心内膜炎・化膿性血栓性静脈炎の合併を除外する。合併あれば 6 週以上。<br><span class="note-mini">カテーテル抜去後も菌血症が続く場合は感染性心内膜炎を強く疑う。</span></td>
+                </tr>
+                <tr>
+                  <td style="font-weight:700;"><em>CoNS</em>・<em>Streptococcus</em><br><span style="font-size:0.72rem;font-weight:400;color:#6B7280;">その他の起因菌</span></td>
+                  <td style="background:#EFF6FF;"><strong style="color:#1D4ED8;">1〜2 週間</strong></td>
+                  <td>カテーテル抜去後、血培陰性化を確認してから治療期間をカウント。<br><span class="note-mini">CoNS の場合は単独汚染（コンタミネーション）を必ず除外すること。</span></td>
+                </tr>
+                <tr>
+                  <td style="font-weight:700;"><em>Candida</em> 属</td>
+                  <td style="background:#FFFBEB;"><strong style="color:#B45309;">感染消退まで（計 約 6 週間）</strong></td>
+                  <td>血液培養陰性化後、さらに<strong>感染が完全に消退するまで</strong>継続する。合計でおよそ<strong>6 週間</strong>が目安。<strong>眼科的検索（眼底検査）を必ず行う</strong>（眼内炎合併の除外）。<br><span class="note-mini">眼内炎合併では治療期間がさらに延長される。</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title"><em>S. aureus</em> 菌血症の精査（TTE）</h3>
+            <p class="rule-body"><em>S. aureus</em> 菌血症では感染性心内膜炎（IE）・骨髄炎・化膿性関節炎・硬膜外膿瘍など遠隔転移病巣の検索が必須である。カテーテル抜去後 72 時間以内に血培が陰性化しない場合は、<strong>TEE（経食道心エコー）</strong>への格上げと感染症科・循環器内科へのコンサルトを検討する。</p>
+            <div class="danger" style="margin-top:10px;">
+              <em>S. aureus</em> CRBSI は抗菌薬 2 週間で完結する疾患ではない。<strong>「Uncomplicated CRBSI（非複雑性）」として 2 週間で治療を終えてよい条件</strong>：①カテーテル抜去 ②72h 以内に血培陰性化 ③TTE で IE 除外 ④遠隔転移病巣なし ⑤免疫能正常 ⑥人工デバイスなし
+            </div>
+          </div>
+        </div>
+
+        <!-- ── SUMMARY 第4章 ── -->
+        <h3 id="ch4-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 10px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+          <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+          第4章のキーメッセージ
+        </h3>
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#DC2626;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+                <span class="rule-body"><strong><em>S. aureus</em> は 4〜6 週間 + TTE 必須：</strong>短期間（2 週間）での治療終了は厳格な条件を満たした場合のみ。TTE で IE を除外し、72h 以内の血培陰性化を確認する。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#DC2626;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+                <span class="rule-body"><strong>CoNS・Strep など他の細菌は 1〜2 週間：</strong>カテーテル抜去後の血培陰性化日から起算する。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+                <span style="color:#DC2626;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+                <span class="rule-body"><strong>Candida は感染消退まで（計 約 6 週間）＋ 眼底検査：</strong>BCx 陰性化後も感染が完全に消退するまで継続する。合計で約 6 週間が目安。眼内炎を必ず除外する。</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- 第5章　カテーテル抜去 vs 温存 -->
+        <!-- ═══════════════════════════════════════ -->
+        <div id="ch5" class="gl-chapter-banner">
+          <div class="gl-chapter-title">第5章　カテーテル抜去 vs 温存</div>
+          <div class="gl-chapter-subtitle">Removal or Retain — カテーテル管理の意思決定</div>
+        </div>
+
+        <h3 id="ch5-s1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+          <span class="section-label icu" style="color:#EA580C;">SECTION 1</span>
+          カテーテル抜去が必要な状況
+        </h3>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">必ず抜去すべき状況（Removal）</h3>
+            <div class="bundle-flow">
+              <div class="bundle-step">
+                <div class="bundle-num">①</div>
+                <div class="bundle-content">
+                  <p><strong>Complicated CRBSI（複雑性）</strong></p>
+                  <p class="sub-note">
+                    ・<strong>Persistent bacteremia</strong>（カテーテル抜去後も血培陽性が続く）<br>
+                    ・<strong>Distant abscess</strong>（遠隔転移病巣 — 硬膜外膿瘍・化膿性関節炎・骨髄炎など）<br>
+                    ・<strong>Septic thrombophlebitis</strong>（化膿性血栓性静脈炎）<br>
+                    ・<strong>Pocket infection</strong>（ポート感染・皮下ポケット感染）
+                  </p>
+                </div>
+              </div>
+              <div class="bundle-step">
+                <div class="bundle-num">②</div>
+                <div class="bundle-content">
+                  <p><strong>Hemodynamically unstable（血行動態不安定）</strong></p>
+                  <p class="sub-note">感染源のコントロールとして早期抜去が優先される。</p>
+                </div>
+              </div>
+              <div class="bundle-step">
+                <div class="bundle-num">③</div>
+                <div class="bundle-content">
+                  <p><strong>Candida 血症</strong></p>
+                  <p class="sub-note">Candida CRBSI は必ず抜去する。抜去なしの温存は治療失敗・再発リスクが高い。</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h3 id="ch5-s2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+          <span class="section-label icu" style="color:#EA580C;">SECTION 2</span>
+          温存が許容される状況（Retain）
+        </h3>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">温存を検討できる条件</h3>
+            <p class="rule-body">上記の抜去適応に該当せず、かつカテーテルが代替困難な場合（長期 TPN・血管アクセス不良など）は、<strong>ALT（Antimicrobial Lock Therapy）と全身投与抗菌薬の併用</strong>でカテーテル温存を試みることができる。</p>
+            <div class="keypoint" style="margin-top:8px;">
+              ただし温存は原則的に例外的な判断であり、<strong>virulent pathogen（S. aureus・Candida）では原則として抜去</strong>する。
+            </div>
+          </div>
+        </div>
+
+        <!-- ── SUMMARY 第5章 ── -->
+        <h3 id="ch5-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 10px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+          <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+          第5章のキーメッセージ
+        </h3>
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#EA580C;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+                <span class="rule-body"><strong>Complicated / HD unstable / Candida は必ず抜去：</strong>Persistent bacteremia・遠隔病巣・化膿性血栓性静脈炎・ポート感染のいずれかがあれば即時抜去する。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#EA580C;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+                <span class="rule-body"><strong>S. aureus・Candida は原則抜去：</strong>これらの virulent pathogen を温存で管理することは高リスクであり、原則的に抜去する。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+                <span style="color:#EA580C;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+                <span class="rule-body"><strong>温存するなら ALT 併用が必須：</strong>カテーテル温存が例外的に許容される場合は、ALT（Antimicrobial Lock Therapy）と全身投与抗菌薬を組み合わせる。</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- 第6章　ALT と Biofilm -->
+        <!-- ═══════════════════════════════════════ -->
+        <div id="ch6" class="gl-chapter-banner">
+          <div class="gl-chapter-title">第6章　ALT（Antimicrobial Lock Therapy）と Biofilm</div>
+          <div class="gl-chapter-subtitle">抗菌薬ロック療法の実際とバイオフィルムの重要性</div>
+        </div>
+
+        <h3 id="ch6-s1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+          <span class="section-label icu" style="color:#16A34A;">SECTION 1</span>
+          ALT（Antimicrobial Lock Therapy）
+        </h3>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">ALT の概念</h3>
+            <p class="rule-body">全身投与抗菌薬の血中濃度ではカテーテル内腔に形成された biofilm に十分到達できないため、<strong>高濃度の抗菌薬溶液をカテーテル内腔に「ロック（封入）」して長時間留置</strong>する手法。ルーメン内の biofilm を直接攻撃することを目的とする。</p>
+            <div class="keypoint">
+              ALT は全身投与抗菌薬の代替ではなく、<strong>全身投与との併用</strong>で使用する。
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">VCM ロックの限界 — バイオフィルム研究データ</h3>
+            <p class="rule-body">2009 年版ガイドラインで標準とされていた「バンコマイシン＋ヘパリン」ロック療法が、実際のバイオフィルムに対してどれだけ効果的かを検証した研究が 2010 年代に複数報告された。結果は衝撃的だった。</p>
+            <div style="overflow-x:auto;margin-top:10px;">
+              <table class="ie-table">
+                <thead>
+                  <tr><th style="width:30%;">薬剤</th><th style="width:25%;">バイオフィルム内の菌量減少</th><th>コメント</th></tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td style="white-space:nowrap;font-weight:700;">生食（コントロール）</td>
+                    <td style="background:#F8FAFC;text-align:center;">—</td>
+                    <td>比較基準</td>
+                  </tr>
+                  <tr>
+                    <td style="white-space:nowrap;font-weight:700;">Vancomycin（VCM）</td>
+                    <td style="background:#FEF2F2;text-align:center;"><strong style="color:#DC2626;">生食とほぼ同等</strong></td>
+                    <td>バイオフィルムに対してほとんど効果なし。「橋にも棒にもかからない」レベル。</td>
+                  </tr>
+                  <tr>
+                    <td style="white-space:nowrap;font-weight:700;">Daptomycin（DAP）</td>
+                    <td style="background:#F0FDF4;text-align:center;"><strong style="color:#16A34A;">◎ 非常に有効</strong></td>
+                    <td>バイオフィルムへの浸透性が高く、VCM と全く異なる高い効果を示した。</td>
+                  </tr>
+                  <tr>
+                    <td style="white-space:nowrap;font-weight:700;">Rifampicin（RFP）</td>
+                    <td style="background:#F0FDF4;text-align:center;"><strong style="color:#16A34A;">◎ 有効</strong></td>
+                    <td>バイオフィルム透過性が高い。ただし<strong>単独使用は耐性化リスクがあり禁忌</strong>。</td>
+                  </tr>
+                  <tr>
+                    <td style="white-space:nowrap;font-weight:700;">Minocycline（Mino）</td>
+                    <td style="background:#EFF6FF;text-align:center;"><strong style="color:#1D4ED8;">○ 有効</strong></td>
+                    <td>バイオフィルム透過性あり。耐性化リスクが RFP より低く実用的。→ ALT に採用。</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="danger" style="margin-top:10px;">
+              <strong>旧来の VCM＋ヘパリン ALT は事実上無効：</strong>2009 年版ガイドラインに基づく VCM ロック療法はバイオフィルムに対して生食と同等の効果しかなく、現在では推奨されない。2009 年以降の研究成果を踏まえた新しいプロトコルに移行する必要がある。
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">新しい ALT プロトコル：Minocycline + EDTA + 25% Ethanol（MDアンダーソン方式）</h3>
+            <p class="rule-body">MDアンダーソン・キャンサーセンターのグループが開発した 3 成分配合溶液を用いる新しい ALT。2009 年版以来の大幅改訂が予定されている次期ガイドラインに反映される見込みで、<span class="mark-yellow"><strong>聖路加国際病院は日本でこの方法を最初に導入した 2 施設のうちの 1 つ</strong></span>である。</p>
+
+            <h4 class="sub-head">ロック溶液の 3 成分と役割</h4>
+            <div class="bundle-flow">
+              <div class="bundle-step">
+                <div class="bundle-num" style="background:#1D4ED8;">①</div>
+                <div class="bundle-content">
+                  <p><strong>Minocycline（ミノサイクリン / Mino）</strong></p>
+                  <p class="sub-note">テトラサイクリン系。バイオフィルムへの透過性が高く、VCM とは異なり確実に浸透して菌を攻撃する。CoNS・MRSA を含む広いスペクトラムをカバー。</p>
+                </div>
+              </div>
+              <div class="bundle-step">
+                <div class="bundle-num" style="background:#1D4ED8;">②</div>
+                <div class="bundle-content">
+                  <p><strong>EDTA（エチレンジアミン四酢酸）</strong></p>
+                  <p class="sub-note">カルシウムキレート剤。バイオフィルムの構造を脱安定化して Mino の浸透を助けるとともに、それ自体に抗菌・抗バイオフィルム効果がある。<strong>ヘパリンの代替として抗凝固作用も担う</strong>。ヘパリンは細菌増殖を促進するデータがあるため使用しない（米国では透析カテのロックも EDTA が標準）。</p>
+                </div>
+              </div>
+              <div class="bundle-step">
+                <div class="bundle-num" style="background:#1D4ED8;">③</div>
+                <div class="bundle-content">
+                  <p><strong>25% Ethanol（25% エタノール）</strong></p>
+                  <p class="sub-note">広域スペクトラムで細菌・真菌を直接殺菌。旧来の 70% エタノール単独ロックから濃度を下げ、Mino・EDTA と組み合わせることで安全性と有効性を両立させた。</p>
+                </div>
+              </div>
+            </div>
+
+            <h4 class="sub-head">施行プロトコル</h4>
+            <div class="bundle-flow">
+              <div class="bundle-step">
+                <div class="bundle-num">1</div>
+                <div class="bundle-content">
+                  <p><strong>量：各ルーメンに 1 cc ずつ注入</strong></p>
+                  <p class="sub-note">トリプルルーメンカテーテルの場合は全ルーメンにロックする。「ロック中」のラベルを貼る。</p>
+                </div>
+              </div>
+              <div class="bundle-step">
+                <div class="bundle-num">2</div>
+                <div class="bundle-content">
+                  <p><strong>Dwell time（留置時間）：2 時間</strong></p>
+                  <p class="sub-note">旧プロトコルの 24 時間から大幅に短縮。EDTA によるバイオフィルム脱安定化が短時間でも有効にしたため。24 時間では ICU でカテーテルが事実上使えなくなる問題があった。</p>
+                </div>
+              </div>
+              <div class="bundle-step">
+                <div class="bundle-num">3</div>
+                <div class="bundle-content">
+                  <p><strong>施行回数：合計 7 回</strong></p>
+                  <p class="sub-note">1・2・3・4・5・7・14 日目（治療期間を通じて計 7 セッション）。</p>
+                </div>
+              </div>
+              <div class="bundle-step">
+                <div class="bundle-num">4</div>
+                <div class="bundle-content">
+                  <p><strong>使用前に必ず吸引・廃棄</strong></p>
+                  <p class="sub-note">ロック溶液を誤って全身に静注しないよう、毎回使用前にルーメンを吸引廃棄してから輸液・投薬を開始する。</p>
+                </div>
+              </div>
+            </div>
+            <div class="keypoint" style="margin-top:10px;">
+              全身投与抗菌薬との<strong>併用が必須</strong>。ALT は全身投与の代替ではなく、あくまでルーメン内バイオフィルムへの直接攻撃を目的とした追加療法である。
+            </div>
+          </div>
+        </div>
+
+        <h3 id="ch6-s2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+          <span class="section-label icu" style="color:#16A34A;">SECTION 2</span>
+          Biofilm の重要性
+        </h3>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">Biofilm とは何か</h3>
+            <p class="rule-body">細菌がカテーテル表面に付着し、<strong>多糖体マトリックス（スライム）に包まれた集合体</strong>を形成したもの。プランクトン（浮遊菌）に比べ以下の点で治療に難渋する：</p>
+            <ul>
+              <li>抗菌薬の<strong>浸透が著しく低下</strong>（バリア効果）</li>
+              <li>菌の代謝活性が低下し、抗菌薬の標的（細胞壁合成・DNA 複製等）が減少</li>
+              <li>菌が biofilm から剥離して<strong>断続的な菌血症の原因</strong>となる</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">Biofilm 透過性と抗菌薬の選択</h3>
+            <p class="rule-body">抗菌薬の種類によってバイオフィルムへの浸透性は大きく異なる。<strong>VCM のようなバイオフィルム透過性の低い薬剤は、全身投与でも ALT でも単独では十分な効果が得られない</strong>。バイオフィルム内の菌を攻撃するには、透過性の高い薬剤を高濃度でルーメン内に直接届ける必要がある（→ ALT の意義）。</p>
+            <p class="rule-body" style="margin-top:6px;">効果の大きさは概ね：<strong style="color:#6B7280;">生食 ≈ VCM</strong> ≪ <strong style="color:#1D4ED8;">Mino</strong> ＜ <strong style="color:#16A34A;">DAP ≈ RFP</strong>。RFP は最も効果が高いが単独使用は耐性化リスクがあり禁忌。DAP は優秀だが高価。Mino は実用的で耐性化リスクが低いため MDアンダーソン・プロトコルに採用された。</p>
+            <div class="keypoint" style="margin-top:8px;">
+              通常の全身投与のみではバイオフィルム内の菌に有効濃度が届かない。カテーテル温存例では ALT（Mino + EDTA + 25% Ethanol）の追加が必須となる。
+            </div>
+          </div>
+        </div>
+
+        <div class="ie-alpha" style="margin-bottom:12px;">
+          <div class="ie-alpha-inner">
+            <div class="ie-alpha-header">
+              <span class="ie-alpha-badge">＋α</span>
+              <span class="ie-alpha-title">Biofilm と CoNS の関係</span>
+            </div>
+            <p>CoNS（特に <em>S. epidermidis</em>）は biofilm 産生能が高く、これが CRBSI における最重要病原因子となっている。<em>icaA/icaD</em> 遺伝子によってコードされる PIA（Polysaccharide Intercellular Adhesin）が biofilm 形成を促進する。カテーテル感染症では CoNS が頻繁に起因菌となる理由はこの biofilm 形成能の高さにある。</p>
+          </div>
+        </div>
+
+        <!-- ── SUMMARY 第6章 ── -->
+        <h3 id="ch6-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 10px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+          <span style="color:#16A34A;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+          第6章のキーメッセージ
+        </h3>
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#16A34A;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+                <span class="rule-body"><strong>VCM ロックはバイオフィルムに無効 — 生食と同等：</strong>2009 年版ガイドラインの標準だった VCM＋ヘパリン ALT は研究でほぼ無効と示された。現在は MDアンダーソン・プロトコルへの移行が推奨される。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#16A34A;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+                <span class="rule-body"><strong>新 ALT = Mino + EDTA + 25% Ethanol：</strong>1 cc / ルーメン、2 時間 dwell（旧 24 時間から短縮）、計 7 回施行。全身投与抗菌薬との併用が必須。聖路加は日本初導入 2 施設のうちの 1 つ。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#16A34A;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+                <span class="rule-body"><strong>EDTA がヘパリンを代替する：</strong>ヘパリンは細菌増殖を促進するデータがあり使用しない。EDTA はバイオフィルム脱安定化＋抗凝固の両方を担い、dwell time を 2 時間に短縮させた鍵。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#16A34A;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+                <span class="rule-body"><strong>Biofilm が CRBSI 難治化の根本原因：</strong>多糖体マトリックスが抗菌薬浸透を阻害し、剥離した菌が断続的な菌血症を引き起こす。CoNS の biofilm 形成能の高さが CRBSI 頻度の理由。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+                <span style="color:#16A34A;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+                <span class="rule-body"><strong>使用前は必ず吸引廃棄：</strong>ロック溶液を誤って全身に静注しないよう、毎回使用前にルーメンを吸引廃棄してから輸液・投薬を行う。</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 出典・注記 -->
+        <p style="font-size:0.72rem;color:#9CA3AF;margin-top:32px;line-height:1.7;">
+          本ページは ID×ICUカンファレンス（2026-03-25）の板書ノートです。実際の診療判断は患者個別の状況に応じて行ってください。
+        </p>
+        <p style="font-size:0.75rem;color:var(--muted);text-align:right;margin-top:8px;">講義：森先生（感染症科） ／ 制作：ICU 関谷</p>
+
+      </div><!-- /ie-main-col -->
+
+      <!-- ===== SIDEBAR TOC ===== -->
+      <aside class="ie-sidebar">
+        <a href="../schedule-weekly-id-icu.html#id-organ" style="display:flex;align-items:center;justify-content:center;padding:9px 14px;background:rgba(124,58,237,0.08);border:1px solid #C4B5FD;border-radius:8px;font-size:0.78rem;font-weight:700;color:#6D28D9;text-decoration:none;margin-bottom:12px;transition:background 0.15s,color 0.15s;line-height:1;">
+          ← ID×ICUカンファレンス 一覧へ戻る
+        </a>
+        <div class="ie-sidebar-card">
+          <div class="ie-sidebar-title">目次</div>
+          <a href="#ch1" class="ie-toc-chapter">第1章　定義と用語</a>
+          <a href="#ch1-s1" class="ie-toc-section">S1 — CRBSI vs CLABSI</a>
+          <a href="#ch1-summary" class="ie-toc-section">SUMMARY</a>
+          <a href="#ch2" class="ie-toc-chapter">第2章　診断</a>
+          <a href="#ch2-s1" class="ie-toc-section">S1 — DTP の概念と基準</a>
+          <a href="#ch2-summary" class="ie-toc-section">SUMMARY</a>
+          <a href="#ch3" class="ie-toc-chapter">第3章　起因菌と経験的治療</a>
+          <a href="#ch3-s1" class="ie-toc-section">S1 — 起因菌の分類</a>
+          <a href="#ch3-s2" class="ie-toc-section">S2 — 起因菌別 治療レジメン</a>
+          <a href="#ch3-summary" class="ie-toc-section">SUMMARY</a>
+          <a href="#ch4" class="ie-toc-chapter">第4章　治療期間</a>
+          <a href="#ch4-s1" class="ie-toc-section">S1 — 起因菌別の治療期間</a>
+          <a href="#ch4-summary" class="ie-toc-section">SUMMARY</a>
+          <a href="#ch5" class="ie-toc-chapter">第5章　抜去 vs 温存</a>
+          <a href="#ch5-s1" class="ie-toc-section">S1 — 抜去が必要な状況</a>
+          <a href="#ch5-s2" class="ie-toc-section">S2 — 温存が許容される状況</a>
+          <a href="#ch5-summary" class="ie-toc-section">SUMMARY</a>
+          <a href="#ch6" class="ie-toc-chapter">第6章　ALT と Biofilm</a>
+          <a href="#ch6-s1" class="ie-toc-section">S1 — ALT の実際</a>
+          <a href="#ch6-s2" class="ie-toc-section">S2 — Biofilm の重要性</a>
+          <a href="#ch6-summary" class="ie-toc-section">SUMMARY</a>
+        </div>
+      </aside>
+
+    </div><!-- /ie-page-flex -->
+  </div>
+
+  <script src="../../script.js?v=20260524a"></script>
+  <script src="../../abbr-tooltip.js"></script>
+</body>
+</html>
