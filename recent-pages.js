@@ -10,16 +10,16 @@
  */
 const RECENT_PAGES = [
   {
-    title: "好中球減少症の深度は菌血症がん患者の死亡率に影響するか（BMC Infect Dis 2026）",
-    url: "pages/articles-gl-neutropenia-bacteremia2026.html",
+    title: "NHCAP に対する広域 vs 狭域抗菌薬と30日院内死亡率 — 全国コホート研究（J Hosp Med 2026）",
+    url: "pages/articles-gl-nhcap-abx2026.html",
     date: "2026-05-26",
     tag: "ガイドライン",
     thumb: "images/IDICUtop.png"
   },
   {
-    title: "NHCAP に対する広域 vs 狭域抗菌薬と30日院内死亡率 — 全国コホート研究（J Hosp Med 2026）",
-    url: "pages/articles-gl-nhcap-abx2026.html",
-    date: "2026-05-25",
+    title: "好中球減少症の深度は菌血症がん患者の死亡率に影響するか（BMC Infect Dis 2026）",
+    url: "pages/articles-gl-neutropenia-bacteremia2026.html",
+    date: "2026-05-26",
     tag: "ガイドライン",
     thumb: "images/IDICUtop.png"
   },

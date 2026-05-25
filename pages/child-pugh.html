@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0">
+  <title>Child-Pugh スコア（肝硬変重症度） | 聖路加ICU 便利ツール</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style-v2.css?v=20260526a">
+  <style>
+    html, body { max-width:100%;overflow-x:hidden; }
+    .tools-banner {
+      position:relative;width:100%;max-width:1294px;margin:64px auto 0;line-height:0;
+    }
+    .tools-banner-img {
+      width:100%;height:auto;display:block;
+      -webkit-mask-image:linear-gradient(to bottom, #000 0%, #000 88%, transparent 100%);
+      mask-image:linear-gradient(to bottom, #000 0%, #000 88%, transparent 100%);
+    }
+    .tools-banner-overlay {
+      position:absolute;left:6%;top:50%;transform:translateY(-50%);
+      max-width:62%;line-height:1.4;
+    }
+    .tools-banner-title {
+      font-size:clamp(1.2rem,2.8vw,1.8rem);font-weight:900;
+      color:#064E3B;line-height:1.3;margin:0 0 8px;letter-spacing:-0.01em;
+      text-shadow:0 1px 6px rgba(255,255,255,0.85), 0 0 12px rgba(255,255,255,0.6);
+    }
+    .tools-banner-sub {
+      font-size:clamp(0.72rem,1.3vw,0.92rem);font-weight:600;color:#047857;
+      line-height:1.6;margin:0;
+      text-shadow:0 1px 4px rgba(255,255,255,0.85);
+    }
+
+    .page-wrap {
+      max-width:1100px;margin:0 auto;
+      padding:0 clamp(20px,1rem+1.5vw,40px) clamp(40px,2rem+1.5vw,64px);
+      overflow-x:hidden;
+      font-family:'Noto Sans JP','Hiragino Kaku Gothic ProN','Hiragino Sans','Yu Gothic',sans-serif;
+      font-variant-numeric:tabular-nums;
+    }
+    .back-wrapper { display:flex;align-items:center;margin:6px 0 12px; }
+    .back-btn {
+      display:inline-flex;align-items:center;justify-content:center;
+      padding:9px 16px;background:rgba(255,255,255,0.85);
+      backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+      border:1px solid rgba(255,255,255,0.7);border-radius:10px;
+      font-size:0.78rem;font-weight:800;color:#047857;text-decoration:none;line-height:1;
+    }
+
+    .tool-howto {
+      background:#F8FAFC;border:1px solid #E2E8F0;border-radius:10px;
+      padding:11px 14px;margin:0 0 16px;
+      font-size:0.78rem;line-height:1.7;color:#475569;
+    }
+    .tool-howto strong { color:#1E40AF; font-weight:800; }
+    .tool-howto .howto-title {
+      font-size:0.76rem;font-weight:900;color:#1E40AF;
+      letter-spacing:0.04em;margin-bottom:4px;
+    }
+
+    /* ===== パラメータカード ===== */
+    .organ-card {
+      background:#fff;border:1px solid var(--border);border-radius:14px;
+      padding:14px 16px;margin-bottom:12px;
+      box-shadow:0 2px 12px rgba(4,120,87,0.06);
+    }
+    .organ-head {
+      display:flex;align-items:center;justify-content:space-between;gap:10px;
+      margin-bottom:10px;padding-bottom:7px;border-bottom:2px solid #A7F3D0;
+    }
+    .organ-name { font-size:0.88rem;font-weight:900;color:#047857;line-height:1.4; }
+    .organ-score-pill {
+      font-size:0.95rem;font-weight:900;color:#fff;
+      background:#94A3B8;
+      padding:3px 14px;border-radius:999px;
+      font-family:ui-monospace,Menlo,Consolas,monospace;
+      letter-spacing:-0.02em;min-width:50px;text-align:center;flex-shrink:0;
+    }
+    .organ-card[data-pts="1"] .organ-score-pill { background:#16A34A; }
+    .organ-card[data-pts="2"] .organ-score-pill { background:#F59E0B; }
+    .organ-card[data-pts="3"] .organ-score-pill { background:#DC2626; }
+
+    /* ===== ヒント ===== */
+    .organ-hint {
+      font-size:0.78rem; line-height:1.85; color:#334155;
+      background:#ECFDF5; border:1px solid #A7F3D0;
+      padding:10px 13px; margin:0 0 10px;
+      border-radius:8px;
+    }
+    .organ-hint .hint-title {
+      font-size:0.74rem; font-weight:900; color:#047857;
+      letter-spacing:0.04em; margin-bottom:4px;
+    }
+
+    /* ===== ラダー ===== */
+    .sofa-ladder {
+      background:#fff; border:1px solid #E2E8F0;
+      border-radius:8px; overflow:hidden;
+    }
+    .sofa-row {
+      display:grid; grid-template-columns:54px 1fr;
+      align-items:stretch; border-bottom:1px solid #E2E8F0;
+      cursor:pointer; transition:background 0.12s;
+    }
+    .sofa-row:last-child { border-bottom:none; }
+    .sofa-row:hover { background:#F8FAFC; }
+    .sofa-row.selected {
+      background:#DBEAFE; position:relative;
+    }
+    .sofa-row.selected .sofa-text { font-weight:800;color:#0F172A; }
+    .sofa-row.selected .sofa-score {
+      box-shadow:inset 0 0 0 2px #fff, 0 0 0 2px rgba(15,23,42,0.18);
+    }
+    .sofa-row.selected::after {
+      content:""; position:absolute; right:14px; top:50%;
+      width:7px; height:13px;
+      border-right:2.5px solid #1D4ED8;
+      border-bottom:2.5px solid #1D4ED8;
+      transform:translateY(-65%) rotate(45deg);
+    }
+    .sofa-score {
+      display:flex; align-items:center; justify-content:center;
+      font-weight:800; font-size:1rem;
+      font-variant-numeric:tabular-nums; color:#fff;
+    }
+    .sofa-text {
+      padding:10px 14px; padding-right:36px;
+      font-size:0.82rem; line-height:1.6; color:#334155;
+    }
+    .sofa-row[data-pts="1"] .sofa-score { background:#16A34A; }
+    .sofa-row[data-pts="2"] .sofa-score { background:#F59E0B; }
+    .sofa-row[data-pts="3"] .sofa-score { background:#DC2626; }
+
+    /* ===== 合計 ===== */
+    .total-card {
+      margin-top:20px;padding:24px 26px;border-radius:14px;
+      background:linear-gradient(135deg,#047857 0%,#10B981 100%);color:#fff;
+      box-shadow:0 6px 22px rgba(4,120,87,0.25);
+    }
+    .total-head { display:flex;align-items:baseline;gap:18px;flex-wrap:wrap; }
+    .total-label { font-size:0.78rem;font-weight:800;letter-spacing:0.06em;text-transform:uppercase;opacity:0.85; }
+    .total-score { font-size:3.4rem;font-weight:900;line-height:1;letter-spacing:-0.02em;
+      font-variant-numeric:tabular-nums; }
+    .total-class {
+      font-size:1.2rem;font-weight:900;letter-spacing:0.04em;
+      padding:4px 14px;background:rgba(255,255,255,0.22);
+      border-radius:999px;line-height:1.4;
+    }
+
+    .total-interp {
+      margin-top:14px; padding:14px 16px 16px;
+      background:#fff; border-radius:10px;
+      box-shadow:0 2px 10px rgba(0,0,0,0.12);
+      transition:background 0.2s, border-color 0.2s;
+      border:1px solid #E2E8F0;
+    }
+    .total-interp .interp-label {
+      display:inline-block; font-size:0.7rem; font-weight:900;
+      color:#047857; letter-spacing:0.06em;
+      padding:2px 9px; background:#ECFDF5;
+      border-radius:999px; margin-bottom:8px;
+    }
+    .total-interp .interp-msg {
+      display:block; font-size:1rem; font-weight:800;
+      color:#0F172A; line-height:1.65;
+    }
+    .total-interp .interp-sub {
+      display:block; margin-top:10px; padding-top:9px;
+      border-top:1px solid #E2E8F0;
+      font-size:0.78rem; line-height:1.7;
+      color:#475569; font-weight:500;
+    }
+    .total-interp.sev-mild .interp-label { color:#047857; background:#ECFDF5; }
+    .total-interp.sev-mild .interp-msg   { color:#065F46; }
+    .total-interp.sev-mod  { background:#FFFBEB; border-color:#FDE68A; }
+    .total-interp.sev-mod  .interp-label { color:#B45309; background:#FEF3C7; }
+    .total-interp.sev-mod  .interp-msg   { color:#92400E; }
+    .total-interp.sev-crit { background:#FEF2F2; border-color:#FECACA; }
+    .total-interp.sev-crit .interp-label { color:#B91C1C; background:#FEE2E2; }
+    .total-interp.sev-crit .interp-msg   { color:#991B1B; }
+
+    .total-bd { display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:6px;margin-top:14px; }
+    .total-bd-item {
+      background:rgba(255,255,255,0.18);border-radius:8px;padding:8px 10px;text-align:center;
+    }
+    .total-bd-item .lbl { font-size:0.66rem;font-weight:700;letter-spacing:0.05em;opacity:0.85; }
+    .total-bd-item .val { font-size:1.1rem;font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:-0.02em;margin-top:2px; }
+
+    .reset-all-btn {
+      margin-top:14px; display:inline-flex; align-items:center; gap:6px;
+      padding:6px 14px; background:rgba(255,255,255,0.18); border:1px solid rgba(255,255,255,0.4);
+      border-radius:8px; font-size:0.74rem; font-weight:800; color:#fff;
+      cursor:pointer; font-family:inherit;
+    }
+    .reset-all-btn:hover { background:rgba(255,255,255,0.28); }
+
+    .ref-card {
+      margin-top:24px;background:#fff;border:1px solid var(--border);border-radius:12px;padding:18px 22px;
+    }
+    .ref-card h3 { font-size:0.92rem;font-weight:900;color:#047857;margin:0 0 10px;
+      padding-bottom:8px;border-bottom:2px solid #A7F3D0; }
+    .ref-table { width:100%;border-collapse:collapse;font-size:0.78rem;margin-top:8px; }
+    .ref-table th { background:#F8FAFC;color:#64748B;font-weight:700;
+      padding:7px 8px;text-align:left;border-bottom:1px solid var(--border);font-size:0.72rem; }
+    .ref-table td { padding:6px 8px;border-bottom:1px solid #E2E8F0;color:#1E293B;vertical-align:top; }
+    .ref-table tr:last-child td { border-bottom:none; }
+    .ref-table .class-pill {
+      display:inline-block;font-size:0.7rem;font-weight:900;
+      padding:2px 8px;border-radius:999px;
+    }
+    .ref-table .class-a { background:#DCFCE7;color:#166534; }
+    .ref-table .class-b { background:#FEF3C7;color:#B45309; }
+    .ref-table .class-c { background:#FEE2E2;color:#B91C1C; }
+
+    .disclaimer {
+      font-size:0.72rem;color:#94A3B8;line-height:1.7;margin-top:24px;
+      padding:14px 16px;background:#F8FAFC;border-radius:8px;border:1px solid var(--border);
+    }
+    .disclaimer strong { color:#64748B; }
+
+    @media (max-width:600px) {
+      .tools-banner { line-height:1.4; }
+      .tools-banner-overlay {
+        position:static;transform:none;max-width:100%;
+        padding:14px 18px 4px;
+      }
+      .tools-banner-title { color:#064E3B;text-shadow:none;font-size:1.05rem !important;line-height:1.3 !important;margin:0 0 4px !important; }
+      .tools-banner-sub { color:#64748B;text-shadow:none;font-size:0.7rem !important;line-height:1.55 !important; }
+      .page-wrap { padding:0 12px clamp(28px,1.5rem+1vw,40px) !important; }
+      .tools-banner-overlay { padding:10px 14px 4px !important; }
+      .back-wrapper { margin:4px 0 8px !important; }
+      .back-btn { padding:7px 12px !important;font-size:0.72rem !important; }
+
+      .tool-howto { padding:9px 11px !important; font-size:0.7rem !important; line-height:1.65 !important; margin:0 0 12px !important; }
+      .tool-howto .howto-title { font-size:0.7rem !important; }
+
+      .organ-card { padding:11px 12px !important;margin-bottom:10px !important;border-radius:10px !important; }
+      .organ-head { margin-bottom:8px !important;padding-bottom:6px !important; }
+      .organ-name { font-size:0.78rem !important; }
+      .organ-score-pill { font-size:0.82rem !important; padding:2px 10px !important; min-width:42px !important; }
+
+      .organ-hint { font-size:0.68rem !important; padding:8px 10px !important; line-height:1.65 !important; }
+
+      .sofa-row { grid-template-columns:42px 1fr !important; }
+      .sofa-score { font-size:0.85rem !important; }
+      .sofa-text { padding:8px 10px !important; padding-right:28px !important; font-size:0.74rem !important; line-height:1.5 !important; }
+      .sofa-row.selected::after { right:9px !important; width:6px !important; height:10px !important; }
+
+      .total-card { padding:14px 16px !important;margin-top:14px !important;border-radius:12px !important; }
+      .total-label { font-size:0.7rem !important; }
+      .total-score { font-size:2rem !important; }
+      .total-class { font-size:0.95rem !important; padding:3px 11px !important; }
+      .total-interp { padding:11px 13px 13px !important; margin-top:12px !important; }
+      .total-interp .interp-label { font-size:0.64rem !important; padding:2px 8px !important; margin-bottom:6px !important; }
+      .total-interp .interp-msg { font-size:0.88rem !important; line-height:1.6 !important; }
+      .total-interp .interp-sub { font-size:0.7rem !important; line-height:1.65 !important; margin-top:8px !important; padding-top:7px !important; }
+      .total-bd { gap:4px !important;margin-top:10px !important; }
+      .total-bd-item { padding:6px 8px !important; }
+      .total-bd-item .lbl { font-size:0.6rem !important; }
+      .total-bd-item .val { font-size:1rem !important; }
+      .reset-all-btn { font-size:0.68rem !important; padding:5px 11px !important; }
+
+      .ref-card { padding:12px 14px !important;margin-top:14px !important; }
+      .ref-card h3 { font-size:0.82rem !important;margin-bottom:8px !important; }
+      .ref-table { font-size:0.7rem !important; }
+      .ref-table th { font-size:0.66rem !important;padding:5px 6px !important; }
+      .ref-table td { padding:4px 6px !important; }
+      .disclaimer { padding:10px 12px !important;font-size:0.66rem !important;line-height:1.6 !important;margin-top:14px !important; }
+    }
+
+    /* ===== 埋め込みモード（?embed=1） ===== */
+    body.embed-mode .navbar,
+    body.embed-mode .tools-banner,
+    body.embed-mode .back-wrapper { display:none !important; }
+    body.embed-mode .page-wrap { padding:6px 4px 12px !important; margin-top:0 !important; }
+    body.embed-mode { background:transparent !important; }
+  </style>
+  <script>
+    (function(){
+      if (location.search.indexOf("embed=1") !== -1) {
+        document.addEventListener("DOMContentLoaded", function(){
+          document.body.classList.add("embed-mode");
+          var ro = new ResizeObserver(function(){
+            parent.postMessage({ type:"tool-height", height: document.body.scrollHeight }, "*");
+          });
+          ro.observe(document.body);
+        });
+      }
+    })();
+  </script>
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <a href="../index.html" class="nav-logo">
+      <img src="../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+      <span class="nav-logo-text">聖路加国際病院ICU</span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-menu" id="navMenu"></ul>
+  </div>
+</nav>
+
+<div class="tools-banner">
+  <img src="../images/便利ツール背景汎用.jpg" alt="" class="tools-banner-img" loading="lazy">
+  <div class="tools-banner-overlay">
+    <h1 class="tools-banner-title">Child-Pugh スコア</h1>
+    <p class="tools-banner-sub">肝硬変の重症度分類（5 項目・5〜15 点 → Class A / B / C）</p>
+  </div>
+</div>
+
+<div class="page-wrap">
+  <div class="back-wrapper">
+    <a href="../index.html" class="back-btn">← ホームへ戻る</a>
+  </div>
+
+  <div class="tool-howto">
+    <div class="howto-title">▍ このスコアについて</div>
+    Child-Pugh スコア（Pugh 1973 改訂版）は <strong>肝硬変患者の重症度・予後評価</strong>に用いられる古典的スコア。総ビリルビン・アルブミン・PT/INR・腹水・肝性脳症の 5 項目を各 1〜3 点で評価し、合計 5〜15 点で Class A / B / C に分類します。
+  </div>
+
+  <div class="tool-howto">
+    <div class="howto-title">▍ 使い方</div>
+    各項目カードの中から、患者さんに当てはまる行を 1 行だけクリック / タップしてください（初期値は 1 点）。すべて選び終わると、ページ下部の緑のカードに合計点と Child-Pugh 分類（Class A / B / C）・参考予後が表示されます。
+  </div>
+
+  <!-- ============================================== -->
+  <!-- ① 総ビリルビン -->
+  <!-- ============================================== -->
+  <div class="organ-card" id="o-bil" data-pts="1">
+    <div class="organ-head">
+      <div class="organ-name">① 総ビリルビン（T-Bil）</div>
+      <div class="organ-score-pill" id="bil-pill">1</div>
+    </div>
+    <div class="organ-hint">
+      <div class="hint-title">▍ 何を見る？</div>
+      生化学検査の総ビリルビン（T-Bil＝Total Bilirubin, mg/dL）。閉塞性黄疸・肝不全・うっ滞などで上昇します。原発性胆汁性胆管炎（PBC）など慢性胆汁うっ滞性疾患では別の閾値（&lt;4 / 4–10 / &gt;10）が用いられることもあります。
+    </div>
+    <div class="sofa-ladder" data-organ="bil">
+      <div class="sofa-row" data-pts="1"><div class="sofa-score">1</div><div class="sofa-text">総ビリルビン ＜ 2.0 mg/dL</div></div>
+      <div class="sofa-row" data-pts="2"><div class="sofa-score">2</div><div class="sofa-text">総ビリルビン 2.0 〜 3.0 mg/dL</div></div>
+      <div class="sofa-row" data-pts="3"><div class="sofa-score">3</div><div class="sofa-text">総ビリルビン ＞ 3.0 mg/dL</div></div>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- ② アルブミン -->
+  <!-- ============================================== -->
+  <div class="organ-card" id="o-alb" data-pts="1">
+    <div class="organ-head">
+      <div class="organ-name">② アルブミン（Alb）</div>
+      <div class="organ-score-pill" id="alb-pill">1</div>
+    </div>
+    <div class="organ-hint">
+      <div class="hint-title">▍ 何を見る？</div>
+      生化学検査の血清アルブミン（Alb, g/dL）。肝臓での合成低下・栄養不良・体液過剰による希釈で低下します。
+    </div>
+    <div class="sofa-ladder" data-organ="alb">
+      <div class="sofa-row" data-pts="1"><div class="sofa-score">1</div><div class="sofa-text">アルブミン ＞ 3.5 g/dL</div></div>
+      <div class="sofa-row" data-pts="2"><div class="sofa-score">2</div><div class="sofa-text">アルブミン 2.8 〜 3.5 g/dL</div></div>
+      <div class="sofa-row" data-pts="3"><div class="sofa-score">3</div><div class="sofa-text">アルブミン ＜ 2.8 g/dL</div></div>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- ③ PT延長 / INR -->
+  <!-- ============================================== -->
+  <div class="organ-card" id="o-coag" data-pts="1">
+    <div class="organ-head">
+      <div class="organ-name">③ PT 延長（秒）／ INR</div>
+      <div class="organ-score-pill" id="coag-pill">1</div>
+    </div>
+    <div class="organ-hint">
+      <div class="hint-title">▍ 何を見る？</div>
+      凝固検査の PT 延長（正常値からの延長秒数）または INR。肝での凝固因子合成低下を反映します。原則として「PT 延長秒数」または「INR」のいずれか高い点数を採用します（ワルファリン投与中は INR が解離するため PT 延長秒で評価するのが望ましい）。
+    </div>
+    <div class="sofa-ladder" data-organ="coag">
+      <div class="sofa-row" data-pts="1"><div class="sofa-score">1</div><div class="sofa-text">PT 延長 ＜ 4 秒、または INR ＜ 1.7</div></div>
+      <div class="sofa-row" data-pts="2"><div class="sofa-score">2</div><div class="sofa-text">PT 延長 4 〜 6 秒、または INR 1.7 〜 2.3</div></div>
+      <div class="sofa-row" data-pts="3"><div class="sofa-score">3</div><div class="sofa-text">PT 延長 ＞ 6 秒、または INR ＞ 2.3</div></div>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- ④ 腹水 -->
+  <!-- ============================================== -->
+  <div class="organ-card" id="o-asc" data-pts="1">
+    <div class="organ-head">
+      <div class="organ-name">④ 腹水（Ascites）</div>
+      <div class="organ-score-pill" id="asc-pill">1</div>
+    </div>
+    <div class="organ-hint">
+      <div class="hint-title">▍ 何を見る？</div>
+      身体所見・腹部エコー／CT・利尿薬反応性で評価。利尿薬で容易にコントロール可能なものは「軽度」、利尿薬抵抗性または難治性腹水（穿刺反復が必要）は「中等度〜高度」に分類します。
+    </div>
+    <div class="sofa-ladder" data-organ="asc">
+      <div class="sofa-row" data-pts="1"><div class="sofa-score">1</div><div class="sofa-text">なし</div></div>
+      <div class="sofa-row" data-pts="2"><div class="sofa-score">2</div><div class="sofa-text">軽度（利尿薬でコントロール良好）</div></div>
+      <div class="sofa-row" data-pts="3"><div class="sofa-score">3</div><div class="sofa-text">中等度〜高度（利尿薬抵抗性・難治性）</div></div>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- ⑤ 肝性脳症 -->
+  <!-- ============================================== -->
+  <div class="organ-card" id="o-enc" data-pts="1">
+    <div class="organ-head">
+      <div class="organ-name">⑤ 肝性脳症（West Haven 分類）</div>
+      <div class="organ-score-pill" id="enc-pill">1</div>
+    </div>
+    <div class="organ-hint">
+      <div class="hint-title">▍ 何を見る？</div>
+      West Haven 分類による肝性脳症の grade。<strong>Grade I</strong>＝軽度の意識・行動変化、<strong>Grade II</strong>＝傾眠・羽ばたき振戦、<strong>Grade III</strong>＝強い傾眠・錯乱・興奮、<strong>Grade IV</strong>＝昏睡。ラクツロース等で良好にコントロールされている軽症は Grade I-II として扱います。
+    </div>
+    <div class="sofa-ladder" data-organ="enc">
+      <div class="sofa-row" data-pts="1"><div class="sofa-score">1</div><div class="sofa-text">なし</div></div>
+      <div class="sofa-row" data-pts="2"><div class="sofa-score">2</div><div class="sofa-text">Grade I 〜 II（軽度〜中等度、薬剤でコントロール可能）</div></div>
+      <div class="sofa-row" data-pts="3"><div class="sofa-score">3</div><div class="sofa-text">Grade III 〜 IV（高度・難治性・昏睡）</div></div>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- 合計 -->
+  <!-- ============================================== -->
+  <div class="total-card">
+    <div class="total-head">
+      <div class="total-label">Child-Pugh 合計</div>
+      <div class="total-score" id="totalScore">5</div>
+      <div class="total-class" id="totalClass">Class A</div>
+    </div>
+    <div class="total-interp" id="totalDetail">
+      各項目を選択すると、合計点・Class 分類・参考予後がここに表示されます。
+    </div>
+    <div class="total-bd">
+      <div class="total-bd-item"><div class="lbl">T-Bil</div><div class="val" id="bd-bil">1</div></div>
+      <div class="total-bd-item"><div class="lbl">Alb</div><div class="val" id="bd-alb">1</div></div>
+      <div class="total-bd-item"><div class="lbl">PT/INR</div><div class="val" id="bd-coag">1</div></div>
+      <div class="total-bd-item"><div class="lbl">腹水</div><div class="val" id="bd-asc">1</div></div>
+      <div class="total-bd-item"><div class="lbl">脳症</div><div class="val" id="bd-enc">1</div></div>
+    </div>
+    <button type="button" class="reset-all-btn" id="resetAllBtn">↺ すべて 1 点に戻す</button>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- 分類表 -->
+  <!-- ============================================== -->
+  <div class="ref-card">
+    <h3>Child-Pugh 分類と参考予後</h3>
+    <table class="ref-table">
+      <thead>
+        <tr>
+          <th style="width:14%;">Class</th>
+          <th style="width:14%;">合計点</th>
+          <th style="width:22%;">重症度</th>
+          <th style="width:22%;">1 年生存率</th>
+          <th>2 年生存率</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="class-pill class-a">Class A</span></td>
+          <td>5 〜 6 点</td>
+          <td>代償性肝硬変</td>
+          <td>約 100%</td>
+          <td>約 85%</td>
+        </tr>
+        <tr>
+          <td><span class="class-pill class-b">Class B</span></td>
+          <td>7 〜 9 点</td>
+          <td>機能低下あり</td>
+          <td>約 80%</td>
+          <td>約 60%</td>
+        </tr>
+        <tr>
+          <td><span class="class-pill class-c">Class C</span></td>
+          <td>10 〜 15 点</td>
+          <td>非代償性（移植適応）</td>
+          <td>約 45%</td>
+          <td>約 35%</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- スコア表（参考） -->
+  <!-- ============================================== -->
+  <div class="ref-card">
+    <h3>5 項目の点数早見表</h3>
+    <table class="ref-table">
+      <thead>
+        <tr>
+          <th style="width:24%;">項目</th>
+          <th>1 点</th>
+          <th>2 点</th>
+          <th>3 点</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>総ビリルビン</td><td>＜ 2.0 mg/dL</td><td>2.0 〜 3.0 mg/dL</td><td>＞ 3.0 mg/dL</td></tr>
+        <tr><td>アルブミン</td><td>＞ 3.5 g/dL</td><td>2.8 〜 3.5 g/dL</td><td>＜ 2.8 g/dL</td></tr>
+        <tr><td>PT 延長 / INR</td><td>＜ 4 秒 / INR ＜ 1.7</td><td>4 〜 6 秒 / INR 1.7 〜 2.3</td><td>＞ 6 秒 / INR ＞ 2.3</td></tr>
+        <tr><td>腹水</td><td>なし</td><td>軽度（薬剤コントロール可）</td><td>中等度〜高度（難治性）</td></tr>
+        <tr><td>肝性脳症</td><td>なし</td><td>Grade I 〜 II</td><td>Grade III 〜 IV</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="disclaimer">
+    <strong>※ 出典：</strong>Pugh RN, Murray-Lyon IM, Dawson JL, Pietroni MC, Williams R. Transection of the oesophagus for bleeding oesophageal varices. <em>Br J Surg</em> 1973;60(8):646-9.<br>
+    予後数値は Christensen E et al. <em>Hepatology</em> 1984 等の古典的観察研究に基づく参考値で、現代の治療成績（特に肝移植・抗ウイルス療法導入後）とは異なります。本ツールは教育目的で構築しており、実際の治療判断・移植適応評価には MELD/MELD-Na・MELD 3.0 等も併せて評価してください。
+  </div>
+</div>
+
+<script src="../script.js?v=20260526a"></script>
+<script src="../abbr-tooltip.js"></script>
+<script>
+  (function(){
+    var ptsState = { bil:1, alb:1, coag:1, asc:1, enc:1 };
+
+    function setOrgan(id, pts) {
+      var card = document.getElementById('o-'+id);
+      if (!card) return;
+      card.dataset.pts = pts;
+      var pill = document.getElementById(id+'-pill');
+      var bd   = document.getElementById('bd-'+id);
+      if (pill) pill.textContent = pts;
+      if (bd)   bd.textContent   = pts;
+    }
+
+    document.querySelectorAll('.sofa-ladder').forEach(function(ladder){
+      var organ = ladder.dataset.organ;
+      var rows  = ladder.querySelectorAll('.sofa-row');
+      rows.forEach(function(row){
+        row.addEventListener('click', function(){
+          var pts = parseInt(row.dataset.pts, 10) || 1;
+          rows.forEach(function(r){ r.classList.remove('selected'); });
+          row.classList.add('selected');
+          ptsState[organ] = pts;
+          setOrgan(organ, pts);
+          update();
+        });
+      });
+      var oneRow = ladder.querySelector('.sofa-row[data-pts="1"]');
+      if (oneRow) oneRow.classList.add('selected');
+    });
+
+    var resetBtn = document.getElementById('resetAllBtn');
+    if (resetBtn) {
+      resetBtn.addEventListener('click', function(){
+        document.querySelectorAll('.sofa-ladder').forEach(function(ladder){
+          var organ = ladder.dataset.organ;
+          ladder.querySelectorAll('.sofa-row').forEach(function(r){ r.classList.remove('selected'); });
+          var oneRow = ladder.querySelector('.sofa-row[data-pts="1"]');
+          if (oneRow) oneRow.classList.add('selected');
+          ptsState[organ] = 1;
+          setOrgan(organ, 1);
+        });
+        update();
+      });
+    }
+
+    function update() {
+      var sum = ptsState.bil + ptsState.alb + ptsState.coag + ptsState.asc + ptsState.enc;
+      document.getElementById('totalScore').textContent = sum;
+
+      var cls, msg, sev, surv1, surv2;
+      if (sum <= 6) {
+        cls = 'Class A';
+        msg = '代償性肝硬変（well-compensated）。肝機能はおおむね保たれている。';
+        sev = 'sev-mild';
+        surv1 = '約 100%'; surv2 = '約 85%';
+      } else if (sum <= 9) {
+        cls = 'Class B';
+        msg = '機能低下を伴う肝硬変。手術・侵襲的処置のリスクが上昇する。';
+        sev = 'sev-mod';
+        surv1 = '約 80%'; surv2 = '約 60%';
+      } else {
+        cls = 'Class C';
+        msg = '非代償性肝硬変。肝移植の適応評価が必要。手術リスクは極めて高い。';
+        sev = 'sev-crit';
+        surv1 = '約 45%'; surv2 = '約 35%';
+      }
+
+      document.getElementById('totalClass').textContent = cls;
+
+      var detail = document.getElementById('totalDetail');
+      detail.className = 'total-interp ' + sev;
+      detail.innerHTML =
+        '<span class="interp-label">▍ ' + cls + '</span>' +
+        '<span class="interp-msg">' + msg + '</span>' +
+        '<span class="interp-sub">参考予後 — 1 年生存率：' + surv1 + ' ／ 2 年生存率：' + surv2 + '（Pugh 1973・Christensen 1984 ほかの古典的観察研究に基づく値。現代の治療成績とは異なります。）</span>';
+    }
+    update();
+  })();
+</script>
+</body>
+</html>
