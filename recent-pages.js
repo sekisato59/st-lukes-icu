@@ -10,6 +10,13 @@
  */
 const RECENT_PAGES = [
   {
+    title: "好中球減少症の深度は菌血症がん患者の死亡率に影響するか（BMC Infect Dis 2026）",
+    url: "pages/articles-gl-neutropenia-bacteremia2026.html",
+    date: "2026-05-25",
+    tag: "ガイドライン",
+    thumb: "images/IDICUtop.png"
+  },
+  {
     title: "代謝性アルカローシス — 病態生理・診断・治療 Core Curriculum 2022（AJKD）",
     url: "pages/articles-gl-met-alkalosis2022.html",
     date: "2026-05-24",
