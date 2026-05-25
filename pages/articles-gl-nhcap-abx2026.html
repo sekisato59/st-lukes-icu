@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NHCAP に対する広域 vs 狭域抗菌薬と30日院内死亡率 — 全国コホート研究（J Hosp Med 2026）| 聖路加ICU</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style-v2.css?v=20260524a">
+  <style>
+    .alert-yellow { background:#FEFCE8; border:1px solid #FDE047; border-radius:var(--radius); padding:14px 16px; margin-bottom:12px; }
+    .alert-green  { background:#F0FDF4; border:1px solid #86EFAC; border-radius:var(--radius); padding:14px 16px; margin-bottom:12px; }
+  </style>
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <a href="../index.html" class="nav-logo">
+      <img src="../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+      <span class="nav-logo-text">聖路加国際病院ICU</span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-menu" id="navMenu"></ul>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<div class="subpage-hero hero-image-bg">
+  <div class="container">
+    <a href="articles-guidelines.html#art-resp" class="back-link">← 一覧へ戻る</a>
+    <h1 class="subpage-title">NHCAP に対する広域 vs 狭域抗菌薬と30日院内死亡率</h1>
+    <p class="subpage-subtitle">#3 呼吸器系 — 肺炎</p>
+    <div>
+      <span class="ie-badge">Taniguchi et al.</span>
+      <span class="ie-badge">J Hosp Med 2026</span>
+      <span class="ie-badge">全国コホート研究</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MAIN CONTAINER ===== -->
+<div class="container" style="display:flex;gap:32px;align-items:flex-start;padding-top:32px;padding-bottom:48px;">
+
+  <!-- メインコンテンツ -->
+  <main style="flex:1;min-width:0;max-width:900px;">
+
+    <!-- 略語一覧 -->
+    <div class="card" style="margin-bottom:24px;">
+      <div class="card-inner">
+        <h3 class="rule-title" style="margin-bottom:10px;">本ページで使用する略語一覧</h3>
+        <table style="width:100%;border-collapse:collapse;font-size:0.8rem;line-height:1.6;">
+          <tbody>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:130px;color:var(--blue);">略語</td><td style="padding:4px 8px;">正式名称 — 日本語訳</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">NHCAP</td><td style="padding:4px 8px;">Nursing and Healthcare-Associated Pneumonia — 医療介護関連肺炎</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">HCAP</td><td style="padding:4px 8px;">Healthcare-Associated Pneumonia — 医療関連肺炎（米国基準・2019年廃止）</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">CAP</td><td style="padding:4px 8px;">Community-Acquired Pneumonia — 市中肺炎</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">DPC</td><td style="padding:4px 8px;">Diagnosis Procedure Combination — 診断群分類包括評価（日本の全国入院データベース）</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">IV解析</td><td style="padding:4px 8px;">Instrumental Variable Analysis — 操作変数解析</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">A-DROP</td><td style="padding:4px 8px;">Age, Dehydration, Respiratory failure, Orientation disturbance, blood Pressure — 日本呼吸器学会の肺炎重症度スコア</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">RD</td><td style="padding:4px 8px;">Risk Difference — リスク差</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">CI</td><td style="padding:4px 8px;">Confidence Interval — 信頼区間</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">JRS</td><td style="padding:4px 8px;">Japanese Respiratory Society — 日本呼吸器学会</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">PIPC/TAZ</td><td style="padding:4px 8px;">Piperacillin/Tazobactam — ピペラシリン・タゾバクタム</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">CTRX</td><td style="padding:4px 8px;">Ceftriaxone — セフトリアキソン</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">ABPC/SBT</td><td style="padding:4px 8px;">Ampicillin/Sulbactam — アンピシリン・スルバクタム</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">MRSA</td><td style="padding:4px 8px;">Methicillin-Resistant Staphylococcus aureus — メチシリン耐性黄色ブドウ球菌</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">GCS</td><td style="padding:4px 8px;">Glasgow Coma Scale — グラスゴー昏睡尺度</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">ICU</td><td style="padding:4px 8px;">Intensive Care Unit — 集中治療室</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">HCU</td><td style="padding:4px 8px;">High Care Unit — 高度治療室</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;">ADL</td><td style="padding:4px 8px;">Activities of Daily Living — 日常生活動作</td></tr>
+            <tr><td style="padding:4px 8px;font-weight:700;">BMI</td><td style="padding:4px 8px;">Body Mass Index — 体格指数（kg/m²）</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ═══ 第1章 ═══ -->
+    <div id="ch1" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:0;margin-bottom:0;">
+      <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+      <div style="font-size:1.3rem;font-weight:900;position:relative;">第1章 背景・NHCAP の位置づけ</div>
+      <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Background & Position of NHCAP</div>
+    </div>
+
+    <h3 id="s1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+      NHCAP とは何か — 定義と歴史的経緯
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">NHCAP の定義（2011年 JRS ガイドライン）</h3>
+        <p class="rule-body">医療介護関連肺炎（NHCAP）は、医療との頻繁な接触を持つ患者に生じる肺炎として、日本呼吸器学会が2011年に定義した肺炎カテゴリである。米国胸部学会（ATS）および米国感染症学会（IDSA）が2005年に策定した医療関連肺炎（HCAP）の概念を基盤としており、日本の高齢化・医療依存度の高い患者層に適応された枠組みである。</p>
+        <div style="margin-top:12px;">
+          <div style="font-size:0.82rem;font-weight:800;color:var(--text);margin-bottom:8px;">NHCAP 診断基準（以下のいずれか1項目以上）</div>
+          <div class="ie-flow">
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">1</div>
+              <div style="flex:1;"><p class="rule-body">介護施設・長期療養施設からの入院</p></div>
+            </div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">2</div>
+              <div style="flex:1;"><p class="rule-body">入院前90日以内の他疾患での入院歴</p></div>
+            </div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">3</div>
+              <div style="flex:1;"><p class="rule-body">Barthel Index ≤35（PS3以上相当）かつ在宅医療・看護介入を受けている</p></div>
+            </div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">4</div>
+              <div style="flex:1;"><p class="rule-body">入院前90日以内の透析・抗菌薬・化学療法・免疫抑制薬の使用</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">HCAP の廃止と NHCAP 存続の背景</h3>
+        <p class="rule-body">HCAP は2019年に ATS/IDSA ガイドラインから削除された。その理由は、HCAP という分類が広域抗菌薬の過剰使用を促進した一方で、患者アウトカムを改善しなかったことである。現在の国際ガイドラインは、あらかじめ定められたカテゴリではなく、個々の薬剤耐性菌リスク因子に基づいて抗菌薬を選択することを推奨している。</p>
+        <p class="rule-body" style="margin-top:8px;">一方、日本ではNHCAPは引き続き独立したカテゴリとして認識され、2024年 JRS 肺炎ガイドラインでも維持されている。これは、日本の高齢化・施設入所率の高さという特有の医療背景に起因する。しかし、NHCAPカテゴリが薬剤耐性菌リスクを正確に予測できるかについては不確実性が残っており、本研究の動機となっている。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">研究の目的</h3>
+        <p class="rule-body">本研究は、日本全国の入院データベース（DPC）を用いて、NHCAP 患者における広域抗菌薬と狭域抗菌薬の30日院内死亡率を比較することを目的とした。2024年 JRS ガイドラインが耐性菌リスク因子 ≥3 の全 NHCAP 患者に広域抗菌薬使用を推奨していることを踏まえ、このサブグループについても別途解析を行った。</p>
+      </div>
+    </div>
+
+    <!-- ═══ 第2章 ═══ -->
+    <div id="ch2" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+      <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+      <div style="font-size:1.3rem;font-weight:900;position:relative;">第2章 研究方法</div>
+      <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Methods</div>
+    </div>
+
+    <h3 id="s2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+      データソース・患者選択
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">DPC データベース</h3>
+        <p class="rule-body">本研究では、日本全国1,200施設以上をカバーする DPC（診断群分類包括評価）データベースを使用した。DPC は臨床情報と診療報酬請求データを統合した全国入院データベースであり、年齢・性別・身長・体重・主傷病・既往歴・入退院日・処方薬・手術・病院識別子等を含む。診断は ICD-10 コードを使用する。先行研究により診断特異度 >96%、感度 50〜80%、手術・処置の感度・特異度 >90% と検証されている。</p>
+        <p class="rule-body" style="margin-top:8px;">解析期間：2014年4月〜2022年3月（8年間）。同一患者が複数回 NHCAP で入院した場合は初回入院のみ採用した。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">患者選択基準</h3>
+        <p class="rule-body">入院時に肺炎（ICD-10: J10.x–J18.x, J69.x）を診断され、入院2日以内に広域または狭域抗菌薬を投与された患者を対象とした。また、上記 NHCAP 定義基準のうち少なくとも1項目を満たすことを必要とした。</p>
+        <div style="margin-top:12px;">
+          <div style="font-size:0.82rem;font-weight:800;color:var(--text);margin-bottom:8px;">主な除外基準</div>
+          <ul style="padding-left:18px;margin:0;">
+            <li class="rule-body">入院2日以内に退院・死亡</li>
+            <li class="rule-body">マクロライド・テトラサイクリン・キノロン・抗MRSA薬以外の抗菌薬との併用療法</li>
+            <li class="rule-body">抗真菌薬・抗ウイルス薬の使用</li>
+            <li class="rule-body">広域・狭域抗菌薬の同日使用</li>
+            <li class="rule-body">胸膜感染症（J86.x）・肺膿瘍（J85.x）合併</li>
+            <li class="rule-body">入院2日以内の胸腔チューブ挿入</li>
+            <li class="rule-body">他院からの転院</li>
+            <li class="rule-body">15歳未満・妊娠中</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <h3 id="s3" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>
+      曝露定義：広域 vs 狭域抗菌薬
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">2群の定義</h3>
+        <table class="ie-table">
+          <thead>
+            <tr>
+              <th style="white-space:nowrap;">群</th>
+              <th style="white-space:nowrap;">抗菌薬</th>
+              <th>根拠</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="white-space:nowrap;font-weight:700;">広域群</td>
+              <td>
+                PIPC/TAZ（ピペラシリン/タゾバクタム）<br>
+                <span style="font-size:0.78rem;color:var(--muted);">抗緑膿菌ペニシリン</span><br>
+                セフェピム・セフタジジム<br>
+                <span style="font-size:0.78rem;color:var(--muted);">抗緑膿菌セファロスポリン</span><br>
+                MEPM・IPM/CS・DRPM<br>
+                <span style="font-size:0.78rem;color:var(--muted);">カルバペネム</span>
+              </td>
+              <td>緑膿菌カバーを含む広域 β-ラクタム</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;font-weight:700;">狭域群</td>
+              <td>
+                CTRX・セフォタキシム<br>
+                <span style="font-size:0.78rem;color:var(--muted);">第3世代セファロスポリン</span><br>
+                ABPC/SBT<br>
+                <span style="font-size:0.78rem;color:var(--muted);">ペニシリン＋β-ラクタマーゼ阻害薬</span>
+              </td>
+              <td>緑膿菌カバーを持たない β-ラクタム</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="rule-body" style="margin-top:10px;">いずれも「入院2日以内の投与」を条件とした。マクロライド・テトラサイクリン・キノロン・抗MRSA薬との併用は除外基準ではなく、2群いずれにも可。</p>
+      </div>
+    </div>
+
+    <h3 id="s4" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 4</span>
+      重症度・耐性菌リスクスコア
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">A-DROP スコア（肺炎重症度評価）</h3>
+        <p class="rule-body">JRS が設計した CURB-65 の改変版。各1点、合計0〜5点で重症度を評価する。</p>
+        <div class="ie-score-grid">
+          <div class="ie-score-card">
+            <div class="ie-score-head">A-DROP（5項目・各1点）</div>
+            <div class="ie-score-items">
+              <div class="ie-score-item"><span class="ie-score-pt">A</span>Age：男性≥70歳、女性≥75歳</div>
+              <div class="ie-score-item"><span class="ie-score-pt">D</span>Dehydration：BUN ≥21 mg/dL または脱水徴候</div>
+              <div class="ie-score-item"><span class="ie-score-pt">R</span>Respiratory failure：SpO₂ ≤90% または PaO₂ ≤60 Torr</div>
+              <div class="ie-score-item"><span class="ie-score-pt">O</span>Orientation disturbance：意識障害</div>
+              <div class="ie-score-item"><span class="ie-score-pt">P</span>blood Pressure：収縮期血圧 ≤90 mmHg</div>
+            </div>
+            <div class="ie-score-foot">高スコアほど重症。本研究では連続変数として使用</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">耐性菌リスク因子スコア（7項目・各1点）</h3>
+        <p class="rule-body">2024年 JRS ガイドラインに準拠した耐性菌リスク評価スコア。各1点、合計0〜7点。スコア ≥3 が広域抗菌薬適応のカットオフとされている。</p>
+        <div class="ie-score-grid">
+          <div class="ie-score-card">
+            <div class="ie-score-head">耐性菌リスク因子（7項目）</div>
+            <div class="ie-score-items">
+              <div class="ie-score-item"><span class="ie-score-pt">1</span>入院2日以内の機械的換気</div>
+              <div class="ie-score-item"><span class="ie-score-pt">2</span>入院前90日以内の抗菌薬使用</div>
+              <div class="ie-score-item"><span class="ie-score-pt">3</span>入院前90日以内の入院歴</div>
+              <div class="ie-score-item"><span class="ie-score-pt">4</span>免疫不全状態（免疫不全症・血液悪性腫瘍・固形臓器移植歴・化学療法・免疫抑制薬使用等）</div>
+              <div class="ie-score-item"><span class="ie-score-pt">5</span>経管栄養</div>
+              <div class="ie-score-item"><span class="ie-score-pt">6</span>低体重（BMI &lt;18.5 kg/m²）</div>
+              <div class="ie-score-item"><span class="ie-score-pt">7</span>慢性肺疾患（COPD・間質性肺炎・気管支拡張症・NTM・真菌性肺疾患・肺癌）</div>
+            </div>
+            <div class="ie-score-foot">≥3点：2024年 JRS ガイドラインが広域抗菌薬使用を推奨するカットオフ</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h3 id="s5" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 5</span>
+      統計手法：操作変数解析（IV 解析）
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">なぜ操作変数解析（IV 解析）を用いたか</h3>
+        <p class="rule-body">本研究は行政データベースを用いているため、検査値（血液・培養）・画像所見・薬剤耐性歴といった重要な交絡因子が取得できない。これにより、重症患者に広域抗菌薬が優先的に選択されるという選択バイアスが生じ、通常の多変量解析では偽陽性の関連が出やすい。</p>
+        <p class="rule-body" style="margin-top:8px;">操作変数解析は、測定されない交絡因子の存在下でも因果推定を可能にする手法であり、ランダム化比較試験のランダム割り付けを模倣する。本研究では「施設の広域抗菌薬優先傾向」（病院ごとの広域抗菌薬使用率）を操作変数として使用した。</p>
+        <div class="alert-yellow" style="margin-top:12px;">
+          <p class="rule-body"><strong>操作変数の妥当性：</strong>病院の広域抗菌薬優先傾向が実際の薬剤選択と強く関連し（F値 = 30,474、強い操作変数）、かつ30日死亡率とは直接関連しないことが確認された（除外制限の条件を満足）。Durbin–Wu–Hausman 検定（χ² = 26.37, p &lt;0.001）により内生性が確認され、IV 解析の使用が支持された。</p>
+        </div>
+        <p class="rule-body" style="margin-top:10px;">解析には2段階残差包含法（two-stage residual inclusion）を用い、すべてのベースライン特性を共変量として調整した。統計ソフトウェア：STATA/SE 18.0。</p>
+      </div>
+    </div>
+
+    <!-- ═══ 第3章 ═══ -->
+    <div id="ch3" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+      <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+      <div style="font-size:1.3rem;font-weight:900;position:relative;">第3章 結果</div>
+      <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Results</div>
+    </div>
+
+    <h3 id="s6" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+      <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 6</span>
+      患者背景
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">研究規模・2群の構成</h3>
+        <p class="rule-body">当初 1,027,342 例が対象として識別され、除外基準適用後に 828,283 例が最終解析対象となった。</p>
+        <div class="ie-stat-grid" style="margin-top:12px;">
+          <div class="ie-stat">
+            <div class="ie-stat-val">828,283</div>
+            <div class="ie-stat-label">最終解析<br>対象患者数</div>
+          </div>
+          <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+            <div class="ie-stat-val" style="color:#DC2626;">24.8%</div>
+            <div class="ie-stat-label">広域群<br>（205,066例）</div>
+          </div>
+          <div class="ie-stat">
+            <div class="ie-stat-val">75.2%</div>
+            <div class="ie-stat-label">狭域群<br>（623,217例）</div>
+          </div>
+        </div>
+        <p class="rule-body" style="margin-top:12px;">NHCAP 定義基準の内訳：介護施設からの入院 38.7%、入院前90日以内の入院歴 16.7%、PS3相当（Barthel Index ≤35）79.4%、透析・抗菌薬・化学療法・免疫抑制薬使用歴 26.1%。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">広域群内の抗菌薬内訳</h3>
+        <table class="ie-table">
+          <thead>
+            <tr>
+              <th style="white-space:nowrap;">抗菌薬カテゴリ</th>
+              <th style="white-space:nowrap;">代表薬剤</th>
+              <th style="white-space:nowrap;">広域群内の割合</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="white-space:nowrap;">抗緑膿菌ペニシリン</td>
+              <td>PIPC/TAZ</td>
+              <td style="font-weight:700;">72.6%</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;">抗緑膿菌セファロスポリン</td>
+              <td>セフェピム・セフタジジム</td>
+              <td style="font-weight:700;">6.0%</td>
+            </tr>
+            <tr>
+              <td style="white-space:nowrap;">カルバペネム</td>
+              <td>MEPM・IPM/CS・DRPM</td>
+              <td style="font-weight:700;">21.5%</td>
+            </tr>
+          </tbody>
+        </table>
+        <div style="margin-top:12px;">
+          <div style="font-size:0.82rem;font-weight:800;color:var(--text);margin-bottom:6px;">狭域群内の内訳</div>
+          <p class="rule-body">CTRX・セフォタキシム（第3世代セファロスポリン）33.0% / ABPC/SBT 67.0%</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">2群のベースライン特性（主要変数）</h3>
+        <p class="rule-body">広域群は狭域群に比べ、より若く、Barthel Index が高く（ADL が保たれており）、肺炎重症度（A-DROP）が高く、耐性菌リスク因子も多かった（standardised difference 各 15〜20%以上）。誤嚥性肺炎の割合は狭域群で多かった（53.8% vs 45.8%）。ICU 入室率は広域群で高く（2.5% vs 1.0%）、機械的換気（7.1% vs 2.9%）・昇圧薬（6.8% vs 2.1%）・抗MRSA薬の使用率も広域群で顕著に高かった。</p>
+        <table class="ie-table" style="margin-top:10px;">
+          <thead>
+            <tr>
+              <th style="white-space:nowrap;">変数</th>
+              <th style="white-space:nowrap;">狭域群（n=623,217）</th>
+              <th style="white-space:nowrap;">広域群（n=205,066）</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td style="white-space:nowrap;">年齢（平均）</td><td>83.3 歳</td><td>81.4 歳</td></tr>
+            <tr><td style="white-space:nowrap;">男性</td><td>52.3%</td><td>58.9%</td></tr>
+            <tr><td style="white-space:nowrap;">誤嚥性肺炎</td><td>53.8%</td><td>45.8%</td></tr>
+            <tr><td style="white-space:nowrap;">A-DROP スコア（平均）</td><td>2.1</td><td>2.3</td></tr>
+            <tr><td style="white-space:nowrap;">耐性菌リスク ≥3（高リスク）</td><td>8.0%</td><td>15.8%</td></tr>
+            <tr><td style="white-space:nowrap;">ICU 入室</td><td>1.0%</td><td>2.5%</td></tr>
+            <tr><td style="white-space:nowrap;">機械的換気（2日以内）</td><td>2.9%</td><td>7.1%</td></tr>
+            <tr><td style="white-space:nowrap;">昇圧薬（2日以内）</td><td>2.1%</td><td>6.8%</td></tr>
+            <tr><td style="white-space:nowrap;">抗菌薬投与期間（平均）</td><td>8.2日</td><td>8.8日</td></tr>
+          </tbody>
+        </table>
+        <div class="alert-yellow" style="margin-top:12px;">
+          <p class="rule-body"><strong>未調整（粗）30日院内死亡率：</strong>広域群 15.3% vs 狭域群 10.0%（RD 5.2%; 95% CI 5.1%〜5.4%; p &lt;0.001）。この有意差は、より重症な患者が広域群に選択されていることによる選択バイアスを反映しており、因果関係を示さない。この点が IV 解析を採用した主な理由である。</p>
+        </div>
+      </div>
+    </div>
+
+    <h3 id="s7" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+      <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 7</span>
+      主解析：IV 解析の結果
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">30日院内死亡率（IV 解析）— 主要アウトカム</h3>
+        <div class="ie-stat-grid">
+          <div class="ie-stat">
+            <div class="ie-stat-val">10.0%</div>
+            <div class="ie-stat-label">広域群<br>30日院内死亡率</div>
+          </div>
+          <div class="ie-stat">
+            <div class="ie-stat-val">10.0%</div>
+            <div class="ie-stat-label">狭域群<br>30日院内死亡率</div>
+          </div>
+          <div class="ie-stat" style="background:#F0FDF4;border-color:#BBF7D0;">
+            <div class="ie-stat-val" style="color:#2D7A4F;">RD 0.0%</div>
+            <div class="ie-stat-label">95% CI −0.7%〜0.8%<br>p = 0.900</div>
+          </div>
+        </div>
+        <div class="alert-green" style="margin-top:12px;">
+          <p class="rule-body"><strong>結論：</strong>IV 解析による選択バイアス調整後、NHCAP 患者における広域抗菌薬使用は30日院内死亡率の改善と関連しなかった（RD 0.0%; 95% CI −0.7%〜0.8%; p=0.900）。</p>
+        </div>
+      </div>
+    </div>
+
+    <h3 id="s8" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+      <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 8</span>
+      サブグループ解析：耐性菌リスク ≥3 の患者
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">高リスク群（リスク因子 ≥3）での解析</h3>
+        <p class="rule-body">2024年 JRS ガイドラインが広域抗菌薬を推奨する「耐性菌リスク因子 ≥3」のサブグループにおいても、広域抗菌薬使用は30日院内死亡率の改善と関連しなかった。</p>
+        <div class="ie-stat-grid" style="margin-top:12px;">
+          <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+            <div class="ie-stat-val" style="color:#DC2626;">10.5%</div>
+            <div class="ie-stat-label">広域群<br>（高リスク、≥3因子）</div>
+          </div>
+          <div class="ie-stat">
+            <div class="ie-stat-val">11.0%</div>
+            <div class="ie-stat-label">狭域群<br>（高リスク、≥3因子）</div>
+          </div>
+          <div class="ie-stat" style="background:#F0FDF4;border-color:#BBF7D0;">
+            <div class="ie-stat-val" style="color:#2D7A4F;">RD −0.6%</div>
+            <div class="ie-stat-label">95% CI −2.5%〜1.3%<br>p = 0.547</div>
+          </div>
+        </div>
+        <p class="rule-body" style="margin-top:12px;">感度解析（キノロン併用患者の除外・介護施設入院患者に限定・低体重をリスク因子から除外）でも、結果は主解析と一致していた。</p>
+      </div>
+    </div>
+
+    <!-- ═══ 第4章 ═══ -->
+    <div id="ch4" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+      <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+      <div style="font-size:1.3rem;font-weight:900;position:relative;">第4章 考察・結論</div>
+      <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Discussion & Conclusion</div>
+    </div>
+
+    <h3 id="s9" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+      <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 9</span>
+      結果の解釈と既存エビデンスとの比較
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">なぜ広域抗菌薬は死亡率を改善しなかったか</h3>
+        <p class="rule-body">NHCAP カテゴリ自体が薬剤耐性菌リスクを正確に予測できていない可能性が高い。HCAP についても同様の問題が指摘されており、HCAP 分類は耐性菌の高頻度を一貫して予測できなかったことが先行研究で示されている。NHCAP はその概念的基盤を HCAP に置くため、同様の限界を抱えている可能性がある。実際、NHCAP 症例における緑膿菌（Pseudomonas aeruginosa）の検出率は約5%に過ぎないとされている。</p>
+        <p class="rule-body" style="margin-top:8px;">過去の小規模 RCT（主に療養型施設の肺炎患者を対象）でも、広域抗菌薬使用は短期的臨床転帰を改善しなかった。また、HCAP を対象とした大規模コホート研究・行政データベース研究でも、広域抗菌薬は短期アウトカムを改善しなかったことが報告されている。本研究の結果はこれらと一致している。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">抗菌薬選択への実臨床的示唆</h3>
+        <p class="rule-body">本研究の知見は、NHCAP という分類に基づいた一律の広域抗菌薬使用ではなく、個々の患者の薬剤耐性菌リスク因子（過去の耐性菌分離歴・直近の入院・静注抗菌薬使用歴など）と地域の薬剤感受性パターンに基づく個別化されたアプローチの重要性を支持している。</p>
+        <p class="rule-body" style="margin-top:8px;">重症 NHCAP（敗血症性ショックを合併するなど）では、初期経験的に広域スペクトラムでカバーすることが適切な場合もあるが、微生物学的データが得られた時点での速やかなデエスカレーションが推奨される。NHCAP カテゴリは予後評価・患者・家族へのリスク説明に一定の有用性を持つが、抗菌薬選択の基準としての精度には限界がある。</p>
+      </div>
+    </div>
+
+    <h3 id="s10" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+      <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 10</span>
+      研究の限界
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">主な限界点</h3>
+        <div class="ie-flow">
+          <div class="ie-flow-item">
+            <div class="ie-flow-num">1</div>
+            <div style="flex:1;"><p class="rule-body"><strong>未測定交絡：</strong>検査値・画像所見・細菌培養結果などの臨床情報が取得できない。特に耐性菌の既往分離歴は広域抗菌薬選択に直結するが、DPC データには含まれない。IV 解析で対処しているが、完全な除去は不可能。</p></div>
+          </div>
+          <div class="ie-flow-item">
+            <div class="ie-flow-num">2</div>
+            <div style="flex:1;"><p class="rule-body"><strong>局所平均治療効果（LATE）：</strong>IV 解析の推定値は、操作変数（施設の広域抗菌薬傾向）に影響された患者集団に限定される局所平均治療効果を反映する。NHCAP 全体への一般化には限界がある。</p></div>
+          </div>
+          <div class="ie-flow-item">
+            <div class="ie-flow-num">3</div>
+            <div style="flex:1;"><p class="rule-body"><strong>外的妥当性：</strong>単一国（日本・アジア系人口）のデータ。JRS 定義の NHCAP は、他国の医療制度・疫学的背景が異なる地域への一般化には注意が必要。</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUMMARY -->
+    <h3 id="summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+      キーメッセージ
+    </h3>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+            <span class="rule-body"><strong>広域抗菌薬は死亡率を改善しない：</strong>全国 82 万例を用いた IV 解析で、NHCAP 患者に対する広域抗菌薬使用は狭域抗菌薬と比較して30日院内死亡率に有意差をもたらさなかった（RD 0.0%; 95% CI −0.7%〜0.8%; p=0.900）。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+            <span class="rule-body"><strong>高リスク群でも改善なし：</strong>2024年 JRS ガイドラインが広域抗菌薬を推奨する「耐性菌リスク因子 ≥3」のサブグループでも、広域群と狭域群の30日死亡率に有意差はなかった（RD −0.6%; 95% CI −2.5%〜1.3%; p=0.547）。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+            <span class="rule-body"><strong>未調整では逆の結果：</strong>選択バイアス調整前（未調整）では、広域群の30日死亡率は15.3%と狭域群10.0%を上回っていた（RD 5.2%）。これは重症患者が広域群に集中していることを示しており、観察研究における交絡の影響を端的に示す。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+            <span class="rule-body"><strong>NHCAP 分類の限界：</strong>NHCAP 定義が薬剤耐性菌リスクを正確に予測できていないことが、広域抗菌薬の有益性が示されない一因として考えられる。NHCAP症例における緑膿菌検出率は約5%に過ぎず、分類の予測精度は高くない。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+            <span class="rule-body"><strong>個別化アプローチへの示唆：</strong>NHCAP という分類に基づく一律の広域抗菌薬使用より、個々の耐性菌リスク因子（培養歴・入院歴・抗菌薬暴露歴）と地域の感受性パターンに基づく個別化された抗菌薬選択が推奨される。微生物データ取得後の速やかなデエスカレーションも重要。</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 出典注記 -->
+    <p style="font-size:0.72rem;color:#9CA3AF;margin-top:16px;line-height:1.7;">
+      出典：Taniguchi J, Aso S, Matsui H, Fushimi K, Yasunaga H. Mortality after broad- versus narrow-spectrum antibiotic treatment for patients with nursing and healthcare-associated pneumonia: A nationwide retrospective cohort study. J Hosp Med. 2026;21:477–486.<br>
+      DOI：<a href="https://doi.org/10.1002/jhm.70195" target="_blank" rel="noopener" style="color:#60A5FA;">https://doi.org/10.1002/jhm.70195</a><br>
+      本資料は教育目的で作成したサマリーです。診断・治療方針の決定には必ず原典論文を参照してください。
+    </p>
+    <p style="font-size:0.75rem;color:var(--muted);text-align:right;margin-top:8px;">制作：ICU 関谷</p>
+
+      <!-- RELATED:START — auto-generated by scripts/sync-related-articles.js. Do not edit. -->
+      <section id="related-articles" class="related-articles" aria-label="関連ページ">
+        <h3 class="related-articles-title">関連ページ</h3>
+        <div class="related-articles-grid">
+        <a href="articles-gl-pa-bacteremia2026.html" class="related-card">
+          <div class="related-card-title">緑膿菌菌血症の抗菌薬投与期間 7日 vs 14日</div>
+          <div class="related-card-badge">BALANCE post hoc, CID 2026</div>
+          <div class="related-card-desc">BALANCE試験のpost hoc解析 — P. aeruginosa菌血症157例で7日間 vs 14日間の投与期間を比較</div>
+        </a>
+        <a href="articles-gl-balance-bacteremia2025.html" class="related-card">
+          <div class="related-card-title">菌血症の抗菌薬投与期間 7日間 vs 14日間 — BALANCE 試験</div>
+          <div class="related-card-badge">NEJM 2025</div>
+          <div class="related-card-desc">BALANCE 国際多施設RCT（n=3608例）— S. aureus 等を除いた入院中菌血症で7日間治療が14日間治療に対して非劣性（90日死亡率 14.5% vs 16.1%、差 −1.6 pp、95.7%CI −4.0〜0.8）</div>
+        </a>
+        <a href="articles-gl-idsa-amr-gnr2024.html" class="related-card">
+          <div class="related-card-title">IDSA 2024 耐性グラム陰性菌感染症治療ガイダンス</div>
+          <div class="related-card-badge">CID 2024</div>
+          <div class="related-card-desc">ESBL-E・AmpC-E・CRE（KPC/NDM/OXA-48）・DTR緑膿菌・CRAB・S. maltophilia の6菌種グループ。新規BLBLI（CAZ-AVI・C/T・MER-VAB・IMI-REL・SUL-DUR）の使い分けと用量。</div>
+        </a>
+        <a href="articles-gl-iwgdf-dfi2023.html" class="related-card">
+          <div class="related-card-title">IWGDF/IDSA 2023 糖尿病性足感染症（DFI）診断・治療ガイドライン</div>
+          
+          <div class="related-card-desc">25推奨。IWGDF/IDSA 4段階感染分類（グレード1〜4・骨髄炎はO付記）。軟部組織DFI：1〜2週間（Strong; High）。骨髄炎（手術なし）：6週間。前足部DFOは抗菌薬単独療法も選択肢。PTB試験感度0.87/特異度0.83。MRI第一選択（Strong; Moderate）。G-CSF・HBOT・局所抗菌薬・局所消毒薬は不推奨。</div>
+        </a>
+        <a href="articles-gl-scap-icm2025.html" class="related-card">
+          <div class="related-card-title">重症市中肺炎（sCAP）：現在の概念と論争点</div>
+          <div class="related-card-badge">ICM 2025</div>
+          <div class="related-card-desc">重症市中肺炎の包括的ナラティブレビュー — 定義・疫学・起因微生物・診断・呼吸管理・抗菌薬・コルチコステロイド</div>
+        </a>
+        <a href="articles-gl-uti-idsa2025.html" class="related-card">
+          <div class="related-card-title">IDSA 2025 複雑性尿路感染症（cUTI）管理ガイドライン — 経験的抗菌薬 / IV-to-oral転換 / 投与期間</div>
+          
+          <div class="related-card-desc">IDSA 2025 › 概要</div>
+        </a>
+        <a href="articles-gl-ie2026.html" class="related-card">
+          <div class="related-card-title">JCS 2026 感染性心内膜炎（IE）診療ガイドライン — 全章まとめ</div>
+          
+          <div class="related-card-desc">JCS 2026 改訂版 感染性心内膜炎診療ガイドラインの全9章サマリー。総論・診断・合併症管理・抗菌薬・外科治療・外来フォロー・予防・特殊病態・CQ</div>
+        </a>
+        <a href="articles-gl-jipad2024.html" class="related-card">
+          <div class="related-card-title">JIPAD 2024年度 施設別年次レポート — 聖路加国際病院ICU</div>
+          
+          <div class="related-card-desc">日本集中治療医学会のJIPAD（Japanese Intensive care PAtient Database）2024年度施設別年次レポート。157施設・136,162症例の全国データと聖路加ICU 532例の比較。SMR・SRU・JRODによる質評価。</div>
+        </a>
+        <a href="articles-gl-sc-abx2026.html" class="related-card">
+          <div class="related-card-title">皮下注射による抗菌薬投与 — いつ・どう使うか</div>
+          <div class="related-card-badge">CID 2026</div>
+          <div class="related-card-desc">感染症・臨床薬理専門家らによるナラティブレビュー（CID 2026）。SC投与の患者選択（静脈アクセス困難・OPAT・緩和ケア）、PK/PD（時間依存性薬剤に有利・濃度依存性に不利）、技術的事項（部位・デバイス・希釈）、薬剤別エビデンス（セフトリアキソン/エルタペネム/テイコプラニン■■■〜各薬剤の評価）、合併症・耐容性データを網羅</div>
+        </a>
+        <a href="articles-gl-cefepime-bli2026.html" class="related-card">
+          <div class="related-card-title">新規セフェピム系BL/BLI配合剤の概要</div>
+          <div class="related-card-badge">Expert Rev Anti Infect Ther 2026</div>
+          <div class="related-card-desc">FEP/EMT・FTB・FPZ・FEP/NACの耐性機序・in vitro活性・PK/PD・臨床試験（ALLIUM/CERTAIN-1/INTEGRAL-1）・専門家意見</div>
+        </a>
+        </div>
+      </section>
+      <!-- RELATED:END -->
+
+  </main>
+
+  <!-- サイドバー目次 -->
+  <aside class="ie-sidebar">
+    <div class="ie-sidebar-card">
+      <div class="ie-sidebar-title">目次</div>
+      <a href="#ch1" class="ie-toc-chapter">第1章 背景・NHCAP の位置づけ</a>
+      <a href="#s1" class="ie-toc-section">S1 — NHCAP の定義と歴史的経緯</a>
+      <a href="#ch2" class="ie-toc-chapter">第2章 研究方法</a>
+      <a href="#s2" class="ie-toc-section">S2 — データソース・患者選択</a>
+      <a href="#s3" class="ie-toc-section">S3 — 広域 vs 狭域抗菌薬の定義</a>
+      <a href="#s4" class="ie-toc-section">S4 — A-DROP・耐性菌リスクスコア</a>
+      <a href="#s5" class="ie-toc-section">S5 — 操作変数解析（IV 解析）</a>
+      <a href="#ch3" class="ie-toc-chapter">第3章 結果</a>
+      <a href="#s6" class="ie-toc-section">S6 — 患者背景</a>
+      <a href="#s7" class="ie-toc-section">S7 — 主解析：IV 解析の結果</a>
+      <a href="#s8" class="ie-toc-section">S8 — サブグループ解析（≥3リスク因子）</a>
+      <a href="#ch4" class="ie-toc-chapter">第4章 考察・結論</a>
+      <a href="#s9" class="ie-toc-section">S9 — 結果の解釈と既存エビデンス</a>
+      <a href="#s10" class="ie-toc-section">S10 — 研究の限界</a>
+      <a href="#summary" class="ie-toc-section">SUMMARY</a>
+      <!-- RELATED-TOC:START — auto-generated by scripts/sync-related-articles.js. Do not edit. -->
+      <a href="#related-articles" class="ie-toc-chapter ie-toc-related">関連ページ</a>
+      <!-- RELATED-TOC:END -->
+    </div>
+  </aside>
+
+</div><!-- /container -->
+
+<script src="../script.js?v=20260524a"></script>
+<script src="../abbr-tooltip.js"></script>
+</body>
+</html>
