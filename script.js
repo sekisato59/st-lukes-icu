@@ -63,6 +63,7 @@
         { href: 'pages/apache-ii.html',          label: 'APACHE II スコア' },
         { href: 'pages/karte-by-system.html',    label: 'By Systemカルテ作成ツール' },
         { href: 'pages/cam-icu.html',            label: 'CAM-ICU（せん妄評価）' },
+        { href: 'pages/child-pugh.html',         label: 'Child-Pugh スコア（肝硬変重症度）' },
         { href: 'pages/ldl-target.html',         label: 'LDL目標値チェッカー' },
         { href: 'pages/rass.html',               label: 'RASS（鎮静評価）' },
         { href: 'pages/rrs-report.html',         label: 'RRS対応記録 一発作成' },
