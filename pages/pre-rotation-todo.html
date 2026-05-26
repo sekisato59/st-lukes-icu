@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../style-v2.css?v=20260526d">
+  <link rel="stylesheet" href="../style-v2.css?v=20260526e">
   <style>
     .todo-item { display:flex;gap:14px;padding:18px 0;border-bottom:1px solid var(--border); }
     .todo-item:last-child { border-bottom:none; }
@@ -109,6 +109,17 @@
 
     /* タイムラインの「詳細を確認する →」バッジを常時表示 */
     .tl-linked::after { opacity:1 !important; }
+
+    /* ===== ミラーカードの「該当箇所を開く ▸」リンク ===== */
+    /* モバイルではタイトルと重なるため、タイトル下に再配置（position:static） */
+    @media (max-width:600px) {
+      .mirror-source-link {
+        position: static !important;
+        display: inline-block;
+        margin: 0 0 8px 0;
+        opacity: 1 !important;
+      }
+    }
   </style>
 </head>
 <body>
@@ -749,7 +760,7 @@ ICUチームへ一言：</pre>
 
   </div><!-- /.about-page-body -->
 
-  <script src="../script.js?v=20260526d"></script>
+  <script src="../script.js?v=20260526e"></script>
   <script src="../abbr-tooltip.js"></script>
 
   <!-- ===== ICUのルール 親ページからの自動同期 =====
@@ -778,6 +789,7 @@ ICUチームへ一言：</pre>
       a.href = sourceUrl + '#' + srcId;
       a.textContent = '該当箇所を開く ▸';
       a.title = 'ICUのルールページの該当箇所を開く';
+      a.className = 'mirror-source-link';
       a.style.cssText = 'position:absolute;top:10px;right:12px;font-size:0.66rem;color:var(--muted);text-decoration:none;font-weight:600;line-height:1;letter-spacing:0.02em;white-space:nowrap;opacity:0.75;transition:opacity 0.15s,color 0.15s;';
       a.addEventListener('mouseenter', function () { a.style.opacity = '1'; a.style.color = 'var(--blue)'; });
       a.addEventListener('mouseleave', function () { a.style.opacity = '0.75'; a.style.color = 'var(--muted)'; });
