@@ -10,6 +10,13 @@
  */
 const RECENT_PAGES = [
   {
+    title: "フルオロキノロン予防投与の有効性：高リスク好中球減少症（血液悪性腫瘍）SR・メタ解析（Infection 2026）",
+    url: "pages/articles-gl-fq-fn-prophylaxis2026.html",
+    date: "2026-05-28",
+    tag: "論文",
+    thumb: "images/IDICUtop.png"
+  },
+  {
     title: "NHCAP に対する広域 vs 狭域抗菌薬と30日院内死亡率 — 全国コホート研究（J Hosp Med 2026）",
     url: "pages/articles-gl-nhcap-abx2026.html",
     date: "2026-05-26",
