@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0">
+  <title>Wells スコア（DVT / PE） | 聖路加ICU 便利ツール</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style-v2.css?v=20260526a">
+  <style>
+    html, body { max-width:100%;overflow-x:hidden; }
+    .tools-banner { position:relative;width:100%;max-width:1294px;margin:64px auto 0;line-height:0; }
+    .tools-banner-img {
+      width:100%;height:auto;display:block;
+      -webkit-mask-image:linear-gradient(to bottom, #000 0%, #000 88%, transparent 100%);
+      mask-image:linear-gradient(to bottom, #000 0%, #000 88%, transparent 100%);
+    }
+    .tools-banner-overlay { position:absolute;left:6%;top:50%;transform:translateY(-50%);max-width:62%;line-height:1.4; }
+    .tools-banner-title {
+      font-size:clamp(1.2rem,2.8vw,1.8rem);font-weight:900;color:#064E3B;line-height:1.3;
+      margin:0 0 8px;letter-spacing:-0.01em;
+      text-shadow:0 1px 6px rgba(255,255,255,0.85), 0 0 12px rgba(255,255,255,0.6);
+    }
+    .tools-banner-sub {
+      font-size:clamp(0.72rem,1.3vw,0.92rem);font-weight:600;color:#047857;
+      line-height:1.6;margin:0;text-shadow:0 1px 4px rgba(255,255,255,0.85);
+    }
+
+    .page-wrap {
+      max-width:1100px;margin:0 auto;
+      padding:0 clamp(20px,1rem+1.5vw,40px) clamp(40px,2rem+1.5vw,64px);
+      overflow-x:hidden;
+      font-family:'Noto Sans JP','Hiragino Kaku Gothic ProN','Hiragino Sans','Yu Gothic',sans-serif;
+      font-variant-numeric:tabular-nums;
+    }
+    .back-wrapper { display:flex;align-items:center;margin:6px 0 12px; }
+    .back-btn {
+      display:inline-flex;align-items:center;justify-content:center;
+      padding:9px 16px;background:rgba(255,255,255,0.85);
+      backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+      border:1px solid rgba(255,255,255,0.7);border-radius:10px;
+      font-size:0.78rem;font-weight:800;color:#047857;text-decoration:none;line-height:1;
+    }
+
+    .tab-bar { display:flex;gap:6px;margin-bottom:16px;background:#F1F5F9;padding:6px;border-radius:10px; }
+    .tab-btn {
+      flex:1;padding:9px 14px;border-radius:8px;background:transparent;
+      font-size:0.86rem;font-weight:800;color:#475569;cursor:pointer;
+      border:none;font-family:inherit;letter-spacing:0.02em;
+      transition:background 0.15s, color 0.15s;
+    }
+    .tab-btn.active { background:#fff;color:#047857;box-shadow:0 1px 4px rgba(0,0,0,0.06); }
+    .tab-pane { display:none; }
+    .tab-pane.active { display:block; }
+
+    .tool-howto {
+      background:#F8FAFC;border:1px solid #E2E8F0;border-radius:10px;
+      padding:11px 14px;margin:0 0 16px;
+      font-size:0.78rem;line-height:1.7;color:#475569;
+    }
+    .tool-howto strong { color:#1E40AF; font-weight:800; }
+    .tool-howto .howto-title {
+      font-size:0.76rem;font-weight:900;color:#1E40AF;letter-spacing:0.04em;margin-bottom:4px;
+    }
+
+    .item-card {
+      background:#fff;border:1px solid var(--border);border-radius:12px;
+      padding:12px 14px;margin-bottom:8px;
+      display:flex;align-items:center;justify-content:space-between;gap:12px;
+      cursor:pointer;transition:background 0.12s, border-color 0.12s, box-shadow 0.12s;
+    }
+    .item-card:hover { background:#F8FAFC; }
+    .item-card.checked {
+      background:#DBEAFE;border-color:#93C5FD;box-shadow:0 1px 6px rgba(29,78,216,0.12);
+    }
+    .item-card.checked.minus { background:#FEF2F2;border-color:#FCA5A5; }
+    .item-card-text { flex:1;font-size:0.85rem;line-height:1.55;color:#1E293B; }
+    .item-card.checked .item-card-text { font-weight:800;color:#0F172A; }
+    .item-card-sub { display:block;font-size:0.74rem;color:#64748B;font-weight:500;margin-top:2px; }
+    .item-card.checked .item-card-sub { color:#1E40AF; }
+    .item-card.checked.minus .item-card-sub { color:#B91C1C; }
+    .item-pts {
+      font-size:0.95rem;font-weight:900;color:#fff;
+      background:#94A3B8;padding:3px 13px;border-radius:999px;
+      font-family:ui-monospace,Menlo,Consolas,monospace;
+      min-width:50px;text-align:center;flex-shrink:0;
+    }
+    .item-card.checked .item-pts { background:#1D4ED8; }
+    .item-card.checked.minus .item-pts { background:#DC2626; }
+
+    .total-card {
+      margin-top:20px;padding:24px 26px;border-radius:14px;
+      background:linear-gradient(135deg,#047857 0%,#10B981 100%);color:#fff;
+      box-shadow:0 6px 22px rgba(4,120,87,0.25);
+    }
+    .total-head { display:flex;align-items:baseline;gap:18px;flex-wrap:wrap; }
+    .total-label { font-size:0.78rem;font-weight:800;letter-spacing:0.06em;text-transform:uppercase;opacity:0.85; }
+    .total-score { font-size:3.4rem;font-weight:900;line-height:1;letter-spacing:-0.02em;font-variant-numeric:tabular-nums; }
+    .total-class {
+      font-size:1rem;font-weight:900;letter-spacing:0.04em;
+      padding:4px 14px;background:rgba(255,255,255,0.22);border-radius:999px;line-height:1.4;
+    }
+    .total-interp {
+      margin-top:14px; padding:14px 16px 16px;
+      background:#fff; border-radius:10px;
+      box-shadow:0 2px 10px rgba(0,0,0,0.12);
+      border:1px solid #E2E8F0;
+    }
+    .total-interp .interp-label {
+      display:inline-block; font-size:0.7rem; font-weight:900;
+      color:#047857; letter-spacing:0.06em;
+      padding:2px 9px; background:#ECFDF5;
+      border-radius:999px; margin-bottom:8px;
+    }
+    .total-interp .interp-msg { display:block; font-size:1rem; font-weight:800;color:#0F172A; line-height:1.65; }
+    .total-interp .interp-sub {
+      display:block; margin-top:10px; padding-top:9px;
+      border-top:1px solid #E2E8F0;
+      font-size:0.78rem; line-height:1.7;color:#475569; font-weight:500;
+    }
+    .total-interp.sev-mild .interp-msg   { color:#065F46; }
+    .total-interp.sev-mod  { background:#FFFBEB; border-color:#FDE68A; }
+    .total-interp.sev-mod  .interp-label { color:#B45309; background:#FEF3C7; }
+    .total-interp.sev-mod  .interp-msg   { color:#92400E; }
+    .total-interp.sev-crit { background:#FEF2F2; border-color:#FECACA; }
+    .total-interp.sev-crit .interp-label { color:#B91C1C; background:#FEE2E2; }
+    .total-interp.sev-crit .interp-msg   { color:#991B1B; }
+
+    .reset-btn {
+      margin-top:14px; display:inline-flex; align-items:center; gap:6px;
+      padding:6px 14px; background:rgba(255,255,255,0.18); border:1px solid rgba(255,255,255,0.4);
+      border-radius:8px; font-size:0.74rem; font-weight:800; color:#fff;
+      cursor:pointer; font-family:inherit;
+    }
+    .reset-btn:hover { background:rgba(255,255,255,0.28); }
+
+    .ref-card {
+      margin-top:24px;background:#fff;border:1px solid var(--border);border-radius:12px;padding:18px 22px;
+    }
+    .ref-card h3 { font-size:0.92rem;font-weight:900;color:#047857;margin:0 0 10px;
+      padding-bottom:8px;border-bottom:2px solid #A7F3D0; }
+    .ref-table { width:100%;border-collapse:collapse;font-size:0.78rem;margin-top:8px; }
+    .ref-table th { background:#F8FAFC;color:#64748B;font-weight:700;
+      padding:7px 8px;text-align:left;border-bottom:1px solid var(--border);font-size:0.72rem; }
+    .ref-table td { padding:6px 8px;border-bottom:1px solid #E2E8F0;color:#1E293B;vertical-align:top; }
+    .ref-table tr:last-child td { border-bottom:none; }
+
+    .disclaimer {
+      font-size:0.72rem;color:#94A3B8;line-height:1.7;margin-top:24px;
+      padding:14px 16px;background:#F8FAFC;border-radius:8px;border:1px solid var(--border);
+    }
+    .disclaimer strong { color:#64748B; }
+
+    @media (max-width:600px) {
+      .tools-banner { line-height:1.4; }
+      .tools-banner-overlay { position:static;transform:none;max-width:100%;padding:14px 18px 4px; }
+      .tools-banner-title { color:#064E3B;text-shadow:none;font-size:1.05rem !important;line-height:1.3 !important;margin:0 0 4px !important; }
+      .tools-banner-sub { color:#64748B;text-shadow:none;font-size:0.7rem !important;line-height:1.55 !important; }
+      .page-wrap { padding:0 12px clamp(28px,1.5rem+1vw,40px) !important; }
+      .tools-banner-overlay { padding:10px 14px 4px !important; }
+      .back-wrapper { margin:4px 0 8px !important; }
+      .back-btn { padding:7px 12px !important;font-size:0.72rem !important; }
+      .tab-btn { padding:7px 10px !important; font-size:0.74rem !important; }
+      .tool-howto { padding:9px 11px !important; font-size:0.7rem !important; line-height:1.65 !important; margin:0 0 12px !important; }
+      .tool-howto .howto-title { font-size:0.7rem !important; }
+      .item-card { padding:10px 12px !important; gap:10px !important; }
+      .item-card-text { font-size:0.76rem !important; line-height:1.5 !important; }
+      .item-card-sub { font-size:0.66rem !important; }
+      .item-pts { font-size:0.82rem !important; padding:2px 10px !important; min-width:42px !important; }
+      .total-card { padding:14px 16px !important;margin-top:14px !important;border-radius:12px !important; }
+      .total-label { font-size:0.7rem !important; }
+      .total-score { font-size:2rem !important; }
+      .total-class { font-size:0.84rem !important; padding:3px 11px !important; }
+      .total-interp { padding:11px 13px 13px !important; margin-top:12px !important; }
+      .total-interp .interp-label { font-size:0.64rem !important; padding:2px 8px !important; margin-bottom:6px !important; }
+      .total-interp .interp-msg { font-size:0.88rem !important; line-height:1.6 !important; }
+      .total-interp .interp-sub { font-size:0.7rem !important; line-height:1.65 !important; margin-top:8px !important; padding-top:7px !important; }
+      .reset-btn { font-size:0.68rem !important; padding:5px 11px !important; }
+      .ref-card { padding:12px 14px !important;margin-top:14px !important; }
+      .ref-card h3 { font-size:0.82rem !important;margin-bottom:8px !important; }
+      .ref-table { font-size:0.7rem !important; }
+      .ref-table th { font-size:0.66rem !important;padding:5px 6px !important; }
+      .ref-table td { padding:4px 6px !important; }
+      .disclaimer { padding:10px 12px !important;font-size:0.66rem !important;line-height:1.6 !important;margin-top:14px !important; }
+    }
+
+    body.embed-mode .navbar,
+    body.embed-mode .tools-banner,
+    body.embed-mode .back-wrapper { display:none !important; }
+    body.embed-mode .page-wrap { padding:6px 4px 12px !important; margin-top:0 !important; }
+    body.embed-mode { background:transparent !important; }
+  </style>
+  <script>
+    (function(){
+      if (location.search.indexOf("embed=1") !== -1) {
+        document.addEventListener("DOMContentLoaded", function(){
+          document.body.classList.add("embed-mode");
+          var ro = new ResizeObserver(function(){
+            parent.postMessage({ type:"tool-height", height: document.body.scrollHeight }, "*");
+          });
+          ro.observe(document.body);
+        });
+      }
+    })();
+  </script>
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <a href="../index.html" class="nav-logo">
+      <img src="../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+      <span class="nav-logo-text">聖路加国際病院ICU</span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-menu" id="navMenu"></ul>
+  </div>
+</nav>
+
+<div class="tools-banner">
+  <img src="../images/便利ツール背景汎用.jpg" alt="" class="tools-banner-img" loading="lazy">
+  <div class="tools-banner-overlay">
+    <h1 class="tools-banner-title">Wells スコア（DVT / PE）</h1>
+    <p class="tools-banner-sub">深部静脈血栓症・肺血栓塞栓症の臨床的事前確率を評価</p>
+  </div>
+</div>
+
+<div class="page-wrap">
+  <div class="back-wrapper">
+    <a href="../index.html" class="back-btn">← ホームへ戻る</a>
+  </div>
+
+  <div class="tool-howto">
+    <div class="howto-title">▍ このツールについて</div>
+    Wells スコアは <strong>DVT・PE の事前確率</strong>を評価する古典的臨床判断ルール。スコアと D-dimer を組み合わせることで、低リスク患者で画像検査（造影 CT・下肢エコー）を省略できる可能性があります。
+  </div>
+
+  <div class="tab-bar" role="tablist">
+    <button class="tab-btn active" data-tab="dvt" type="button">Wells DVT</button>
+    <button class="tab-btn" data-tab="pe" type="button">Wells PE</button>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- DVT -->
+  <!-- ============================================== -->
+  <div class="tab-pane active" id="tab-dvt">
+    <div class="tool-howto">
+      <div class="howto-title">▍ 使い方（Wells DVT）</div>
+      該当する項目をタップして選択。最後の項目「<strong>DVT より他の診断の方が同等以上に疑わしい</strong>」のみ −2 点（赤色）です。合計 −2 〜 9 点。
+      <strong>2 点以上で DVT likely、1 点以下で DVT unlikely</strong>。Unlikely 群では D-dimer 陰性なら DVT を除外可能（高感度キット）。
+    </div>
+
+    <div class="item-card" data-pts="1" data-group="dvt">
+      <div class="item-card-text">活動性悪性腫瘍<span class="item-card-sub">治療中、または 6 か月以内の治療歴、緩和治療中</span></div>
+      <div class="item-pts">+1</div>
+    </div>
+    <div class="item-card" data-pts="1" data-group="dvt">
+      <div class="item-card-text">下肢の麻痺・不全麻痺、または最近のギプス固定<span class="item-card-sub">脳卒中後麻痺、ギプスシーネ等</span></div>
+      <div class="item-pts">+1</div>
+    </div>
+    <div class="item-card" data-pts="1" data-group="dvt">
+      <div class="item-card-text">3 日以上の臥床、または 12 週以内の全身麻酔下大手術<span class="item-card-sub">最近の手術・長期臥床</span></div>
+      <div class="item-pts">+1</div>
+    </div>
+    <div class="item-card" data-pts="1" data-group="dvt">
+      <div class="item-card-text">深部静脈走行に沿う限局性圧痛<span class="item-card-sub">大腿〜下腿の深部静脈に一致した圧痛</span></div>
+      <div class="item-pts">+1</div>
+    </div>
+    <div class="item-card" data-pts="1" data-group="dvt">
+      <div class="item-card-text">下肢全体の腫脹<span class="item-card-sub">大腿〜下腿の全長にわたる腫れ</span></div>
+      <div class="item-pts">+1</div>
+    </div>
+    <div class="item-card" data-pts="1" data-group="dvt">
+      <div class="item-card-text">下腿周径が対側より 3 cm 以上太い<span class="item-card-sub">脛骨粗面下 10 cm で計測</span></div>
+      <div class="item-pts">+1</div>
+    </div>
+    <div class="item-card" data-pts="1" data-group="dvt">
+      <div class="item-card-text">症状側下肢に限局する圧痕浮腫<span class="item-card-sub">Pitting edema が症状側に強い</span></div>
+      <div class="item-pts">+1</div>
+    </div>
+    <div class="item-card" data-pts="1" data-group="dvt">
+      <div class="item-card-text">表在側副血行路の出現（静脈瘤ではない）<span class="item-card-sub">既存の静脈瘤ではない側副血行路</span></div>
+      <div class="item-pts">+1</div>
+    </div>
+    <div class="item-card" data-pts="1" data-group="dvt">
+      <div class="item-card-text">DVT の既往<span class="item-card-sub">画像で証明された既往</span></div>
+      <div class="item-pts">+1</div>
+    </div>
+    <div class="item-card minus" data-pts="-2" data-group="dvt">
+      <div class="item-card-text"><strong>DVT より他の診断の方が同等以上に疑わしい</strong><span class="item-card-sub">蜂窩織炎・Baker 嚢腫破裂・浮腫性疾患など — 該当時は −2 点</span></div>
+      <div class="item-pts">−2</div>
+    </div>
+
+    <div class="total-card">
+      <div class="total-head">
+        <div class="total-label">Wells DVT 合計</div>
+        <div class="total-score" id="dvt-total">0</div>
+        <div class="total-class" id="dvt-class">DVT unlikely</div>
+      </div>
+      <div class="total-interp" id="dvt-detail">
+        該当する項目をタップして選択してください。
+      </div>
+      <button type="button" class="reset-btn" data-reset="dvt">↺ リセット</button>
+    </div>
+
+    <div class="ref-card">
+      <h3>Wells DVT スコアの解釈</h3>
+      <table class="ref-table">
+        <thead>
+          <tr><th style="width:28%;">合計点</th><th style="width:24%;">2 段階分類</th><th>推奨される次のステップ</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>≤ 1 点</td><td>DVT unlikely</td><td>高感度 D-dimer 陰性 → DVT 除外可能。陽性 → 下肢静脈エコー（Compression US）</td></tr>
+          <tr><td>≥ 2 点</td><td>DVT likely</td><td>下肢静脈エコー（Compression US）を直接施行</td></tr>
+        </tbody>
+      </table>
+      <table class="ref-table" style="margin-top:14px;">
+        <thead>
+          <tr><th style="width:28%;">合計点</th><th>3 段階分類（旧版）</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>≤ 0 点</td><td>低リスク（DVT 有病率 約 5%）</td></tr>
+          <tr><td>1 〜 2 点</td><td>中リスク（DVT 有病率 約 17%）</td></tr>
+          <tr><td>≥ 3 点</td><td>高リスク（DVT 有病率 約 53%）</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- PE -->
+  <!-- ============================================== -->
+  <div class="tab-pane" id="tab-pe">
+    <div class="tool-howto">
+      <div class="howto-title">▍ 使い方（Wells PE）</div>
+      該当する項目をタップして選択。点数は 1.0 / 1.5 / 3.0 の 3 段階。合計 0 〜 12.5 点。
+      <strong>2 段階：≤ 4 点で PE unlikely、＞ 4 点で PE likely</strong>。Unlikely 群では高感度 D-dimer 陰性で PE 除外可能。
+    </div>
+
+    <div class="item-card" data-pts="3" data-group="pe">
+      <div class="item-card-text">DVT を示唆する臨床所見<span class="item-card-sub">下肢腫脹・圧痛などの徴候</span></div>
+      <div class="item-pts">+3.0</div>
+    </div>
+    <div class="item-card" data-pts="3" data-group="pe">
+      <div class="item-card-text">PE が他の診断と同等以上に疑わしい<span class="item-card-sub">医師の総合判断</span></div>
+      <div class="item-pts">+3.0</div>
+    </div>
+    <div class="item-card" data-pts="1.5" data-group="pe">
+      <div class="item-card-text">心拍数 ＞ 100 /min<span class="item-card-sub">頻脈</span></div>
+      <div class="item-pts">+1.5</div>
+    </div>
+    <div class="item-card" data-pts="1.5" data-group="pe">
+      <div class="item-card-text">3 日以上の臥床、または 4 週以内の手術<span class="item-card-sub">不動・術後</span></div>
+      <div class="item-pts">+1.5</div>
+    </div>
+    <div class="item-card" data-pts="1.5" data-group="pe">
+      <div class="item-card-text">DVT または PE の既往<span class="item-card-sub">画像で証明された既往</span></div>
+      <div class="item-pts">+1.5</div>
+    </div>
+    <div class="item-card" data-pts="1" data-group="pe">
+      <div class="item-card-text">喀血<span class="item-card-sub">Hemoptysis</span></div>
+      <div class="item-pts">+1.0</div>
+    </div>
+    <div class="item-card" data-pts="1" data-group="pe">
+      <div class="item-card-text">悪性腫瘍<span class="item-card-sub">治療中、または 6 か月以内の治療歴、緩和治療中</span></div>
+      <div class="item-pts">+1.0</div>
+    </div>
+
+    <div class="total-card">
+      <div class="total-head">
+        <div class="total-label">Wells PE 合計</div>
+        <div class="total-score" id="pe-total">0</div>
+        <div class="total-class" id="pe-class">PE unlikely</div>
+      </div>
+      <div class="total-interp" id="pe-detail">
+        該当する項目をタップして選択してください。
+      </div>
+      <button type="button" class="reset-btn" data-reset="pe">↺ リセット</button>
+    </div>
+
+    <div class="ref-card">
+      <h3>Wells PE スコアの解釈</h3>
+      <table class="ref-table">
+        <thead>
+          <tr><th style="width:28%;">合計点</th><th style="width:24%;">2 段階分類</th><th>推奨される次のステップ</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>≤ 4 点</td><td>PE unlikely</td><td>高感度 D-dimer 陰性 → PE 除外可能。陽性 → 造影 CT 肺動脈造影（CTPA）</td></tr>
+          <tr><td>＞ 4 点</td><td>PE likely</td><td>CTPA を直接施行（D-dimer 不要）</td></tr>
+        </tbody>
+      </table>
+      <table class="ref-table" style="margin-top:14px;">
+        <thead>
+          <tr><th style="width:28%;">合計点</th><th>3 段階分類（旧版）</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>＜ 2 点</td><td>低リスク（PE 有病率 約 3%）</td></tr>
+          <tr><td>2 〜 6 点</td><td>中リスク（PE 有病率 約 28%）</td></tr>
+          <tr><td>＞ 6 点</td><td>高リスク（PE 有病率 約 78%）</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="disclaimer">
+    <strong>※ 出典：</strong>Wells PS, et al. Value of assessment of pretest probability of deep-vein thrombosis in clinical management. <em>Lancet</em> 1997;350(9094):1795-8.／ Wells PS, et al. Derivation of a simple clinical model to categorize patients probability of pulmonary embolism. <em>Thromb Haemost</em> 2000;83(3):416-20.<br>
+    年齢調整 D-dimer（&gt; 50 歳で 年齢 × 10 ng/mL）や YEARS アルゴリズムなどの代替アプローチもあります。重症患者・妊娠例では Wells スコアの精度が低下することが知られています。本ツールは教育目的で構築しており、最終判断は臨床的判断と画像検査結果に基づいて行ってください。
+  </div>
+</div>
+
+<script src="../script.js?v=20260526a"></script>
+<script src="../abbr-tooltip.js"></script>
+<script>
+  (function(){
+    document.querySelectorAll('.tab-btn').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var tab = btn.dataset.tab;
+        document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.toggle('active', b.dataset.tab === tab); });
+        document.querySelectorAll('.tab-pane').forEach(function(p){ p.classList.toggle('active', p.id === 'tab-' + tab); });
+      });
+    });
+
+    document.querySelectorAll('.item-card').forEach(function(card){
+      card.addEventListener('click', function(){
+        card.classList.toggle('checked');
+        updateDvt(); updatePe();
+      });
+    });
+
+    document.querySelectorAll('.reset-btn').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var group = btn.dataset.reset;
+        document.querySelectorAll('.item-card[data-group="' + group + '"]').forEach(function(c){ c.classList.remove('checked'); });
+        updateDvt(); updatePe();
+      });
+    });
+
+    function sumGroup(group) {
+      var sum = 0;
+      document.querySelectorAll('.item-card.checked[data-group="' + group + '"]').forEach(function(c){
+        sum += parseFloat(c.dataset.pts) || 0;
+      });
+      return sum;
+    }
+
+    function fmtPts(n) {
+      if (Math.abs(n - Math.round(n)) < 0.01) return n.toFixed(0);
+      return n.toFixed(1);
+    }
+
+    function updateDvt() {
+      var sum = sumGroup('dvt');
+      document.getElementById('dvt-total').textContent = fmtPts(sum);
+      var cls, msg, sev, sub;
+      if (sum <= 1) {
+        cls = 'DVT unlikely'; sev = 'sev-mild';
+        msg = 'DVT の可能性は低い（2 段階分類）。';
+        sub = '次のステップ：高感度 D-dimer を測定。陰性なら DVT 除外可能。陽性なら下肢静脈エコー（Compression US）へ。';
+      } else {
+        cls = 'DVT likely'; sev = 'sev-crit';
+        msg = 'DVT の可能性が高い（2 段階分類）。';
+        sub = '次のステップ：D-dimer を省略し、下肢静脈エコー（Compression US）を直接施行。';
+      }
+      document.getElementById('dvt-class').textContent = cls;
+      var d = document.getElementById('dvt-detail');
+      d.className = 'total-interp ' + sev;
+      d.innerHTML =
+        '<span class="interp-label">▍ ' + cls + '</span>' +
+        '<span class="interp-msg">' + msg + '</span>' +
+        '<span class="interp-sub">' + sub + '</span>';
+    }
+
+    function updatePe() {
+      var sum = sumGroup('pe');
+      document.getElementById('pe-total').textContent = fmtPts(sum);
+      var cls, msg, sev, sub;
+      if (sum <= 4) {
+        cls = 'PE unlikely'; sev = 'sev-mild';
+        msg = 'PE の可能性は低い（2 段階分類）。';
+        sub = '次のステップ：高感度 D-dimer を測定。陰性なら PE 除外可能。陽性なら造影 CT 肺動脈造影（CTPA）へ。';
+      } else {
+        cls = 'PE likely'; sev = 'sev-crit';
+        msg = 'PE の可能性が高い（2 段階分類）。';
+        sub = '次のステップ：D-dimer を省略し、造影 CT 肺動脈造影（CTPA）を直接施行（造影禁忌例では換気血流シンチ）。';
+      }
+      document.getElementById('pe-class').textContent = cls;
+      var d = document.getElementById('pe-detail');
+      d.className = 'total-interp ' + sev;
+      d.innerHTML =
+        '<span class="interp-label">▍ ' + cls + '</span>' +
+        '<span class="interp-msg">' + msg + '</span>' +
+        '<span class="interp-sub">' + sub + '</span>';
+    }
+
+    updateDvt(); updatePe();
+  })();
+</script>
+</body>
+</html>

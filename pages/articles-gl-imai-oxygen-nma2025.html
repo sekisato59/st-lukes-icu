@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SpO₂ターゲット最適化 — SR・NMA（Imai 2025）| 聖路加ICU</title>
+  <link rel="stylesheet" href="../style-v2.css?v=20260529">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    .alert-yellow {
+      background: #FFFBEB;
+      border: 1.5px solid #FDE68A;
+      border-radius: var(--radius);
+      padding: 14px 18px;
+      margin-bottom: 14px;
+    }
+    .alert-green {
+      background: #F0FDF4;
+      border: 1.5px solid #BBF7D0;
+      border-radius: var(--radius);
+      padding: 14px 18px;
+      margin-bottom: 14px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== NAVBAR（script.js が menu を差し替える） ===== -->
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <a href="../index.html" class="nav-logo">
+      <img src="../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+      <span class="nav-logo-text">聖路加国際病院ICU</span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-menu" id="navMenu"></ul>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<div class="subpage-hero hero-image-bg">
+  <div class="container">
+    <a href="articles-guidelines.html#art-resp" class="back-link">← 呼吸器系へ戻る</a>
+    <h1 class="subpage-title">SpO₂ ターゲットの最適化<br>急性呼吸不全における酸素化目標値</h1>
+    <p class="subpage-subtitle">#3 Respiratory System</p>
+    <div>
+      <span class="ie-badge">SR・ネットワークメタ解析</span>
+      <span class="ie-badge">Imai et al. 2025</span>
+      <span class="ie-badge">17 RCT, N=26,615</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MAIN ===== -->
+<div class="container" style="display:flex;gap:32px;align-items:flex-start;margin-top:32px;margin-bottom:48px;">
+
+  <!-- ===== CONTENT ===== -->
+  <main style="flex:1;min-width:0;max-width:900px;">
+
+    <!-- 略語一覧 -->
+    <div class="card" style="margin-bottom:24px;">
+      <div class="card-inner">
+        <h3 class="rule-title" style="margin-bottom:10px;">本ページで使用する略語一覧</h3>
+        <table style="width:100%;border-collapse:collapse;font-size:0.8rem;line-height:1.6;">
+          <tbody>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">略語</td><td style="padding:4px 8px;">正式名称 — 日本語訳</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">ARD</td><td style="padding:4px 8px;">Absolute Risk Difference — 絶対リスク差</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">ARDS</td><td style="padding:4px 8px;">Acute Respiratory Distress Syndrome — 急性呼吸窮迫症候群</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CrI</td><td style="padding:4px 8px;">Credible Interval — 信用区間（ベイズ統計）</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">DIC</td><td style="padding:4px 8px;">Deviance Information Criterion — 逸脱情報量規準（モデル適合度指標）</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">FiO₂</td><td style="padding:4px 8px;">Fraction of Inspired Oxygen — 吸入酸素濃度</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">GRADE</td><td style="padding:4px 8px;">Grading of Recommendations Assessment, Development and Evaluation — 推奨の強さ評価手法</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">MID</td><td style="padding:4px 8px;">Minimal Important Difference — 最小重要差</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">MV</td><td style="padding:4px 8px;">Mechanical Ventilation — 人工呼吸管理</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">NMA</td><td style="padding:4px 8px;">Network Meta-Analysis — ネットワークメタ解析</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">PaO₂</td><td style="padding:4px 8px;">Partial Pressure of Oxygen in arterial blood — 動脈血酸素分圧</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">RCT</td><td style="padding:4px 8px;">Randomised Controlled Trial — ランダム化比較試験</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">RR</td><td style="padding:4px 8px;">Risk Ratio — リスク比</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">SpO₂</td><td style="padding:4px 8px;">Peripheral oxygen saturation — 経皮的動脈血酸素飽和度（パルスオキシメトリー）</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">SUCRA</td><td style="padding:4px 8px;">Surface Under the Cumulative Ranking Curve — 累積ランク確率曲線下面積（治療ランキング指標）</td></tr>
+            <tr><td style="padding:4px 8px;font-weight:700;color:var(--blue);">VFD</td><td style="padding:4px 8px;">Ventilator-Free Days — 人工呼吸器離脱日数（28日間）</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ====== CHAPTER 1 ====== -->
+    <div id="ie-ch1" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:0;margin-bottom:0;">
+      <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+      <div style="font-size:1.3rem;font-weight:900;position:relative;">第1章 研究の背景と方法</div>
+      <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Background &amp; Methods</div>
+    </div>
+
+    <h3 id="ie-s1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+      なぜこの研究が必要か
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">酸素化ターゲットをめぐる論争</h3>
+        <p class="rule-body">急性呼吸不全は世界で年間1,300〜2,000万人が発症し、死亡率は約35〜45%にのぼる。ICU では酸素療法は事実上全例に行われるが、至適 SpO₂ ターゲットはガイドライン間で大きく異なる。英国胸部学会（BTS）は SpO₂ 94〜98%、ARDS ネットは 88〜95% を推奨するが、いずれも根拠となるエビデンスは限られていた。</p>
+        <p class="rule-body">酸素は両方向に有害となりうる。低酸素は細胞エネルギー障害を引き起こし、一方で過酸素は活性酸素種を産生し、血行動態異常・肺炎症・機械的換気中の肺傷害を悪化させる。この「二相性酸素毒性（biphasic oxygen toxicity）」の概念から、最適 SpO₂ ターゲットを同定することは臨床的意義が大きい。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">ペアワイズメタ解析の限界と NMA の必要性</h3>
+        <p class="rule-body">従来の RCT のほとんどは「低め」対「高め」という二群比較のみであった。しかし各試験の「低め」と「高め」のターゲット値は試験ごとに大きく異なり、ペアワイズメタ解析では複数の異なる酸素化レベルを同時比較することができない。その結果、「SpO₂ 何%が最も良いか」という問いに答えられていなかった。</p>
+        <p class="rule-body">本研究は <strong>ベイズ法を用いたネットワークメタ解析（NMA）</strong>を適用し、SpO₂ ターゲットを <strong>90〜92%・93〜94%・95〜96%・97〜98%・99〜100% の5群</strong>に分類して同時比較した。さらに用量反応メタ解析により、90〜100% の全スペクトルにわたる SpO₂ と死亡率の連続的な関係も可視化した。2025年に発表された大規模試験 UK-ROX（Martin 2025、n=16,434）を含む最新エビデンスを網羅した点でも新規性が高く、本解析は日本 ARDS 診療ガイドライン 2026（JSICM・JRS・JSRCM）の基礎エビデンスとして活用された。</p>
+      </div>
+    </div>
+
+    <h3 id="ie-s2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+      <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+      研究方法の概要
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">対象試験と SpO₂ 分類</h3>
+        <p class="rule-body">PubMed・Cochrane CENTRAL・Web of Science を 2024年10月・2025年6月まで系統的に検索した。18歳以上の急性呼吸不全または酸素療法を要する急性疾患患者を対象とし、特定の酸素化目標値を設定した RCT を組み入れた（COPD 単独・心停止後・外傷・脳卒中・術後ケアのみを対象とした試験は除外）。</p>
+        <p class="rule-body">SpO₂ ターゲットは実際に観察された SpO₂ 値ではなく、<strong>試験プロトコルで事前規定された値</strong>で分類した。PaO₂ 目標は標準換算式で SpO₂ に変換した。通常ケア群（SpO₂ 上限規定なし）は 90〜100% として扱った。最終的に <strong>17 RCT・26,615 例</strong>が解析対象となった。</p>
+
+        <h3 class="rule-title" style="margin-top:16px;">主要・二次アウトカムと最小重要差（MID）</h3>
+        <div style="overflow-x:auto;">
+          <table class="ie-table" style="margin-top:10px;">
+            <thead>
+              <tr>
+                <th style="white-space:nowrap;">種別</th>
+                <th>アウトカム</th>
+                <th style="white-space:nowrap;">MID</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td style="white-space:nowrap;font-weight:700;">主要</td><td>短期死亡率（28〜30日全死亡、未報告時は ICU 死亡）</td><td style="white-space:nowrap;">ARD 15/1000</td></tr>
+              <tr><td style="white-space:nowrap;font-weight:700;">二次（有効性）</td><td>人工呼吸器離脱日数（VFD at 28 days）</td><td style="white-space:nowrap;">2日</td></tr>
+              <tr><td style="white-space:nowrap;font-weight:700;">二次（安全性）</td><td>腸管虚血・脳卒中・心筋梗塞・心房細動</td><td style="white-space:nowrap;">ARD 20/1000</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Figure 1 -->
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">Figure 1. 組み入れ試験の特徴（17 RCT）</h3>
+        <p class="rule-body" style="margin-bottom:10px;">各試験の国・症例数・対象患者・SpO₂ ターゲット範囲を示す。バーの色は SpO₂ グループに対応（白灰：90〜92%、水色：93〜94%、青：95〜96%、濃青：97〜98%、最濃青：99〜100%）。</p>
+        <div style="overflow-x:auto;">
+          <img src="../images/imai-oxygenation-nma-fig1.png" alt="Figure 1. Characteristics of included studies — 17 RCTs with SpO₂ target ranges" style="width:100%;max-width:900px;height:auto;display:block;border:1px solid var(--border);border-radius:6px;">
+        </div>
+        <p style="font-size:0.72rem;color:var(--muted);margin-top:6px;line-height:1.6;">ARDS, 急性呼吸窮迫症候群; AU, オーストラリア; CH, スイス; COVID-19, 新型コロナウイルス感染症; DK, デンマーク; FI, フィンランド; ICU, 集中治療室; IS, アイスランド; MV, 人工呼吸管理; NL, オランダ; NO, ノルウェー; NZ, ニュージーランド; PaO₂, 動脈血酸素分圧; SIRS, 全身性炎症反応症候群; UK, 英国; US, 米国<br>* 主要アウトカム解析に含まれた症例数。† 「通常酸素療法」群は主治医裁量で酸素投与され、上限 SpO₂ の規定なし。想定ターゲット範囲を 90〜100% として扱った。</p>
+      </div>
+    </div>
+
+    <!-- Figure 2 -->
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">Figure 2. ネットワーク図（短期死亡率）</h3>
+        <p class="rule-body" style="margin-bottom:10px;">線の太さは比較試験数に、ノードの大きさは各群の患者数に比例する。SpO₂ 95〜96% 群（10,110例）が最大のノードを形成しており、UK-ROX（n=16,434）が大部分を占める。SpO₂ 90〜92% 群（11,005例）が第2位のノードを形成。</p>
+        <div style="overflow-x:auto;text-align:center;">
+          <img src="../images/imai-oxygenation-nma-fig2.png" alt="Figure 2. Network plot for short-term mortality" style="width:100%;max-width:600px;height:auto;display:block;margin:0 auto;border:1px solid var(--border);border-radius:6px;">
+        </div>
+        <p style="font-size:0.72rem;color:var(--muted);margin-top:6px;">Pt., 患者数; RCT, ランダム化比較試験; SpO₂, 経皮的動脈血酸素飽和度</p>
+      </div>
+    </div>
+
+    <!-- SUMMARY Ch1 -->
+    <h3 id="ie-sum1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+      第1章のキーメッセージ
+    </h3>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+            <span class="rule-body"><strong>背景：</strong>急性呼吸不全への酸素療法は世界で年間1,300〜2,000万例に行われるが、至適 SpO₂ ターゲットはガイドライン間でも不一致であった。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+            <span class="rule-body"><strong>ペアワイズ解析の限界：</strong>従来のメタ解析は「低め vs 高め」の二群比較に限られ、SpO₂ の全スペクトルを同時比較できなかった。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+            <span class="rule-body"><strong>新規性：</strong>SpO₂ 90〜100% を5段階に分類してベイズ NMA で同時比較した最初の解析。UK-ROX（n=16,434）を含む17 RCT・26,615例を統合。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+            <span class="rule-body"><strong>分類原則：</strong>実測値ではなく試験プロトコル規定値で分類。ランダム化を保存し、post-randomization バイアスを回避する設計。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+            <span class="rule-body"><strong>ガイドライン貢献：</strong>本解析は日本 ARDS 診療ガイドライン 2026（JSICM・JRS・JSRCM）策定の基礎エビデンスとして活用された。</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ====== CHAPTER 2 ====== -->
+    <div id="ie-ch2" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+      <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+      <div style="font-size:1.3rem;font-weight:900;position:relative;">第2章 主要結果 — 短期死亡率</div>
+      <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Primary Results: Short-term Mortality</div>
+    </div>
+
+    <h3 id="ie-s3" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>
+      SpO₂ 95〜96% が最高ランク
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">SpO₂ 95〜96% が死亡率低下の確率最高</h3>
+        <p class="rule-body">ベイズ NMA では、90〜92% を参照群として各 SpO₂ ターゲット群の短期死亡率の ARD を推定した。<strong><span class="mark-green">SpO₂ 95〜96% 群が最も死亡率を低下させる確率が高く</span>、ARD −11/1000（95% CrI: −30〜6）、ARD &lt; 0 の事後確率 90.6%</strong> という結果であった（SUCRA 0.882、ランク1確率 67.5%）。ただし事前規定した MID（−15/1000）には到達しなかった（エビデンスの確実性：中等度）。</p>
+        <p class="rule-body">一方、<span class="mark-red"><strong>SpO₂ 99〜100% 群は最も転帰不良の可能性が高く</strong></span>（ARD +53/1000、95% CrI: −28〜150、ARD &lt; 0 の確率わずか 11.4%、SUCRA 0.090）、過度な高酸素を避けるべき根拠となる。SpO₂ ターゲットが低すぎても高すぎても転帰が悪化する「二相性毒性」のパターンが示された。</p>
+      </div>
+    </div>
+
+    <!-- stat-grid -->
+    <div class="ie-stat-grid" style="margin-bottom:16px;">
+      <div class="ie-stat" style="background:#F0FDF4;border-color:#BBF7D0;">
+        <div class="ie-stat-val" style="color:#2D7A4F;">−11/1000</div>
+        <div class="ie-stat-label">SpO₂ 95〜96%<br>ARD（vs 90〜92%）</div>
+      </div>
+      <div class="ie-stat" style="background:#F0FDF4;border-color:#BBF7D0;">
+        <div class="ie-stat-val" style="color:#2D7A4F;">90.6%</div>
+        <div class="ie-stat-label">ARD &lt; 0 の<br>事後確率</div>
+      </div>
+      <div class="ie-stat" style="background:#F0FDF4;border-color:#BBF7D0;">
+        <div class="ie-stat-val" style="color:#2D7A4F;">0.882</div>
+        <div class="ie-stat-label">SUCRA<br>（ランク1確率 67.5%）</div>
+      </div>
+      <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;">
+        <div class="ie-stat-val" style="color:#DC2626;">+53/1000</div>
+        <div class="ie-stat-label">SpO₂ 99〜100%<br>ARD（vs 90〜92%）</div>
+      </div>
+      <div class="ie-stat">
+        <div class="ie-stat-val">323/1000</div>
+        <div class="ie-stat-label">参照群（90〜92%）<br>基準死亡率</div>
+      </div>
+      <div class="ie-stat">
+        <div class="ie-stat-val">26,615</div>
+        <div class="ie-stat-label">総患者数<br>（17 RCT）</div>
+      </div>
+    </div>
+
+    <!-- Figure 3 -->
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">Figure 3. NMA フォレストプロット（短期死亡率）</h3>
+        <p class="rule-body" style="margin-bottom:10px;">SpO₂ 90〜92% を参照群として各ターゲット群のリスク比（RR）と絶対リスク差（ARD per 1,000 patients）を示す。右端の列は ARD &lt; 0（介入が優位）の事後確率。</p>
+        <div style="overflow-x:auto;">
+          <img src="../images/imai-oxygenation-nma-fig3.png" alt="Figure 3. Bayesian NMA forest plot for short-term mortality" style="width:100%;max-width:900px;height:auto;display:block;border:1px solid var(--border);border-radius:6px;">
+        </div>
+        <p style="font-size:0.72rem;color:var(--muted);margin-top:6px;">ベースラインリスク = 1,000人あたり323死亡。不均一性 I² = 1.7%。ARD, 絶対リスク差; RR, リスク比</p>
+      </div>
+    </div>
+
+    <!-- Table 1 SUCRA -->
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">Table 1. SUCRA とランキング（短期死亡率）</h3>
+        <p class="rule-body" style="margin-bottom:10px;">SUCRA は各群が「ランク1（最も効果的）」である確率の積分値（0〜1）。値が高いほど死亡率低下効果が大きい可能性を示す。</p>
+        <div style="overflow-x:auto;">
+          <table class="ie-table">
+            <thead>
+              <tr>
+                <th>SpO₂ ターゲット</th>
+                <th style="white-space:nowrap;">ランク1確率</th>
+                <th style="white-space:nowrap;">ランク2確率</th>
+                <th style="white-space:nowrap;">ランク3確率</th>
+                <th style="white-space:nowrap;">SUCRA</th>
+                <th style="white-space:nowrap;">中央ランク（95% CrI）</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="background:#F0FDF4;"><td style="font-weight:700;white-space:nowrap;"><span class="mark-green">95〜96%</span></td><td>67.5%</td><td>21.7%</td><td>7.9%</td><td style="font-weight:700;color:#2D7A4F;">0.882</td><td>1（1〜4）</td></tr>
+              <tr><td style="white-space:nowrap;">90〜92%</td><td>6.0%</td><td>44.8%</td><td>33.6%</td><td>0.600</td><td>2（1〜4）</td></tr>
+              <tr><td style="white-space:nowrap;">97〜98%</td><td>11.0%</td><td>17.3%</td><td>33.2%</td><td>0.489</td><td>3（1〜5）</td></tr>
+              <tr><td style="white-space:nowrap;">93〜94%</td><td>11.7%</td><td>13.8%</td><td>21.7%</td><td>0.437</td><td>4（1〜5）</td></tr>
+              <tr style="background:#FEF2F2;"><td style="white-space:nowrap;">99〜100%</td><td>3.8%</td><td>2.4%</td><td>3.5%</td><td style="font-weight:700;color:#DC2626;">0.090</td><td>5（1〜5）</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="font-size:0.72rem;color:var(--muted);margin-top:6px;">CrI, 信用区間; SUCRA, Surface Under the Cumulative Ranking Curve</p>
+      </div>
+    </div>
+
+    <!-- SUMMARY Ch2 -->
+    <h3 id="ie-sum2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+      第2章のキーメッセージ
+    </h3>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+            <span class="rule-body"><strong>主要結果：</strong>SpO₂ 95〜96% が最も短期死亡率を低下させる確率が高い（SUCRA 0.882、ランク1確率 67.5%）。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+            <span class="rule-body"><strong>効果量：</strong>ARD −11/1000（95% CrI: −30〜6）、事後確率 90.6%。ただし MID（−15/1000）には到達せず（中等度エビデンス）。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+            <span class="rule-body"><strong>過酸素の危険：</strong>SpO₂ 99〜100% は最も転帰不良の可能性が高く（SUCRA 0.090、ARD +53/1000）、過度な高酸素を避けるべき根拠となる。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+            <span class="rule-body"><strong>一貫性：</strong>不均一性 I² = 1.7% と低く、試験間の結果は一貫している。インコヒーレンス（間接証拠との矛盾）も認められなかった。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+            <span class="rule-body"><strong>公衆衛生上の意義：</strong>FiO₂ の微調整のみ。コスト増・患者負担ゼロで、世界規模では年間13〜20万人の追加救命につながる可能性（死亡率 1% 低下を仮定）。</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ====== CHAPTER 3 ====== -->
+    <div id="ie-ch3" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+      <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+      <div style="font-size:1.3rem;font-weight:900;position:relative;">第3章 用量反応曲線</div>
+      <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Dose-Response Analysis</div>
+    </div>
+
+    <h3 id="ie-s4" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 4</span>
+      SpO₂ 95.8% — 死亡率ナディル
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">二相性の曲線：最適点は SpO₂ 95.8%</h3>
+        <p class="rule-body">モデル適合度が最も良好であったのは 2ノットの自然スプライン関数（DIC が最小）であり、これを用いた用量反応解析では <strong><span class="mark-green">SpO₂ 95.8% で死亡率が最小となる逆 U 字型曲線</span></strong>が描かれた。変曲点は 91.5% と 95.8% の2点に同定された。この点から左右いずれにずれても死亡率が上昇するパターンは NMA の結果と一致し、低酸素（細胞エネルギー障害）と過酸素（活性酸素・炎症・肺傷害）の双方向の有害性という生物学的妥当性を支持する。</p>
+        <p class="rule-body">Figure 4 の緑のゾーンは試験ポイント推定値と CrI から算出した 95% CrI を示し、濃い緑は複数の試験によりカバーされているターゲット範囲を示す。SpO₂ ≥ 97% の領域は試験数・患者数が少なく（99〜100% 群 217 例のみ）CrI が大きく広がり、推定の不確実性が高い。</p>
+      </div>
+    </div>
+
+    <!-- Figure 4 -->
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">Figure 4. SpO₂ ターゲットと短期死亡率の用量反応曲線</h3>
+        <p class="rule-body" style="margin-bottom:10px;">縦軸：短期死亡率（%）、横軸：SpO₂ ターゲット（%）。実線が事後中央値の死亡率、破線が 95% CrI。緑ゾーンは試験推定値からの 95% CrI。濃い緑は複数試験でカバーされた範囲。変曲点は 91.5% と <strong>95.8%（死亡率ナディル）</strong>。</p>
+        <div style="overflow-x:auto;">
+          <img src="../images/imai-oxygenation-nma-fig4.png" alt="Figure 4. Dose-response curve: SpO₂ target vs short-term mortality (nadir at 95.8%)" style="width:100%;max-width:800px;height:auto;display:block;border:1px solid var(--border);border-radius:6px;">
+        </div>
+      </div>
+    </div>
+
+    <div class="alert-green" style="margin-bottom:16px;">
+      <p class="rule-body"><strong>2つの独立した手法の収束：</strong> NMA（5群同時比較）と用量反応解析（連続関数）はそれぞれ独立した統計モデルを用いながら、ともに「SpO₂ 約 95〜96% が最適」という同一の結論に到達した。この収束が本研究の主要なメッセージの信頼性を高める。</p>
+    </div>
+
+    <!-- SUMMARY Ch3 -->
+    <h3 id="ie-sum3" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+      第3章のキーメッセージ
+    </h3>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+            <span class="rule-body"><strong>最適点：</strong>用量反応解析で SpO₂ 95.8% が死亡率の最小点（ナディル）として同定された。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+            <span class="rule-body"><strong>二相性毒性：</strong>低すぎても高すぎても死亡率が上昇する逆 U 字型パターンは、低酸素症（細胞エネルギー障害）と過酸素症（活性酸素・炎症・肺傷害）の双方向の有害性と一致する。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+            <span class="rule-body"><strong>モデル選択：</strong>線形・Emax・スプライン（1ノット・2ノット）の4種を比較し、2ノットスプラインが DIC 最小で最良フィット。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+            <span class="rule-body"><strong>収束：</strong>5群 NMA と用量反応解析の2つの独立した統計手法が「約 95〜96% が最適」で一致した。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+            <span class="rule-body"><strong>不確実性：</strong>SpO₂ ≥ 97% の領域は試験数・患者数が少なく CrI が大きく広がる。過高酸素の有害性は生物学的に妥当だが統計的確認は不十分。</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ====== CHAPTER 4 ====== -->
+    <div id="ie-ch4" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+      <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+      <div style="font-size:1.3rem;font-weight:900;position:relative;">第4章 二次アウトカムと安全性</div>
+      <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Secondary Outcomes &amp; Safety — GRADE Summary</div>
+    </div>
+
+    <h3 id="ie-s5" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 5</span>
+      GRADE サマリーと安全性プロファイル
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">二次アウトカムに MID を超える差なし</h3>
+        <p class="rule-body">VFD（28日）および安全性アウトカム（腸管虚血・脳卒中・心筋梗塞・心房細動）のいずれにおいても、いずれの SpO₂ ターゲット群も 90〜92% 参照群との差が MID を超えることはなかった。安全性イベントは希少であり、本解析では検出力が不十分であった可能性がある。</p>
+        <p class="rule-body">Figure 5 はすべてのアウトカムを一望できる GRADE エビデンス要約表である。セルの色は GRADE 確実性（高・中等度・低・非常に低い）と、効果が MID を超えているか否か（重要な便益 / 些細・効果なし / 重要な有害）を組み合わせて表示する。</p>
+      </div>
+    </div>
+
+    <!-- Figure 5 -->
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">Figure 5. SpO₂ ターゲットの便益‐リスクプロファイル（GRADE エビデンス要約）</h3>
+        <p class="rule-body" style="margin-bottom:10px;">縦軸：アウトカム種別（短期死亡率・VFD・安全性4種）。横軸：SpO₂ ターゲット。数値は ARD/1000（VFD は平均差、日）。括弧内は 95% CrI。セルの色は GRADE 確実性 × 効果の方向・大きさを示す。</p>
+        <div style="overflow-x:auto;">
+          <img src="../images/imai-oxygenation-nma-fig5.png" alt="Figure 5. Benefit-risk profile of SpO₂ targets (GRADE evidence summary)" style="width:100%;max-width:900px;height:auto;display:block;border:1px solid var(--border);border-radius:6px;">
+        </div>
+        <p style="font-size:0.72rem;color:var(--muted);margin-top:6px;line-height:1.6;">§ アウトカム重要度は2026 ARDS 診療ガイドライン委員会（JSICM・JRS・JSRCM）による 1〜9 点スコアで評価（7〜9：重要、4〜6：重要、1〜3：重要度低）。† ベースラインリスク：90〜92% 群との比較。‡ 平均（標準偏差）。ARD, 絶対リスク差; GRADE, 推奨の強さ評価; N/A, データなし</p>
+      </div>
+    </div>
+
+    <!-- SUMMARY Ch4 -->
+    <h3 id="ie-sum4" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+      第4章のキーメッセージ
+    </h3>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+            <span class="rule-body"><strong>VFD：</strong>全ターゲット群で 90〜92% との差は MID（2日）未満。SpO₂ ターゲットは人工呼吸管理期間に有意な影響を与えない可能性がある。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+            <span class="rule-body"><strong>安全性：</strong>腸管虚血・脳卒中・心筋梗塞・心房細動はいずれも MID（ARD 20/1000）を超える差なし。ただしイベントが希少で under-powered の可能性。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+            <span class="rule-body"><strong>GRADE 確実性：</strong>主要アウトカム（死亡率）は中等度。二次・安全性アウトカムは低〜非常に低い確実性。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+            <span class="rule-body"><strong>バランス：</strong>「SpO₂ を 95〜96% に維持する」戦略は死亡率低下の確率が最も高く、かつ有意な安全性上の問題をもたらさない最もバランスの良い選択。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+            <span class="rule-body"><strong>後方事前確率との整合：</strong>事前分布（中立・楽観的・悲観的）を変えても推定値は変わらず、結論はロバスト。</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ====== CHAPTER 5 ====== -->
+    <div id="ie-ch5" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+      <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+      <div style="font-size:1.3rem;font-weight:900;position:relative;">第5章 サブグループ・感度分析</div>
+      <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Subgroup &amp; Sensitivity Analyses</div>
+    </div>
+
+    <h3 id="ie-s6" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 6</span>
+      人工呼吸患者サブグループ
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">人工呼吸患者でも SpO₂ 95〜96% が最高ランク</h3>
+        <p class="rule-body">全症例の約 90% が機械的換気下であることを踏まえ、人工呼吸管理患者のみのサブグループ解析を実施した。SpO₂ 95〜96% は参照群（90〜92%）に対して ARD −13/1000（95% CrI: −36〜6）、ARD &lt; 0 の事後確率 91.3% と主解析と同様のパターンを示した（Figure 6）。ただし ICEMAN ツールによるサブグループ効果の信頼性評価では「信頼性低い（low credibility）」とされた。</p>
+      </div>
+    </div>
+
+    <!-- Figure 6 -->
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">Figure 6. 人工呼吸患者サブグループ — NMA フォレストプロット</h3>
+        <p class="rule-body" style="margin-bottom:10px;">SpO₂ 90〜92% を参照群として人工呼吸患者に限定した解析。ベースラインリスク = 1,000人あたり342死亡（主解析の323より若干高い）。</p>
+        <div style="overflow-x:auto;">
+          <img src="../images/imai-oxygenation-nma-fig6.png" alt="Figure 6. Bayesian NMA forest plot in mechanically ventilated patients" style="width:100%;max-width:900px;height:auto;display:block;border:1px solid var(--border);border-radius:6px;">
+        </div>
+        <p style="font-size:0.72rem;color:var(--muted);margin-top:6px;">ベースラインリスク = 1,000人あたり342死亡。ARD, 絶対リスク差; CrI, 信用区間; RR, リスク比</p>
+      </div>
+    </div>
+
+    <h3 id="ie-s7" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+      <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 7</span>
+      感度分析・限界・結論
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">4つの感度分析で一貫した結論</h3>
+        <div class="ie-flow">
+          <div class="ie-flow-item">
+            <div class="ie-flow-num">1</div>
+            <div style="flex:1;"><p class="rule-body"><strong>事前分布の変更：</strong>中立・楽観的・悲観的の3種すべてで主解析と整合した推定値。</p></div>
+          </div>
+          <div class="ie-flow-arrow">↓</div>
+          <div class="ie-flow-item">
+            <div class="ie-flow-num">2</div>
+            <div style="flex:1;"><p class="rule-body"><strong>頻度論的 NMA：</strong>ベイズ法の代わりに頻度論的ランダム効果 NMA でも類似したリスク差。</p></div>
+          </div>
+          <div class="ie-flow-arrow">↓</div>
+          <div class="ie-flow-item">
+            <div class="ie-flow-num">3</div>
+            <div style="flex:1;"><p class="rule-body"><strong>Zhao 分類による再解析：</strong>Zhao et al.（Eur Respir J 2021）の 4 カテゴリー分類で再解析。conservative 群（PaO₂ 70〜90 mmHg）が最高ランク（ARD −11/1000、確率 91.0%）で主解析と一致。</p></div>
+          </div>
+          <div class="ie-flow-arrow">↓</div>
+          <div class="ie-flow-item">
+            <div class="ie-flow-num">4</div>
+            <div style="flex:1;"><p class="rule-body"><strong>用量反応モデル選択：</strong>線形・Emax・1ノット・2ノットスプラインの 4 種を比較。DIC 最小の 2ノットスプラインを採用。</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">本研究の主な限界</h3>
+        <table class="ie-table">
+          <thead><tr><th style="white-space:nowrap;">限界</th><th>内容</th></tr></thead>
+          <tbody>
+            <tr><td style="white-space:nowrap;font-weight:700;">介入期間の異質性</td><td>15試験は抜管・ICU退室まで継続したが、5試験は最短14日間で終了。累積効果が希釈され、効果が null 方向にバイアスされた可能性。</td></tr>
+            <tr><td style="white-space:nowrap;font-weight:700;">モニタリング多様性</td><td>採血頻度、SpO₂ vs PaO₂ ターゲット、アラーム設定、プローブ配置（指・耳・額）が試験間で異なる。</td></tr>
+            <tr><td style="white-space:nowrap;font-weight:700;">患者集団の異質性</td><td>急性呼吸不全比率の明示的報告がない試験を含む。組み入れ患者の約85%が一次性呼吸不全。病因は多様。</td></tr>
+            <tr><td style="white-space:nowrap;font-weight:700;">非換気患者への外挿</td><td>約10%が非機械換気患者。換気サブグループ解析は主解析とほぼ同一だが、非換気患者の最適ターゲットは不明。</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- SUMMARY Ch5 -->
+    <h3 id="ie-sum5" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+      第5章のキーメッセージ
+    </h3>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+            <span class="rule-body"><strong>人工呼吸患者：</strong>SpO₂ 95〜96% が最高 SUCRA（ARD −13/1000、確率 91.3%）と主解析と一致。ICEMAN 評価ではサブグループ効果の信頼性低い。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+            <span class="rule-body"><strong>ロバスト性：</strong>事前分布変更・頻度論的モデル・Zhao 分類の各感度分析でも一貫した結果。メタ回帰でリスクオブバイアス・発表年・フォローアップ期間は治療効果を修飾しなかった。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+            <span class="rule-body"><strong>バイアスリスク：</strong>3試験（ランダム化患者の大幅除外または規定ターゲット未達）が高リスク。ただし感度分析への影響は限定的。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+            <span class="rule-body"><strong>限界：</strong>介入期間の多様性・モニタリングプロトコルの異質性・患者集団の多様性・非換気患者への外挿制限が主な限界。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+            <span class="rule-body"><strong>実践的結論：</strong><span class="mark-green">SpO₂ 95〜96% を目標とする酸素療法は、コスト増・患者負担ゼロで、複数の独立した手法で支持された最も合理的な選択肢。</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 出典 -->
+    <p style="font-size:0.72rem;color:#9CA3AF;margin-top:16px;line-height:1.7;">
+      出典：Imai R, Yamamoto R, Niitsu T, et al. Comparison of oxygenation targets in patients with acute respiratory failure: a systematic review and network meta-analysis of randomised controlled trials. SSRN Preprint 2025. SSRN 5361472.<br>
+      本資料は教育目的で作成したサマリーです。診断・治療方針の決定には必ず原典を参照してください。
+    </p>
+    <p style="font-size:0.75rem;color:var(--muted);text-align:right;margin-top:8px;">制作：ICU 関谷</p>
+
+    <!-- RELATED（自動生成） -->
+      <!-- RELATED:START — auto-generated by scripts/sync-related-articles.js. Do not edit. -->
+      <section id="related-articles" class="related-articles" aria-label="関連ページ">
+        <h3 class="related-articles-title">関連ページ</h3>
+        <div class="related-articles-grid">
+        <a href="articles-gl-hfnc-copd-nma2025.html" class="related-card">
+          <div class="related-card-title">AECOPD に対する HFNC 初期流量設定の比較 — 系統的レビュー・NMA</div>
+          <div class="related-card-badge">Pulmonology 2025</div>
+          <div class="related-card-desc">40 RCT・3,597例のNMA。HFNC_Low（20〜30 L/min）はNIVと比べPaCO₂−3.11 mmHg、pH+0.031を有意改善。鼻顔面損傷 OR 0.11。7指標中5指標でSUCRA最上位。AECOPDのHFNC初期流量は低流量推奨</div>
+        </a>
+        <a href="articles-gl-influenza-nma-jamaintmed2025.html" class="related-card">
+          <div class="related-card-title">非重症インフルエンザへの抗ウイルス薬 NMA</div>
+          <div class="related-card-badge">JAMA Internal Medicine 2025</div>
+          <div class="related-card-desc">Gao et al. JAMA Intern Med 2025 › 73 RCT・34,332名のNMA。低リスク患者では全6剤が入院・死亡に効果なし（高い確実性）。高リスク患者ではバロキサビルのみ入院RD −1.6%（低い確実性）。オセルタミビルは高リスク患者でも効果なし（高い確実性）かつ有害事象増加</div>
+        </a>
+        <a href="articles-gl-hfref-nma2022.html" class="related-card">
+          <div class="related-card-title">HFrEF薬物療法 ネットワークメタ解析</div>
+          <div class="related-card-badge">JACC Heart Failure 2022</div>
+          <div class="related-card-desc">75試験・95,444例のNMA — ARNi＋BB＋MRA＋SGLT2i（HR 0.39）が全死亡・CV死亡・HHF複合で最大効果。70歳で5.0年の生命延長</div>
+        </a>
+        <a href="articles-gl-gina2026.html" class="related-card">
+          <div class="related-card-title">GINA 2026 喘息グローバル戦略レポート — 総覧</div>
+          
+          <div class="related-card-desc">GINA 2026 全章網羅。Track 1（ICS含有AIR）/ Track 2（MART）の2トラック体制、SpO₂閾値92%へ改訂、生物学的製剤4クラス、小児（≤5歳・6-11歳）の管理まで包括</div>
+        </a>
+        </div>
+      </section>
+      <!-- RELATED:END -->
+
+  </main>
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="ie-sidebar">
+    <div class="ie-sidebar-card">
+      <div class="ie-sidebar-title">目次</div>
+      <a href="#ie-ch1" class="ie-toc-chapter">第1章 背景と方法</a>
+      <a href="#ie-s1" class="ie-toc-section">S1 — なぜこの研究が必要か</a>
+      <a href="#ie-s2" class="ie-toc-section">S2 — 研究方法の概要</a>
+      <a href="#ie-sum1" class="ie-toc-section">SUMMARY</a>
+      <a href="#ie-ch2" class="ie-toc-chapter">第2章 主要結果</a>
+      <a href="#ie-s3" class="ie-toc-section">S3 — NMA フォレストプロット</a>
+      <a href="#ie-sum2" class="ie-toc-section">SUMMARY</a>
+      <a href="#ie-ch3" class="ie-toc-chapter">第3章 用量反応曲線</a>
+      <a href="#ie-s4" class="ie-toc-section">S4 — 最適点 SpO₂ 95.8%</a>
+      <a href="#ie-sum3" class="ie-toc-section">SUMMARY</a>
+      <a href="#ie-ch4" class="ie-toc-chapter">第4章 二次・安全性</a>
+      <a href="#ie-s5" class="ie-toc-section">S5 — GRADE サマリー</a>
+      <a href="#ie-sum4" class="ie-toc-section">SUMMARY</a>
+      <a href="#ie-ch5" class="ie-toc-chapter">第5章 サブグループ</a>
+      <a href="#ie-s6" class="ie-toc-section">S6 — 人工呼吸患者</a>
+      <a href="#ie-s7" class="ie-toc-section">S7 — 感度分析・限界</a>
+      <a href="#ie-sum5" class="ie-toc-section">SUMMARY</a>
+      <!-- RELATED-TOC:START — auto-generated by scripts/sync-related-articles.js. Do not edit. -->
+      <a href="#related-articles" class="ie-toc-chapter ie-toc-related">関連ページ</a>
+      <!-- RELATED-TOC:END -->
+    </div>
+  </aside>
+
+</div><!-- /.container -->
+
+<script src="../script.js?v=20260529"></script>
+<script src="../abbr-tooltip.js"></script>
+</body>
+</html>

@@ -10,9 +10,44 @@
  */
 const RECENT_PAGES = [
   {
+    title: "敗血症性ショックの昇圧薬療法 — Fage 2026",
+    url: "pages/articles-gl-vasopressor-shock2026.html",
+    date: "2026-05-31",
+    tag: "ガイドライン",
+    thumb: "images/朝カンファ風景.webp"
+  },
+  {
+    title: "心不全における最適血清カリウム濃度 — 個別患者データメタ解析（Eur Heart J 2026）",
+    url: "pages/articles-gl-k-hf2026.html",
+    date: "2026-05-31",
+    tag: "ガイドライン",
+    thumb: "images/朝カンファ風景.webp"
+  },
+  {
+    title: "SpO₂ターゲット最適化 — SR・NMA（Imai 2025）",
+    url: "pages/articles-gl-imai-oxygen-nma2025.html",
+    date: "2026-05-31",
+    tag: "ガイドライン",
+    thumb: "images/朝カンファ風景.webp"
+  },
+  {
+    title: "白血球増多症・白血球うっ滞 — 入院管理戦略（J Hosp Med 2025）",
+    url: "pages/articles-gl-hyperleukocytosis2025.html",
+    date: "2026-05-31",
+    tag: "論文",
+    thumb: "images/朝カンファ風景.webp"
+  },
+  {
+    title: "HFmrEF/HFpEF包括的薬物療法の生涯ベネフィット — クロストライアル解析（Nature Medicine 2025）",
+    url: "pages/articles-gl-hfpef-cmt2025.html",
+    date: "2026-05-31",
+    tag: "論文",
+    thumb: "images/朝カンファ風景.webp"
+  },
+  {
     title: "フルオロキノロン予防投与の有効性：高リスク好中球減少症（血液悪性腫瘍）SR・メタ解析（Infection 2026）",
     url: "pages/articles-gl-fq-fn-prophylaxis2026.html",
-    date: "2026-05-28",
+    date: "2026-05-29",
     tag: "論文",
     thumb: "images/IDICUtop.png"
   },

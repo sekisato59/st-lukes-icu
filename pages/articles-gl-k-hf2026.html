@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>心不全における最適血清カリウム濃度 — 個別患者データメタ解析（Eur Heart J 2026）| 聖路加ICU</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style-v2.css?v=20260528a">
+  <style>
+    .ie-table { width:100%;border-collapse:collapse;font-size:0.82rem;line-height:1.7;margin-top:10px; }
+    .ie-table th { background:#F3F4F6;color:var(--text);font-weight:700;padding:10px 12px;text-align:left;border-bottom:2px solid var(--border); }
+    .ie-table td { padding:10px 12px;border-bottom:1px solid var(--border);color:var(--muted);vertical-align:top; }
+    .ie-table tr:last-child td { border-bottom:none; }
+    .ie-stat-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:8px; }
+    @media (max-width:520px) { .ie-stat-grid { grid-template-columns:1fr 1fr; } }
+    .ie-stat { background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;padding:16px 12px;text-align:center;display:flex;flex-direction:column;justify-content:center;min-height:110px; }
+    .ie-stat-val { font-size:1.5rem;font-weight:900;color:#2D7A4F;line-height:1.3; }
+    .ie-stat-label { font-size:0.7rem;color:var(--muted);margin-top:6px;line-height:1.5; }
+    .ie-stat-red { background:#FEF2F2;border:1px solid #FECACA; }
+    .ie-stat-red .ie-stat-val { color:#DC2626; }
+    .ie-stat-orange { background:#FFF7ED;border:1px solid #FED7AA; }
+    .ie-stat-orange .ie-stat-val { color:#EA580C; }
+    .ie-stat-blue { background:#EFF6FF;border:1px solid #BFDBFE; }
+    .ie-stat-blue .ie-stat-val { color:#1D4ED8; }
+    .ie-stat-grid-2 { display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:8px; }
+    @media (max-width:520px) { .ie-stat-grid-2 { grid-template-columns:1fr; } }
+    .ie-echo-grid { display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px; }
+    @media (max-width:600px) { .ie-echo-grid { grid-template-columns:1fr; } }
+    .ie-echo-box { background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:14px 16px; }
+    .ie-echo-name { font-size:0.78rem;font-weight:800;color:var(--text);margin-bottom:6px; }
+    .ie-echo-body { font-size:0.8rem;color:var(--muted);line-height:1.65; }
+    .ie-alpha { background:linear-gradient(135deg,#F5F3FF,#EDE9FE);border:1px solid #DDD6FE;border-radius:10px;margin-bottom:16px; }
+    .ie-alpha-inner { padding:16px 18px; }
+    .ie-alpha-header { display:flex;align-items:center;gap:8px;margin-bottom:8px; }
+    .ie-alpha-badge { background:#7C3AED;color:#fff;font-size:0.65rem;font-weight:800;padding:2px 8px;border-radius:20px;letter-spacing:0.05em; }
+    .ie-alpha-title { font-size:0.85rem;font-weight:800;color:#4C1D95; }
+    .alert-yellow { background:#FFFBEB;border:1px solid #FDE68A;border-radius:8px;padding:14px 16px;margin-bottom:16px; }
+    .alert-green { background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;padding:14px 16px;margin-bottom:16px; }
+    .ie-figure { margin:16px 0; }
+    .ie-figure img { width:100%;border-radius:8px;border:1px solid var(--border); }
+    .ie-figure-caption { font-size:0.72rem;color:var(--muted);margin-top:6px;line-height:1.65; }
+    .k-range-box { background:linear-gradient(135deg,#F0FDF4,#DCFCE7);border:2px solid #2D7A4F;border-radius:10px;padding:18px 20px;margin:12px 0;text-align:center; }
+    .k-range-val { font-size:2rem;font-weight:900;color:#2D7A4F; }
+    .k-range-label { font-size:0.78rem;color:#374151;margin-top:4px;font-weight:600; }
+    .ie-flow { display:flex;flex-direction:column;gap:6px; }
+    .ie-flow-item { display:flex;align-items:flex-start;gap:12px;background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:12px 16px;font-size:0.83rem; }
+    .ie-flow-num { background:#2D7A4F;color:#fff;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;flex-shrink:0;margin-top:1px; }
+    .ie-flow-arrow { text-align:center;color:#2D7A4F;font-size:1.1rem;padding:2px 0; }
+  </style>
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <a href="../index.html" class="nav-logo">
+      <img src="../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+      <span class="nav-logo-text">聖路加国際病院ICU</span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-menu" id="navMenu"></ul>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<div class="subpage-hero hero-image-bg">
+  <div class="container">
+    <a href="articles-guidelines.html#art-cardiology" class="back-link">← 一覧へ戻る</a>
+    <h1 class="subpage-title">心不全における最適血清カリウム濃度</h1>
+    <p class="subpage-subtitle">#5 CARDIOLOGY — Potassium & Heart Failure</p>
+    <div>
+      <span class="ie-badge">個別患者データメタ解析</span>
+      <span class="ie-badge">Eur Heart J 2026</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MAIN CONTENT ===== -->
+<div class="container" style="display:flex;gap:32px;align-items:flex-start;padding-top:32px;padding-bottom:48px;">
+
+  <!-- MAIN -->
+  <main style="flex:1;min-width:0;max-width:900px;">
+
+    <!-- 略語一覧 -->
+    <div class="card" style="margin-bottom:24px;">
+      <div class="card-inner">
+        <h3 class="rule-title" style="margin-bottom:10px;">本ページで使用する略語一覧</h3>
+        <table style="width:100%;border-collapse:collapse;font-size:0.8rem;line-height:1.6;">
+          <tbody>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">略語</td><td style="padding:4px 8px;">正式名称 — 日本語訳</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">HF</td><td style="padding:4px 8px;">Heart failure — 心不全</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">HFrEF</td><td style="padding:4px 8px;">Heart failure with reduced ejection fraction — 左室収縮能低下型心不全（LVEF ≤40%）</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">HFpEF</td><td style="padding:4px 8px;">Heart failure with preserved ejection fraction — 左室収縮能保持型心不全（LVEF ≥50%）</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">HFmrEF</td><td style="padding:4px 8px;">Heart failure with mildly reduced ejection fraction — 軽度収縮能低下型心不全（LVEF 41–49%）</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">LVEF</td><td style="padding:4px 8px;">Left ventricular ejection fraction — 左室駆出率</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">GDMT</td><td style="padding:4px 8px;">Guideline-directed medical therapy — ガイドライン指示薬物療法</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">MRA</td><td style="padding:4px 8px;">Mineralocorticoid receptor antagonist — ミネラルコルチコイド受容体拮抗薬</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">RCT</td><td style="padding:4px 8px;">Randomized controlled trial — ランダム化比較試験</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">IPD</td><td style="padding:4px 8px;">Individual patient data — 個別患者データ</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">aHR</td><td style="padding:4px 8px;">Adjusted hazard ratio — 調整済みハザード比</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CI</td><td style="padding:4px 8px;">Confidence interval — 信頼区間</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">eGFR</td><td style="padding:4px 8px;">Estimated glomerular filtration rate — 推定糸球体濾過量</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">NT-proBNP</td><td style="padding:4px 8px;">N-terminal pro-B-type natriuretic peptide — NT-プロBNP</td></tr>
+            <tr><td style="padding:4px 8px;font-weight:700;color:var(--blue);">NYHA</td><td style="padding:4px 8px;">New York Heart Association — NYHA機能分類</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- CHAPTER 1: 研究概要 -->
+    <!-- ============================================================ -->
+    <div id="k-ch1" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:0;margin-bottom:0;">
+      <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+      <div style="font-size:1.3rem;font-weight:900;position:relative;">第1章 研究の背景と設計</div>
+      <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Background & Study Design</div>
+    </div>
+
+    <h3 id="k-s1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+      なぜこの研究が必要だったか
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">カリウム管理の「盲点」</h3>
+        <p class="rule-body">心不全（HF）患者ではカリウム恒常性が乱されやすい。利尿薬による低カリウム血症と、MRA・レニン-アンジオテンシン系阻害薬による高カリウム血症がともに問題となる。臨床では高カリウム血症への懸念から GDMT が中断・減量されることが多いが、実際に「どの範囲のカリウムが安全か」という問いには明確な答えが出ていなかった。</p>
+        <p class="rule-body" style="margin-top:8px;">特に未解決だった問いは2つある。①HFrEFとHFpEFで最適カリウム範囲は異なるのか、②現在使われているカリウム基準値（正常域 3.5〜5.0 mmol/L）は心不全患者にとって本当に適切なのか——この個別患者データ（IPD）メタ解析はこれに答えるために設計された。</p>
+      </div>
+    </div>
+
+    <h3 id="k-s2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+      <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+      研究デザイン
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">12のRCTから46,069人の個別データを統合</h3>
+        <p class="rule-body">HFrEF 7試験（CHARM-Added、CHARM-Alternative、EMPHASIS-HF、ATMOSPHERE、PARADIGM-HF、DAPA-HF、GALACTIC-HF）とHFpEF 5試験（CHARM-Preserved、I-PRESERVE、TOPCAT Americas、PARAGON-HF、FINEARTS-HF）から個別患者レベルのデータを統合解析した。</p>
+        <p class="rule-body" style="margin-top:8px;">ベースラインの血清カリウムを6カテゴリーに分類し（&lt;3.5、3.5〜&lt;4.0、4.0〜&lt;4.5、4.5〜&lt;5.0、5.0〜&lt;5.5、≥5.5 mmol/L）、さらに連続変数としてRestricted cubic splineで解析した。主要エンドポイントは全死因死亡。副次エンドポイントは心血管死、突然死、ポンプ不全死、初回HF入院、複合エンドポイント。</p>
+      </div>
+    </div>
+
+    <div class="ie-stat-grid" style="margin-bottom:16px;">
+      <div class="ie-stat">
+        <div class="ie-stat-val">32,346</div>
+        <div class="ie-stat-label">HFrEF患者数<br>（7試験、LVEF ≤40%）</div>
+      </div>
+      <div class="ie-stat">
+        <div class="ie-stat-val">13,723</div>
+        <div class="ie-stat-label">HFpEF患者数<br>（5試験、LVEF ≥50%）</div>
+      </div>
+      <div class="ie-stat">
+        <div class="ie-stat-val">12 試験</div>
+        <div class="ie-stat-label">統合RCT数<br>（HFrEF 7 + HFpEF 5）</div>
+      </div>
+      <div class="ie-stat ie-stat-blue">
+        <div class="ie-stat-val">24.2ヶ月</div>
+        <div class="ie-stat-label">HFrEF 中央値<br>観察期間</div>
+      </div>
+      <div class="ie-stat ie-stat-blue">
+        <div class="ie-stat-val">36.8ヶ月</div>
+        <div class="ie-stat-label">HFpEF 中央値<br>観察期間</div>
+      </div>
+      <div class="ie-stat ie-stat-orange">
+        <div class="ie-stat-val">4.5 / 4.4</div>
+        <div class="ie-stat-label">中央値K（mmol/L）<br>HFrEF / HFpEF</div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">HFrEFにおけるカリウム分布</h3>
+        <div style="overflow-x:auto;">
+          <table class="ie-table">
+            <thead>
+              <tr>
+                <th style="white-space:nowrap;">K（mmol/L）</th>
+                <th>患者数</th>
+                <th>割合</th>
+                <th>臨床的意義</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td style="white-space:nowrap;font-weight:700;color:#DC2626;">&lt;3.5</td><td>502</td><td>1.6%</td><td>低カリウム血症（重篤）</td></tr>
+              <tr><td style="white-space:nowrap;font-weight:700;color:#EA580C;">3.5〜&lt;4.0</td><td>3,301</td><td>10.2%</td><td>低カリウム血症（軽度）</td></tr>
+              <tr><td style="white-space:nowrap;font-weight:700;color:#2D7A4F;">4.0〜&lt;4.5</td><td>11,511</td><td>35.6%</td><td>最大集積帯（参照群）</td></tr>
+              <tr><td style="white-space:nowrap;font-weight:700;color:#2D7A4F;">4.5〜&lt;5.0</td><td>11,963</td><td>37.0%</td><td>最良アウトカム域</td></tr>
+              <tr><td style="white-space:nowrap;font-weight:700;color:#1D4ED8;">5.0〜&lt;5.5</td><td>4,119</td><td>12.7%</td><td>軽度高カリウム血症</td></tr>
+              <tr><td style="white-space:nowrap;font-weight:700;color:#7C3AED;">≥5.5</td><td>950</td><td>2.9%</td><td>高カリウム血症</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUMMARY Ch1 -->
+    <h3 id="k-sum1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+      第1章のキーメッセージ
+    </h3>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+            <span class="rule-body"><strong>最大規模のIPDメタ解析：</strong>12のRCTから46,069人（HFrEF 32,346 + HFpEF 13,723）の個別データを統合し、カリウム–アウトカムの関係を詳細に検討した。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+            <span class="rule-body"><strong>6カテゴリー + 連続変数解析：</strong>&lt;3.5から≥5.5 mmol/Lの6グループに加え、Restricted cubic splineで連続的なリスク曲線を描いた。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+            <span class="rule-body"><strong>HFrEFとHFpEFを別々に解析：</strong>EFフェノタイプ別の解析が不十分だった従来研究の盲点を補完した。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+            <span class="rule-body"><strong>多変数調整済み解析：</strong>年齢・性別・eGFR・NT-proBNP・利尿薬用量など多数の交絡因子を調整した上でaHRを算出。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+            <span class="rule-body"><strong>HFrEF患者の約13%が K 5.0〜5.5 mmol/L：</strong>「軽度高カリウム血症」は実臨床で珍しくなく、この層のアウトカムを精密に推定することには大きな臨床的意義がある。</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- CHAPTER 2: HFrEF結果 -->
+    <!-- ============================================================ -->
+    <div id="k-ch2" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+      <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+      <div style="font-size:1.3rem;font-weight:900;position:relative;">第2章 HFrEFにおける結果</div>
+      <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">HFrEF Results — Reverse J-Shaped Association</div>
+    </div>
+
+    <h3 id="k-s3" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>
+      逆J字型リスク曲線 — 低カリウムが圧倒的に危険
+    </h3>
+
+    <div class="alert-red" style="margin-bottom:16px;">
+      <p class="rule-body"><strong>【最重要メッセージ：HFrEF】</strong> カリウムとアウトカムの関係は「逆J字型」。低カリウム血症（&lt;3.5 mmol/L）は全死因死亡リスクを49%増加させる（aHR 1.49、95% CI 1.27–1.76）。一方、軽度高カリウム血症（5.0〜5.5 mmol/L）は多変数調整後に死亡リスクの増加と関連しない（aHR 0.96、95% CI 0.89–1.04）。</p>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">Figure 1：HFrEFにおけるカリウムとアウトカムの関係（連続変数解析）</h3>
+        <div class="ie-figure">
+          <img src="../images/k-hf2026-fig1.png" alt="Figure 1: Incidence rate for each outcome across the range of potassium levels in HFrEF">
+          <p class="ie-figure-caption">
+            <strong>Figure 1.</strong> HFrEFにおける各アウトカムの発生率（カリウム連続変数、per 100 患者年）。
+            (A) 全死因死亡、(B) 心血管死、(C) 突然死、(D) ポンプ不全死、(E) 非心血管死、(F) 初回HF入院、(G) HF入院または全死因死亡複合、(H) HF入院または心血管死複合。
+            X軸：カリウム濃度（mmol/L）。Y軸：未調整発生率（per 100 患者年）。実線：発生率曲線、破線：95% CI。<br>
+            全7アウトカムで「逆J字型」が明確であり、カリウムが低いほどリスクが急激に上昇する。非心血管死（E）のみリスク曲線はほぼ平坦であり、低カリウムリスクの心血管特異性を示す。
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">HFrEF：カリウムカテゴリー別 全死因死亡（参照群：4.0〜&lt;4.5 mmol/L）</h3>
+        <div style="overflow-x:auto;">
+          <table class="ie-table">
+            <thead>
+              <tr>
+                <th style="white-space:nowrap;">K（mmol/L）</th>
+                <th style="white-space:nowrap;">n</th>
+                <th style="white-space:nowrap;">粗発生率<br>（/100患者年）</th>
+                <th style="white-space:nowrap;">未調整HR<br>（95% CI）</th>
+                <th style="white-space:nowrap;">調整済みHR<br>（95% CI）</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="background:#FEF2F2;"><td style="font-weight:700;color:#DC2626;white-space:nowrap;">&lt;3.5</td><td>502</td><td>17.7（15.1–20.6）</td><td>1.86（1.58–2.18）</td><td><strong style="color:#DC2626;">1.49（1.27–1.76）</strong></td></tr>
+              <tr><td style="white-space:nowrap;">3.5〜&lt;4.0</td><td>3,301</td><td>11.1（10.3–11.9）</td><td>1.19（1.10–1.29）</td><td>1.07（0.98–1.16）</td></tr>
+              <tr style="background:#F0FDF4;"><td style="font-weight:700;white-space:nowrap;">4.0〜&lt;4.5 <span style="font-size:0.7rem;color:var(--muted);">参照</span></td><td>11,511</td><td>9.4（9.0–9.7）</td><td>—</td><td>—</td></tr>
+              <tr style="background:#F0FDF4;"><td style="font-weight:700;white-space:nowrap;">4.5〜&lt;5.0</td><td>11,963</td><td>9.3（9.0–9.7）</td><td>0.98（0.93–1.04）</td><td><strong style="color:#2D7A4F;">0.94（0.89–1.00）</strong></td></tr>
+              <tr><td style="white-space:nowrap;">5.0〜&lt;5.5</td><td>4,119</td><td>10.5（9.9–11.2）</td><td>1.07（0.99–1.16）</td><td>0.96（0.89–1.04）</td></tr>
+              <tr><td style="white-space:nowrap;">≥5.5</td><td>950</td><td>13.8（12.2–15.6）</td><td>1.32（1.16–1.51）</td><td>1.02（0.89–1.16）</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="font-size:0.72rem;color:var(--muted);margin-top:8px;">調整変数：年齢・性別・地域・人種・心拍数・NYHA III/IV・収縮期血圧・BMI・LVEF・血清クレアチニン・Hb・NT-proBNP（対数変換）・AF既往・MI既往・糖尿病既往・利尿薬使用・MRA使用・ACEi/ARB/ARNI使用・治療群（試験でstratify）</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">HFrEF：低カリウム血症（&lt;3.5 mmol/L）の複数アウトカムへの影響</h3>
+        <div class="ie-stat-grid">
+          <div class="ie-stat ie-stat-red">
+            <div class="ie-stat-val">aHR 1.49</div>
+            <div class="ie-stat-label">全死因死亡<br>（1.27–1.76）</div>
+          </div>
+          <div class="ie-stat ie-stat-red">
+            <div class="ie-stat-val">aHR 1.58</div>
+            <div class="ie-stat-label">心血管死<br>（1.32–1.88）</div>
+          </div>
+          <div class="ie-stat ie-stat-red">
+            <div class="ie-stat-val">aHR 1.58</div>
+            <div class="ie-stat-label">突然死<br>（1.18–2.12）</div>
+          </div>
+          <div class="ie-stat ie-stat-red">
+            <div class="ie-stat-val">aHR 1.71</div>
+            <div class="ie-stat-label">ポンプ不全死<br>（1.29–2.25）</div>
+          </div>
+          <div class="ie-stat ie-stat-orange">
+            <div class="ie-stat-val">aHR 1.22</div>
+            <div class="ie-stat-label">初回HF入院<br>（1.02–1.46）</div>
+          </div>
+          <div class="ie-stat ie-stat-orange">
+            <div class="ie-stat-val">aHR 1.37</div>
+            <div class="ie-stat-label">HF入院または<br>全死因死亡（1.20–1.58）</div>
+          </div>
+        </div>
+        <p style="font-size:0.72rem;color:var(--muted);margin-top:8px;">参照群：K 4.0〜&lt;4.5 mmol/L。非心血管死のaHRは1.15（0.70–1.91）と有意差なし——低カリウムリスクの心血管特異性を裏付ける。</p>
+      </div>
+    </div>
+
+    <h3 id="k-s4" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+      <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 4</span>
+      軽度高カリウム血症（5.0〜5.5 mmol/L）は多変数調整後に死亡リスクと無関係
+    </h3>
+
+    <div class="alert-green" style="margin-bottom:16px;">
+      <p class="rule-body"><strong>【重要：GDMTを継続すべき根拠】</strong> HFrEFでK 5.0〜5.5 mmol/Lの調整済みHR（全死因死亡）は 0.96（95% CI 0.89–1.04）——参照群（4.0〜4.5）との差はなく、むしろ数値上は低い。粗発生率では10.5/100患者年（参照群9.4）とやや高いが、これは高K群がMRAを多く使用し腎機能も悪い（重症例が多い）ためであり、交絡を調整すると消失する。</p>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">HFrEFにおける最低リスクカリウム範囲の同定（3手法）</h3>
+        <p class="rule-body">最低リスクカリウム範囲を3つの統計手法で同定した。</p>
+        <div class="ie-flow" style="margin-top:12px;">
+          <div class="ie-flow-item">
+            <div class="ie-flow-num">1</div>
+            <div style="flex:1;"><p class="rule-body"><strong>Binary recursive partitioning：</strong>3.7〜5.0 mmol/L が最低リスク範囲として同定された（全死因死亡）。</p></div>
+          </div>
+          <div class="ie-flow-arrow">↓</div>
+          <div class="ie-flow-item">
+            <div class="ie-flow-num">2</div>
+            <div style="flex:1;"><p class="rule-body"><strong>調整済みHR の最小値：</strong>ナディルのカリウム濃度は 4.7 mmol/L（全死因死亡）。</p></div>
+          </div>
+          <div class="ie-flow-arrow">↓</div>
+          <div class="ie-flow-item">
+            <div class="ie-flow-num">3</div>
+            <div style="flex:1;"><p class="rule-body"><strong>発生率の最小値：</strong>ナディルのカリウム濃度は 4.4 mmol/L（全死因死亡）。</p></div>
+          </div>
+        </div>
+        <p class="rule-body" style="margin-top:12px;">すべてのアウトカムを考慮すると、最低リスクと関連する重複範囲は <strong>4.2〜5.0 mmol/L</strong> であった。</p>
+        <div class="k-range-box" style="margin-top:12px;">
+          <div class="k-range-val">4.2〜5.0 mmol/L</div>
+          <div class="k-range-label">HFrEFにおける最適血清カリウム範囲（全アウトカム統合）</div>
+        </div>
+      </div>
+    </div>
+
+    <h3 id="k-s5" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+      <span style="color:#16A34A;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 5</span>
+      サブグループ解析：eGFR・治療・MRA使用による層別
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">腎機能別（eGFR &lt;60 vs ≥60 mL/min/1.73 m²）</h3>
+        <p class="rule-body">eGFR &lt;60群では全アウトカムで高い発生率を示した。eGFR &lt;60群では発生率ナディルのカリウム濃度が4.8 mmol/Lと、eGFR ≥60群（4.3〜4.4 mmol/L）よりやや高かった。ただし、両群ともナディルは最終的な最適範囲（4.2〜5.0 mmol/L）内に収まっており、eGFR別に目標範囲を大きく変える必要はないとされた。全死因死亡・心血管死・複合アウトカムでeGFRとの有意な交互作用が認められた。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">治療アームおよびMRA使用別</h3>
+        <p class="rule-body">カテゴリー解析では治療アームおよびMRA使用との有意な交互作用は認められなかった。連続変数解析では、MRA使用群で発生率ナディルのカリウムが非使用群よりやや高かった（4.5 vs 4.4 mmol/L）が、差は小さく臨床的意義は限定的であった。</p>
+      </div>
+    </div>
+
+    <!-- SUMMARY Ch2 -->
+    <h3 id="k-sum2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+      第2章のキーメッセージ
+    </h3>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+            <span class="rule-body"><strong>低カリウム血症は圧倒的に危険：</strong>K &lt;3.5 mmol/Lの全死因死亡aHRは1.49（1.27–1.76）。突然死・ポンプ不全死・HF入院のすべてで有意なリスク上昇。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+            <span class="rule-body"><strong>軽度高カリウム血症（5.0〜5.5）は多変数調整後にリスクと無関連：</strong>aHR 0.96（0.89–1.04）。粗発生率の上昇は交絡によるもの。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+            <span class="rule-body"><strong>逆J字型リスク曲線（Figure 1）：</strong>非心血管死のみ曲線がほぼ平坦——低カリウムリスクが心血管系を介していることを示す。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+            <span class="rule-body"><strong>最適K範囲は 4.2〜5.0 mmol/L：</strong>3手法（binary recursive partitioning・HR nadir・発生率 nadir）の重複により同定。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+            <span class="rule-body"><strong>腎機能別でも最適範囲に大差なし：</strong>eGFR &lt;60ではナディルがやや高め（4.8 mmol/L）だが、いずれも4.2〜5.0内に収まる。</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- CHAPTER 3: HFpEF結果 -->
+    <!-- ============================================================ -->
+    <div id="k-ch3" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+      <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+      <div style="font-size:1.3rem;font-weight:900;position:relative;">第3章 HFpEFにおける結果</div>
+      <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">HFpEF Results — Flatter U-Shaped Association</div>
+    </div>
+
+    <h3 id="k-s6" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 6</span>
+      U字型だが平坦 — HFrEFとは対照的なリスクパターン
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">Figure 2：HFpEFにおけるカリウムとアウトカムの関係（連続変数解析）</h3>
+        <div class="ie-figure">
+          <img src="../images/k-hf2026-fig2.png" alt="Figure 2: Incidence rate for each outcome across the range of potassium levels in HFpEF">
+          <p class="ie-figure-caption">
+            <strong>Figure 2.</strong> HFpEFにおける各アウトカムの発生率（カリウム連続変数、per 100 患者年）。
+            (A) 全死因死亡、(B) 心血管死、(C) 突然死、(D) ポンプ不全死、(E) 非心血管死、(F) 初回HF入院、(G) HF入院または全死因死亡複合、(H) HF入院または心血管死複合。<br>
+            HFrEF（Figure 1）と比較して発生率全体が低く、リスク曲線は「浅いU字型」。カリウムの低下に伴うリスク急増がHFrEFほど顕著でなく、曲線がずっと平坦。突然死（C）はとくに低リスクかつ平坦であった。
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">HFpEF：カリウムカテゴリー別 全死因死亡（参照群：4.0〜&lt;4.5 mmol/L）</h3>
+        <div style="overflow-x:auto;">
+          <table class="ie-table">
+            <thead>
+              <tr>
+                <th style="white-space:nowrap;">K（mmol/L）</th>
+                <th>n</th>
+                <th style="white-space:nowrap;">粗発生率<br>（/100患者年）</th>
+                <th style="white-space:nowrap;">未調整HR<br>（95% CI）</th>
+                <th style="white-space:nowrap;">調整済みHR<br>（95% CI）</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td style="white-space:nowrap;">&lt;3.5</td><td>290</td><td>7.4（5.7–9.5）</td><td>1.30（1.00–1.70）</td><td>1.14（0.87–1.48）</td></tr>
+              <tr><td style="white-space:nowrap;">3.5〜&lt;4.0</td><td>1,968</td><td>5.8（5.3–6.5）</td><td>1.11（0.98–1.26）</td><td>1.07（0.94–1.21）</td></tr>
+              <tr style="background:#F0FDF4;"><td style="font-weight:700;white-space:nowrap;">4.0〜&lt;4.5 <span style="font-size:0.7rem;color:var(--muted);">参照</span></td><td>5,356</td><td>5.1（4.8–5.5）</td><td>—</td><td>—</td></tr>
+              <tr style="background:#F0FDF4;"><td style="font-weight:700;white-space:nowrap;">4.5〜&lt;5.0</td><td>4,602</td><td>5.3（4.9–5.7）</td><td>1.06（0.96–1.17）</td><td>1.03（0.93–1.13）</td></tr>
+              <tr><td style="white-space:nowrap;">5.0〜&lt;5.5</td><td>1,326</td><td>5.8（5.1–6.5）</td><td>1.21（1.05–1.40）</td><td>1.05（0.91–1.22）</td></tr>
+              <tr><td style="white-space:nowrap;">≥5.5</td><td>181</td><td>9.0（6.8–11.9）</td><td>1.92（1.43–2.57）</td><td>1.29（0.96–1.74）</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="font-size:0.72rem;color:var(--muted);margin-top:8px;">HFpEFでは全カテゴリーで発生率がHFrEFより低い。K &lt;3.5でも調整後aHRは1.14（非有意）。K ≥5.5のaHR 1.29も95% CI 0.96–1.74と有意差なし。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">HFpEFにおける最低リスクカリウム範囲</h3>
+        <p class="rule-body">HFpEFでは、aHRナディルと発生率ナディルはいずれも 4.3〜4.6 mmol/L 付近に収束した。Binary recursive partitioningは全死因死亡に対して 3.8〜5.3 mmol/L という広めの範囲を示した。すべてのアウトカムを考慮した重複範囲は <strong>4.2〜5.1 mmol/L</strong> であった——HFrEFの4.2〜5.0 mmol/Lとほぼ同一の範囲である。</p>
+        <div class="k-range-box" style="margin-top:12px;">
+          <div class="k-range-val">4.2〜5.1 mmol/L</div>
+          <div class="k-range-label">HFpEFにおける最適血清カリウム範囲（全アウトカム統合）</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ie-echo-grid" style="margin-bottom:16px;">
+      <div class="ie-echo-box">
+        <div class="ie-echo-name">HFrEF — 逆J字型（急峻）</div>
+        <div class="ie-echo-body">低K（&lt;3.5）で死亡リスクが急激に上昇。高K（5.0〜5.5）は多変数調整後に有意なリスクなし。神経ホルモン活性化が顕著で心室不整脈リスクが高いため、低Kの影響が大きい。</div>
+      </div>
+      <div class="ie-echo-box">
+        <div class="ie-echo-name">HFpEF — U字型（平坦）</div>
+        <div class="ie-echo-body">全体的なイベント発生率が低く、リスク曲線は平坦。低Kでのリスク上昇はHFrEFほど顕著でない。カリウムが直接のリスク因子というより、併存疾患の重症度マーカーとして機能している可能性がある。</div>
+      </div>
+    </div>
+
+    <!-- SUMMARY Ch3 -->
+    <h3 id="k-sum3" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+      第3章のキーメッセージ
+    </h3>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+            <span class="rule-body"><strong>HFpEFは全体的に低イベント率：</strong>K &lt;3.5でもaHR 1.14（非有意）——HFrEFの1.49とは対照的に、リスク上昇は限定的。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+            <span class="rule-body"><strong>浅いU字型リスク曲線（Figure 2）：</strong>HFrEFの急峻な逆J字型と対照的に、HFpEFのリスク曲線は全アウトカムで平坦。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+            <span class="rule-body"><strong>最適範囲はHFrEFと共通：</strong>4.2〜5.1 mmol/L（HFrEFは4.2〜5.0 mmol/L）——フェノタイプが違っても同じ目標範囲が適用できる。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+            <span class="rule-body"><strong>MRA・治療アームとの交互作用なし：</strong>HFpEFでは治療の種類によってカリウム–アウトカム関係が変わることはなかった。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+            <span class="rule-body"><strong>HFpEFでの厳密なカリウム管理は必須ではないが無視もできない：</strong>リスク勾配は穏やかでも、最適範囲からの逸脱はイベント増加傾向と関連し、全般的な注意は依然として必要。</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- CHAPTER 4: 臨床的意義 -->
+    <!-- ============================================================ -->
+    <div id="k-ch4" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+      <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+      <div style="font-size:1.3rem;font-weight:900;position:relative;">第4章 考察と臨床的意義</div>
+      <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Discussion & Clinical Implications</div>
+    </div>
+
+    <h3 id="k-s7" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 7</span>
+      「低カリウムを避け、高カリウムを恐れすぎない」——考え方の転換
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">臨床的含意：3つの実践ポイント</h3>
+        <div class="ie-flow">
+          <div class="ie-flow-item">
+            <div class="ie-flow-num">1</div>
+            <div style="flex:1;"><p class="rule-body"><strong>低カリウム血症を積極的に是正する：</strong>とくにHFrEFでは低カリウム血症が強力な予後不良因子。K &lt;4.0 mmol/Lを「低カリウム血症」として再定義することを著者らは提案している。現在の一般基準（&lt;3.5 mmol/L）では多くのリスク集団が見逃される。</p></div>
+          </div>
+          <div class="ie-flow-arrow">↓</div>
+          <div class="ie-flow-item">
+            <div class="ie-flow-num">2</div>
+            <div style="flex:1;"><p class="rule-body"><strong>軽度高カリウム血症でGDMTを中断しない：</strong>K 5.0〜5.5 mmol/Lは多変数調整後に死亡リスク増加と関連しない。他の原因除外と経過観察を優先し、生命予後を改善するGDMT（MRA・ACEi/ARB/ARNI・SGLT2i）を安易に中止しない。</p></div>
+          </div>
+          <div class="ie-flow-arrow">↓</div>
+          <div class="ie-flow-item">
+            <div class="ie-flow-num">3</div>
+            <div style="flex:1;"><p class="rule-body"><strong>目標カリウム範囲は 4.2〜5.0 mmol/L（両フェノタイプ共通）：</strong>POTCAST試験（血漿K 4.5〜5.0 mmol/Lへの補正が心室性不整脈・入院・死亡の複合を減少）の結果とも整合的。HFrEF・HFpEF問わず同じ目標範囲が適用できる。</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">「低カリウム血症の再定義」の根拠</h3>
+        <p class="rule-body">本研究の結果から、著者らは「HF患者における低カリウム血症をK &lt;4.0 mmol/Lと定義すべき」と提案している。K 3.5〜4.0 mmol/Lは現在「正常」とされているが、HFrEFではこの範囲でも参照群（4.0〜4.5）と比べてaHR 1.07（0.98–1.16）とわずかに高い傾向がある（統計的有意差はないが数値上の差は存在する）。さらに、慢性腎臓病患者でもK &lt;4.0 mmol/Lが腎・心血管アウトカムと強く関連するとの報告がある。</p>
+        <p class="rule-body" style="margin-top:8px;">低カリウムリスクの機序として、低Kはレニン-アンジオテンシン-アルドステロン系を活性化してナトリウム貯留と動脈トーンを高め、過剰なアルドステロンのマーカーとしても機能する。また、LOOP試験のサブ解析では血漿K低下と心房細動の強い関連（1 mmol/L低下で5倍のオッズ比）も報告されている。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">カリウム結合薬（パティロマー・炭酸水素ジルコニウムナトリウム）の位置づけ</h3>
+        <p class="rule-body">カリウム結合薬はGDMT継続を可能にするための補助手段として期待されているが、本研究の著者らは「役割は依然として不明確」と指摘している。炭酸水素ジルコニウムナトリウムではHF悪化の発生率上昇が報告されており（薬剤のナトリウム含量による体液貯留の可能性）、GDMTを継続させるために積極的にカリウムを下げる前に、軽度高K（5.0〜5.5）が本当にリスクとなるかを慎重に評価することが重要である。</p>
+      </div>
+    </div>
+
+    <div class="ie-alpha" style="margin-bottom:16px;">
+      <div class="ie-alpha-inner">
+        <div class="ie-alpha-header">
+          <span class="ie-alpha-badge">＋α</span>
+          <span class="ie-alpha-title">血漿カリウム vs 血清カリウムの換算</span>
+        </div>
+        <p class="rule-body" style="color:#4C1D95;">本解析で使用したのは血清カリウムだが、POTCAST試験は血漿カリウムを使用した。一般に血清カリウムは血漿よりも約0.1〜0.4 mmol/L高い（凝固時の細胞からのカリウム放出のため）。著者らは差の中央値を0.2 mmol/Lと仮定して換算を行っており、POTCAST目標血漿K（4.5〜5.0 mmol/L）は血清K換算で約4.7〜5.2 mmol/Lに相当する。本研究の発生率ナディル域（4.2〜5.0 mmol/L）と重なる範囲であり、両研究の結果は整合的といえる。</p>
+      </div>
+    </div>
+
+    <h3 id="k-s8" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+      <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 8</span>
+      限界と適用上の注意
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">この研究の限界</h3>
+        <p class="rule-body">本研究はpost-hoc解析であり、因果関係の確立はできない。RCT集積のため選択バイアスがあり、多くの試験で高カリウム血症患者が除外されており（高K群のリスクが過小評価されている可能性）、また重篤な腎機能障害患者は含まれていない。</p>
+        <p class="rule-body" style="margin-top:8px;">さらに、HFmrEF（LVEF 41〜49%）は解析対象外である。血清カリウムは前分析的要因（溶血・採血手技・処理遅延）にも影響されるが、これらは各試験間で統一されていない。これらの点を踏まえた上で本研究の結果を解釈する必要がある。</p>
+      </div>
+    </div>
+
+    <!-- SUMMARY Ch4 -->
+    <h3 id="k-sum4" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+      <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+      第4章のキーメッセージ
+    </h3>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+            <span class="rule-body"><strong>目標カリウムは 4.2〜5.0 mmol/L（両フェノタイプ共通）：</strong>HFrEF・HFpEFで同じ目標範囲が適用可能であり、POTCAST試験の結果とも整合する。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+            <span class="rule-body"><strong>低カリウム血症の再定義（K &lt;4.0 mmol/L）を提案：</strong>現在の基準（&lt;3.5）は心不全では不十分。「K 3.5〜4.0は正常だから安心」という考え方を再考すべきである。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+            <span class="rule-body"><strong>軽度高Kでは他原因除外・経過観察を先に：</strong>K 5.0〜5.5でGDMTを慌てて中止せず、偽高K・急性腎障害の一過性変化などを除外した後に方針を決める。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+            <span class="rule-body"><strong>カリウム結合薬の役割はまだ不明確：</strong>高Kを下げることで得られるベネフィットと、低Kへの振れリスク・ナトリウム過剰のトレードオフを個別に考慮する。</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+            <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+            <span class="rule-body"><strong>HFmrEFへの適用は未検討：</strong>本研究はHFrEF（≤40%）とHFpEF（≥50%）のみ対象。HFmrEF（41〜49%）については別途エビデンスが必要。</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 出典 -->
+    <p style="font-size:0.72rem;color:#9CA3AF;margin-top:16px;line-height:1.7;">
+      出典：Ono R, Chimura M, Docherty KF, et al. Optimal serum potassium concentrations in heart failure: an individual patient data meta-analysis. European Heart Journal. 2026.<br>
+      DOI：<a href="https://doi.org/10.1093/eurheartj/ehag341" target="_blank" rel="noopener" style="color:#60A5FA;">https://doi.org/10.1093/eurheartj/ehag341</a><br>
+      本資料は教育目的で作成したサマリーです。診断・治療方針の決定には必ず原典を参照してください。
+    </p>
+    <p style="font-size:0.75rem;color:var(--muted);text-align:right;margin-top:8px;">制作：ICU 関谷</p>
+
+      <!-- RELATED:START — auto-generated by scripts/sync-related-articles.js. Do not edit. -->
+      <section id="related-articles" class="related-articles" aria-label="関連ページ">
+        <h3 class="related-articles-title">関連ページ</h3>
+        <div class="related-articles-grid">
+        <a href="articles-gl-hfref-nma2022.html" class="related-card">
+          <div class="related-card-title">HFrEF薬物療法 ネットワークメタ解析</div>
+          <div class="related-card-badge">JACC Heart Failure 2022</div>
+          <div class="related-card-desc">75試験・95,444例のNMA — ARNi＋BB＋MRA＋SGLT2i（HR 0.39）が全死亡・CV死亡・HHF複合で最大効果。70歳で5.0年の生命延長</div>
+        </a>
+        <a href="articles-gl-fidelity-ehj2022.html" class="related-card">
+          <div class="related-card-title">FIDELITY統合解析 — フィネレノンとT2D-CKD患者の心腎アウトカム</div>
+          <div class="related-card-badge">Eur Heart J 2022</div>
+          <div class="related-card-desc">Agarwal et al. Eur Heart J 2022 › FIDELIO-DKD + FIGARO-DKD統合 N=13,026。CV複合HR 0.86（P=0.0018）、腎複合HR 0.77（P=0.0002）。HHF HR 0.78、ESKD HR 0.80。高K血症中止1.7%、致死例ゼロ。</div>
+        </a>
+        <a href="articles-gl-hfpef-cmt2025.html" class="related-card">
+          <div class="related-card-title">HFmrEF/HFpEF 包括的薬物療法の生涯ベネフィット — クロストライアル解析</div>
+          <div class="related-card-badge">Nature Medicine 2025</div>
+          <div class="related-card-desc">DELIVER・FINEARTS-HF・PARAGON-HFのクロストライアル解析。SGLT2i+nsMRA 2剤でリスク31%減少（HR 0.69）、LVEF&lt;60%ではSGLT2i+nsMRA+ARNI 3剤でリスク39%減少（HR 0.61）。65歳で+3.6〜4.9年のイベントフリー生存期間延長</div>
+        </a>
+        <a href="articles-gl-af-hf-jacc2024.html" class="related-card">
+          <div class="related-card-title">AF合併心不全 GDMT — Newman 2024（JACC State-of-the-Art）</div>
+          
+          <div class="related-card-desc">AF+HF 共存50%。GDMT（ACEi/ARB/ARNI/BB/MRA/SGLT2i）の AF 予防効果と AF 合併時の有効性。アブレーション・リズムコントロールの役割</div>
+        </a>
+        <a href="articles-gl-jcs-hf2025.html" class="related-card">
+          <div class="related-card-title">JCS/JHFS 2025 心不全診療ガイドライン — 全章まとめ</div>
+          
+          <div class="related-card-desc">2025年改訂版 心不全診療ガイドライン（日本循環器学会/日本心不全学会）の全章サマリー。定義・疫学・診断・薬物療法・デバイス・特別病態・疾病管理・緩和ケア・地域連携まで網羅</div>
+        </a>
+        <a href="articles-gl-loop-diuretics-bmj2019.html" class="related-card">
+          <div class="related-card-title">ループ利尿薬の正しい処方法</div>
+          <div class="related-card-badge">BMJ 2019</div>
+          <div class="related-card-desc">Anisman et al. によるループ利尿薬の薬理学・処方法の実践的レビュー。All-or-none効果・閾値投与・トルセミド vs フロセミド比較・等価用量・As-needed dry weight投与・処方エラー回避・利尿量の増減戦略を網羅。</div>
+        </a>
+        <a href="articles-gl-ada-cvd2026.html" class="related-card">
+          <div class="related-card-title">糖尿病の心血管疾患・リスク管理 — ADA Standards of Care 2026 Section 10</div>
+          
+          <div class="related-card-desc">ADA 2026 Standards of Care in Diabetes Section 10 — 高血圧・脂質管理・抗血小板療法・SGLT2i/GLP-1 RA・心不全</div>
+        </a>
+        <a href="articles-gl-zafeiropoulos-af2024.html" class="related-card">
+          <div class="related-card-title">リズム vs レートコントロール（AF）— RCTメタ解析</div>
+          <div class="related-card-badge">Zafeiropoulos 2024</div>
+          <div class="related-card-desc">18 RCT・17,536例のメタ解析。リズムコントロールはCV死（HR 0.78）・脳卒中（HR 0.801）・心不全入院（HR 0.80）を有意に低下。アブレーション割合が高いほど転帰改善。HF合併例ではさらに大きな効果。</div>
+        </a>
+        <a href="articles-gl-tls-nejm2025.html" class="related-card">
+          <div class="related-card-title">腫瘍崩壊症候群（TLS）NEJM総説 2025（Bociek &amp; Lunning）</div>
+          
+          <div class="related-card-desc">TLSの病態生理・Cairo-Bishop診断基準・リスク層別・予防（アロプリノール/rasburicase/輸液）・電解質管理・ベネトクラクス・偽高カリウム血症・新規標的療法</div>
+        </a>
+        <a href="articles-gl-rhc-hf2024.html" class="related-card">
+          <div class="related-card-title">右心カテーテルによる血行動態評価 実践ガイド</div>
+          <div class="related-card-badge">JACC HF 2024</div>
+          <div class="related-card-desc">心不全全スペクトラムにわたるRHCの実践ガイド。正常値・計算式（CPO/PAPI/PVR）・ピットフォール・心原性ショック（SCAI分類）・HFrEF/HFpEF・肺高血圧症・LVAD・移植・門脈圧亢進症</div>
+        </a>
+        </div>
+      </section>
+      <!-- RELATED:END -->
+
+  </main>
+
+  <!-- SIDEBAR -->
+  <aside class="ie-sidebar">
+    <div class="ie-sidebar-card">
+      <div class="ie-sidebar-title">目次</div>
+      <a href="#k-ch1" class="ie-toc-chapter">第1章 研究の背景と設計</a>
+      <a href="#k-s1" class="ie-toc-section">S1 — なぜこの研究が必要だったか</a>
+      <a href="#k-s2" class="ie-toc-section">S2 — 研究デザイン</a>
+      <a href="#k-ch2" class="ie-toc-chapter">第2章 HFrEFにおける結果</a>
+      <a href="#k-s3" class="ie-toc-section">S3 — 逆J字型リスク曲線</a>
+      <a href="#k-s4" class="ie-toc-section">S4 — 軽度高Kはリスクと無関係</a>
+      <a href="#k-s5" class="ie-toc-section">S5 — サブグループ解析</a>
+      <a href="#k-ch3" class="ie-toc-chapter">第3章 HFpEFにおける結果</a>
+      <a href="#k-s6" class="ie-toc-section">S6 — 平坦なU字型リスク曲線</a>
+      <a href="#k-ch4" class="ie-toc-chapter">第4章 考察と臨床的意義</a>
+      <a href="#k-s7" class="ie-toc-section">S7 — 考え方の転換と3つの実践ポイント</a>
+      <a href="#k-s8" class="ie-toc-section">S8 — 限界と適用上の注意</a>
+      <!-- RELATED-TOC:START — auto-generated by scripts/sync-related-articles.js. Do not edit. -->
+      <a href="#related-articles" class="ie-toc-chapter ie-toc-related">関連ページ</a>
+      <!-- RELATED-TOC:END -->
+    </div>
+  </aside>
+
+</div><!-- /.container -->
+
+<script src="../script.js?v=20260528a"></script>
+<script src="../abbr-tooltip.js"></script>
+</body>
+</html>
