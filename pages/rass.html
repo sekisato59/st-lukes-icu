@@ -167,18 +167,102 @@
 
     /* ===== 評価方法 ===== */
     .method-card {
-      margin:0 0 12px;padding:11px 14px;
+      margin:0 0 16px;padding:16px 18px;
       background:#fff;border:1px solid var(--border);border-radius:10px;
     }
     .method-title {
-      font-size:0.78rem;font-weight:900;color:#047857;
-      margin:0 0 6px;padding-bottom:5px;border-bottom:1.5px solid #A7F3D0;
+      font-size:0.95rem;font-weight:900;color:#047857;
+      margin:0 0 14px;padding-bottom:8px;border-bottom:1.5px solid #A7F3D0;
     }
-    .method-card ol { margin:0;padding-left:1.2em;font-size:0.74rem;line-height:1.55;color:#334155; }
-    .method-card ol li { margin-bottom:2px; }
-    .method-card ol ul { margin:1px 0 0;padding-left:1em;font-size:0.7rem;line-height:1.5; }
-    .method-card ol ul li { margin-bottom:0; }
-    .method-card strong { color:#064E3B; }
+    .step-flow { display:flex;flex-direction:column;gap:4px; }
+    .step-item {
+      display:flex;gap:12px;
+      padding:10px 14px;
+      background:#F8FAFC;border:1px solid #E2E8F0;border-radius:8px;
+    }
+    .step-num {
+      flex-shrink:0;
+      width:30px;height:30px;
+      background:#64748B;color:#fff;
+      border-radius:50%;
+      display:flex;align-items:center;justify-content:center;
+      font-weight:900;font-size:0.95rem;line-height:1;
+    }
+    .step-body { flex:1;min-width:0; }
+    .step-name {
+      font-size:0.92rem;font-weight:900;color:#1E293B;
+      margin-bottom:2px;line-height:1.3;
+    }
+    .step-desc {
+      font-size:0.83rem;color:#334155;line-height:1.5;
+    }
+    .step-result {
+      font-size:0.83rem;color:#334155;margin-top:2px;line-height:1.5;
+    }
+    .step-result strong { color:#047857;font-weight:900; }
+    .step-options {
+      display:flex;flex-direction:column;gap:4px;margin-top:6px;
+    }
+    .step-opt {
+      display:grid;
+      grid-template-columns:42px minmax(110px,160px) 1fr;
+      gap:10px;align-items:center;
+      font-size:0.82rem;color:#334155;line-height:1.4;
+      padding:6px 10px;
+      background:#fff;border:1.5px solid #BBF7D0;border-radius:6px;
+      cursor:pointer;
+      transition:transform .12s, box-shadow .15s, border-color .15s;
+    }
+    .step-opt:hover { border-color:#6EE7B7;transform:translateX(2px);box-shadow:0 2px 8px rgba(4,120,87,0.08); }
+    .step-opt.selected { border-width:2px;border-color:#10B981;box-shadow:0 3px 12px rgba(4,120,87,0.18); }
+    .step-opt:focus { outline:none;border-color:#10B981; }
+    .opt-name { font-size:0.82rem;font-weight:800;color:#064E3B;line-height:1.3; }
+    .opt-en   { font-size:0.62rem;font-weight:600;color:#94A3B8;display:block;margin-top:1px;letter-spacing:0.04em; }
+    .opt-desc { font-size:0.78rem;color:#334155;line-height:1.5; }
+    .step-arrow {
+      display:flex;align-items:center;gap:8px;
+      padding:2px 0 2px 14px;
+      font-size:0.78rem;color:#047857;font-weight:700;
+    }
+    .step-arrow::before { content:"↓";font-size:1rem;line-height:1; }
+    .opt-score {
+      flex-shrink:0;
+      display:inline-flex;align-items:center;justify-content:center;
+      min-width:36px;padding:3px 6px;
+      background:#047857;color:#fff;
+      border-radius:4px;
+      font-weight:900;font-size:0.78rem;line-height:1.2;
+      font-variant-numeric:tabular-nums;
+      font-family:ui-monospace,Menlo,Consolas,monospace;letter-spacing:-0.02em;
+    }
+    /* RASS スコア一覧と同じ配色 */
+    .opt-score[data-score="4"]  { background:#B91C1C; }
+    .opt-score[data-score="3"]  { background:#DC2626; }
+    .opt-score[data-score="2"]  { background:#EA580C; }
+    .opt-score[data-score="1"]  { background:#F59E0B; }
+    .opt-score[data-score="0"]  { background:#16A34A; }
+    .opt-score[data-score="-1"] { background:#10B981; }
+    .opt-score[data-score="-2"] { background:#059669; }
+    .opt-score[data-score="-3"] { background:#047857; }
+    .opt-score[data-score="-4"] { background:#1E40AF; }
+    .opt-score[data-score="-5"] { background:#312E81; }
+    .step-result-chips {
+      display:flex;flex-wrap:wrap;align-items:center;gap:5px;
+      margin-top:4px;font-size:0.82rem;color:#334155;line-height:1.5;
+    }
+    @media (max-width:600px) {
+      .step-item { padding:10px 12px;gap:10px; }
+      .step-num { width:28px;height:28px;font-size:0.88rem; }
+      .step-name { font-size:0.88rem; }
+      .step-desc, .step-result { font-size:0.8rem; }
+      .step-opt {
+        grid-template-columns:36px 1fr;
+        gap:8px;
+      }
+      .opt-name { font-size:0.78rem; }
+      .opt-en   { font-size:0.6rem; }
+      .opt-desc { grid-column:1 / -1;font-size:0.72rem;line-height:1.5; }
+    }
 
     .disclaimer {
       font-size:0.72rem;color:#94A3B8;line-height:1.7;margin-top:24px;
@@ -266,86 +350,87 @@
 
   <div class="method-card">
     <h2 class="method-title">評価手順（3 ステップ）</h2>
-    <ol>
-      <li><strong>観察：</strong>30 秒間、患者を観察 → +4 〜 0 のいずれか</li>
-      <li><strong>声かけ：</strong>名前を呼んで「目を開けて、私を見てください」と指示
-        <ul>
-          <li>10秒以上のアイコンタクトあり → −1</li>
-          <li>10秒未満のアイコンタクトあり → −2</li>
-          <li>動きや開眼はあるがアイコンタクトなし → −3</li>
-        </ul>
-      </li>
-      <li><strong>身体刺激：</strong>声かけで反応がない場合、肩を揺する／胸骨を擦る
-        <ul>
-          <li>動きや開眼あり → −4</li>
-          <li>反応なし → −5</li>
-        </ul>
-      </li>
-    </ol>
-  </div>
-
-  <div class="rass-grid" id="rassGrid">
-    <div class="rass-row" data-score="4"  tabindex="0">
-      <span class="rass-score">+4</span>
-      <span><span class="rass-name">闘争的</span><span class="rass-en">COMBATIVE</span></span>
-      <span class="rass-desc">明らかに闘争的、暴力的、スタッフへの即時の危険</span>
+    <div class="step-flow">
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <div class="step-name">観察</div>
+          <div class="step-desc">30 秒間、患者を観察する</div>
+          <div class="step-options">
+            <div class="step-opt" tabindex="0">
+              <span class="opt-score" data-score="4">+4</span>
+              <span><span class="opt-name">闘争的</span><span class="opt-en">COMBATIVE</span></span>
+              <span class="opt-desc">明らかに闘争的、暴力的、スタッフへの即時の危険</span>
+            </div>
+            <div class="step-opt" tabindex="0">
+              <span class="opt-score" data-score="3">+3</span>
+              <span><span class="opt-name">強い不穏</span><span class="opt-en">VERY AGITATED</span></span>
+              <span class="opt-desc">チューブ・カテーテル類を引き抜く、攻撃的</span>
+            </div>
+            <div class="step-opt" tabindex="0">
+              <span class="opt-score" data-score="2">+2</span>
+              <span><span class="opt-name">不穏</span><span class="opt-en">AGITATED</span></span>
+              <span class="opt-desc">頻繁な無目的の動き、人工呼吸器との非同調</span>
+            </div>
+            <div class="step-opt" tabindex="0">
+              <span class="opt-score" data-score="1">+1</span>
+              <span><span class="opt-name">落ち着きがない</span><span class="opt-en">RESTLESS</span></span>
+              <span class="opt-desc">不安または不安そうだが、活発で攻撃的でない</span>
+            </div>
+            <div class="step-opt" tabindex="0">
+              <span class="opt-score" data-score="0">0</span>
+              <span><span class="opt-name">意識清明・穏やか</span><span class="opt-en">ALERT AND CALM</span></span>
+              <span class="opt-desc">意識清明で穏やか</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="step-arrow">反応がなければ ② へ</div>
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <div class="step-name">声かけ</div>
+          <div class="step-desc">名前を呼んで「目を開けて、私を見てください」と指示</div>
+          <div class="step-options">
+            <div class="step-opt" tabindex="0">
+              <span class="opt-score" data-score="-1">−1</span>
+              <span><span class="opt-name">傾眠</span><span class="opt-en">DROWSY</span></span>
+              <span class="opt-desc">声かけに対し 10 秒以上 開眼・アイコンタクト</span>
+            </div>
+            <div class="step-opt" tabindex="0">
+              <span class="opt-score" data-score="-2">−2</span>
+              <span><span class="opt-name">軽度鎮静</span><span class="opt-en">LIGHT SEDATION</span></span>
+              <span class="opt-desc">声かけに対し 10 秒未満 開眼・アイコンタクト</span>
+            </div>
+            <div class="step-opt" tabindex="0">
+              <span class="opt-score" data-score="-3">−3</span>
+              <span><span class="opt-name">中等度鎮静</span><span class="opt-en">MODERATE SEDATION</span></span>
+              <span class="opt-desc">声かけに動き・開眼で反応するが、アイコンタクトなし</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="step-arrow">声かけに反応がなければ ③ へ</div>
+      <div class="step-item">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <div class="step-name">身体刺激</div>
+          <div class="step-desc">肩を揺する／胸骨を擦る</div>
+          <div class="step-options">
+            <div class="step-opt" tabindex="0">
+              <span class="opt-score" data-score="-4">−4</span>
+              <span><span class="opt-name">深い鎮静</span><span class="opt-en">DEEP SEDATION</span></span>
+              <span class="opt-desc">身体刺激で動き・開眼あり</span>
+            </div>
+            <div class="step-opt" tabindex="0">
+              <span class="opt-score" data-score="-5">−5</span>
+              <span><span class="opt-name">昏睡</span><span class="opt-en">UNAROUSABLE</span></span>
+              <span class="opt-desc">声かけ・身体刺激ともに反応なし</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="rass-row" data-score="3"  tabindex="0">
-      <span class="rass-score">+3</span>
-      <span><span class="rass-name">強い不穏</span><span class="rass-en">VERY AGITATED</span></span>
-      <span class="rass-desc">チューブ・カテーテル類を引き抜く、攻撃的</span>
-    </div>
-    <div class="rass-row" data-score="2"  tabindex="0">
-      <span class="rass-score">+2</span>
-      <span><span class="rass-name">不穏</span><span class="rass-en">AGITATED</span></span>
-      <span class="rass-desc">頻繁な無目的の動き、人工呼吸器との非同調</span>
-    </div>
-    <div class="rass-row" data-score="1"  tabindex="0">
-      <span class="rass-score">+1</span>
-      <span><span class="rass-name">落ち着きがない</span><span class="rass-en">RESTLESS</span></span>
-      <span class="rass-desc">不安または不安そうだが、活発で攻撃的でない</span>
-    </div>
-    <div class="rass-row" data-score="0"  tabindex="0">
-      <span class="rass-score">0</span>
-      <span><span class="rass-name">意識清明・穏やか</span><span class="rass-en">ALERT AND CALM</span></span>
-      <span class="rass-desc">意識清明で穏やか</span>
-    </div>
-    <div class="rass-row" data-score="-1" tabindex="0">
-      <span class="rass-score">−1</span>
-      <span><span class="rass-name">傾眠</span><span class="rass-en">DROWSY</span></span>
-      <span class="rass-desc">完全には清明でないが、声かけに対し <strong>10秒以上</strong> 開眼・アイコンタクト</span>
-    </div>
-    <div class="rass-row" data-score="-2" tabindex="0">
-      <span class="rass-score">−2</span>
-      <span><span class="rass-name">軽度鎮静</span><span class="rass-en">LIGHT SEDATION</span></span>
-      <span class="rass-desc">声かけに対し <strong>10秒未満</strong> 開眼・アイコンタクト</span>
-    </div>
-    <div class="rass-row" data-score="-3" tabindex="0">
-      <span class="rass-score">−3</span>
-      <span><span class="rass-name">中等度鎮静</span><span class="rass-en">MODERATE SEDATION</span></span>
-      <span class="rass-desc">声かけに動きまたは開眼で反応するが、アイコンタクトなし</span>
-    </div>
-    <div class="rass-row" data-score="-4" tabindex="0">
-      <span class="rass-score">−4</span>
-      <span><span class="rass-name">深い鎮静</span><span class="rass-en">DEEP SEDATION</span></span>
-      <span class="rass-desc">声かけには反応なし、身体刺激で動きまたは開眼</span>
-    </div>
-    <div class="rass-row" data-score="-5" tabindex="0">
-      <span class="rass-score">−5</span>
-      <span><span class="rass-name">昏睡</span><span class="rass-en">UNAROUSABLE</span></span>
-      <span class="rass-desc">声かけ・身体刺激ともに反応なし</span>
-    </div>
-  </div>
-
-  <div class="result-card" id="resultCard">
-    <div class="result-card-head">
-      <span class="result-score-big" id="resultScore">—</span>
-      <span>
-        <div class="result-name"  id="resultName">未選択</div>
-        <div class="result-en"    id="resultEn"></div>
-      </span>
-    </div>
-    <div class="result-comment" id="resultComment"></div>
   </div>
 
   <div class="disclaimer">
@@ -359,49 +444,14 @@
 <script src="../abbr-tooltip.js"></script>
 <script>
   (function(){
-    var grid = document.getElementById('rassGrid');
-    var rows = grid.querySelectorAll('.rass-row');
-    var card = document.getElementById('resultCard');
-    var sEl  = document.getElementById('resultScore');
-    var nEl  = document.getElementById('resultName');
-    var enEl = document.getElementById('resultEn');
-    var cEl  = document.getElementById('resultComment');
-
-    var comments = {
-      '4':  '直ちに患者・スタッフの安全確保。鎮静（プロポフォール・デクスメデトミジン等）の追加と原因（疼痛・せん妄・呼吸器非同調・離脱症状等）の評価を。',
-      '3':  '安全確保＋鎮静量見直し。CAM-ICU で過活動型せん妄の評価を併せて行う。',
-      '2':  '不快の原因（疼痛・尿閉・体位・呼吸器同調等）を順に確認し、必要に応じて鎮静調整。',
-      '1':  '不安・不快の原因を評価。鎮静はまだ追加せず、声かけ・体位・環境調整から。',
-      '0':  '<strong>多くの ICU 患者で目標範囲（−2 〜 0）。</strong>清明で協力可能な状態。',
-      '-1': '<strong>目標範囲内（−2 〜 0）。</strong>軽い傾眠。鎮静薬の減量・中止判断の良いタイミング。',
-      '-2': '<strong>目標範囲内（−2 〜 0）。</strong>軽度鎮静。SAT/SBT の対象になる。',
-      '-3': '中等度鎮静。深すぎる場合は鎮静量の再評価を。SAT 試験を検討。',
-      '-4': '深鎮静。緊急時・難治性低酸素・神経損傷管理等の特定の適応がない限り、鎮静量を減らす方向で。',
-      '-5': '昏睡レベル。鎮静過剰または重篤な脳機能障害の可能性。原因評価と鎮静中止が原則（重症脳症・脳保護目的を除く）。'
-    };
-    var enMap = {
-      '4':'COMBATIVE','3':'VERY AGITATED','2':'AGITATED','1':'RESTLESS','0':'ALERT AND CALM',
-      '-1':'DROWSY','-2':'LIGHT SEDATION','-3':'MODERATE SEDATION','-4':'DEEP SEDATION','-5':'UNAROUSABLE'
-    };
-    var nameMap = {
-      '4':'闘争的','3':'強い不穏','2':'不穏','1':'落ち着きがない','0':'意識清明・穏やか',
-      '-1':'傾眠','-2':'軽度鎮静','-3':'中等度鎮静','-4':'深い鎮静','-5':'昏睡'
-    };
-
-    function select(score) {
-      rows.forEach(function(r){ r.classList.toggle('selected', r.getAttribute('data-score') === score); });
-      sEl.textContent  = (parseInt(score) >= 0 ? '+' : '−') + Math.abs(parseInt(score));
-      if (score === '0') sEl.textContent = '0';
-      nEl.textContent  = nameMap[score];
-      enEl.textContent = enMap[score];
-      cEl.innerHTML    = comments[score];
-      card.classList.add('visible');
-      card.scrollIntoView({behavior:'smooth', block:'nearest'});
+    var opts = document.querySelectorAll('.step-opt');
+    function select(target) {
+      opts.forEach(function(o){ o.classList.toggle('selected', o === target); });
     }
-    rows.forEach(function(r){
-      r.addEventListener('click', function(){ select(r.getAttribute('data-score')); });
-      r.addEventListener('keydown', function(e){
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); select(r.getAttribute('data-score')); }
+    opts.forEach(function(o){
+      o.addEventListener('click', function(){ select(o); });
+      o.addEventListener('keydown', function(e){
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); select(o); }
       });
     });
   })();
