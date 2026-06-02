@@ -914,6 +914,18 @@ ICUチームへ一言：</pre>
             });
             mount.innerHTML = '';
             mount.appendChild(frag);
+            // ===== 最終的な強制スタイル適用（fetch 完了後、appendChild の直後にもう一度）=====
+            // CSS specificity・キャッシュ・他 JS の上書きを全て突破する最後の砦
+            setTimeout(function(){
+              var cards = mount.querySelectorAll('.card');
+              cards.forEach(function(c){
+                c.style.setProperty('background', '#FFFFFF', 'important');
+                c.style.setProperty('border', '1px solid #1E3A8A', 'important');
+                c.style.setProperty('border-radius', '8px', 'important');
+                c.style.setProperty('box-shadow', '0 4px 20px rgba(13,79,140,0.10)', 'important');
+                c.style.setProperty('overflow', 'visible', 'important');
+              });
+            }, 0);
           });
         })
         .catch(function (e) {
