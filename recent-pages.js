@@ -10,6 +10,13 @@
  */
 const RECENT_PAGES = [
   {
+    title: "IDSA 2009 血管内カテーテル関連感染症 診断・管理ガイドライン — 聖路加国際病院ICU",
+    url: "pages/articles-gl-idsa-crbsi2009.html",
+    date: "2026-06-02",
+    tag: "ガイドライン",
+    thumb: "images/IDICUtop.png"
+  },
+  {
     title: "患者-人工呼吸器非同調（PVA）と臨床転帰 — SR・メタ解析（Critical Care Medicine 2025）",
     url: "pages/articles-gl-pva-asynchrony2025.html",
     date: "2026-06-02",
