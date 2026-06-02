@@ -9,7 +9,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../style-v2.css?v=20260528a">
+  <link rel="stylesheet" href="../style-v2.css?v=20260602a">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <style>
     /* ===== タブナビゲーション（カードトップ風・右寄せ） ===== */
     .res-tabs-wrap {
@@ -1908,8 +1911,27 @@ ICUチームへ一言：</pre>
     })();
   </script>
 
-  <script src="../script.js?v=20260528a"></script>
+  <script src="../script.js?v=20260602a"></script>
   <script src="../abbr-tooltip.js"></script>
+
+  <!-- ===== ミラーカードの縁デザイン強制適用（<style> インジェクト） ===== -->
+  <script>
+    (function injectMirrorCardStyle(){
+      var s = document.createElement('style');
+      s.id = 'mirror-card-style-override';
+      s.textContent = ''
+        + '#rules-mirror-biz > .card, #rules-mirror-overtime > .card,'
+        + '#rules-mirror-biz > .biz-card, #rules-mirror-overtime > .biz-card,'
+        + 'div#rules-mirror-biz > div.card, div#rules-mirror-overtime > div.card {'
+        + '  background: #FFFFFF !important;'
+        + '  border: 1px solid #1E3A8A !important;'
+        + '  border-radius: 8px !important;'
+        + '  box-shadow: 0 4px 20px rgba(13,79,140,0.10) !important;'
+        + '  overflow: visible !important;'
+        + '}';
+      document.head.appendChild(s);
+    })();
+  </script>
 
   <!-- ===== ICUのルール 親ページからの自動同期 ===== -->
   <script>
@@ -1980,11 +2002,28 @@ ICUチームへ一言：</pre>
                 clone.id = 'mirror-' + id;
               }
               clone.style.marginBottom = '16px';
+              // 縁デザインを当ページの他カードと揃える（直接 inline style + !important で確実に適用）
+              clone.style.setProperty('background', '#FFFFFF', 'important');
+              clone.style.setProperty('border', '1px solid #1E3A8A', 'important');
+              clone.style.setProperty('border-radius', '8px', 'important');
+              clone.style.setProperty('box-shadow', '0 4px 20px rgba(13,79,140,0.10)', 'important');
+              clone.style.setProperty('overflow', 'visible', 'important');
               attachSourceLink(clone, url, id);
               frag.appendChild(clone);
             });
             mount.innerHTML = '';
             mount.appendChild(frag);
+            // 最終的な強制スタイル適用（appendChild の直後にもう一度）
+            setTimeout(function(){
+              var cards = mount.querySelectorAll('.card');
+              cards.forEach(function(c){
+                c.style.setProperty('background', '#FFFFFF', 'important');
+                c.style.setProperty('border', '1px solid #1E3A8A', 'important');
+                c.style.setProperty('border-radius', '8px', 'important');
+                c.style.setProperty('box-shadow', '0 4px 20px rgba(13,79,140,0.10)', 'important');
+                c.style.setProperty('overflow', 'visible', 'important');
+              });
+            }, 0);
           });
         })
         .catch(function (e) {
