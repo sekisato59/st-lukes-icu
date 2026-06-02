@@ -167,6 +167,39 @@
       box-shadow: var(--shadow-sm) !important;
       border-radius: var(--radius) !important;
     }
+    /* ===== モバイル：ミラーカードの「ポイント①」バッジとタイトル文字の縦位置ずれを解消 =====
+       JS が inline で display:flex; align-items:center を付与しているが、
+       バッジ（小フォント + 大 padding）とタイトル文字（大フォント）の高さが違うため
+       center 整列だと文字の baseline がずれて見える。
+       モバイルでは縦並びに変更し、バッジをタイトル上に独立配置することで一文字目の開始位置も
+       本文の左端と完全に揃える。 */
+    @media (max-width: 767px) {
+      #rules-mirror-biz .rule-title,
+      #rules-mirror-overtime .rule-title {
+        display: block !important;
+        align-items: initial !important;
+        flex-wrap: initial !important;
+      }
+      #rules-mirror-biz .rule-badge,
+      #rules-mirror-overtime .rule-badge {
+        display: block !important;
+        width: fit-content !important;
+        margin: 0 0 10px 0 !important;
+        flex-shrink: initial !important;
+      }
+      /* 本文の呼吸感確保：global の card-inner mobile padding（10-14 / 12-16）より広めに */
+      #rules-mirror-biz > .card > .card-inner,
+      #rules-mirror-overtime > .card > .card-inner {
+        padding: 16px 18px !important;
+      }
+    }
+    /* デスクトップ：JS が center 整列にしているのを baseline 整列に変更（バッジ内文字とタイトル文字の baseline 揃え） */
+    @media (min-width: 768px) {
+      #rules-mirror-biz .rule-title,
+      #rules-mirror-overtime .rule-title {
+        align-items: baseline !important;
+      }
+    }
   </style>
 </head>
 <body>
