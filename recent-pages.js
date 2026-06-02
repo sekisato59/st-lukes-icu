@@ -10,7 +10,7 @@
  */
 const RECENT_PAGES = [
   {
-    title: "IDSA 2009 血管内カテーテル関連感染症 診断・管理ガイドライン — 聖路加国際病院ICU",
+    title: "IDSA 2009 血管内カテーテル関連感染症 診断・管理ガイドライン",
     url: "pages/articles-gl-idsa-crbsi2009.html",
     date: "2026-06-02",
     tag: "ガイドライン",
