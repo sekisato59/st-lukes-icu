@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>患者-人工呼吸器非同調（PVA）と臨床転帰 — SR・メタ解析（Critical Care Medicine 2025）| 聖路加ICU</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style-v2.css?v=20260528a">
+  <style>
+    .content-wrap { display:flex;gap:32px;align-items:flex-start;max-width:1294px;margin:0 auto;padding:32px 20px 80px; }
+    .main-col { flex:1;min-width:0;max-width:900px; }
+    .ie-toc-chapter { display:block;font-size:0.8rem;font-weight:700;color:var(--text);padding:6px 0;border-bottom:1px solid var(--border);text-decoration:none;line-height:1.4; }
+    .ie-toc-section { display:block;font-size:0.75rem;color:var(--muted);padding:4px 0 4px 10px;text-decoration:none;line-height:1.4;border-left:2px solid var(--border); }
+
+    .ie-table { width:100%;border-collapse:collapse;font-size:0.82rem;margin-top:10px; }
+    .ie-table th { background:#F0FDF4;border:1px solid #BBF7D0;padding:8px 12px;font-weight:700;font-size:0.78rem;text-align:left; }
+    .ie-table td { border:1px solid var(--border);padding:8px 12px;vertical-align:top;line-height:1.7; }
+    .ie-table tr:nth-child(even) td { background:#F8FAFC; }
+
+    .ie-flow { display:flex;flex-direction:column;gap:0; }
+    .ie-flow-item { display:flex;align-items:flex-start;gap:14px;background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:14px 16px; }
+    .ie-flow-arrow { text-align:center;color:#2D7A4F;font-size:1.1rem;font-weight:700;padding:4px 0; }
+    .ie-flow-num { width:28px;height:28px;border-radius:50%;background:#2D7A4F;color:#fff;font-size:0.78rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0; }
+
+    .ie-stat-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px; }
+    @media(max-width:520px){ .ie-stat-grid{grid-template-columns:1fr 1fr;} }
+    .ie-stat { background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;padding:14px 12px;text-align:center; }
+    .ie-stat-val { font-size:1.25rem;font-weight:900;color:#2D7A4F;line-height:1.3; }
+    .ie-stat-label { font-size:0.68rem;color:var(--muted);margin-top:5px;line-height:1.5; }
+    .ie-stat.red { background:#FEF2F2;border-color:#FECACA; }
+    .ie-stat.red .ie-stat-val { color:#DC2626; }
+    .ie-stat.orange { background:#FFF7ED;border-color:#FED7AA; }
+    .ie-stat.orange .ie-stat-val { color:#EA580C; }
+    .ie-stat.gray { background:#F8FAFC;border-color:#E2E8F0; }
+    .ie-stat.gray .ie-stat-val { color:#64748B; }
+
+    .ie-score-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-top:10px; }
+    .ie-score-card { background:#F8FAFC;border:1px solid var(--border);border-radius:8px;overflow:hidden; }
+    .ie-score-head { background:#E0F2E9;padding:8px 14px;font-size:0.78rem;font-weight:800;color:#166534; }
+    .ie-score-items { padding:10px 14px; }
+    .ie-score-item { display:block;font-size:0.8rem;line-height:1.7;padding:2px 0; }
+    .ie-score-pt { display:inline-block;font-size:0.72rem;font-weight:800;color:#2D7A4F;background:#D1FAE5;border-radius:3px;padding:0 5px;margin-right:6px; }
+    .ie-score-foot { padding:6px 14px 10px;font-size:0.75rem;color:var(--muted);font-style:italic; }
+
+    .alert-red { background:#FEF2F2;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#7F1D1D;line-height:1.7; }
+    .alert-blue { background:#EFF6FF;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#1E3A5F;line-height:1.7; }
+    .alert-green { background:#F0FDF4;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#14532D;line-height:1.7; }
+
+    .ie-alpha { background:#FAF5FF;border:1px solid #E9D5FF;border-radius:8px;margin-bottom:12px; }
+    .ie-alpha-inner { padding:14px 16px; }
+    .ie-alpha-header { display:flex;align-items:center;gap:8px;margin-bottom:8px; }
+    .ie-alpha-badge { font-size:0.65rem;font-weight:800;color:#6D28D9;background:#EDE9FE;padding:2px 7px;border-radius:4px; }
+    .ie-alpha-title { font-size:0.85rem;font-weight:700;color:#4C1D95; }
+
+    .ie-sidebar { width:220px;flex-shrink:0;position:sticky;top:80px; }
+    .ie-sidebar-card { background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px;font-size:0.78rem; }
+    .ie-sidebar-title { font-size:0.7rem;font-weight:800;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;padding-bottom:8px;border-bottom:1px solid var(--border);margin-bottom:8px; }
+    @media(max-width:900px){ .ie-sidebar{display:none;} }
+
+    .ie-echo-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:10px; }
+    .ie-echo-box { background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:12px 14px; }
+    .ie-echo-name { font-size:0.78rem;font-weight:800;color:#1A3A2A;background:#D1FAE5;padding:4px 8px;border-radius:4px;margin-bottom:8px;display:inline-block; }
+    .ie-echo-body { font-size:0.8rem;color:var(--text);line-height:1.75; }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="../index.html" class="nav-logo">
+        <img src="../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+        <span class="nav-logo-text">聖路加国際病院ICU</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-menu" id="navMenu"></ul>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <div class="subpage-hero hero-image-bg">
+    <div class="container">
+      <a href="articles-guidelines.html#art-resp" class="back-link">← 注目論文・ガイドラインまとめへ戻る</a>
+      <h1 class="subpage-title">患者-人工呼吸器非同調（PVA）と臨床転帰の関連<br>— システマティックレビュー・メタ解析</h1>
+      <p class="subpage-subtitle">#3 RESPIRATORY / 挿管・人工呼吸器</p>
+      <div>
+        <span class="ie-badge">de Bie MJ, et al.</span>
+        <span class="ie-badge">Critical Care Medicine 2025年11月</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== CONTENT ===== -->
+  <div class="content-wrap">
+
+    <div class="main-col">
+
+      <!-- 略語一覧 -->
+      <div class="card" style="margin-bottom:24px;">
+        <div class="card-inner">
+          <h3 class="rule-title" style="margin-bottom:10px;">本ページで使用する略語一覧</h3>
+          <table style="width:100%;border-collapse:collapse;font-size:0.8rem;line-height:1.6;">
+            <tbody>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:130px;color:var(--blue);">PVA</td><td style="padding:4px 8px;">Patient-Ventilator Asynchrony — 患者-人工呼吸器非同調</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">AI</td><td style="padding:4px 8px;">Asynchrony Index — 非同調指数（非同調イベント数/総呼吸数 × 100%）</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">IT</td><td style="padding:4px 8px;">Ineffective Triggering — 無効トリガー</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">ITI</td><td style="padding:4px 8px;">Ineffective Triggering Index — 無効トリガー指数</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">DT</td><td style="padding:4px 8px;">Double Triggering — ダブルトリガー</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">RT</td><td style="padding:4px 8px;">Reverse Triggering — 逆トリガー（リバーストリガー）</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">SC</td><td style="padding:4px 8px;">Short Cycling（Early Cycling）— ショートサイクル（早期サイクル終了）</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">PC</td><td style="padding:4px 8px;">Prolonged Cycling（Delayed Cycling）— 延長サイクル（遅延サイクル終了）</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">AT</td><td style="padding:4px 8px;">Auto-Triggering — 自動トリガー</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">FS</td><td style="padding:4px 8px;">Flow Starvation — フロー飢餓（フロー不足）</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">MV</td><td style="padding:4px 8px;">Mechanical Ventilation — 人工呼吸管理</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">MD</td><td style="padding:4px 8px;">Mean Difference — 平均差（連続変数の効果指標）</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">OR</td><td style="padding:4px 8px;">Odds Ratio — オッズ比（二値変数の効果指標）</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CI</td><td style="padding:4px 8px;">Confidence Interval — 信頼区間</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">ARDS</td><td style="padding:4px 8px;">Acute Respiratory Distress Syndrome — 急性呼吸窮迫症候群</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">COPD</td><td style="padding:4px 8px;">Chronic Obstructive Pulmonary Disease — 慢性閉塞性肺疾患</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">VAE</td><td style="padding:4px 8px;">Ventilator-Associated Event — 人工呼吸器関連イベント</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">QUIPS</td><td style="padding:4px 8px;">Quality In Prognosis Studies — 予後研究の質評価ツール</td></tr>
+              <tr><td style="padding:4px 8px;font-weight:700;color:var(--blue);">EAdi</td><td style="padding:4px 8px;">Electrical Activity of the Diaphragm — 横隔膜電気活動（NAVA関連）</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ===== 章1：PVAとは ===== -->
+      <div id="ch1" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:0;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">第1章 PVAとは何か：定義と種類</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Patient-Ventilator Asynchrony: Definitions &amp; Subtypes</div>
+      </div>
+
+      <h3 id="s1-def" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+        患者-人工呼吸器非同調の定義
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">PVAとは</h3>
+          <p class="rule-body">ICUで人工呼吸管理を受ける患者において、換気器の補助タイミングと患者の自発呼吸パターンが一致しない状態を「患者-人工呼吸器非同調（PVA）」と呼ぶ。PVAは機械換気管理中に広く認められる問題であり、呼吸仕事量の増加、呼吸筋への過度な負荷、呼吸困難・不快感の増強につながる。</p>
+          <p class="rule-body" style="margin-top:8px;">PVAを定量化するために最もよく用いられる指標が<strong>非同調指数（AI）</strong>である。AIは「非同調イベント数/総呼吸数（無効トリガー含む）× 100%」で算出し、<span class="mark-red"><strong>AI ≥ 10%</strong></span> が「高度PVA」の閾値として広く採用されている。</p>
+          <div class="ie-stat-grid" style="margin-top:12px;">
+            <div class="ie-stat red">
+              <div class="ie-stat-val">AI ≥ 10%</div>
+              <div class="ie-stat-label">高度PVAの定義<br>（広く使用される閾値）</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">19研究</div>
+              <div class="ie-stat-label">本SR に含まれた<br>研究数</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">2,672名</div>
+              <div class="ie-stat-label">総解析対象患者数</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h3 id="s1-types" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+        PVAの7種類
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">各PVAの定義（本論文の定義）</h3>
+          <div class="ie-echo-grid" style="margin-top:8px;">
+            <div class="ie-echo-box">
+              <div class="ie-echo-name">無効トリガー（IT）</div>
+              <div class="ie-echo-body">患者の吸気努力を換気器が認識しない。自発呼吸はあるが換気器の送気が起こらない。最も頻度が高いPVAの一つ。</div>
+            </div>
+            <div class="ie-echo-box">
+              <div class="ie-echo-name">ダブルトリガー（DT）</div>
+              <div class="ie-echo-body">1回の吸気努力に対して換気器が2回送気する。初回送気の持続時間が短すぎると、患者の吸気努力が持続して2回目のトリガーが発生する。</div>
+            </div>
+            <div class="ie-echo-box">
+              <div class="ie-echo-name">ショートサイクル（SC）</div>
+              <div class="ie-echo-body">患者の吸気努力が継続しているにもかかわらず、換気器が早期に送気を終了する（早期サイクル終了）。</div>
+            </div>
+            <div class="ie-echo-box">
+              <div class="ie-echo-name">延長サイクル（PC）</div>
+              <div class="ie-echo-body">患者の呼気開始後も換気器の送気が継続する（遅延サイクル終了）。呼気中にも吸気圧がかかる状態。</div>
+            </div>
+            <div class="ie-echo-box">
+              <div class="ie-echo-name">自動トリガー（AT）</div>
+              <div class="ie-echo-body">患者の吸気努力なしに換気器が自発呼吸でないブレスを開始する。回路リークや心拍動などが原因になることがある。</div>
+            </div>
+            <div class="ie-echo-box">
+              <div class="ie-echo-name">逆トリガー（RT）</div>
+              <div class="ie-echo-body">換気器が1回目の呼吸を開始し、それに誘発されて患者が2回目の呼吸を起こす。鎮静患者・調節換気中に多い。Breath stackingを引き起こすことがある。</div>
+            </div>
+            <div class="ie-echo-box">
+              <div class="ie-echo-name">フロー飢餓（FS）</div>
+              <div class="ie-echo-body">患者の換気需要に対して換気器のフローが不十分。量規定調節換気（VA-CMV）でフローが固定されているときに多い。呼吸筋の過度な活動につながる。</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">PVAの検出方法</h3>
+          <p class="rule-body">現時点でPVA検出の金標準は確立されていない。最も広く用いられるのはフロー・圧・換気量波形の視覚的評価だが、精度に限界がある。より詳細な情報として食道内圧や横隔膜電気活動（EAdi）が追加信号として使われることがある。本SRに含まれた研究では、視覚的評価（2名の研究者による独立評価）とソフトウェア（BetterCare、RCRソフト等）による連続モニタリングの両方が採用されており、方法論的な異質性がある。</p>
+        </div>
+      </div>
+
+      <!-- ===== SUMMARY ch1 ===== -->
+      <h3 id="sum1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+        第1章のキーメッセージ
+      </h3>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+              <span class="rule-body"><strong>PVA：</strong>換気器補助と患者自発呼吸の同調不全。ICUの機械換気患者に広く認められる。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+              <span class="rule-body"><strong>AI ≥ 10%：</strong>「高度PVA」の臨床的閾値として広く採用されており、本SRでも主要な分類基準として使用された。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+              <span class="rule-body"><strong>7種類：</strong>無効トリガー / ダブルトリガー / ショートサイクル / 延長サイクル / 自動トリガー / 逆トリガー / フロー飢餓。臨床的意義はそれぞれ異なる。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+              <span class="rule-body"><strong>検出方法の問題：</strong>金標準が存在せず、視覚的評価・ソフトウェアによる連続モニタリングなど研究間での方法論的異質性が大きい。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+              <span class="rule-body"><strong>本SR：</strong>2024年6月までに公表された19研究・2,672患者を対象に、PVAと臨床転帰（MV期間・ICU在室期間・死亡率）の関連を検討した初の包括的メタ解析。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ===== 章2：研究方法 ===== -->
+      <div id="ch2" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">第2章 研究方法と対象研究</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Methods &amp; Study Characteristics</div>
+      </div>
+
+      <h3 id="s2-design" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+        研究デザインと対象基準
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">本SRの方法</h3>
+          <p class="rule-body">PRISMA 2020ガイドラインに従い、PubMed・Web of Science・Embase・Cochrane Library・Emcareを2024年6月20日まで検索した。機械換気患者においてPVAの発生が少なくとも1つの臨床転帰（ICU在室期間・MV期間・死亡率）に与える影響を評価した研究を対象とした。</p>
+          <div class="alert-blue" style="margin-top:10px;">
+            <strong>除外基準：</strong>非侵襲的換気（NIV）のみを対象とした研究、新生児・小児・脳損傷患者を対象とした研究、英語以外の言語の論文、レビュー・エディトリアル・症例報告を除外した。
+          </div>
+        </div>
+      </div>
+
+      <h3 id="s2-studies" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+        含まれた19研究の概要
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">研究特性一覧</h3>
+          <p class="rule-body">19研究すべてが成人ICUの侵襲的機械換気患者を対象とした。研究デザインは前向きコホート（PO）と後ろ向きコホート（RO）がほとんどで、1件のみ附属解析（AS）であった。</p>
+          <div style="overflow-x:auto;margin-top:10px;">
+            <table class="ie-table">
+              <thead>
+                <tr>
+                  <th style="white-space:nowrap;">研究（著者 年）</th>
+                  <th>N</th>
+                  <th style="white-space:nowrap;">デザイン</th>
+                  <th>PVA亜型</th>
+                  <th>主要アウトカム</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td style="white-space:nowrap;"><strong>Robinson 2013</strong></td><td>35</td><td>PO</td><td>IT, DT, SC, PC</td><td>MV期間、ICU/院内在室期間、死亡率</td></tr>
+                <tr><td style="white-space:nowrap;"><strong>Blanch 2015</strong></td><td>50</td><td>PO</td><td>IT, DT, SC, PC</td><td>MV期間、再挿管、気管切開、ICU/院内死亡率</td></tr>
+                <tr><td style="white-space:nowrap;"><strong>Thille 2006</strong></td><td>62</td><td>PO</td><td>IT, DT, AT, SC, PC</td><td>MV期間、気管切開、死亡率</td></tr>
+                <tr><td style="white-space:nowrap;"><strong>Sousa 2020</strong></td><td>125</td><td>PO</td><td>IT, DT(RT含), SC, PC</td><td>MV期間、VFD、気管切開、抜管失敗、ICU/院内在室・死亡率</td></tr>
+                <tr><td style="white-space:nowrap;"><strong>Rolland-Debord 2017</strong></td><td>103</td><td>AS</td><td>IT, AT, DT, SC, PC</td><td>MV期間、VFD、ICU/院内在室・死亡率</td></tr>
+                <tr><td style="white-space:nowrap;"><strong>Martos-Benítez 2020</strong></td><td>122</td><td>PO</td><td>IT, AT, DT, SC, PC, FS</td><td>VAP、MV期間、ICU在室期間、ICU死亡率</td></tr>
+                <tr><td style="white-space:nowrap;"><strong>See 2021</strong></td><td>280</td><td>RO</td><td>IT, DT, FS</td><td>院内死亡率、無鎮静日数、VFD</td></tr>
+                <tr><td style="white-space:nowrap;"><strong>Gogineni 2012</strong></td><td>28</td><td>PO</td><td>IT, DT, AT, PC, FS, auto-PEEP</td><td>MV長期化（prolonged MV）</td></tr>
+                <tr><td style="white-space:nowrap;"><strong>Rué 2017</strong></td><td>139</td><td>PO</td><td>IT, DT(RT含), SC, PC</td><td>退院時状態（生死）</td></tr>
+                <tr><td style="white-space:nowrap;"><strong>Chao 1997</strong></td><td>200</td><td>PO</td><td>IT</td><td>ウィーニング成功率</td></tr>
+                <tr><td style="white-space:nowrap;"><strong>Sadek 2021</strong></td><td>100</td><td>PO</td><td>IT, DT, AT, SC, PC, FS</td><td>ウィーニング成功率</td></tr>
+                <tr><td style="white-space:nowrap;"><strong>de Wit 2009</strong></td><td>60</td><td>PO</td><td>IT</td><td>MV期間、ICU/院内死亡率、院内在室期間、再挿管、気管切開</td></tr>
+                <tr><td style="white-space:nowrap;"><strong>Magrans 2022</strong></td><td>180</td><td>PO</td><td>IT, DT（クラスター）</td><td>ICU退室時状態（生死）</td></tr>
+                <tr><td style="white-space:nowrap;"><strong>Vaporidi 2017</strong></td><td>110</td><td>PO</td><td>IT</td><td>MV期間、ICU在室期間、死亡率</td></tr>
+                <tr><td style="white-space:nowrap;"><strong>Ge 2020</strong></td><td>160</td><td>RO</td><td>DT, IT, PC, SC</td><td>VAE、死亡率</td></tr>
+                <tr><td style="white-space:nowrap;"><strong>Sousa 2021</strong></td><td>103</td><td>PO</td><td>DT（クラスター）</td><td>MV期間、VFD、再挿管、気管切開、ICU/院内在室・死亡率</td></tr>
+                <tr><td style="white-space:nowrap;"><strong>Zhou 2021</strong></td><td>676</td><td>RO</td><td>DT, IT, SC, PC, FS</td><td>VFD、MV期間、ICU/院内在室・死亡率</td></tr>
+                <tr><td style="white-space:nowrap;"><strong>Mellado Artigas 2021</strong></td><td>39</td><td>AS</td><td>RT</td><td>抜管率（24時間以内）</td></tr>
+                <tr><td style="white-space:nowrap;"><strong>Rodriguez 2021</strong></td><td>100</td><td>PO</td><td>RT</td><td>MVからの離脱成功、90日死亡率</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p style="font-size:0.72rem;color:var(--muted);margin-top:6px;">PO=前向きコホート, RO=後ろ向きコホート, AS=附属解析, VFD=人工呼吸器離脱日数, VAP=人工呼吸器関連肺炎, VAE=人工呼吸器関連イベント</p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">統計解析の方法</h3>
+          <p class="rule-body">メタ解析はランダム効果モデルを用いて実施した。連続変数のアウトカムは平均差（MD、95%CI）、二値変数はオッズ比（OR、95%CI）で示した。中央値・四分位範囲で報告された研究は、Wanらの方法で平均・標準偏差に変換した。バイアスリスク評価にはQUIPS（予後因子研究の質評価）ツールを使用した。</p>
+        </div>
+      </div>
+
+      <!-- ===== SUMMARY ch2 ===== -->
+      <h3 id="sum2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+        第2章のキーメッセージ
+      </h3>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+              <span class="rule-body"><strong>規模：</strong>19研究・2,672患者を対象とした初の包括的SR+メタ解析。2024年6月まで5データベースを検索。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+              <span class="rule-body"><strong>主要転帰：</strong>MV期間・ICU在室期間・ICU死亡率・院内死亡率を主要転帰とし、ウィーニング失敗を追加転帰として評価した。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+              <span class="rule-body"><strong>AI基準での比較：</strong>メタ解析の中心は「AI &lt; 10% vs. AI ≥ 10%」の2群比較。この基準を使用した6研究（N=458）がメタ解析の中核となった。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+              <span class="rule-body"><strong>亜型別分析：</strong>無効トリガー・ダブルトリガー・逆トリガーについては亜型別の解析も実施。先行SRと異なり各PVA亜型を個別に評価している点が本SRの強み。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+              <span class="rule-body"><strong>ランダム効果モデル：</strong>研究間の異質性を考慮してランダム効果モデルを採用した。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ===== 章3：主要結果 ===== -->
+      <div id="ch3" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">第3章 メタ解析の主要結果</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Main Results of Meta-Analysis</div>
+      </div>
+
+      <h3 id="s3-main" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+        全体PVA（AI ≥ 10%）とMV期間・ICU在室期間・死亡率
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">メタ解析結果（AI &lt; 10% vs. AI ≥ 10%）</h3>
+          <p class="rule-body">AIによる分類（AI &lt; 10% vs. AI ≥ 10%）を用いた6研究のメタ解析では、AI ≥ 10%の患者において<span class="mark-red"><strong>MV期間の有意な延長</strong></span>と<span class="mark-red"><strong>ICU在室期間の有意な延長</strong></span>が示された。一方、死亡率（ICU死亡・院内死亡）との有意な関連は認められなかった。</p>
+          <div class="ie-stat-grid" style="margin-top:12px;">
+            <div class="ie-stat red">
+              <div class="ie-stat-val">+3.29日</div>
+              <div class="ie-stat-label">MV期間の延長<br>95%CI 0.13–6.44日<br>（有意差あり）</div>
+            </div>
+            <div class="ie-stat red">
+              <div class="ie-stat-val">+3.65日</div>
+              <div class="ie-stat-label">ICU在室期間の延長<br>95%CI 1.20–6.11日<br>（有意差あり）</div>
+            </div>
+            <div class="ie-stat gray">
+              <div class="ie-stat-val">OR 1.63</div>
+              <div class="ie-stat-label">ICU死亡率<br>95%CI 0.61–4.35<br>（有意差なし）</div>
+            </div>
+          </div>
+          <div class="ie-stat-grid" style="margin-top:10px;">
+            <div class="ie-stat gray">
+              <div class="ie-stat-val">OR 1.50</div>
+              <div class="ie-stat-label">院内死亡率<br>95%CI 0.51–4.35<br>（有意差なし）</div>
+            </div>
+            <div class="ie-stat" style="grid-column:span 2;">
+              <div class="ie-stat-val" style="font-size:1rem;">AI ≥ 10% → MV・ICU期間延長</div>
+              <div class="ie-stat-label">死亡率への有意な影響は確認されず<br>（ただしCIは広く、過小検出力の可能性あり）</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h3 id="s3-multiday" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+        複数日評価研究のサブグループ解析
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">複数日にわたるPVAモニタリング（4研究サブ解析）</h3>
+          <p class="rule-body">PVAを複数日にわたって評価した4研究（Blanch 2015・Sousa 2020・Rolland-Debord 2017・Martos-Benítez 2020）を用いた追加メタ解析では、AI ≥ 10%は<span class="mark-red"><strong>ICU在室期間の有意な延長</strong></span>と関連したが、MV期間の延長とは有意差が消失した。</p>
+          <div class="ie-stat-grid" style="margin-top:12px;">
+            <div class="ie-stat red">
+              <div class="ie-stat-val">+3.61日</div>
+              <div class="ie-stat-label">ICU在室期間の延長<br>95%CI 0.97–6.26日<br>（有意差あり）</div>
+            </div>
+            <div class="ie-stat gray">
+              <div class="ie-stat-val">+2.63日</div>
+              <div class="ie-stat-label">MV期間の延長<br>95%CI −0.60–5.85日<br>（有意差なし）</div>
+            </div>
+            <div class="ie-stat">
+              <div class="ie-stat-val">4研究</div>
+              <div class="ie-stat-label">複数日評価を<br>行った研究数</div>
+            </div>
+          </div>
+          <div class="alert-blue" style="margin-top:10px;">
+            著者らは今後の研究では<strong>連続的なPVAモニタリング</strong>のみを採用することを推奨している。単時点の評価は時間帯差（昼夜間変動等）を反映しないため、AI推定の精度が低下する。
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== SUMMARY ch3 ===== -->
+      <h3 id="sum3" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+        第3章のキーメッセージ
+      </h3>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+              <span class="rule-body"><strong>MV期間延長：</strong>AI ≥ 10%はAI &lt; 10%と比較してMV期間を平均3.29日延長した（95%CI 0.13–6.44日、有意）。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+              <span class="rule-body"><strong>ICU在室延長：</strong>AI ≥ 10%はICU在室期間を平均3.65日延長した（95%CI 1.20–6.11日、有意）。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+              <span class="rule-body"><strong>死亡率：</strong>ICU死亡率（OR 1.63）・院内死亡率（OR 1.50）ともにCIが1をまたぎ有意差なし。ただしCIが広く症例数の制約もあり、影響が「ない」とは言えない。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+              <span class="rule-body"><strong>複数日サブ解析：</strong>ICU在室期間延長は再現（MD 3.61日）。MV期間延長は有意差消失。連続モニタリングとの差を示す。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+              <span class="rule-body"><strong>臨床的意義：</strong>PVA高度（AI ≥ 10%）は「MV期間を約3日、ICU在室を約3.5日長くする」という定量的なエビデンスが初めてメタ解析で示された。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ===== 章4：亜型別結果 ===== -->
+      <div id="ch4" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">第4章 PVA亜型別の臨床転帰</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Outcomes by PVA Subtype</div>
+      </div>
+
+      <h3 id="s4-it" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+        <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+        無効トリガー（Ineffective Triggering）
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">無効トリガーと臨床転帰（6研究）</h3>
+          <p class="rule-body">無効トリガーを評価した6研究の結果はやや不均一だが、全体として<span class="mark-red"><strong>ウィーニング失敗・MV期間延長との関連</strong></span>が示されている。</p>
+
+          <h3 class="rule-title" style="font-size:0.88rem;margin-top:14px;">ウィーニング失敗との関連</h3>
+          <p class="rule-body">無効トリガーの発生とウィーニング失敗の関連を検討した2研究（Chao 1997・Sadek 2021）では、いずれも無効トリガーのある患者でウィーニング失敗が有意に多かった。</p>
+
+          <h3 class="rule-title" style="font-size:0.88rem;margin-top:14px;">ITI（無効トリガー指数）</h3>
+          <p class="rule-body">ITIを評価した2研究の結果は以下のとおり：</p>
+          <div class="ie-echo-grid" style="margin-top:8px;">
+            <div class="ie-echo-box">
+              <div class="ie-echo-name">de Wit 2009（N=60）</div>
+              <div class="ie-echo-body"><strong>ITI &gt; 10%</strong>の患者ではITI ≤ 10%と比較して<strong>MV期間・ICU在室期間の有意な延長</strong>を認めた。死亡率との関連は認めなかった。</div>
+            </div>
+            <div class="ie-echo-box">
+              <div class="ie-echo-name">Vaporidi 2017（N=110）</div>
+              <div class="ie-echo-body">ITI &gt; 10%と臨床転帰の有意な関連は認めなかった。しかし<strong>無効トリガーのクラスター発生</strong>はMV期間延長・院内死亡率上昇と有意に関連した。</div>
+            </div>
+          </div>
+
+          <h3 class="rule-title" style="font-size:0.88rem;margin-top:14px;">クラスター発生の重要性</h3>
+          <p class="rule-body">「クラスター」（単位時間内に複数のPVAが連続して発生すること）を評価した2研究（Magrans 2022・Vaporidi 2017）はともに、無効トリガーおよびダブルトリガーのクラスター発生とMV期間延長の関連を示した。Vaporidi 2017ではさらに院内死亡率との関連も示された。</p>
+
+          <div class="alert-red" style="margin-top:10px;">
+            <strong>臨床的ポイント：</strong> ITI単独よりもクラスター発生（短時間に集中した非同調）がより感度の高い悪化予測因子となる可能性がある。非同調の「頻度」だけでなく「パターン・集積」を評価する視点が重要。
+          </div>
+        </div>
+      </div>
+
+      <h3 id="s4-dt" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+        <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+        ダブルトリガー（Double Triggering）
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">ダブルトリガーと臨床転帰（3研究）</h3>
+          <p class="rule-body">ダブルトリガーの影響を評価した3研究（Zhou 2021・Ge 2020・Sousa 2021）を検討した。3研究間で評価方法が異なるためメタ解析は実施されなかった。</p>
+          <div class="ie-echo-grid" style="margin-top:8px;">
+            <div class="ie-echo-box">
+              <div class="ie-echo-name">Zhou 2021（N=676）</div>
+              <div class="ie-echo-body">ダブルトリガー（単発・クラスター問わず）は<strong>MV期間延長・ICU在室期間延長と有意に関連</strong>した。</div>
+            </div>
+            <div class="ie-echo-box">
+              <div class="ie-echo-name">Sousa 2021（N=103）</div>
+              <div class="ie-echo-body">ダブルトリガーのクラスターは<strong>MV期間延長・ICU在室期間延長と有意に関連</strong>した。</div>
+            </div>
+            <div class="ie-echo-box">
+              <div class="ie-echo-name">Ge 2020（N=160）</div>
+              <div class="ie-echo-body">ダブルトリガーと<strong>死亡率・VAEとの有意な関連は認めなかった</strong>。</div>
+            </div>
+          </div>
+          <p class="rule-body" style="margin-top:10px;">以上より、ダブルトリガー（単発・クラスター）はMV期間・ICU在室期間の延長と関連する一方、死亡率については確定的な結論を出すことができない。著者らは「方法論の違いにより、ダブルトリガーが臨床転帰と関連するとの確定的結論は出せない」と述べている。</p>
+        </div>
+      </div>
+
+      <h3 id="s4-rt" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+        <span style="color:#16A34A;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>
+        逆トリガー（Reverse Triggering）— 良好な転帰との意外な関連
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">逆トリガーは転帰を改善する可能性がある（2研究）</h3>
+          <p class="rule-body">逆トリガーは一般的に「有害な非同調」と思われがちだが、今回のSRでは<span class="mark-green"><strong>良好な転帰との関連</strong></span>を示す結果が得られた。これは本SRの中でも特に意外性の高い発見であり、著者らも驚くべき知見（surprising）として記述している。</p>
+          <div class="ie-echo-grid" style="margin-top:10px;">
+            <div class="ie-echo-box">
+              <div class="ie-echo-name">Mellado Artigas 2021（N=39）</div>
+              <div class="ie-echo-body">挿管直後にVA-CMV（量規定調節換気）を受ける患者において、<strong>逆トリガーが発生した患者は24時間以内に補助換気モードへの移行・抜管に至る率が有意に高かった</strong>。</div>
+            </div>
+            <div class="ie-echo-box">
+              <div class="ie-echo-name">Rodriguez 2021（N=100）</div>
+              <div class="ie-echo-body">早期ARDS患者において逆トリガーの発生は<strong>90日死亡率の有意な低下と関連した</strong>。抜管成功率は逆トリガーあり/なし間で差がなかった。</div>
+            </div>
+          </div>
+          <div class="alert-green" style="margin-top:12px;">
+            <strong>解釈：</strong> 逆トリガーは鎮静が浅まりつつある、あるいは患者の自発呼吸ドライブが回復しつつある徴候である可能性がある。ただし、逆トリガーがブレスタッキング（二重吸気）に進展した場合は有害（大きな1回換気量・過大肺ストレス）になることが知られており、解釈には注意が必要。
+          </div>
+        </div>
+      </div>
+
+      <div class="ie-alpha">
+        <div class="ie-alpha-inner">
+          <div class="ie-alpha-header">
+            <span class="ie-alpha-badge">＋α</span>
+            <span class="ie-alpha-title">逆トリガーのメカニズムと注意点</span>
+          </div>
+          <p class="rule-body" style="color:#4C1D95;">逆トリガーは調節換気中の深鎮静患者で生じる。換気器が最初の1回目の呼吸を送気すると、その機械的刺激によって横隔膜の収縮が誘発され患者が2回目の呼吸を起こす（entrainment 現象）。逆トリガーがさらにブレスタッキング（breath stacking）を引き起こすと、2回分の吸気が重なって1回換気量が過大となり、VILI（人工呼吸器関連肺損傷）のリスクとなる。逆トリガー単独（ブレスタッキングなし）は悪影響を示すエビデンスは本SRでは認められなかった。</p>
+        </div>
+      </div>
+
+      <!-- ===== SUMMARY ch4 ===== -->
+      <h3 id="sum4" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+        第4章のキーメッセージ
+      </h3>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+              <span class="rule-body"><strong>無効トリガー：</strong>ウィーニング失敗と関連。ITI &gt; 10%は死亡率と関連しないが、クラスター発生はMV延長・死亡率上昇と関連（Vaporidi 2017）。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+              <span class="rule-body"><strong>ダブルトリガー：</strong>単発・クラスターともにMV期間・ICU在室期間の延長と関連（2研究）。死亡率への影響は確定せず。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+              <span class="rule-body"><strong>逆トリガー（意外な発見）：</strong>2研究でいずれも良好な転帰との関連を示した。早期の補助モード移行促進・90日死亡率低下と関連。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+              <span class="rule-body"><strong>クラスターの重要性：</strong>AIの「大きさ」だけでなく、短時間に集積した非同調（クラスター）が特に有害なパターンとして注目される。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+              <span class="rule-body"><strong>亜型ごとに意義が異なる：</strong>「PVA＝有害」と一括りにすることはできない。特に逆トリガーの解釈は他の亜型と分けて考える必要がある。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ===== 章5：考察と臨床的意義 ===== -->
+      <div id="ch5" style="background:linear-gradient(150deg,#1A3A2A 0%,#2D7A4F 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
+        <div style="font-size:1.3rem;font-weight:900;position:relative;">第5章 考察・限界・臨床的意義</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Discussion, Limitations &amp; Clinical Implications</div>
+      </div>
+
+      <h3 id="s5-prev" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+        先行SRとの比較
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">Kyo 2021（先行SR）との相違点</h3>
+          <p class="rule-body">先行SR（Kyo et al. 2021）では「AI &gt; 10%の患者はMV延長・ICU/院内死亡率上昇のリスクがある」と報告されていた。しかし、本SRでは死亡率との有意な関連は示されなかった。著者らはこの相違の理由として、Kyo 2021では各PVA亜型を個別に評価しておらず、エビデンスの確実性も低いことを挙げている。本SRは亜型別分析を加えた点でより精緻な解析を提供している。</p>
+        </div>
+      </div>
+
+      <h3 id="s5-confound" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+        交絡因子と限界
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">主な交絡因子</h3>
+          <p class="rule-body">PVAの発生頻度・種類は以下の交絡因子に大きく左右されるが、多くの研究でこれらの調整が十分になされていない。</p>
+          <div class="ie-echo-grid" style="margin-top:8px;">
+            <div class="ie-echo-box">
+              <div class="ie-echo-name">鎮静薬の種類</div>
+              <div class="ie-echo-body">ミダゾラムはPVA発生を増加させ、プロポフォールはダブルトリガーなど特定の亜型を減少させる可能性がある（Ge 2020・Martos-Benítez 2020）。</div>
+            </div>
+            <div class="ie-echo-box">
+              <div class="ie-echo-name">合併症・基礎疾患</div>
+              <div class="ie-echo-body">COPD・ARDS・敗血症・喫煙歴は特定の亜型と関連することが各研究で報告されているが、研究間での所見は一致しない（Zhou 2021・Chao 1997・Vaporidi 2017）。</div>
+            </div>
+            <div class="ie-echo-box">
+              <div class="ie-echo-name">換気モード</div>
+              <div class="ie-echo-body">換気モードにより発生しやすいPVA亜型が異なる（例：フロー飢餓はVA-CMVで多い）。換気モードは重要な交絡因子である。</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">本SRの主な限界</h3>
+          <div class="ie-flow">
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">1</div>
+              <div style="flex:1;"><p class="rule-body"><strong>交絡調整の不十分さ：</strong>含まれた研究の多くが鎮静・合併症・換気モードを調整していないため、因果関係の確立は困難。</p></div>
+            </div>
+            <div class="ie-flow-arrow">↓</div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">2</div>
+              <div style="flex:1;"><p class="rule-body"><strong>方法論的異質性：</strong>AI算出に用いるPVA亜型の組み合わせが研究間で異なる（一部はRTをDTに含めるなど）。連続モニタリング vs. 単時点評価、モニタリング時間も研究によって異なる。</p></div>
+            </div>
+            <div class="ie-flow-arrow">↓</div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">3</div>
+              <div style="flex:1;"><p class="rule-body"><strong>検出精度：</strong>視覚的評価は精度に限界があり、連続ソフトウェアモニタリングと手動評価の間で精度差がある。</p></div>
+            </div>
+            <div class="ie-flow-arrow">↓</div>
+            <div class="ie-flow-item">
+              <div class="ie-flow-num">4</div>
+              <div style="flex:1;"><p class="rule-body"><strong>昼夜変動：</strong>PVAの発生は昼夜で異なることが報告されており（Ge 2020）、単時点評価はこの変動を捉えられない。</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h3 id="s5-future" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>
+        著者の提言と今後の研究課題
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">今後の研究に向けた提言</h3>
+          <p class="rule-body">本SRは「仮説生成的な解析（hypothesis-generating analysis）」と位置付けられており、確定的な結論を出すには至っていない。著者らは今後の研究に対して以下を提言している。</p>
+          <div class="alert-blue" style="margin-top:10px;">
+            <strong>提言1：</strong> PVA検出には<strong>連続モニタリング</strong>のみを用いること（単時点評価は廃止する）。<br>
+            <strong>提言2：</strong> AI算出に含めるPVA亜型の定義を<strong>標準化</strong>すること。<br>
+            <strong>提言3：</strong> 鎮静・合併症・換気モードなどの<strong>交絡因子を適切に調整</strong>した研究設計を行うこと。<br>
+            <strong>提言4：</strong> 特定の患者群（COPD・ARDS等）においてどのPVA亜型が多いかを検討する研究を実施すること。
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== SUMMARY ch5 ===== -->
+      <h3 id="sum5" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #2D7A4F;line-height:1.4;">
+        <span style="color:#2D7A4F;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+        第5章のキーメッセージ
+      </h3>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+              <span class="rule-body"><strong>亜型別評価の重要性：</strong>先行SR（Kyo 2021）とは異なり各PVA亜型を個別評価したことで、より精緻な臨床像が得られた。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+              <span class="rule-body"><strong>交絡因子：</strong>鎮静薬（ミダゾラム vs プロポフォール）・換気モード・基礎疾患（COPD/ARDS）がPVA発生に大きく影響する。調整なしの解析は因果関係の解釈に限界がある。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+              <span class="rule-body"><strong>方法論的課題：</strong>連続 vs. 単時点モニタリング、AI計算に含めるPVA亜型の定義が研究間で異なり、直接比較に限界がある。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+              <span class="rule-body"><strong>今後の研究：</strong>連続モニタリング・統一定義・交絡調整を組み込んだ大規模前向き研究が必要。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+              <span style="color:#2D7A4F;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+              <span class="rule-body"><strong>仮説生成：</strong>本SRは「PVA（特に無効トリガー・ダブルトリガー）が臨床転帰を悪化させる可能性が高い」という仮説を支持する根拠を提供する。確定的な結論には今後の研究が必要。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 出典注記 -->
+      <p style="font-size:0.72rem;color:#9CA3AF;margin-top:32px;line-height:1.7;">
+        出典：de Bie MJ, Rietveld PJ, van der Velde-Quist F, et al. The Association Between Patient-Ventilator Asynchrony and Clinical Outcomes in Mechanically Ventilated Patients: A Systematic Review. Crit Care Med. 2025;53(11):e2261–e2270.<br>
+        DOI：<a href="https://doi.org/10.1097/CCM.0000000000006816" target="_blank" rel="noopener" style="color:#60A5FA;">https://doi.org/10.1097/CCM.0000000000006816</a><br>
+        本資料は教育目的で作成したサマリーです。診断・治療方針の決定には必ず原典を参照してください。
+      </p>
+      <p style="font-size:0.75rem;color:var(--muted);text-align:right;margin-top:8px;">制作：ICU 関谷</p>
+
+      <!-- RELATED:START — auto-generated by scripts/sync-related-articles.js. Do not edit. -->
+      <section id="related-articles" class="related-articles" aria-label="関連ページ">
+        <h3 class="related-articles-title">関連ページ</h3>
+        <div class="related-articles-grid">
+        <a href="articles-gl-ivc-cc2018.html" class="related-card">
+          <div class="related-card-title">IVC呼吸変動による輸液反応性予測 — 人工呼吸下ショック患者のメタ解析</div>
+          <div class="related-card-badge">Critical Care 2018</div>
+          <div class="related-card-desc">6研究・603例のメタ解析。人工呼吸下ショック患者に限定。統合感度0.69・統合特異度0.80・統合AUROC 0.82・DOR 9.28。I²=0%と異質性低い。陽性には使える、陰性での除外は不可。カットオフ8〜21%と未確立。</div>
+        </a>
+        <a href="articles-gl-dex-icm2022.html" class="related-card">
+          <div class="related-card-title">機械換気成人ICU患者におけるデクスメデトミジン — ICM Rapid Practice Guideline</div>
+          <div class="related-card-badge">ICM 2022</div>
+          <div class="related-card-desc">77 RCT・11,977例のシステマティックレビューに基づくICM-RPG。せん妄RR 0.67（中確実性）、徐脈RR 2.39、低血圧RR 1.32、死亡率RR 1.00（高確実性）。弱い推奨で個別化が前提</div>
+        </a>
+        <a href="articles-gl-imai-oxygen-nma2025.html" class="related-card">
+          <div class="related-card-title">急性期成人における SpO₂ ターゲット最適化 — SR・NMA</div>
+          <div class="related-card-badge">Imai 2025</div>
+          <div class="related-card-desc">17 RCT・N=26,615のベイズネットワークメタ解析。SpO₂ 95–96%が最も死亡率を低下（ARD −11/1000・SUCRA 0.882）。SpO₂ 99–100%は有害（ARD +53/1000）。ドーズレスポンス解析でnadir 95.8%</div>
+        </a>
+        <a href="articles-gl-peep-hysteresis-ards2023.html" class="related-card">
+          <div class="related-card-title">タイダル肺ヒステレシスによるARDS PEEP評価</div>
+          <div class="related-card-badge">Critical Care 2023</div>
+          <div class="related-card-desc">decremental PEEP試験でコンプライアンスが改善しても44%でタイダルリクルートメントを伴い偽改善。ヒステレシス≥100 mLは次ステップでの大幅リクルートメント増加を感度83%・特異度97%で予測。Combined approachはBest complianceに比べ消散エネルギーを75%削減。</div>
+        </a>
+        <a href="articles-gl-ai-expertise2026.html" class="related-card">
+          <div class="related-card-title">AI時代の臨床的専門性の育て方 — No Struggle, No Mastery</div>
+          <div class="related-card-badge">JAMA 2026</div>
+          <div class="related-card-desc">Keren・Desai・West（フィラデルフィア小児病院/ペンシルバニア大）によるJAMA Viewpoint。deskilling・mis-skilling・never-skillingの3リスクと、Master Adaptive Learning Theory等に基づく専門性発達の3条件。AIを「エキスパートコンサルタント」「コーチ」「守護天使」として活用する7つの意図的設計戦略を提唱。</div>
+        </a>
+        <a href="articles-gl-ats-ards2024.html" class="related-card">
+          <div class="related-card-title">ATS ARDS管理ガイドライン 2024（更新版）— コルチコステロイド・VV-ECMO・NMBA・PEEP</div>
+          
+          <div class="related-card-desc">ATS 2023年9月承認（AJRCCM 2024）。4つの新規推奨：①コルチコステロイド（RR 0.84, 中程度確実性）②VV-ECMO選択患者（RR 0.76, 低確実性）③早期重症ARDSへのNMBA（RR 0.74, 低確実性）④高PEEPなしLRM（RR 0.77, 高確実性）。prolonged LRM（&gt;35 cmH₂O×&gt;60秒）は強く推奨しない（RR 1.37増加, 強い推奨）。</div>
+        </a>
+        </div>
+      </section>
+      <!-- RELATED:END -->
+
+    </div><!-- /main-col -->
+
+    <!-- ===== SIDEBAR ===== -->
+    <aside class="ie-sidebar">
+      <div class="ie-sidebar-card">
+        <div class="ie-sidebar-title">目次</div>
+
+        <a href="#ch1" class="ie-toc-chapter">第1章 PVAとは何か</a>
+        <a href="#s1-def" class="ie-toc-section">S1 — PVAの定義・AI</a>
+        <a href="#s1-types" class="ie-toc-section">S2 — PVAの7種類</a>
+        <a href="#sum1" class="ie-toc-section">Summary</a>
+
+        <a href="#ch2" class="ie-toc-chapter">第2章 研究方法と対象研究</a>
+        <a href="#s2-design" class="ie-toc-section">S1 — 研究デザイン</a>
+        <a href="#s2-studies" class="ie-toc-section">S2 — 19研究の概要</a>
+        <a href="#sum2" class="ie-toc-section">Summary</a>
+
+        <a href="#ch3" class="ie-toc-chapter">第3章 メタ解析の主要結果</a>
+        <a href="#s3-main" class="ie-toc-section">S1 — AI ≥ 10%とMV・ICU・死亡</a>
+        <a href="#s3-multiday" class="ie-toc-section">S2 — 複数日サブグループ</a>
+        <a href="#sum3" class="ie-toc-section">Summary</a>
+
+        <a href="#ch4" class="ie-toc-chapter">第4章 PVA亜型別の転帰</a>
+        <a href="#s4-it" class="ie-toc-section">S1 — 無効トリガー</a>
+        <a href="#s4-dt" class="ie-toc-section">S2 — ダブルトリガー</a>
+        <a href="#s4-rt" class="ie-toc-section">S3 — 逆トリガー（良好な転帰）</a>
+        <a href="#sum4" class="ie-toc-section">Summary</a>
+
+        <a href="#ch5" class="ie-toc-chapter">第5章 考察・限界・臨床的意義</a>
+        <a href="#s5-prev" class="ie-toc-section">S1 — 先行SRとの比較</a>
+        <a href="#s5-confound" class="ie-toc-section">S2 — 交絡因子と限界</a>
+        <a href="#s5-future" class="ie-toc-section">S3 — 提言と今後の課題</a>
+        <a href="#sum5" class="ie-toc-section">Summary</a>
+
+        <!-- RELATED-TOC:START — auto-generated by scripts/sync-related-articles.js. Do not edit. -->
+        <a href="#related-articles" class="ie-toc-chapter ie-toc-related">関連ページ</a>
+        <!-- RELATED-TOC:END -->
+      </div>
+    </aside>
+
+  </div><!-- /content-wrap -->
+
+  <script src="../script.js?v=20260528a"></script>
+  <script src="../abbr-tooltip.js"></script>
+</body>
+</html>

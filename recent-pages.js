@@ -10,8 +10,29 @@
  */
 const RECENT_PAGES = [
   {
-    title: "敗血症性ショックの昇圧薬療法 — Fage 2026",
-    url: "pages/articles-gl-vasopressor-shock2026.html",
+    title: "患者-人工呼吸器非同調（PVA）と臨床転帰 — SR・メタ解析（Critical Care Medicine 2025）",
+    url: "pages/articles-gl-pva-asynchrony2025.html",
+    date: "2026-06-02",
+    tag: "ガイドライン",
+    thumb: "images/朝カンファ風景.webp"
+  },
+  {
+    title: "HFmrEF/HFpEF包括的薬物療法の生涯ベネフィット — クロストライアル解析（Nature Medicine 2025）",
+    url: "pages/articles-gl-hfpef-cmt2025.html",
+    date: "2026-05-31",
+    tag: "論文",
+    thumb: "images/朝カンファ風景.webp"
+  },
+  {
+    title: "白血球増多症・白血球うっ滞 — 入院管理戦略（J Hosp Med 2025）",
+    url: "pages/articles-gl-hyperleukocytosis2025.html",
+    date: "2026-05-31",
+    tag: "論文",
+    thumb: "images/朝カンファ風景.webp"
+  },
+  {
+    title: "SpO₂ターゲット最適化 — SR・NMA（Imai 2025）",
+    url: "pages/articles-gl-imai-oxygen-nma2025.html",
     date: "2026-05-31",
     tag: "ガイドライン",
     thumb: "images/朝カンファ風景.webp"
@@ -24,24 +45,10 @@ const RECENT_PAGES = [
     thumb: "images/朝カンファ風景.webp"
   },
   {
-    title: "SpO₂ターゲット最適化 — SR・NMA（Imai 2025）",
-    url: "pages/articles-gl-imai-oxygen-nma2025.html",
+    title: "敗血症性ショックの昇圧薬療法 — Fage 2026",
+    url: "pages/articles-gl-vasopressor-shock2026.html",
     date: "2026-05-31",
     tag: "ガイドライン",
-    thumb: "images/朝カンファ風景.webp"
-  },
-  {
-    title: "白血球増多症・白血球うっ滞 — 入院管理戦略（J Hosp Med 2025）",
-    url: "pages/articles-gl-hyperleukocytosis2025.html",
-    date: "2026-05-31",
-    tag: "論文",
-    thumb: "images/朝カンファ風景.webp"
-  },
-  {
-    title: "HFmrEF/HFpEF包括的薬物療法の生涯ベネフィット — クロストライアル解析（Nature Medicine 2025）",
-    url: "pages/articles-gl-hfpef-cmt2025.html",
-    date: "2026-05-31",
-    tag: "論文",
     thumb: "images/朝カンファ風景.webp"
   },
   {

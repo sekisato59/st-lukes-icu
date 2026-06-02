@@ -35,6 +35,7 @@
   }
 
   navMenu.innerHTML = ''
+    + single('pages/resident-resources.html', 'レジデント資料集')
     + dd('当院ICUについて', [
         { href: 'pages/about-icu.html',          label: '当院ICUについて' },
         { href: 'pages/pre-rotation-todo.html',  label: 'ローテされる先生へ' },
