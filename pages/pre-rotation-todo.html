@@ -9,7 +9,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../style-v2.css?v=20260526e">
+  <link rel="stylesheet" href="../style-v2.css?v=20260602a">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <style>
     .todo-item { display:flex;gap:14px;padding:18px 0;border-bottom:1px solid var(--border); }
     .todo-item:last-child { border-bottom:none; }
@@ -799,8 +802,27 @@ ICUチームへ一言：</pre>
 
   </div><!-- /.about-page-body -->
 
-  <script src="../script.js?v=20260526e"></script>
+  <script src="../script.js?v=20260602a"></script>
   <script src="../abbr-tooltip.js"></script>
+
+  <!-- ===== SECTION 4 ミラーカードの縁デザイン強制適用（最高優先度 <style> インジェクト） ===== -->
+  <script>
+    (function injectMirrorCardStyle(){
+      var s = document.createElement('style');
+      s.id = 'mirror-card-style-override';
+      s.textContent = ''
+        + '#rules-mirror-biz > .card, #rules-mirror-overtime > .card,'
+        + '#rules-mirror-biz > .biz-card, #rules-mirror-overtime > .biz-card,'
+        + 'div#rules-mirror-biz > div.card, div#rules-mirror-overtime > div.card {'
+        + '  background: #FFFFFF !important;'
+        + '  border: 1px solid #1E3A8A !important;'
+        + '  border-radius: 8px !important;'
+        + '  box-shadow: 0 4px 20px rgba(13,79,140,0.10) !important;'
+        + '  overflow: visible !important;'
+        + '}';
+      document.head.appendChild(s);
+    })();
+  </script>
 
   <!-- ===== ICUのルール 親ページからの自動同期 =====
        icu-policy-rules.html の指定IDのカードを fetch して挿入する。

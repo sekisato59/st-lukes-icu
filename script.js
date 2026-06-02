@@ -35,7 +35,19 @@
   }
 
   navMenu.innerHTML = ''
-    + single('pages/resident-resources.html', 'レジデント資料集')
+    + dd('レジデント資料集', [
+        { href: 'pages/resident-resources.html#onboard', label: 'ローテ開始前' },
+        { href: 'pages/resident-resources.html#neuro',   label: '神経系' },
+        { href: 'pages/resident-resources.html#cv',      label: '循環器系' },
+        { href: 'pages/resident-resources.html#resp',    label: '呼吸器系' },
+        { href: 'pages/resident-resources.html#renal',   label: '腎電解質系' },
+        { href: 'pages/resident-resources.html#gi',      label: '消化器/肝胆道系' },
+        { href: 'pages/resident-resources.html#heme',    label: '血液系' },
+        { href: 'pages/resident-resources.html#id',      label: '感染症' },
+        { href: 'pages/resident-resources.html#nutr',    label: '栄養/代謝系' },
+        { href: 'pages/resident-resources.html#msk',     label: '筋骨格系' },
+        { href: 'pages/resident-resources.html#prev',    label: '予防' }
+      ])
     + dd('当院ICUについて', [
         { href: 'pages/about-icu.html',          label: '当院ICUについて' },
         { href: 'pages/pre-rotation-todo.html',  label: 'ローテされる先生へ' },
