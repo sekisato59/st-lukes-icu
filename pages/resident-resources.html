@@ -1,0 +1,2001 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>レジデント資料集 | 聖路加ICU</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style-v2.css?v=20260528a">
+  <style>
+    /* ===== タブナビゲーション（カードトップ風・右寄せ） ===== */
+    .res-tabs-wrap {
+      position: sticky;
+      top: 64px;
+      z-index: 30;
+      background: #F8FAFC;
+      backdrop-filter: saturate(140%) blur(10px);
+      -webkit-backdrop-filter: saturate(140%) blur(10px);
+      border-bottom: 2px solid var(--active-color, #1269B0);
+      padding-top: 8px;
+      transition: border-bottom-color 0.2s;
+    }
+    .res-tabs-inner {
+      max-width: 1294px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: flex-end;
+    }
+    .res-tabs {
+      display: flex;
+      gap: 2px;
+    }
+    .res-tab {
+      flex-shrink: 0;
+      padding: 10px 16px 9px;
+      border: 2px solid transparent;
+      border-bottom: none;
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+      background: transparent;
+      font-size: 0.84rem;
+      font-weight: 600;
+      color: var(--muted);
+      cursor: pointer;
+      transition: color 0.15s, background 0.15s, border-color 0.15s;
+      white-space: nowrap;
+      font-family: inherit;
+      letter-spacing: 0.01em;
+      line-height: 1.4;
+      position: relative;
+      z-index: 1;
+    }
+    .res-tab:hover { color: var(--text); }
+    .res-tab.active {
+      color: var(--active-color, #1269B0);
+      background: #fff;
+      border-color: var(--active-color, #1269B0);
+      font-weight: 800;
+      z-index: 2;
+    }
+    /* アクティブタブ下端から 2px 下まで白く塗りつぶして、
+       タブバー下端の青線を「貫いて」コンテンツ側へ繋がる見え方にする */
+    .res-tab.active::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -2px;
+      height: 2px;
+      background: #fff;
+      z-index: 1;
+    }
+
+    /* ===== パネル ===== */
+    .res-panel { display: none; }
+    .res-panel.active { display: block; }
+
+    .res-panel-intro {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.75;
+      margin: 0 0 24px;
+      padding: 14px 18px;
+      background: #F8FAFC;
+      border-radius: 10px;
+    }
+
+    /* ===== パネル内 グリッド：本文 + 右サイド TOC ===== */
+    .panel-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 248px;
+      gap: 22px;
+      align-items: start;
+    }
+    .panel-main { min-width: 0; }
+
+    .panel-sidebar {
+      position: sticky;
+      top: 130px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .panel-back-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 16px;
+      background: #fff;
+      border: 2px solid var(--sys-dark, #0D4F8C);
+      border-radius: 0;
+      font-size: 0.82rem;
+      font-weight: 900;
+      color: var(--sys-dark, #0D4F8C);
+      text-decoration: none;
+      letter-spacing: 0.02em;
+      line-height: 1;
+      box-shadow: 4px 4px 0 var(--sys-dark, #0D4F8C);
+      transition: transform 0.12s ease-out, box-shadow 0.12s ease-out;
+    }
+    .panel-back-btn:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0 var(--sys-dark, #0D4F8C);
+    }
+    .panel-back-btn:active {
+      transform: translate(2px, 2px);
+      box-shadow: 0 0 0 var(--sys-dark, #0D4F8C);
+    }
+    .panel-toc {
+      background: #fff;
+      border: 2px solid var(--sys-dark, #0D4F8C);
+      border-radius: 0;
+      padding: 14px 16px 14px;
+      box-shadow: 4px 4px 0 var(--sys-dark, #0D4F8C);
+      max-height: calc(100vh - 160px);
+      overflow-y: auto;
+    }
+    .panel-toc-title {
+      font-size: 0.78rem;
+      font-weight: 900;
+      color: var(--sys-dark, #0D4F8C);
+      letter-spacing: 0.05em;
+      margin: 0 0 8px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid #E5E7EB;
+    }
+    .panel-toc nav { display: flex; flex-direction: column; }
+    .panel-toc a {
+      display: block;
+      padding: 5px 4px 5px 10px;
+      text-decoration: none;
+      font-size: 0.74rem;
+      color: #4B5563;
+      line-height: 1.5;
+      border-left: 2px solid transparent;
+      transition: color 0.15s, border-color 0.15s, background 0.15s;
+    }
+    .panel-toc a:hover {
+      color: var(--sys-dark, #1269B0);
+      border-left-color: var(--sys-dark, #1269B0);
+      background: rgba(0,0,0,0.03);
+    }
+    .panel-toc a.toc-section {
+      font-weight: 800;
+      color: #1F2937;
+      margin-top: 8px;
+      font-size: 0.78rem;
+    }
+    .panel-toc a.toc-section:first-child { margin-top: 0; }
+    .panel-toc a.toc-sub { padding-left: 22px; font-size: 0.72rem; }
+    .panel-toc-empty {
+      font-size: 0.74rem;
+      color: var(--muted);
+      line-height: 1.6;
+      padding: 4px 4px 6px;
+    }
+
+    @media (max-width: 1100px) {
+      .panel-grid { grid-template-columns: 1fr; }
+      .panel-sidebar { display: none; }
+    }
+
+    /* アンカーリンクで飛んだとき固定タブバーに隠れないように */
+    .panel-main [id] { scroll-margin-top: 120px; }
+
+    /* ===== まず読むタブ専用：pre-rotation-todo.html から移植 ===== */
+    .todo-item { display:flex;gap:14px;padding:18px 0;border-bottom:1px solid var(--border); }
+    .todo-item:last-child { border-bottom:none; }
+    .todo-num { width:28px;height:28px;border-radius:50%;background:var(--blue);color:#fff;font-size:0.78rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px; }
+    .todo-body { flex:1;font-size:0.875rem;line-height:1.8;color:var(--text); }
+    .todo-body strong { display:block;margin-bottom:4px; }
+    .todo-body p { color:var(--muted);margin-top:4px; }
+    .todo-body ul { margin:8px 0 0;padding-left:0;list-style:none; }
+    .todo-body li { margin-bottom:4px; }
+    .video-check-label { display:flex;align-items:center;gap:8px;font-size:0.85rem;color:var(--text);cursor:pointer; }
+    .video-check { width:16px;height:16px;accent-color:var(--blue);cursor:pointer; }
+    .video-link { color:var(--blue);font-weight:500;text-decoration:none; }
+    .video-link:hover { text-decoration:underline; }
+    .intro-template { margin-top:12px;background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:16px;position:relative; }
+    .template-pre { font-size:0.82rem;line-height:1.9;color:var(--text);white-space:pre-wrap;font-family:inherit;margin:0; }
+    .copy-btn { margin-top:6px;padding:4px 11px;font-size:0.72rem;font-weight:700;color:#fff;background:var(--blue);border:none;border-radius:5px;cursor:pointer;transition:background 0.15s;line-height:1.5; }
+    .copy-btn:hover { background:var(--blue-dark); }
+    .quiz-btn { display:inline-block;margin-top:6px;padding:4px 11px;font-size:0.72rem;font-weight:700;color:#fff;background:var(--blue);border-radius:5px;text-decoration:none;transition:background 0.15s;line-height:1.5; }
+    .quiz-btn:hover { background:var(--blue-dark); }
+
+    /* タイムラインの「詳細を確認する →」バッジを常時表示 */
+    .tl-linked::after { opacity:1 !important; }
+
+    /* ミラーカードの「該当箇所を開く ▸」リンク（モバイル対応） */
+    @media (max-width:600px) {
+      .mirror-source-link {
+        position: static !important;
+        display: inline-block;
+        margin: 0 0 8px 0;
+        opacity: 1 !important;
+      }
+    }
+
+    /* ===== システム識別バナー（V05：微グラデ + ブルータリスト形状） ===== */
+    .sys-banner {
+      background: linear-gradient(135deg, var(--sys-mid, #1269B0) 0%, var(--sys-light, #2A8FD8) 100%);
+      border: 3px solid var(--sys-dark, #0D4F8C);
+      border-radius: 0;
+      padding: 18px 24px 20px;
+      margin: 4px 0 22px;
+      color: #fff;
+      position: relative;
+      box-shadow: 6px 6px 0 var(--sys-dark, #0D4F8C);
+    }
+    .sys-banner-en {
+      font-size: 0.7rem;
+      font-weight: 900;
+      letter-spacing: 0.14em;
+      opacity: 0.92;
+      margin-bottom: 4px;
+    }
+    .sys-banner-jp {
+      font-size: 1.55rem;
+      font-weight: 900;
+      margin: 0 0 6px;
+      letter-spacing: -0.005em;
+      line-height: 1.25;
+    }
+    .sys-banner-desc {
+      font-size: 0.78rem;
+      font-weight: 600;
+      opacity: 0.95;
+      margin: 0;
+      line-height: 1.65;
+    }
+
+    /* テーマ別カラー（dark=枠/影、mid→light=グラデ） */
+    .sys--onboard { --sys-dark:#0D4F8C; --sys-mid:#1269B0; --sys-light:#2A8FD8; }   /* オンボーディング：青 */
+    .sys--neuro   { --sys-dark:#1E40AF; --sys-mid:#2563EB; --sys-light:#60A5FA; }   /* #1 神経：青 */
+    .sys--cv      { --sys-dark:#7F1D1D; --sys-mid:#B91C1C; --sys-light:#EF4444; }   /* #2 循環：赤 */
+    .sys--resp    { --sys-dark:#0C4A6E; --sys-mid:#0369A1; --sys-light:#0EA5E9; }   /* #3 呼吸：シアン */
+    .sys--renal   { --sys-dark:#052E16; --sys-mid:#14532D; --sys-light:#166534; }   /* #4 腎電解質：深緑 */
+    .sys--gi      { --sys-dark:#78350F; --sys-mid:#92400E; --sys-light:#B45309; }   /* #5 消化器・肝胆道：栗色 */
+    .sys--heme    { --sys-dark:#4C0519; --sys-mid:#881337; --sys-light:#BE123C; }   /* #6 血液：血のクリムゾン */
+    .sys--id      { --sys-dark:#4C1D95; --sys-mid:#6D28D9; --sys-light:#8B5CF6; }   /* #7 感染症：紫 */
+    .sys--nutr    { --sys-dark:#14532D; --sys-mid:#15803D; --sys-light:#16A34A; }   /* #8 栄養・代謝：緑 */
+    .sys--msk     { --sys-dark:#44403C; --sys-mid:#57534E; --sys-light:#78716C; }   /* #9 筋骨格：ストーン */
+    .sys--prev    { --sys-dark:#1E3A8A; --sys-mid:#1D4ED8; --sys-light:#3B82F6; }   /* #10 予防：インディゴ */
+
+    @media (max-width: 767px) {
+      .sys-banner {
+        padding: 14px 18px 16px;
+        margin-bottom: 22px;
+        border-width: 2px;
+        box-shadow: 4px 4px 0 var(--sys-dark, #0D4F8C);
+      }
+      .sys-banner-jp { font-size: 1.3rem; }
+      .sys-banner-desc { font-size: 0.74rem; }
+      .sys-banner-en { font-size: 0.64rem; }
+    }
+
+    /* ===== 朝プレゼンのポイント・ショートカット（ブルータリスト調・システム色） ===== */
+    .morning-presen-link {
+      display: flex;
+      align-items: stretch;
+      gap: 0;
+      padding: 0;
+      background: #fff;
+      border: 2px solid var(--sys-dark, #1269B0);
+      box-shadow: 4px 4px 0 var(--sys-dark, #1269B0);
+      text-decoration: none;
+      color: var(--text);
+      margin: 0 0 20px 0;
+      transition: transform 0.12s ease-out, box-shadow 0.12s ease-out;
+    }
+    .morning-presen-link:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0 var(--sys-dark, #1269B0);
+    }
+    .morning-presen-link:active {
+      transform: translate(2px, 2px);
+      box-shadow: 0 0 0 var(--sys-dark, #1269B0);
+    }
+    .morning-presen-icon {
+      flex-shrink: 0;
+      width: 18px;
+      background: linear-gradient(135deg, var(--sys-mid, #1269B0) 0%, var(--sys-light, #2A8FD8) 100%);
+    }
+    .morning-presen-text {
+      flex: 1;
+      min-width: 0;
+      padding: 12px 18px;
+      border-left: 2px solid var(--sys-dark, #1269B0);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .morning-presen-eyebrow {
+      display: block;
+      font-size: 0.62rem;
+      font-weight: 900;
+      color: var(--sys-dark, #1269B0);
+      letter-spacing: 0.14em;
+      margin-bottom: 3px;
+      text-transform: uppercase;
+    }
+    .morning-presen-headline {
+      display: block;
+      font-size: 0.95rem;
+      font-weight: 900;
+      color: var(--text);
+      line-height: 1.35;
+      letter-spacing: -0.005em;
+    }
+    .morning-presen-cta {
+      flex-shrink: 0;
+      align-self: center;
+      padding: 0 20px;
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: var(--sys-dark, #1269B0);
+      line-height: 1;
+    }
+    @media (max-width: 600px) {
+      .morning-presen-link { margin-bottom: 22px; box-shadow: 3px 3px 0 var(--sys-dark, #1269B0); }
+      .morning-presen-link:hover { transform: translate(-1px, -1px); box-shadow: 4px 4px 0 var(--sys-dark, #1269B0); }
+      .morning-presen-icon { width: 12px; }
+      .morning-presen-text { padding: 10px 14px; }
+      .morning-presen-headline { font-size: 0.86rem; }
+      .morning-presen-cta { padding: 0 14px; font-size: 1.2rem; }
+    }
+
+    /* ===== システムタブ：セクション見出し（ブルータリスト・ミニバナー調） ===== */
+    .sys-section-title {
+      display: block;
+      padding: 11px 18px 12px;
+      background: linear-gradient(135deg, var(--sys-mid, #1269B0) 0%, var(--sys-light, #2A8FD8) 100%);
+      border: 2px solid var(--sys-dark, #1269B0);
+      box-shadow: 3px 3px 0 var(--sys-dark, #1269B0);
+      color: #fff;
+      font-size: 1.02rem;
+      font-weight: 900;
+      letter-spacing: -0.005em;
+      line-height: 1.35;
+      margin: 0 0 16px -14px;
+      border-radius: 0;
+    }
+    .sys-section-title:first-of-type { margin-top: 0; }
+    .sys-section-title span {
+      display: block;
+      color: rgba(255,255,255,0.78);
+      font-size: 0.64rem;
+      font-weight: 900;
+      letter-spacing: 0.14em;
+      margin-bottom: 3px;
+    }
+    .sys-section-lead {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.75;
+      margin: 0 0 18px;
+      padding: 0 4px;
+    }
+    /* セクション本文を包むカード（呼吸器系など本文ありシステム用） */
+    .card-inner > .sys-section-title:first-child { margin-top: 0; margin-bottom: 16px; margin-left: -14px; }
+    .card-inner > .sys-section-lead { padding: 0; margin-top: 0; }
+    .card-inner > .sys-subgroup:first-child { margin-top: 0; }
+    .card-inner > *:last-child { margin-bottom: 0; }
+
+    /* panel-main 直下の本文カードはバナーと同じブルータリスト調に */
+    .panel-main > .card {
+      background: #fff;
+      border: 2px solid var(--sys-dark, #1269B0);
+      border-radius: 0;
+      box-shadow: 4px 4px 0 var(--sys-dark, #1269B0);
+      margin: 0 0 20px 0;
+      transition: none;
+    }
+    .panel-main > .card:hover {
+      transform: none;
+      box-shadow: 4px 4px 0 var(--sys-dark, #1269B0);
+    }
+    @media (max-width: 600px) {
+      .panel-main > .card {
+        box-shadow: 3px 3px 0 var(--sys-dark, #1269B0);
+        margin-bottom: 16px;
+      }
+    }
+    .sys-subgroup {
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: var(--text);
+      margin: 28px 0 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      letter-spacing: 0.01em;
+    }
+    .sys-section-lead + .sys-subgroup { margin-top: 4px; }
+    .sys-subgroup::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: var(--sys-dark, #1269B0);
+      border-radius: 50%;
+    }
+
+    /* ===== 臨床 Q&A：横一列テキストボックスの縦スタック ===== */
+    .qa-stack { display: flex; flex-direction: column; gap: 6px; }
+    .qa-stack .card {
+      margin-bottom: 0 !important;
+      transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+    }
+    .qa-stack .card-inner { padding: 9px 16px; }
+    .qa-stack .card-section-title {
+      font-size: 0.88rem;
+      margin: 0 !important;
+      padding: 0 !important;
+      border-bottom: none !important;
+      color: var(--text);
+      line-height: 1.4;
+      font-weight: 800;
+    }
+    a.card.qa-link:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(18,105,176,0.12);
+      border-color: #BFDBFE;
+    }
+    a.card.qa-link .card-section-title { color: #1269B0; }
+    .qa-upcoming { opacity: 0.55; pointer-events: none; }
+    .qa-upcoming .card-section-title { color: var(--muted) !important; }
+    .qa-badge-soon {
+      display: inline-block;
+      font-size: 0.66rem;
+      font-weight: 700;
+      background: #E5E7EB;
+      color: var(--muted);
+      padding: 2px 8px;
+      border-radius: 999px;
+      margin-left: 10px;
+      vertical-align: 1px;
+      letter-spacing: 0.03em;
+    }
+
+    /* ===== リソースカードグリッド（既存リソース集） ===== */
+    .res-link-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 10px;
+    }
+    .res-link-card {
+      display: flex;
+      flex-direction: column;
+      padding: 13px 16px 14px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      text-decoration: none;
+      color: inherit;
+      transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+    }
+    .res-link-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(15,23,42,0.08);
+      border-color: #BFDBFE;
+    }
+    .res-link-cat {
+      font-size: 0.6rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #1269B0;
+      margin-bottom: 5px;
+    }
+    .res-link-title {
+      font-size: 0.86rem;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1.5;
+      margin-bottom: 5px;
+    }
+    .res-link-desc {
+      font-size: 0.74rem;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+    .res-link-card.external .res-link-cat { color: #B45309; }
+    .res-link-card.video .res-link-cat { color: #7C3AED; }
+    .res-link-card.tool .res-link-cat { color: #166534; }
+    .res-link-see-all {
+      font-size: 0.76rem;
+      color: var(--muted);
+      margin: 10px 0 0;
+      line-height: 1.6;
+    }
+    .res-link-see-all a { color: #1269B0; font-weight: 700; text-decoration: none; }
+    .res-link-see-all a:hover { text-decoration: underline; }
+
+    /* ===== PDF・印刷資料 ===== */
+    .pdf-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .pdf-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 14px;
+      background: #FFFBEB;
+      border: 1px solid #FDE68A;
+      border-radius: 8px;
+      text-decoration: none;
+      color: inherit;
+      transition: background 0.15s;
+    }
+    .pdf-item:hover { background: #FEF3C7; }
+    .pdf-icon {
+      flex-shrink: 0;
+      font-size: 0.62rem;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      color: #fff;
+      background: #B45309;
+      padding: 3px 7px;
+      border-radius: 3px;
+    }
+    .pdf-title {
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.5;
+      flex: 1;
+    }
+    .pdf-note {
+      font-size: 0.7rem;
+      color: var(--muted);
+      margin-left: auto;
+    }
+    .pdf-foot {
+      font-size: 0.72rem;
+      color: var(--muted);
+      line-height: 1.75;
+      margin: 12px 0 0;
+      padding: 0 4px;
+    }
+
+    /* ===== モバイル：システムタブ用調整 ===== */
+    @media (max-width: 767px) {
+      .sys-section-title { font-size: 0.96rem; margin-top: 32px; }
+      .sys-section-title:first-of-type { margin-top: 4px; }
+      .sys-section-lead { font-size: 0.78rem; margin-bottom: 14px; }
+      .sys-subgroup { font-size: 0.76rem; margin: 22px 0 8px; }
+      .qa-stack .card-inner { padding: 7px 12px; }
+      .qa-stack .card-section-title { font-size: 0.84rem; }
+      .res-link-card { padding: 11px 14px 12px; }
+      .res-link-title { font-size: 0.82rem; }
+      .res-link-desc { font-size: 0.7rem; }
+      .pdf-title { font-size: 0.8rem; }
+    }
+
+    /* ===== 準備中プレースホルダー（システムタブで使う場合） ===== */
+    .res-placeholder {
+      background: #F8FAFC;
+      border: 1px dashed var(--border);
+      border-radius: 12px;
+      padding: 60px 24px;
+      text-align: center;
+    }
+    .res-placeholder-title {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+    .res-placeholder-desc {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    /* ===== ページタイトルストリップ（細めの帯） ===== */
+    .res-titlebar {
+      max-width: 1294px;
+      margin: 0 auto;
+      padding: 22px 20px 16px;
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .res-titlebar-back {
+      font-size: 0.78rem;
+      color: var(--muted);
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.15s;
+      white-space: nowrap;
+    }
+    .res-titlebar-back:hover { color: var(--blue); }
+    .res-titlebar-title {
+      font-size: 1.25rem;
+      font-weight: 900;
+      color: var(--text);
+      margin: 0;
+      letter-spacing: 0.02em;
+    }
+    .res-titlebar-sub {
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    @media (max-width: 1100px) {
+      .res-tabs-inner { justify-content: flex-start; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+      .res-tabs-inner::-webkit-scrollbar { display: none; }
+    }
+    @media (max-width: 767px) {
+      .res-tabs-wrap { top: 56px; padding-top: 6px; }
+      .res-tabs-inner { padding: 0 14px; }
+      .res-tab { font-size: 0.76rem; padding: 8px 11px 7px; }
+      .res-titlebar { padding: 16px 14px 12px; gap: 10px; }
+      .res-titlebar-title { font-size: 1.1rem; }
+      .res-titlebar-sub { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="../index.html" class="nav-logo">
+        <img src="../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+        <span class="nav-logo-text">聖路加国際病院ICU</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-menu" id="navMenu"></ul>
+    </div>
+  </nav>
+
+  <!-- ===== ページタイトルストリップ ===== -->
+  <div class="res-titlebar">
+    <a href="../index.html" class="res-titlebar-back">← メインページへ戻る</a>
+    <h1 class="res-titlebar-title">レジデント資料集</h1>
+    <span class="res-titlebar-sub">RESIDENT RESOURCES</span>
+  </div>
+
+  <!-- ===== タブナビゲーション ===== -->
+  <div class="res-tabs-wrap">
+    <div class="res-tabs-inner">
+      <div class="res-tabs" role="tablist" aria-label="システム別タブ">
+        <button class="res-tab active" data-tab="onboard" role="tab" aria-selected="true">ローテ開始前</button>
+        <button class="res-tab" data-tab="neuro"  role="tab" aria-selected="false">神経系</button>
+        <button class="res-tab" data-tab="cv"     role="tab" aria-selected="false">循環器系</button>
+        <button class="res-tab" data-tab="resp"   role="tab" aria-selected="false">呼吸器系</button>
+        <button class="res-tab" data-tab="renal"  role="tab" aria-selected="false">腎電解質系</button>
+        <button class="res-tab" data-tab="gi"     role="tab" aria-selected="false">消化器/肝胆道系</button>
+        <button class="res-tab" data-tab="heme"   role="tab" aria-selected="false">血液系</button>
+        <button class="res-tab" data-tab="id"     role="tab" aria-selected="false">感染症</button>
+        <button class="res-tab" data-tab="nutr"   role="tab" aria-selected="false">栄養/代謝系</button>
+        <button class="res-tab" data-tab="msk"    role="tab" aria-selected="false">筋骨格系</button>
+        <button class="res-tab" data-tab="prev"   role="tab" aria-selected="false">予防</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== CONTENT ===== -->
+  <div class="container" style="padding: 28px 20px 60px; max-width: 1294px;">
+
+    <!-- ============================================================ -->
+    <!-- ============= TAB: まず読む（オンボーディング） ============= -->
+    <!-- ============================================================ -->
+    <div class="res-panel active sys--onboard" id="panel-onboard" role="tabpanel">
+      <div class="sys-banner">
+        <div class="sys-banner-en">ONBOARDING</div>
+        <h2 class="sys-banner-jp">ローテ開始前</h2>
+        <p class="sys-banner-desc">ローテーション開始時に必ず確認すべき基礎情報</p>
+      </div>
+     <div class="panel-grid">
+      <div class="panel-main">
+
+      <!-- ========== SECTION 1 はじめに ========== -->
+      <h3 id="sec-intro" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:0 0 16px;padding-left:14px;border-left:4px solid var(--blue);line-height:1.4;">
+        <span style="color:var(--blue);font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
+        はじめに
+      </h3>
+
+      <div class="card" id="ql-intro" style="margin-bottom:24px;">
+        <div class="card-inner">
+          <img src="../images/icu-study.jpg" alt="ICUで学習中のローテーター" style="width:100%;max-height:260px;object-fit:cover;object-position:center 30%;border-radius:8px;margin-bottom:18px;display:block;">
+
+          <p class="rule-body" style="margin-bottom:14px;color:var(--text);">
+            <strong>聖路加ICUの研修へようこそ。</strong>生理学・薬理学・人工呼吸器・血行動態・栄養・倫理まで、医師として必要な引き出しが一気に身につく濃密な数週間になります。多職種チームで重症患者さんと向き合い、刻一刻と変化する病態を読み解く面白さ、そして患者さんが回復していく瞬間に立ち会う喜び——ここでの経験は、皆さんの医師人生を必ずひと回り大きくしてくれることでしょう。
+          </p>
+
+          <div class="alert-blue" style="margin:14px 0;">
+            <ul class="video-list" style="margin:0;">
+              <li><label class="video-check-label"><input type="checkbox" class="video-check"><span class="video-link" style="cursor:default;">患者をby systemで評価し、適切なプランまで提示できる</span></label></li>
+              <li><label class="video-check-label"><input type="checkbox" class="video-check"><span class="video-link" style="cursor:default;">チームの一員として多職種を尊重し、協働できる</span></label></li>
+              <li><label class="video-check-label"><input type="checkbox" class="video-check"><span class="video-link" style="cursor:default;">人工呼吸器の設定を理解し、適切な変更を行うことができる</span></label></li>
+              <li><label class="video-check-label"><input type="checkbox" class="video-check"><span class="video-link" style="cursor:default;">各種手技を、適切に完遂することができる</span></label></li>
+              <li><label class="video-check-label"><input type="checkbox" class="video-check"><span class="video-link" style="cursor:default;">急変患者を前に適切な対応をとり、上級医やICUへ繋げることができる</span></label></li>
+            </ul>
+          </div>
+
+          <p class="rule-body" style="margin-top:14px;color:var(--text);">
+            上記が本研修の到達項目になります。当科スタッフ一同、皆さんの研修を最大限にサポートしていきますので、何かわからないことがあれば遠慮なく声をかけてくださいね。
+          </p>
+        </div>
+      </div>
+
+      <!-- ========== SECTION 2 ローテ開始前のTo Do ========== -->
+      <h3 id="sec-todo" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:40px 0 16px;padding-left:14px;border-left:4px solid var(--blue);line-height:1.4;">
+        <span style="color:var(--blue);font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
+        ローテ開始前のTo Do
+      </h3>
+
+      <div class="card" style="margin-bottom:24px;">
+        <div class="card-inner">
+
+          <div class="todo-item" id="todo-check">
+            <div class="todo-num">1</div>
+            <div class="todo-body">
+              <strong>まず確認してください！</strong>
+              <ul class="video-list">
+                <li><label class="video-check-label"><input type="checkbox" class="video-check"><span class="video-link" style="cursor:default;">ICU Teamsへの招待</span></label></li>
+                <li><label class="video-check-label"><input type="checkbox" class="video-check"><span class="video-link" style="cursor:default;">ICU患者リスト.xlsxのリンク共有</span></label></li>
+                <li><label class="video-check-label"><input type="checkbox" class="video-check"><span class="video-link" style="cursor:default;">勤務シフト表の共有</span></label></li>
+                <li><label class="video-check-label"><input type="checkbox" class="video-check"><span class="video-link" style="cursor:default;"><a href="icu-passport.html" style="color:var(--blue);font-weight:700;">ICU PASSPORT</a> をGET！</span></label></li>
+              </ul>
+              <p style="font-size:0.82rem;color:var(--muted);margin-top:6px;">いずれか不足している場合は、関谷先生または岡本先生に連絡ください。<span style="color:var(--text);">ICU PASSPORT は遅くともローテ初日にはお渡しします。</span></p>
+            </div>
+          </div>
+
+          <div class="todo-item" id="todo-intro">
+            <div class="todo-num">2</div>
+            <div class="todo-body">
+              <strong>自己紹介を送ってください！</strong>
+              <p>以下のテンプレートに記入し、<span class="mark-red"><b>自分の写真1枚（マスク可・学生時代可）を添えて</b></span>岡本先生・関谷先生宛にTeamsで送ってください。Teamsの「一般」スレッドで医師・看護師・PT・栄養士・薬剤師など多職種に紹介されます。</p>
+              <div class="intro-template">
+                <pre class="template-pre" id="introTemplatePre">名前（ふりがな）：
+ニックネーム：
+出身地：
+略歴：
+来年の進路：
+小さい頃やっていた習い事：
+学生時代の部活（小・中・高・大）：
+今までやったことがあるバイト：
+一番印象に残っている旅行先（理由も）：
+趣味（最近ハマっていること）：
+好きなYouTube / 本 / テレビ / 映画：
+自分の性格を一言で表すと：
+最近の目標や挑戦していること：
+ICUチームへ一言：</pre>
+                <button class="copy-btn" id="copyTemplateBtn">テンプレートをコピー</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="todo-item" id="todo-quiz">
+            <div class="todo-num">3</div>
+            <div class="todo-body">
+              <strong>感染予防クイズにチャレンジ！</strong>
+              <p>ICUの感染対策チームに所属する看護師さんが作成した問題を解いて提出しましょう（所要時間 約5分）。</p>
+              <a href="https://glass-brazil-abf.notion.site/J1-J2-S1-2760aee47d1c80828959dbc6221f2871?source=copy_link" target="_blank" rel="noopener" class="quiz-btn">クイズにチャレンジ</a>
+            </div>
+          </div>
+
+          <div class="todo-item" id="todo-videos">
+            <div class="todo-num">4</div>
+            <div class="todo-body">
+              <strong>動画の事前学習（必須4本）</strong>
+              <p>研修開始「前」に以下の4つの動画を視聴してください。視聴後はスタッフ医師にサインをもらいましょう。</p>
+              <ul class="video-list">
+                <li>
+                  <label class="video-check-label">
+                    <input type="checkbox" class="video-check">
+                    <a href="https://lukemcmi.sharepoint.com/sites/ms_teams_25922448/Shared%20Documents/General/勉強会動画（オンデマンド配信）/ZK.人工呼吸器入門編（Dr石井）.mp4?web=1" target="_blank" rel="noopener" class="video-link">人工呼吸器基礎</a>
+                    <span style="font-size:0.72rem;color:var(--muted);margin-left:6px;">→ <a href="disease-topics/dt-vent-basic.html" style="color:var(--blue);">テキストまとめ</a></span>
+                  </label>
+                </li>
+                <li>
+                  <label class="video-check-label">
+                    <input type="checkbox" class="video-check">
+                    <a href="https://lukemcmi.sharepoint.com/sites/ms_teams_25922448/Shared%20Documents/General/勉強会動画（オンデマンド配信）/ZH.神経集中治療（藤本先生）.mp4?web=1" target="_blank" rel="noopener" class="video-link">Neuro ICU</a>
+                    <span style="font-size:0.72rem;color:var(--muted);margin-left:6px;">→ <a href="disease-topics/dt-asah.html" style="color:var(--blue);">くも膜下出血</a> / <a href="disease-topics/dt-pcas.html" style="color:var(--blue);">心停止後管理</a></span>
+                  </label>
+                </li>
+                <li>
+                  <label class="video-check-label">
+                    <input type="checkbox" class="video-check">
+                    <a href="https://lukemcmi.sharepoint.com/sites/ms_teams_25922448/Shared%20Documents/General/勉強会動画（オンデマンド配信）/A.ヒュ－マンケア勉強会-20220816.mp4?web=1" target="_blank" rel="noopener" class="video-link">ヒューマンケア</a>
+                  </label>
+                </li>
+                <li>
+                  <label class="video-check-label">
+                    <input type="checkbox" class="video-check">
+                    <a href="https://lukemcmi.sharepoint.com/sites/ms_teams_25922448/Shared%20Documents/General/勉強会動画（オンデマンド配信）/ZN.緊急ACP(JSICM2024).mp4?web=1" target="_blank" rel="noopener" class="video-link">緊急ACP</a>
+                  </label>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="todo-item" id="todo-rules">
+            <div class="todo-num">5</div>
+            <div class="todo-body">
+              <strong>ICUルールを熟読</strong>
+              <p><a href="#sec-rules" style="color:var(--blue);font-weight:700;">ICUのルール（Section 4）</a>をローテ開始前に熟読してください。</p>
+            </div>
+          </div>
+
+          <div class="todo-item" id="todo-passport">
+            <div class="todo-num">6</div>
+            <div class="todo-body">
+              <strong>目指せ！ローテ開始後 2 週間以内のレクチャーコンプリート！</strong>
+              <p><span class="mark-red"><b>担当スタッフに自分から声をかけて</b></span>レクチャーをリクエストし、ローテ期間中にすべて受講・<a href="icu-passport.html" style="color:var(--blue);font-weight:700;">ICU PASSPORT</a> にサインを集めましょう。早く受け終わるほど理解が深まり、残りのローテがひと味変わること間違いなしです。</p>
+              <div style="background:#E0F2FE;border:1px solid #BAE6FD;border-radius:8px;padding:10px 14px;margin-top:8px;">
+                <p style="font-size:0.82rem;color:#075985;margin:0;line-height:1.6;">皆さんの手の空き具合はスタッフからは見えにくいので、ちょっと一段落したタイミングで気軽に声をかけてみてくださいね。みんな喜んでレクチャーを引き受けますよ！</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ========== SECTION 3 スケジュール ========== -->
+      <h3 id="sec-schedule" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:40px 0 16px;padding-left:14px;border-left:4px solid var(--blue);line-height:1.4;">
+        <span style="color:var(--blue);font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>
+        スケジュール
+      </h3>
+
+      <!-- 日勤タイムライン -->
+      <div class="card card-timeline" id="ql-weekday" style="margin-bottom:16px;">
+        <h3 class="card-title-plain">平日の1日の流れ</h3>
+        <div class="timeline">
+          <div class="tl-row">
+            <div class="tl-left"><div class="tl-time" style="color:#94A3B8;">7:00</div></div>
+            <div class="tl-bar"></div>
+            <div class="tl-text"><strong>朝カンファレンス前の準備</strong>担当患者の夜間経過を把握、夜勤Nsへ夜間経過を聴取、プレゼン準備</div>
+          </div>
+          <div class="tl-row tl-linked">
+            <div class="tl-left"><div class="tl-time">8:15</div></div>
+            <div class="tl-bar"></div>
+            <a href="schedule-renal-conf.html" class="tl-text"><strong>腎臓内科カンファレンス</strong>腎内主科・コンサルト患者のプレゼン（土日祝はお休みです）</a>
+          </div>
+          <div class="tl-row tl-linked">
+            <div class="tl-left"><div class="tl-time">8:30</div></div>
+            <div class="tl-bar"></div>
+            <a href="schedule-icu-conf.html" class="tl-text"><strong>ICUカンファレンス</strong>レジデントの先生はBy-systemのプレゼンを行います（土日祝はお休みです）</a>
+          </div>
+          <div class="tl-row tl-linked">
+            <div class="tl-left"><div class="tl-time">9:00</div></div>
+            <div class="tl-bar"></div>
+            <a href="schedule-ward-daily.html" class="tl-text"><strong>病棟業務</strong>カンファレンスで決まった検査/処方を入力・手技・Daily Chartを記載します</a>
+          </div>
+          <div class="tl-row">
+            <div class="tl-left"><div class="tl-time" style="color:#94A3B8;">12:00</div></div>
+            <div class="tl-bar"></div>
+            <div class="tl-text"><strong>半日出勤の日は退勤</strong>病棟長・日勤スタッフに申し送りして帰宅</div>
+          </div>
+          <div class="tl-row">
+            <div class="tl-left"><div class="tl-time" style="color:#94A3B8;">16:00</div></div>
+            <div class="tl-bar"></div>
+            <div class="tl-text"><strong>夜勤への申し送り</strong>日勤帯でやったこと・夜間の依頼事項を中心にプレゼン。申し送り終了で業務終了</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 土日祝日タイムライン -->
+      <div class="card card-timeline" id="ql-holiday" style="margin-bottom:16px;">
+        <h3 class="card-title-plain">土日祝日の1日の流れ</h3>
+        <div class="timeline">
+          <div class="tl-row">
+            <div class="tl-left"><div class="tl-time" style="color:#94A3B8;">8:00</div></div>
+            <div class="tl-bar"></div>
+            <div class="tl-text"><strong>夜勤からの申し送り</strong>その後、勤務開始</div>
+          </div>
+          <div class="tl-row">
+            <div class="tl-left"><div class="tl-time" style="color:#94A3B8;">12:00</div></div>
+            <div class="tl-bar"></div>
+            <div class="tl-text"><strong>スタッフへ申し送り</strong>勤務が終わり次第、打刻をして帰宅しましょう</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 週間スケジュール -->
+      <div class="card card-timeline" id="ql-weekly" style="margin-bottom:16px;">
+        <h3 class="card-title-plain">週間スケジュール</h3>
+        <div class="timeline">
+          <div class="tl-row">
+            <div class="tl-left"><div class="tl-time" style="color:#94A3B8;">月</div></div>
+            <div class="tl-bar"></div>
+            <div class="tl-text"><strong>海外教科書勉強会（隔週）</strong></div>
+          </div>
+          <div class="tl-row tl-linked">
+            <div class="tl-left"><div class="tl-time">金</div></div>
+            <div class="tl-bar"></div>
+            <a href="schedule-weekly-id-icu.html" class="tl-text"><strong>ID×ICUカンファレンス（13:30〜）</strong>感染症科 森先生から直接レクチャーいただく貴重な機会！</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========== SECTION 4 ICUのルール ========== -->
+      <h3 id="sec-rules" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:40px 0 16px;padding-left:14px;border-left:4px solid var(--blue);line-height:1.4;">
+        <span style="color:var(--blue);font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 4</span>
+        ICUのルール
+      </h3>
+
+      <div class="card" style="margin-bottom:20px;">
+        <div class="card-inner">
+          <p class="rule-body" style="margin:0;">ICUには様々なルールがあります。ローテ開始前にぜひ知っておいていただきたいルールを厳選しました。完全版は <a href="icu-policy-rules.html" style="color:var(--blue);font-weight:700;">こちら</a> になりますので、併せて確認をお願いします。</p>
+        </div>
+      </div>
+
+      <!-- 内科/外科病棟と異なる点（icu-policy-rules.html から自動同期） -->
+      <div id="rules-mirror-biz"
+           data-mirror-source="icu-policy-rules.html"
+           data-mirror-ids="biz-patient-list,biz-orderset,biz-comm,biz-comm-cutoff,biz-medication,biz-procedure,biz-leader"
+           data-mirror-anchor-prefix="rule-point"
+           data-mirror-badge="ポイント"
+           style="min-height:120px;">
+        <p class="rule-body" style="color:var(--muted);">読み込み中…</p>
+      </div>
+
+      <!-- 時間外申請について（icu-policy-rules.html から自動同期） -->
+      <h4 class="subsection-title" id="rule-overtime">時間外申請について</h4>
+
+      <div id="rules-mirror-overtime"
+           data-mirror-source="icu-policy-rules.html"
+           data-mirror-ids="biz-overtime"
+           style="min-height:80px;">
+        <p class="rule-body" style="color:var(--muted);">読み込み中…</p>
+      </div>
+
+      <!-- その他重要事項10点 -->
+      <h4 class="subsection-title" id="rule-10points">その他重要事項10点</h4>
+      <div class="rules-list">
+
+        <div class="rule-item">
+          <div class="rule-num">其の1</div>
+          <div class="rule-content">
+            <strong>看護師の声は"神の声"</strong>
+            <p>患者の一番近くにいてくれるのが看護師さん。「おかしい」と感じる時はたいてい本当におかしい。それを肝に銘じましょう。</p>
+          </div>
+        </div>
+
+        <div class="rule-item">
+          <div class="rule-num">其の2</div>
+          <div class="rule-content">
+            <strong>感染防御は"超"徹底！</strong>
+            <p>COVID-19だけでなく、多剤耐性菌・院内感染のリスクが高い。患者・自分・職場のみんなを守るために感染防御を徹底しましょう。</p>
+          </div>
+        </div>
+
+        <div class="rule-item">
+          <div class="rule-num">其の3</div>
+          <div class="rule-content">
+            <strong>異変があったら上級医にすぐ報告</strong>
+            <p>集中治療は初めてで分からなくて当然。何か変・疑問に思ったらすぐ上に報告。3分後には急変しているのはよくある話。伝書鳩で怒る先生はいません。</p>
+          </div>
+        </div>
+
+        <div class="rule-item">
+          <div class="rule-num">其の4</div>
+          <div class="rule-content">
+            <strong>主科・担当医には逐一全て報告</strong>
+            <p>画像検査・抗菌薬変更など、主科の担当医には全て報告・相談。信頼関係の構築につながります。例：脳外科患者で血便 → まず脳外科担当医へ連絡 → CT・消化器内科へ。</p>
+          </div>
+        </div>
+
+        <div class="rule-item">
+          <div class="rule-num">其の5</div>
+          <div class="rule-content">
+            <strong>手技は成功よりも"提案"できる方が大事</strong>
+            <p>「患者の呼吸状態から気管挿管が必要」「今の管理にCVラインが必要」など、適応を提案できることがより重要。手技の成功だけを目標にしない。</p>
+          </div>
+        </div>
+
+        <div class="rule-item">
+          <div class="rule-num">其の6</div>
+          <div class="rule-content">
+            <strong>オーダー類は午前中に終わらせよう</strong>
+            <p>ルーチン業務5点：①血液検査チェック ②胸部写真チェック ③点滴オーダー ④内服オーダー ⑤コメントオーダー確認。午後は術後入室・緊急入院もあるので昼食前に完了。</p>
+          </div>
+        </div>
+
+        <div class="rule-item">
+          <div class="rule-num">其の7</div>
+          <div class="rule-content">
+            <strong>カルテは朝回診後の内容でOK</strong>
+            <p>ICUカルテはBy-systemで量が多いが、「朝回診終了時」の内容記載でOK。夕方の変化はスタッフが記載。ただし、その日の変化の把握・知識整理は必ず行うこと。</p>
+          </div>
+        </div>
+
+        <div class="rule-item">
+          <div class="rule-num">其の8</div>
+          <div class="rule-content">
+            <strong>移動を伴う検査・手技はまず看護師と相談</strong>
+            <p>急に移動・手技はできません。流れ：① インチャージNsにタイミング相談 → ② 検査室に連絡・時間調整 → ③ インチャージNsに再報告。</p>
+          </div>
+        </div>
+
+        <div class="rule-item">
+          <div class="rule-num">其の9</div>
+          <div class="rule-content">
+            <strong>自分の担当患者でなくても対応しよう</strong>
+            <p>急変・イベントが起きたら担当外でもベッドへ駆けつけ一緒に対応。院内急変でスタッフが病棟へ行く時も同行して、ICUローテ後も使える武器を増やしましょう。</p>
+          </div>
+        </div>
+
+        <div class="rule-item">
+          <div class="rule-num">其の10</div>
+          <div class="rule-content">
+            <strong>先生たちは医師だが"社会人2年目"</strong>
+            <p>看護師・コメディカルの方々は丁寧に話してくれるが、ほぼ全員が先輩・上司。そのことを肝に銘じると、自然と自分自身が働きやすい環境ができてくるはず。</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- +α -->
+      <div class="card" id="rule-loved" style="margin-top:16px;">
+        <div class="card-inner">
+          <h3 class="card-section-title">＋α　愛されローテーターになるために</h3>
+          <div class="alpha-list">
+            <div class="alpha-item">
+              <span class="alpha-num">❶</span>
+              <div>
+                <strong>名前を覚えよう、名前で呼ぼう</strong>
+                <p>「看護師さん」ではなく「〇〇さん」と呼ぶようにしましょう</p>
+              </div>
+            </div>
+            <div class="alpha-item">
+              <span class="alpha-num">❷</span>
+              <div>
+                <strong>何もできなくていいから、まず駆けつけよう</strong>
+                <p>"何かあった時にすぐ来てくれる"は本当に大切です</p>
+              </div>
+            </div>
+            <div class="alpha-item">
+              <span class="alpha-num">❸</span>
+              <div>
+                <strong>電話より、病棟に行って直接伝えよう</strong>
+                <p>直接なら相手も相談しやすいし、顔も覚えてもらえる。良いことづくし</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      </div><!-- /panel-main -->
+
+      <!-- ===== 右サイドバー：戻る + 目次 ===== -->
+      <aside class="panel-sidebar" aria-label="ページ内ショートカット">
+        <a href="../index.html" class="panel-back-btn">← トップページへ戻る</a>
+        <div class="panel-toc">
+          <h3 class="panel-toc-title">目次</h3>
+          <nav>
+            <a href="#sec-intro" class="toc-section">SECTION 1 — はじめに</a>
+
+            <a href="#sec-todo" class="toc-section">SECTION 2 — ローテ開始前のTo Do</a>
+            <a href="#todo-check"    class="toc-sub">1. まず確認してください！</a>
+            <a href="#todo-intro"    class="toc-sub">2. 自己紹介を送ってください！</a>
+            <a href="#todo-quiz"     class="toc-sub">3. 感染予防クイズにチャレンジ！</a>
+            <a href="#todo-videos"   class="toc-sub">4. 動画の事前学習（必須4本）</a>
+            <a href="#todo-rules"    class="toc-sub">5. ICUルールを熟読</a>
+            <a href="#todo-passport" class="toc-sub">6. ICU PASSPORTのレクチャー受講</a>
+
+            <a href="#sec-schedule" class="toc-section">SECTION 3 — スケジュール</a>
+            <a href="#ql-weekday" class="toc-sub">平日の1日の流れ</a>
+            <a href="#ql-holiday" class="toc-sub">土日祝日の1日の流れ</a>
+            <a href="#ql-weekly"  class="toc-sub">週間スケジュール</a>
+
+            <a href="#sec-rules" class="toc-section">SECTION 4 — ICUのルール</a>
+            <a href="#rule-point1"   class="toc-sub">① ICU患者リスト</a>
+            <a href="#rule-point2"   class="toc-sub">② ICUセットから展開</a>
+            <a href="#rule-point3"   class="toc-sub">③ オーダーの注意点 1</a>
+            <a href="#rule-point4"   class="toc-sub">④ オーダーの注意点 2</a>
+            <a href="#rule-point5"   class="toc-sub">⑤ 定期処方とバンコマイシン</a>
+            <a href="#rule-point6"   class="toc-sub">⑥ 手技について</a>
+            <a href="#rule-point7"   class="toc-sub">⑦ ICUリーダーへの情報共有</a>
+            <a href="#rule-overtime" class="toc-sub">時間外申請について</a>
+            <a href="#rule-10points" class="toc-sub">その他重要事項10点</a>
+            <a href="#rule-loved"    class="toc-sub">＋α 愛されローテーター</a>
+          </nav>
+        </div>
+      </aside>
+
+     </div><!-- /panel-grid -->
+    </div><!-- /panel-onboard -->
+
+    <!-- ============= TAB: 神経 ============= -->
+    <div class="res-panel sys--neuro" id="panel-neuro" role="tabpanel">
+      <div class="sys-banner">
+        <div class="sys-banner-en">NEUROLOGICAL SYSTEM</div>
+        <h2 class="sys-banner-jp">神経系</h2>
+        <p class="sys-banner-desc">PADIS／意識障害／脳卒中／痙攣／ICU-AW／脳波モニタリング</p>
+      </div>
+     <div class="panel-grid">
+      <div class="panel-main">
+        <a href="schedule-icu-conf.html#sys-neuro" class="morning-presen-link">
+          <div class="morning-presen-icon"></div>
+          <div class="morning-presen-text">
+            <span class="morning-presen-eyebrow">ICU カンファ・プレゼン用</span>
+            <span class="morning-presen-headline">朝プレゼンのポイント</span>
+          </div>
+          <span class="morning-presen-cta">→</span>
+        </a>
+        <!-- ========== SECTION 1 まずは基本用語を整理 ========== -->
+        <div class="card">
+          <div class="card-inner">
+            <h3 id="neuro-glossary" class="sys-section-title">
+              <span>SECTION 1</span>まずは基本用語を整理
+            </h3>
+            <p class="sys-section-lead">
+              神経 ICU で毎日使う基本用語をひとつずつ確認していきます（順次公開）。
+            </p>
+            <div class="qa-stack">
+              <a href="resident-qa/qa-neuro-sedation.html" class="card qa-link" style="display:block;text-decoration:none;color:inherit;cursor:pointer;"><div class="card-inner"><h3 class="card-section-title">鎮静</h3></div></a>
+              <div class="card qa-upcoming"><div class="card-inner"><h3 class="card-section-title">鎮痛<span class="qa-badge-soon">準備中</span></h3></div></div>
+              <div class="card qa-upcoming"><div class="card-inner"><h3 class="card-section-title">譫妄（せん妄）<span class="qa-badge-soon">準備中</span></h3></div></div>
+              <div class="card qa-upcoming"><div class="card-inner"><h3 class="card-section-title">二次性脳損傷予防<span class="qa-badge-soon">準備中</span></h3></div></div>
+              <div class="card qa-upcoming"><div class="card-inner"><h3 class="card-section-title">てんかんと痙攣<span class="qa-badge-soon">準備中</span></h3></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="panel-sidebar" aria-label="ページ内ショートカット">
+        <a href="../index.html" class="panel-back-btn">← トップページへ戻る</a>
+        <div class="panel-toc">
+          <h3 class="panel-toc-title">目次</h3>
+          <nav>
+            <a href="#neuro-glossary" class="toc-section">SECTION 1 — まずは基本用語を整理</a>
+          </nav>
+        </div>
+      </aside>
+     </div><!-- /panel-grid -->
+    </div>
+
+    <!-- ============= TAB: 循環 ============= -->
+    <div class="res-panel sys--cv" id="panel-cv" role="tabpanel">
+      <div class="sys-banner">
+        <div class="sys-banner-en">CARDIOLOGICAL SYSTEM</div>
+        <h2 class="sys-banner-jp">循環器系</h2>
+        <p class="sys-banner-desc">昇圧薬／ショック／心不全／不整脈／心筋梗塞／血行動態モニタリング</p>
+      </div>
+     <div class="panel-grid">
+      <div class="panel-main">
+        <a href="schedule-icu-conf.html#sys-cardio" class="morning-presen-link">
+          <div class="morning-presen-icon"></div>
+          <div class="morning-presen-text">
+            <span class="morning-presen-eyebrow">ICU カンファ・プレゼン用</span>
+            <span class="morning-presen-headline">朝プレゼンのポイント</span>
+          </div>
+          <span class="morning-presen-cta">→</span>
+        </a>
+        <!-- ========== SECTION 1 まずは基本用語を整理 ========== -->
+        <div class="card">
+          <div class="card-inner">
+            <h3 id="cv-glossary" class="sys-section-title">
+              <span>SECTION 1</span>まずは基本用語を整理
+            </h3>
+            <p class="sys-section-lead">
+              循環管理で毎日使う基本用語を「○○とは？」のかたちでひとつずつ確認していきます（順次公開）。
+            </p>
+            <div class="qa-stack">
+              <div class="card qa-upcoming"><div class="card-inner"><h3 class="card-section-title">ショックとは？<span class="qa-badge-soon">準備中</span></h3></div></div>
+              <div class="card qa-upcoming"><div class="card-inner"><h3 class="card-section-title">DO2 とは？<span class="qa-badge-soon">準備中</span></h3></div></div>
+              <div class="card qa-upcoming"><div class="card-inner"><h3 class="card-section-title">MAP とは？<span class="qa-badge-soon">準備中</span></h3></div></div>
+              <div class="card qa-upcoming"><div class="card-inner"><h3 class="card-section-title">前負荷・後負荷とは？<span class="qa-badge-soon">準備中</span></h3></div></div>
+              <div class="card qa-upcoming"><div class="card-inner"><h3 class="card-section-title">心拍出量とは？<span class="qa-badge-soon">準備中</span></h3></div></div>
+              <div class="card qa-upcoming"><div class="card-inner"><h3 class="card-section-title">昇圧薬とは？<span class="qa-badge-soon">準備中</span></h3></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="panel-sidebar" aria-label="ページ内ショートカット">
+        <a href="../index.html" class="panel-back-btn">← トップページへ戻る</a>
+        <div class="panel-toc">
+          <h3 class="panel-toc-title">目次</h3>
+          <nav>
+            <a href="#cv-glossary" class="toc-section">SECTION 1 — まずは基本用語を整理</a>
+          </nav>
+        </div>
+      </aside>
+     </div><!-- /panel-grid -->
+    </div>
+
+    <!-- ============= TAB: 呼吸 ============= -->
+    <div class="res-panel sys--resp" id="panel-resp" role="tabpanel">
+      <div class="sys-banner">
+        <div class="sys-banner-en">RESPIRATORY SYSTEM</div>
+        <h2 class="sys-banner-jp">呼吸器系</h2>
+        <p class="sys-banner-desc">挿管／非侵襲呼吸（NPPV）／ARDS／人工呼吸管理／HFNC／抜管／気道管理</p>
+      </div>
+     <div class="panel-grid">
+      <div class="panel-main">
+
+        <a href="schedule-icu-conf.html#sys-resp" class="morning-presen-link">
+          <div class="morning-presen-icon"></div>
+          <div class="morning-presen-text">
+            <span class="morning-presen-eyebrow">ICU カンファ・プレゼン用</span>
+            <span class="morning-presen-headline">朝プレゼンのポイント</span>
+          </div>
+          <span class="morning-presen-cta">→</span>
+        </a>
+        <!-- ========== SECTION 1 まずは基本用語を整理 ========== -->
+        <div class="card">
+         <div class="card-inner">
+        <h3 id="resp-qa" class="sys-section-title">
+          <span>SECTION 1</span>まずは基本用語を整理
+        </h3>
+        <p class="sys-section-lead">
+          ベッドサイドで「今これがしたい」「これってどう判断する？」と迷ったときの、研修医向け簡易回答ページ群です。
+          1〜2 分で読める Step-by-Step + 関連リソースへのリンクをまとめています。
+        </p>
+        <div class="qa-stack">
+          <a href="resident-qa/qa-resp-vent-init.html" class="card qa-link" style="display:block;text-decoration:none;color:inherit;cursor:pointer;">
+            <div class="card-inner">
+              <h3 class="card-section-title">Q. 人工呼吸器の初期設定はどうする？</h3>
+            </div>
+          </a>
+          <div class="card qa-upcoming">
+            <div class="card-inner">
+              <h3 class="card-section-title">Q. 抜管できるか判断したい<span class="qa-badge-soon">準備中</span></h3>
+            </div>
+          </div>
+          <div class="card qa-upcoming">
+            <div class="card-inner">
+              <h3 class="card-section-title">Q. ARDS を疑った時の初期対応<span class="qa-badge-soon">準備中</span></h3>
+            </div>
+          </div>
+          <div class="card qa-upcoming">
+            <div class="card-inner">
+              <h3 class="card-section-title">Q. HFNC と NPPV、どっちを選ぶ？<span class="qa-badge-soon">準備中</span></h3>
+            </div>
+          </div>
+          <div class="card qa-upcoming">
+            <div class="card-inner">
+              <h3 class="card-section-title">Q. 術後呼吸不全への対応<span class="qa-badge-soon">準備中</span></h3>
+            </div>
+          </div>
+          <div class="card qa-upcoming">
+            <div class="card-inner">
+              <h3 class="card-section-title">Q. 人工呼吸器の非同調が出た<span class="qa-badge-soon">準備中</span></h3>
+            </div>
+          </div>
+        </div>
+         </div><!-- /card-inner SECTION1 -->
+        </div><!-- /card SECTION1 -->
+
+        <!-- ========== SECTION 2 体系的に学ぶ：既存リソース集 ========== -->
+        <div class="card">
+         <div class="card-inner">
+        <h3 id="resp-resources" class="sys-section-title">
+          <span>SECTION 2</span>体系的に学ぶ：既存リソース集
+        </h3>
+        <p class="sys-section-lead">
+          疾患の総説・最新ガイドライン・動画講座・ベッドサイドツールを横断的に集約。
+        </p>
+
+        <div class="sys-subgroup">疾患マニュアル（オレンジテーマ・総説）</div>
+        <div class="res-link-grid">
+          <a href="disease-topics/dt-vent-basic.html" class="res-link-card">
+            <div class="res-link-cat">疾患マニュアル</div>
+            <div class="res-link-title">人工呼吸器 基礎編</div>
+            <div class="res-link-desc">モード・換気生理・初期設定・モニタリングの基本。</div>
+          </a>
+          <a href="disease-topics/dt-vent-advanced.html" class="res-link-card">
+            <div class="res-link-cat">疾患マニュアル</div>
+            <div class="res-link-title">人工呼吸器 応用編</div>
+            <div class="res-link-desc">P-SILI・経肺圧・非同調・難治症例への対応。</div>
+          </a>
+          <a href="disease-topics/dt-vent-weaning.html" class="res-link-card">
+            <div class="res-link-cat">疾患マニュアル</div>
+            <div class="res-link-title">人工呼吸器離脱（ウィーニング）</div>
+            <div class="res-link-desc">SBT・抜管基準・離脱失敗時のアプローチ。</div>
+          </a>
+          <a href="disease-topics/dt-vent-special.html" class="res-link-card">
+            <div class="res-link-cat">疾患マニュアル</div>
+            <div class="res-link-title">人工呼吸器 特殊病態</div>
+            <div class="res-link-desc">気管支喘息・気管支瘻・神経筋疾患などの個別対応。</div>
+          </a>
+          <a href="disease-topics/dt-ards.html" class="res-link-card">
+            <div class="res-link-cat">疾患マニュアル</div>
+            <div class="res-link-title">ARDS</div>
+            <div class="res-link-desc">ベルリン定義・肺保護換気・腹臥位・ECMOまで網羅。</div>
+          </a>
+          <a href="disease-topics/dt-ards-resp.html" class="res-link-card">
+            <div class="res-link-cat">疾患マニュアル</div>
+            <div class="res-link-title">ARDS（呼吸器管理視点）</div>
+            <div class="res-link-desc">人工呼吸器設定の詳細プロトコル。</div>
+          </a>
+        </div>
+
+        <div class="sys-subgroup">論文・ガイドラインまとめ（緑テーマ）</div>
+        <div class="res-link-grid">
+          <a href="articles-gl-ats-ards2024.html" class="res-link-card">
+            <div class="res-link-cat">GL</div>
+            <div class="res-link-title">ATS ARDS 2024 ガイドライン</div>
+            <div class="res-link-desc">最新の ARDS 治療推奨（肺保護換気・腹臥位・PEEP戦略）。</div>
+          </a>
+          <a href="articles-gl-esicm-ards2023.html" class="res-link-card">
+            <div class="res-link-cat">GL</div>
+            <div class="res-link-title">ESICM ARDS 2023 ガイドライン</div>
+            <div class="res-link-desc">欧州の ARDS 診療指針。</div>
+          </a>
+          <a href="articles-gl-rhd-ards2025.html" class="res-link-card">
+            <div class="res-link-cat">論文</div>
+            <div class="res-link-title">右心機能と ARDS 管理</div>
+            <div class="res-link-desc">右心保護換気戦略の最新エビデンス（2025）。</div>
+          </a>
+          <a href="articles-gl-peep-hysteresis-ards2023.html" class="res-link-card">
+            <div class="res-link-cat">論文</div>
+            <div class="res-link-title">PEEP ヒステリシスと滴定法</div>
+            <div class="res-link-desc">最適 PEEP 設定の理論と実践（2023）。</div>
+          </a>
+          <a href="articles-gl-enio-extubation2025.html" class="res-link-card">
+            <div class="res-link-cat">GL</div>
+            <div class="res-link-title">ENIO 抜管 2025</div>
+            <div class="res-link-desc">国際多施設研究に基づく抜管プロトコル。</div>
+          </a>
+          <a href="articles-gl-airway-acute2026.html" class="res-link-card">
+            <div class="res-link-cat">GL</div>
+            <div class="res-link-title">急性気道管理 2026</div>
+            <div class="res-link-desc">困難気道・気管挿管・気管切開のアップデート。</div>
+          </a>
+          <a href="articles-gl-hfnc-copd-nma2025.html" class="res-link-card">
+            <div class="res-link-cat">論文</div>
+            <div class="res-link-title">AECOPD への HFNC 流量設定</div>
+            <div class="res-link-desc">流量比較ネットワークメタ解析。</div>
+          </a>
+          <a href="articles-gl-imai-oxygen-nma2025.html" class="res-link-card">
+            <div class="res-link-cat">論文</div>
+            <div class="res-link-title">酸素療法 NMA 2025</div>
+            <div class="res-link-desc">HFNC・NPPV・標準酸素の比較メタ解析。</div>
+          </a>
+          <a href="articles-gl-prone-icm2024.html" class="res-link-card">
+            <div class="res-link-cat">GL</div>
+            <div class="res-link-title">腹臥位療法 ICM 2024</div>
+            <div class="res-link-desc">実施手順・合併症予防・適応判断。</div>
+          </a>
+          <a href="articles-gl-scap-icm2025.html" class="res-link-card">
+            <div class="res-link-cat">GL</div>
+            <div class="res-link-title">重症市中肺炎（sCAP）2025</div>
+            <div class="res-link-desc">概念・診断・治療戦略の最新総説。</div>
+          </a>
+          <a href="articles-gl-steroid-cap2025.html" class="res-link-card">
+            <div class="res-link-cat">論文</div>
+            <div class="res-link-title">CAP へのステロイド SONIA 試験</div>
+            <div class="res-link-desc">NEJM 2025・市中肺炎へのデキサメタゾン補助療法。</div>
+          </a>
+          <a href="articles-gl-influenza-nma-jamaintmed2025.html" class="res-link-card">
+            <div class="res-link-cat">論文</div>
+            <div class="res-link-title">インフルエンザ抗ウイルス薬 NMA</div>
+            <div class="res-link-desc">JAMA Internal Medicine 2025。</div>
+          </a>
+        </div>
+        <p class="res-link-see-all">
+          <a href="articles-guidelines.html">→ 論文・GL一覧（呼吸器系）すべてを見る</a>
+        </p>
+
+        <div class="sys-subgroup">動画講座</div>
+        <div class="res-link-grid">
+          <a href="https://lukemcmi.sharepoint.com/sites/ms_teams_25922448/Shared%20Documents/General/勉強会動画（オンデマンド配信）/ZK.人工呼吸器入門編（Dr石井）.mp4?web=1" target="_blank" rel="noopener" class="res-link-card video">
+            <div class="res-link-cat">動画 ・ 入門</div>
+            <div class="res-link-title">人工呼吸器入門編（石井先生）</div>
+            <div class="res-link-desc">研修医必修。事前学習動画にも指定。</div>
+          </a>
+          <a href="https://lukemcmi.sharepoint.com/sites/ms_teams_25922448/Shared%20Documents/General/勉強会動画（オンデマンド配信）/D.人工呼吸器管理のポイント%0A　急性期から離脱まで-20230228.mp4?web=1" target="_blank" rel="noopener" class="res-link-card video">
+            <div class="res-link-cat">動画 ・ 基礎</div>
+            <div class="res-link-title">人工呼吸器管理のポイント</div>
+            <div class="res-link-desc">急性期から離脱までの流れを通しで。</div>
+          </a>
+          <a href="https://lukemcmi.sharepoint.com/sites/ms_teams_25922448/Shared%20Documents/General/勉強会動画（オンデマンド配信）/E.抜管について語ろう-村上先生20230314.mp4?web=1" target="_blank" rel="noopener" class="res-link-card video">
+            <div class="res-link-cat">動画 ・ 基礎</div>
+            <div class="res-link-title">抜管について語ろう（村上先生）</div>
+            <div class="res-link-desc">抜管判断と実施のリアル。</div>
+          </a>
+          <a href="https://lukemcmi.sharepoint.com/sites/ms_teams_25922448/Shared%20Documents/General/勉強会動画（オンデマンド配信）/F.肺メカニクス-石井先生20221219.mp4?web=1" target="_blank" rel="noopener" class="res-link-card video">
+            <div class="res-link-cat">動画 ・ 中級</div>
+            <div class="res-link-title">肺メカニクス（石井先生）</div>
+            <div class="res-link-desc">圧・流量・容量の関係を理解する。</div>
+          </a>
+          <a href="https://lukemcmi.sharepoint.com/sites/ms_teams_25922448/Shared%20Documents/General/勉強会動画（オンデマンド配信）/ZD.人工呼吸器非同調（岡本先生）.mp4?web=1" target="_blank" rel="noopener" class="res-link-card video">
+            <div class="res-link-cat">動画 ・ 応用</div>
+            <div class="res-link-title">人工呼吸器非同調（岡本先生）</div>
+            <div class="res-link-desc">波形を見て原因を特定する。</div>
+          </a>
+          <a href="https://lukemcmi.sharepoint.com/sites/ms_teams_25922448/Shared%20Documents/General/勉強会動画（オンデマンド配信）/Y.NPPV勉強会（JA広島総合病院櫻谷先生）.mp4?web=1" target="_blank" rel="noopener" class="res-link-card video">
+            <div class="res-link-cat">動画 ・ 基礎</div>
+            <div class="res-link-title">NPPV 勉強会</div>
+            <div class="res-link-desc">NPPV の適応・設定・モニタリング。</div>
+          </a>
+        </div>
+        <p class="res-link-see-all">
+          <a href="video-lectures.html">→ 動画講座一覧（呼吸管理）すべてを見る</a>
+        </p>
+
+        <div class="sys-subgroup">ベッドサイド・ツール</div>
+        <div class="res-link-grid">
+          <a href="karte-by-system.html" class="res-link-card tool">
+            <div class="res-link-cat">ツール</div>
+            <div class="res-link-title">By-System カルテ作成ツール</div>
+            <div class="res-link-desc">プロブレム別にカルテ・プランを Step-by-Step で作成。</div>
+          </a>
+          <a href="apache-ii.html" class="res-link-card tool">
+            <div class="res-link-cat">スコア</div>
+            <div class="res-link-title">APACHE II スコア</div>
+            <div class="res-link-desc">重症度・予後評価。</div>
+          </a>
+          <a href="sofa.html" class="res-link-card tool">
+            <div class="res-link-cat">スコア</div>
+            <div class="res-link-title">SOFA-2 スコア</div>
+            <div class="res-link-desc">臓器障害評価（呼吸：P/F 比）。</div>
+          </a>
+        </div>
+         </div><!-- /card-inner SECTION2 -->
+        </div><!-- /card SECTION2 -->
+
+        <!-- ========== SECTION 3 PDF・印刷資料 ========== -->
+        <div class="card">
+         <div class="card-inner">
+        <h3 id="resp-pdf" class="sys-section-title">
+          <span>SECTION 3</span>PDF・印刷資料（白衣ポケット向け）
+        </h3>
+        <p class="sys-section-lead">
+          ベッドサイドや当直時にすぐ参照したい、A4 1 枚で印刷できるクイックリファレンス集。
+          院内マニュアル・ガイドライン原典・チートシートへのリンクを集約します。
+        </p>
+        <div class="pdf-list">
+          <a href="#" class="pdf-item" style="opacity:0.6;pointer-events:none;">
+            <span class="pdf-icon">PDF</span>
+            <span class="pdf-title">呼吸不全 鑑別フローチャート（1枚）</span>
+            <span class="pdf-note">準備中</span>
+          </a>
+          <a href="#" class="pdf-item" style="opacity:0.6;pointer-events:none;">
+            <span class="pdf-icon">PDF</span>
+            <span class="pdf-title">人工呼吸器初期設定 チートシート</span>
+            <span class="pdf-note">準備中</span>
+          </a>
+          <a href="#" class="pdf-item" style="opacity:0.6;pointer-events:none;">
+            <span class="pdf-icon">PDF</span>
+            <span class="pdf-title">ARDS 肺保護換気プロトコル（聖路加 ICU 院内版）</span>
+            <span class="pdf-note">準備中</span>
+          </a>
+          <a href="#" class="pdf-item" style="opacity:0.6;pointer-events:none;">
+            <span class="pdf-icon">PDF</span>
+            <span class="pdf-title">SBT/抜管チェックリスト</span>
+            <span class="pdf-note">準備中</span>
+          </a>
+          <a href="https://www.atsjournals.org/doi/10.1164/rccm.202310-1858ST" target="_blank" rel="noopener" class="pdf-item">
+            <span class="pdf-icon" style="background:#0F766E;">公式</span>
+            <span class="pdf-title">ATS ARDS 2024 ガイドライン 原典</span>
+            <span class="pdf-note">外部リンク</span>
+          </a>
+        </div>
+        <p class="pdf-foot">
+          ※ 院内マニュアル PDF は Teams / SharePoint 上のリンクを掲載します。海外 GL 原典は公式ジャーナルへのリンクで案内します（著作権上、再配布せず）。
+        </p>
+         </div><!-- /card-inner SECTION3 -->
+        </div><!-- /card SECTION3 -->
+
+      </div><!-- /panel-main -->
+
+      <aside class="panel-sidebar" aria-label="ページ内ショートカット">
+        <a href="../index.html" class="panel-back-btn">← トップページへ戻る</a>
+        <div class="panel-toc">
+          <h3 class="panel-toc-title">目次</h3>
+          <nav>
+            <a href="#resp-qa" class="toc-section">SECTION 1 — まずは基本用語を整理</a>
+            <a href="#resp-resources" class="toc-section">SECTION 2 — 体系的に学ぶ</a>
+            <a href="#resp-pdf" class="toc-section">SECTION 3 — PDF・印刷資料</a>
+          </nav>
+        </div>
+      </aside>
+     </div><!-- /panel-grid -->
+    </div>
+
+    <!-- ============= TAB: 腎・電解質 ============= -->
+    <div class="res-panel sys--renal" id="panel-renal" role="tabpanel">
+      <div class="sys-banner">
+        <div class="sys-banner-en">NEPHROLOGICAL SYSTEM</div>
+        <h2 class="sys-banner-jp">腎電解質系</h2>
+        <p class="sys-banner-desc">透析／AKI／電解質異常／酸塩基平衡／輸液戦略</p>
+      </div>
+     <div class="panel-grid">
+      <div class="panel-main">
+        <a href="schedule-icu-conf.html#sys-renal" class="morning-presen-link">
+          <div class="morning-presen-icon"></div>
+          <div class="morning-presen-text">
+            <span class="morning-presen-eyebrow">ICU カンファ・プレゼン用</span>
+            <span class="morning-presen-headline">朝プレゼンのポイント</span>
+          </div>
+          <span class="morning-presen-cta">→</span>
+        </a>
+        <!-- ========== SECTION 1 まずは基本用語を整理 ========== -->
+        <div class="card">
+          <div class="card-inner">
+            <h3 id="renal-glossary" class="sys-section-title">
+              <span>SECTION 1</span>まずは基本用語を整理
+            </h3>
+            <p class="sys-section-lead">
+              腎・電解質ローテで毎日使う基本用語を「○○とは？」のかたちでひとつずつ確認していきます（順次公開）。
+            </p>
+            <div class="qa-stack">
+              <div class="card qa-upcoming"><div class="card-inner"><h3 class="card-section-title">AKI とは？<span class="qa-badge-soon">準備中</span></h3></div></div>
+              <div class="card qa-upcoming"><div class="card-inner"><h3 class="card-section-title">透析とは？<span class="qa-badge-soon">準備中</span></h3></div></div>
+              <div class="card qa-upcoming"><div class="card-inner"><h3 class="card-section-title">CRRT とは？<span class="qa-badge-soon">準備中</span></h3></div></div>
+              <div class="card qa-upcoming"><div class="card-inner"><h3 class="card-section-title">アニオンギャップとは？<span class="qa-badge-soon">準備中</span></h3></div></div>
+              <div class="card qa-upcoming"><div class="card-inner"><h3 class="card-section-title">FENa とは？<span class="qa-badge-soon">準備中</span></h3></div></div>
+              <div class="card qa-upcoming"><div class="card-inner"><h3 class="card-section-title">体液量評価とは？<span class="qa-badge-soon">準備中</span></h3></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="panel-sidebar" aria-label="ページ内ショートカット">
+        <a href="../index.html" class="panel-back-btn">← トップページへ戻る</a>
+        <div class="panel-toc">
+          <h3 class="panel-toc-title">目次</h3>
+          <nav>
+            <a href="#renal-glossary" class="toc-section">SECTION 1 — まずは基本用語を整理</a>
+          </nav>
+        </div>
+      </aside>
+     </div><!-- /panel-grid -->
+    </div>
+
+    <!-- ============= TAB: 感染症 ============= -->
+    <div class="res-panel sys--id" id="panel-id" role="tabpanel">
+      <div class="sys-banner">
+        <div class="sys-banner-en">INFECTIOUS DISEASE</div>
+        <h2 class="sys-banner-jp">感染症</h2>
+        <p class="sys-banner-desc">抗菌薬／培養／敗血症／菌血症／感染源コントロール／カテーテル関連感染</p>
+      </div>
+     <div class="panel-grid">
+      <div class="panel-main">
+        <a href="schedule-icu-conf.html#sys-id" class="morning-presen-link">
+          <div class="morning-presen-icon"></div>
+          <div class="morning-presen-text">
+            <span class="morning-presen-eyebrow">ICU カンファ・プレゼン用</span>
+            <span class="morning-presen-headline">朝プレゼンのポイント</span>
+          </div>
+          <span class="morning-presen-cta">→</span>
+        </a>
+        <!-- ========== SECTION 1 まずは基本用語を整理 ========== -->
+        <div class="card">
+          <div class="card-inner">
+            <h3 id="id-glossary" class="sys-section-title">
+              <span>SECTION 1</span>まずは基本用語を整理
+            </h3>
+            <p class="sys-section-lead">
+              ICU 感染症で毎日使う基本用語を「○○とは？」のかたちでひとつずつ確認していきます（順次公開）。
+            </p>
+            <div class="qa-stack">
+              <div class="card qa-upcoming"><div class="card-inner"><h3 class="card-section-title">敗血症とは？<span class="qa-badge-soon">準備中</span></h3></div></div>
+              <div class="card qa-upcoming"><div class="card-inner"><h3 class="card-section-title">SOFA とは？<span class="qa-badge-soon">準備中</span></h3></div></div>
+              <div class="card qa-upcoming"><div class="card-inner"><h3 class="card-section-title">qSOFA とは？<span class="qa-badge-soon">準備中</span></h3></div></div>
+              <div class="card qa-upcoming"><div class="card-inner"><h3 class="card-section-title">経験的抗菌薬とは？<span class="qa-badge-soon">準備中</span></h3></div></div>
+              <div class="card qa-upcoming"><div class="card-inner"><h3 class="card-section-title">CLABSI とは？<span class="qa-badge-soon">準備中</span></h3></div></div>
+              <div class="card qa-upcoming"><div class="card-inner"><h3 class="card-section-title">ASP とは？<span class="qa-badge-soon">準備中</span></h3></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="panel-sidebar" aria-label="ページ内ショートカット">
+        <a href="../index.html" class="panel-back-btn">← トップページへ戻る</a>
+        <div class="panel-toc">
+          <h3 class="panel-toc-title">目次</h3>
+          <nav>
+            <a href="#id-glossary" class="toc-section">SECTION 1 — まずは基本用語を整理</a>
+          </nav>
+        </div>
+      </aside>
+     </div><!-- /panel-grid -->
+    </div>
+
+    <!-- ============= TAB: 消化器 ============= -->
+    <div class="res-panel sys--gi" id="panel-gi" role="tabpanel">
+      <div class="sys-banner">
+        <div class="sys-banner-en">GI ・ HEPATOBILIARY SYSTEM</div>
+        <h2 class="sys-banner-jp">消化器/肝胆道系</h2>
+        <p class="sys-banner-desc">急性肝不全／膵炎／消化管出血／PPI／H2ブロッカー</p>
+      </div>
+     <div class="panel-grid">
+      <div class="panel-main">
+        <a href="schedule-icu-conf.html#sys-gi" class="morning-presen-link">
+          <div class="morning-presen-icon"></div>
+          <div class="morning-presen-text">
+            <span class="morning-presen-eyebrow">ICU カンファ・プレゼン用</span>
+            <span class="morning-presen-headline">朝プレゼンのポイント</span>
+          </div>
+          <span class="morning-presen-cta">→</span>
+        </a>
+        <!-- ========== SECTION 1 まずは基本用語を整理 ========== -->
+        <div class="card">
+          <div class="card-inner">
+            <h3 id="gi-glossary" class="sys-section-title">
+              <span>SECTION 1</span>まずは基本用語を整理
+            </h3>
+            <p class="sys-section-lead">
+              ICU の消化器・肝胆道で毎日使う基本用語を「○○とは？」のかたちでひとつずつ確認していきます（順次公開）。
+            </p>
+            <div class="qa-stack">
+              <div class="card qa-upcoming"><div class="card-inner"><h3 class="card-section-title">急性肝不全とは？<span class="qa-badge-soon">準備中</span></h3></div></div>
+              <div class="card qa-upcoming"><div class="card-inner"><h3 class="card-section-title">消化管出血とは？<span class="qa-badge-soon">準備中</span></h3></div></div>
+              <div class="card qa-upcoming"><div class="card-inner"><h3 class="card-section-title">急性膵炎とは？<span class="qa-badge-soon">準備中</span></h3></div></div>
+              <div class="card qa-upcoming"><div class="card-inner"><h3 class="card-section-title">PPI とは？<span class="qa-badge-soon">準備中</span></h3></div></div>
+              <div class="card qa-upcoming"><div class="card-inner"><h3 class="card-section-title">SUP とは？<span class="qa-badge-soon">準備中</span></h3></div></div>
+              <div class="card qa-upcoming"><div class="card-inner"><h3 class="card-section-title">胆道感染とは？<span class="qa-badge-soon">準備中</span></h3></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="panel-sidebar" aria-label="ページ内ショートカット">
+        <a href="../index.html" class="panel-back-btn">← トップページへ戻る</a>
+        <div class="panel-toc">
+          <h3 class="panel-toc-title">目次</h3>
+          <nav>
+            <a href="#gi-glossary" class="toc-section">SECTION 1 — まずは基本用語を整理</a>
+          </nav>
+        </div>
+      </aside>
+     </div><!-- /panel-grid -->
+    </div>
+
+    <!-- ============= TAB: 内分泌 ============= -->
+    <div class="res-panel sys--nutr" id="panel-nutr" role="tabpanel">
+      <div class="sys-banner">
+        <div class="sys-banner-en">NUTRITION ・ METABOLIC</div>
+        <h2 class="sys-banner-jp">栄養/代謝系</h2>
+        <p class="sys-banner-desc">経腸栄養／血糖管理／DKA／HHS／代謝異常／甲状腺・副腎</p>
+      </div>
+     <div class="panel-grid">
+      <div class="panel-main">
+        <a href="schedule-icu-conf.html#sys-nutr" class="morning-presen-link">
+          <div class="morning-presen-icon"></div>
+          <div class="morning-presen-text">
+            <span class="morning-presen-eyebrow">ICU カンファ・プレゼン用</span>
+            <span class="morning-presen-headline">朝プレゼンのポイント</span>
+          </div>
+          <span class="morning-presen-cta">→</span>
+        </a>
+        <!-- ========== SECTION 1 まずは基本用語を整理 ========== -->
+        <div class="card">
+          <div class="card-inner">
+            <h3 id="nutr-glossary" class="sys-section-title">
+              <span>SECTION 1</span>まずは基本用語を整理
+            </h3>
+            <p class="sys-section-lead">
+              ICU の栄養・血糖・内分泌で毎日使う基本用語を「○○とは？」のかたちでひとつずつ確認していきます（順次公開）。
+            </p>
+            <div class="qa-stack">
+              <div class="card qa-upcoming"><div class="card-inner"><h3 class="card-section-title">経腸栄養とは？<span class="qa-badge-soon">準備中</span></h3></div></div>
+              <div class="card qa-upcoming"><div class="card-inner"><h3 class="card-section-title">経静脈栄養とは？<span class="qa-badge-soon">準備中</span></h3></div></div>
+              <div class="card qa-upcoming"><div class="card-inner"><h3 class="card-section-title">DKA とは？<span class="qa-badge-soon">準備中</span></h3></div></div>
+              <div class="card qa-upcoming"><div class="card-inner"><h3 class="card-section-title">HHS とは？<span class="qa-badge-soon">準備中</span></h3></div></div>
+              <div class="card qa-upcoming"><div class="card-inner"><h3 class="card-section-title">副腎不全とは？<span class="qa-badge-soon">準備中</span></h3></div></div>
+              <div class="card qa-upcoming"><div class="card-inner"><h3 class="card-section-title">リフィーディング症候群とは？<span class="qa-badge-soon">準備中</span></h3></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="panel-sidebar" aria-label="ページ内ショートカット">
+        <a href="../index.html" class="panel-back-btn">← トップページへ戻る</a>
+        <div class="panel-toc">
+          <h3 class="panel-toc-title">目次</h3>
+          <nav>
+            <a href="#nutr-glossary" class="toc-section">SECTION 1 — まずは基本用語を整理</a>
+          </nav>
+        </div>
+      </aside>
+     </div><!-- /panel-grid -->
+    </div>
+
+    <!-- ============= TAB: 血液腫瘍 ============= -->
+    <div class="res-panel sys--heme" id="panel-heme" role="tabpanel">
+      <div class="sys-banner">
+        <div class="sys-banner-en">HEMATOLOGICAL SYSTEM</div>
+        <h2 class="sys-banner-jp">血液系</h2>
+        <p class="sys-banner-desc">貧血／凝固／DIC／TLS／血小板減少／TTP・HUS</p>
+      </div>
+     <div class="panel-grid">
+      <div class="panel-main">
+        <a href="schedule-icu-conf.html#sys-heme" class="morning-presen-link">
+          <div class="morning-presen-icon"></div>
+          <div class="morning-presen-text">
+            <span class="morning-presen-eyebrow">ICU カンファ・プレゼン用</span>
+            <span class="morning-presen-headline">朝プレゼンのポイント</span>
+          </div>
+          <span class="morning-presen-cta">→</span>
+        </a>
+        <!-- ========== SECTION 1 まずは基本用語を整理 ========== -->
+        <div class="card">
+          <div class="card-inner">
+            <h3 id="heme-glossary" class="sys-section-title">
+              <span>SECTION 1</span>まずは基本用語を整理
+            </h3>
+            <p class="sys-section-lead">
+              ICU で出会う血液系の基本用語を「○○とは？」のかたちでひとつずつ確認していきます（順次公開）。
+            </p>
+            <div class="qa-stack">
+              <div class="card qa-upcoming"><div class="card-inner"><h3 class="card-section-title">DIC とは？<span class="qa-badge-soon">準備中</span></h3></div></div>
+              <div class="card qa-upcoming"><div class="card-inner"><h3 class="card-section-title">TTP とは？<span class="qa-badge-soon">準備中</span></h3></div></div>
+              <div class="card qa-upcoming"><div class="card-inner"><h3 class="card-section-title">HIT とは？<span class="qa-badge-soon">準備中</span></h3></div></div>
+              <div class="card qa-upcoming"><div class="card-inner"><h3 class="card-section-title">MTP とは？<span class="qa-badge-soon">準備中</span></h3></div></div>
+              <div class="card qa-upcoming"><div class="card-inner"><h3 class="card-section-title">PT-INR とは？<span class="qa-badge-soon">準備中</span></h3></div></div>
+              <div class="card qa-upcoming"><div class="card-inner"><h3 class="card-section-title">抗凝固薬とは？<span class="qa-badge-soon">準備中</span></h3></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="panel-sidebar" aria-label="ページ内ショートカット">
+        <a href="../index.html" class="panel-back-btn">← トップページへ戻る</a>
+        <div class="panel-toc">
+          <h3 class="panel-toc-title">目次</h3>
+          <nav>
+            <a href="#heme-glossary" class="toc-section">SECTION 1 — まずは基本用語を整理</a>
+          </nav>
+        </div>
+      </aside>
+     </div><!-- /panel-grid -->
+    </div>
+
+    <!-- ============= TAB: 救急蘇生 ============= -->
+    <div class="res-panel sys--msk" id="panel-msk" role="tabpanel">
+      <div class="sys-banner">
+        <div class="sys-banner-en">MUSCULOSKELETAL</div>
+        <h2 class="sys-banner-jp">筋骨格系</h2>
+        <p class="sys-banner-desc">リハビリ／ICU-AW／早期離床／関節拘縮予防</p>
+      </div>
+     <div class="panel-grid">
+      <div class="panel-main">
+        <a href="schedule-icu-conf.html#sys-msk" class="morning-presen-link">
+          <div class="morning-presen-icon"></div>
+          <div class="morning-presen-text">
+            <span class="morning-presen-eyebrow">ICU カンファ・プレゼン用</span>
+            <span class="morning-presen-headline">朝プレゼンのポイント</span>
+          </div>
+          <span class="morning-presen-cta">→</span>
+        </a>
+        <!-- ========== SECTION 1 まずは基本用語を整理 ========== -->
+        <div class="card">
+          <div class="card-inner">
+            <h3 id="msk-glossary" class="sys-section-title">
+              <span>SECTION 1</span>まずは基本用語を整理
+            </h3>
+            <p class="sys-section-lead">
+              筋骨格・リハ領域で毎日使う基本用語を「○○とは？」のかたちでひとつずつ確認していきます（順次公開）。
+            </p>
+            <div class="qa-stack">
+              <div class="card qa-upcoming"><div class="card-inner"><h3 class="card-section-title">ICU-AW とは？<span class="qa-badge-soon">準備中</span></h3></div></div>
+              <div class="card qa-upcoming"><div class="card-inner"><h3 class="card-section-title">早期離床とは？<span class="qa-badge-soon">準備中</span></h3></div></div>
+              <div class="card qa-upcoming"><div class="card-inner"><h3 class="card-section-title">ABCDEF バンドルとは？<span class="qa-badge-soon">準備中</span></h3></div></div>
+              <div class="card qa-upcoming"><div class="card-inner"><h3 class="card-section-title">ROM 訓練とは？<span class="qa-badge-soon">準備中</span></h3></div></div>
+              <div class="card qa-upcoming"><div class="card-inner"><h3 class="card-section-title">廃用症候群とは？<span class="qa-badge-soon">準備中</span></h3></div></div>
+              <div class="card qa-upcoming"><div class="card-inner"><h3 class="card-section-title">褥瘡予防とは？<span class="qa-badge-soon">準備中</span></h3></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="panel-sidebar" aria-label="ページ内ショートカット">
+        <a href="../index.html" class="panel-back-btn">← トップページへ戻る</a>
+        <div class="panel-toc">
+          <h3 class="panel-toc-title">目次</h3>
+          <nav>
+            <a href="#msk-glossary" class="toc-section">SECTION 1 — まずは基本用語を整理</a>
+          </nav>
+        </div>
+      </aside>
+     </div><!-- /panel-grid -->
+    </div>
+
+    <!-- ============= TAB: その他 ============= -->
+    <div class="res-panel sys--prev" id="panel-prev" role="tabpanel">
+      <div class="sys-banner">
+        <div class="sys-banner-en">PREVENTION</div>
+        <h2 class="sys-banner-jp">予防</h2>
+        <p class="sys-banner-desc">DVT予防／消化管潰瘍予防／VAP予防／皮膚ケア</p>
+      </div>
+     <div class="panel-grid">
+      <div class="panel-main">
+        <a href="schedule-icu-conf.html#sys-ppx" class="morning-presen-link">
+          <div class="morning-presen-icon"></div>
+          <div class="morning-presen-text">
+            <span class="morning-presen-eyebrow">ICU カンファ・プレゼン用</span>
+            <span class="morning-presen-headline">朝プレゼンのポイント</span>
+          </div>
+          <span class="morning-presen-cta">→</span>
+        </a>
+        <!-- ========== SECTION 1 まずは基本用語を整理 ========== -->
+        <div class="card">
+          <div class="card-inner">
+            <h3 id="prev-glossary" class="sys-section-title">
+              <span>SECTION 1</span>まずは基本用語を整理
+            </h3>
+            <p class="sys-section-lead">
+              ICU で全患者に適用する予防策の基本用語を「○○とは？」のかたちでひとつずつ確認していきます（順次公開）。
+            </p>
+            <div class="qa-stack">
+              <div class="card qa-upcoming"><div class="card-inner"><h3 class="card-section-title">DVT 予防とは？<span class="qa-badge-soon">準備中</span></h3></div></div>
+              <div class="card qa-upcoming"><div class="card-inner"><h3 class="card-section-title">SUP とは？<span class="qa-badge-soon">準備中</span></h3></div></div>
+              <div class="card qa-upcoming"><div class="card-inner"><h3 class="card-section-title">VAP 予防バンドルとは？<span class="qa-badge-soon">準備中</span></h3></div></div>
+              <div class="card qa-upcoming"><div class="card-inner"><h3 class="card-section-title">CLABSI 予防とは？<span class="qa-badge-soon">準備中</span></h3></div></div>
+              <div class="card qa-upcoming"><div class="card-inner"><h3 class="card-section-title">CAUTI 予防とは？<span class="qa-badge-soon">準備中</span></h3></div></div>
+              <div class="card qa-upcoming"><div class="card-inner"><h3 class="card-section-title">褥瘡予防とは？<span class="qa-badge-soon">準備中</span></h3></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="panel-sidebar" aria-label="ページ内ショートカット">
+        <a href="../index.html" class="panel-back-btn">← トップページへ戻る</a>
+        <div class="panel-toc">
+          <h3 class="panel-toc-title">目次</h3>
+          <nav>
+            <a href="#prev-glossary" class="toc-section">SECTION 1 — まずは基本用語を整理</a>
+          </nav>
+        </div>
+      </aside>
+     </div><!-- /panel-grid -->
+    </div>
+
+  </div><!-- /container -->
+
+  <!-- ===== タブ切替スクリプト ===== -->
+  <script>
+    (function() {
+      var tabs = document.querySelectorAll('.res-tab');
+      var panels = document.querySelectorAll('.res-panel');
+      var tabsWrap = document.querySelector('.res-tabs-wrap');
+      var SYSTEM_COLORS = {
+        onboard: '#1269B0',
+        neuro:   '#2563EB',
+        cv:      '#B91C1C',
+        resp:    '#0369A1',
+        renal:   '#14532D',
+        gi:      '#92400E',
+        heme:    '#881337',
+        id:      '#6D28D9',
+        nutr:    '#15803D',
+        msk:     '#57534E',
+        prev:    '#1D4ED8'
+      };
+      function activate(id) {
+        var found = false;
+        tabs.forEach(function(t) {
+          var on = t.dataset.tab === id;
+          t.classList.toggle('active', on);
+          t.setAttribute('aria-selected', on ? 'true' : 'false');
+          if (on) found = true;
+        });
+        panels.forEach(function(p) {
+          p.classList.toggle('active', p.id === 'panel-' + id);
+        });
+        if (tabsWrap && SYSTEM_COLORS[id]) {
+          tabsWrap.style.setProperty('--active-color', SYSTEM_COLORS[id]);
+        }
+        return found;
+      }
+      tabs.forEach(function(t) {
+        t.addEventListener('click', function() {
+          var id = t.dataset.tab;
+          activate(id);
+          if (history.replaceState) history.replaceState(null, '', '#' + id);
+        });
+      });
+      var initial = (location.hash || '').replace('#', '');
+      // タブID と一致する場合のみ切替（セクション内アンカーは無視）
+      var validTabs = ['onboard','neuro','cv','resp','renal','id','gi','nutr','heme','msk','prev'];
+      if (initial && validTabs.indexOf(initial) !== -1) activate(initial);
+      window.addEventListener('hashchange', function() {
+        var id = (location.hash || '').replace('#', '');
+        if (id && validTabs.indexOf(id) !== -1) activate(id);
+      });
+    })();
+  </script>
+
+  <script src="../script.js?v=20260528a"></script>
+  <script src="../abbr-tooltip.js"></script>
+
+  <!-- ===== ICUのルール 親ページからの自動同期 ===== -->
+  <script>
+  (function () {
+    var mounts = document.querySelectorAll('[data-mirror-source]');
+    if (!mounts.length) return;
+    var byUrl = {};
+    mounts.forEach(function (m) {
+      var u = m.getAttribute('data-mirror-source');
+      (byUrl[u] = byUrl[u] || []).push(m);
+    });
+    var PT_NUM = ['①','②','③','④','⑤','⑥','⑦','⑧','⑨','⑩'];
+
+    function attachSourceLink(card, sourceUrl, srcId) {
+      var inner = card.querySelector('.card-inner');
+      if (!inner) return;
+      inner.style.position = 'relative';
+      var a = document.createElement('a');
+      a.href = sourceUrl + '#' + srcId;
+      a.textContent = '該当箇所を開く ▸';
+      a.title = 'ICUのルールページの該当箇所を開く';
+      a.className = 'mirror-source-link';
+      a.style.cssText = 'position:absolute;top:10px;right:12px;font-size:0.66rem;color:var(--muted);text-decoration:none;font-weight:600;line-height:1;letter-spacing:0.02em;white-space:nowrap;opacity:0.75;transition:opacity 0.15s,color 0.15s;';
+      a.addEventListener('mouseenter', function () { a.style.opacity = '1'; a.style.color = 'var(--blue)'; });
+      a.addEventListener('mouseleave', function () { a.style.opacity = '0.75'; a.style.color = 'var(--muted)'; });
+      inner.appendChild(a);
+    }
+
+    Object.keys(byUrl).forEach(function (url) {
+      fetch(url, { cache: 'default' })
+        .then(function (r) {
+          if (!r.ok) throw new Error('HTTP ' + r.status);
+          return r.text();
+        })
+        .then(function (html) {
+          var doc = new DOMParser().parseFromString(html, 'text/html');
+          byUrl[url].forEach(function (mount) {
+            var ids = (mount.getAttribute('data-mirror-ids') || '').split(',').map(function (s) { return s.trim(); }).filter(Boolean);
+            var anchorPrefix = mount.getAttribute('data-mirror-anchor-prefix');
+            var badgeLabel = mount.getAttribute('data-mirror-badge');
+            var frag = document.createDocumentFragment();
+            ids.forEach(function (id, i) {
+              var src = doc.getElementById(id);
+              if (!src) return;
+              var clone = src.cloneNode(true);
+              var cat = clone.querySelector('.biz-cat');
+              var title = clone.querySelector('.rule-title');
+              if (cat) {
+                if (badgeLabel) {
+                  cat.className = 'rule-badge';
+                  cat.textContent = badgeLabel + (PT_NUM[i] || (i + 1));
+                  if (title) {
+                    cat.style.marginRight = '8px';
+                    cat.style.marginBottom = '0';
+                    cat.style.flexShrink = '0';
+                    title.style.display = 'flex';
+                    title.style.alignItems = 'center';
+                    title.style.flexWrap = 'wrap';
+                    title.insertBefore(cat, title.firstChild);
+                  }
+                } else {
+                  cat.style.display = 'none';
+                }
+              }
+              if (anchorPrefix) {
+                clone.id = anchorPrefix + (i + 1);
+              } else {
+                clone.id = 'mirror-' + id;
+              }
+              clone.style.marginBottom = '16px';
+              attachSourceLink(clone, url, id);
+              frag.appendChild(clone);
+            });
+            mount.innerHTML = '';
+            mount.appendChild(frag);
+          });
+        })
+        .catch(function (e) {
+          console.error('[rule-mirror] fetch failed:', e);
+          byUrl[url].forEach(function (mount) {
+            mount.innerHTML = '<p class="rule-body" style="color:var(--muted);">親ページの読み込みに失敗しました。<a href="' + url + '" style="color:var(--blue);font-weight:700;">ICUのルールページ</a> を直接ご確認ください。</p>';
+          });
+        });
+    });
+  })();
+  </script>
+
+</body>
+</html>
