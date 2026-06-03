@@ -10,6 +10,13 @@
  */
 const RECENT_PAGES = [
   {
+    title: "PADIS 2018+2025 統合まとめ — 痛み・不安・鎮静・せん妄・不動・睡眠",
+    url: "pages/articles-gl-padis2025.html",
+    date: "2026-06-03",
+    tag: "論文",
+    thumb: "images/朝カンファ風景.webp"
+  },
+  {
     title: "IDSA 2009 血管内カテーテル関連感染症 診断・管理ガイドライン",
     url: "pages/articles-gl-idsa-crbsi2009.html",
     date: "2026-06-02",
