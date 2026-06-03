@@ -691,6 +691,11 @@ button { cursor: pointer; font-family: inherit; }
    JS（script.js）が DOMContentLoaded で全テーブルを自動ラップする。 */
 .card-inner { padding: 20px 24px; }
 .card-inner table { font-size: 0.82rem; line-height: 1.6; }
+/* カード内の先頭/末尾要素の margin を相殺して、padding (20px) と内容の上下余白を対称に保つ。
+   従来は最後の <details>/<.nx-cb> 等の margin-bottom:10px が padding-bottom:20px に加算され、
+   上 20px / 下 30px の非対称が発生していた（schedule-icu-conf.html 等で目立つ）。 */
+.card-inner > *:first-child { margin-top: 0; }
+.card-inner > *:last-child  { margin-bottom: 0; }
 
 /* FOUC 抑制 — JS が走る前の一瞬の間、card-inner 直下のテーブルが overflow しても、
    テキストボックス全体ではなくテーブル単独でスクロールするように。
