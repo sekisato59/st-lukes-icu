@@ -40,19 +40,10 @@ if [ -f scripts/sync-related-articles.js ]; then
   fi
 fi
 
-# 3) ページ整合性監査（worktree leftover / 略語ポップアップ漏れ）
-if [ -f scripts/audit-pages.js ]; then
-  audit_out=$(node scripts/audit-pages.js 2>&1)
-  audit_exit=$?
-  # 問題があれば警告のみ表示（コミットはブロックしない・--strict ではないため exit 0 のまま）
-  if echo "$audit_out" | grep -qE "Worktree leftover|略語一覧あり/abbr-tooltip"; then
-    echo ""
-    echo "⚠ [pre-commit] ページ監査で問題を検出しました："
-    echo "$audit_out" | grep -E "^\[|^  -" | sed 's/^/  /'
-    echo ""
-    echo "  詳細は: node scripts/audit-pages.js"
-    echo ""
-  fi
-fi
+# 3) ページ整合性監査は pre-commit から外す
+# audit-pages.js は .claude/worktrees/ をフルスキャン + 各ファイルで git ls-files exec を行い
+# 約 17 秒消費 + 出力 70KB（436 件の worktree leftover 誤検出）を毎回発生させていた。
+# その結果、コミット結果確認に追加の bash 呼び出しが必要になり 1 コミット往復が 5 倍に。
+# 必要時は手動で `node scripts/audit-pages.js` を実行する。
 
 exit 0
