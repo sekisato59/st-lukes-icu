@@ -35,7 +35,7 @@
   }
 
   navMenu.innerHTML = ''
-    + dd('レジデント資料集', [
+    + dd('【ICU】レジデント資料', [
         { href: 'pages/resident-resources.html#onboard', label: 'ローテ開始前' },
         { href: 'pages/resident-resources.html#neuro',   label: '神経系' },
         { href: 'pages/resident-resources.html#cv',      label: '循環器系' },
