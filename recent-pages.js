@@ -12,7 +12,7 @@ const RECENT_PAGES = [
   {
     title: "クリプトコッカス髄膜炎 L-AmB短期 vs 長期投与 OFID 2026",
     url: "pages/articles-gl-cm-lamb2026.html",
-    date: "2026-06-04",
+    date: "2026-06-05",
     tag: "論文",
     thumb: "images/朝カンファ風景.webp"
   },
