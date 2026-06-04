@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>タブデザイン比較 20種 | 聖路加ICU</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../images/logo.png">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    /* ===== ベース ===== */
+    :root {
+      --blue:#1269B0;
+      --blue-dark:#0D4F8C;
+      --text:#1F2937;
+      --muted:#6B7280;
+      --bg:#F8FAFC;
+      --border:#E5E7EB;
+    }
+    * { box-sizing:border-box; }
+    body {
+      margin:0;font-family:'Noto Sans JP',sans-serif;color:var(--text);
+      background:#fff;
+    }
+    .page-header {
+      background:linear-gradient(135deg,#0D4F8C 0%,#1269B0 100%);
+      color:#fff;padding:36px 24px 32px;
+    }
+    .page-header-inner { max-width:1294px;margin:0 auto; }
+    .page-title { font-size:1.6rem;font-weight:900;margin:0 0 6px; }
+    .page-sub { font-size:0.86rem;opacity:0.85;margin:0; }
+
+    .container { max-width:1294px;margin:0 auto;padding:36px 24px 80px; }
+    .demo {
+      margin-bottom:32px;background:#fff;border:1px solid var(--border);
+      border-radius:14px;padding:22px 24px 26px;
+    }
+    .demo-label {
+      display:flex;align-items:baseline;gap:14px;margin-bottom:14px;
+      padding-bottom:10px;border-bottom:1px solid #F1F5F9;
+    }
+    .demo-num {
+      font-size:0.7rem;font-weight:900;color:#fff;background:var(--blue);
+      padding:3px 10px;border-radius:4px;letter-spacing:0.06em;
+    }
+    .demo-name { font-size:1rem;font-weight:800;color:var(--text); }
+    .demo-desc { font-size:0.78rem;color:var(--muted);margin-left:auto;text-align:right;line-height:1.5; }
+    .demo-stage {
+      background:#fff;padding:18px 0;border-radius:8px;
+      overflow:hidden;
+    }
+    .demo-stage.tinted { background:#F8FAFC; }
+    .row { display:flex;justify-content:flex-end;padding:0 16px; }
+    .row-left { justify-content:flex-start; }
+
+    /* ===== 共通：タブの基本リセット ===== */
+    button.tb {
+      font-family:inherit;cursor:pointer;border:none;background:transparent;
+      padding:0;margin:0;font-size:0.85rem;line-height:1.4;white-space:nowrap;
+      flex-shrink:0;
+    }
+
+    /* ============================================================ */
+    /* D1：クリーンアンダーライン（現状） */
+    .d1 { display:flex;gap:22px; }
+    .d1 .tb { padding:12px 0;border-bottom:2px solid transparent;color:var(--muted);font-weight:600; }
+    .d1 .tb.on { color:var(--blue);border-bottom-color:var(--blue);font-weight:800; }
+
+    /* D2：塗りピル */
+    .d2 { display:flex;gap:6px; }
+    .d2 .tb { padding:7px 14px;border-radius:999px;color:var(--muted);background:#fff;border:1px solid var(--border);font-weight:700; }
+    .d2 .tb.on { background:var(--blue);color:#fff;border-color:var(--blue); }
+
+    /* D3：アウトラインピル */
+    .d3 { display:flex;gap:6px; }
+    .d3 .tb { padding:7px 14px;border-radius:999px;color:var(--muted);background:transparent;border:1.5px solid transparent;font-weight:700; }
+    .d3 .tb.on { color:var(--blue);border-color:var(--blue);font-weight:800; }
+
+    /* D4：ソフトピル（淡背景） */
+    .d4 { display:flex;gap:6px; }
+    .d4 .tb { padding:7px 14px;border-radius:999px;color:var(--muted);background:transparent;font-weight:700; }
+    .d4 .tb.on { color:var(--blue-dark);background:#E0F2FE;font-weight:800; }
+
+    /* D5：角型ボックス（フラット） */
+    .d5 { display:flex;gap:4px; }
+    .d5 .tb { padding:8px 14px;color:var(--muted);background:transparent;font-weight:700; }
+    .d5 .tb.on { color:#fff;background:var(--blue);font-weight:800; }
+
+    /* D6：トップアクセント（上線） */
+    .d6 { display:flex;gap:22px; }
+    .d6 .tb { padding:14px 4px 12px;border-top:3px solid transparent;color:var(--muted);font-weight:600; }
+    .d6 .tb.on { color:var(--blue);border-top-color:var(--blue);font-weight:800; }
+
+    /* D7：ドットインジケーター */
+    .d7 { display:flex;gap:20px; }
+    .d7 .tb { padding:12px 0;color:var(--muted);position:relative;font-weight:600; }
+    .d7 .tb.on { color:var(--blue);font-weight:800; }
+    .d7 .tb.on::after {
+      content:'';position:absolute;left:50%;bottom:4px;transform:translateX(-50%);
+      width:5px;height:5px;border-radius:50%;background:var(--blue);
+    }
+
+    /* D8：マテリアルアンダーライン */
+    .d8 { display:flex;gap:0;border-bottom:1px solid var(--border); }
+    .d8 .tb { padding:14px 16px;color:var(--muted);font-weight:600;
+      border-bottom:3px solid transparent;margin-bottom:-1px;
+      transition:background 0.15s;
+    }
+    .d8 .tb:hover { background:rgba(18,105,176,0.04); }
+    .d8 .tb.on { color:var(--blue);border-bottom-color:var(--blue);font-weight:700; }
+
+    /* D9：セグメンテッドコントロール（iOS風） */
+    .d9 { display:inline-flex;gap:0;background:#F1F5F9;padding:4px;border-radius:10px; }
+    .d9 .tb { padding:6px 12px;color:var(--muted);border-radius:7px;font-size:0.8rem;font-weight:700; }
+    .d9 .tb.on { color:var(--text);background:#fff;box-shadow:0 1px 3px rgba(15,23,42,0.08);font-weight:800; }
+
+    /* D10：チップ＋影 */
+    .d10 { display:flex;gap:8px; }
+    .d10 .tb { padding:7px 14px;border-radius:8px;color:var(--muted);background:#fff;border:1px solid var(--border);font-weight:700; }
+    .d10 .tb.on { color:var(--blue-dark);background:#fff;border-color:#BFDBFE;font-weight:800;box-shadow:0 2px 8px rgba(18,105,176,0.15); }
+
+    /* D11：ブラケット */
+    .d11 { display:flex;gap:16px; }
+    .d11 .tb { padding:10px 4px;color:var(--muted);position:relative;font-weight:600; }
+    .d11 .tb.on { color:var(--blue);font-weight:800; }
+    .d11 .tb.on::before { content:'⟨';margin-right:6px;font-weight:300; }
+    .d11 .tb.on::after { content:'⟩';margin-left:6px;font-weight:300; }
+
+    /* D12：ボールド・ブラック（装飾なし） */
+    .d12 { display:flex;gap:24px; }
+    .d12 .tb { padding:10px 0;color:#9CA3AF;font-weight:500; }
+    .d12 .tb.on { color:#0F172A;font-weight:900; }
+
+    /* D13：厚いアンダーライン */
+    .d13 { display:flex;gap:22px; }
+    .d13 .tb { padding:14px 0 10px;border-bottom:5px solid transparent;color:var(--muted);font-weight:600; }
+    .d13 .tb.on { color:var(--blue);border-bottom-color:var(--blue);font-weight:800; }
+
+    /* D14：グラデアンダーライン */
+    .d14 { display:flex;gap:22px; }
+    .d14 .tb { padding:14px 0 12px;color:var(--muted);position:relative;font-weight:600; }
+    .d14 .tb.on { color:var(--blue);font-weight:800; }
+    .d14 .tb.on::after {
+      content:'';position:absolute;left:0;right:0;bottom:0;height:3px;
+      background:linear-gradient(90deg,#0EA5E9 0%,#1269B0 50%,#7C3AED 100%);
+      border-radius:2px;
+    }
+
+    /* D15：ダーク反転ピル */
+    .d15 { display:flex;gap:6px; }
+    .d15 .tb { padding:7px 14px;border-radius:999px;color:var(--muted);background:transparent;font-weight:700; }
+    .d15 .tb.on { color:#fff;background:#0F172A;font-weight:800; }
+
+    /* D16：カードトップ風 */
+    .d16 { display:flex;gap:2px;border-bottom:2px solid var(--blue); }
+    .d16 .tb { padding:10px 14px 9px;color:var(--muted);background:transparent;border:1px solid transparent;border-bottom:none;
+      border-top-left-radius:8px;border-top-right-radius:8px;font-weight:600;margin-bottom:-2px;
+    }
+    .d16 .tb.on {
+      color:var(--blue);background:#fff;border-color:var(--blue);
+      border-bottom:2px solid #fff;font-weight:800;
+    }
+
+    /* D17：番号付き */
+    .d17 { display:flex;gap:20px; }
+    .d17 .tb { padding:12px 0;color:var(--muted);font-weight:600; }
+    .d17 .tb .n { font-size:0.62rem;font-weight:800;color:#94A3B8;margin-right:6px;letter-spacing:0.06em; }
+    .d17 .tb.on { color:var(--blue);font-weight:800; }
+    .d17 .tb.on .n { color:var(--blue); }
+
+    /* D18：スラッシュセパレータ */
+    .d18 { display:flex;gap:0; }
+    .d18 .tb { padding:10px 14px;color:var(--muted);font-weight:600;position:relative; }
+    .d18 .tb + .tb::before {
+      content:'/';position:absolute;left:-2px;top:50%;transform:translateY(-50%);
+      color:#CBD5E1;font-weight:300;
+    }
+    .d18 .tb.on { color:var(--blue);font-weight:800; }
+
+    /* D19：浮遊（影＋上昇） */
+    .d19 { display:flex;gap:8px;padding-top:4px; }
+    .d19 .tb { padding:8px 14px;border-radius:8px;color:var(--muted);background:#fff;border:1px solid var(--border);font-weight:700;
+      transition:transform 0.15s,box-shadow 0.15s;
+    }
+    .d19 .tb.on { color:var(--blue-dark);transform:translateY(-3px);box-shadow:0 6px 14px rgba(18,105,176,0.18);border-color:#BFDBFE;font-weight:800; }
+
+    /* D20：三角インジケーター（吹き出し） */
+    .d20 { display:flex;gap:18px; }
+    .d20 .tb { padding:12px 6px;color:var(--muted);position:relative;font-weight:600; }
+    .d20 .tb.on { color:var(--blue);font-weight:800; }
+    .d20 .tb.on::after {
+      content:'';position:absolute;left:50%;bottom:-4px;transform:translateX(-50%);
+      width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-top:6px solid var(--blue);
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="page-header">
+    <div class="page-header-inner">
+      <a href="resident-resources.html" style="color:rgba(255,255,255,0.7);font-size:0.78rem;text-decoration:none;letter-spacing:0.04em;">← レジデント資料集に戻る</a>
+      <h1 class="page-title">タブデザイン比較 20種</h1>
+      <p class="page-sub">11タブ構成（まず読む + 10システム）で並べた場合の見え方を比較できます。気に入った番号を教えてください。</p>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <!-- D1 -->
+    <div class="demo">
+      <div class="demo-label">
+        <span class="demo-num">D 01</span>
+        <span class="demo-name">クリーンアンダーライン（現状）</span>
+        <span class="demo-desc">文字 + 2px下線。シンプルで控えめ。</span>
+      </div>
+      <div class="demo-stage">
+        <div class="row">
+          <div class="d1">
+            <button class="tb on">まず読む</button>
+            <button class="tb">神経</button>
+            <button class="tb">循環</button>
+            <button class="tb">呼吸</button>
+            <button class="tb">腎・電解質</button>
+            <button class="tb">感染症</button>
+            <button class="tb">消化器</button>
+            <button class="tb">内分泌</button>
+            <button class="tb">血液腫瘍</button>
+            <button class="tb">救急蘇生</button>
+            <button class="tb">その他</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- D2 -->
+    <div class="demo">
+      <div class="demo-label">
+        <span class="demo-num">D 02</span>
+        <span class="demo-name">塗りピル</span>
+        <span class="demo-desc">アクティブが青ベタ塗りの丸ピル。視認性高め。</span>
+      </div>
+      <div class="demo-stage">
+        <div class="row">
+          <div class="d2">
+            <button class="tb on">まず読む</button>
+            <button class="tb">神経</button>
+            <button class="tb">循環</button>
+            <button class="tb">呼吸</button>
+            <button class="tb">腎・電解質</button>
+            <button class="tb">感染症</button>
+            <button class="tb">消化器</button>
+            <button class="tb">内分泌</button>
+            <button class="tb">血液腫瘍</button>
+            <button class="tb">救急蘇生</button>
+            <button class="tb">その他</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- D3 -->
+    <div class="demo">
+      <div class="demo-label">
+        <span class="demo-num">D 03</span>
+        <span class="demo-name">アウトラインピル</span>
+        <span class="demo-desc">アクティブが青枠＋青文字の丸ピル。塗りより軽やか。</span>
+      </div>
+      <div class="demo-stage">
+        <div class="row">
+          <div class="d3">
+            <button class="tb on">まず読む</button>
+            <button class="tb">神経</button>
+            <button class="tb">循環</button>
+            <button class="tb">呼吸</button>
+            <button class="tb">腎・電解質</button>
+            <button class="tb">感染症</button>
+            <button class="tb">消化器</button>
+            <button class="tb">内分泌</button>
+            <button class="tb">血液腫瘍</button>
+            <button class="tb">救急蘇生</button>
+            <button class="tb">その他</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- D4 -->
+    <div class="demo">
+      <div class="demo-label">
+        <span class="demo-num">D 04</span>
+        <span class="demo-name">ソフトピル（淡背景）</span>
+        <span class="demo-desc">アクティブが淡青背景＋濃青文字。コントラスト控えめ。</span>
+      </div>
+      <div class="demo-stage">
+        <div class="row">
+          <div class="d4">
+            <button class="tb on">まず読む</button>
+            <button class="tb">神経</button>
+            <button class="tb">循環</button>
+            <button class="tb">呼吸</button>
+            <button class="tb">腎・電解質</button>
+            <button class="tb">感染症</button>
+            <button class="tb">消化器</button>
+            <button class="tb">内分泌</button>
+            <button class="tb">血液腫瘍</button>
+            <button class="tb">救急蘇生</button>
+            <button class="tb">その他</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- D5 -->
+    <div class="demo">
+      <div class="demo-label">
+        <span class="demo-num">D 05</span>
+        <span class="demo-name">角型ボックス（フラット）</span>
+        <span class="demo-desc">直角のボックスで青ベタ塗り。シャープでモダン。</span>
+      </div>
+      <div class="demo-stage">
+        <div class="row">
+          <div class="d5">
+            <button class="tb on">まず読む</button>
+            <button class="tb">神経</button>
+            <button class="tb">循環</button>
+            <button class="tb">呼吸</button>
+            <button class="tb">腎・電解質</button>
+            <button class="tb">感染症</button>
+            <button class="tb">消化器</button>
+            <button class="tb">内分泌</button>
+            <button class="tb">血液腫瘍</button>
+            <button class="tb">救急蘇生</button>
+            <button class="tb">その他</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- D6 -->
+    <div class="demo">
+      <div class="demo-label">
+        <span class="demo-num">D 06</span>
+        <span class="demo-name">トップアクセント（上線）</span>
+        <span class="demo-desc">アクティブの上に3px線。下線とは違う新鮮さ。</span>
+      </div>
+      <div class="demo-stage">
+        <div class="row">
+          <div class="d6">
+            <button class="tb on">まず読む</button>
+            <button class="tb">神経</button>
+            <button class="tb">循環</button>
+            <button class="tb">呼吸</button>
+            <button class="tb">腎・電解質</button>
+            <button class="tb">感染症</button>
+            <button class="tb">消化器</button>
+            <button class="tb">内分泌</button>
+            <button class="tb">血液腫瘍</button>
+            <button class="tb">救急蘇生</button>
+            <button class="tb">その他</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- D7 -->
+    <div class="demo">
+      <div class="demo-label">
+        <span class="demo-num">D 07</span>
+        <span class="demo-name">ドットインジケーター</span>
+        <span class="demo-desc">アクティブの真下に小さな丸印。極めて控えめ。</span>
+      </div>
+      <div class="demo-stage">
+        <div class="row">
+          <div class="d7">
+            <button class="tb on">まず読む</button>
+            <button class="tb">神経</button>
+            <button class="tb">循環</button>
+            <button class="tb">呼吸</button>
+            <button class="tb">腎・電解質</button>
+            <button class="tb">感染症</button>
+            <button class="tb">消化器</button>
+            <button class="tb">内分泌</button>
+            <button class="tb">血液腫瘍</button>
+            <button class="tb">救急蘇生</button>
+            <button class="tb">その他</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- D8 -->
+    <div class="demo">
+      <div class="demo-label">
+        <span class="demo-num">D 08</span>
+        <span class="demo-name">マテリアルアンダーライン</span>
+        <span class="demo-desc">下にラインの帯。ホバーで淡色背景。Google風。</span>
+      </div>
+      <div class="demo-stage">
+        <div class="row">
+          <div class="d8">
+            <button class="tb on">まず読む</button>
+            <button class="tb">神経</button>
+            <button class="tb">循環</button>
+            <button class="tb">呼吸</button>
+            <button class="tb">腎・電解質</button>
+            <button class="tb">感染症</button>
+            <button class="tb">消化器</button>
+            <button class="tb">内分泌</button>
+            <button class="tb">血液腫瘍</button>
+            <button class="tb">救急蘇生</button>
+            <button class="tb">その他</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- D9 -->
+    <div class="demo">
+      <div class="demo-label">
+        <span class="demo-num">D 09</span>
+        <span class="demo-name">セグメンテッドコントロール（iOS風）</span>
+        <span class="demo-desc">1つの灰色枠の中に白いピルが浮き出るiOSスタイル。</span>
+      </div>
+      <div class="demo-stage">
+        <div class="row">
+          <div class="d9">
+            <button class="tb on">まず読む</button>
+            <button class="tb">神経</button>
+            <button class="tb">循環</button>
+            <button class="tb">呼吸</button>
+            <button class="tb">腎・電解質</button>
+            <button class="tb">感染症</button>
+            <button class="tb">消化器</button>
+            <button class="tb">内分泌</button>
+            <button class="tb">血液腫瘍</button>
+            <button class="tb">救急蘇生</button>
+            <button class="tb">その他</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- D10 -->
+    <div class="demo">
+      <div class="demo-label">
+        <span class="demo-num">D 10</span>
+        <span class="demo-name">チップ＋影</span>
+        <span class="demo-desc">角丸チップ。アクティブはふわっとした影で浮く。</span>
+      </div>
+      <div class="demo-stage">
+        <div class="row">
+          <div class="d10">
+            <button class="tb on">まず読む</button>
+            <button class="tb">神経</button>
+            <button class="tb">循環</button>
+            <button class="tb">呼吸</button>
+            <button class="tb">腎・電解質</button>
+            <button class="tb">感染症</button>
+            <button class="tb">消化器</button>
+            <button class="tb">内分泌</button>
+            <button class="tb">血液腫瘍</button>
+            <button class="tb">救急蘇生</button>
+            <button class="tb">その他</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- D11 -->
+    <div class="demo">
+      <div class="demo-label">
+        <span class="demo-num">D 11</span>
+        <span class="demo-name">ブラケットスタイル</span>
+        <span class="demo-desc">アクティブを ⟨ ⟩ で囲む。タイポグラフィカル。</span>
+      </div>
+      <div class="demo-stage">
+        <div class="row">
+          <div class="d11">
+            <button class="tb on">まず読む</button>
+            <button class="tb">神経</button>
+            <button class="tb">循環</button>
+            <button class="tb">呼吸</button>
+            <button class="tb">腎・電解質</button>
+            <button class="tb">感染症</button>
+            <button class="tb">消化器</button>
+            <button class="tb">内分泌</button>
+            <button class="tb">血液腫瘍</button>
+            <button class="tb">救急蘇生</button>
+            <button class="tb">その他</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- D12 -->
+    <div class="demo">
+      <div class="demo-label">
+        <span class="demo-num">D 12</span>
+        <span class="demo-name">ボールド・ブラック（装飾なし）</span>
+        <span class="demo-desc">アクティブだけ太字＋黒。視覚要素は文字の太さだけ。</span>
+      </div>
+      <div class="demo-stage">
+        <div class="row">
+          <div class="d12">
+            <button class="tb on">まず読む</button>
+            <button class="tb">神経</button>
+            <button class="tb">循環</button>
+            <button class="tb">呼吸</button>
+            <button class="tb">腎・電解質</button>
+            <button class="tb">感染症</button>
+            <button class="tb">消化器</button>
+            <button class="tb">内分泌</button>
+            <button class="tb">血液腫瘍</button>
+            <button class="tb">救急蘇生</button>
+            <button class="tb">その他</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- D13 -->
+    <div class="demo">
+      <div class="demo-label">
+        <span class="demo-num">D 13</span>
+        <span class="demo-name">厚いアンダーライン</span>
+        <span class="demo-desc">5px の太い下線で強調。インパクトあり。</span>
+      </div>
+      <div class="demo-stage">
+        <div class="row">
+          <div class="d13">
+            <button class="tb on">まず読む</button>
+            <button class="tb">神経</button>
+            <button class="tb">循環</button>
+            <button class="tb">呼吸</button>
+            <button class="tb">腎・電解質</button>
+            <button class="tb">感染症</button>
+            <button class="tb">消化器</button>
+            <button class="tb">内分泌</button>
+            <button class="tb">血液腫瘍</button>
+            <button class="tb">救急蘇生</button>
+            <button class="tb">その他</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- D14 -->
+    <div class="demo">
+      <div class="demo-label">
+        <span class="demo-num">D 14</span>
+        <span class="demo-name">グラデアンダーライン</span>
+        <span class="demo-desc">青→紫のグラデーション下線。少し華やか。</span>
+      </div>
+      <div class="demo-stage">
+        <div class="row">
+          <div class="d14">
+            <button class="tb on">まず読む</button>
+            <button class="tb">神経</button>
+            <button class="tb">循環</button>
+            <button class="tb">呼吸</button>
+            <button class="tb">腎・電解質</button>
+            <button class="tb">感染症</button>
+            <button class="tb">消化器</button>
+            <button class="tb">内分泌</button>
+            <button class="tb">血液腫瘍</button>
+            <button class="tb">救急蘇生</button>
+            <button class="tb">その他</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- D15 -->
+    <div class="demo">
+      <div class="demo-label">
+        <span class="demo-num">D 15</span>
+        <span class="demo-name">ダーク反転ピル</span>
+        <span class="demo-desc">アクティブがダークグレーの丸ピル。引き締まった印象。</span>
+      </div>
+      <div class="demo-stage">
+        <div class="row">
+          <div class="d15">
+            <button class="tb on">まず読む</button>
+            <button class="tb">神経</button>
+            <button class="tb">循環</button>
+            <button class="tb">呼吸</button>
+            <button class="tb">腎・電解質</button>
+            <button class="tb">感染症</button>
+            <button class="tb">消化器</button>
+            <button class="tb">内分泌</button>
+            <button class="tb">血液腫瘍</button>
+            <button class="tb">救急蘇生</button>
+            <button class="tb">その他</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- D16 -->
+    <div class="demo">
+      <div class="demo-label">
+        <span class="demo-num">D 16</span>
+        <span class="demo-name">カードトップ風（タブブラウザ風）</span>
+        <span class="demo-desc">タブが「カードの上部」のように見える昔ながらのスタイル。</span>
+      </div>
+      <div class="demo-stage tinted">
+        <div class="row">
+          <div class="d16">
+            <button class="tb on">まず読む</button>
+            <button class="tb">神経</button>
+            <button class="tb">循環</button>
+            <button class="tb">呼吸</button>
+            <button class="tb">腎・電解質</button>
+            <button class="tb">感染症</button>
+            <button class="tb">消化器</button>
+            <button class="tb">内分泌</button>
+            <button class="tb">血液腫瘍</button>
+            <button class="tb">救急蘇生</button>
+            <button class="tb">その他</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- D17 -->
+    <div class="demo">
+      <div class="demo-label">
+        <span class="demo-num">D 17</span>
+        <span class="demo-name">番号付き（エディトリアル）</span>
+        <span class="demo-desc">タブの頭に番号。雑誌風で構造化された印象。</span>
+      </div>
+      <div class="demo-stage">
+        <div class="row">
+          <div class="d17">
+            <button class="tb on"><span class="n">01</span>まず読む</button>
+            <button class="tb"><span class="n">02</span>神経</button>
+            <button class="tb"><span class="n">03</span>循環</button>
+            <button class="tb"><span class="n">04</span>呼吸</button>
+            <button class="tb"><span class="n">05</span>腎・電解質</button>
+            <button class="tb"><span class="n">06</span>感染症</button>
+            <button class="tb"><span class="n">07</span>消化器</button>
+            <button class="tb"><span class="n">08</span>内分泌</button>
+            <button class="tb"><span class="n">09</span>血液腫瘍</button>
+            <button class="tb"><span class="n">10</span>救急蘇生</button>
+            <button class="tb"><span class="n">11</span>その他</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- D18 -->
+    <div class="demo">
+      <div class="demo-label">
+        <span class="demo-num">D 18</span>
+        <span class="demo-name">スラッシュセパレータ</span>
+        <span class="demo-desc">タブを / で区切る。ナビっぽさを抑えた軽い見た目。</span>
+      </div>
+      <div class="demo-stage">
+        <div class="row">
+          <div class="d18">
+            <button class="tb on">まず読む</button>
+            <button class="tb">神経</button>
+            <button class="tb">循環</button>
+            <button class="tb">呼吸</button>
+            <button class="tb">腎・電解質</button>
+            <button class="tb">感染症</button>
+            <button class="tb">消化器</button>
+            <button class="tb">内分泌</button>
+            <button class="tb">血液腫瘍</button>
+            <button class="tb">救急蘇生</button>
+            <button class="tb">その他</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- D19 -->
+    <div class="demo">
+      <div class="demo-label">
+        <span class="demo-num">D 19</span>
+        <span class="demo-name">浮遊カード（影＋上昇）</span>
+        <span class="demo-desc">アクティブが少し浮き上がって影が出る。立体感あり。</span>
+      </div>
+      <div class="demo-stage tinted">
+        <div class="row">
+          <div class="d19">
+            <button class="tb on">まず読む</button>
+            <button class="tb">神経</button>
+            <button class="tb">循環</button>
+            <button class="tb">呼吸</button>
+            <button class="tb">腎・電解質</button>
+            <button class="tb">感染症</button>
+            <button class="tb">消化器</button>
+            <button class="tb">内分泌</button>
+            <button class="tb">血液腫瘍</button>
+            <button class="tb">救急蘇生</button>
+            <button class="tb">その他</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- D20 -->
+    <div class="demo">
+      <div class="demo-label">
+        <span class="demo-num">D 20</span>
+        <span class="demo-name">三角インジケーター（吹き出し）</span>
+        <span class="demo-desc">アクティブの下に小さな三角矢印。下のコンテンツを指す感じ。</span>
+      </div>
+      <div class="demo-stage">
+        <div class="row">
+          <div class="d20">
+            <button class="tb on">まず読む</button>
+            <button class="tb">神経</button>
+            <button class="tb">循環</button>
+            <button class="tb">呼吸</button>
+            <button class="tb">腎・電解質</button>
+            <button class="tb">感染症</button>
+            <button class="tb">消化器</button>
+            <button class="tb">内分泌</button>
+            <button class="tb">血液腫瘍</button>
+            <button class="tb">救急蘇生</button>
+            <button class="tb">その他</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p style="margin-top:40px;font-size:0.85rem;color:var(--muted);text-align:center;line-height:1.8;">
+      気に入った番号（例：「D 03」「D 09 と D 14」など）を教えてください。<br>
+      または「複数組み合わせて」「色を変えて」など、調整希望もどうぞ。
+    </p>
+
+  </div>
+
+  <script>
+    // 各タブグループでクリックしたらアクティブを切り替える（プレビュー用）
+    document.querySelectorAll('.demo-stage .tb').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var parent = btn.parentElement;
+        parent.querySelectorAll('.tb').forEach(function(t) { t.classList.remove('on'); });
+        btn.classList.add('on');
+      });
+    });
+  </script>
+
+</body>
+</html>

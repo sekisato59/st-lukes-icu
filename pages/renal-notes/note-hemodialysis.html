@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>血液透析の基本 — 板書ノート | 腎電解質 | 聖路加ICU</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../style-v2.css?v=20260605a">
+  <style>
+    /* ===== 腎電解質 板書ノート 専用テーマ（深緑） ===== */
+    .gl-chapter-banner {
+      background: linear-gradient(150deg, #052E16 0%, #166534 100%) !important;
+    }
+    .section-label.renal { color: #166534; }
+
+    /* ===== バナー画像 + テキストオーバーレイ ===== */
+    .vap-banner {
+      position: relative;
+      width: 100%;
+      max-width: 1294px;
+      margin: 64px auto 0;
+      line-height: 0;
+    }
+    .vap-banner-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 85%, transparent 100%);
+      mask-image: linear-gradient(to bottom, #000 0%, #000 85%, transparent 100%);
+    }
+    .vap-banner-overlay {
+      position: absolute;
+      left: 5%;
+      top: 50%;
+      transform: translateY(-50%);
+      max-width: 55%;
+      line-height: 1.4;
+    }
+    .vap-banner-back {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #166534;
+      text-decoration: none;
+      margin-bottom: 12px;
+    }
+    .vap-banner-back:hover { color: #052E16; }
+    .vap-banner-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+    .vap-banner-tags span {
+      display: inline-block;
+      background: rgba(240,253,244,0.85);
+      color: #14532D;
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 4px;
+      letter-spacing: 0.04em;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
+    .vap-banner-title {
+      font-size: clamp(1.1rem, 2.6vw, 1.6rem);
+      font-weight: 900;
+      line-height: 1.35;
+      margin: 0 0 6px;
+      color: #14532D;
+    }
+    .vap-banner-sub {
+      font-size: clamp(0.78rem, 1.4vw, 0.92rem);
+      font-weight: 700;
+      color: #166534;
+      margin: 0 0 6px;
+    }
+    .vap-banner-lecturer {
+      font-size: clamp(0.72rem, 1.2vw, 0.82rem);
+      color: #15803D;
+      margin: 0;
+    }
+    @media (max-width: 900px) {
+      .vap-banner-overlay { max-width: 60%; left: 4%; top: 45%; }
+    }
+    @media (max-width: 600px) {
+      .vap-banner { line-height: 1.4; }
+      .vap-banner-overlay {
+        position: static;
+        transform: none;
+        max-width: 100%;
+        padding: 12px 18px 4px;
+      }
+    }
+
+    /* ====== モバイル用 文字サイズ統一 ====== */
+    @media (max-width: 600px) {
+      .card-inner h3.rule-title { font-size: 0.92rem; }
+      .card-inner h4.sub-head { font-size: 0.88rem; }
+      .card-inner .rule-body,
+      .card-inner ul li,
+      .card-inner ol li,
+      .card-inner p,
+      .organism-list li { font-size: 0.78rem; line-height: 1.65; }
+      .keypoint, .danger { font-size: 0.76rem; line-height: 1.6; padding: 7px 10px; }
+      .keypoint::before, .danger::before { font-size: 0.6rem; padding: 1px 6px; margin-right: 6px; }
+      .bundle-num { width: 22px; height: 22px; min-width: 22px; font-size: 0.74rem; }
+      .bundle-step { padding: 8px 0; gap: 10px; }
+      .bundle-content p { font-size: 0.78rem; line-height: 1.6; }
+      .bundle-content .sub-note { font-size: 0.72rem; padding-left: 8px; }
+      .ie-alpha-inner { padding: 10px 12px; }
+      .ie-alpha-title { font-size: 0.84rem; }
+      .ie-alpha-badge { font-size: 0.62rem; padding: 1px 8px; }
+      .ie-alpha-inner p,
+      .ie-alpha-inner ul li { font-size: 0.76rem; line-height: 1.6; }
+      .ie-alpha-inner ul { padding-left: 18px; }
+      .note-btn-video { font-size: 0.76rem; padding: 8px 14px; }
+      .ie-main-col h3[id^="ch"] { font-size: 0.98rem !important; }
+      .gl-chapter-banner .gl-chapter-title { font-size: 1.02rem !important; }
+      .note-mini { font-size: 0.68rem !important; display: block; margin-top: 2px; }
+    }
+
+    /* ====== 見出し階層 ====== */
+    .card-inner h3.rule-title {
+      font-size: 0.98rem;
+      color: var(--text);
+      padding-bottom: 6px;
+      border-bottom: 2px solid #86EFAC;
+      margin: 0 0 10px;
+    }
+    .card-inner h4.sub-head {
+      font-size: 0.95rem;
+      font-weight: 900;
+      color: #14532D;
+      margin: 14px 0 6px;
+      letter-spacing: 0.02em;
+      line-height: 1.4;
+    }
+    .card-inner h4.sub-head::before {
+      content: '●'; color: #16A34A; margin-right: 8px; font-size: 0.78rem;
+      vertical-align: 1px;
+    }
+    .card-inner h4.sub-head:first-child { margin-top: 0; }
+
+    /* ====== 本文 ====== */
+    .card-inner .rule-body,
+    .card-inner ul li,
+    .card-inner ol li,
+    .card-inner p {
+      color: #475569;
+      line-height: 1.7;
+    }
+    .card-inner p { margin: 4px 0; }
+    .card-inner ul, .card-inner ol {
+      list-style: disc;
+      padding-left: 26px;
+      margin: 4px 0 8px;
+    }
+    .card-inner ul li, .card-inner ol li { margin-bottom: 3px; }
+    .card-inner ul li::marker { color: #86EFAC; }
+    .card-inner strong { color: var(--text); font-weight: 700; }
+    .card-inner em { font-style: italic; color: #1F2937; }
+
+    /* ====== 警告 / 注意ボックス ====== */
+    .keypoint {
+      background: #FFFBEB; border: 1px solid #FDE68A; border-radius: 6px;
+      padding: 8px 12px; margin: 8px 0; font-size: 0.82rem; line-height: 1.65; color: #78350F;
+    }
+    .keypoint::before {
+      content: '注意'; display: inline-block;
+      background: #F59E0B; color: #fff; font-size: 0.64rem; font-weight: 800;
+      padding: 1px 7px; border-radius: 3px; margin-right: 8px;
+      letter-spacing: 0.06em;
+    }
+    .keypoint strong { color: #92400E; }
+
+    .danger {
+      background: #FEF2F2; border: 1px solid #FECACA; border-radius: 6px;
+      padding: 8px 12px; margin: 8px 0; font-size: 0.82rem; line-height: 1.65; color: #7F1D1D;
+    }
+    .danger::before {
+      content: '重要'; display: inline-block;
+      background: #DC2626; color: #fff; font-size: 0.64rem; font-weight: 800;
+      padding: 1px 7px; border-radius: 3px; margin-right: 8px;
+      letter-spacing: 0.06em;
+    }
+    .danger strong { color: #7F1D1D; }
+
+    /* ====== 治療バンドル ステップ ====== */
+    .bundle-flow { margin: 8px 0; }
+    .bundle-step {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 10px 0; border-bottom: 1px dashed #BBF7D0;
+    }
+    .bundle-step:last-child { border-bottom: none; padding-bottom: 0; }
+    .bundle-num {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 26px; height: 26px; min-width: 26px;
+      background: #16A34A; color: #fff;
+      border-radius: 50%; font-weight: 900; font-size: 0.82rem;
+      margin-top: 1px;
+    }
+    .bundle-content { flex: 1; }
+    .bundle-content p { margin: 2px 0; font-size: 0.85rem; color: #475569; line-height: 1.65; }
+    .bundle-content strong { color: var(--text); }
+    .bundle-content .sub-note {
+      font-size: 0.78rem; color: #6B7280; line-height: 1.6;
+      margin-top: 4px; padding-left: 12px;
+    }
+
+    /* ====== ＋α カード（緑） ====== */
+    .ie-alpha {
+      background: #F0FDF4; border: 1px solid #BBF7D0; border-radius: 10px;
+      margin: 10px 0; overflow: hidden;
+    }
+    .ie-alpha-inner { padding: 12px 16px; }
+    .ie-alpha-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+    .ie-alpha-badge {
+      background: #16A34A; color: #fff; font-size: 0.7rem; font-weight: 800;
+      padding: 2px 10px; border-radius: 4px; letter-spacing: 0.06em;
+      white-space: nowrap;
+    }
+    .ie-alpha-title { font-size: 0.92rem; font-weight: 800; color: #14532D; }
+    .ie-alpha-inner p { font-size: 0.84rem; color: #166534; line-height: 1.7; margin: 3px 0; }
+    .ie-alpha-inner ul { padding-left: 22px; list-style: disc; margin: 4px 0; }
+    .ie-alpha-inner ul li { font-size: 0.84rem; color: #166534; line-height: 1.65; margin-bottom: 3px; }
+    .ie-alpha-inner ul li::marker { color: #86EFAC; }
+    .ie-alpha-inner strong { color: #052E16; }
+
+    /* ====== 録画ボタン ====== */
+    .note-actions { display: flex; gap: 10px; margin: 0 0 12px; flex-wrap: wrap; }
+    .note-btn-video {
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+      background: linear-gradient(135deg, #166534, #16A34A);
+      color: #fff; font-size: 0.82rem; font-weight: 700;
+      padding: 9px 18px; border-radius: 8px; text-decoration: none;
+      letter-spacing: 0.04em; line-height: 1;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .note-btn-video:hover {
+      transform: translateY(-1px); box-shadow: 0 4px 10px rgba(22,163,74,0.32);
+    }
+
+    /* ====== ie-table 色調整 ====== */
+    .card-inner .ie-table td { color: #475569; }
+    .card-inner .ie-table th { color: var(--text); }
+    .card-inner .ie-table strong { color: var(--text); }
+
+    /* ====== stat-grid（緑テーマ） ====== */
+    .ie-stat { background: #F0FDF4; border: 1px solid #BBF7D0; }
+    .ie-stat-val { color: #16A34A; }
+
+    /* card 間隔 */
+    .card .card-inner { padding: 14px 18px; }
+    .card { margin-bottom: 12px !important; }
+    .gl-chapter-banner { margin-top: 32px !important; padding: 14px 20px !important; }
+    .gl-chapter-banner.first { margin-top: 8px !important; }
+    .gl-chapter-banner .gl-chapter-title { font-size: 1.15rem !important; }
+
+    /* note-mini（本文中の小注釈） */
+    .note-mini { font-size: 0.74rem; color: #6B7280; display: block; margin-top: 2px; }
+
+    /* ポンプ図ライク：pump-box */
+    .pump-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 10px; margin: 10px 0;
+    }
+    .pump-box {
+      background: #F0FDF4; border: 1px solid #BBF7D0; border-radius: 8px;
+      padding: 10px 14px;
+    }
+    .pump-box-head {
+      font-size: 0.82rem; font-weight: 800; color: #14532D;
+      margin-bottom: 6px; padding-bottom: 5px;
+      border-bottom: 2px solid #86EFAC;
+    }
+    .pump-box-val {
+      font-size: 1.2rem; font-weight: 900; color: #16A34A;
+      margin-bottom: 2px;
+    }
+    .pump-box-note {
+      font-size: 0.74rem; color: #6B7280; line-height: 1.5;
+    }
+
+    /* DW評価カード */
+    .dw-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 10px; margin: 10px 0;
+    }
+    .dw-box {
+      background: #F8FAFC; border: 1px solid var(--border); border-radius: 8px;
+      padding: 10px 14px;
+    }
+    .dw-box-num {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 22px; height: 22px; background: #14532D; color: #fff;
+      border-radius: 50%; font-weight: 900; font-size: 0.72rem;
+      margin-bottom: 6px;
+    }
+    .dw-box-title {
+      font-size: 0.84rem; font-weight: 800; color: #1F2937;
+      margin-bottom: 4px;
+    }
+    .dw-box-body {
+      font-size: 0.78rem; color: #475569; line-height: 1.6;
+    }
+    .dw-box-target {
+      font-size: 0.72rem; font-weight: 700; color: #16A34A;
+      margin-top: 4px;
+    }
+    .dw-box-pitfall {
+      font-size: 0.72rem; color: #DC2626;
+      margin-top: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="../../index.html" class="nav-logo">
+        <img src="../../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+        <span class="nav-logo-text">聖路加国際病院ICU</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-menu" id="navMenu"></ul>
+    </div>
+  </nav>
+
+  <!-- ===== HEADER ===== -->
+  <div class="vap-banner">
+    <img src="../../images/ICUコアカン透析.png" alt="血液透析の基本 板書ノート" class="vap-banner-img">
+    <div class="vap-banner-overlay">
+      <a href="../resident-resources.html#panel-renal" class="vap-banner-back">← 腎電解質系へ戻る</a>
+      <div class="vap-banner-tags">
+        <span>ICU コアカンファレンス</span>
+        <span>腎電解質</span>
+        <span>透析 / DW</span>
+      </div>
+      <h1 class="vap-banner-title">血液透析の基本 — 板書ノート</h1>
+      <p class="vap-banner-sub">透析の原理と処方設定 ／ ドライウェイト評価の基本</p>
+      <p class="vap-banner-lecturer">講義：下山先生（腎臓内科） ／ 制作：ICU 関谷</p>
+    </div>
+  </div>
+
+  <!-- ===== MAIN CONTAINER ===== -->
+  <div class="container" style="max-width:1294px;margin:0 auto;padding:8px 20px 32px;">
+    <div class="ie-page-flex">
+
+      <!-- ===== MAIN CONTENT ===== -->
+      <div class="ie-main-col">
+
+        <!-- 略語一覧 -->
+        <div class="card" style="margin-top:0;margin-bottom:24px;">
+          <div class="card-inner">
+            <h3 class="rule-title">本ページで使用する略語一覧</h3>
+            <table style="width:100%;border-collapse:collapse;font-size:0.78rem;line-height:1.6;color:#475569;">
+              <tbody>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:160px;color:var(--blue);">CKD</td><td style="padding:4px 8px;">Chronic Kidney Disease — 慢性腎臓病（G はグレードではなく GFR の G）</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">GFR</td><td style="padding:4px 8px;">Glomerular Filtration Rate — 糸球体濾過量</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">DW / DB</td><td style="padding:4px 8px;">Dry Weight / Dry Body weight — ドライウェイト（除水目標体重）</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">QB</td><td style="padding:4px 8px;">Blood Flow Rate — 血液流量（mL/min）</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">QD</td><td style="padding:4px 8px;">Dialysate Flow Rate — 透析液流量（mL/min）</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">UFR</td><td style="padding:4px 8px;">Ultrafiltration Rate — 除水速度（mL/hr）</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">ECUM</td><td style="padding:4px 8px;">Extracorporeal Ultrafiltration Method — 体外限外濾過法（除水のみ）</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">HD</td><td style="padding:4px 8px;">Hemodialysis — 血液透析</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">ADPKD</td><td style="padding:4px 8px;">Autosomal Dominant Polycystic Kidney Disease — 常染色体優性多発性嚢胞腎</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">EPO</td><td style="padding:4px 8px;">Erythropoietin — エリスロポイエチン（腎性貧血に関与）</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CKD-MBD</td><td style="padding:4px 8px;">Chronic Kidney Disease — Mineral and Bone Disorder — 慢性腎臓病に伴うミネラル骨代謝異常</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">BNP</td><td style="padding:4px 8px;">Brain Natriuretic Peptide — 脳性ナトリウム利尿ペプチド（心室進展で上昇）</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CTR</td><td style="padding:4px 8px;">Cardiothoracic Ratio — 心胸郭比（胸部 X 線での指標、目標 &lt;50%）</td></tr>
+                <tr><td style="padding:4px 8px;font-weight:700;color:var(--blue);">AF</td><td style="padding:4px 8px;">Atrial Fibrillation — 心房細動（BNP 高値の原因となる）</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- 第1章　腎臓の役割と透析が補う機能 -->
+        <!-- ═══════════════════════════════════════ -->
+        <div id="ch1" class="gl-chapter-banner first">
+          <div class="gl-chapter-title">第1章　腎臓の役割と透析が補う機能</div>
+          <div class="gl-chapter-subtitle">Role of the Kidney — What Dialysis Can and Cannot Replace</div>
+        </div>
+
+        <!-- ── 腎臓の主要機能 ── -->
+        <h3 id="ch1-s1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+          <span class="section-label renal">SECTION 1</span>
+          腎臓が担う3つの主要機能
+        </h3>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">腎臓の役割：大きく3つ</h3>
+            <p class="rule-body">腎臓の最大の役割は<strong>尿をつくること</strong>（老廃物と水分の排泄）である。それ以外に以下の機能も担っている。</p>
+            <div class="pump-grid" style="margin-top:10px;">
+              <div class="pump-box">
+                <div class="pump-box-head">① 老廃物・水分の排泄</div>
+                <div class="pump-box-note">尿素窒素・カリウム・リン等の老廃物と余剰な水分を体外へ排出する。<strong>透析で代替可能。</strong></div>
+              </div>
+              <div class="pump-box">
+                <div class="pump-box-head">② ビタミン D の活性化</div>
+                <div class="pump-box-note">腎臓で 25(OH)D → 1,25(OH)₂D に変換。腎不全ではこの活性化が低下し、CKD-MBD（カルシウム・リン代謝異常）を引き起こす。<strong>透析では代替不可。</strong></div>
+              </div>
+              <div class="pump-box">
+                <div class="pump-box-head">③ エリスロポイエチン（EPO）産生</div>
+                <div class="pump-box-note">腎臓が低酸素を感知してEPOを産生し、赤血球造血を促進する。腎不全では EPO が低下し<strong>腎性貧血</strong>を来す。<strong>透析では代替不可。</strong></div>
+              </div>
+            </div>
+            <p class="rule-body" style="margin-top:8px;">その他にレニン・アンジオテンシン・アルドステロン系（RAAS）の調節にも関与している。</p>
+          </div>
+        </div>
+
+        <!-- ── 腎不全で起こること ── -->
+        <h3 id="ch1-s2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+          <span class="section-label renal">SECTION 2</span>
+          腎不全で何が起きるか
+        </h3>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">腎不全 = 全機能の低下</h3>
+            <table class="ie-table">
+              <thead>
+                <tr><th style="width:35%;">障害された機能</th><th>結果</th><th style="width:22%;">透析で代替</th></tr>
+              </thead>
+              <tbody>
+                <tr><td style="white-space:nowrap;font-weight:700;">老廃物排泄↓</td><td>尿毒症・代謝性アシドーシス・高カリウム血症・高リン血症</td><td><strong style="color:#16A34A;">✓ 可能</strong></td></tr>
+                <tr><td style="white-space:nowrap;font-weight:700;">水分排泄↓</td><td>体液過剰・浮腫・高血圧・心不全</td><td><strong style="color:#16A34A;">✓ 可能</strong></td></tr>
+                <tr><td style="white-space:nowrap;font-weight:700;">ビタミンD活性化↓</td><td>低カルシウム血症・骨疾患（CKD-MBD）</td><td style="color:#9CA3AF;">× 不可</td></tr>
+                <tr><td style="white-space:nowrap;font-weight:700;">EPO産生↓</td><td>腎性貧血</td><td style="color:#9CA3AF;">× 不可</td></tr>
+              </tbody>
+            </table>
+            <p class="rule-body" style="margin-top:8px;"><strong>透析が代替できるのは老廃物排泄と水分排泄のみ。</strong>ビタミンD製剤や ESA（赤血球造血刺激因子製剤）は別途投与が必要となる。</p>
+          </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- 第2章　透析の原理 -->
+        <!-- ═══════════════════════════════════════ -->
+        <div id="ch2" class="gl-chapter-banner">
+          <div class="gl-chapter-title">第2章　透析の原理</div>
+          <div class="gl-chapter-subtitle">Principles of Hemodialysis — Diffusion and Ultrafiltration</div>
+        </div>
+
+        <!-- ── ダイアライザーの構造 ── -->
+        <h3 id="ch2-s1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+          <span class="section-label renal">SECTION 1</span>
+          ダイアライザー（透析器）の構造
+        </h3>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">透析回路の全体像</h3>
+            <p class="rule-body">透析は非常にシンプルな構造で成立している。患者の血液（バスキュラーアクセス経由）をダイアライザーに通し、また体内に戻すだけである。</p>
+            <div class="pump-grid" style="margin-top:10px;">
+              <div class="pump-box">
+                <div class="pump-box-head">血液ポンプ</div>
+                <div class="pump-box-val">QB</div>
+                <div class="pump-box-note">患者の血液を回路内に引き込み循環させる。流速を QB（Blood Flow Rate）という。</div>
+              </div>
+              <div class="pump-box">
+                <div class="pump-box-head">透析液ポンプ</div>
+                <div class="pump-box-val">QD</div>
+                <div class="pump-box-note">ダイアライザー内を清浄な透析液が流れる。流速を QD（Dialysate Flow Rate）という。</div>
+              </div>
+              <div class="pump-box">
+                <div class="pump-box-head">除水ポンプ</div>
+                <div class="pump-box-val">UFR</div>
+                <div class="pump-box-note">透析液の出口側で余分に液を排出し、体内の水分を引き出す。除水速度を UFR（Ultrafiltration Rate）という。</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">ダイアライザーの半透膜（hollow fiber membrane）</h3>
+            <p class="rule-body">ダイアライザーの内部は<strong>細いストロー状の中空糸（hollow fiber）</strong>が束になった構造で、その壁が半透膜として機能する。</p>
+            <ul>
+              <li>半透膜の微細孔：<strong>小分子（老廃物・カリウム・尿素等）は通過できる</strong></li>
+              <li><strong>大分子（アルブミン等のタンパク質）は通過できない</strong>ため血管内に留まる</li>
+              <li>血液と透析液は逆方向（向流）に流れ、効率よく物質が交換される</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- ── 拡散 ── -->
+        <h3 id="ch2-s2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+          <span class="section-label renal">SECTION 2</span>
+          拡散（Diffusion）— 老廃物の排泄原理
+        </h3>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">拡散とは：濃度勾配による物質移動</h3>
+            <p class="rule-body">透析液は老廃物がゼロの状態に調整されている。患者血液中には老廃物（尿素・カリウム等）が高濃度で存在するため、半透膜を介して<strong>濃度の高い側（血液）から低い側（透析液）へ</strong>物質が移動する。これが拡散の原理である。</p>
+            <table class="ie-table" style="margin-top:8px;">
+              <thead>
+                <tr><th style="width:35%;">物質</th><th>血液中濃度</th><th>透析液中濃度</th><th>移動方向</th></tr>
+              </thead>
+              <tbody>
+                <tr><td style="white-space:nowrap;font-weight:700;">尿素（BUN）</td><td><strong>高い</strong></td><td>ゼロ（低い）</td><td>血液 → 透析液</td></tr>
+                <tr><td style="white-space:nowrap;font-weight:700;">カリウム</td><td><strong>高い</strong></td><td>低め設定</td><td>血液 → 透析液</td></tr>
+                <tr><td style="white-space:nowrap;font-weight:700;">重炭酸（HCO₃⁻）</td><td>低い</td><td><strong style="color:#166534;">高め設定</strong></td><td>透析液 → 血液</td></tr>
+                <tr><td style="white-space:nowrap;font-weight:700;">カルシウム</td><td>低め</td><td><strong style="color:#166534;">高め設定</strong></td><td>透析液 → 血液</td></tr>
+              </tbody>
+            </table>
+            <p class="rule-body" style="margin-top:8px;">このように透析液の組成を調整することで、老廃物の除去と不足物質の補充を同時に行っている。</p>
+          </div>
+        </div>
+
+        <!-- ── 限外濾過 ── -->
+        <h3 id="ch2-s3" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+          <span class="section-label renal">SECTION 3</span>
+          限外濾過（Ultrafiltration）— 除水の原理
+        </h3>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">除水の仕組み：圧力差による水分排出</h3>
+            <p class="rule-body">除水ポンプを回すと、透析液側に<strong>陰圧（transmembrane pressure）</strong>が生じる。この圧力差により、血液中の水分が半透膜を通過して透析液側に引き出される。</p>
+            <div class="keypoint">
+              <strong>UFR の計算例（透析4時間、除水 2.4 L の場合）</strong><br>
+              10 mL/min の除水 → 600 mL/hr → 4時間で <strong>2.4 L</strong> の除水
+            </div>
+            <p class="rule-body" style="margin-top:8px;">除水ポンプの速度を変えることで除水量を調整でき、この速度のことを <strong>UFR（Ultrafiltration Rate）</strong> と呼ぶ。かっこよく呼びたいときは「UFR」と言おう。</p>
+          </div>
+        </div>
+
+        <!-- ── ECUM ── -->
+        <h3 id="ch2-s4" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+          <span class="section-label renal">SECTION 4</span>
+          ECUM — 透析液を使わない除水専用モード
+        </h3>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">ECUM（Extracorporeal Ultrafiltration Method）</h3>
+            <p class="rule-body">ECUM は<strong>透析液を流さず、除水ポンプのみを使って血液から水分を引き出す</strong>方法である。拡散は行われず、等張性の除水のみを実施する。</p>
+            <div class="pump-grid" style="margin-top:8px;">
+              <div class="pump-box">
+                <div class="pump-box-head">ECUM の利点</div>
+                <div class="pump-box-note">透析液を流さないため浸透圧が変化しない。血行動態が不安定な患者でも比較的血圧を保ちながら除水ができる。</div>
+              </div>
+              <div class="pump-box">
+                <div class="pump-box-head">使用場面</div>
+                <div class="pump-box-note">血圧不安定で通常の HD が困難だが除水（体液管理）が急務な状況。透析効率（老廃物除去）は不要または後回しにできるとき。</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- 第3章　透析処方の設定 -->
+        <!-- ═══════════════════════════════════════ -->
+        <div id="ch3" class="gl-chapter-banner">
+          <div class="gl-chapter-title">第3章　透析処方の設定</div>
+          <div class="gl-chapter-subtitle">Dialysis Prescription — Efficiency Parameters</div>
+        </div>
+
+        <!-- ── 透析効率を決める4因子 ── -->
+        <h3 id="ch3-s1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+          <span class="section-label renal">SECTION 1</span>
+          透析効率を決める4つの因子
+        </h3>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">透析処方で決める5つのパラメータ</h3>
+            <table class="ie-table">
+              <thead>
+                <tr><th style="width:30%;">パラメータ</th><th>概要</th><th style="width:22%;">影響</th></tr>
+              </thead>
+              <tbody>
+                <tr><td style="white-space:nowrap;font-weight:700;">① 透析時間</td><td>1回の透析時間（基本4時間）</td><td><strong style="color:#166534;">効率</strong>に関与</td></tr>
+                <tr><td style="white-space:nowrap;font-weight:700;">② QB</td><td>血液流量（200〜300 mL/min）</td><td><strong style="color:#166534;">効率</strong>に関与</td></tr>
+                <tr><td style="white-space:nowrap;font-weight:700;">③ QD</td><td>透析液流量（500 mL/min・固定）</td><td><strong style="color:#166534;">効率</strong>に関与</td></tr>
+                <tr><td style="white-space:nowrap;font-weight:700;">④ ダイアライザー</td><td>膜の種類・面積（膜面積で効率が変わる）</td><td><strong style="color:#166534;">効率</strong>に関与</td></tr>
+                <tr><td style="white-space:nowrap;font-weight:700;">⑤ UFR（除水速度）</td><td>除水量 ÷ 時間で決まる</td><td><strong>除水量</strong>に関与</td></tr>
+              </tbody>
+            </table>
+            <p class="rule-body" style="margin-top:8px;">上4つが老廃物の除去効率を決め、UFRは体液管理（水分量）を決める。別々の概念として整理しておこう。</p>
+          </div>
+        </div>
+
+        <!-- ── 透析時間 ── -->
+        <h3 id="ch3-s2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+          <span class="section-label renal">SECTION 2</span>
+          透析時間：なぜ4時間が基本か
+        </h3>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">4時間の根拠</h3>
+            <p class="rule-body">透析時間は長いほど老廃物の除去効率が上がる。しかし<strong>QOL（長すぎると生活への影響が大きい）と効率のバランス</strong>から、週3回・1回4時間が標準となっている。</p>
+            <div class="keypoint">
+              <strong>保険点数の影響も：</strong>4時間未満と4時間以上で保険点数が変わる。クリニックにとっては4時間が「コストと点数のバランスが良い」設定となるため、4時間が主流となっている。
+            </div>
+            <p class="rule-body" style="margin-top:8px;">ただし、以下のような状況では時間を調整することがある：</p>
+            <ul>
+              <li><strong>時間を短縮する場合（3時間〜）：</strong>透析導入直後で残腎機能があり、自力で老廃物を出せる患者</li>
+              <li><strong>時間を延長する場合（5時間〜）：</strong>体格が大きく食事量が多い、透析効率をさらに上げたい患者</li>
+              <li>実際は<strong>3〜5時間の範囲</strong>で調整することが多い</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- ── QB ── -->
+        <h3 id="ch3-s3" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+          <span class="section-label renal">SECTION 3</span>
+          QB（血液流量）
+        </h3>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">QB の基本</h3>
+            <div class="ie-stat-grid">
+              <div class="ie-stat">
+                <div class="ie-stat-val">200〜300</div>
+                <div class="ie-stat-label">mL/min<br>標準的な QB 範囲</div>
+              </div>
+              <div class="ie-stat">
+                <div class="ie-stat-val">200</div>
+                <div class="ie-stat-label">mL/min<br>透析導入時の初期設定</div>
+              </div>
+              <div class="ie-stat" style="background:#FFFBEB;border-color:#FDE68A;">
+                <div class="ie-stat-val" style="color:#92400E;">300↑</div>
+                <div class="ie-stat-label">効率向上の<br>上乗せ効果は限界</div>
+              </div>
+            </div>
+            <p class="rule-body" style="margin-top:10px;">QB が高いほど効率は上がるが、<strong>300 mL/min を超えると効率向上の上乗せが少なくなる</strong>ことが研究でわかっている。200〜300 mL/min が現実的な設定範囲。</p>
+            <p class="rule-body">QB の変更を検討するとき：カリウムが高い・BUN が高いなど、<strong>透析効率を上げたいとき</strong>にまず QB 増加を提案してみる。</p>
+          </div>
+        </div>
+
+        <!-- ── QD と QB:QD 比 ── -->
+        <h3 id="ch3-s4" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+          <span class="section-label renal">SECTION 4</span>
+          QD（透析液流量）と QB:QD 比
+        </h3>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">QD は 500 mL/min 固定</h3>
+            <p class="rule-body">QD は通常 500 mL/min に固定されており、研修医が変更する機会はほぼない。ただし <strong>QB:QD = 1:2〜2.5 が最も効率的</strong>という概念は理解しておこう（CHDF 等の勉強で役立つ）。</p>
+            <div class="danger" style="margin-top:8px;">
+              <strong>「QD を増やせば効率が上がる」は誤り：</strong>QB が 200 mL/min のまま QD だけ 1000 mL/min に増やしても、効率は 500 mL/min と変わらない。<strong>少ない方のフローに依存して上限がある</strong>ためである。片方だけ増やしてもプラトーになる。
+            </div>
+            <div class="ie-alpha" style="margin-top:10px;">
+              <div class="ie-alpha-inner">
+                <div class="ie-alpha-header">
+                  <span class="ie-alpha-badge">+α</span>
+                  <span class="ie-alpha-title">CHDF への応用</span>
+                </div>
+                <p>この「少ない方のフローに依存する」概念は CHDF（持続的腎代替療法）で置換液量・透析液量を設定する際にも重要になる。QB と QD の比率を意識することで、より効率的な処方が可能になる。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── ダイアライザー ── -->
+        <h3 id="ch3-s5" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+          <span class="section-label renal">SECTION 5</span>
+          ダイアライザーの選択
+        </h3>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">ダイアライザーは膜面積で選ぶ</h3>
+            <p class="rule-body">ダイアライザーには多種類あるが、<strong>膜面積が大きいほど効率が高い</strong>というシンプルな関係がある。製品名の末尾の数字が膜面積（m²）を示すことが多い（例：25 = 2.5 m²、15 = 1.5 m²）。</p>
+            <div class="keypoint" style="margin-top:8px;">
+              <strong>アレルギーに注意：</strong>血液を異物（中空糸）にさらすため、ダイアライザーアレルギーが起こることがある。片方の製品でアレルギーを疑う場合は別の種類への変更を検討する。
+            </div>
+          </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- 第4章　ドライウェイト（DW）の設定 -->
+        <!-- ═══════════════════════════════════════ -->
+        <div id="ch4" class="gl-chapter-banner">
+          <div class="gl-chapter-title">第4章　ドライウェイト（DW）の設定</div>
+          <div class="gl-chapter-subtitle">Dry Weight Assessment — Clinical Approach</div>
+        </div>
+
+        <!-- ── DWとは ── -->
+        <h3 id="ch4-s1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+          <span class="section-label renal">SECTION 1</span>
+          ドライウェイトとは何か
+        </h3>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">ドライウェイト（DW）の定義</h3>
+            <p class="rule-body">ガイドラインでは「<strong>体液量が適正で、透析中に血圧低下を生じることなく、長期的にも心臓への負担が少ない体重</strong>」と定義されている。</p>
+            <p class="rule-body" style="margin-top:6px;">簡単に言うと「<strong>脱水でも過水和でもない、その患者にとってちょうど良い体重</strong>」であり、この体重に到達するまで除水を行う。</p>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">なぜ DW 設定が重要か：DW がずれると死亡リスクが上がる</h3>
+            <table class="ie-table">
+              <thead>
+                <tr><th style="width:35%;">DWのずれ方向</th><th>病態</th><th>リスク</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="white-space:nowrap;font-weight:700;"><span class="mark-red">過水和（DW が高すぎる）</span></td>
+                  <td>血管内容量増加 → 高血圧・浮腫・呼吸困難</td>
+                  <td><strong>心不全・死亡リスク↑</strong></td>
+                </tr>
+                <tr>
+                  <td style="white-space:nowrap;font-weight:700;"><span class="mark-yellow">脱水（DW が低すぎる）</span></td>
+                  <td>血管内容量低下 → 低血圧・循環血液量減少</td>
+                  <td><strong>循環不全・死亡リスク↑</strong></td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="danger" style="margin-top:8px;">
+              DW は患者の生命予後を左右する設定である。安易に変更せず、必ず評価に基づいて慎重に行うこと。
+            </div>
+          </div>
+        </div>
+
+        <!-- ── 体液バランスの基本 ── -->
+        <h3 id="ch4-s2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+          <span class="section-label renal">SECTION 2</span>
+          透析患者の体液バランスの特徴
+        </h3>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">腎不全患者の水分調節機能の喪失</h3>
+            <p class="rule-body">正常腎では、水分や塩分を摂取すると腎臓が体液量を感知して<strong>尿量を増加させ、自動的に調整</strong>してくれる（例：ビール3Lを飲んでも翌日は体重がほぼ元に戻る）。</p>
+            <p class="rule-body" style="margin-top:6px;">腎不全患者ではこの調整機構が失われ、<strong>摂取した水分・塩分がそのまま体内に蓄積される</strong>。したがって、我々医療者が腎臓の代わりに体液量を評価し、適切な DW を設定し続ける必要がある。</p>
+            <div class="keypoint" style="margin-top:8px;">
+              <strong>体液の分布を意識する：</strong>成人の体液は体重の約 60%。血管内液はわずか約 3 L しかない。透析で除水できるのは「血管内」からのみであり、間質の浮腫（むくみ）は血管内に戻ってくる（プラズマリフィリング）のを待ちながら間接的に引き出していく。
+            </div>
+          </div>
+        </div>
+
+        <!-- ── DW評価の4指標 ── -->
+        <h3 id="ch4-s3" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+          <span class="section-label renal">SECTION 3</span>
+          DW 評価の4つの武器
+        </h3>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">透析患者を受け持ったら必ず確認する4指標</h3>
+            <p class="rule-body">DW の適正を判断する「これ一つ」という指標はなく、複数の指標を組み合わせて評価する。</p>
+            <div class="dw-grid" style="margin-top:10px;">
+              <div class="dw-box">
+                <div class="dw-box-num">1</div>
+                <div class="dw-box-title">血圧・浮腫</div>
+                <div class="dw-box-body">過水和 → 高血圧・浮腫<br>脱水 → 低血圧</div>
+                <div class="dw-box-target">目標：収縮期血圧 &lt;140 mmHg、浮腫なし</div>
+                <div class="dw-box-pitfall">⚠ 降圧薬で血圧が「抑えられて」いるだけの場合がある。処方降圧薬を必ず確認する。</div>
+              </div>
+              <div class="dw-box">
+                <div class="dw-box-num">2</div>
+                <div class="dw-box-title">胸部 X 線（CTR）</div>
+                <div class="dw-box-body">過水和 → 心拡大・肺うっ血<br>CTR が増大していれば DW 再評価の契機</div>
+                <div class="dw-box-target">目標：CTR &lt;50%</div>
+                <div class="dw-box-pitfall">⚠ 毎透析では撮らない。週1回〜2ヶ月に1回が一般的（ICUでの管理患者は適宜）。</div>
+              </div>
+              <div class="dw-box">
+                <div class="dw-box-num">3</div>
+                <div class="dw-box-title">BNP</div>
+                <div class="dw-box-body">心室進展（過水和）で上昇する心臓ホルモン。体液量過剰の鋭敏な指標。半減期が短い点が重要。</div>
+                <div class="dw-box-target">採血タイミング：週末の透析終了後（透析直後が最も DW に近い状態）</div>
+                <div class="dw-box-pitfall">⚠ AF・エンレスト（サクビトリル/バルサルタン）使用中は高値になるため解釈注意。経時的変化で評価する。</div>
+              </div>
+              <div class="dw-box">
+                <div class="dw-box-num">4</div>
+                <div class="dw-box-title">患者の自覚症状</div>
+                <div class="dw-box-body">「透析後に頭痛・めまい・気分不良」→ 過除水（脱水）の可能性<br>「透析前から息苦しい・足がむくむ」→ 過水和の可能性</div>
+                <div class="dw-box-target">患者本人から「透析後どんな感じか」を聞く習慣をつけよう</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── DW調整の実際 ── -->
+        <h3 id="ch4-s4" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+          <span class="section-label renal">SECTION 4</span>
+          DW の調整方法
+        </h3>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">DW 変更の進め方</h3>
+            <p class="rule-body">DW の変更は慎重に、少しずつ行う。研修医が提案するときは以下を参考にする。</p>
+            <div class="bundle-flow" style="margin-top:10px;">
+              <div class="bundle-step">
+                <div class="bundle-num">1</div>
+                <div class="bundle-content">
+                  <p><strong>まずむくみ・血圧・CTR・BNP を評価</strong></p>
+                  <p class="sub-note">過水和所見があれば DW を下げる方向で検討。脱水所見があれば DW を上げる。</p>
+                </div>
+              </div>
+              <div class="bundle-step">
+                <div class="bundle-num">2</div>
+                <div class="bundle-content">
+                  <p><strong>DW を 0.3〜0.5 kg ずつ修正</strong></p>
+                  <p class="sub-note">一度に大きく変更しない。少量ずつ変えて再評価する。</p>
+                </div>
+              </div>
+              <div class="bundle-step">
+                <div class="bundle-num">3</div>
+                <div class="bundle-content">
+                  <p><strong>1〜2週間の幅で評価・再設定</strong></p>
+                  <p class="sub-note">短期間で何度も変更するより、1週間ごとに評価して微調整していく。</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">【よくある落とし穴】降圧薬で血圧が「抑えられている」過水和</h3>
+            <p class="rule-body">血圧が 110 mmHg 台で「コントロール良好」と見えても、<strong>降圧薬を何剤も内服している患者</strong>では注意が必要。実際には過水和で血圧が高くなるはずのところを薬で無理に抑えている可能性がある。</p>
+            <ul>
+              <li>足をよく見ると浮腫がある</li>
+              <li>降圧薬が3〜4剤以上処方されている</li>
+            </ul>
+            <p class="rule-body" style="margin-top:6px;">このような場合は、<strong>降圧薬を減らしながら DW を下げていく</strong>方向が本来の治療となる。DW が適正になれば降圧薬はいらなくなることもある。</p>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">【入院中は DW の見直しが必要】筋肉・脂肪減少に注意</h3>
+            <p class="rule-body">入院患者では食事量が低下し、<strong>筋肉・脂肪が減少</strong>することが多い。同じ DW を設定し続けると、除脂肪・除筋肉分だけ相対的に水分割合が増え、<strong>同じ DW でも過水和</strong>になってしまう。</p>
+            <div class="danger" style="margin-top:8px;">
+              入院中の透析患者は DW を定期的に見直す。「むくみが出てきた」「血圧が高くなってきた」などの変化をキャッチしたら、早めに相談・DW 下方修正を提案する。
+            </div>
+          </div>
+        </div>
+
+        <!-- ── 除水速度の限界 ── -->
+        <h3 id="ch4-s5" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+          <span class="section-label renal">SECTION 5</span>
+          除水速度の限界：UFR 上限を超えると危険
+        </h3>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">「DW まで一気に引こう」は危ない</h3>
+            <p class="rule-body">透析の除水は<strong>血管内（約 3 L）からしか直接引けない</strong>。間質の浮腫は血管内にゆっくり戻ってきて（プラズマリフィリング）、初めて除水できる。UFR が速すぎると血管内が先に枯渇してショックになる。</p>
+            <div class="ie-stat-grid">
+              <div class="ie-stat">
+                <div class="ie-stat-val">≤15</div>
+                <div class="ie-stat-label">mL/kg/hr<br>UFR 上限の目安</div>
+              </div>
+              <div class="ie-stat">
+                <div class="ie-stat-val">3%</div>
+                <div class="ie-stat-label">体重比<br>1日透析での除水上限</div>
+              </div>
+              <div class="ie-stat">
+                <div class="ie-stat-val">6%</div>
+                <div class="ie-stat-label">体重比<br>2日あけた場合の除水上限</div>
+              </div>
+            </div>
+            <div class="danger" style="margin-top:10px;">
+              <strong>計算例：</strong>ドライウェイト 40 kg の患者が 6 kg 過水和で入院 → 透析4時間で全部除水しようとすると UFR = 6000 mL ÷ 4 h = 1500 mL/hr = <strong>37.5 mL/kg/hr → 限界の 2.5 倍を超え、ショックで死亡リスクあり。</strong>
+            </div>
+            <p class="rule-body" style="margin-top:8px;">重度の過水和（心不全入院など）では複数回透析・CRRT・ECUM などに分けて体液を管理する。一気に引こうとしない。</p>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">不要な水分・塩分を厳格に制限する</h3>
+            <p class="rule-body">UFR の上限が限られている以上、<strong>入院中に余分な水分・塩分が入らないようにすることが体液管理の第一歩</strong>である。透析患者を担当したら以下を確認しよう。</p>
+            <ul>
+              <li>不要な点滴（維持輸液・フラッシュ液）を継続していないか</li>
+              <li>食事の塩分制限（透析患者は通常6g/日以下）は守られているか</li>
+              <li>経管栄養・TPN の水分量は適正か</li>
+            </ul>
+            <div class="keypoint" style="margin-top:8px;">
+              <strong>塩分を取ることは水分を取ることと同じ：</strong>塩分を摂取するとナトリウム濃度が上昇し、口渇感が生じて必ず水分摂取につながる。塩分制限が水分制限の鍵となる。
+            </div>
+          </div>
+        </div>
+
+        <!-- ── カルテの書き方 ── -->
+        <h3 id="ch4-s6" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+          <span class="section-label renal">SECTION 6</span>
+          透析患者のカルテ記載：研修医が必ず書くべき項目
+        </h3>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">透析・腎不全患者のカルテ必須記載事項</h3>
+            <p class="rule-body">透析患者・腎不全患者を受け持ったとき、以下の情報は必ずカルテに記載すること。これを見れば腎臓内科医が患者背景を概ね把握できる。</p>
+            <table class="ie-table" style="margin-top:8px;">
+              <thead>
+                <tr><th style="width:30%;">記載事項</th><th>記載例・補足</th></tr>
+              </thead>
+              <tbody>
+                <tr><td style="white-space:nowrap;font-weight:700;">原疾患（CKD の原因）</td><td>糖尿病性腎症、IgA 腎症、ADPKD、高血圧性腎硬化症 など。「病態が全く異なる」ので必ず明記。</td></tr>
+                <tr><td style="white-space:nowrap;font-weight:700;">CKD ステージ</td><td>「CKD <strong>G</strong>5」と書く（G = GFR のG、グレードではない）。必要に応じて T（移植後）などを付記。</td></tr>
+                <tr><td style="white-space:nowrap;font-weight:700;">透析導入時期</td><td>「〇年〇月導入」。導入直後と 20 年継続者では病態・血管アクセス・合併症が大きく異なる。</td></tr>
+                <tr><td style="white-space:nowrap;font-weight:700;">バスキュラーアクセス</td><td>内シャント、パーマネントカテーテル、移植血管 など</td></tr>
+                <tr><td style="white-space:nowrap;font-weight:700;">現在の透析スケジュール</td><td>曜日・施設名（外来透析か入院透析か）</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- SUMMARY -->
+        <!-- ═══════════════════════════════════════ -->
+        <h3 id="summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+          <span style="color:#16A34A;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+          血液透析の基本 — キーメッセージ
+        </h3>
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#16A34A;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+                <span class="rule-body"><strong>透析の原理は「拡散」と「限外濾過」の2つ：</strong>拡散で老廃物を濃度勾配により排出し、限外濾過（除水ポンプ）で余剰な水分を圧力差で排出する。血液ポンプ（QB）・透析液ポンプ（QD）・除水ポンプ（UFR）の3つのポンプで制御する。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#16A34A;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+                <span class="rule-body"><strong>透析効率は時間・QB・QD・ダイアライザー膜面積で決まる：</strong>QB:QD = 1:2〜2.5 が最適比率。QB 300 mL/min 以上では効率向上は頭打ちになる。基本は4時間・QB 200〜250 mL/min・QD 500 mL/min から。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#16A34A;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+                <span class="rule-body"><strong>ドライウェイト（DW）は血圧・浮腫・CTR・BNP の4指標で評価する：</strong>DW は患者の生命予後に直結する。降圧薬で血圧が「抑えられている」過水和を見逃さない。BNP は週末透析後に採血する。AF・エンレスト使用中は BNP が高値になるため経時的変化で評価。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#16A34A;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+                <span class="rule-body"><strong>UFR には上限がある（≤15 mL/kg/hr）：</strong>透析で引ける水分は血管内からのみ。プラズマリフィリングを超えた速度で除水するとショックになる。重度過水和でも「一気に引く」のは危険で、DW 修正は 0.3〜0.5 kg/回 ずつ。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+                <span style="color:#16A34A;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+                <span class="rule-body"><strong>入院中は DW を定期的に見直す：</strong>入院中は食事量低下で筋肉・脂肪が減少し、同じ DW でも相対的に過水和になる。「むくみ・血圧上昇」の変化を見逃さず、0.3〜0.5 kg ずつ DW を下方修正する提案を積極的に行う。</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 出典注記 -->
+        <p style="font-size:0.72rem;color:#9CA3AF;margin-top:16px;line-height:1.7;">
+          本ページは ICU コアカンファレンスにおける下山先生（腎臓内科）の講義内容を元に作成した教育用サマリーです。<br>
+          実際の透析処方・DW 設定は患者個別の状態に応じて腎臓内科医と相談のうえ決定してください。
+        </p>
+        <p style="font-size:0.75rem;color:var(--muted);text-align:right;margin-top:8px;">制作：ICU 関谷</p>
+
+      </div><!-- /ie-main-col -->
+
+      <!-- ===== SIDEBAR ===== -->
+      <aside class="ie-sidebar">
+        <div class="ie-sidebar-card">
+          <div class="ie-sidebar-title">目次</div>
+          <a href="#ch1" class="ie-toc-chapter">第1章 腎臓の役割と透析が補う機能</a>
+          <a href="#ch1-s1" class="ie-toc-section">S1 — 腎臓の主要3機能</a>
+          <a href="#ch1-s2" class="ie-toc-section">S2 — 腎不全で何が起きるか</a>
+
+          <a href="#ch2" class="ie-toc-chapter">第2章 透析の原理</a>
+          <a href="#ch2-s1" class="ie-toc-section">S1 — ダイアライザーの構造</a>
+          <a href="#ch2-s2" class="ie-toc-section">S2 — 拡散（老廃物排泄）</a>
+          <a href="#ch2-s3" class="ie-toc-section">S3 — 限外濾過（除水）</a>
+          <a href="#ch2-s4" class="ie-toc-section">S4 — ECUM</a>
+
+          <a href="#ch3" class="ie-toc-chapter">第3章 透析処方の設定</a>
+          <a href="#ch3-s1" class="ie-toc-section">S1 — 効率を決める4因子</a>
+          <a href="#ch3-s2" class="ie-toc-section">S2 — 透析時間（4時間の根拠）</a>
+          <a href="#ch3-s3" class="ie-toc-section">S3 — QB（血液流量）</a>
+          <a href="#ch3-s4" class="ie-toc-section">S4 — QD と QB:QD 比</a>
+          <a href="#ch3-s5" class="ie-toc-section">S5 — ダイアライザー選択</a>
+
+          <a href="#ch4" class="ie-toc-chapter">第4章 ドライウェイト（DW）設定</a>
+          <a href="#ch4-s1" class="ie-toc-section">S1 — DW とは何か</a>
+          <a href="#ch4-s2" class="ie-toc-section">S2 — 体液バランスの特徴</a>
+          <a href="#ch4-s3" class="ie-toc-section">S3 — DW 評価の4指標</a>
+          <a href="#ch4-s4" class="ie-toc-section">S4 — DW の調整方法</a>
+          <a href="#ch4-s5" class="ie-toc-section">S5 — UFR 上限・除水の限界</a>
+          <a href="#ch4-s6" class="ie-toc-section">S6 — カルテ記載の必須事項</a>
+
+          <a href="#summary" class="ie-toc-section" style="margin-top:6px;font-weight:700;">SUMMARY</a>
+        </div>
+      </aside>
+
+    </div><!-- /ie-page-flex -->
+  </div><!-- /container -->
+
+  <script src="../../script.js?v=20260605a"></script>
+  <script src="../../abbr-tooltip.js"></script>
+</body>
+</html>

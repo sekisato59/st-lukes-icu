@@ -10,6 +10,13 @@
  */
 const RECENT_PAGES = [
   {
+    title: "クリプトコッカス髄膜炎 L-AmB短期 vs 長期投与 OFID 2026",
+    url: "pages/articles-gl-cm-lamb2026.html",
+    date: "2026-06-04",
+    tag: "論文",
+    thumb: "images/朝カンファ風景.webp"
+  },
+  {
     title: "PADIS 2018+2025 統合まとめ — 痛み・不安・鎮静・せん妄・不動・睡眠",
     url: "pages/articles-gl-padis2025.html",
     date: "2026-06-03",

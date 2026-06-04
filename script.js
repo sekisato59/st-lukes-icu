@@ -518,3 +518,104 @@ if (copyBtn) {
     processAll();
   }
 })();
+
+// ===== 全ページ共通：画像ライトボックス（Figure クリックで拡大） =====
+(function initImageLightbox() {
+  var overlay = null, ovImg = null, ovCaption = null;
+
+  function buildOverlay() {
+    if (overlay) return;
+    overlay = document.createElement('div');
+    overlay.id = 'img-lightbox';
+    overlay.setAttribute('role', 'dialog');
+    overlay.setAttribute('aria-modal', 'true');
+    overlay.innerHTML =
+      '<button type="button" class="ilb-close" aria-label="閉じる">&times;</button>' +
+      '<div class="ilb-stage">' +
+        '<img alt="">' +
+        '<div class="ilb-caption"></div>' +
+      '</div>' +
+      '<div class="ilb-hint">クリックで等倍拡大／Esc または背景クリックで閉じる</div>';
+    document.body.appendChild(overlay);
+    ovImg = overlay.querySelector('img');
+    ovCaption = overlay.querySelector('.ilb-caption');
+
+    // 背景クリックで閉じる（画像・キャプション以外）
+    overlay.addEventListener('click', function (e) {
+      if (e.target === overlay || e.target.classList.contains('ilb-stage') ||
+          e.target.classList.contains('ilb-close')) {
+        close();
+      }
+    });
+    // 画像クリックで等倍トグル
+    ovImg.addEventListener('click', function (e) {
+      e.stopPropagation();
+      overlay.classList.toggle('zoomed');
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && overlay.classList.contains('open')) close();
+    });
+  }
+
+  function open(src, caption, alt) {
+    buildOverlay();
+    overlay.classList.remove('zoomed');
+    ovImg.src = src;
+    ovImg.alt = alt || '';
+    if (caption) {
+      ovCaption.textContent = caption;
+      ovCaption.style.display = '';
+    } else {
+      ovCaption.style.display = 'none';
+    }
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function close() {
+    if (!overlay) return;
+    overlay.classList.remove('open', 'zoomed');
+    document.body.style.overflow = '';
+  }
+
+  // 対象画像：コンテンツ内の Figure 等。ナビロゴ・アイコン・リンク内画像・除外指定は対象外
+  function isTarget(img) {
+    if (img.classList.contains('nav-logo-img')) return false;
+    if (img.hasAttribute('data-no-zoom')) return false;
+    if (img.closest('.navbar')) return false;
+    if (img.closest('a')) return false; // 既にリンクされた画像は触らない
+    var src = img.getAttribute('src') || '';
+    if (src.indexOf('logo') !== -1) return false;
+    return true;
+  }
+
+  // キャプション推定：ie-fig-caption 兄弟 → figcaption → alt
+  function captionFor(img) {
+    var box = img.closest('.ie-fig-box') || img.parentElement;
+    if (box) {
+      var cap = box.querySelector('.ie-fig-caption, figcaption');
+      if (cap) return cap.textContent.trim();
+    }
+    return img.getAttribute('alt') || '';
+  }
+
+  function enhance(img) {
+    if (img.dataset.zoomApplied) return;
+    if (!isTarget(img)) return;
+    img.dataset.zoomApplied = '1';
+    img.classList.add('img-zoomable');
+    img.addEventListener('click', function () {
+      open(img.currentSrc || img.src, captionFor(img), img.getAttribute('alt'));
+    });
+  }
+
+  function processAll() {
+    document.querySelectorAll('img').forEach(enhance);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', processAll);
+  } else {
+    processAll();
+  }
+})();
