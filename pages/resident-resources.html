@@ -571,6 +571,88 @@
       letter-spacing: 0.03em;
     }
 
+    /* ===== 道場：アコーディオン（トグル）＋菌種ツリー（細菌マップ準拠） ===== */
+    .dojo-intro {
+      font-size: 0.78rem;
+      color: var(--muted);
+      line-height: 1.7;
+      margin: 0 0 12px;
+    }
+    .dojo-intro a { color: var(--sys-dark, #5B21B6); font-weight: 700; text-decoration: none; }
+    .dojo-intro a:hover { text-decoration: underline; }
+    .dojo-acc {
+      border: 2px solid var(--sys-dark, #5B21B6);
+      box-shadow: 2px 2px 0 var(--sys-dark, #5B21B6);
+      background: #fff;
+      margin-bottom: 9px;
+    }
+    .dojo-acc > summary {
+      display: block;
+      position: relative;
+      list-style: none;
+      cursor: pointer;
+      padding: 11px 42px 11px 15px;
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: var(--sys-dark, #5B21B6);
+      -webkit-user-select: none;
+      user-select: none;
+    }
+    .dojo-acc > summary::-webkit-details-marker { display: none; }
+    .dojo-acc > summary::after {
+      content: '';
+      position: absolute;
+      right: 17px;
+      top: 50%;
+      width: 8px;
+      height: 8px;
+      border-right: 2.5px solid var(--sys-mid, #7C3AED);
+      border-bottom: 2.5px solid var(--sys-mid, #7C3AED);
+      transform: translateY(-65%) rotate(45deg);
+      transition: transform 0.18s ease;
+    }
+    .dojo-acc[open] > summary::after { transform: translateY(-30%) rotate(225deg); }
+    .dojo-acc[open] > summary {
+      background: color-mix(in srgb, var(--sys-light, #9F75F0) 13%, #fff);
+      border-bottom: 1.5px solid var(--sys-dark, #5B21B6);
+    }
+    .dojo-acc-en {
+      display: block;
+      font-size: 0.67rem;
+      font-weight: 700;
+      color: var(--muted);
+      letter-spacing: 0.02em;
+      margin-top: 2px;
+    }
+    .dojo-acc-body { padding: 4px 16px 14px; }
+    .dojo-genus { margin-top: 13px; }
+    .dojo-genus:first-child { margin-top: 6px; }
+    .dojo-genus-head {
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: var(--text);
+      margin: 0 0 5px;
+      padding-bottom: 4px;
+      border-bottom: 1px solid var(--border);
+    }
+    .dojo-genus-head em { font-style: italic; }
+    .dojo-tree ul { list-style: none; margin: 0; padding: 0; }
+    .dojo-tree li { font-size: 0.82rem; line-height: 1.7; padding: 1px 0; }
+    .dojo-tree ul ul { padding-left: 15px; margin: 2px 0; }
+    .dojo-tree a { color: var(--sys-dark, #5B21B6); font-weight: 700; text-decoration: none; }
+    .dojo-tree a:hover { text-decoration: underline; }
+    .dojo-tree em { font-style: italic; }
+    .dojo-note { font-size: 0.72rem; color: var(--muted); margin-left: 7px; }
+    .dojo-pending { color: #9CA3AF; }
+    .dojo-sublabel {
+      display: block;
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: var(--text);
+      margin: 7px 0 3px;
+    }
+    .dojo-sublabel-en { font-size: 0.66rem; font-weight: 600; color: var(--muted); margin-left: 6px; }
+
     /* ===== リソースカードグリッド（既存リソース集） ===== */
     .res-link-grid {
       display: grid;
@@ -1725,9 +1807,458 @@ ICUチームへ一言：</pre>
               ICU でよく使う抗菌薬と、起炎菌となる主要な細菌をまとめて整理します（順次公開）。
             </p>
             <div class="sys-subgroup">細菌道場</div>
-            <div class="qa-stack">
-              <div class="card qa-upcoming"><div class="card-inner"><h3 class="card-section-title">主要な細菌<span class="qa-badge-soon">準備中</span></h3></div></div>
-            </div>
+            <p class="dojo-intro">グラム染色の見え方から菌を絞り込む練習帳。各項目をタップすると分類ツリーが開きます。リンクのある菌は個別ページへ。<a href="bacteria-map.html">細菌マップで全体を見る →</a></p>
+
+            <details class="dojo-acc">
+              <summary>GPC cluster（ブドウ球菌）<span class="dojo-acc-en">Gram-positive cocci in clusters — Staphylococcus</span></summary>
+              <div class="dojo-acc-body dojo-tree">
+                <div class="dojo-genus">
+                  <h4 class="dojo-genus-head">ブドウ球菌属 <em>Staphylococcus</em></h4>
+                  <ul>
+                    <li><a href="bacteria/saureus.html"><em>S. aureus</em></a><span class="dojo-note">MSSA / MRSA</span></li>
+                    <li><a href="bacteria/sepi.html"><em>S. epidermidis</em></a><span class="dojo-note">CoNS</span></li>
+                    <li><a href="bacteria/ssap.html"><em>S. saprophyticus</em></a></li>
+                    <li><a href="bacteria/slug.html"><em>S. lugdunensis</em></a></li>
+                    <li><a href="bacteria/cons.html"><em>その他 CNS</em></a><span class="dojo-note">haemolyticus / capitis / hominis</span></li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="dojo-acc">
+              <summary>GPC chain・pairs（レンサ球菌・腸球菌）<span class="dojo-acc-en">Gram-positive cocci in chains / pairs — Streptococcus / Enterococcus</span></summary>
+              <div class="dojo-acc-body dojo-tree">
+                <div class="dojo-genus">
+                  <h4 class="dojo-genus-head">レンサ球菌属 <em>Streptococcus</em></h4>
+                  <ul>
+                    <li>
+                      <span class="dojo-sublabel">α溶血（不完全溶血）<span class="dojo-sublabel-en">α-hemolytic / viridans-type</span></span>
+                      <ul>
+                        <li><a href="bacteria/spneu.html"><em>S. pneumoniae</em></a><span class="dojo-note">肺炎球菌</span></li>
+                        <li><a href="bacteria/vgs.html"><em>Viridans group streptococci (VGS)</em></a>
+                          <ul>
+                            <li><a href="bacteria/sang.html"><em>S. anginosus</em> group</a>
+                              <ul>
+                                <li><span class="dojo-pending"><em>S. anginosus</em></span></li>
+                                <li><span class="dojo-pending"><em>S. intermedius</em></span></li>
+                                <li><span class="dojo-pending"><em>S. constellatus</em></span></li>
+                              </ul>
+                            </li>
+                            <li><span class="dojo-pending"><em>S. sanguinis</em> group</span></li>
+                            <li><a href="bacteria/smitis.html"><em>S. mitis</em> group</a></li>
+                            <li><span class="dojo-pending"><em>S. salivarius</em> group</span></li>
+                            <li><span class="dojo-pending"><em>S. mutans</em> group</span></li>
+                            <li><span class="dojo-pending"><em>S. vestibularis</em></span></li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </li>
+                    <li>
+                      <span class="dojo-sublabel">β溶血（完全溶血）<span class="dojo-sublabel-en">β-hemolytic — Lancefield 分類</span></span>
+                      <ul>
+                        <li><a href="bacteria/spyo.html"><em>S. pyogenes</em></a><span class="dojo-note">A群（GAS）</span></li>
+                        <li><a href="bacteria/saga.html"><em>S. agalactiae</em></a><span class="dojo-note">B群（GBS）</span></li>
+                        <li><a href="bacteria/sdys.html"><em>S. dysgalactiae</em></a><span class="dojo-note">C群（GCS）／ G群（GGS）</span></li>
+                        <li><span class="dojo-pending"><em>S. equi</em> subsp.</span><span class="dojo-note">C群</span></li>
+                      </ul>
+                    </li>
+                    <li>
+                      <span class="dojo-sublabel">γ溶血（非溶血）<span class="dojo-sublabel-en">γ / non-hemolytic — 旧 group D</span></span>
+                      <ul>
+                        <li><a href="bacteria/sbov.html"><em>S. bovis / gallolyticus</em> group</a>
+                          <ul>
+                            <li><span class="dojo-pending"><em>S. gallolyticus</em> subsp. <em>gallolyticus</em></span></li>
+                            <li><span class="dojo-pending"><em>S. gallolyticus</em> subsp. <em>pasteurianus</em></span></li>
+                            <li><span class="dojo-pending"><em>S. infantarius</em></span>
+                              <ul>
+                                <li><span class="dojo-pending">subsp. <em>infantarius</em></span></li>
+                                <li><span class="dojo-pending">subsp. <em>coli</em></span></li>
+                              </ul>
+                            </li>
+                          </ul>
+                        </li>
+                        <li><span class="dojo-pending">※ <em>Enterococcus</em>（旧 group D Strep）</span></li>
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
+                <div class="dojo-genus">
+                  <h4 class="dojo-genus-head">腸球菌属 <em>Enterococcus</em></h4>
+                  <ul>
+                    <li><a href="bacteria/efaecalis.html"><em>E. faecalis</em></a><span class="dojo-note">腸球菌</span></li>
+                    <li><a href="bacteria/efaecium.html"><em>E. faecium</em></a><span class="dojo-note">VRE</span></li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="dojo-acc">
+              <summary>その他の GPC<span class="dojo-acc-en">Other Gram-positive cocci</span></summary>
+              <div class="dojo-acc-body dojo-tree">
+                <div class="dojo-genus">
+                  <h4 class="dojo-genus-head">その他 GPC</h4>
+                  <ul>
+                    <li><a href="bacteria/abio.html"><em>Abiotrophia / Granulicatella</em></a></li>
+                    <li><span class="dojo-pending"><em>Micrococcus</em></span></li>
+                    <li><span class="dojo-pending"><em>Rothia</em></span></li>
+                    <li><span class="dojo-pending"><em>Gemella</em></span></li>
+                    <li><a href="bacteria/aerococcus.html"><em>Aerococcus</em></a></li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="dojo-acc">
+              <summary>GNR（グラム陰性桿菌）<span class="dojo-acc-en">Gram-negative rods — Enterobacterales / Non-fermenters</span></summary>
+              <div class="dojo-acc-body dojo-tree">
+                <p class="dojo-sublabel">腸内細菌目（Enterobacterales）</p>
+                <div class="dojo-genus">
+                  <h4 class="dojo-genus-head"><em>Escherichia</em></h4>
+                  <ul>
+                    <li><a href="bacteria/ecoli.html"><em>E. coli</em></a><span class="dojo-note">大腸菌</span></li>
+                    <li><span class="dojo-pending"><em>下痢原性 E. coli</em></span><span class="dojo-note">ETEC / EHEC / EPEC / EIEC / EAEC</span></li>
+                  </ul>
+                </div>
+                <div class="dojo-genus">
+                  <h4 class="dojo-genus-head"><em>Klebsiella</em></h4>
+                  <ul>
+                    <li><a href="bacteria/kpneu.html"><em>K. pneumoniae</em></a><span class="dojo-note">肺炎桿菌</span></li>
+                    <li><a href="bacteria/koxy.html"><em>K. oxytoca</em></a></li>
+                    <li><a href="bacteria/kaero.html"><em>K. aerogenes</em></a></li>
+                  </ul>
+                </div>
+                <div class="dojo-genus">
+                  <h4 class="dojo-genus-head"><em>Proteus</em></h4>
+                  <ul>
+                    <li><a href="bacteria/proteus.html"><em>P. mirabilis</em></a></li>
+                    <li><a href="bacteria/pvulg.html"><em>P. vulgaris</em></a></li>
+                  </ul>
+                </div>
+                <div class="dojo-genus">
+                  <h4 class="dojo-genus-head"><em>Enterobacter</em></h4>
+                  <ul>
+                    <li><a href="bacteria/enterobacter.html"><em>E. cloacae complex</em></a></li>
+                    <li><span class="dojo-pending"><em>E. asburiae</em></span></li>
+                  </ul>
+                </div>
+                <div class="dojo-genus">
+                  <h4 class="dojo-genus-head"><em>Serratia</em></h4>
+                  <ul>
+                    <li><a href="bacteria/serratia.html"><em>S. marcescens</em></a></li>
+                  </ul>
+                </div>
+                <div class="dojo-genus">
+                  <h4 class="dojo-genus-head"><em>Citrobacter</em></h4>
+                  <ul>
+                    <li><a href="bacteria/citrobacter.html"><em>C. freundii</em></a><span class="dojo-note">AmpC 産生</span></li>
+                    <li><a href="bacteria/ckoseri.html"><em>C. koseri</em></a></li>
+                  </ul>
+                </div>
+                <div class="dojo-genus">
+                  <h4 class="dojo-genus-head"><em>Morganella / Providencia</em></h4>
+                  <ul>
+                    <li><a href="bacteria/morgan.html"><em>M. morganii</em></a></li>
+                    <li><span class="dojo-pending"><em>P. stuartii</em></span></li>
+                  </ul>
+                </div>
+                <div class="dojo-genus">
+                  <h4 class="dojo-genus-head"><em>Salmonella</em></h4>
+                  <ul>
+                    <li><a href="bacteria/styphi.html"><em>S. typhi</em></a><span class="dojo-note">チフス菌</span></li>
+                    <li><a href="bacteria/sparat.html"><em>S. paratyphi</em></a><span class="dojo-note">パラチフス菌</span></li>
+                    <li><span class="dojo-pending"><em>S. enteritidis</em></span></li>
+                  </ul>
+                </div>
+                <div class="dojo-genus">
+                  <h4 class="dojo-genus-head"><em>Shigella</em></h4>
+                  <ul>
+                    <li><span class="dojo-pending"><em>S. sonnei</em></span></li>
+                    <li><span class="dojo-pending"><em>S. flexneri</em></span></li>
+                  </ul>
+                </div>
+                <div class="dojo-genus">
+                  <h4 class="dojo-genus-head"><em>Yersinia</em></h4>
+                  <ul>
+                    <li><span class="dojo-pending"><em>Y. pestis</em></span><span class="dojo-note">ペスト菌</span></li>
+                    <li><span class="dojo-pending"><em>Y. enterocolitica</em></span></li>
+                  </ul>
+                </div>
+                <p class="dojo-sublabel">ブドウ糖非発酵菌（Non-fermenters）</p>
+                <div class="dojo-genus">
+                  <h4 class="dojo-genus-head"><em>Pseudomonas</em></h4>
+                  <ul>
+                    <li><a href="bacteria/paerug.html"><em>P. aeruginosa</em></a><span class="dojo-note">緑膿菌</span></li>
+                    <li><span class="dojo-pending"><em>P. putida</em></span></li>
+                  </ul>
+                </div>
+                <div class="dojo-genus">
+                  <h4 class="dojo-genus-head"><em>Acinetobacter</em></h4>
+                  <ul>
+                    <li><a href="bacteria/acinetobacter.html"><em>A. baumannii</em></a><span class="dojo-note">CRAB</span></li>
+                    <li><span class="dojo-pending"><em>A. lwoffii</em></span></li>
+                  </ul>
+                </div>
+                <div class="dojo-genus">
+                  <h4 class="dojo-genus-head"><em>Stenotrophomonas</em></h4>
+                  <ul>
+                    <li><a href="bacteria/steno.html"><em>S. maltophilia</em></a></li>
+                  </ul>
+                </div>
+                <div class="dojo-genus">
+                  <h4 class="dojo-genus-head"><em>Burkholderia</em></h4>
+                  <ul>
+                    <li><a href="bacteria/bcepacia.html"><em>B. cepacia complex</em></a></li>
+                    <li><a href="bacteria/bpseudo.html"><em>B. pseudomallei</em></a></li>
+                  </ul>
+                </div>
+                <div class="dojo-genus">
+                  <h4 class="dojo-genus-head"><em>Achromobacter</em></h4>
+                  <ul>
+                    <li><a href="bacteria/achromobacter.html"><em>A. xylosoxidans</em></a><span class="dojo-note">多剤耐性</span></li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="dojo-acc">
+              <summary>GPR（グラム陽性桿菌）<span class="dojo-acc-en">Gram-positive rods — Bacillus / Listeria / Corynebacterium / Clostridium ほか</span></summary>
+              <div class="dojo-acc-body dojo-tree">
+                <div class="dojo-genus">
+                  <h4 class="dojo-genus-head"><em>Bacillus</em> 属</h4>
+                  <ul>
+                    <li><span class="dojo-pending"><em>B. anthracis</em></span><span class="dojo-note">炭疽菌</span></li>
+                    <li><a href="bacteria/bacillus.html"><em>B. cereus</em></a><span class="dojo-note">セレウス菌</span></li>
+                    <li><span class="dojo-pending"><em>B. subtilis</em></span></li>
+                  </ul>
+                </div>
+                <div class="dojo-genus">
+                  <h4 class="dojo-genus-head"><em>Listeria</em> 属</h4>
+                  <ul>
+                    <li><a href="bacteria/listeria.html"><em>L. monocytogenes</em></a><span class="dojo-note">リステリア菌</span></li>
+                  </ul>
+                </div>
+                <div class="dojo-genus">
+                  <h4 class="dojo-genus-head"><em>Corynebacterium</em> 属</h4>
+                  <ul>
+                    <li><a href="bacteria/cdiph.html"><em>C. diphtheriae</em></a><span class="dojo-note">ジフテリア菌</span></li>
+                    <li><a href="bacteria/cjeikeium.html"><em>C. jeikeium</em></a></li>
+                    <li><a href="bacteria/cstri.html"><em>C. striatum</em></a></li>
+                    <li><span class="dojo-pending"><em>C. amycolatum</em></span></li>
+                  </ul>
+                </div>
+                <div class="dojo-genus">
+                  <h4 class="dojo-genus-head"><em>Cutibacterium</em></h4>
+                  <ul>
+                    <li><a href="bacteria/cacnes.html"><em>C. acnes</em></a><span class="dojo-note">アクネ菌</span></li>
+                  </ul>
+                </div>
+                <div class="dojo-genus">
+                  <h4 class="dojo-genus-head"><em>Clostridioides</em> 属</h4>
+                  <ul>
+                    <li><a href="bacteria/cdiff.html"><em>C. difficile</em></a><span class="dojo-note">ディフィシル菌</span></li>
+                  </ul>
+                </div>
+                <div class="dojo-genus">
+                  <h4 class="dojo-genus-head"><em>Clostridium</em> 属</h4>
+                  <ul>
+                    <li><a href="bacteria/cperf.html"><em>C. perfringens</em></a><span class="dojo-note">ウェルシュ菌</span></li>
+                    <li><a href="bacteria/ctetani.html"><em>C. tetani</em></a><span class="dojo-note">破傷風菌</span></li>
+                    <li><a href="bacteria/cbot.html"><em>C. botulinum</em></a><span class="dojo-note">ボツリヌス菌</span></li>
+                    <li><a href="bacteria/csept.html"><em>C. septicum</em></a></li>
+                  </ul>
+                </div>
+                <div class="dojo-genus">
+                  <h4 class="dojo-genus-head">分枝桿菌様 GPR</h4>
+                  <ul>
+                    <li><a href="bacteria/nocardia.html"><em>Nocardia</em></a></li>
+                    <li><a href="bacteria/actinomyces.html"><em>Actinomyces</em></a></li>
+                  </ul>
+                </div>
+                <div class="dojo-genus">
+                  <h4 class="dojo-genus-head">その他 GPR</h4>
+                  <ul>
+                    <li><span class="dojo-pending"><em>Lactobacillus</em></span></li>
+                    <li><span class="dojo-pending"><em>Erysipelothrix rhusiopathiae</em></span></li>
+                    <li><span class="dojo-pending"><em>Tropheryma whipplei</em></span></li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="dojo-acc">
+              <summary>GNC（グラム陰性球菌）<span class="dojo-acc-en">Gram-negative cocci — Neisseria / Moraxella</span></summary>
+              <div class="dojo-acc-body dojo-tree">
+                <div class="dojo-genus">
+                  <h4 class="dojo-genus-head"><em>Neisseria</em> 属</h4>
+                  <ul>
+                    <li><a href="bacteria/nmen.html"><em>N. meningitidis</em></a><span class="dojo-note">髄膜炎菌</span></li>
+                    <li><a href="bacteria/ngon.html"><em>N. gonorrhoeae</em></a><span class="dojo-note">淋菌</span></li>
+                  </ul>
+                </div>
+                <div class="dojo-genus">
+                  <h4 class="dojo-genus-head"><em>Moraxella</em> 属</h4>
+                  <ul>
+                    <li><a href="bacteria/moraxella.html"><em>M. catarrhalis</em></a></li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="dojo-acc">
+              <summary>嫌気性菌（Anaerobes）<span class="dojo-acc-en">Bacteroides / Prevotella / Fusobacterium / 嫌気性 GPC ほか</span></summary>
+              <div class="dojo-acc-body dojo-tree">
+                <div class="dojo-genus">
+                  <h4 class="dojo-genus-head"><em>Bacteroides</em> 属</h4>
+                  <ul>
+                    <li><a href="bacteria/bfragilis.html"><em>B. fragilis</em></a></li>
+                    <li><span class="dojo-pending"><em>B. thetaiotaomicron</em></span></li>
+                  </ul>
+                </div>
+                <div class="dojo-genus">
+                  <h4 class="dojo-genus-head"><em>Prevotella</em> 属</h4>
+                  <ul>
+                    <li><a href="bacteria/prevotella.html"><em>P. melaninogenica</em></a></li>
+                  </ul>
+                </div>
+                <div class="dojo-genus">
+                  <h4 class="dojo-genus-head"><em>Porphyromonas</em> 属</h4>
+                  <ul>
+                    <li><span class="dojo-pending"><em>P. asaccharolytica</em></span></li>
+                  </ul>
+                </div>
+                <div class="dojo-genus">
+                  <h4 class="dojo-genus-head"><em>Fusobacterium</em> 属</h4>
+                  <ul>
+                    <li><a href="bacteria/fnec.html"><em>F. necrophorum</em></a></li>
+                    <li><span class="dojo-pending"><em>F. nucleatum</em></span></li>
+                  </ul>
+                </div>
+                <div class="dojo-genus">
+                  <h4 class="dojo-genus-head">嫌気性 GPC</h4>
+                  <ul>
+                    <li><a href="bacteria/anaerogpc.html"><em>Peptostreptococcus</em></a></li>
+                    <li><span class="dojo-pending"><em>Finegoldia magna</em></span></li>
+                    <li><span class="dojo-pending"><em>Parvimonas micra</em></span></li>
+                    <li><span class="dojo-pending"><em>Peptoniphilus / Anaerococcus</em></span></li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="dojo-acc">
+              <summary>抗酸菌（Mycobacteria）<span class="dojo-acc-en">M. tuberculosis complex / NTM / M. leprae</span></summary>
+              <div class="dojo-acc-body dojo-tree">
+                <div class="dojo-genus">
+                  <h4 class="dojo-genus-head">M. tuberculosis complex</h4>
+                  <ul>
+                    <li><a href="bacteria/tb.html"><em>M. tuberculosis</em></a><span class="dojo-note">結核菌</span></li>
+                    <li><span class="dojo-pending"><em>M. bovis</em></span></li>
+                  </ul>
+                </div>
+                <div class="dojo-genus">
+                  <h4 class="dojo-genus-head">ハンセン病</h4>
+                  <ul>
+                    <li><span class="dojo-pending"><em>M. leprae</em></span><span class="dojo-note">らい菌</span></li>
+                  </ul>
+                </div>
+                <div class="dojo-genus">
+                  <h4 class="dojo-genus-head">非結核性抗酸菌（NTM）</h4>
+                  <ul>
+                    <li><span class="dojo-pending"><em>M. avium complex (MAC)</em></span></li>
+                    <li><span class="dojo-pending"><em>M. kansasii</em></span></li>
+                    <li><span class="dojo-pending"><em>M. abscessus</em></span><span class="dojo-note">多剤耐性</span></li>
+                    <li><span class="dojo-pending"><em>M. chelonae</em></span></li>
+                    <li><span class="dojo-pending"><em>M. fortuitum</em></span></li>
+                    <li><span class="dojo-pending"><em>M. marinum</em></span></li>
+                    <li><span class="dojo-pending"><em>M. ulcerans</em></span></li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="dojo-acc">
+              <summary>細胞内寄生菌・スピロヘータ（Atypicals）<span class="dojo-acc-en">Mycoplasma / Chlamydia / Legionella / Spirochetes ほか</span></summary>
+              <div class="dojo-acc-body dojo-tree">
+                <div class="dojo-genus">
+                  <h4 class="dojo-genus-head"><em>Mycoplasma</em> 属</h4>
+                  <ul>
+                    <li><span class="dojo-pending"><em>M. pneumoniae</em></span><span class="dojo-note">マイコプラズマ</span></li>
+                    <li><span class="dojo-pending"><em>M. hominis</em></span></li>
+                    <li><span class="dojo-pending"><em>M. genitalium</em></span></li>
+                  </ul>
+                </div>
+                <div class="dojo-genus">
+                  <h4 class="dojo-genus-head"><em>Ureaplasma</em></h4>
+                  <ul>
+                    <li><span class="dojo-pending"><em>U. urealyticum</em></span></li>
+                  </ul>
+                </div>
+                <div class="dojo-genus">
+                  <h4 class="dojo-genus-head"><em>Chlamydia / Chlamydophila</em></h4>
+                  <ul>
+                    <li><span class="dojo-pending"><em>C. trachomatis / pneumoniae</em></span><span class="dojo-note">クラミジア</span></li>
+                    <li><span class="dojo-pending"><em>C. psittaci</em></span></li>
+                  </ul>
+                </div>
+                <div class="dojo-genus">
+                  <h4 class="dojo-genus-head"><em>Rickettsia</em></h4>
+                  <ul>
+                    <li><span class="dojo-pending"><em>R. rickettsii</em></span></li>
+                    <li><span class="dojo-pending"><em>R. prowazekii</em></span></li>
+                    <li><span class="dojo-pending"><em>R. typhi</em></span></li>
+                  </ul>
+                </div>
+                <div class="dojo-genus">
+                  <h4 class="dojo-genus-head"><em>Coxiella</em></h4>
+                  <ul>
+                    <li><span class="dojo-pending"><em>C. burnetii</em></span></li>
+                  </ul>
+                </div>
+                <div class="dojo-genus">
+                  <h4 class="dojo-genus-head"><em>Bartonella</em></h4>
+                  <ul>
+                    <li><span class="dojo-pending"><em>B. henselae</em></span></li>
+                    <li><span class="dojo-pending"><em>B. quintana</em></span></li>
+                  </ul>
+                </div>
+                <div class="dojo-genus">
+                  <h4 class="dojo-genus-head"><em>Legionella</em></h4>
+                  <ul>
+                    <li><span class="dojo-pending"><em>L. pneumophila</em></span><span class="dojo-note">レジオネラ菌</span></li>
+                    <li><span class="dojo-pending"><em>L. micdadei</em></span></li>
+                  </ul>
+                </div>
+                <div class="dojo-genus">
+                  <h4 class="dojo-genus-head"><em>Treponema</em></h4>
+                  <ul>
+                    <li><span class="dojo-pending"><em>T. pallidum</em></span><span class="dojo-note">梅毒トレポネーマ</span></li>
+                    <li><span class="dojo-pending"><em>T. pertenue</em></span></li>
+                  </ul>
+                </div>
+                <div class="dojo-genus">
+                  <h4 class="dojo-genus-head"><em>Borrelia</em></h4>
+                  <ul>
+                    <li><span class="dojo-pending"><em>B. burgdorferi</em></span><span class="dojo-note">ライム病ボレリア</span></li>
+                    <li><span class="dojo-pending"><em>B. recurrentis</em></span></li>
+                    <li><span class="dojo-pending"><em>B. miyamotoi</em></span></li>
+                  </ul>
+                </div>
+                <div class="dojo-genus">
+                  <h4 class="dojo-genus-head"><em>Leptospira</em></h4>
+                  <ul>
+                    <li><span class="dojo-pending"><em>L. interrogans</em></span><span class="dojo-note">レプトスピラ</span></li>
+                  </ul>
+                </div>
+                <div class="dojo-genus">
+                  <h4 class="dojo-genus-head">その他</h4>
+                  <ul>
+                    <li><span class="dojo-pending"><em>Bordetella pertussis</em></span><span class="dojo-note">百日咳菌</span></li>
+                    <li><span class="dojo-pending"><em>Francisella tularensis</em></span><span class="dojo-note">野兎病菌</span></li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
             <div class="sys-subgroup">抗菌薬道場</div>
             <div class="qa-stack">
               <div class="card qa-upcoming"><div class="card-inner"><h3 class="card-section-title">ペニシリン系<span class="qa-badge-soon">準備中</span></h3></div></div>
