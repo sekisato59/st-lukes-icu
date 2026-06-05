@@ -10,17 +10,17 @@
  */
 const RECENT_PAGES = [
   {
-    title: "嫌気性菌 — 板書ノート | ID×ICUカンファレンス",
-    url: "pages/id-icu-notes/note-anaerobic.html",
-    date: "2026-06-05",
-    tag: "解説",
-    thumb: "images/IDICUtop.png"
-  },
-  {
     title: "イーグル効果と抗菌薬誘発性持続性 — Trends in Microbiology 2019",
     url: "pages/articles-gl-eagle-effect2019.html",
     date: "2026-06-05",
     tag: "論文",
+    thumb: "images/IDICUtop.png"
+  },
+  {
+    title: "嫌気性菌 — 板書ノート | ID×ICUカンファレンス",
+    url: "pages/id-icu-notes/note-anaerobic.html",
+    date: "2026-06-05",
+    tag: "解説",
     thumb: "images/IDICUtop.png"
   },
   {
