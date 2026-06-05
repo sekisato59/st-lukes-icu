@@ -17,6 +17,13 @@ const RECENT_PAGES = [
     thumb: "images/IDICUtop.png"
   },
   {
+    title: "イーグル効果と抗菌薬誘発性持続性 — Trends in Microbiology 2019",
+    url: "pages/articles-gl-eagle-effect2019.html",
+    date: "2026-06-05",
+    tag: "論文",
+    thumb: "images/IDICUtop.png"
+  },
+  {
     title: "クリプトコッカス髄膜炎 L-AmB短期 vs 長期投与 OFID 2026",
     url: "pages/articles-gl-cm-lamb2026.html",
     date: "2026-06-05",
