@@ -764,6 +764,23 @@
          タブをナビバー直下に置き、タブより上にスクロール可能な領域を作らない。 */
       .res-titlebar { display: none; }
     }
+
+    /* ── モバイル システム選択 FAB / ドロワー（論文GLまとめと同様）── */
+    .res-fab { display:none;position:fixed;bottom:24px;right:20px;z-index:900;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#1D4ED8,#1269B0);color:#fff;border:none;box-shadow:0 4px 14px rgba(0,0,0,0.3);cursor:pointer;align-items:center;justify-content:center; }
+    @media (max-width:900px) { .res-fab { display:flex; } }
+    .res-fab-overlay { display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:910;opacity:0;transition:opacity 0.3s; }
+    .res-fab-overlay.open { opacity:1; }
+    .res-fab-drawer { display:none;position:fixed;bottom:0;left:0;right:0;z-index:920;background:#fff;border-radius:16px 16px 0 0;box-shadow:0 -4px 20px rgba(0,0,0,0.15);max-height:72vh;overflow-y:auto;transform:translateY(100%);transition:transform 0.3s; }
+    .res-fab-drawer.open { transform:translateY(0); }
+    .res-fab-handle { width:36px;height:4px;background:#D1D5DB;border-radius:2px;margin:10px auto 6px; }
+    .res-fab-title { font-size:0.72rem;font-weight:800;color:var(--muted);letter-spacing:0.1em;padding:4px 20px 10px;border-bottom:1px solid var(--border); }
+    .res-fab-links { padding:8px 0 max(8px, env(safe-area-inset-bottom)); }
+    .res-fab-links button { display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:13px 20px;font-size:0.9rem;font-weight:600;color:var(--text);background:none;border:none;border-bottom:1px solid #F1F5F9;cursor:pointer;font-family:inherit; }
+    .res-fab-links button:last-child { border-bottom:none; }
+    .res-fab-links button:active { background:#F1F5F9; }
+    .res-fab-links button.current { color:#1269B0; }
+    .res-fab-dot { width:10px;height:10px;border-radius:50%;flex-shrink:0; }
+    .res-fab-links button.current .res-fab-check { margin-left:auto;font-size:0.78rem;color:#1269B0; }
   </style>
 </head>
 <body>
@@ -2156,6 +2173,92 @@ ICUチームへ一言：</pre>
           });
         });
     });
+  })();
+  </script>
+
+  <!-- ===== モバイル システム選択 FAB / ドロワー ===== -->
+  <button class="res-fab" id="resFab" aria-label="システムを選択">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </button>
+  <div class="res-fab-overlay" id="resFabOverlay"></div>
+  <div class="res-fab-drawer" id="resFabDrawer">
+    <div class="res-fab-handle"></div>
+    <div class="res-fab-title">システムを選択</div>
+    <div class="res-fab-links" id="resFabLinks"></div>
+  </div>
+
+  <script>
+  (function(){
+    var fab = document.getElementById('resFab');
+    var overlay = document.getElementById('resFabOverlay');
+    var drawer = document.getElementById('resFabDrawer');
+    var linksWrap = document.getElementById('resFabLinks');
+    if(!fab || !drawer || !linksWrap) return;
+
+    var COLORS = {
+      onboard:'#1269B0', neuro:'#2563EB', cv:'#B91C1C', resp:'#0369A1',
+      renal:'#14532D', gi:'#92400E', heme:'#881337', id:'#6D28D9',
+      nutr:'#15803D', msk:'#57534E', prev:'#1D4ED8'
+    };
+
+    // タブボタンからドロワーの項目を生成
+    var tabs = document.querySelectorAll('.res-tab');
+    tabs.forEach(function(tab){
+      var id = tab.dataset.tab;
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      var dot = document.createElement('span');
+      dot.className = 'res-fab-dot';
+      dot.style.background = COLORS[id] || '#1269B0';
+      var label = document.createElement('span');
+      label.textContent = tab.textContent.trim();
+      var check = document.createElement('span');
+      check.className = 'res-fab-check';
+      check.textContent = '✓';
+      btn.appendChild(dot);
+      btn.appendChild(label);
+      btn.appendChild(check);
+      btn.addEventListener('click', function(){
+        tab.click();              // 既存のタブ切替ロジックを再利用
+        closeDr();
+        window.scrollTo({ top: 0, behavior: 'auto' });
+      });
+      btn._tabId = id;
+      linksWrap.appendChild(btn);
+    });
+
+    function markCurrent(){
+      var activeTab = document.querySelector('.res-tab.active');
+      var activeId = activeTab ? activeTab.dataset.tab : null;
+      linksWrap.querySelectorAll('button').forEach(function(b){
+        b.classList.toggle('current', b._tabId === activeId);
+      });
+    }
+
+    function openDr(){
+      markCurrent();
+      overlay.style.display = 'block';
+      drawer.style.display = 'block';
+      requestAnimationFrame(function(){
+        overlay.classList.add('open');
+        drawer.classList.add('open');
+      });
+    }
+    function closeDr(){
+      overlay.classList.remove('open');
+      drawer.classList.remove('open');
+      setTimeout(function(){ overlay.style.display='none'; drawer.style.display='none'; }, 300);
+    }
+
+    fab.addEventListener('click', openDr);
+    overlay.addEventListener('click', closeDr);
+
+    // 下スワイプで閉じる
+    var startY = 0;
+    drawer.addEventListener('touchstart', function(e){ startY = e.touches[0].clientY; }, {passive:true});
+    drawer.addEventListener('touchmove', function(e){
+      if(e.touches[0].clientY - startY > 60) closeDr();
+    }, {passive:true});
   })();
   </script>
 
