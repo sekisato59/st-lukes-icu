@@ -93,6 +93,8 @@
       border-bottom: 2px solid #C4B5FD;
       margin: 0 0 10px;
     }
+    /* 見出し: ● はタイトルと同じ左端(x=0)。見出しテキストは本文と同じ x=18 から開始する
+       hanging-indent（padding-left と text-indent で ● だけを左端に出す）*/
     .card-inner h4.sub-head {
       font-size: 0.95rem;
       font-weight: 900;
@@ -100,13 +102,17 @@
       margin: 14px 0 6px;
       letter-spacing: 0.02em;
       line-height: 1.4;
+      padding-left: 18px;
+      text-indent: -18px;
     }
-    /* ● を左余白へぶら下げ、見出しテキストの開始位置を本文(x=0)に揃える
-       （負の margin-left で ● を左に出し、margin-right で本文が x=0 から始まるよう相殺）*/
-    .card-inner h4.sub-head::before { content: none; }
+    .card-inner h4.sub-head::before {
+      content: '●'; color: #7C3AED; font-size: 0.62rem;
+      margin-right: 8px; vertical-align: 1px;
+    }
     .card-inner h4.sub-head:first-child { margin-top: 0; }
 
     /* ====== 本文 ====== */
+    /* 本文（直下のprose）は見出しテキストと同じ x=18 に揃える */
     .card-inner .rule-body,
     .card-inner ul li,
     .card-inner ol li,
@@ -114,6 +120,7 @@
       color: #475569;
       line-height: 1.7;
     }
+    .card-inner > .rule-body, .card-inner > p { padding-left: 18px; }
     .card-inner p { margin: 4px 0; }
     .card-inner ul, .card-inner ol {
       list-style: disc;
