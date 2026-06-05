@@ -17,6 +17,13 @@ const RECENT_PAGES = [
     thumb: "images/IDICUtop.png"
   },
   {
+    title: "セフトロザン/タゾバクタム vs セフタジジム/アビバクタム — MDR緑膿菌感染症のSR・メタ解析（IJID 2026）",
+    url: "pages/articles-gl-ct-cza-psa2026.html",
+    date: "2026-06-05",
+    tag: "ガイドライン",
+    thumb: "images/IDICUtop.png"
+  },
+  {
     title: "嫌気性菌 — 板書ノート | ID×ICUカンファレンス",
     url: "pages/id-icu-notes/note-anaerobic.html",
     date: "2026-06-05",
