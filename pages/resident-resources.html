@@ -636,32 +636,37 @@
       border-bottom: 1px solid var(--border);
     }
     .dojo-genus-head em { font-style: italic; }
-    /* 階層を示すツリー罫線（細菌マップ準拠） */
-    .dojo-tree ul { list-style: none; margin: 0; padding: 0 0 0 6px; }
-    .dojo-tree ul ul { padding-left: 14px; margin: 4px 0 2px; }
+    /* 階層を示すツリー罫線（連続した縦スパイン＋L字コネクタ） */
+    .dojo-tree ul {
+      list-style: none;
+      margin: 0;
+      padding-left: 14px;
+      border-left: 1.5px solid #CBD5E1;
+    }
+    .dojo-tree ul ul { margin: 2px 0; }
     .dojo-tree li {
       position: relative;
-      padding: 4px 0 4px 18px;
+      padding: 4px 0;
       font-size: 0.82rem;
       line-height: 1.55;
-      border-left: 1.5px solid #CBD5E1;
     }
     .dojo-tree li::before {
       content: '';
       position: absolute;
-      left: -1.5px;
+      left: -14px;
       top: 0.9em;
-      width: 14px;
+      width: 12px;
       border-top: 1.5px solid #CBD5E1;
     }
-    .dojo-tree li:last-child { border-left-color: transparent; }
+    /* 最終項目より下に伸びる縦線をエルボーで止める（背景色でマスク） */
     .dojo-tree li:last-child::after {
       content: '';
       position: absolute;
-      left: -1.5px;
-      top: 0;
-      height: 0.9em;
-      border-left: 1.5px solid #CBD5E1;
+      left: -15.5px;
+      top: calc(0.9em + 1px);
+      bottom: -3px;
+      width: 3px;
+      background: #fff;
     }
     .dojo-tree a { color: var(--sys-dark, #5B21B6); font-weight: 700; text-decoration: none; }
     .dojo-tree a:hover { text-decoration: underline; }
