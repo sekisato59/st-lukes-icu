@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>嫌気性菌 — 板書ノート | ID×ICUカンファレンス | 聖路加ICU</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../style-v2.css?v=20260609">
+  <style>
+    /* ===== ID×ICU 板書ノート 専用テーマ ===== */
+    .gl-chapter-banner {
+      background: linear-gradient(150deg, #2E1065 0%, #6D28D9 100%) !important;
+    }
+    .section-label.icu { color: #7C3AED; }
+
+    /* ===== バナー画像 + テキストオーバーレイ ===== */
+    .vap-banner {
+      position: relative;
+      width: 100%;
+      max-width: 1294px;
+      margin: 64px auto 0;
+      line-height: 0;
+    }
+    .vap-banner-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 85%, transparent 100%);
+      mask-image: linear-gradient(to bottom, #000 0%, #000 85%, transparent 100%);
+    }
+    .vap-banner-overlay {
+      position: absolute;
+      left: 5%;
+      top: 50%;
+      transform: translateY(-50%);
+      max-width: 55%;
+      line-height: 1.4;
+    }
+    .vap-banner-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+    .vap-banner-tags span {
+      display: inline-block;
+      background: rgba(245,243,255,0.85);
+      color: #4C1D95;
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 4px;
+      letter-spacing: 0.04em;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
+    .vap-banner-title {
+      font-size: clamp(1.1rem, 2.6vw, 1.6rem);
+      font-weight: 900;
+      line-height: 1.35;
+      margin: 0 0 6px;
+      color: #4C1D95;
+    }
+    .vap-banner-sub {
+      font-size: clamp(0.78rem, 1.4vw, 0.92rem);
+      font-weight: 700;
+      color: #6D28D9;
+      margin: 0 0 6px;
+    }
+    .vap-banner-lecturer {
+      font-size: clamp(0.72rem, 1.2vw, 0.82rem);
+      color: #7C3AED;
+      margin: 0;
+    }
+
+    @media (max-width: 900px) {
+      .vap-banner-overlay { max-width: 60%; left: 4%; top: 45%; }
+    }
+    @media (max-width: 600px) {
+      .vap-banner { line-height: 1.4; }
+      .vap-banner-overlay {
+        position: static;
+        transform: none;
+        max-width: 100%;
+        padding: 12px 18px 4px;
+      }
+    }
+
+    /* ====== 見出し階層 ====== */
+    .card-inner h3.rule-title {
+      font-size: 0.98rem;
+      color: var(--text);
+      padding-bottom: 6px;
+      border-bottom: 2px solid #C4B5FD;
+      margin: 0 0 10px;
+    }
+    .card-inner h4.sub-head {
+      font-size: 0.95rem;
+      font-weight: 900;
+      color: #4C1D95;
+      margin: 14px 0 6px;
+      letter-spacing: 0.02em;
+      line-height: 1.4;
+    }
+    .card-inner h4.sub-head::before {
+      content: '●'; color: #7C3AED; margin-right: 8px; font-size: 0.78rem;
+      vertical-align: 1px;
+    }
+    .card-inner h4.sub-head:first-child { margin-top: 0; }
+
+    /* ====== 本文 ====== */
+    .card-inner .rule-body,
+    .card-inner ul li,
+    .card-inner ol li,
+    .card-inner p {
+      color: #475569;
+      line-height: 1.7;
+    }
+    .card-inner p { margin: 4px 0; }
+    .card-inner ul, .card-inner ol {
+      list-style: disc;
+      padding-left: 26px;
+      margin: 4px 0 8px;
+    }
+    .card-inner ol { list-style: decimal; }
+    .card-inner ul li, .card-inner ol li { margin-bottom: 3px; }
+    .card-inner ul li::marker { color: #C4B5FD; }
+    .card-inner ol li::marker { color: #7C3AED; font-weight: 700; }
+    .card-inner strong { color: var(--text); font-weight: 700; }
+    .card-inner em { font-style: italic; color: #1F2937; }
+
+    /* ====== 警告/注意/ポイントボックス ====== */
+    .keypoint {
+      background: #FFFBEB; border: 1px solid #FDE68A; border-radius: 6px;
+      padding: 8px 12px; margin: 8px 0; font-size: 0.82rem; line-height: 1.65; color: #78350F;
+    }
+    .keypoint::before {
+      content: '注意'; display: inline-block;
+      background: #F59E0B; color: #fff; font-size: 0.64rem; font-weight: 800;
+      padding: 1px 7px; border-radius: 3px; margin-right: 8px;
+      letter-spacing: 0.06em;
+    }
+    .keypoint strong { color: #92400E; }
+
+    .danger {
+      background: #FEF2F2; border: 1px solid #FECACA; border-radius: 6px;
+      padding: 8px 12px; margin: 8px 0; font-size: 0.82rem; line-height: 1.65; color: #7F1D1D;
+    }
+    .danger::before {
+      content: '警告'; display: inline-block;
+      background: #DC2626; color: #fff; font-size: 0.64rem; font-weight: 800;
+      padding: 1px 7px; border-radius: 3px; margin-right: 8px;
+      letter-spacing: 0.06em;
+    }
+    .danger strong { color: #7F1D1D; }
+
+    .point {
+      background: #F0FDF4; border: 1px solid #BBF7D0; border-radius: 6px;
+      padding: 8px 12px; margin: 8px 0; font-size: 0.82rem; line-height: 1.65; color: #14532D;
+    }
+    .point::before {
+      content: 'ポイント'; display: inline-block;
+      background: #16A34A; color: #fff; font-size: 0.64rem; font-weight: 800;
+      padding: 1px 7px; border-radius: 3px; margin-right: 8px;
+      letter-spacing: 0.06em;
+    }
+    .point strong { color: #14532D; }
+
+    /* ====== SNAP / 頭文字ボックス ====== */
+    .mnemonic-box {
+      background: #F5F3FF; border: 1px solid #C4B5FD; border-radius: 8px;
+      padding: 12px 16px; margin: 8px 0;
+    }
+    .mnemonic-title {
+      font-size: 0.84rem; font-weight: 800; color: #4C1D95;
+      margin-bottom: 8px; padding-bottom: 5px;
+      border-bottom: 1px solid #DDD6FE;
+      letter-spacing: 0.04em;
+    }
+    .mnemonic-row {
+      display: flex; align-items: baseline; padding: 4px 0;
+      font-size: 0.84rem; color: #1F2937; gap: 10px;
+    }
+    .mnemonic-acro {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-width: 28px; height: 22px; background: #7C3AED; color: #fff;
+      border-radius: 4px; font-weight: 800; font-size: 0.78rem; flex-shrink: 0;
+      font-family: ui-monospace, Menlo, Consolas, monospace;
+    }
+    .mnemonic-sub {
+      font-size: 0.75rem; color: #6B7280; margin-left: 6px; font-style: italic;
+    }
+
+    /* ====== 引用元リンクカード ====== */
+    .source-link-bar {
+      background: #F8F5FF; border: 1px solid #DDD6FE; border-radius: 6px;
+      padding: 7px 14px; margin-bottom: 12px;
+      font-size: 0.76rem; color: #6D28D9; line-height: 1.6;
+      display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+    }
+    .source-link-bar::before {
+      content: '引用元'; display: inline-block;
+      background: #7C3AED; color: #fff; font-size: 0.62rem; font-weight: 800;
+      padding: 1px 7px; border-radius: 3px; letter-spacing: 0.06em; flex-shrink: 0;
+    }
+    .source-link-bar a {
+      color: #4C1D95; font-weight: 700; text-decoration: none;
+    }
+    .source-link-bar a:hover { text-decoration: underline; }
+
+    /* ====== 嫌気性菌カバー早見表 ====== */
+    .anae-cov-wrap { overflow-x: auto; margin: 10px 0 0; }
+    .anae-cov {
+      width: 100%; border-collapse: collapse; font-size: 0.85rem;
+      font-variant-numeric: tabular-nums;
+    }
+    .anae-cov th {
+      background: #F5F3FF; color: #4C1D95; font-weight: 700;
+      padding: 8px 8px; text-align: center; font-size: 0.78rem;
+      border-bottom: 1px solid var(--border); white-space: nowrap;
+    }
+    .anae-cov th:first-child { text-align: left; padding-left: 14px; min-width: 200px; }
+    .anae-cov td {
+      padding: 8px 8px; border-bottom: 1px solid #E2E8F0;
+      text-align: center; color: #1E293B; font-weight: 500;
+    }
+    .anae-cov td:first-child {
+      text-align: left; padding-left: 14px;
+      font-style: italic; font-weight: 600; color: #4C1D95;
+    }
+    .anae-cov tr:last-child td { border-bottom: none; }
+    .anae-cov .dia-row td {
+      background: linear-gradient(135deg, #4C1D95, #7C3AED);
+      color: #fff; font-weight: 700; text-align: left;
+      font-style: normal; font-size: 0.78rem;
+      letter-spacing: 0.06em; padding: 6px 14px;
+    }
+    .anae-cov .ana { font-weight: 700; font-size: 1.05rem; line-height: 1; }
+    .anae-cov .ana-best { background: #7DD3FC; color: #0C4A6E; }
+    .anae-cov .ana-good { background: #DCFCE7; color: #15803D; }
+    .anae-cov .ana-mid  { background: #FED7AA; color: #9A3412; }
+    .anae-cov .ana-low  { background: #FECACA; color: #991B1B; font-size: 0.86rem; }
+    .anae-cov .ana-mlow { background: #FEF08A; color: #854D0E; font-size: 0.86rem; }
+    .anae-cov-legend {
+      display: flex; flex-wrap: wrap; gap: 14px 18px;
+      padding: 10px 12px 0; font-size: 0.76rem; color: #475569;
+      align-items: center;
+    }
+    .anae-cov-legend .ana-leg {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-width: 32px; height: 24px; padding: 0 8px; border-radius: 4px;
+      font-weight: 700; margin-right: 6px; font-size: 0.86rem;
+    }
+    @media (max-width: 768px) {
+      .anae-cov { font-size: 0.78rem; }
+      .anae-cov th { font-size: 0.72rem; padding: 6px 5px; }
+      .anae-cov td { padding: 6px 5px; font-size: 0.78rem; }
+      .anae-cov th:first-child,
+      .anae-cov td:first-child { padding-left: 10px; min-width: 130px; }
+      .anae-cov .ana { font-size: 0.95rem; }
+      .anae-cov .ana-low, .anae-cov .ana-mlow { font-size: 0.7rem; }
+      .anae-cov-legend { font-size: 0.7rem; gap: 10px; }
+    }
+
+    /* ====== ie-table ====== */
+    .card-inner .ie-table td { color: #475569; }
+    .card-inner .ie-table th { color: var(--text); }
+    .card-inner .ie-table strong { color: var(--text); }
+
+    /* card 余白 */
+    .card .card-inner { padding: 14px 18px; }
+    .card { margin-bottom: 12px !important; }
+    .gl-chapter-banner { margin-top: 32px !important; padding: 14px 20px !important; }
+    .gl-chapter-banner.first { margin-top: 8px !important; }
+    .gl-chapter-banner .gl-chapter-title { font-size: 1.15rem !important; }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="../../index.html" class="nav-logo">
+        <img src="../../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+        <span class="nav-logo-text">聖路加国際病院ICU</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-menu" id="navMenu"></ul>
+    </div>
+  </nav>
+
+  <!-- ===== HEADER ===== -->
+  <div class="vap-banner">
+    <img src="../../images/headerID*ICUpage.png" alt="ID×ICUカンファレンス 板書ノート" class="vap-banner-img">
+    <div class="vap-banner-overlay">
+      <div class="vap-banner-tags">
+        <span>ID×ICU カンファレンス</span>
+        <span>2026年6月</span>
+        <span>感染症 / 嫌気性菌</span>
+      </div>
+      <h1 class="vap-banner-title">嫌気性菌 — 板書ノート</h1>
+      <p class="vap-banner-sub">抗菌薬の嫌気性菌カバー早見表 ／ Nocardia・Actinomyces（SNAP）</p>
+      <p class="vap-banner-lecturer">レジュメ作成：ICU 関谷</p>
+    </div>
+  </div>
+
+  <!-- ===== MAIN CONTAINER ===== -->
+  <div class="container" style="max-width:1294px;margin:0 auto;padding:8px 20px 32px;">
+    <div class="ie-page-flex">
+
+      <!-- ===== MAIN CONTENT ===== -->
+      <div class="ie-main-col">
+
+        <!-- 略語一覧 -->
+        <div class="card" style="margin-top:0;margin-bottom:24px;">
+          <div class="card-inner">
+            <h3 class="rule-title">本ページで使用する略語一覧</h3>
+            <table style="width:100%;border-collapse:collapse;font-size:0.78rem;line-height:1.6;color:#475569;">
+              <tbody>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:140px;color:var(--blue);">CLDM</td><td style="padding:4px 8px;">Clindamycin — クリンダマイシン</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">MNZ</td><td style="padding:4px 8px;">Metronidazole — メトロニダゾール</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CMZ</td><td style="padding:4px 8px;">Cefmetazole — セフメタゾール</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">A/S（ABPC/SBT）</td><td style="padding:4px 8px;">Ampicillin/Sulbactam — アンピシリン・スルバクタム</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">P/T（PIPC/TAZ）</td><td style="padding:4px 8px;">Piperacillin/Tazobactam — ピペラシリン・タゾバクタム</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">MEPM</td><td style="padding:4px 8px;">Meropenem — メロペネム</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CTRX</td><td style="padding:4px 8px;">Ceftriaxone — セフトリアキソン</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">GPR</td><td style="padding:4px 8px;">Gram-Positive Rod — グラム陽性桿菌</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">ST / TMP-SMX</td><td style="padding:4px 8px;">Sulfamethoxazole/Trimethoprim — バクタ®</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">MINO</td><td style="padding:4px 8px;">Minocycline — ミノサイクリン</td></tr>
+                <tr><td style="padding:4px 8px;font-weight:700;color:var(--blue);">LZD</td><td style="padding:4px 8px;">Linezolid — リネゾリド</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+
+        <!-- ════════════════════════════════════════ -->
+        <!-- 第1章 抗菌薬の嫌気性菌カバー -->
+        <!-- ════════════════════════════════════════ -->
+        <div id="ch1" class="gl-chapter-banner first">
+          <div class="gl-chapter-title">第1章　抗菌薬の嫌気性菌カバー</div>
+          <div class="gl-chapter-subtitle">Anaerobic Coverage — Diaphragm Above vs Below</div>
+        </div>
+
+        <h3 id="ch1-s1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 1</span>
+          抗菌薬の嫌気性菌カバー
+        </h3>
+
+        <div class="source-link-bar">
+          引用元セクション：<a href="../note-iai.html#ch5-s1">腹腔内感染症（IAI）板書ノート ▸ 第5章 SECTION 1 — 抗菌薬の嫌気性菌カバー</a>
+        </div>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">嫌気性菌カバー早見表 — 横隔膜上下別</h3>
+            <p class="rule-body">代表的嫌気性菌に対する各抗菌薬のカバー範囲。<strong>Prevotella は横隔膜をまたいで存在</strong>するため上下両方に登場する点に注意。</p>
+            <div class="anae-cov-legend">
+              <span><span class="ana-leg ana-best">◎</span>第一選択</span>
+              <span><span class="ana-leg ana-good">○</span>効果あり</span>
+              <span><span class="ana-leg ana-mid">△</span>限定的</span>
+              <span><span class="ana-leg ana-mlow">△~○</span>株により可変</span>
+              <span><span class="ana-leg ana-low">△~×</span>効果に乏しい</span>
+            </div>
+            <div class="anae-cov-wrap">
+              <table class="anae-cov">
+                <thead>
+                  <tr>
+                    <th>菌種</th>
+                    <th>CLDM</th>
+                    <th>MNZ</th>
+                    <th>CMZ</th>
+                    <th>A/S</th>
+                    <th>P/T</th>
+                    <th>MEPM</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="dia-row"><td colspan="7">▲ 横隔膜上（Above diaphragm）</td></tr>
+                  <tr><td>Peptostreptococcus</td><td class="ana ana-good">○</td><td class="ana ana-mlow">△~○</td><td class="ana ana-good">○</td><td class="ana ana-best">◎</td><td class="ana ana-good">○</td><td class="ana ana-good">○</td></tr>
+                  <tr><td>Fusobacterium</td><td class="ana ana-good">○</td><td class="ana ana-good">○</td><td class="ana ana-good">○</td><td class="ana ana-best">◎</td><td class="ana ana-good">○</td><td class="ana ana-good">○</td></tr>
+                  <tr><td>Prevotella sp.</td><td class="ana ana-low">△~×</td><td class="ana ana-best">◎</td><td class="ana ana-mid">△</td><td class="ana ana-best">◎</td><td class="ana ana-good">○</td><td class="ana ana-good">○</td></tr>
+                  <tr class="dia-row"><td colspan="7">▼ 横隔膜下（Below diaphragm）</td></tr>
+                  <tr><td>Bacteroides fragilis</td><td class="ana ana-low">△~×</td><td class="ana ana-best">◎</td><td class="ana ana-mid">△</td><td class="ana ana-good">○</td><td class="ana ana-good">○</td><td class="ana ana-good">○</td></tr>
+                  <tr><td>Bacteroides non-fragilis</td><td class="ana ana-low">△~×</td><td class="ana ana-best">◎</td><td class="ana ana-mid">△</td><td class="ana ana-mid">△</td><td class="ana ana-mid">△</td><td class="ana ana-good">○</td></tr>
+                  <tr><td>Clostridium perfringens</td><td class="ana ana-good">○</td><td class="ana ana-best">◎</td><td class="ana ana-mid">△</td><td class="ana ana-good">○</td><td class="ana ana-good">○</td><td class="ana ana-good">○</td></tr>
+                  <tr><td>Prevotella sp.</td><td class="ana ana-low">△~×</td><td class="ana ana-best">◎</td><td class="ana ana-mid">△</td><td class="ana ana-best">◎</td><td class="ana ana-good">○</td><td class="ana ana-good">○</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="rule-body" style="font-size:0.74rem;color:var(--muted);margin-top:8px;">
+              <strong>略号：</strong>CLDM クリンダマイシン / MNZ メトロニダゾール / CMZ セフメタゾール / A/S アンピシリン·スルバクタム (ABPC/SBT) / P/T ピペラシリン·タゾバクタム (PIPC/TAZ) / MEPM メロペネム
+            </p>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <h3 class="rule-title">第1選択薬と Prevotella の特殊性</h3>
+            <p class="rule-body"><strong>嫌気性菌の第1選択（◎）は薬剤や部位ごとに異なる</strong>。特に <strong>Prevotella は横隔膜をまたいで存在</strong>する点に注意（口腔内・腸管両方に分布）。</p>
+
+            <h4 class="sub-head">主な選択肢</h4>
+            <ul>
+              <li><strong>メトロニダゾール（MNZ）</strong> — 嫌気性菌カバーの代表。CTRX 等と組み合わせて使用</li>
+              <li><strong>ABPC/SBT、PIPC/TAZ</strong> — βラクタマーゼ阻害薬配合製剤として嫌気性菌もカバー</li>
+              <li><strong>カルバペネム系</strong> — 広域カバー（重症例・耐性菌懸念例）</li>
+              <li><strong>クリンダマイシン（CLDM）</strong> — 横隔膜より上の嫌気性菌に強い</li>
+            </ul>
+
+            <div class="keypoint">
+              <strong>セフメタゾール（CMZ）の位置づけ：</strong> 腹腔内感染症の治療として一定の有効性があるものの、<strong>国際的なガイドライン（Surgical Infection Society）では第一選択薬としては推奨されていない</strong>。特に <strong>重症例・院内発症例・耐性菌リスクが高い場合は、より広域な抗菌薬の使用が望ましい</strong>。
+            </div>
+          </div>
+        </div>
+
+        <!-- Ch1 SUMMARY -->
+        <h3 id="ch1-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SUMMARY</span>
+          第1章のキーメッセージ
+        </h3>
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+                <span class="rule-body"><strong>横隔膜上：</strong>CLDM が比較的有効（Peptostreptococcus・Fusobacterium）。Prevotella は CLDM が△〜×のため MNZ または A/S を選択。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+                <span class="rule-body"><strong>横隔膜下：</strong>Bacteroides fragilis は MNZ が第一選択。CLDM は△〜×であり原則使用しない。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+                <span class="rule-body"><strong>Prevotella の注意点：</strong>口腔内（横隔膜上）と腸管（横隔膜下）の両方に存在する。感染部位に応じてカバー薬を確認する。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+                <span class="rule-body"><strong>βラクタマーゼ阻害薬配合製剤（A/S・P/T）：</strong>嫌気性菌カバーを含む広域スペクトラム。腹腔内感染などで有用。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+                <span class="rule-body"><strong>CMZ の限界：</strong>腹腔内感染での使用実績はあるが、国際 GL では第一選択に推奨されていない。重症例・院内発症ではより広域な薬剤を選択する。</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- ════════════════════════════════════════ -->
+        <!-- 第2章 Nocardia と Actinomyces -->
+        <!-- ════════════════════════════════════════ -->
+        <div id="ch2" class="gl-chapter-banner">
+          <div class="gl-chapter-title">第2章　Nocardia と Actinomyces — SNAP で治療を覚える</div>
+          <div class="gl-chapter-subtitle">Filamentous Gram-Positive Rods — Actinomycetes</div>
+        </div>
+
+        <h3 id="ch2-s1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 1</span>
+          Nocardia と Actinomyces — SNAP で治療を覚える
+        </h3>
+
+        <div class="source-link-bar">
+          引用元セクション：<a href="../note-atypical-pneumonia.html#ch3-s4">非定型肺炎・免疫不全・PcP 板書ノート ▸ 第3章 SECTION 4 — Nocardia と Actinomyces（SNAP）</a>
+        </div>
+
+        <div class="card">
+          <div class="card-inner">
+            <h3 class="rule-title">Nocardia / Actinomyces の基本</h3>
+            <p class="rule-body">両者はいずれも<strong>グラム陽性桿菌（GPR）の放線菌</strong>（Actinomycetes）に分類される細菌である。放線菌は糸状・分枝状の形態を持ち、真菌と細菌の中間的外見を呈するが、<strong>細菌（原核生物）</strong>である点に注意する。</p>
+            <div class="mnemonic-box" style="margin-top:12px;">
+              <div class="mnemonic-title">★ SNAP — Nocardia と Actinomyces の治療を瞬時に思い出す</div>
+              <div class="mnemonic-row">
+                <span class="mnemonic-acro" style="width:36px;">SN</span>
+                <span><strong>S</strong>T 合剤 = <strong>N</strong>ocardia の治療薬</span>
+              </div>
+              <div class="mnemonic-row">
+                <span class="mnemonic-acro" style="width:36px;background:#16A34A;">AP</span>
+                <span><strong>A</strong>ctinomyces の治療薬は <strong>P</strong>enicillin 系</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-inner">
+            <h3 class="rule-title">Actinomyces — 口腔内嫌気性菌・特徴的な臨床像</h3>
+            <h4 class="sub-head">基本的特徴</h4>
+            <ul>
+              <li>口腔内・消化管・生殖器に常在する<strong>嫌気性菌</strong></li>
+              <li>感染は主に外傷・抜歯・歯科処置などの粘膜破綻を契機とする</li>
+              <li>ゆっくり進行する慢性化膿性感染症を来す</li>
+            </ul>
+
+            <h4 class="sub-head">Lumpy Jaw Syndrome（放線菌症の顎顔面型）</h4>
+            <p class="rule-body">慢性化膿性炎症による<strong>顎骨の硬結性腫脹</strong>が特徴的。瘻孔形成と黄色の「硫黄顆粒（sulfur granule）」の排出が診断の手がかりとなる。抜歯後・外傷後に発症することが多い。</p>
+
+            <h4 class="sub-head">胸壁穿通性膿胸（Empyema necessitans）</h4>
+            <p class="rule-body">胸腔内感染から胸壁を穿通し、体表に瘻孔を形成する病態。<em>Actinomyces</em> による慢性膿胸の進展形として知られ、胸壁に硬結・瘻孔が生じた場合に鑑別として挙がる。</p>
+
+            <div class="point">
+              <strong>Actinomyces 感染症の治療：</strong>ペニシリン G（またはアモキシシリン）を長期投与（4〜12 か月）。短期間の治療では再発しやすいため、臨床的寛解後も数か月継続する。
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-inner">
+            <h3 class="rule-title">Nocardia — 細胞性免疫低下者に特有の感染症</h3>
+            <h4 class="sub-head">基本的特徴</h4>
+            <ul>
+              <li>土壌・植物に常在する<strong>好気性の GPR 放線菌</strong></li>
+              <li>吸入による肺感染が最も多く、血行性播種で<strong>脳膿瘍・皮膚軟部組織感染症</strong>を来す</li>
+              <li>弱抗酸性（weakly acid-fast）：Ziehl-Neelsen 染色で弱陽性</li>
+            </ul>
+
+            <h4 class="sub-head">免疫正常者でも発症しうる皮膚感染</h4>
+            <p class="rule-body">皮膚軟部組織感染症は免疫正常者でも発症する。<strong>足爪（趾甲）から感染してリンパ行性の蜂窩織炎</strong>を生じるケースが見られ、難治性・繰り返す皮膚感染として経験される。</p>
+
+            <h4 class="sub-head">治療</h4>
+            <table class="ie-table">
+              <thead>
+                <tr><th>重症度</th><th>治療薬</th><th>備考</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="white-space:nowrap;font-weight:700;">軽症〜中等症</td>
+                  <td><strong>ST 合剤（TMP-SMX）</strong>経口</td>
+                  <td>6〜12 か月。中枢神経播種は 12 か月以上</td>
+                </tr>
+                <tr>
+                  <td style="white-space:nowrap;font-weight:700;">重症・播種性</td>
+                  <td>ST 合剤＋MINO または LZD の多剤併用</td>
+                  <td>感受性に基づき選択。感染症科コンサルト推奨</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <table class="ie-table" style="margin-top:14px;">
+              <thead>
+                <tr><th style="width:35%;">特徴</th><th>Nocardia</th><th>Actinomyces</th></tr>
+              </thead>
+              <tbody>
+                <tr><td style="font-weight:700;">酸素要求性</td><td>好気性</td><td>嫌気性（通性嫌気性）</td></tr>
+                <tr><td style="font-weight:700;">弱抗酸性</td><td>陽性</td><td>陰性</td></tr>
+                <tr><td style="font-weight:700;">常在部位</td><td>土壌・植物</td><td>口腔内・消化管</td></tr>
+                <tr><td style="font-weight:700;">感染契機</td><td>吸入・外傷（免疫抑制）</td><td>粘膜破綻（歯科処置・外傷）</td></tr>
+                <tr><td style="font-weight:700;">特徴的病態</td><td>脳膿瘍・肺感染・皮膚蜂窩織炎</td><td>Lumpy Jaw・Empyema necessitans・硫黄顆粒</td></tr>
+                <tr><td style="font-weight:700;color:#6D28D9;">治療（SNAP）</td><td style="color:#6D28D9;font-weight:700;">ST 合剤（<strong>SN</strong>AP の SN）</td><td style="color:#16A34A;font-weight:700;">Penicillin 系（SN<strong>AP</strong> の AP）</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Ch2 SUMMARY -->
+        <h3 id="ch2-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SUMMARY</span>
+          第2章のキーメッセージ
+        </h3>
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+                <span class="rule-body"><strong>放線菌は細菌：</strong>Nocardia と Actinomyces はともにグラム陽性桿菌（GPR）の放線菌。糸状形態で真菌に見えるが原核生物。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+                <span class="rule-body"><strong>SNAP：</strong>SN（Nocardia → ST 合剤）/ AP（Actinomyces → Penicillin）で治療を瞬時に思い出す。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+                <span class="rule-body"><strong>Actinomyces の特徴：</strong>Lumpy Jaw（硫黄顆粒）と Empyema necessitans。口腔内嫌気性菌のため歯科処置が契機。Penicillin を 4〜12 か月長期投与。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+                <span class="rule-body"><strong>Nocardia の特徴：</strong>細胞性免疫低下者（ステロイド・移植等）に好発。弱抗酸性陽性。脳膿瘍合併に注意し、中枢播種例は ST 合剤を 12 か月以上継続。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+                <span class="rule-body"><strong>鑑別ポイント：</strong>Nocardia は好気性・土壌由来・免疫抑制。Actinomyces は嫌気性・口腔内常在・粘膜破綻が契機。慢性瘻孔＋硫黄顆粒なら Actinomyces を疑う。</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 出典注記 -->
+        <p style="font-size:0.72rem;color:#9CA3AF;margin-top:24px;line-height:1.7;">
+          本資料は教育目的のサマリーで、ID×ICU カンファレンスの板書記録をもとに構成しています。<br>
+          引用元：腹腔内感染症（IAI）板書ノート（第5章 S1） / 非定型肺炎・免疫不全・PcP 板書ノート（第3章 S4）<br>
+          診断・治療方針の決定には必ず最新のガイドラインおよび原著文献を参照してください。
+        </p>
+        <p style="font-size:0.75rem;color:var(--muted);text-align:right;margin-top:8px;">制作：ICU 関谷</p>
+
+      </div><!-- /ie-main-col -->
+
+      <!-- ===== SIDEBAR ===== -->
+      <aside class="ie-sidebar">
+        <div class="ie-sidebar-card">
+          <div class="ie-sidebar-title">目次</div>
+
+          <a href="#ch1" class="ie-toc-chapter">第1章　嫌気性菌カバー</a>
+          <a href="#ch1-s1" class="ie-toc-section">S1 — 抗菌薬の嫌気性菌カバー</a>
+          <a href="#ch1-summary" class="ie-toc-section">SUMMARY</a>
+
+          <a href="#ch2" class="ie-toc-chapter">第2章　Nocardia / Actinomyces</a>
+          <a href="#ch2-s1" class="ie-toc-section">S1 — SNAP で治療を覚える</a>
+          <a href="#ch2-summary" class="ie-toc-section">SUMMARY</a>
+
+          <div style="margin-top:16px;padding-top:12px;border-top:1px solid var(--border);">
+            <div style="font-size:0.68rem;font-weight:700;color:var(--muted);letter-spacing:0.06em;margin-bottom:6px;">引用元ページ</div>
+            <a href="../note-iai.html#ch5-s1" class="ie-toc-section" style="color:#7C3AED;">IAI 板書 ▸ 嫌気性菌カバー</a>
+            <a href="../note-atypical-pneumonia.html#ch3-s4" class="ie-toc-section" style="color:#7C3AED;">非定型肺炎板書 ▸ SNAP</a>
+          </div>
+        </div>
+      </aside>
+
+    </div><!-- /ie-page-flex -->
+  </div><!-- /container -->
+
+  <script src="../../script.js?v=20260609"></script>
+  <script src="../../abbr-tooltip.js"></script>
+</body>
+</html>

@@ -10,6 +10,13 @@
  */
 const RECENT_PAGES = [
   {
+    title: "嫌気性菌 — 板書ノート | ID×ICUカンファレンス",
+    url: "pages/id-icu-notes/note-anaerobic.html",
+    date: "2026-06-05",
+    tag: "解説",
+    thumb: "images/IDICUtop.png"
+  },
+  {
     title: "クリプトコッカス髄膜炎 L-AmB短期 vs 長期投与 OFID 2026",
     url: "pages/articles-gl-cm-lamb2026.html",
     date: "2026-06-05",
