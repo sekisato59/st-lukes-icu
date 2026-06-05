@@ -10,17 +10,17 @@
  */
 const RECENT_PAGES = [
   {
-    title: "イーグル効果と抗菌薬誘発性持続性 — Trends in Microbiology 2019",
-    url: "pages/articles-gl-eagle-effect2019.html",
-    date: "2026-06-05",
-    tag: "論文",
-    thumb: "images/IDICUtop.png"
-  },
-  {
     title: "セフトロザン/タゾバクタム vs セフタジジム/アビバクタム — MDR緑膿菌感染症のSR・メタ解析（IJID 2026）",
     url: "pages/articles-gl-ct-cza-psa2026.html",
     date: "2026-06-05",
     tag: "ガイドライン",
+    thumb: "images/IDICUtop.png"
+  },
+  {
+    title: "イーグル効果と抗菌薬誘発性持続性 — Trends in Microbiology 2019",
+    url: "pages/articles-gl-eagle-effect2019.html",
+    date: "2026-06-05",
+    tag: "論文",
     thumb: "images/IDICUtop.png"
   },
   {
