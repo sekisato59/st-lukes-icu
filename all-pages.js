@@ -2145,8 +2145,8 @@ const ALL_PAGES = [
     "type":      "",
     "system":    "感染症",
     "system_id": "art-id",
-    "title":     "【感染症】細菌マップ — ICU 主要起因菌の総覧",
-    "url":       "pages/bacteria-map.html"
+    "title":     "【感染症】細菌道場 — ICU 主要起因菌の総覧",
+    "url":       "pages/resident-resources.html#id-bact"
   },
   {
     "date":      "2026/05/12",

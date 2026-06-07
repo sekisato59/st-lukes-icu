@@ -134,7 +134,7 @@
       { kind: 'paper',   title: 'ムーコル症（Mucormycosis）NEJM総説 2026',                                          url: '../articles-gl-mucormycosis-nejm2026.html' },
       { kind: 'paper',   title: '菌血症の抗菌薬投与期間 7日 vs 14日 — BALANCE試験 NEJM 2025',                       url: '../articles-gl-balance-bacteremia2025.html' },
       { kind: 'disease', title: '菌血症の抗菌薬投与期間は？',                                                        url: '../disease-topics/dt-bacteremia-duration.html' },
-      { kind: 'misc',    title: '【感染症】細菌マップ — ICU主要起因菌の総覧',                                       url: '../bacteria-map.html' }
+      { kind: 'misc',    title: '【感染症】細菌道場 — ICU主要起因菌の総覧',                                       url: '../resident-resources.html#id-bact' }
     ],
     nutrition: [
       { kind: 'gl',      title: 'ADA SoC 2026 第6章 血糖目標・低血糖・高血糖クリーゼ',                              url: '../articles-gl-ada-soc2026-ch6.html' },

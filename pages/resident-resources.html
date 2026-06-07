@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../style-v2.css?v=20260611">
+  <link rel="stylesheet" href="../style-v2.css?v=20260612">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
@@ -2580,9 +2580,6 @@ ICUチームへ一言：</pre>
             <h3 id="id-fungi" class="sys-section-title">
               <span>SECTION 2</span>真菌
             </h3>
-            <p class="sys-section-lead">
-              抗真菌薬の使い分けと、主要な真菌をまとめて整理します（順次公開）。
-            </p>
             <details class="dojo-master">
               <summary>真菌道場</summary>
               <div class="dojo-master-body">
@@ -2681,9 +2678,6 @@ ICUチームへ一言：</pre>
             <h3 id="id-virus" class="sys-section-title">
               <span>SECTION 3</span>ウイルス
             </h3>
-            <p class="sys-section-lead">
-              抗ウイルス薬の使い分けと、主要なウイルスをまとめて整理します（順次公開）。
-            </p>
             <details class="dojo-master">
               <summary>ウイルス道場</summary>
               <div class="dojo-master-body">
@@ -3075,18 +3069,27 @@ ICUチームへ一言：</pre>
           if (history.replaceState) history.replaceState(null, '', '#' + id);
         });
       });
-      var initial = (location.hash || '').replace('#', '');
-      // タブID と一致する場合のみ切替（セクション内アンカーは無視）
       var validTabs = ['onboard','neuro','cv','resp','renal','id','gi','nutr','heme','msk','prev'];
-      if (initial && validTabs.indexOf(initial) !== -1) activate(initial);
-      window.addEventListener('hashchange', function() {
-        var id = (location.hash || '').replace('#', '');
-        if (id && validTabs.indexOf(id) !== -1) activate(id);
-      });
+      // ハッシュ処理：タブID（例 #id）はそのタブを開く。
+      // セクションアンカー（例 #id-bact）は、その要素が属するパネルのタブを開いてスクロールする。
+      function handleHash(raw) {
+        var h = (raw || '').replace('#', '');
+        if (!h) return;
+        if (validTabs.indexOf(h) !== -1) { activate(h); return; }
+        var el = document.getElementById(h);
+        if (!el) return;
+        var panel = el.closest ? el.closest('.res-panel') : null;
+        if (panel && panel.id.indexOf('panel-') === 0) {
+          activate(panel.id.slice(6));
+          requestAnimationFrame(function(){ try { el.scrollIntoView({ block: 'start' }); } catch (e) {} });
+        }
+      }
+      handleHash(location.hash);
+      window.addEventListener('hashchange', function() { handleHash(location.hash); });
     })();
   </script>
 
-  <script src="../script.js?v=20260611"></script>
+  <script src="../script.js?v=20260612"></script>
   <script src="../abbr-tooltip.js"></script>
 
   <!-- ===== ミラーカードの縁デザイン強制適用（<style> インジェクト） ===== -->
