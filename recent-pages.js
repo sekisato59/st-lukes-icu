@@ -10,6 +10,13 @@
  */
 const RECENT_PAGES = [
   {
+    title: "梅毒 Syphilis — 板書ノート | 感染症各論",
+    url: "pages/id-icu-notes/note-syphilis.html",
+    date: "2026-06-07",
+    tag: "解説",
+    thumb: "images/IDICUtop.png"
+  },
+  {
     title: "セフトロザン/タゾバクタム vs セフタジジム/アビバクタム — MDR緑膿菌感染症のSR・メタ解析（IJID 2026）",
     url: "pages/articles-gl-ct-cza-psa2026.html",
     date: "2026-06-05",
