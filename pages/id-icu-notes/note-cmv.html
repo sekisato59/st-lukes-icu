@@ -155,6 +155,28 @@
     .risk-table th.risk-low  { background:#F0FDF4;color:#14532D; }
     .risk-table td.cat { background:#FAFBFC;font-weight:700;color:#4C1D95;white-space:nowrap; }
 
+    /* ====== モバイル: リスク表は横4列だと潰れて読めないため、行ごとのカード積み重ねに変換 ====== */
+    @media (max-width: 767px) {
+      .risk-table { min-width: 0 !important; display: block; font-size: 0.8rem; }
+      .risk-table thead { display: none; }
+      .risk-table tbody, .risk-table tr, .risk-table td { display: block; width: auto; }
+      .risk-table tr {
+        border: 1px solid var(--border); border-radius: 8px;
+        margin-bottom: 10px; padding: 9px 13px 11px; background: #fff;
+      }
+      .risk-table td { border: none; padding: 6px 0 0; line-height: 1.6; }
+      .risk-table td.cat {
+        background: transparent; font-size: 0.86rem; font-weight: 800; color: #4C1D95;
+        border-bottom: 1px solid var(--border); padding: 0 0 6px; margin-bottom: 2px; white-space: normal;
+      }
+      .risk-table td:not(.cat)::before {
+        display: block; font-weight: 800; font-size: 0.72rem; margin-bottom: 2px; letter-spacing: 0.02em;
+      }
+      .risk-table td:nth-child(2)::before { content: '高リスク'; color: #DC2626; }
+      .risk-table td:nth-child(3)::before { content: '中等度リスク'; color: #B45309; }
+      .risk-table td:nth-child(4)::before { content: '低リスク'; color: #15803D; }
+    }
+
     /* ====== 録画ボタン ====== */
     .note-actions { display:flex;gap:10px;margin:0 0 12px;flex-wrap:wrap; }
     .note-btn-video {
@@ -1084,7 +1106,7 @@
     </div><!-- /ie-page-flex -->
   </div>
 
-  <script src="../../script.js?v=20260613"></script>
+  <script src="../../script.js?v=20260614"></script>
   <script src="../../abbr-tooltip.js"></script>
 </body>
 </html>

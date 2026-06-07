@@ -497,9 +497,9 @@ if (copyBtn) {
     cells.forEach(function(c){
       cols += parseInt(c.getAttribute('colspan') || '1', 10);
     });
-    // .ie-table は視認性確保のため min-width を付与（モバイル時に表が縮みすぎないように）。
-    // それ以外のテーブルはコンテンツに任せる（カラム数だけで一律 min-width を付けると過剰）。
-    if (!table.classList.contains('ie-table')) return;
+    // 列数の多いデータ表は min-width を付けて視認性を確保（モバイルでは横スクロール）。
+    // .ie-table だけでなくカスタム表（risk-table 等）にも適用し、列がスマホ幅で潰れて
+    // 「1文字ずつ折り返す」読めない状態を防ぐ。2列以下はコンテンツに任せる。
     if (cols >= 5)      table.style.minWidth = '900px';
     else if (cols === 4) table.style.minWidth = '760px';
     // 3列表は min(600px, 100%): デスクトップは600pxを確保しつつ、スマホ幅では
