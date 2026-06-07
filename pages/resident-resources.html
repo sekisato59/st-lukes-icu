@@ -637,11 +637,43 @@
     /* トグルをまとめるグループ（見出し＋グループ色） */
     .dojo-group { margin-top: 28px; }
     .dojo-group:first-of-type { margin-top: 6px; }
-    .dojo-group--gpc { --sys-dark:#5B21B6; --sys-mid:#7C3AED; --sys-light:#9F75F0; }  /* 紫 */
-    .dojo-group--gnr { --sys-dark:#1E3A8A; --sys-mid:#2563EB; --sys-light:#60A5FA; }  /* 紺 */
-    .dojo-group--gpr { --sys-dark:#0F766E; --sys-mid:#14B8A6; --sys-light:#5EEAD4; }  /* ティール */
-    .dojo-group--gnc { --sys-dark:#334155; --sys-mid:#475569; --sys-light:#94A3B8; }  /* スレート */
+    .dojo-group--gpc { --sys-dark:#5B21B6; --sys-mid:#7C3AED; --sys-light:#9F75F0; }  /* グラム陽性=紫（クリスタル紫） */
+    .dojo-group--gpr { --sys-dark:#6B21A8; --sys-mid:#9333EA; --sys-light:#C084FC; }  /* グラム陽性=紫 */
+    .dojo-group--gnr { --sys-dark:#9F1239; --sys-mid:#E11D48; --sys-light:#FB7185; }  /* グラム陰性=赤（サフラニン） */
+    .dojo-group--gnc { --sys-dark:#9D174D; --sys-mid:#DB2777; --sys-light:#F9A8D4; }  /* グラム陰性=ピンク */
     .dojo-group--other { --sys-dark:#57534E; --sys-mid:#78716C; --sys-light:#A8A29E; }  /* ストーン（その他） */
+    /* 細菌道場：折りたたみの横長ボックス（展開でGPC/GNR…が出る） */
+    .dojo-master { margin: 0 0 16px; }
+    .dojo-master > summary {
+      display: block;
+      position: relative;
+      list-style: none;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 900;
+      color: #fff;
+      background: linear-gradient(135deg, var(--sys-mid, #7C3AED) 0%, var(--sys-light, #9F75F0) 100%);
+      border: 1.5px solid var(--sys-dark, #5B21B6);
+      box-shadow: 2px 2px 0 var(--sys-dark, #5B21B6);
+      padding: 12px 42px 12px 16px;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+    .dojo-master > summary::-webkit-details-marker { display: none; }
+    .dojo-master > summary::after {
+      content: '';
+      position: absolute;
+      right: 17px;
+      top: 50%;
+      width: 9px;
+      height: 9px;
+      border-right: 2.5px solid #fff;
+      border-bottom: 2.5px solid #fff;
+      transform: translateY(-65%) rotate(45deg);
+      transition: transform 0.18s ease;
+    }
+    .dojo-master[open] > summary::after { transform: translateY(-30%) rotate(225deg); }
+    .dojo-master-body { padding-top: 8px; }
     /* グループ見出し（腸内細菌目見出しと同デザイン） */
     .dojo-group-head {
       font-size: 0.88rem;
@@ -1903,7 +1935,9 @@ ICUチームへ一言：</pre>
             <h3 id="id-bact" class="sys-section-title">
               <span>SECTION 1</span>細菌
             </h3>
-            <div class="sys-subgroup">細菌道場</div>
+            <details class="dojo-master">
+              <summary>細菌道場</summary>
+              <div class="dojo-master-body">
 
             <div class="dojo-group dojo-group--gpc">
             <div class="dojo-group-head">Gram陽性球菌（GPC）</div>
@@ -2387,7 +2421,7 @@ ICUチームへ一言：</pre>
                   </ul>
                 </div>
                 <div class="dojo-genus">
-                  <h4 class="dojo-genus-head">ハンセン病</h4>
+                  <h4 class="dojo-genus-head">らい菌（<em>M. leprae</em>）</h4>
                   <ul>
                     <li><span class="dojo-pending"><em>M. leprae</em></span><span class="dojo-note">らい菌</span></li>
                   </ul>
@@ -2490,6 +2524,8 @@ ICUチームへ一言：</pre>
               </div>
             </details>
             </div><!-- /dojo-group--other -->
+              </div>
+            </details><!-- /dojo-master -->
 
             <div class="sys-subgroup">抗菌薬道場</div>
             <div class="qa-stack">
