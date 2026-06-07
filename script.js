@@ -491,7 +491,7 @@ if (copyBtn) {
   }
   // 表の min-width 付与ポリシー（モバイルで「鬼の改行」＝列が潰れて1〜数文字ずつ折り返す
   // 状態を防ぐ）。横スクロールは許容する方針。判定は実測ではなく列数＋セル文字数で決定的に行う。
-  //  - 2列以下: 何もしない（モバイルでも収まる）
+  //  - 2列: 通常は何もしない。ただし nowrap で長いラベル列があると相手列が潰れるので、その時だけ min-width。
   //  - 5列以上: 常に min-width（多列マトリクスは収まらないので横スクロール）
   //  - 3〜4列: colspan でない「実セル」に長文がある時だけ min-width を付けて横スクロール。
   //            colspan セル（例: HSV 表の髄液検査/治療）は2列ぶんの幅があり潰れないので対象外
@@ -504,7 +504,18 @@ if (copyBtn) {
       firstRow.querySelectorAll('th, td').forEach(function(c){
         cols += parseInt(c.getAttribute('colspan') || '1', 10);
       });
-      if (cols < 3) return;
+      if (cols < 2) return;
+      if (cols === 2) {
+        // nowrap で長いセル（幅を占有）があると相手列が極端に潰れる → 横スクロールさせる
+        var cram2 = false;
+        table.querySelectorAll('td, th').forEach(function(cell){
+          if (parseInt(cell.getAttribute('colspan') || '1', 10) > 1) return;
+          var nowrap = /white-space:\s*nowrap/i.test(cell.getAttribute('style') || '');
+          if (nowrap && (cell.textContent || '').replace(/\s+/g, '').length >= 16) cram2 = true;
+        });
+        if (cram2) table.style.minWidth = '520px';
+        return;
+      }
       if (cols >= 5) { table.style.minWidth = Math.min(cols * 160, 1300) + 'px'; return; }
       var threshold = (cols === 3) ? 20 : 14;
       var longCell = false;
