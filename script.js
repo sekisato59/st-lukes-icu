@@ -502,7 +502,9 @@ if (copyBtn) {
     if (!table.classList.contains('ie-table')) return;
     if (cols >= 5)      table.style.minWidth = '900px';
     else if (cols === 4) table.style.minWidth = '760px';
-    else if (cols === 3) table.style.minWidth = '600px';
+    // 3列表は min(600px, 100%): デスクトップは600pxを確保しつつ、スマホ幅では
+    // コンテナ幅に収めて横スクロール・列の広がり（文字が大きく見える）を防ぐ。
+    else if (cols === 3) table.style.minWidth = 'min(600px, 100%)';
   }
   function processAll(){
     document.querySelectorAll('table').forEach(function(table){
