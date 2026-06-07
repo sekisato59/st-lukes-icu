@@ -373,6 +373,16 @@ grep -c 'ie-table\|ie-score-card\|ie-stat-grid' pages/articles-gl-xxxx.html
 - 4列以上のテーブルでは `<colgroup>` で列幅比率を明示する
 - 説明列（自由テキスト）にはnowrapを付けない（自然な折り返しを許容）
 
+**モバイル表示ルール（横スクロール優先・鬼の改行禁止）：**
+- すべての `<table>` は [`script.js`](script.js) が `.ie-table-scroll`（`overflow-x:auto`）で自動ラップする。**横に長い表はモバイルで横スクロールさせてよい**（無理にスマホ幅へ収めて1〜数文字ずつ折り返す「鬼の改行」を作らない）。
+- `script.js` の `applyMinWidth()` が**内容認識型**で `min-width` を自動付与する（実測しないので決定的）：
+  - **2列以下**：何もしない（モバイルでも収まる）
+  - **5列以上**：常に `min-width`（多列マトリクスは横スクロール）
+  - **3〜4列**：colspan でない「実セル」に長文（3列は20字／4列は14字以上）がある時だけ `min-width`（横スクロール）。`colspan` セルは2列ぶん幅があり潰れないので対象外＝そのまま収まる。
+- この仕組みにより、**新規表は基本そのままで適切に**（収まる表は収まり、潰れる表は横スクロール）。手動で `min-width` を付ける必要は通常ない。
+- **どうしても表形式が苦しい高密度表**（4列以上×各セルが複数行の長いリスト等）は、モバイルで**カード積み重ね**に変換してよい。実装例は [note-cmv.html](pages/id-icu-notes/note-cmv.html) の `.risk-table`（`@media (max-width:767px)` で `display:block` 化し、`nth-child` でリスク区分ラベルを付与）。
+  - 注意：`.ie-table-scroll > table { display:table !important }` が効くため、スタック化は `.ie-table-scroll > .yourtable { display:block !important }` のように `>`セレクタ＋`!important` で上書きする。
+
 #### フローチャート（ステップ）
 ```html
 <div class="ie-flow">
