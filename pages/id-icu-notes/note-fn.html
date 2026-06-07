@@ -92,18 +92,9 @@
       border-bottom: 2px solid #C4B5FD;
       margin: 0 0 10px;
     }
-    .card-inner h4.sub-head {
-      font-size: 0.95rem;
-      font-weight: 900;
-      color: #4C1D95;
-      margin: 14px 0 6px;
-      letter-spacing: 0.02em;
-      line-height: 1.4;
-    }
-    .card-inner h4.sub-head { padding-left: 18px; text-indent: -18px; }
-    .card-inner h4.sub-head::before { content: '●'; color: #7C3AED; font-size: 0.62rem; margin-right: 8px; vertical-align: 1px; }
+    .card-inner h4.sub-head { font-size:0.9rem; font-weight:800; color:#5B21B6; background:#F5F3FF; border:1px solid #E9E3FF; border-radius:6px; padding:7px 12px; margin:18px 0 9px; letter-spacing:0.01em; line-height:1.4; }
+    .card-inner h4.sub-head:first-child { margin-top:0; }
     .card-inner > .rule-body, .card-inner > p { padding-left: 18px; }
-    .card-inner h4.sub-head:first-child { margin-top: 0; }
 
     /* ====== 本文 ====== */
     .card-inner .rule-body,
@@ -136,41 +127,23 @@
     }
 
     /* ====== 警告/注意ボックス ====== */
-    .keypoint {
-      background: #FFFBEB; border: 1px solid #FDE68A; border-radius: 6px;
-      padding: 8px 12px; margin: 8px 0; font-size: 0.82rem; line-height: 1.65; color: #78350F;
-    }
-    .keypoint::before {
-      content: '注意'; display: inline-block;
-      background: #F59E0B; color: #fff; font-size: 0.64rem; font-weight: 800;
-      padding: 1px 7px; border-radius: 3px; margin-right: 8px;
-      letter-spacing: 0.06em;
-    }
-    .keypoint strong { color: #92400E; }
-
-    .danger {
-      background: #FEF2F2; border: 1px solid #FECACA; border-radius: 6px;
-      padding: 8px 12px; margin: 8px 0; font-size: 0.82rem; line-height: 1.65; color: #7F1D1D;
-    }
-    .danger::before {
-      content: '警告'; display: inline-block;
-      background: #DC2626; color: #fff; font-size: 0.64rem; font-weight: 800;
-      padding: 1px 7px; border-radius: 3px; margin-right: 8px;
-      letter-spacing: 0.06em;
-    }
-    .danger strong { color: #7F1D1D; }
-
-    .pearl {
-      background: #F0FDF4; border: 1px solid #BBF7D0; border-radius: 6px;
-      padding: 8px 12px; margin: 8px 0; font-size: 0.82rem; line-height: 1.65; color: #14532D;
-    }
-    .pearl::before {
-      content: 'POINT'; display: inline-block;
-      background: #16A34A; color: #fff; font-size: 0.64rem; font-weight: 800;
-      padding: 1px 7px; border-radius: 3px; margin-right: 8px;
-      letter-spacing: 0.06em;
-    }
-    .pearl strong { color: #14532D; }
+    .danger, .keypoint, .point { border-radius:8px; padding:11px 14px; margin:10px 0; font-size:0.82rem; line-height:1.7; }
+    .danger { background:#FEF2F2; border:1px solid #FECACA; color:#7F1D1D; }
+    .keypoint { background:#FFFBEB; border:1px solid #FDE68A; color:#78350F; }
+    .point { background:#F0FDF4; border:1px solid #BBF7D0; color:#14532D; }
+    .alert-head { display:flex; align-items:center; gap:8px; font-weight:800; font-size:0.84rem; line-height:1.45; margin-bottom:5px; }
+    .alert-head::before { display:inline-block; color:#fff; font-size:0.64rem; font-weight:800; padding:2px 8px; border-radius:4px; letter-spacing:0.06em; flex-shrink:0; }
+    .danger .alert-head { color:#991B1B; } .danger .alert-head::before { content:'Pitfall'; background:#DC2626; }
+    .keypoint .alert-head { color:#92400E; } .keypoint .alert-head::before { content:'注意'; background:#F59E0B; }
+    .point .alert-head { color:#15803D; } .point .alert-head::before { content:'ポイント'; background:#16A34A; }
+    .danger p, .keypoint p, .point p { margin:0; font-size:0.82rem; line-height:1.7; }
+    .danger p strong { color:#991B1B; } .keypoint p strong { color:#92400E; } .point p strong { color:#15803D; }
+    /* pearl は point の別名として扱う（後方互換） */
+    .pearl { background:#F0FDF4; border:1px solid #BBF7D0; border-radius:8px; padding:11px 14px; margin:10px 0; font-size:0.82rem; line-height:1.7; color:#14532D; }
+    .pearl .alert-head { color:#15803D; display:flex; align-items:center; gap:8px; font-weight:800; font-size:0.84rem; line-height:1.45; margin-bottom:5px; }
+    .pearl .alert-head::before { content:'ポイント'; display:inline-block; background:#16A34A; color:#fff; font-size:0.64rem; font-weight:800; padding:2px 8px; border-radius:4px; letter-spacing:0.06em; flex-shrink:0; }
+    .pearl p { margin:0; font-size:0.82rem; line-height:1.7; }
+    .pearl p strong { color:#15803D; }
 
     /* ====== MASCC スコアカード ====== */
     .mascc-grid {
@@ -338,6 +311,14 @@
       margin-top: 2px;
       line-height: 1.4;
     }
+
+    @media (max-width: 767px) {
+      .card-inner h4.sub-head { font-size:0.84rem; padding:6px 10px; margin:14px 0 8px; }
+      .danger, .keypoint, .point { padding:10px 12px; font-size:0.8rem; }
+      .alert-head { font-size:0.81rem; }
+      .alert-head::before { font-size:0.6rem; padding:2px 7px; }
+      .danger p, .keypoint p, .point p { font-size:0.8rem; line-height:1.7; }
+    }
   </style>
 </head>
 <body>
@@ -487,7 +468,8 @@
             </div>
 
             <div class="pearl">
-              <strong>フレームワークの使い方：</strong>免疫正常者が罹患する黄色ブドウ球菌・レンサ球菌・大腸菌・クレブシエラ・緑膿菌・嫌気性菌・インフルエンザ桿菌は、どの免疫が下がっていても感染リスクがある「ベースライン」菌群である。これに加えてどのカテゴリが低下しているかによって追加の感染リスクを評価する。
+              <div class="alert-head">フレームワークの使い方</div>
+              <p>免疫正常者が罹患する黄色ブドウ球菌・レンサ球菌・大腸菌・クレブシエラ・緑膿菌・嫌気性菌・インフルエンザ桿菌は、どの免疫が下がっていても感染リスクがある「ベースライン」菌群である。これに加えてどのカテゴリが低下しているかによって追加の感染リスクを評価する。</p>
             </div>
           </div>
         </div>
@@ -533,7 +515,8 @@
             <h3 class="rule-title">Case — 膵頭部がん術後の MRSA 菌血症</h3>
             <p class="rule-body"><strong>58歳男性。膵頭部がんに対して膵頭十二指腸切除術施行。</strong>術後吻合部リークにより CVC / TPN 管理中。PIPC/TAZ で治療中に 39℃の発熱。翌日、末梢血・CVC 双方の血液培養から GPC cluster が検出（後日 MRSA と判明）。</p>
             <div class="keypoint">
-              <strong>CVC ＋ 手術 ＋ 消化管粘膜障害（吻合部リーク）</strong> — バリアが複数の経路で破綻している典型例。皮膚常在菌・腸管常在菌のいずれも血流に入りうる状況。
+              <div class="alert-head">CVC ＋ 手術 ＋ 消化管粘膜障害（吻合部リーク）</div>
+              <p>バリアが複数の経路で破綻している典型例。皮膚常在菌・腸管常在菌のいずれも血流に入りうる状況。</p>
             </div>
 
             <h4 class="sub-head">CRBSI の診断</h4>
@@ -550,7 +533,8 @@
             </table>
             <p class="citation">IDSA guideline 2009. <a href="https://doi.org/10.1086/599376" target="_blank" rel="noopener">Mermel LA, et al. Clin Infect Dis. 2009 Jul 1;49(1):1-45.</a></p>
             <div class="pearl">
-              <strong>A-line からの血液培養（Q&A より）：</strong>末梢静脈・CVC からの同時採取が基本だが、A-line（動脈ライン）から採取した血液培養も末梢血培養と同等の結果が得られるとの報告がある（<em>Clin Infect Dis.</em> 近年掲載）。A-line が確保されている ICU 患者では A-line からの採取も許容される。ただし DTP 評価のための「末梢 vs CVC 同時採取」の原則は変わらない。
+              <div class="alert-head">A-line からの血液培養（Q&A より）</div>
+              <p>末梢静脈・CVC からの同時採取が基本だが、A-line（動脈ライン）から採取した血液培養も末梢血培養と同等の結果が得られるとの報告がある（<em>Clin Infect Dis.</em> 近年掲載）。A-line が確保されている ICU 患者では A-line からの採取も許容される。ただし DTP 評価のための「末梢 vs CVC 同時採取」の原則は変わらない。</p>
             </div>
           </div>
         </div>
@@ -587,21 +571,23 @@
             <p class="rule-body">合計 4 mL：EDTA 30 mg/mL（120 mg/4 mL）、ミノサイクリン 1 mg/mL（4 mg/4 mL）、無水エタノール 25%（1 mL/4 mL）。投与時は <strong>医療用 33 mm マイレクス GV フィルターを通すこと</strong>。</p>
 
             <div class="keypoint">
-              <strong>Day 1 は必ず平日日中に実施</strong>し、薬剤師が医師の手技を確認する。土日投与の場合、手技確認済みの医師が薬剤部注射調製室で自ら調製する（内規）。
+              <div class="alert-head">Day 1 は必ず平日日中に実施</div>
+              <p>薬剤師が医師の手技を確認する。土日投与の場合、手技確認済みの医師が薬剤部注射調製室で自ら調製する（内規）。</p>
             </div>
 
             <h4 class="sub-head">ALT の適応条件 — 留置 2 週間以上のみ</h4>
             <p class="rule-body">ALT はカテーテル<strong>留置 2 週間以上</strong>の場合にのみ適応となる。2 週間未満の短期留置では、バイオフィルムはまだカテーテル<em>外径</em>（皮膚・挿入部側）に形成されており、内腔に注入するロック薬が届かないため ALT は無効である。2 週間以上経過したカテーテルでは、血流を経由して内腔にバイオフィルムが形成されるため ALT が有効となる。</p>
 
             <div class="danger">
-              <strong>カテーテル抜去の絶対適応（ALT 禁忌）：</strong>以下のいずれかを認める場合は「合併症のない CRBSI」ではなく、カテーテルを必ず抜去する。
+              <div class="alert-head">カテーテル抜去の絶対適応（ALT 禁忌）</div>
+              <p>以下のいずれかを認める場合は「合併症のない CRBSI」ではなく、カテーテルを必ず抜去する。
               <ul style="margin-top:6px;margin-bottom:0;">
                 <li>感染性心内膜炎（IE）の確定</li>
                 <li>硬膜外膿瘍・骨髄炎など<strong>播種性感染症</strong>への進展</li>
                 <li>カテーテル挿入部の<strong>血栓性静脈炎</strong>（化膿性）</li>
                 <li>CV ポートの<strong>ポケット感染</strong></li>
                 <li><strong>カンジダ菌血症</strong>（Candidemia）— 必ず抜去</li>
-              </ul>
+              </ul></p>
             </div>
           </div>
         </div>
@@ -682,7 +668,8 @@
             <p class="citation"><a href="https://doi.org/10.1200/JCO.2008.21.0856" target="_blank" rel="noopener">Portugal RD, et al. J Clin Oncol. 2009 Aug 10;27(23):3849-54.</a> ／ <a href="https://doi.org/10.1200/JCO.19.01916" target="_blank" rel="noopener">Kanda Y, et al. J Clin Oncol. 2020 Mar 10;38(8):815-822.</a></p>
 
             <div class="pearl">
-              <strong>DET の概念：</strong>発熱・ガレクチン-3 陽性・GM 抗原陽性などの臨床的徴候が出てから抗真菌薬を開始する「経験的治療」に対し、D-index を用いて IFI リスクが高まる前に早期介入するアプローチ。
+              <div class="alert-head">DET の概念</div>
+              <p>発熱・ガレクチン-3 陽性・GM 抗原陽性などの臨床的徴候が出てから抗真菌薬を開始する「経験的治療」に対し、D-index を用いて IFI リスクが高まる前に早期介入するアプローチ。</p>
             </div>
           </div>
         </div>
@@ -759,7 +746,8 @@
             <p class="rule-body">FN は「好中球が低下しているときの発熱という<strong>現象</strong>」であり、「疾患」ではない。FN と診断したからといって、そこで考えを止めてはいけない。</p>
 
             <div class="danger">
-              <strong>FN とラベルを貼って思考を止めることは禁物。</strong>緻密な問診・診察・検査によって「<strong>感染源</strong>」「<strong>感染微生物</strong>」を特定する努力を怠らないこと。フォーカスが明らかになれば、そのフォーカスに応じた抗菌薬治療が行える。
+              <div class="alert-head">FN とラベルを貼って思考を止めることは禁物</div>
+              <p>緻密な問診・診察・検査によって「<strong>感染源</strong>」「<strong>感染微生物</strong>」を特定する努力を怠らないこと。フォーカスが明らかになれば、そのフォーカスに応じた抗菌薬治療が行える。</p>
             </div>
 
             <h4 class="sub-head">FN の原因の内訳</h4>
@@ -784,7 +772,8 @@
             <p class="citation"><a href="https://doi.org/10.1093/cid/cir073" target="_blank" rel="noopener">Freifeld AG, et al. Clin Infect Dis. 2011 Feb 15;52(4):e56-93.</a> ／ <a href="https://doi.org/10.6004/jnccn.2012.0146" target="_blank" rel="noopener">Baden LR, et al. J Natl Compr Canc Netw. 2012 Nov 1;10(11):1412-45.</a></p>
 
             <div class="pearl">
-              FN のうち<strong>原因が同定できるのは約 50%</strong>にとどまる。残りの半数は最後まで原因不明のまま経過することが多い。だからこそ系統的な問診と身体診察が重要であり、同定できた症例ではよりターゲット治療が可能になる。
+              <div class="alert-head">原因同定率と系統的評価の重要性</div>
+              <p>FN のうち<strong>原因が同定できるのは約 50%</strong>にとどまる。残りの半数は最後まで原因不明のまま経過することが多い。だからこそ系統的な問診と身体診察が重要であり、同定できた症例ではよりターゲット治療が可能になる。</p>
             </div>
           </div>
         </div>
@@ -846,7 +835,8 @@
               </tbody>
             </table>
             <div class="keypoint">
-              FN の <strong>15 – 20% では複数部位の感染症</strong>がみられる。身体診察は全身にわたって系統的に行う必要がある。
+              <div class="alert-head">複数部位感染に注意</div>
+              <p>FN の <strong>15 – 20% では複数部位の感染症</strong>がみられる。身体診察は全身にわたって系統的に行う必要がある。</p>
             </div>
           </div>
         </div>
@@ -895,7 +885,8 @@
               </tbody>
             </table>
             <div class="keypoint">
-              <strong>ESBL 産生菌・多剤耐性緑膿菌など耐性菌の懸念もある。</strong>患者背景（以前の入院歴・抗菌薬使用歴・地域疫学）を踏まえてリスク評価を行う。
+              <div class="alert-head">ESBL 産生菌・多剤耐性緑膿菌など耐性菌の懸念もある</div>
+              <p>患者背景（以前の入院歴・抗菌薬使用歴・地域疫学）を踏まえてリスク評価を行う。</p>
             </div>
             <p class="citation"><a href="https://doi.org/10.1007/s15010-013-0525-9" target="_blank" rel="noopener">Nesher L, Rolston KV. Infection. 2014 Feb;42(1):5-13.</a> ／ <a href="https://doi.org/10.1007/s00277-012-1631-y" target="_blank" rel="noopener">Kim SH, et al. Ann Hematol. 2013;92(4):533-41.</a></p>
           </div>
@@ -934,11 +925,13 @@
             <p class="rule-body">腸管感染がなければ嫌気性菌カバーは最初から必須ではないが、NEC が疑われる場合や状態不良の場合は積極的にカバーを加える。</p>
 
             <div class="danger">
-              <strong>FN では直腸診禁忌：</strong>好中球減少患者に対してルーティンの直腸診（digital rectal exam）を行うと菌血症のリスクがある。肛門周囲の感染・膿瘍を疑う場合でも、直腸診は緊急時のみとし、慎重に判断する。
+              <div class="alert-head">FN では直腸診禁忌</div>
+              <p>好中球減少患者に対してルーティンの直腸診（digital rectal exam）を行うと菌血症のリスクがある。肛門周囲の感染・膿瘍を疑う場合でも、直腸診は緊急時のみとし、慎重に判断する。</p>
             </div>
 
             <div class="keypoint">
-              <strong>尿路感染症の過少診断：</strong>好中球減少患者では尿中に好中球が排出されないため、尿定性・沈渣で膿尿が検出されにくい。FN での尿路感染症は尿定性陰性でも存在しうる点を知っておく（表の 5–15% は過少見積もりの可能性がある）。
+              <div class="alert-head">尿路感染症の過少診断</div>
+              <p>好中球減少患者では尿中に好中球が排出されないため、尿定性・沈渣で膿尿が検出されにくい。FN での尿路感染症は尿定性陰性でも存在しうる点を知っておく（表の 5–15% は過少見積もりの可能性がある）。</p>
             </div>
           </div>
         </div>
@@ -1194,7 +1187,8 @@
             </table>
 
             <div class="danger">
-              <strong>MXF の注意点：①</strong>尿への移行性が不良（尿路感染症には避けたほうがよい）。<strong>②</strong>CPFX に比べて心室性不整脈のリスクが高い。<strong>使用前に必ず心電図で QTc &lt; 440 ms を確認すること。</strong>
+              <div class="alert-head">MXF の注意点</div>
+              <p><strong>①</strong>尿への移行性が不良（尿路感染症には避けたほうがよい）。<strong>②</strong>CPFX に比べて心室性不整脈のリスクが高い。<strong>使用前に必ず心電図で QTc &lt; 440 ms を確認すること。</strong></p>
             </div>
           </div>
         </div>
@@ -1232,7 +1226,8 @@
             <p class="rule-body" style="margin-top:6px;">シプロフロキサシンとクラリスロマイシンは心毒性との関連なし。</p>
             <p class="citation"><a href="https://doi.org/10.1093/cid/ciu914" target="_blank" rel="noopener">Chou HW, et al. Clin Infect Dis. 2015 Feb 15;60(4):566-77.</a> ／ <a href="https://doi.org/10.1358/dot.2000.36.4.570201" target="_blank" rel="noopener">Moise PA, et al. Drugs Today (Barc). 2000 Apr;36(4):229-44.</a></p>
             <div class="danger">
-              <strong>アジスロマイシン（AZM）使用前は必ずルーティンで心電図（QTc）確認：</strong>AZM は心室性不整脈 OR 4.32 と最も高い心毒性リスクを示す。<em>使用前に必ずルーティンで心電図を撮影し、QTc を確認すること</em>（森先生より）。また、<strong>短期間の使用（3 日間）であっても QTc 延長は起こりうる</strong>。QTc に問題があれば使用を避け、クラリスロマイシン（CAM：心毒性との関連なし）への切り替えを検討する。
+              <div class="alert-head">アジスロマイシン（AZM）使用前は必ずルーティンで心電図（QTc）確認</div>
+              <p>AZM は心室性不整脈 OR 4.32 と最も高い心毒性リスクを示す。<em>使用前に必ずルーティンで心電図を撮影し、QTc を確認すること</em>（森先生より）。また、<strong>短期間の使用（3 日間）であっても QTc 延長は起こりうる</strong>。QTc に問題があれば使用を避け、クラリスロマイシン（CAM：心毒性との関連なし）への切り替えを検討する。</p>
             </div>
           </div>
         </div>
@@ -1303,10 +1298,12 @@
             </table>
             <p class="citation"><a href="https://doi.org/10.1200/JCO.2013.51.6963" target="_blank" rel="noopener">Bucaneve G, et al. J Clin Oncol. 2014 May 10;32(14):1463-71.</a></p>
             <div class="danger">
-              <strong>FN における CFPM の用量は必ず 2 g q8h：</strong>通常の感染症では CFPM 1 g q8h（または 2 g q12h）が標準だが、<strong>FN では必ず 2 g q8h</strong>（= 6 g/日）を使用する（森先生より）。FN の免疫低下状態では標準用量では不十分であるため増量が必要。
+              <div class="alert-head">FN における CFPM の用量は必ず 2 g q8h</div>
+              <p>通常の感染症では CFPM 1 g q8h（または 2 g q12h）が標準だが、<strong>FN では必ず 2 g q8h</strong>（= 6 g/日）を使用する（森先生より）。FN の免疫低下状態では標準用量では不十分であるため増量が必要。</p>
             </div>
             <div class="pearl">
-              <strong>セフェピム・ノーション（Cefepime-induced neurotoxicity）：</strong>2 g q8h の高用量使用時、特に<strong>高齢者・腎機能低下患者</strong>で意識障害・ミオクローヌス・痙攣などの神経毒性が出現することがある。FN 患者に CFPM を使用する際は神経症状を定期的にモニタリングし、症状が現れた場合は MEPM への変更を検討する。
+              <div class="alert-head">セフェピム・ノーション（Cefepime-induced neurotoxicity）</div>
+              <p>2 g q8h の高用量使用時、特に<strong>高齢者・腎機能低下患者</strong>で意識障害・ミオクローヌス・痙攣などの神経毒性が出現することがある。FN 患者に CFPM を使用する際は神経症状を定期的にモニタリングし、症状が現れた場合は MEPM への変更を検討する。</p>
             </div>
           </div>
         </div>
@@ -1332,7 +1329,8 @@
             </ul>
 
             <div class="pearl">
-              VCM を追加する「明確な根拠」がない場合は、培養結果が出るまで待つことが原則。血液培養の陽性時間や Gram 染色の結果で GPC が確認されてからでも遅くない。
+              <div class="alert-head">VCM 追加は根拠が揃ってから</div>
+              <p>VCM を追加する「明確な根拠」がない場合は、培養結果が出るまで待つことが原則。血液培養の陽性時間や Gram 染色の結果で GPC が確認されてからでも遅くない。</p>
             </div>
             <p class="citation"><a href="https://doi.org/10.1002/14651858.CD003914.pub3" target="_blank" rel="noopener">Paul M, et al. Cochrane Database Syst Rev. 2014 Jan 14;1:CD003914.</a> ／ <a href="https://doi.org/10.1093/cid/cir073" target="_blank" rel="noopener">Freifeld AG, et al. Clin Infect Dis. 2011 Feb 15;52(4):e56-93.</a></p>
           </div>
@@ -1365,7 +1363,8 @@
             </table>
             <p class="citation"><a href="https://doi.org/10.1016/S2352-3026(17)30211-9" target="_blank" rel="noopener">Lancet Haematol. 2017 Dec;4(12):e573-e583.</a> ／ <a href="https://doi.org/10.1016/S1473-3099(25)00619-X" target="_blank" rel="noopener">Lancet Infect Dis. 2025 Nov 25:S1473-3099(25)00619-X.</a></p>
             <div class="keypoint">
-              好中球が回復していなくても、患者が安定しており解熱 48 時間・投与 72 時間が経過していれば終了を検討できる。ただし<strong>フォーカスが同定されている場合は必ずそのフォーカスの治療期間を守る</strong>。
+              <div class="alert-head">好中球回復を待たずに終了できる条件</div>
+              <p>好中球が回復していなくても、患者が安定しており解熱 48 時間・投与 72 時間が経過していれば終了を検討できる。ただし<strong>フォーカスが同定されている場合は必ずそのフォーカスの治療期間を守る</strong>。</p>
             </div>
           </div>
         </div>
@@ -1435,7 +1434,8 @@
               <li>重症・菌血症：MEPM（メロペネム）への昇格を検討</li>
             </ul>
             <div class="danger">
-              <strong>FN でのセフトリアキソン・セフォタキシム使用は避ける。</strong>AMPC-HESK 菌が起因菌になっていた場合、治療中に耐性化して治療失敗となるリスクがある。FN の経験的治療には第四世代セフェム（CFPM）または PIPC/TAZ が適切。
+              <div class="alert-head">FN でのセフトリアキソン・セフォタキシム使用は避ける</div>
+              <p>AMPC-HESK 菌が起因菌になっていた場合、治療中に耐性化して治療失敗となるリスクがある。FN の経験的治療には第四世代セフェム（CFPM）または PIPC/TAZ が適切。</p>
             </div>
           </div>
         </div>
@@ -1483,7 +1483,8 @@
             </table>
 
             <div class="keypoint">
-              <strong>臨床での使い分け：</strong>腸管・腹腔内感染（腸球菌・嫌気性菌リスク）を合併している場合は PIPC/TAZ が有利。AmpC 産生菌（特に <em>Enterobacter cloacae</em>）が分離または疑われる場合は必ず CFPM（または MEPM）を使用する。PIPC/TAZ では感受性「S」と出ていても AmpC 菌は治療中に耐性化して失敗する。
+              <div class="alert-head">臨床での使い分け</div>
+              <p>腸管・腹腔内感染（腸球菌・嫌気性菌リスク）を合併している場合は PIPC/TAZ が有利。AmpC 産生菌（特に <em>Enterobacter cloacae</em>）が分離または疑われる場合は必ず CFPM（または MEPM）を使用する。PIPC/TAZ では感受性「S」と出ていても AmpC 菌は治療中に耐性化して失敗する。</p>
             </div>
           </div>
         </div>

@@ -107,19 +107,10 @@
       border-bottom: 2px solid #C4B5FD;
       margin: 0 0 10px;
     }
-    /* Lv4: Card 内の小見出し（h4）— 紫太字 + ● プレフィクス */
-    .card-inner h4.sub-head {
-      font-size: 0.95rem;
-      font-weight: 900;
-      color: #4C1D95;
-      margin: 14px 0 6px;
-      letter-spacing: 0.02em;
-      line-height: 1.4;
-    }
-    .card-inner h4.sub-head { padding-left: 18px; text-indent: -18px; }
-    .card-inner h4.sub-head::before { content: '●'; color: #7C3AED; font-size: 0.62rem; margin-right: 8px; vertical-align: 1px; }
+    /* Lv4: Card 内の小見出し（h4）— 紫背景ピル */
+    .card-inner h4.sub-head { font-size:0.9rem; font-weight:800; color:#5B21B6; background:#F5F3FF; border:1px solid #E9E3FF; border-radius:6px; padding:7px 12px; margin:18px 0 9px; letter-spacing:0.01em; line-height:1.4; }
+    .card-inner h4.sub-head:first-child { margin-top:0; }
     .card-inner > .rule-body, .card-inner > p { padding-left: 18px; }
-    .card-inner h4.sub-head:first-child { margin-top: 0; }
 
     /* ====== 本文：余白タイトに ====== */
     .card-inner .rule-body,
@@ -153,30 +144,18 @@
       margin-left: 8px;font-style: italic;
     }
 
-    /* ====== 警告/注意ボックス ====== */
-    .keypoint {
-      background: #FFFBEB;border: 1px solid #FDE68A;border-radius: 6px;
-      padding: 8px 12px;margin: 8px 0;font-size: 0.82rem;line-height: 1.65;color: #78350F;
-    }
-    .keypoint::before {
-      content: '注意';display: inline-block;
-      background: #F59E0B;color: #fff;font-size: 0.64rem;font-weight: 800;
-      padding: 1px 7px;border-radius: 3px;margin-right: 8px;
-      letter-spacing: 0.06em;
-    }
-    .keypoint strong { color: #92400E; }
-
-    .danger {
-      background: #FEF2F2;border: 1px solid #FECACA;border-radius: 6px;
-      padding: 8px 12px;margin: 8px 0;font-size: 0.82rem;line-height: 1.65;color: #7F1D1D;
-    }
-    .danger::before {
-      content: '警告';display: inline-block;
-      background: #DC2626;color: #fff;font-size: 0.64rem;font-weight: 800;
-      padding: 1px 7px;border-radius: 3px;margin-right: 8px;
-      letter-spacing: 0.06em;
-    }
-    .danger strong { color: #7F1D1D; }
+    /* ====== 警告/注意/ポイント ボックス（バッヂ＋タイトル＝1行目、本文＝改行） ====== */
+    .danger, .keypoint, .point { border-radius:8px; padding:11px 14px; margin:10px 0; font-size:0.82rem; line-height:1.7; }
+    .danger { background:#FEF2F2; border:1px solid #FECACA; color:#7F1D1D; }
+    .keypoint { background:#FFFBEB; border:1px solid #FDE68A; color:#78350F; }
+    .point { background:#F0FDF4; border:1px solid #BBF7D0; color:#14532D; }
+    .alert-head { display:flex; align-items:center; gap:8px; font-weight:800; font-size:0.84rem; line-height:1.45; margin-bottom:5px; }
+    .alert-head::before { display:inline-block; color:#fff; font-size:0.64rem; font-weight:800; padding:2px 8px; border-radius:4px; letter-spacing:0.06em; flex-shrink:0; }
+    .danger .alert-head { color:#991B1B; } .danger .alert-head::before { content:'Pitfall'; background:#DC2626; }
+    .keypoint .alert-head { color:#92400E; } .keypoint .alert-head::before { content:'注意'; background:#F59E0B; }
+    .point .alert-head { color:#15803D; } .point .alert-head::before { content:'ポイント'; background:#16A34A; }
+    .danger p, .keypoint p, .point p { margin:0; font-size:0.82rem; line-height:1.7; }
+    .danger p strong { color:#991B1B; } .keypoint p strong { color:#92400E; } .point p strong { color:#15803D; }
 
     /* ====== SPACE 強調ボックス ====== */
     .space-emph {
@@ -299,6 +278,14 @@
     .gl-chapter-banner { margin-top: 32px !important;padding: 14px 20px !important; }
     .gl-chapter-banner.first { margin-top: 8px !important; }
     .gl-chapter-banner .gl-chapter-title { font-size: 1.15rem !important; }
+
+    @media (max-width: 767px) {
+      .card-inner h4.sub-head { font-size:0.84rem; padding:6px 10px; margin:14px 0 8px; }
+      .danger, .keypoint, .point { padding:10px 12px; font-size:0.8rem; }
+      .alert-head { font-size:0.81rem; }
+      .alert-head::before { font-size:0.6rem; padding:2px 7px; }
+      .danger p, .keypoint p, .point p { font-size:0.8rem; line-height:1.7; }
+    }
   </style>
 </head>
 <body>
@@ -518,7 +505,8 @@
               <li><em>Serratia</em></li>
             </ul>
             <div class="keypoint" style="margin-top:8px;">
-              <strong>第3世代セフェム耐性となるため、CFPM（第4世代）またはカルバペネムを選択する。</strong>
+              <div class="alert-head">第3世代セフェム耐性に注意</div>
+              <p>第3世代セフェム耐性となるため、CFPM（第4世代）またはカルバペネムを選択する。</p>
             </div>
           </div>
         </div>
@@ -825,7 +813,8 @@
                 <div class="drug-section">
                   <div class="drug-section-title">VAP での使用</div>
                   <div class="danger">
-                    <strong>肺サーファクタントで不活化されるため、経気道感染をする VAP では治療選択肢にならない。</strong>
+                    <div class="alert-head">肺サーファクタントで不活化</div>
+                    <p>肺サーファクタントで不活化されるため、経気道感染をする VAP では治療選択肢にならない。</p>
                   </div>
                 </div>
                 <div class="drug-section">
@@ -914,7 +903,8 @@
                     </tbody>
                   </table>
                   <div class="keypoint">
-                    投薬日数の違い（TZD 7 日 vs LZD 10 日）など、研究設計にツッコミどころがある。
+                    <div class="alert-head">研究設計の注意点</div>
+                    <p>投薬日数の違い（TZD 7 日 vs LZD 10 日）など、研究設計にツッコミどころがある。</p>
                   </div>
                   <p class="citation" style="margin-top:4px;"><a href="https://doi.org/10.1093/cid/ciab032" target="_blank" rel="noopener" style="color:#7C3AED;font-weight:600;">Wunderink RG et al. Clin Infect Dis 2021; 73(3): e710-e718（VITAL 試験）↗</a></p>
                 </div>
@@ -1014,7 +1004,8 @@
             </table>
             <p class="citation" style="margin-top:4px;"><a href="https://doi.org/10.1001/jama.290.19.2588" target="_blank" rel="noopener" style="color:#7C3AED;font-weight:600;">Chastre J et al. JAMA 2003; 290(19): 2588-2598 ↗</a></p>
             <div class="keypoint">
-              <strong>誤嚥性肺炎では嫌気性菌カバーを含めない</strong>のが世界的トレンド（腸内細菌叢の多様性が失われるため）。<strong>VAP 発症予防の抗菌薬投与は行わない</strong>。
+              <div class="alert-head">誤嚥性肺炎の嫌気性菌カバー</div>
+              <p><strong>誤嚥性肺炎では嫌気性菌カバーを含めない</strong>のが世界的トレンド（腸内細菌叢の多様性が失われるため）。<strong>VAP 発症予防の抗菌薬投与は行わない</strong>。</p>
             </div>
           </div>
         </div>
@@ -1044,7 +1035,8 @@
             </table>
             <p class="citation" style="margin-top:4px;"><a href="https://doi.org/10.1183/09031936.00053209" target="_blank" rel="noopener" style="color:#7C3AED;font-weight:600;">Stolz D et al. Eur Respir J 2009; 34(6): 1364-75 ↗</a></p>
             <div class="keypoint">
-              <strong>PCT は単独で用いず、必ず臨床所見・微生物学的検査と組み合わせて総合的に判断</strong>する。
+              <div class="alert-head">PCT の使い方</div>
+              <p><strong>PCT は単独で用いず、必ず臨床所見・微生物学的検査と組み合わせて総合的に判断</strong>する。</p>
             </div>
           </div>
         </div>

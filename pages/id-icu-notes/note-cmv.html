@@ -93,18 +93,9 @@
       border-bottom: 2px solid #C4B5FD;
       margin: 0 0 10px;
     }
-    .card-inner h4.sub-head {
-      font-size: 0.95rem;
-      font-weight: 900;
-      color: #4C1D95;
-      margin: 14px 0 6px;
-      letter-spacing: 0.02em;
-      line-height: 1.4;
-    }
-    .card-inner h4.sub-head { padding-left: 18px; text-indent: -18px; }
-    .card-inner h4.sub-head::before { content: '●'; color: #7C3AED; font-size: 0.62rem; margin-right: 8px; vertical-align: 1px; }
+    .card-inner h4.sub-head { font-size:0.9rem; font-weight:800; color:#5B21B6; background:#F5F3FF; border:1px solid #E9E3FF; border-radius:6px; padding:7px 12px; margin:18px 0 9px; letter-spacing:0.01em; line-height:1.4; }
+    .card-inner h4.sub-head:first-child { margin-top:0; }
     .card-inner > .rule-body, .card-inner > p { padding-left: 18px; }
-    .card-inner h4.sub-head:first-child { margin-top: 0; }
 
     /* ====== 本文 ====== */
     .card-inner .rule-body,
@@ -128,29 +119,17 @@
     .card-inner em { font-style: italic; color: #1F2937; }
 
     /* ====== 警告/注意ボックス ====== */
-    .keypoint {
-      background: #FFFBEB;border: 1px solid #FDE68A;border-radius: 6px;
-      padding: 8px 12px;margin: 8px 0;font-size: 0.82rem;line-height: 1.65;color: #78350F;
-    }
-    .keypoint::before {
-      content: '注意';display: inline-block;
-      background: #F59E0B;color: #fff;font-size: 0.64rem;font-weight: 800;
-      padding: 1px 7px;border-radius: 3px;margin-right: 8px;
-      letter-spacing: 0.06em;
-    }
-    .keypoint strong { color: #92400E; }
-
-    .danger {
-      background: #FEF2F2;border: 1px solid #FECACA;border-radius: 6px;
-      padding: 8px 12px;margin: 8px 0;font-size: 0.82rem;line-height: 1.65;color: #7F1D1D;
-    }
-    .danger::before {
-      content: '警告';display: inline-block;
-      background: #DC2626;color: #fff;font-size: 0.64rem;font-weight: 800;
-      padding: 1px 7px;border-radius: 3px;margin-right: 8px;
-      letter-spacing: 0.06em;
-    }
-    .danger strong { color: #7F1D1D; }
+    .danger, .keypoint, .point { border-radius:8px; padding:11px 14px; margin:10px 0; font-size:0.82rem; line-height:1.7; }
+    .danger { background:#FEF2F2; border:1px solid #FECACA; color:#7F1D1D; }
+    .keypoint { background:#FFFBEB; border:1px solid #FDE68A; color:#78350F; }
+    .point { background:#F0FDF4; border:1px solid #BBF7D0; color:#14532D; }
+    .alert-head { display:flex; align-items:center; gap:8px; font-weight:800; font-size:0.84rem; line-height:1.45; margin-bottom:5px; }
+    .alert-head::before { display:inline-block; color:#fff; font-size:0.64rem; font-weight:800; padding:2px 8px; border-radius:4px; letter-spacing:0.06em; flex-shrink:0; }
+    .danger .alert-head { color:#991B1B; } .danger .alert-head::before { content:'Pitfall'; background:#DC2626; }
+    .keypoint .alert-head { color:#92400E; } .keypoint .alert-head::before { content:'注意'; background:#F59E0B; }
+    .point .alert-head { color:#15803D; } .point .alert-head::before { content:'ポイント'; background:#16A34A; }
+    .danger p, .keypoint p, .point p { margin:0; font-size:0.82rem; line-height:1.7; }
+    .danger p strong { color:#991B1B; } .keypoint p strong { color:#92400E; } .point p strong { color:#15803D; }
 
     /* ====== 引用 ====== */
     .citation {
@@ -336,6 +315,14 @@
     .sens-val { font-size:1.1rem;font-weight:900;color:#7C3AED;font-family:ui-monospace,Menlo,Consolas,monospace; }
     .sens-note { font-size:0.72rem;color:var(--muted);margin-top:2px; }
     @media (max-width:600px) { .sens-grid { grid-template-columns:1fr; } }
+
+    @media (max-width: 767px) {
+      .card-inner h4.sub-head { font-size:0.84rem; padding:6px 10px; margin:14px 0 8px; }
+      .danger, .keypoint, .point { padding:10px 12px; font-size:0.8rem; }
+      .alert-head { font-size:0.81rem; }
+      .alert-head::before { font-size:0.6rem; padding:2px 7px; }
+      .danger p, .keypoint p, .point p { font-size:0.8rem; line-height:1.7; }
+    }
   </style>
 </head>
 <body>
@@ -552,7 +539,8 @@
             </table>
 
             <div class="keypoint">
-              <strong>ICU での重要ポイント：</strong> ICU 入室患者では <strong>背景に免疫抑制がなくても CMV 感染症を発症する報告が多い</strong>。最頻は <strong>Lower GI への感染による下痢・血便</strong>。
+              <div class="alert-head">ICU での重要ポイント</div>
+              <p>ICU 入室患者では <strong>背景に免疫抑制がなくても CMV 感染症を発症する報告が多い</strong>。最頻は <strong>Lower GI への感染による下痢・血便</strong>。</p>
             </div>
           </div>
         </div>
@@ -581,7 +569,8 @@
               </tbody>
             </table>
             <div class="keypoint">
-              <strong>注意：</strong> 両者は <strong>異なる概念</strong>。CMV infection があっても症状がなければ CMV disease ではない。治療判断は <strong>臓器障害の有無</strong>を必ず確認する。
+              <div class="alert-head">注意</div>
+              <p>両者は <strong>異なる概念</strong>。CMV infection があっても症状がなければ CMV disease ではない。治療判断は <strong>臓器障害の有無</strong>を必ず確認する。</p>
             </div>
           </div>
         </div>
@@ -652,7 +641,8 @@
             <h4 class="sub-head">① 病理（Biopsy / BAL）— "ふくろうの目"様細胞</h4>
             <p class="rule-body">Biopsy 組織標本や BAL 液において <strong style="color:#4C1D95;">巨細胞核内封入体を有する細胞（"ふくろうの目"様細胞）</strong>を検出し、CMV 感染を同定する。CF が困難な場合には <strong>Sigmoidoscopy</strong> なども検討。</p>
             <div class="keypoint">
-              <strong>感度の限界：</strong> CMV 感染の診断における感度は高くない。ただし <strong>免疫組織染色で CMV 抗原が検出された場合の診断的意義は高い</strong>。
+              <div class="alert-head">感度の限界</div>
+              <p>CMV 感染の診断における感度は高くない。ただし <strong>免疫組織染色で CMV 抗原が検出された場合の診断的意義は高い</strong>。</p>
             </div>
 
             <h4 class="sub-head">② CMV 抗原血症（CMV-Ag, C7-HRP / C10-C11）</h4>
@@ -675,7 +665,8 @@
             <p class="rule-body">例えば、<strong>移植患者であれば陽性細胞数 1〜2 でも治療対象となりうる</strong>。これは、肺炎など臓器感染を生じる <strong>Direct effect</strong> だけでなく、CMV が再活性化することで <strong>Graft loss（移植片に対する拒絶）や Invasive Infection（菌血症・アスペルギルス感染症）が増加する Indirect effect</strong> を生じることにも関連する。
 
             <div class="keypoint">
-              <strong>本邦造血幹細胞移植 GL（第 5 版）</strong>では、CMV モニタリングにおける <strong>高リスク群</strong>を以下のように定義：
+              <div class="alert-head">本邦造血幹細胞移植 GL（第 5 版）</div>
+              <p>CMV モニタリングにおける <strong>高リスク群</strong>を以下のように定義：
               <ul style="margin-top:6px;">
                 <li>臍帯血移植</li>
                 <li>HLA 不適合移植・HLA 半合致移植</li>
@@ -683,7 +674,7 @@
                 <li>T 細胞除去移植</li>
                 <li>副腎皮質ステロイド（0.5–1.0 mg/kg 以上）投与</li>
               </ul>
-              これ以外は <strong>低リスク群</strong>として、それぞれに異なる閾値を設定。
+              これ以外は <strong>低リスク群</strong>として、それぞれに異なる閾値を設定。</p>
             </div>
             <p class="citation">出典：日本造血・免疫細胞療法学会「造血細胞移植ガイドライン サイトメガロウイルス感染症（第 5 版）」</p>
           </div>
@@ -720,7 +711,8 @@
               </div>
             </div>
             <div class="keypoint">
-              <strong>臨床応用：</strong> CMV-Ag 陰性は、<strong>肺炎以外では除外診断にならない</strong>。臓器別に <strong>生検・房水 PCR・髄液 PCR</strong> を併用する。
+              <div class="alert-head">臨床応用</div>
+              <p>CMV-Ag 陰性は、<strong>肺炎以外では除外診断にならない</strong>。臓器別に <strong>生検・房水 PCR・髄液 PCR</strong> を併用する。</p>
             </div>
           </div>
         </div>
@@ -797,7 +789,8 @@
             </table>
 
             <div class="danger">
-              <strong>併用禁忌：</strong> <strong>Maribavir は UL97 キナーゼを阻害</strong>するため、<strong>ガンシクロビルの活性化を妨げる</strong>。よって <strong>GCV / VGCV と Maribavir は併用できない</strong>。
+              <div class="alert-head">併用禁忌</div>
+              <p><strong>Maribavir は UL97 キナーゼを阻害</strong>するため、<strong>ガンシクロビルの活性化を妨げる</strong>。よって <strong>GCV / VGCV と Maribavir は併用できない</strong>。</p>
             </div>
           </div>
         </div>
@@ -878,7 +871,8 @@
               <div class="drug-section-title">副作用</div>
               <p><strong style="color:#DC2626;">腎毒性、K / P / Mg 低下</strong>。<strong>骨髄抑制はガンシクロビルと比較して少ない</strong>。</p>
               <div class="keypoint">
-                <strong>腎保護策：</strong> 投与前後で <strong>生理食塩水の Hydration</strong> を行う。<strong>K、P 混注</strong>をすることもある。
+                <div class="alert-head">腎保護策</div>
+                <p>投与前後で <strong>生理食塩水の Hydration</strong> を行う。<strong>K、P 混注</strong>をすることもある。</p>
               </div>
             </div>
             <div class="drug-section">
@@ -949,7 +943,8 @@
             <div class="drug-section">
               <div class="drug-section-title">併用禁忌</div>
               <div class="danger">
-                UL97 キナーゼ阻害により <strong>GCV / VGCV の活性化を阻害</strong>するため、<strong>ガンシクロビルとは併用禁忌</strong>。
+                <div class="alert-head">併用禁忌</div>
+                <p>UL97 キナーゼ阻害により <strong>GCV / VGCV の活性化を阻害</strong>するため、<strong>ガンシクロビルとは併用禁忌</strong>。</p>
               </div>
             </div>
           </div>
@@ -973,13 +968,15 @@
               <p>レシピエントが <strong style="color:#4C1D95;">CMV 抗体陽性である同種造血幹細胞移植（Allo-HSCT）患者</strong>に投与。米国移植・細胞治療学会のガイドラインは、CMV 抗体陽性患者には <strong>移植後 28 日以内に Letermovir の予防投与を開始</strong>することを推奨しているが、<strong>コストなどの理由から高リスク患者に限定する</strong>ことも考えられるとしている。</p>
 
               <div class="keypoint">
-                <strong>特に投与推奨される高リスク患者：</strong> 免疫再構築が遅延する症例
+                <div class="alert-head">特に投与推奨される高リスク患者</div>
+                <p>免疫再構築が遅延する症例
                 <ul style="margin-top:4px;">
                   <li>T 細胞除去移植</li>
                   <li>GVHD 治療中</li>
                   <li>HLA 不一致移植</li>
                   <li>強力な免疫抑制療法施行例</li>
                 </ul>
+                </p>
               </div>
 
               <p><strong>自家移植（Auto）の場合は、免疫再構築の懸念はないため適用とならない。</strong></p>

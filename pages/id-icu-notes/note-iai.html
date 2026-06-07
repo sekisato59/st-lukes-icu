@@ -93,18 +93,9 @@
       border-bottom: 2px solid #C4B5FD;
       margin: 0 0 10px;
     }
-    .card-inner h4.sub-head {
-      font-size: 0.95rem;
-      font-weight: 900;
-      color: #4C1D95;
-      margin: 14px 0 6px;
-      letter-spacing: 0.02em;
-      line-height: 1.4;
-    }
-    .card-inner h4.sub-head { padding-left: 18px; text-indent: -18px; }
-    .card-inner h4.sub-head::before { content: '●'; color: #7C3AED; font-size: 0.62rem; margin-right: 8px; vertical-align: 1px; }
+    .card-inner h4.sub-head { font-size:0.9rem; font-weight:800; color:#5B21B6; background:#F5F3FF; border:1px solid #E9E3FF; border-radius:6px; padding:7px 12px; margin:18px 0 9px; letter-spacing:0.01em; line-height:1.4; }
+    .card-inner h4.sub-head:first-child { margin-top:0; }
     .card-inner > .rule-body, .card-inner > p { padding-left: 18px; }
-    .card-inner h4.sub-head:first-child { margin-top: 0; }
 
     /* ====== 本文 ====== */
     .card-inner .rule-body,
@@ -137,29 +128,17 @@
     .organism-list li strong { color: #374151;font-weight: 800; }
 
     /* ====== 警告/注意ボックス ====== */
-    .keypoint {
-      background: #FFFBEB;border: 1px solid #FDE68A;border-radius: 6px;
-      padding: 8px 12px;margin: 8px 0;font-size: 0.82rem;line-height: 1.65;color: #78350F;
-    }
-    .keypoint::before {
-      content: '注意';display: inline-block;
-      background: #F59E0B;color: #fff;font-size: 0.64rem;font-weight: 800;
-      padding: 1px 7px;border-radius: 3px;margin-right: 8px;
-      letter-spacing: 0.06em;
-    }
-    .keypoint strong { color: #92400E; }
-
-    .danger {
-      background: #FEF2F2;border: 1px solid #FECACA;border-radius: 6px;
-      padding: 8px 12px;margin: 8px 0;font-size: 0.82rem;line-height: 1.65;color: #7F1D1D;
-    }
-    .danger::before {
-      content: '警告';display: inline-block;
-      background: #DC2626;color: #fff;font-size: 0.64rem;font-weight: 800;
-      padding: 1px 7px;border-radius: 3px;margin-right: 8px;
-      letter-spacing: 0.06em;
-    }
-    .danger strong { color: #7F1D1D; }
+    .danger, .keypoint, .point { border-radius:8px; padding:11px 14px; margin:10px 0; font-size:0.82rem; line-height:1.7; }
+    .danger { background:#FEF2F2; border:1px solid #FECACA; color:#7F1D1D; }
+    .keypoint { background:#FFFBEB; border:1px solid #FDE68A; color:#78350F; }
+    .point { background:#F0FDF4; border:1px solid #BBF7D0; color:#14532D; }
+    .alert-head { display:flex; align-items:center; gap:8px; font-weight:800; font-size:0.84rem; line-height:1.45; margin-bottom:5px; }
+    .alert-head::before { display:inline-block; color:#fff; font-size:0.64rem; font-weight:800; padding:2px 8px; border-radius:4px; letter-spacing:0.06em; flex-shrink:0; }
+    .danger .alert-head { color:#991B1B; } .danger .alert-head::before { content:'Pitfall'; background:#DC2626; }
+    .keypoint .alert-head { color:#92400E; } .keypoint .alert-head::before { content:'注意'; background:#F59E0B; }
+    .point .alert-head { color:#15803D; } .point .alert-head::before { content:'ポイント'; background:#16A34A; }
+    .danger p, .keypoint p, .point p { margin:0; font-size:0.82rem; line-height:1.7; }
+    .danger p strong { color:#991B1B; } .keypoint p strong { color:#92400E; } .point p strong { color:#15803D; }
 
     /* ====== トライアルPICOボックス ====== */
     .trial-block {
@@ -309,6 +288,13 @@
       .anae-cov .ana-low, .anae-cov .ana-mlow { font-size: 0.7rem; }
       .anae-cov-legend { font-size: 0.7rem;gap: 10px; }
     }
+    @media (max-width: 767px) {
+      .card-inner h4.sub-head { font-size:0.84rem; padding:6px 10px; margin:14px 0 8px; }
+      .danger, .keypoint, .point { padding:10px 12px; font-size:0.8rem; }
+      .alert-head { font-size:0.81rem; }
+      .alert-head::before { font-size:0.6rem; padding:2px 7px; }
+      .danger p, .keypoint p, .point p { font-size:0.8rem; line-height:1.7; }
+    }
   </style>
 </head>
 <body>
@@ -446,7 +432,8 @@
             </ul>
 
             <div class="keypoint">
-              <strong>臨床応用：</strong> 画像で虫垂結石なし・全身状態安定の急性虫垂炎では「抗菌薬ファースト」を提示する選択肢がある。ただし約 30% は手術移行となる旨を patient consent に含める。
+              <div class="alert-head">臨床応用</div>
+              <p>画像で虫垂結石なし・全身状態安定の急性虫垂炎では「抗菌薬ファースト」を提示する選択肢がある。ただし約 30% は手術移行となる旨を patient consent に含める。</p>
             </div>
           </div>
         </div>
@@ -488,7 +475,8 @@
             <p class="rule-body">主要評価項目である入院率、再受診率、緊急手術率、疼痛コントロールなどに <strong>有意差はなく</strong>、抗菌薬非使用群でも安全性に問題は認められなかった。</p>
 
             <div class="keypoint">
-              <strong>解釈の注意：</strong> 試験が組まれたスペインは <strong>耐性菌が多い</strong>地域であり、抗菌薬投与群はそのような環境下でアモキシシリン/クラブラン酸（オーグメンチン）が選択された事実は重要。<strong>抗菌薬投与群でも有効な抗菌薬治療が行えていなかった可能性</strong>は残る（≒ 比較対象群の effective coverage が不十分だった可能性）。
+              <div class="alert-head">解釈の注意</div>
+              <p>試験が組まれたスペインは <strong>耐性菌が多い</strong>地域であり、抗菌薬投与群はそのような環境下でアモキシシリン/クラブラン酸（オーグメンチン）が選択された事実は重要。<strong>抗菌薬投与群でも有効な抗菌薬治療が行えていなかった可能性</strong>は残る（≒ 比較対象群の effective coverage が不十分だった可能性）。</p>
             </div>
           </div>
         </div>
@@ -587,7 +575,8 @@
             <p class="rule-body">すなわち、<strong>短期間（約 4 日間）の抗菌薬投与は、従来の臨床的改善までの投与（中央値 8 日間）と比較して、治療成績に劣らない</strong>ことが示された。</p>
 
             <div class="keypoint">
-              <strong>除外条件：</strong> <strong>菌血症患者・免疫不全者は短期投与の対象外</strong>。これらの症例では従来通り臨床改善までの投与が必要。
+              <div class="alert-head">除外条件</div>
+              <p><strong>菌血症患者・免疫不全者は短期投与の対象外</strong>。これらの症例では従来通り臨床改善までの投与が必要。</p>
             </div>
           </div>
         </div>
@@ -650,7 +639,8 @@
             </table>
 
             <div class="keypoint">
-              <strong>腸球菌カバー：</strong> 上記レジメンでは <strong>腸球菌（Enterococcus）のカバーが漏れる</strong>が、腸球菌は <strong>弱毒菌</strong>であるため、<strong>培養で検出されてからカバーを加えるのでよい</strong>。
+              <div class="alert-head">腸球菌カバー</div>
+              <p>上記レジメンでは <strong>腸球菌（Enterococcus）のカバーが漏れる</strong>が、腸球菌は <strong>弱毒菌</strong>であるため、<strong>培養で検出されてからカバーを加えるのでよい</strong>。</p>
             </div>
           </div>
         </div>
@@ -690,7 +680,8 @@
               <li>女性の膣内に常在する <strong>嫌気性菌</strong>もなりうる</li>
             </ul>
             <div class="keypoint">
-              <strong>注意：</strong> 嫌気性菌の関与もあるため、<strong>患者は必ずしも Sexually Active でなくてよい</strong>。性交渉歴がない女性でも鑑別から外さない。
+              <div class="alert-head">注意</div>
+              <p>嫌気性菌の関与もあるため、<strong>患者は必ずしも Sexually Active でなくてよい</strong>。性交渉歴がない女性でも鑑別から外さない。</p>
             </div>
           </div>
         </div>
@@ -765,7 +756,8 @@
               <li>体内で Cyst が <strong style="color:#4C1D95;">Trophozoite（栄養体）</strong>となり血中に移行 → <strong style="color:#4C1D95;">門脈経由で肝臓</strong>へ</li>
             </ol>
             <div class="keypoint">
-              <strong>2 ステージ治療の根拠：</strong> よって <strong>Trophozoite（栄養体）と Cyst の両方に対して治療が必要</strong>である。
+              <div class="alert-head">2 ステージ治療の根拠</div>
+              <p>よって <strong>Trophozoite（栄養体）と Cyst の両方に対して治療が必要</strong>である。</p>
             </div>
           </div>
         </div>
@@ -807,7 +799,8 @@
               </tbody>
             </table>
             <div class="keypoint">
-              <strong>2 ステップ治療：</strong> MNZ で Trophozoite を駆除しても <strong>腸管内 Cyst が残存していると再発・他者感染源になる</strong>ため、必ず Paromomycin で Cyst も処理する。
+              <div class="alert-head">2 ステップ治療</div>
+              <p>MNZ で Trophozoite を駆除しても <strong>腸管内 Cyst が残存していると再発・他者感染源になる</strong>ため、必ず Paromomycin で Cyst も処理する。</p>
             </div>
           </div>
         </div>
@@ -941,7 +934,8 @@
             </ul>
 
             <div class="keypoint">
-              <strong>セフメタゾール（CMZ）の位置づけ：</strong> 腹腔内感染症の治療として一定の有効性があるものの、<strong>国際的なガイドライン（Surgical Infection Society）では第一選択薬としては推奨されていない</strong>。特に <strong>重症例・院内発症例・耐性菌リスクが高い場合は、より広域な抗菌薬の使用が望ましい</strong>。
+              <div class="alert-head">セフメタゾール（CMZ）の位置づけ</div>
+              <p>腹腔内感染症の治療として一定の有効性があるものの、<strong>国際的なガイドライン（Surgical Infection Society）では第一選択薬としては推奨されていない</strong>。特に <strong>重症例・院内発症例・耐性菌リスクが高い場合は、より広域な抗菌薬の使用が望ましい</strong>。</p>
             </div>
           </div>
         </div>
@@ -971,7 +965,8 @@
             </ol>
 
             <div class="keypoint">
-              <strong>臨床的意義：</strong> COMS を満たした時点で経口に切り替えると、<strong>カテーテル関連感染リスクの低下、入院期間短縮、医療費削減</strong>につながる。腹腔内感染症では <strong>STOP-IT</strong> の知見と組み合わせ、<strong>「ソースコントロール → 短期 IV → 早期経口スイッチ」</strong>の流れが標準化されつつある。
+              <div class="alert-head">臨床的意義</div>
+              <p>COMS を満たした時点で経口に切り替えると、<strong>カテーテル関連感染リスクの低下、入院期間短縮、医療費削減</strong>につながる。腹腔内感染症では <strong>STOP-IT</strong> の知見と組み合わせ、<strong>「ソースコントロール → 短期 IV → 早期経口スイッチ」</strong>の流れが標準化されつつある。</p>
             </div>
           </div>
         </div>

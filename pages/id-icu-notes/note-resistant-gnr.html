@@ -60,8 +60,6 @@
       .card-inner h4.sub-head { font-size: 0.88rem; }
       .card-inner .rule-body, .card-inner ul li, .card-inner ol li,
       .card-inner p { font-size: 0.78rem; line-height: 1.65; }
-      .keypoint, .danger { font-size: 0.76rem; line-height: 1.6; padding: 7px 10px; }
-      .keypoint::before, .danger::before { font-size: 0.6rem; padding: 1px 6px; margin-right: 6px; }
       .note-btn-video { font-size: 0.76rem; padding: 8px 14px; }
       .ie-main-col h3[id^="ch"] { font-size: 0.98rem !important; }
       .gl-chapter-banner .gl-chapter-title { font-size: 1.02rem !important; }
@@ -72,14 +70,8 @@
       font-size: 0.98rem; color: var(--text); padding-bottom: 6px;
       border-bottom: 2px solid #C4B5FD; margin: 0 0 10px;
     }
-    .card-inner h4.sub-head {
-      font-size: 0.95rem; font-weight: 900; color: #4C1D95;
-      margin: 14px 0 6px; letter-spacing: 0.02em; line-height: 1.4;
-    }
-    .card-inner h4.sub-head { padding-left: 18px; text-indent: -18px; }
-    .card-inner h4.sub-head::before { content: '●'; color: #7C3AED; font-size: 0.62rem; margin-right: 8px; vertical-align: 1px; }
-    .card-inner > .rule-body, .card-inner > p { padding-left: 18px; }
-    .card-inner h4.sub-head:first-child { margin-top: 0; }
+    .card-inner h4.sub-head { font-size:0.9rem; font-weight:800; color:#5B21B6; background:#F5F3FF; border:1px solid #E9E3FF; border-radius:6px; padding:7px 12px; margin:18px 0 9px; letter-spacing:0.01em; line-height:1.4; }
+    .card-inner h4.sub-head:first-child { margin-top:0; }
 
     /* ====== 本文 ====== */
     .card-inner .rule-body, .card-inner ul li, .card-inner ol li,
@@ -92,26 +84,17 @@
     .card-inner em { font-style: italic; color: #1F2937; }
 
     /* ====== 警告ボックス ====== */
-    .keypoint {
-      background: #FFFBEB; border: 1px solid #FDE68A; border-radius: 6px;
-      padding: 8px 12px; margin: 8px 0; font-size: 0.82rem; line-height: 1.65; color: #78350F;
-    }
-    .keypoint::before {
-      content: '注意'; display: inline-block; background: #F59E0B; color: #fff;
-      font-size: 0.64rem; font-weight: 800; padding: 1px 7px; border-radius: 3px;
-      margin-right: 8px; letter-spacing: 0.06em;
-    }
-    .keypoint strong { color: #92400E; }
-    .danger {
-      background: #FEF2F2; border: 1px solid #FECACA; border-radius: 6px;
-      padding: 8px 12px; margin: 8px 0; font-size: 0.82rem; line-height: 1.65; color: #7F1D1D;
-    }
-    .danger::before {
-      content: '重要'; display: inline-block; background: #DC2626; color: #fff;
-      font-size: 0.64rem; font-weight: 800; padding: 1px 7px; border-radius: 3px;
-      margin-right: 8px; letter-spacing: 0.06em;
-    }
-    .danger strong { color: #7F1D1D; }
+    .danger, .keypoint, .point { border-radius:8px; padding:11px 14px; margin:10px 0; font-size:0.82rem; line-height:1.7; }
+    .danger { background:#FEF2F2; border:1px solid #FECACA; color:#7F1D1D; }
+    .keypoint { background:#FFFBEB; border:1px solid #FDE68A; color:#78350F; }
+    .point { background:#F0FDF4; border:1px solid #BBF7D0; color:#14532D; }
+    .alert-head { display:flex; align-items:center; gap:8px; font-weight:800; font-size:0.84rem; line-height:1.45; margin-bottom:5px; }
+    .alert-head::before { display:inline-block; color:#fff; font-size:0.64rem; font-weight:800; padding:2px 8px; border-radius:4px; letter-spacing:0.06em; flex-shrink:0; }
+    .danger .alert-head { color:#991B1B; } .danger .alert-head::before { content:'Pitfall'; background:#DC2626; }
+    .keypoint .alert-head { color:#92400E; } .keypoint .alert-head::before { content:'注意'; background:#F59E0B; }
+    .point .alert-head { color:#15803D; } .point .alert-head::before { content:'ポイント'; background:#16A34A; }
+    .danger p, .keypoint p, .point p { margin:0; font-size:0.82rem; line-height:1.7; }
+    .danger p strong { color:#991B1B; } .keypoint p strong { color:#92400E; } .point p strong { color:#15803D; }
 
     /* ====== 録画ボタン ====== */
     .note-actions { display: flex; gap: 10px; margin: 0 0 12px; flex-wrap: wrap; }
@@ -301,6 +284,14 @@
     }
     .tx-body { flex: 1; font-size: 0.84rem; color: #475569; line-height: 1.65; }
     .tx-body strong { color: var(--text); }
+
+    @media (max-width: 767px) {
+      .card-inner h4.sub-head { font-size:0.84rem; padding:6px 10px; margin:14px 0 8px; }
+      .danger, .keypoint, .point { padding:10px 12px; font-size:0.8rem; }
+      .alert-head { font-size:0.81rem; }
+      .alert-head::before { font-size:0.6rem; padding:2px 7px; }
+      .danger p, .keypoint p, .point p { font-size:0.8rem; line-height:1.7; }
+    }
   </style>
 </head>
 <body>
@@ -454,7 +445,7 @@
             <img src="../../images/Ambler.png"
                  alt="Ambler分類（Class A〜D）"
                  style="width:100%;max-width:680px;height:auto;display:block;margin:10px auto;border-radius:6px;">
-            <p class="keypoint" style="margin-top:4px;"><strong>MBL（Class B）の特徴：</strong>モノバクタム系（AZT）は MBL では分解されない。ただし MBL 産生菌の多くは同時に ESBL などのセリン β-ラクタマーゼも産生するため、AZT 単剤では不十分 → CAZ/AVI との併用が必要。</p>
+            <div class="keypoint" style="margin-top:4px;"><div class="alert-head">MBL（Class B）の特徴</div><p>モノバクタム系（AZT）は MBL では分解されない。ただし MBL 産生菌の多くは同時に ESBL などのセリン β-ラクタマーゼも産生するため、AZT 単剤では不十分 → CAZ/AVI との併用が必要。</p></div>
           </div>
         </div>
 
@@ -515,12 +506,12 @@
             <p class="rule-body"><strong style="color:#B91C1C;">大部分のペニシリン系・セファロスポリン系・さらにアズトレオナムまでを不活化可能な β-ラクタマーゼ</strong>（主に Class A）。大腸菌やクレブシエラなど腸内細菌目細菌で多く見られる。</p>
             <p class="rule-body" style="margin-top:6px;">重症例では従来カルバペネム系が選択されてきたが、<strong>セフトロザン/タゾバクタム・セフタジジム・アビバクタム・セフィデロコル</strong>なども活性を示し注目されている。</p>
             <div class="keypoint" style="margin-top:10px;">
-              <strong>ESBL 産生菌のカバーを考慮する状況（<a href="https://doi.org/10.1093/cid/civ121" target="_blank" rel="noopener" style="color:#1E40AF;font-weight:700;">Rottier WC et al. CID 2015</a>）：</strong>
-              <ul style="list-style:disc;padding-left:20px;margin:6px 0 0;font-size:0.82rem;line-height:1.7;">
+              <div class="alert-head">ESBL 産生菌のカバーを考慮する状況（<a href="https://doi.org/10.1093/cid/civ121" target="_blank" rel="noopener" style="color:#1E40AF;font-weight:700;">Rottier WC et al. CID 2015</a>）</div>
+              <p><ul style="list-style:disc;padding-left:20px;margin:6px 0 0;font-size:0.82rem;line-height:1.7;">
                 <li>過去90日以内に ESBL 検出歴（陽性尤度比 11.7）</li>
                 <li>過去30日以内に第3世代セフェム使用歴（陽性尤度比 2.2）</li>
                 <li>過去30日以内にキノロン系抗菌薬使用歴（陽性尤度比 1.7）</li>
-              </ul>
+              </ul></p>
             </div>
           </div>
         </div>
@@ -538,7 +529,7 @@
                  alt="CRE と CPE の関係（ベン図）"
                  style="width:100%;max-width:560px;height:auto;display:block;margin:6px auto 12px;border-radius:6px;">
             <p class="rule-body"><strong>CRE</strong>（Carbapenem-Resistant Enterobacteriaceae）はカルバペネム系抗菌薬に耐性を示す腸内細菌の<strong>総称（上位概念）</strong>で、耐性機序を問わない。<strong>CPE</strong>（Carbapenemase-Producing Enterobacteriaceae）は Ambler Class A・B・D の<strong>カルバペネマーゼ産生</strong>により耐性化したもので、CRE の部分集合に位置づけられる。</p>
-            <div class="danger" style="margin-top:10px;">治療は感受性が残る抗菌薬の種類・CPE かどうか・どのβラクタマーゼかを同定することが重要。<strong>必ず感染症科にコンサルトを行う。</strong></div>
+            <div class="danger" style="margin-top:10px;"><div class="alert-head">感染症科へのコンサルトが必須</div><p>治療は感受性が残る抗菌薬の種類・CPE かどうか・どのβラクタマーゼかを同定することが重要。<strong>必ず感染症科にコンサルトを行う。</strong></p></div>
           </div>
         </div>
 
@@ -593,7 +584,7 @@
               <div class="tx-num">3</div>
               <div class="tx-body"><strong>セフィデロコル ＋ ミノサイクリン</strong>：ST合剤やキノロンの既使用例・耐性例</div>
             </div>
-            <p class="keypoint" style="margin-top:10px;">血液悪性腫瘍・好中球減少患者では予防的にレボフロキサシン・ST合剤が投与されていることが多く、初期治療時点で既に曝露歴を持つ場合、<strong>セフィデロコルを早期に使用する機会が増加している。</strong></p>
+            <div class="keypoint" style="margin-top:10px;"><div class="alert-head">血液悪性腫瘍・好中球減少患者への対応</div><p>血液悪性腫瘍・好中球減少患者では予防的にレボフロキサシン・ST合剤が投与されていることが多く、初期治療時点で既に曝露歴を持つ場合、<strong>セフィデロコルを早期に使用する機会が増加している。</strong></p></div>
           </div>
         </div>
 
@@ -654,7 +645,7 @@
             <h4 class="sub-head">DTRP — 難治耐性緑膿菌</h4>
             <p class="rule-body">第1選択薬である<strong>全てのβ-ラクタム系およびフルオロキノロン系に耐性</strong>を示すもの。</p>
             <p class="rule-body" style="margin-top:6px;">推奨：<strong>CTLZ/TAZ / CAZ/AVI / イミペネム・レレバクタム / CFDC</strong></p>
-            <div class="keypoint" style="margin-top:6px;"><strong>MBL 産生菌の場合：</strong>CTLZ/TAZ は有効性が期待できない。<strong>① CFDC</strong> または <strong>② AZT + CAZ/AVI の併用</strong>が推奨される。</div>
+            <div class="keypoint" style="margin-top:6px;"><div class="alert-head">MBL 産生菌の場合</div><p>CTLZ/TAZ は有効性が期待できない。<strong>① CFDC</strong> または <strong>② AZT + CAZ/AVI の併用</strong>が推奨される。</p></div>
           </div>
         </div>
 
@@ -951,19 +942,19 @@
               <li><span class="fact-label">位置づけ</span><span class="fact-text">新規βラクタム系配合剤登場により、現在は第1選択が使えない場合の代替・併用療法の一部にとどまる。</span></li>
             </ul>
             <div class="danger" style="margin-top:6px;">
-              <strong>Tigecycline に耐性を示す3つの "P"（自然耐性）：</strong>
-              <ul style="list-style:disc;padding-left:20px;margin:4px 0 0;font-size:0.82rem;line-height:1.7;">
+              <div class="alert-head">Tigecycline に耐性を示す3つの "P"（自然耐性）</div>
+              <p><ul style="list-style:disc;padding-left:20px;margin:4px 0 0;font-size:0.82rem;line-height:1.7;">
                 <li><em>Pseudomonas aeruginosa</em></li>
                 <li><em>Proteus</em> spp.</li>
                 <li><em>Providencia</em> spp.</li>
-              </ul>
+              </ul></p>
             </div>
             <div class="keypoint" style="margin-top:6px;">
-              <strong>高用量レジメン（CRABや CRE などの重症感染症）：</strong>
-              <ul style="list-style:disc;padding-left:20px;margin:4px 0 0;font-size:0.82rem;line-height:1.7;">
+              <div class="alert-head">高用量レジメン（CRABや CRE などの重症感染症）</div>
+              <p><ul style="list-style:disc;padding-left:20px;margin:4px 0 0;font-size:0.82rem;line-height:1.7;">
                 <li>初回 200 mg 静注</li>
                 <li>維持 100 mg を12時間ごと（腎機能による調整不要）</li>
-              </ul>
+              </ul></p>
             </div>
           </div>
         </div>
@@ -998,7 +989,7 @@
               <li><span class="fact-label">併用戦略</span><span class="fact-text"><strong>CAZ/AVI などとの併用</strong>が望ましい。</span></li>
               <li><span class="fact-label">他の適応</span><span class="fact-text">カルバペネマーゼ非産生の CRPA で AZT 感受性の場合にも、従来のβラクタム系薬の一つとして選択肢になる。</span></li>
             </ul>
-            <div class="keypoint" style="margin-top:6px;"><strong>AZT 単剤が不十分な理由：</strong>MBL ではAZTは分解されないが、多くの MBL 産生菌は同時にセリンβ-ラクタマーゼ（ESBL）も産生し AZT を分解する。CAZ/AVI を追加することでセリンβ-ラクタマーゼを阻害し、AZT の活性を保ちながら両機序を同時に回避できる。</div>
+            <div class="keypoint" style="margin-top:6px;"><div class="alert-head">AZT 単剤が不十分な理由</div><p>MBL ではAZTは分解されないが、多くの MBL 産生菌は同時にセリンβ-ラクタマーゼ（ESBL）も産生し AZT を分解する。CAZ/AVI を追加することでセリンβ-ラクタマーゼを阻害し、AZT の活性を保ちながら両機序を同時に回避できる。</p></div>
           </div>
         </div>
 

@@ -102,18 +102,9 @@
       border-bottom: 2px solid #C4B5FD;
       margin: 0 0 10px;
     }
-    .card-inner h4.sub-head {
-      font-size: 0.95rem;
-      font-weight: 900;
-      color: #4C1D95;
-      margin: 14px 0 6px;
-      letter-spacing: 0.02em;
-      line-height: 1.4;
-    }
-    .card-inner h4.sub-head { padding-left: 18px; text-indent: -18px; }
-    .card-inner h4.sub-head::before { content: '●'; color: #7C3AED; font-size: 0.62rem; margin-right: 8px; vertical-align: 1px; }
+    .card-inner h4.sub-head { font-size:0.9rem; font-weight:800; color:#5B21B6; background:#F5F3FF; border:1px solid #E9E3FF; border-radius:6px; padding:7px 12px; margin:18px 0 9px; letter-spacing:0.01em; line-height:1.4; }
+    .card-inner h4.sub-head:first-child { margin-top:0; }
     .card-inner > .rule-body, .card-inner > p { padding-left: 18px; }
-    .card-inner h4.sub-head:first-child { margin-top: 0; }
 
     /* ====== 本文 ====== */
     .card-inner .rule-body,
@@ -145,42 +136,18 @@
       margin-left: 8px; font-style: italic;
     }
 
-    /* ====== 警告/注意/ポイントボックス ====== */
-    .keypoint {
-      background: #FFFBEB; border: 1px solid #FDE68A; border-radius: 6px;
-      padding: 8px 12px; margin: 8px 0; font-size: 0.82rem; line-height: 1.65; color: #78350F;
-    }
-    .keypoint::before {
-      content: '注意'; display: inline-block;
-      background: #F59E0B; color: #fff; font-size: 0.64rem; font-weight: 800;
-      padding: 1px 7px; border-radius: 3px; margin-right: 8px;
-      letter-spacing: 0.06em;
-    }
-    .keypoint strong { color: #92400E; }
-
-    .danger {
-      background: #FEF2F2; border: 1px solid #FECACA; border-radius: 6px;
-      padding: 8px 12px; margin: 8px 0; font-size: 0.82rem; line-height: 1.65; color: #7F1D1D;
-    }
-    .danger::before {
-      content: '警告'; display: inline-block;
-      background: #DC2626; color: #fff; font-size: 0.64rem; font-weight: 800;
-      padding: 1px 7px; border-radius: 3px; margin-right: 8px;
-      letter-spacing: 0.06em;
-    }
-    .danger strong { color: #7F1D1D; }
-
-    .point {
-      background: #F0FDF4; border: 1px solid #BBF7D0; border-radius: 6px;
-      padding: 8px 12px; margin: 8px 0; font-size: 0.82rem; line-height: 1.65; color: #14532D;
-    }
-    .point::before {
-      content: 'ポイント'; display: inline-block;
-      background: #16A34A; color: #fff; font-size: 0.64rem; font-weight: 800;
-      padding: 1px 7px; border-radius: 3px; margin-right: 8px;
-      letter-spacing: 0.06em;
-    }
-    .point strong { color: #14532D; }
+    /* ====== Pitfall/注意/ポイント ボックス（バッヂ＋タイトル＝1行目、本文＝改行） ====== */
+    .danger, .keypoint, .point { border-radius:8px; padding:11px 14px; margin:10px 0; font-size:0.82rem; line-height:1.7; }
+    .danger { background:#FEF2F2; border:1px solid #FECACA; color:#7F1D1D; }
+    .keypoint { background:#FFFBEB; border:1px solid #FDE68A; color:#78350F; }
+    .point { background:#F0FDF4; border:1px solid #BBF7D0; color:#14532D; }
+    .alert-head { display:flex; align-items:center; gap:8px; font-weight:800; font-size:0.84rem; line-height:1.45; margin-bottom:5px; }
+    .alert-head::before { display:inline-block; color:#fff; font-size:0.64rem; font-weight:800; padding:2px 8px; border-radius:4px; letter-spacing:0.06em; flex-shrink:0; }
+    .danger .alert-head { color:#991B1B; } .danger .alert-head::before { content:'Pitfall'; background:#DC2626; }
+    .keypoint .alert-head { color:#92400E; } .keypoint .alert-head::before { content:'注意'; background:#F59E0B; }
+    .point .alert-head { color:#15803D; } .point .alert-head::before { content:'ポイント'; background:#16A34A; }
+    .danger p, .keypoint p, .point p { margin:0; font-size:0.82rem; line-height:1.7; }
+    .danger p strong { color:#991B1B; } .keypoint p strong { color:#92400E; } .point p strong { color:#15803D; }
 
     /* ====== SNAP / 頭文字ボックス ====== */
     .mnemonic-box {
@@ -255,6 +222,14 @@
     .mini-tag.green { background: #DCFCE7; color: #15803D; }
     .mini-tag.blue { background: #DBEAFE; color: #1D4ED8; }
     .mini-tag.purple { background: #EDE9FE; color: #6D28D9; }
+
+    @media (max-width: 767px) {
+      .card-inner h4.sub-head { font-size:0.84rem; padding:6px 10px; margin:14px 0 8px; }
+      .danger, .keypoint, .point { padding:10px 12px; font-size:0.8rem; }
+      .alert-head { font-size:0.81rem; }
+      .alert-head::before { font-size:0.6rem; padding:2px 7px; }
+      .danger p, .keypoint p, .point p { font-size:0.8rem; line-height:1.7; }
+    }
   </style>
 </head>
 <body>
@@ -349,7 +324,8 @@
             <h3 class="rule-title">非定型肺炎カバーには CTRX＋AZM が基本</h3>
             <p class="rule-body">市中肺炎の初期抗菌薬加療において、<strong>セフトリアキソン（CTRX）＋アジスロマイシン（AZM）</strong>の併用が望ましい。ミノサイクリン単独では Legionella 肺炎で治療失敗となる可能性があるため、Legionella を除外できない状況では AZM またはフルオロキノロン（LVFX）でのカバーが必要である。</p>
             <div class="point">
-              <strong>非定型カバーとして CTRX 単独は不十分。</strong>AZM または LVFX を組み合わせる。ミノサイクリンは Legionella への活性が低く、市中肺炎の経験的治療には推奨されない。
+              <div class="alert-head">非定型カバーとして CTRX 単独は不十分</div>
+              <p>AZM または LVFX を組み合わせる。ミノサイクリンは Legionella への活性が低く、市中肺炎の経験的治療には推奨されない。</p>
             </div>
           </div>
         </div>
@@ -384,7 +360,8 @@
             <h3 class="rule-title">AZM 第一選択 → 改善不十分ならミノサイクリンへ変更</h3>
             <p class="rule-body"><em>Mycoplasma pneumoniae</em> に対してはアジスロマイシン（AZM）が第一選択である。ただし近年、マクロライド耐性 <em>Mycoplasma</em> が話題となっており、<strong>臨床的に改善が乏しい場合にはミノサイクリン（MINO）への変更</strong>を考慮する。</p>
             <div class="keypoint">
-              マクロライド耐性 <em>M. pneumoniae</em> は日本で増加傾向にあり、特に小児での報告が多い。AZM 投与後 48〜72 時間で解熱しない場合は MINO またはテトラサイクリン系への切り替えを検討する。
+              <div class="alert-head">マクロライド耐性 Mycoplasma への対応</div>
+              <p>マクロライド耐性 <em>M. pneumoniae</em> は日本で増加傾向にあり、特に小児での報告が多い。AZM 投与後 48〜72 時間で解熱しない場合は MINO またはテトラサイクリン系への切り替えを検討する。</p>
             </div>
           </div>
         </div>
@@ -523,7 +500,8 @@
             <h4 class="sub-head">治療方針</h4>
             <p class="rule-body">感受性試験に基づき、<strong>クラリスロマイシン（CAM）・ST 合剤・リネゾリド（LZD）・ミノサイクリン（MINO）</strong>などを組み合わせた多剤療法を行う。感染症科へのコンサルトが強く推奨される。</p>
             <div class="keypoint">
-              非結核性抗酸菌の治療は感受性パターンが菌種・株によって大きく異なる。薬剤感受性試験（DST）の結果を待ち、感染症専門医と相談して治療薬を決定する。経験的治療で広域に開始することは避ける。
+              <div class="alert-head">NTM 治療は感染症科コンサルト必須</div>
+              <p>非結核性抗酸菌の治療は感受性パターンが菌種・株によって大きく異なる。薬剤感受性試験（DST）の結果を待ち、感染症専門医と相談して治療薬を決定する。経験的治療で広域に開始することは避ける。</p>
             </div>
           </div>
         </div>
@@ -596,7 +574,8 @@
             <p class="rule-body">胸腔内感染から胸壁を穿通し、体表に瘻孔を形成する病態。<em>Actinomyces</em> による慢性膿胸の進展形として知られ、胸壁に硬結・瘻孔が生じた場合に鑑別として挙がる。</p>
 
             <div class="point">
-              <strong>Actinomyces 感染症の治療：</strong>ペニシリン G（またはアモキシシリン）を長期投与（4〜12 か月）。短期間の治療では再発しやすいため、臨床的寛解後も数か月継続する。
+              <div class="alert-head">Actinomyces 感染症の治療</div>
+              <p>ペニシリン G（またはアモキシシリン）を長期投与（4〜12 か月）。短期間の治療では再発しやすいため、臨床的寛解後も数か月継続する。</p>
             </div>
           </div>
         </div>
@@ -696,7 +675,8 @@
             <h3 class="rule-title">AML 寛解導入療法（7+3 療法）と好中球減少</h3>
             <p class="rule-body">急性骨髓性白血病（AML）の寛解導入療法として、<strong>「7+3 療法」</strong>が標準的に行われる。これは <strong>Ara-C（シタラビン）7 日間連続投与＋ダウノルビシンまたはイダルビシン 3 日間</strong>を組み合わせたレジメンである。いずれも強力な骨髄抑制を来し、<strong>著明かつ遷延する好中球減少（発熱性好中球減少症：FN）</strong>を引き起こしやすい。</p>
             <div class="keypoint">
-              好中球減少の深さ・期間によってリスクが決まる。好中球 &lt;100/μL が 14 日以上続く場合は<strong>侵襲性糸状菌感染症（IMI）の高リスク</strong>と判断する（D-index：第4章 Section 3 参照）。
+              <div class="alert-head">好中球減少の深さ・期間がリスクを決める</div>
+              <p>好中球減少の深さ・期間によってリスクが決まる。好中球 &lt;100/μL が 14 日以上続く場合は<strong>侵襲性糸状菌感染症（IMI）の高リスク</strong>と判断する（D-index：第4章 Section 3 参照）。</p>
             </div>
           </div>
         </div>
@@ -723,7 +703,8 @@
             </ul>
 
             <div class="danger">
-              LVFX 予防内服中の FN 患者で、初期の抗 <em>Pseudomonas</em> 治療（PIPC/TAZ・CFPM・MEPM）に反応しない場合、<strong>ESBL 産生腸内細菌による菌血症</strong>を考慮してカルバペネムを使用する。
+              <div class="alert-head">LVFX 予防内服中の FN で初期治療不応 → ESBL を疑う</div>
+              <p>LVFX 予防内服中の FN 患者で、初期の抗 <em>Pseudomonas</em> 治療（PIPC/TAZ・CFPM・MEPM）に反応しない場合、<strong>ESBL 産生腸内細菌による菌血症</strong>を考慮してカルバペネムを使用する。</p>
             </div>
           </div>
         </div>
@@ -789,7 +770,8 @@
             <h4 class="sub-head">Aspergillus 予防：ポサコナゾール（PSCZ）</h4>
             <p class="rule-body">ハイリスク患者（AML 寛解導入中・MDS 高リスク治療中など）では<strong>ポサコナゾール（PSCZ）経口</strong>による抗真菌予防投与を行う。</p>
             <div class="point">
-              <strong>ポサコナゾールはフルコナゾールまたはイトラコナゾールよりも侵襲性真菌感染症の予防において有効</strong>であり、全生存率を改善する。ただし、治療との関連が疑われる重篤な有害事象はポサコナゾール群で多かったとする報告もあり、注意が必要。
+              <div class="alert-head">ポサコナゾールの有効性と注意点</div>
+              <p><strong>ポサコナゾールはフルコナゾールまたはイトラコナゾールよりも侵襲性真菌感染症の予防において有効</strong>であり、全生存率を改善する。ただし、治療との関連が疑われる重篤な有害事象はポサコナゾール群で多かったとする報告もあり、注意が必要。</p>
             </div>
             <span class="citation"><a href="https://pubmed.ncbi.nlm.nih.gov/17251531/" target="_blank" rel="noopener">Cornely OA et al. N Engl J Med 2007; 356(4): 348-59 — ポサコナゾール vs フルコナゾール/イトラコナゾール ↗</a></span>
           </div>
@@ -878,7 +860,8 @@
               </tbody>
             </table>
             <div class="point">
-              脾臓は莢膜菌に対する IgM・IgG2 の産生に重要な役割を果たす。<strong>脾摘後患者</strong>ではワクチン接種（肺炎球菌・Hib・髄膜炎菌）と<strong>アモキシシリン予防内服</strong>（高リスク期）が推奨される。
+              <div class="alert-head">脾摘後はワクチンと予防内服を忘れずに</div>
+              <p>脾臓は莢膜菌に対する IgM・IgG2 の産生に重要な役割を果たす。<strong>脾摘後患者</strong>ではワクチン接種（肺炎球菌・Hib・髄膜炎菌）と<strong>アモキシシリン予防内服</strong>（高リスク期）が推奨される。</p>
             </div>
           </div>
         </div>
@@ -995,7 +978,8 @@
             <h4 class="sub-head">ANCA 関連血管炎（GPA 等）</h4>
             <p class="rule-body">多発血管炎性肉芽腫症（GPA）などの ANCA 関連血管炎の患者では、<strong>寛解導入療法（シクロホスファミド+ステロイド・リツキシマブ等）を行う際に PcP 予防投与を併せて行うべき</strong>である。</p>
             <div class="keypoint">
-              関節リウマチ・全身性強皮症・巨細胞性動脈炎は GPA と比較すると PcP 発症リスクが低いとされる。自己免疫疾患・自己炎症性疾患での PcP 予防の明確なコンセンサスは存在しないが、高用量ステロイドを使用する際はリスク-ベネフィットを個別に判断する。
+              <div class="alert-head">自己免疫疾患での PcP 予防は個別判断</div>
+              <p>関節リウマチ・全身性強皮症・巨細胞性動脈炎は GPA と比較すると PcP 発症リスクが低いとされる。自己免疫疾患・自己炎症性疾患での PcP 予防の明確なコンセンサスは存在しないが、高用量ステロイドを使用する際はリスク-ベネフィットを個別に判断する。</p>
             </div>
 
             <h4 class="sub-head">その他の高リスク状況</h4>
@@ -1092,10 +1076,12 @@
             </table>
 
             <div class="danger">
-              <strong>重症 PcP（A-aDO₂ &gt; 45 mmHg）でのアトバコン単独投与は推奨されない。</strong>ST 合剤不耐容の重症例では CLDM＋プリマキンを検討する（G6PD 欠損確認後）。
+              <div class="alert-head">重症 PcP にアトバコン単独は推奨されない</div>
+              <p><strong>重症 PcP（A-aDO₂ &gt; 45 mmHg）でのアトバコン単独投与は推奨されない。</strong>ST 合剤不耐容の重症例では CLDM＋プリマキンを検討する（G6PD 欠損確認後）。</p>
             </div>
             <div class="keypoint">
-              アトバコンは脂肪食と同時服用で吸収率が約 3 倍に上昇する。製剤は懸濁液（経口液）であり、服用前に十分に振り混ぜること。
+              <div class="alert-head">アトバコンは必ず脂肪食と一緒に服用</div>
+              <p>アトバコンは脂肪食と同時服用で吸収率が約 3 倍に上昇する。製剤は懸濁液（経口液）であり、服用前に十分に振り混ぜること。</p>
             </div>
           </div>
         </div>

@@ -107,8 +107,10 @@
       .organism-list li { font-size: 0.78rem; line-height: 1.65; }
 
       /* 警告 / 注意ボックス */
-      .keypoint, .danger { font-size: 0.76rem; line-height: 1.6; padding: 7px 10px; }
-      .keypoint::before, .danger::before { font-size: 0.6rem; padding: 1px 6px; margin-right: 6px; }
+      .danger, .keypoint, .point { font-size: 0.8rem; line-height: 1.7; padding: 10px 12px; }
+      .alert-head { font-size: 0.81rem; }
+      .alert-head::before { font-size: 0.6rem; padding: 2px 7px; }
+      .danger p, .keypoint p, .point p { font-size: 0.8rem; line-height: 1.7; }
 
       /* 治療バンドル */
       .bundle-num { width: 22px; height: 22px; min-width: 22px; font-size: 0.74rem; }
@@ -159,18 +161,9 @@
       border-bottom: 2px solid #C4B5FD;
       margin: 0 0 10px;
     }
-    .card-inner h4.sub-head {
-      font-size: 0.95rem;
-      font-weight: 900;
-      color: #4C1D95;
-      margin: 14px 0 6px;
-      letter-spacing: 0.02em;
-      line-height: 1.4;
-    }
-    .card-inner h4.sub-head { padding-left: 18px; text-indent: -18px; }
-    .card-inner h4.sub-head::before { content: '●'; color: #7C3AED; font-size: 0.62rem; margin-right: 8px; vertical-align: 1px; }
+    .card-inner h4.sub-head { font-size:0.9rem; font-weight:800; color:#5B21B6; background:#F5F3FF; border:1px solid #E9E3FF; border-radius:6px; padding:7px 12px; margin:18px 0 9px; letter-spacing:0.01em; line-height:1.4; }
+    .card-inner h4.sub-head:first-child { margin-top:0; }
     .card-inner > .rule-body, .card-inner > p { padding-left: 18px; }
-    .card-inner h4.sub-head:first-child { margin-top: 0; }
 
     /* ====== 本文 ====== */
     .card-inner .rule-body,
@@ -199,29 +192,17 @@
     .organism-list li strong { color: #374151; font-weight: 800; }
 
     /* ====== 警告 / 注意ボックス ====== */
-    .keypoint {
-      background: #FFFBEB; border: 1px solid #FDE68A; border-radius: 6px;
-      padding: 8px 12px; margin: 8px 0; font-size: 0.82rem; line-height: 1.65; color: #78350F;
-    }
-    .keypoint::before {
-      content: '注意'; display: inline-block;
-      background: #F59E0B; color: #fff; font-size: 0.64rem; font-weight: 800;
-      padding: 1px 7px; border-radius: 3px; margin-right: 8px;
-      letter-spacing: 0.06em;
-    }
-    .keypoint strong { color: #92400E; }
-
-    .danger {
-      background: #FEF2F2; border: 1px solid #FECACA; border-radius: 6px;
-      padding: 8px 12px; margin: 8px 0; font-size: 0.82rem; line-height: 1.65; color: #7F1D1D;
-    }
-    .danger::before {
-      content: '重要'; display: inline-block;
-      background: #DC2626; color: #fff; font-size: 0.64rem; font-weight: 800;
-      padding: 1px 7px; border-radius: 3px; margin-right: 8px;
-      letter-spacing: 0.06em;
-    }
-    .danger strong { color: #7F1D1D; }
+    .danger, .keypoint, .point { border-radius:8px; padding:11px 14px; margin:10px 0; font-size:0.82rem; line-height:1.7; }
+    .danger { background:#FEF2F2; border:1px solid #FECACA; color:#7F1D1D; }
+    .keypoint { background:#FFFBEB; border:1px solid #FDE68A; color:#78350F; }
+    .point { background:#F0FDF4; border:1px solid #BBF7D0; color:#14532D; }
+    .alert-head { display:flex; align-items:center; gap:8px; font-weight:800; font-size:0.84rem; line-height:1.45; margin-bottom:5px; }
+    .alert-head::before { display:inline-block; color:#fff; font-size:0.64rem; font-weight:800; padding:2px 8px; border-radius:4px; letter-spacing:0.06em; flex-shrink:0; }
+    .danger .alert-head { color:#991B1B; } .danger .alert-head::before { content:'Pitfall'; background:#DC2626; }
+    .keypoint .alert-head { color:#92400E; } .keypoint .alert-head::before { content:'注意'; background:#F59E0B; }
+    .point .alert-head { color:#15803D; } .point .alert-head::before { content:'ポイント'; background:#16A34A; }
+    .danger p, .keypoint p, .point p { margin:0; font-size:0.82rem; line-height:1.7; }
+    .danger p strong { color:#991B1B; } .keypoint p strong { color:#92400E; } .point p strong { color:#15803D; }
 
     /* ====== 治療バンドル ステップ ====== */
     .bundle-flow { margin: 8px 0; }
@@ -350,6 +331,14 @@
 
     /* BioFire panel テーブル — 行間を詰める */
     .tight-rows th, .tight-rows td { padding: 4px 10px !important; line-height: 1.35 !important; }
+
+    @media (max-width: 767px) {
+      .card-inner h4.sub-head { font-size:0.84rem; padding:6px 10px; margin:14px 0 8px; }
+      .danger, .keypoint, .point { padding:10px 12px; font-size:0.8rem; }
+      .alert-head { font-size:0.81rem; }
+      .alert-head::before { font-size:0.6rem; padding:2px 7px; }
+      .danger p, .keypoint p, .point p { font-size:0.8rem; line-height:1.7; }
+    }
   </style>
 </head>
 <body>
@@ -497,7 +486,8 @@
               </tbody>
             </table>
             <div class="keypoint" style="margin-top:10px;">
-              当院では <strong>Film Array 陰性であっても HSV-PCR の結果が判明するまでは ACV 投与を継続</strong>することが多い。
+              <div class="alert-head">ACV継続の判断</div>
+              <p>当院では <strong>Film Array 陰性であっても HSV-PCR の結果が判明するまでは ACV 投与を継続</strong>することが多い。</p>
             </div>
           </div>
         </div>
@@ -556,7 +546,8 @@
               </tbody>
             </table>
             <div class="danger" style="margin-top:10px;">
-              治療は <strong>L-AmB（リポソーマルアムホテリシンB）＋ 5-FU（フルシトシン）の併用</strong>。ミカファンギンなどの<strong>キャンディン系は無効</strong>なため使用しない。
+              <div class="alert-head">クリプトコッカス治療</div>
+              <p>治療は <strong>L-AmB（リポソーマルアムホテリシンB）＋ 5-FU（フルシトシン）の併用</strong>。ミカファンギンなどの<strong>キャンディン系は無効</strong>なため使用しない。</p>
             </div>
           </div>
         </div>
@@ -803,8 +794,9 @@
             <h3 class="rule-title">妊婦とリステリア</h3>
             <p class="rule-body">妊婦のリステリア感染は<strong>母体には軽症〜無症状が多い</strong>一方、<strong>流産・死産・早産・新生児敗血症・髄膜炎など、胎児・新生児に重篤な転帰をもたらす</strong>ため、早期診断・治療と予防が極めて重要である。妊娠中のリステリア感染例の約 20% で流産または死産が発生し、生存児の約 1/3 で新生児リステリア症が発症すると報告されている。</p>
             <div class="danger" style="margin-top:10px;">
-              <strong>① 妊婦の発熱では必ず血液培養を採取する</strong><br>
-              <strong>② 妊婦にはデリ食品を食べさせない（母親は無症状でも児が危険）</strong>
+              <div class="alert-head">妊婦の注意点</div>
+              <p><strong>① 妊婦の発熱では必ず血液培養を採取する</strong><br>
+              <strong>② 妊婦にはデリ食品を食べさせない（母親は無症状でも児が危険）</strong></p>
             </div>
           </div>
         </div>
@@ -819,7 +811,8 @@
           <div class="card-inner">
             <h3 class="rule-title">BBB 通過性に優れる薬剤 Top 3</h3>
             <div class="danger">
-              <strong>Linezolid（LZD）・ST 合剤・キノロン系</strong> がトップ3。
+              <div class="alert-head">Linezolid（LZD）・ST 合剤・キノロン系</div>
+              <p>がトップ3。</p>
             </div>
             <p class="rule-body" style="margin-top:10px;">これらは<strong>分子量が小さく・脂溶性が高く・血漿タンパク結合率が低い</strong>ことから、CSF/血中濃度比が 1.0 に近く、炎症の有無にかかわらず高い髄液内濃度が得られる。</p>
             <table class="ie-table" style="margin-top:10px;">
@@ -916,10 +909,12 @@
           <div class="card-inner">
             <h3 class="rule-title">経験的治療</h3>
             <div class="danger">
-              <strong>CFPM 2 g every 8 hours ＋ VCM</strong> の選択が一般的。
+              <div class="alert-head">CFPM 2 g every 8 hours ＋ VCM</div>
+              <p>の選択が一般的。</p>
             </div>
             <div class="keypoint" style="margin-top:10px;">
-              SPACE のカバーについて、<strong>PIPC/TAZ はタゾバクタムの分子量が大きく BBB を通過しにくい</strong>ため、院内発症髄膜炎の経験的治療には適していない。
+              <div class="alert-head">PIPC/TAZ の注意</div>
+              <p>SPACE のカバーについて、<strong>PIPC/TAZ はタゾバクタムの分子量が大きく BBB を通過しにくい</strong>ため、院内発症髄膜炎の経験的治療には適していない。</p>
             </div>
           </div>
         </div>
@@ -1021,7 +1016,8 @@
               </tbody>
             </table>
             <div class="danger" style="margin-top:10px;">
-              脳膿瘍では髄膜炎と異なり<strong>嫌気性菌のカバーが必須</strong>であるため、MNZ（メトロニダゾール）を必ず追加する。CLDM（クリンダマイシン）は<strong>髄液移行性が低い</strong>ため代替にならない。
+              <div class="alert-head">嫌気性菌カバー必須</div>
+              <p>脳膿瘍では髄膜炎と異なり<strong>嫌気性菌のカバーが必須</strong>であるため、MNZ（メトロニダゾール）を必ず追加する。CLDM（クリンダマイシン）は<strong>髄液移行性が低い</strong>ため代替にならない。</p>
             </div>
           </div>
         </div>

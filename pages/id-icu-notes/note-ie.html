@@ -67,14 +67,9 @@
       font-size: 0.98rem; color: var(--text);
       padding-bottom: 6px; border-bottom: 2px solid #C4B5FD; margin: 0 0 10px;
     }
-    .card-inner h4.sub-head {
-      font-size: 0.95rem; font-weight: 900; color: #4C1D95;
-      margin: 14px 0 6px; letter-spacing: 0.02em; line-height: 1.4;
-    }
-    .card-inner h4.sub-head { padding-left: 18px; text-indent: -18px; }
-    .card-inner h4.sub-head::before { content: '●'; color: #7C3AED; font-size: 0.62rem; margin-right: 8px; vertical-align: 1px; }
+    .card-inner h4.sub-head { font-size:0.9rem; font-weight:800; color:#5B21B6; background:#F5F3FF; border:1px solid #E9E3FF; border-radius:6px; padding:7px 12px; margin:18px 0 9px; letter-spacing:0.01em; line-height:1.4; }
+    .card-inner h4.sub-head:first-child { margin-top:0; }
     .card-inner > .rule-body, .card-inner > p { padding-left: 18px; }
-    .card-inner h4.sub-head:first-child { margin-top: 0; }
 
     /* 本文 */
     .card-inner .rule-body, .card-inner ul li, .card-inner ol li, .card-inner p {
@@ -93,37 +88,18 @@
     .organism-list li em { font-weight: 600; color: #6B7280; font-style: italic; }
     .organism-list li strong { color: #374151; font-weight: 800; }
 
-    /* 注意/警告/ポイント */
-    .keypoint {
-      background: #FFFBEB; border: 1px solid #FDE68A; border-radius: 6px;
-      padding: 8px 12px; margin: 8px 0; font-size: 0.82rem; line-height: 1.65; color: #78350F;
-    }
-    .keypoint::before {
-      content: '注意'; display: inline-block; background: #F59E0B; color: #fff;
-      font-size: 0.64rem; font-weight: 800; padding: 1px 7px; border-radius: 3px;
-      margin-right: 8px; letter-spacing: 0.06em;
-    }
-    .keypoint strong { color: #92400E; }
-    .danger {
-      background: #FEF2F2; border: 1px solid #FECACA; border-radius: 6px;
-      padding: 8px 12px; margin: 8px 0; font-size: 0.82rem; line-height: 1.65; color: #7F1D1D;
-    }
-    .danger::before {
-      content: '警告'; display: inline-block; background: #DC2626; color: #fff;
-      font-size: 0.64rem; font-weight: 800; padding: 1px 7px; border-radius: 3px;
-      margin-right: 8px; letter-spacing: 0.06em;
-    }
-    .danger strong { color: #7F1D1D; }
-    .point-green {
-      background: #F0FDF4; border: 1px solid #BBF7D0; border-radius: 6px;
-      padding: 8px 12px; margin: 8px 0; font-size: 0.82rem; line-height: 1.65; color: #14532D;
-    }
-    .point-green::before {
-      content: 'POINT'; display: inline-block; background: #16A34A; color: #fff;
-      font-size: 0.64rem; font-weight: 800; padding: 1px 7px; border-radius: 3px;
-      margin-right: 8px; letter-spacing: 0.06em;
-    }
-    .point-green strong { color: #166534; }
+    /* ====== Pitfall/注意/ポイント ボックス（バッヂ＋タイトル＝1行目、本文＝改行） ====== */
+    .danger, .keypoint, .point { border-radius:8px; padding:11px 14px; margin:10px 0; font-size:0.82rem; line-height:1.7; }
+    .danger { background:#FEF2F2; border:1px solid #FECACA; color:#7F1D1D; }
+    .keypoint { background:#FFFBEB; border:1px solid #FDE68A; color:#78350F; }
+    .point { background:#F0FDF4; border:1px solid #BBF7D0; color:#14532D; }
+    .alert-head { display:flex; align-items:center; gap:8px; font-weight:800; font-size:0.84rem; line-height:1.45; margin-bottom:5px; }
+    .alert-head::before { display:inline-block; color:#fff; font-size:0.64rem; font-weight:800; padding:2px 8px; border-radius:4px; letter-spacing:0.06em; flex-shrink:0; }
+    .danger .alert-head { color:#991B1B; } .danger .alert-head::before { content:'Pitfall'; background:#DC2626; }
+    .keypoint .alert-head { color:#92400E; } .keypoint .alert-head::before { content:'注意'; background:#F59E0B; }
+    .point .alert-head { color:#15803D; } .point .alert-head::before { content:'ポイント'; background:#16A34A; }
+    .danger p, .keypoint p, .point p { margin:0; font-size:0.82rem; line-height:1.7; }
+    .danger p strong { color:#991B1B; } .keypoint p strong { color:#92400E; } .point p strong { color:#15803D; }
 
     /* 引用 */
     .citation {
@@ -184,7 +160,7 @@
     .drug-block-body ul li::marker { color: #C4B5FD; }
     .drug-block-body ol li::marker { color: #7C3AED; font-weight: 700; }
     .drug-block-body strong { font-weight: 700; color: var(--text); }
-    .drug-block-body .keypoint, .drug-block-body .danger { font-size: 0.82rem; }
+    .drug-block-body .keypoint, .drug-block-body .danger, .drug-block-body .point { font-size: 0.82rem; }
 
     /* DENOVAスコア */
     .denova-grid {
@@ -321,6 +297,14 @@
     .gl-chapter-banner { margin-top: 32px !important; padding: 14px 20px !important; }
     .gl-chapter-banner.first { margin-top: 8px !important; }
     .gl-chapter-banner .gl-chapter-title { font-size: 1.15rem !important; }
+
+    @media (max-width: 767px) {
+      .card-inner h4.sub-head { font-size:0.84rem; padding:6px 10px; margin:14px 0 8px; }
+      .danger, .keypoint, .point { padding:10px 12px; font-size:0.8rem; }
+      .alert-head { font-size:0.81rem; }
+      .alert-head::before { font-size:0.6rem; padding:2px 7px; }
+      .danger p, .keypoint p, .point p { font-size:0.8rem; line-height:1.7; }
+    }
   </style>
 </head>
 <body>
@@ -429,7 +413,8 @@
               </ul>
             </div>
             <div class="keypoint" style="margin-top:8px;">
-              亜急性の発熱（1ヶ月）＋心房細動既往。<strong>安易に経口抗菌薬を投与して誤魔化さないこと</strong>が最重要。
+              <div class="alert-head">亜急性発熱の注意点</div>
+              <p>亜急性の発熱（1ヶ月）＋心房細動既往。<strong>安易に経口抗菌薬を投与して誤魔化さないこと</strong>が最重要。</p>
             </div>
           </div>
         </div>
@@ -476,8 +461,9 @@
         <div class="card" style="margin-bottom:12px;">
           <div class="card-inner">
             <h3 class="rule-title">TTE所見 — 大動脈弁（NCC）に疣贅</h3>
-            <div class="point-green">
-              <strong>大動脈弁 NCC（non-coronary cusp）に 13 mm × 4 mm の疣贅（vegetation）</strong>を確認。
+            <div class="point">
+              <div class="alert-head">疣贅確認</div>
+              <p><strong>大動脈弁 NCC（non-coronary cusp）に 13 mm × 4 mm の疣贅（vegetation）</strong>を確認。</p>
             </div>
           </div>
         </div>
@@ -497,7 +483,8 @@
               <li class="rule-body">心不全徴候あり → <strong>手術施行</strong>（大動脈弁置換）</li>
             </ol>
             <div class="keypoint" style="margin-top:10px;">
-              <strong>S. gallolyticus subsp. gallolyticus が血液培養陽性になれば必ずIEを疑い、大腸腫瘍（大腸癌・腺腫）を検索すること！</strong>
+              <div class="alert-head">大腸腫瘍の検索</div>
+              <p><strong>S. gallolyticus subsp. gallolyticus が血液培養陽性になれば必ずIEを疑い、大腸腫瘍（大腸癌・腺腫）を検索すること！</strong></p>
             </div>
           </div>
         </div>
@@ -529,7 +516,8 @@
               </ul>
             </div>
             <div class="danger" style="margin-top:8px;">
-              <strong>急性の発熱＋ICD植え込みデバイス既往</strong>。デバイス関連感染（CIED感染）→ IEへの波及を考慮する。
+              <div class="alert-head">急性の発熱＋ICD植え込みデバイス既往</div>
+              <p>デバイス関連感染（CIED感染）→ IEへの波及を考慮する。</p>
             </div>
           </div>
         </div>
@@ -577,7 +565,8 @@
           <div class="card-inner">
             <h3 class="rule-title">TTE・TEE所見 — 三尖弁に巨大疣贅</h3>
             <div class="danger" style="margin-top:10px;">
-              <strong>三尖弁に 20 mm × 16 mm の可動性良好な巨大疣贅</strong>。10 mm 以上は塞栓リスクとなりうる。
+              <div class="alert-head">三尖弁に 20 mm × 16 mm の可動性良好な巨大疣贅</div>
+              <p>10 mm 以上は塞栓リスクとなりうる。</p>
             </div>
           </div>
         </div>
@@ -605,7 +594,8 @@
               <li class="rule-body">疣贅 10 mm 超＋塞栓症状あり → <strong>手術施行</strong>（三尖弁手術＋リード抜去）</li>
             </ol>
             <div class="keypoint" style="margin-top:8px;">
-              MSSAの中枢神経感染症（硬膜外膿瘍等）では、<strong>セファゾリンの中枢移行性は不良</strong>なため、セフトリアキソンを選択する。MRI でCNS感染症を除外後にセファゾリンに戻す。
+              <div class="alert-head">セファゾリンの中枢移行性</div>
+              <p>MSSAの中枢神経感染症（硬膜外膿瘍等）では、<strong>セファゾリンの中枢移行性は不良</strong>なため、セフトリアキソンを選択する。MRI でCNS感染症を除外後にセファゾリンに戻す。</p>
             </div>
           </div>
         </div>
@@ -685,7 +675,8 @@
             </div>
 
             <div class="danger" style="margin-top:10px;">
-              <strong>S. gallolyticus subsp. gallolyticus が血液培養から検出された場合は、IE を強く疑い、同時に大腸内視鏡検査で大腸腫瘍を必ず検索すること。</strong>
+              <div class="alert-head">大腸腫瘍を必ず検索</div>
+              <p><strong>S. gallolyticus subsp. gallolyticus が血液培養から検出された場合は、IE を強く疑い、同時に大腸内視鏡検査で大腸腫瘍を必ず検索すること。</strong></p>
             </div>
             <span class="citation">Clin Infect Dis. 2011 Nov;53(9):870-8.</span>
 
@@ -984,7 +975,8 @@
               </ul>
             </div>
             <div class="keypoint">
-              セファゾリンは中枢移行性が不良。<strong>硬膜外膿瘍・髄膜炎が疑われる場合はセフトリアキソンを選択。</strong>
+              <div class="alert-head">セファゾリンの中枢移行性</div>
+              <p>セファゾリンは中枢移行性が不良。<strong>硬膜外膿瘍・髄膜炎が疑われる場合はセフトリアキソンを選択。</strong></p>
             </div>
           </div>
         </div>
@@ -1084,8 +1076,9 @@
                 <div class="ie-stat-label">有害事象<br>（ゲンタマイシン群）</div>
               </div>
             </div>
-            <div class="point-green" style="margin-top:8px;">
-              <strong>死亡率に差はなく、有害事象（腎毒性等）はゲンタマイシン群で有意に多い</strong>。現在はアンピシリン＋セフトリアキソンが推奨される。
+            <div class="point" style="margin-top:8px;">
+              <div class="alert-head">推奨レジメンの根拠</div>
+              <p><strong>死亡率に差はなく、有害事象（腎毒性等）はゲンタマイシン群で有意に多い</strong>。現在はアンピシリン＋セフトリアキソンが推奨される。</p>
             </div>
             <span class="citation">Clin Infect Dis. 2013 May;56(9):1261-8.</span>
           </div>
@@ -1267,8 +1260,9 @@
                 <div class="prev-stat-label">口腔外科手術時のIE予防効果<br>（95%CI 0.01–0.35、P=0.002）</div>
               </div>
             </div>
-            <div class="point-green" style="margin-top:10px;">
-              <strong>高リスク患者の侵襲的歯科治療前には必ずアモキシシリン 2 g を術前60分に内服させる。</strong>これを徹底することがIEの再発予防に極めて重要。
+            <div class="point" style="margin-top:10px;">
+              <div class="alert-head">予防抗菌薬の徹底</div>
+              <p><strong>高リスク患者の侵襲的歯科治療前には必ずアモキシシリン 2 g を術前60分に内服させる。</strong>これを徹底することがIEの再発予防に極めて重要。</p>
             </div>
           </div>
         </div>
