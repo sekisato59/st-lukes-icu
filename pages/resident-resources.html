@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../style-v2.css?v=20260610">
+  <link rel="stylesheet" href="../style-v2.css?v=20260611">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
@@ -742,8 +742,13 @@
       padding-left: 14px;
       border-left: 1.5px solid #CBD5E1;
     }
-    /* ネストした子ツリーは右に寄せ、親テキストの下あたりから枝が出るように */
-    .dojo-tree ul ul { margin: 2px 0 2px 18px; }
+    /* ネストした子ツリーは右に寄せ、親テキストの下あたりから枝が出るように。
+       上マージン 2.5px ＋ 子 li の padding-top 2.5px で親→子も 5px に揃える。
+       下マージンは 0 にし、子ブロック後の二重余白を防ぐ。 */
+    .dojo-tree ul ul { margin: 2.5px 0 0 18px; }
+    /* 子リストを持つ li は padding-bottom を 0 にして、入れ子グループ後の間隔が
+       他の項目間（5px）より広がるのを防ぐ。 */
+    .dojo-tree li:has(> ul) { padding-bottom: 0; }
     .dojo-tree li {
       position: relative;
       padding: 2.5px 0;
@@ -781,6 +786,12 @@
       margin: 7px 0 3px;
     }
     .dojo-sublabel-en { font-size: 0.66rem; font-weight: 600; color: var(--muted); margin-left: 6px; }
+    /* 非リンクの耐性表現型（MSSA/MRSA 等）— CNS と同じ文字色でリンクが無いことを示す */
+    .dojo-nolink { color: var(--text); font-weight: 700; }
+    /* 菌名でない分類見出し（溶血型 等）はアンダーラインで菌名と区別する。
+       text-decoration は子 span（英語サブ）の margin-left で途切れるため、
+       インライン親に border-bottom を引いてマージン上も連続させる。 */
+    .dojo-sublabel.dojo-cat { border-bottom: 1px solid currentColor; padding-bottom: 1px; }
     /* ツリー内（li直下）のサブラベルはインラインにし、連結線と高さを揃える */
     .dojo-tree li > .dojo-sublabel { display: inline; margin: 0; }
     .dojo-tree li:has(> .dojo-sublabel) { margin-top: 6px; }
@@ -1968,8 +1979,8 @@ ICUチームへ一言：</pre>
                   <ul>
                     <li><a href="bacteria/saureus.html"><em>S. aureus</em></a><span class="dojo-note">コアグラーゼ陽性</span>
                       <ul>
-                        <li><a href="bacteria/saureus.html">MSSA</a><span class="dojo-note">メチシリン感受性</span></li>
-                        <li><a href="bacteria/saureus.html">MRSA</a><span class="dojo-note">メチシリン耐性</span></li>
+                        <li><span class="dojo-nolink">MSSA</span><span class="dojo-note">メチシリン感受性</span></li>
+                        <li><span class="dojo-nolink">MRSA</span><span class="dojo-note">メチシリン耐性</span></li>
                       </ul>
                     </li>
                     <li><span class="dojo-sublabel">CNS<span class="dojo-sublabel-en">コアグラーゼ陰性ブドウ球菌</span></span>
@@ -1995,7 +2006,7 @@ ICUチームへ一言：</pre>
                   <h4 class="dojo-genus-head">レンサ球菌属 <em>Streptococcus</em></h4>
                   <ul>
                     <li>
-                      <span class="dojo-sublabel">α溶血（不完全溶血）<span class="dojo-sublabel-en">α-hemolytic / viridans-type</span></span>
+                      <span class="dojo-sublabel dojo-cat">α溶血（不完全溶血）<span class="dojo-sublabel-en">α-hemolytic / viridans-type</span></span>
                       <ul>
                         <li><a href="bacteria/spneu.html"><em>S. pneumoniae</em></a><span class="dojo-note">肺炎球菌</span></li>
                         <li><a href="bacteria/vgs.html"><em>Viridans group streptococci (VGS)</em></a><span class="dojo-note">緑色連鎖球菌</span>
@@ -2017,17 +2028,29 @@ ICUチームへ一言：</pre>
                       </ul>
                     </li>
                     <li>
-                      <span class="dojo-sublabel">β溶血（完全溶血）<span class="dojo-sublabel-en">β-hemolytic — Lancefield 分類</span></span>
+                      <span class="dojo-sublabel dojo-cat">β溶血（完全溶血）<span class="dojo-sublabel-en">β-hemolytic</span></span>
                       <ul>
-                        <li><a href="bacteria/spyo.html">A群（GAS）</a><span class="dojo-note"><em>S. pyogenes</em></span></li>
-                        <li><a href="bacteria/saga.html">B群（GBS）</a><span class="dojo-note"><em>S. agalactiae</em></span></li>
-                        <li><a href="bacteria/sdys.html">C群（GCS）／ G群（GGS）</a><span class="dojo-note"><em>S. dysgalactiae</em></span></li>
-                        <li><span class="dojo-pending">C群</span><span class="dojo-note"><em>S. equi</em> subsp.</span></li>
+                        <li><a href="bacteria/spyo.html"><em>S. pyogenes</em></a><span class="dojo-note">A群（GAS）</span></li>
+                        <li><a href="bacteria/saga.html"><em>S. agalactiae</em></a><span class="dojo-note">B群（GBS）</span></li>
+                        <li><a href="bacteria/sdys.html"><em>S. dysgalactiae</em></a><span class="dojo-note">C群（GCS）／ G群（GGS）</span></li>
+                        <li><span class="dojo-pending"><em>S. equi</em> subsp.</span><span class="dojo-note">C群</span></li>
                       </ul>
                     </li>
                     <li>
-                      <span class="dojo-sublabel">γ溶血（非溶血）<span class="dojo-sublabel-en">γ / non-hemolytic — 旧 group D</span></span>
+                      <span class="dojo-sublabel dojo-cat">γ溶血（非溶血）<span class="dojo-sublabel-en">γ / non-hemolytic</span></span>
                       <ul>
+                        <li><span><em>Enterococcus</em></span><span class="dojo-note">腸球菌</span>
+                          <ul>
+                            <li><a href="bacteria/efaecalis.html"><em>E. faecalis</em></a></li>
+                            <li><a href="bacteria/efaecium.html"><em>E. faecium</em></a><span class="dojo-note">VRE</span></li>
+                            <li><span class="dojo-pending"><em>E. gallinarum</em></span></li>
+                            <li><span class="dojo-pending"><em>E. casseliflavus</em></span></li>
+                            <li><span class="dojo-pending"><em>E. avium</em></span></li>
+                            <li><span class="dojo-pending"><em>E. durans</em></span></li>
+                            <li><span class="dojo-pending"><em>E. hirae</em></span></li>
+                            <li><span class="dojo-pending"><em>E. raffinosus</em></span></li>
+                          </ul>
+                        </li>
                         <li><a href="bacteria/sbov.html"><em>S. bovis / gallolyticus</em> group</a>
                           <ul>
                             <li><span class="dojo-pending"><em>S. gallolyticus</em> subsp. <em>gallolyticus</em></span></li>
@@ -2038,12 +2061,6 @@ ICUチームへ一言：</pre>
                                 <li><span class="dojo-pending">subsp. <em>coli</em></span></li>
                               </ul>
                             </li>
-                          </ul>
-                        </li>
-                        <li><span><em>Enterococcus</em>（旧 group D Strep）</span>
-                          <ul>
-                            <li><a href="bacteria/efaecalis.html"><em>E. faecalis</em></a><span class="dojo-note">腸球菌</span></li>
-                            <li><a href="bacteria/efaecium.html"><em>E. faecium</em></a><span class="dojo-note">VRE</span></li>
                           </ul>
                         </li>
                       </ul>
@@ -2087,7 +2104,6 @@ ICUチームへ一言：</pre>
                   <h4 class="dojo-genus-head"><em>Escherichia</em></h4>
                   <ul>
                     <li><a href="bacteria/ecoli.html"><em>E. coli</em></a><span class="dojo-note">大腸菌</span></li>
-                    <li><span class="dojo-pending"><em>下痢原性 E. coli</em></span><span class="dojo-note">ETEC / EHEC / EPEC / EIEC / EAEC</span></li>
                   </ul>
                 </div>
                 <div class="dojo-genus">
@@ -2934,7 +2950,7 @@ ICUチームへ一言：</pre>
     })();
   </script>
 
-  <script src="../script.js?v=20260610"></script>
+  <script src="../script.js?v=20260611"></script>
   <script src="../abbr-tooltip.js"></script>
 
   <!-- ===== ミラーカードの縁デザイン強制適用（<style> インジェクト） ===== -->
