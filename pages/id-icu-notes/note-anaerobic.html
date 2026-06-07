@@ -96,18 +96,16 @@
     /* 見出し: ● はタイトルと同じ左端(x=0)。見出しテキストは本文と同じ x=18 から開始する
        hanging-indent（padding-left と text-indent で ● だけを左端に出す）*/
     .card-inner h4.sub-head {
-      font-size: 0.95rem;
-      font-weight: 900;
-      color: #4C1D95;
-      margin: 14px 0 6px;
-      letter-spacing: 0.02em;
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: #5B21B6;
+      background: #F5F3FF;
+      border: 1px solid #E9E3FF;
+      border-radius: 6px;
+      padding: 7px 12px;
+      margin: 18px 0 9px;
+      letter-spacing: 0.01em;
       line-height: 1.4;
-      padding-left: 18px;
-      text-indent: -18px;
-    }
-    .card-inner h4.sub-head::before {
-      content: '●'; color: #7C3AED; font-size: 0.62rem;
-      margin-right: 8px; vertical-align: 1px;
     }
     .card-inner h4.sub-head:first-child { margin-top: 0; }
 
@@ -134,42 +132,32 @@
     .card-inner strong { color: var(--text); font-weight: 700; }
     .card-inner em { font-style: italic; color: #1F2937; }
 
-    /* ====== 警告/注意/ポイントボックス ====== */
-    .keypoint {
-      background: #FFFBEB; border: 1px solid #FDE68A; border-radius: 6px;
-      padding: 8px 12px; margin: 8px 0; font-size: 0.82rem; line-height: 1.65; color: #78350F;
+    /* ====== Pitfall/注意/ポイント ボックス（バッヂ＋タイトル＝1行目、本文＝改行） ====== */
+    .danger, .keypoint, .point {
+      border-radius: 8px; padding: 11px 14px; margin: 10px 0;
+      font-size: 0.82rem; line-height: 1.7;
     }
-    .keypoint::before {
-      content: '注意'; display: inline-block;
-      background: #F59E0B; color: #fff; font-size: 0.64rem; font-weight: 800;
-      padding: 1px 7px; border-radius: 3px; margin-right: 8px;
-      letter-spacing: 0.06em;
+    .danger   { background: #FEF2F2; border: 1px solid #FECACA; color: #7F1D1D; }
+    .keypoint { background: #FFFBEB; border: 1px solid #FDE68A; color: #78350F; }
+    .point    { background: #F0FDF4; border: 1px solid #BBF7D0; color: #14532D; }
+    .alert-head {
+      display: flex; align-items: center; gap: 8px;
+      font-weight: 800; font-size: 0.84rem; line-height: 1.45; margin-bottom: 5px;
     }
-    .keypoint strong { color: #92400E; }
-
-    .danger {
-      background: #FEF2F2; border: 1px solid #FECACA; border-radius: 6px;
-      padding: 8px 12px; margin: 8px 0; font-size: 0.82rem; line-height: 1.65; color: #7F1D1D;
+    .alert-head::before {
+      display: inline-block; color: #fff; font-size: 0.64rem; font-weight: 800;
+      padding: 2px 8px; border-radius: 4px; letter-spacing: 0.06em; flex-shrink: 0;
     }
-    .danger::before {
-      content: '警告'; display: inline-block;
-      background: #DC2626; color: #fff; font-size: 0.64rem; font-weight: 800;
-      padding: 1px 7px; border-radius: 3px; margin-right: 8px;
-      letter-spacing: 0.06em;
-    }
-    .danger strong { color: #7F1D1D; }
-
-    .point {
-      background: #F0FDF4; border: 1px solid #BBF7D0; border-radius: 6px;
-      padding: 8px 12px; margin: 8px 0; font-size: 0.82rem; line-height: 1.65; color: #14532D;
-    }
-    .point::before {
-      content: 'ポイント'; display: inline-block;
-      background: #16A34A; color: #fff; font-size: 0.64rem; font-weight: 800;
-      padding: 1px 7px; border-radius: 3px; margin-right: 8px;
-      letter-spacing: 0.06em;
-    }
-    .point strong { color: #14532D; }
+    .danger   .alert-head { color: #991B1B; }
+    .danger   .alert-head::before { content: 'Pitfall'; background: #DC2626; }
+    .keypoint .alert-head { color: #92400E; }
+    .keypoint .alert-head::before { content: '注意'; background: #F59E0B; }
+    .point    .alert-head { color: #15803D; }
+    .point    .alert-head::before { content: 'ポイント'; background: #16A34A; }
+    .danger p, .keypoint p, .point p { margin: 0; font-size: 0.82rem; line-height: 1.7; }
+    .danger p strong { color: #991B1B; }
+    .keypoint p strong { color: #92400E; }
+    .point p strong { color: #15803D; }
 
     /* ====== SNAP / 頭文字ボックス ====== */
     .mnemonic-box {
@@ -198,20 +186,19 @@
 
     /* ====== 引用元リンクカード ====== */
     .source-link-bar {
-      background: #F8F5FF; border: 1px solid #DDD6FE; border-radius: 6px;
-      padding: 7px 14px; margin-bottom: 12px;
-      font-size: 0.76rem; color: #6D28D9; line-height: 1.6;
-      display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+      margin: 0 0 10px; padding: 0 0 0 2px;
+      font-size: 0.7rem; color: #9CA3AF; line-height: 1.5;
+      display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
     }
     .source-link-bar::before {
       content: '引用元'; display: inline-block;
-      background: #7C3AED; color: #fff; font-size: 0.62rem; font-weight: 800;
-      padding: 1px 7px; border-radius: 3px; letter-spacing: 0.06em; flex-shrink: 0;
+      background: #EDE9FE; color: #7C3AED; font-size: 0.6rem; font-weight: 700;
+      padding: 1px 6px; border-radius: 3px; letter-spacing: 0.04em; flex-shrink: 0;
     }
     .source-link-bar a {
-      color: #4C1D95; font-weight: 700; text-decoration: none;
+      color: #9CA3AF; font-weight: 600; text-decoration: none;
     }
-    .source-link-bar a:hover { text-decoration: underline; }
+    .source-link-bar a:hover { color: #6D28D9; text-decoration: underline; }
 
     /* ====== 嫌気性菌カバー早見表 ====== */
     .anae-cov-wrap { overflow-x: auto; margin: 10px 0 0; }
@@ -247,14 +234,14 @@
     .anae-cov .ana-low  { background: #FECACA; color: #991B1B; font-size: 0.86rem; }
     .anae-cov .ana-mlow { background: #FEF08A; color: #854D0E; font-size: 0.86rem; }
     .anae-cov-legend {
-      display: flex; flex-wrap: wrap; gap: 14px 18px;
-      padding: 10px 12px 0; font-size: 0.76rem; color: #475569;
+      display: flex; flex-wrap: wrap; gap: 8px 14px;
+      padding: 10px 12px 0; font-size: 0.72rem; color: #475569;
       align-items: center;
     }
     .anae-cov-legend .ana-leg {
       display: inline-flex; align-items: center; justify-content: center;
-      min-width: 32px; height: 24px; padding: 0 8px; border-radius: 4px;
-      font-weight: 700; margin-right: 6px; font-size: 0.86rem;
+      min-width: 22px; height: 18px; padding: 0 5px; border-radius: 4px;
+      font-weight: 700; margin-right: 5px; font-size: 0.72rem;
     }
     @media (max-width: 768px) {
       .anae-cov { font-size: 0.78rem; }
@@ -278,6 +265,20 @@
     .gl-chapter-banner { margin-top: 32px !important; padding: 14px 20px !important; }
     .gl-chapter-banner.first { margin-top: 8px !important; }
     .gl-chapter-banner .gl-chapter-title { font-size: 1.15rem !important; }
+
+    /* ====== モバイル：独自コンポーネントの文字サイズを本文と調和させる ====== */
+    @media (max-width: 767px) {
+      .card-inner h4.sub-head { font-size: 0.84rem; padding: 6px 10px; margin: 14px 0 8px; }
+      .danger, .keypoint, .point { padding: 10px 12px; font-size: 0.8rem; }
+      .alert-head { font-size: 0.81rem; }
+      .alert-head::before { font-size: 0.6rem; padding: 2px 7px; }
+      .danger p, .keypoint p, .point p { font-size: 0.8rem; line-height: 1.7; }
+      .mnemonic-title { font-size: 0.82rem; }
+      .mnemonic-row { font-size: 0.8rem; }
+      .mnemonic-sub { font-size: 0.72rem; }
+      .source-link-bar { font-size: 0.68rem; }
+      .gl-chapter-banner .gl-chapter-title { font-size: 1rem !important; }
+    }
   </style>
 </head>
 <body>
@@ -403,8 +404,9 @@
             <p class="rule-body" style="font-size:0.74rem;color:var(--muted);margin-top:4px;">
               <strong>* B. non-fragilis（B. thetaiotaomicron・B. vulgatus 等）：</strong>fragilis 群より A/S・P/T の感受性が低下しやすい。重症例ではカルバペネムを考慮。
             </p>
-            <div class="danger" style="margin-top:10px;font-size:0.82rem;">
-              <strong>Actinomyces に MNZ は無効！</strong>MNZ は偏性嫌気性菌に対してのみ活性を示す。Actinomyces は通性嫌気性の放線菌であるため MNZ の抗菌活性がない。放線菌症・Actinomyces 菌血症が疑われる場合は <strong>β-ラクタム系（PCG / AMPC / A/S / PIPC/TAZ）または CLDM</strong> を選択する。
+            <div class="danger" style="margin-top:10px;">
+              <div class="alert-head">Actinomyces に MNZ は無効！</div>
+              <p>MNZ は偏性嫌気性菌に対してのみ活性を示す。Actinomyces は通性嫌気性の放線菌であるため MNZ の抗菌活性がない。放線菌症・Actinomyces 菌血症が疑われる場合は <strong>β-ラクタム系（PCG / AMPC / A/S / PIPC/TAZ）または CLDM</strong> を選択する。</p>
             </div>
           </div>
         </div>
@@ -423,7 +425,8 @@
             </ul>
 
             <div class="keypoint">
-              <strong>セフメタゾール（CMZ）の位置づけ：</strong> 腹腔内感染症の治療として一定の有効性があるものの、<strong>国際的なガイドライン（Surgical Infection Society）では第一選択薬としては推奨されていない</strong>。特に <strong>重症例・院内発症例・耐性菌リスクが高い場合は、より広域な抗菌薬の使用が望ましい</strong>。
+              <div class="alert-head">セフメタゾール（CMZ）の位置づけ</div>
+              <p>腹腔内感染症の治療として一定の有効性があるものの、<strong>国際的なガイドライン（Surgical Infection Society）では第一選択薬としては推奨されていない</strong>。特に <strong>重症例・院内発症例・耐性菌リスクが高い場合は、より広域な抗菌薬の使用が望ましい</strong>。</p>
             </div>
           </div>
         </div>
@@ -513,7 +516,8 @@
             <p class="rule-body">胸腔内感染から胸壁を穿通し、体表に瘻孔を形成する病態。<em>Actinomyces</em> による慢性膿胸の進展形として知られ、胸壁に硬結・瘻孔が生じた場合に鑑別として挙がる。</p>
 
             <div class="point">
-              <strong>Actinomyces 感染症の治療：</strong>ペニシリン G（またはアモキシシリン）を長期投与（4〜12 か月）。短期間の治療では再発しやすいため、臨床的寛解後も数か月継続する。
+              <div class="alert-head">Actinomyces 感染症の治療</div>
+              <p>ペニシリン G（またはアモキシシリン）を長期投与（4〜12 か月）。短期間の治療では再発しやすいため、臨床的寛解後も数か月継続する。</p>
             </div>
           </div>
         </div>
@@ -635,7 +639,8 @@
               </tbody>
             </table>
             <div class="keypoint" style="margin-top:10px;">
-              これらは単独ではなく <strong>Mixed infection</strong>（複数嫌気性菌 ± 通性嫌気性菌）として検出されることが多い。培養同定は困難なため、嫌気性菌を想定した経験的治療が重要。
+              <div class="alert-head">混合感染が多い</div>
+              <p>これらは単独ではなく <strong>Mixed infection</strong>（複数嫌気性菌 ± 通性嫌気性菌）として検出されることが多い。培養同定は困難なため、嫌気性菌を想定した経験的治療が重要。</p>
             </div>
           </div>
         </div>
@@ -675,7 +680,8 @@
               <li><strong>外科的ドレナージ：</strong>扁桃周囲膿瘍・頸部膿瘍にはドレナージが必要</li>
             </ul>
             <div class="danger" style="margin-top:10px;">
-              <strong>見逃しポイント：</strong>「ただの咽頭炎」として抗菌薬なしで帰宅させると急激に悪化する。<strong>溶連菌陰性・若年・頸部痛・高熱が続く咽頭炎では Lemierre を疑い、造影 CT で IJV を確認</strong>。
+              <div class="alert-head">見逃しポイント</div>
+              <p>「ただの咽頭炎」として抗菌薬なしで帰宅させると急激に悪化する。<strong>溶連菌陰性・若年・頸部痛・高熱が続く咽頭炎では Lemierre を疑い、造影 CT で IJV を確認</strong>。</p>
             </div>
           </div>
         </div>
@@ -789,7 +795,8 @@
             </table>
 
             <div class="danger" style="margin-top:10px;">
-              <strong>C. septicum 菌血症 = 悪性腫瘍のサイン：</strong>菌血症が判明したら速やかに<strong>大腸内視鏡検査・CT（全身）・血液検査（骨髄評価を含む）</strong>を行い、occult malignancy を検索する。
+              <div class="alert-head">C. septicum 菌血症 ＝ 悪性腫瘍のサイン</div>
+              <p>菌血症が判明したら速やかに<strong>大腸内視鏡検査・CT（全身）・血液検査（骨髄評価を含む）</strong>を行い、occult malignancy を検索する。</p>
             </div>
           </div>
         </div>
