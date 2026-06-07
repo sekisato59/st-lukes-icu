@@ -489,22 +489,31 @@ if (copyBtn) {
     wrap.appendChild(table);
     table.dataset.scrollApplied = '1';
   }
+  // 表の min-width 付与ポリシー（モバイルで「鬼の改行」＝列が潰れて1〜数文字ずつ折り返す
+  // 状態を防ぐ）。横スクロールは許容する方針。判定は実測ではなく列数＋セル文字数で決定的に行う。
+  //  - 2列以下: 何もしない（モバイルでも収まる）
+  //  - 5列以上: 常に min-width（多列マトリクスは収まらないので横スクロール）
+  //  - 3〜4列: colspan でない「実セル」に長文がある時だけ min-width を付けて横スクロール。
+  //            colspan セル（例: HSV 表の髄液検査/治療）は2列ぶんの幅があり潰れないので対象外
+  //            → そういう表は収まったまま（不要なスクロールを出さない）。
   function applyMinWidth(table){
-    var firstRow = table.querySelector('thead tr') || table.querySelector('tr');
-    if (!firstRow) return;
-    var cells = firstRow.querySelectorAll('th, td');
-    var cols = 0;
-    cells.forEach(function(c){
-      cols += parseInt(c.getAttribute('colspan') || '1', 10);
-    });
-    // 列数の多いデータ表は min-width を付けて視認性を確保（モバイルでは横スクロール）。
-    // .ie-table だけでなくカスタム表（risk-table 等）にも適用し、列がスマホ幅で潰れて
-    // 「1文字ずつ折り返す」読めない状態を防ぐ。2列以下はコンテンツに任せる。
-    if (cols >= 5)      table.style.minWidth = '900px';
-    else if (cols === 4) table.style.minWidth = '760px';
-    // 3列表は min(600px, 100%): デスクトップは600pxを確保しつつ、スマホ幅では
-    // コンテナ幅に収めて横スクロール・列の広がり（文字が大きく見える）を防ぐ。
-    else if (cols === 3) table.style.minWidth = 'min(600px, 100%)';
+    try {
+      var firstRow = table.querySelector('thead tr') || table.querySelector('tr');
+      if (!firstRow) return;
+      var cols = 0;
+      firstRow.querySelectorAll('th, td').forEach(function(c){
+        cols += parseInt(c.getAttribute('colspan') || '1', 10);
+      });
+      if (cols < 3) return;
+      if (cols >= 5) { table.style.minWidth = Math.min(cols * 160, 1300) + 'px'; return; }
+      var threshold = (cols === 3) ? 20 : 14;
+      var longCell = false;
+      table.querySelectorAll('td, th').forEach(function(cell){
+        if (parseInt(cell.getAttribute('colspan') || '1', 10) > 1) return;
+        if ((cell.textContent || '').replace(/\s+/g, '').length >= threshold) longCell = true;
+      });
+      if (longCell) table.style.minWidth = (cols === 4 ? '720px' : '600px');
+    } catch (e) { /* fail-safe: min-width を付けない */ }
   }
   function processAll(){
     document.querySelectorAll('table').forEach(function(table){
