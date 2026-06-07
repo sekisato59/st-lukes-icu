@@ -194,7 +194,7 @@
     .todo-num { width:28px;height:28px;border-radius:50%;background:var(--blue);color:#fff;font-size:0.78rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:0; }
     /* 行間を広めにして可読性向上 */
     .todo-body { flex:1;font-size:0.875rem;line-height:1.95;color:var(--text); }
-    .todo-body strong { display:block;margin-bottom:6px;line-height:1.55; }
+    .todo-body strong { display:inline-block;margin-bottom:6px;line-height:1.7;background:linear-gradient(transparent 58%, rgba(18,105,176,0.20) 58%);padding:0 3px; }
     .todo-body p { color:var(--muted);margin-top:6px;line-height:1.9; }
     .todo-body ul { margin:10px 0 0;padding-left:0;list-style:none; }
     .todo-body li { margin-bottom:7px;line-height:1.85; }
@@ -942,7 +942,12 @@
     }
 
     /* ===== ページタイトルストリップ（細めの帯） ===== */
+    /* fixed navbar(64px) の裏に隠れる帯。通常フローに置くとタブ(sticky)の吸着開始位置が
+       この帯の高さ分だけ下にずれ、スクロール時にタブが「少し下に動く」原因になる。
+       absolute でフローから外し、タブを最初のフロー要素にして top:64px に常時固定する。 */
     .res-titlebar {
+      position: absolute;
+      top: 0; left: 0; right: 0;
       max-width: 1294px;
       margin: 0 auto;
       padding: 22px 20px 16px;
@@ -951,6 +956,12 @@
       gap: 16px;
       flex-wrap: wrap;
     }
+    /* fixed navbar 回避マージン（PC・モバイル共通）。タイトルストリップを absolute 化したため
+       コンテンツ先頭（タブ／バナー）がナビバー下に来るよう margin-top で押し下げる。 */
+    .container { margin-top: var(--navbar-h); }
+    /* モバイルで下方向に引っ張った際のオーバースクロール（ゴムバンド）で
+       システム表示バナーより上の余白が露出するのを防ぐ。 */
+    html, body { overscroll-behavior-y: none; }
     .res-titlebar-back {
       font-size: 0.78rem;
       color: var(--muted);
@@ -999,9 +1010,8 @@
          タブをナビバー直下に置き、タブより上にスクロール可能な領域を作らない。 */
       .res-titlebar { display: none; }
       /* モバイルはスワイプ＋FAB でシステム切替するため、上タブは非表示。
-         タブが担っていた navbar（64px）回避マージンはコンテンツ側へ移す。 */
+         navbar 回避マージンは base の .container { margin-top } で共通化済み。 */
       .res-tabs-wrap { display: none; }
-      .container { margin-top: 64px; }
     }
 
     /* ── モバイル システム選択 FAB / ドロワー（論文GLまとめと同様）── */
@@ -1090,7 +1100,8 @@
           <img src="../images/icu-study.jpg" alt="ICUで学習中のローテーター" style="width:100%;max-height:260px;object-fit:cover;object-position:center 30%;border-radius:8px;margin-bottom:18px;display:block;">
 
           <p class="rule-body" style="margin-bottom:14px;color:var(--text);">
-            <strong>聖路加ICUの研修へようこそ。</strong>生理学・薬理学・人工呼吸器・血行動態・栄養・倫理まで、医師として必要な引き出しが一気に身につく濃密な数週間になります。多職種チームで重症患者さんと向き合い、刻一刻と変化する病態を読み解く面白さ、そして患者さんが回復していく瞬間に立ち会う喜び——ここでの経験は、皆さんの医師人生を必ずひと回り大きくしてくれることでしょう。
+            <strong style="color:var(--blue);font-size:1.1rem;">聖路加ICUの研修へようこそ。</strong><br>
+            生理学・薬理学・人工呼吸器・血行動態・栄養・倫理まで、医師として必要な引き出しが一気に身につく濃密な数週間になります。多職種チームで重症患者さんと向き合い、刻一刻と変化する病態を読み解く面白さ、そして患者さんが回復していく瞬間に立ち会う喜び——ここでの経験は、皆さんの医師人生を必ずひと回り大きくしてくれることでしょう。
           </p>
 
           <div class="alert-blue" style="margin:14px 0;">
@@ -1169,23 +1180,9 @@ ICUチームへ一言：</pre>
           <div class="todo-item" id="todo-videos">
             <div class="todo-num">4</div>
             <div class="todo-body">
-              <strong>動画の事前学習（必須4本）</strong>
-              <p>研修開始「前」に以下の4つの動画を視聴してください。視聴後はスタッフ医師にサインをもらいましょう。</p>
+              <strong>動画の事前学習（必須2本）</strong>
+              <p>研修開始「前」に以下の2つの動画を視聴してください。視聴後はスタッフ医師にサインをもらいましょう。</p>
               <ul class="video-list">
-                <li>
-                  <label class="video-check-label">
-                    <input type="checkbox" class="video-check">
-                    <a href="https://lukemcmi.sharepoint.com/sites/ms_teams_25922448/Shared%20Documents/General/勉強会動画（オンデマンド配信）/ZK.人工呼吸器入門編（Dr石井）.mp4?web=1" target="_blank" rel="noopener" class="video-link">人工呼吸器基礎</a>
-                    <span style="font-size:0.72rem;color:var(--muted);margin-left:6px;">→ <a href="disease-topics/dt-vent-basic.html" style="color:var(--blue);">テキストまとめ</a></span>
-                  </label>
-                </li>
-                <li>
-                  <label class="video-check-label">
-                    <input type="checkbox" class="video-check">
-                    <a href="https://lukemcmi.sharepoint.com/sites/ms_teams_25922448/Shared%20Documents/General/勉強会動画（オンデマンド配信）/ZH.神経集中治療（藤本先生）.mp4?web=1" target="_blank" rel="noopener" class="video-link">Neuro ICU</a>
-                    <span style="font-size:0.72rem;color:var(--muted);margin-left:6px;">→ <a href="disease-topics/dt-asah.html" style="color:var(--blue);">くも膜下出血</a> / <a href="disease-topics/dt-pcas.html" style="color:var(--blue);">心停止後管理</a></span>
-                  </label>
-                </li>
                 <li>
                   <label class="video-check-label">
                     <input type="checkbox" class="video-check">
@@ -1288,11 +1285,6 @@ ICUチームへ一言：</pre>
       <div class="card card-timeline" id="ql-weekly" style="margin-bottom:16px;">
         <h3 class="card-title-plain">週間スケジュール</h3>
         <div class="timeline">
-          <div class="tl-row">
-            <div class="tl-left"><div class="tl-time" style="color:#94A3B8;">月</div></div>
-            <div class="tl-bar"></div>
-            <div class="tl-text"><strong>海外教科書勉強会（隔週）</strong></div>
-          </div>
           <div class="tl-row tl-linked">
             <div class="tl-left"><div class="tl-time">金</div></div>
             <div class="tl-bar"></div>
