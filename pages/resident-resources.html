@@ -634,6 +634,27 @@
       letter-spacing: 0.02em;
       margin-top: 2px;
     }
+    /* ヘッダー右に画像（左→右へ斜めフェードで出現）。展開しても本文には影響しない */
+    .dojo-acc--img > summary { min-height: 62px; overflow: hidden; }
+    .dojo-acc-label { position: relative; z-index: 2; display: block; }
+    .dojo-acc-img {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 58%;
+      z-index: 1;
+      pointer-events: none;
+      background-size: cover;
+      background-position: center;
+      -webkit-mask-image: linear-gradient(115deg, transparent 28%, #000 72%);
+      mask-image: linear-gradient(115deg, transparent 28%, #000 72%);
+    }
+    .dojo-acc--img > summary::after {
+      z-index: 3;
+      border-color: #fff;
+      filter: drop-shadow(0 1px 2px rgba(0,0,0,0.55));
+    }
     .dojo-acc-body { padding: 3px 14px 10px; }
     /* 属ごとに薄紫ボックスで「マップ内」を示す（Bacillus領域 / Listeria領域 …） */
     .dojo-genus {
@@ -1893,8 +1914,11 @@ ICUチームへ一言：</pre>
               </div>
             </details>
 
-            <details class="dojo-acc">
-              <summary>GPC chain（レンサ球菌・腸球菌）<span class="dojo-acc-en">Gram-positive cocci in chains</span></summary>
+            <details class="dojo-acc dojo-acc--img">
+              <summary>
+                <span class="dojo-acc-img" style="background-image:url(../images/dojo-gpc-chain.jpeg);"></span>
+                <span class="dojo-acc-label">GPC chain（レンサ球菌・腸球菌）<span class="dojo-acc-en">Gram-positive cocci in chains</span></span>
+              </summary>
               <div class="dojo-acc-body dojo-tree">
                 <div class="dojo-genus">
                   <h4 class="dojo-genus-head">レンサ球菌属 <em>Streptococcus</em></h4>
