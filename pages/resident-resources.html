@@ -3149,5 +3149,113 @@ ICUチームへ一言：</pre>
   })();
   </script>
 
+  <!-- ===== モバイル：左右スワイプでシステム切替 ===== -->
+  <style>
+    @keyframes resSwipeNext { from { opacity:.45; transform: translateX(26px); } to { opacity:1; transform:none; } }
+    @keyframes resSwipePrev { from { opacity:.45; transform: translateX(-26px); } to { opacity:1; transform:none; } }
+    .res-panel.res-swipe-next { animation: resSwipeNext .22s ease; }
+    .res-panel.res-swipe-prev { animation: resSwipePrev .22s ease; }
+    .res-swipe-hint {
+      position: fixed; left: 50%; bottom: 88px; transform: translateX(-50%) translateY(8px);
+      z-index: 9000; pointer-events: none;
+      background: rgba(17, 24, 39, 0.92); color: #fff;
+      font-size: 0.82rem; font-weight: 700; letter-spacing: 0.02em;
+      padding: 10px 18px; border-radius: 999px;
+      box-shadow: 0 6px 22px rgba(0,0,0,0.28);
+      opacity: 0; transition: opacity .35s ease, transform .35s ease;
+    }
+    .res-swipe-hint.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .res-swipe-hint .res-swipe-hint-arrow { display:inline-block; animation: resHintArrow 1.1s ease-in-out infinite; }
+    @keyframes resHintArrow { 0%,100% { opacity:.5; } 50% { opacity:1; } }
+  </style>
+  <script>
+  (function(){
+    var tabEls = Array.prototype.slice.call(document.querySelectorAll('.res-tab'));
+    if (!tabEls.length) return;
+    var order = tabEls.map(function(t){ return t.dataset.tab; });
+
+    function isMobile(){ return window.matchMedia('(max-width: 767px)').matches; }
+
+    // 横スクロール可能な祖先（表ラッパ等）内で始まったスワイプは無視する
+    function hasHScrollAncestor(el, root){
+      while (el && el !== root && el !== document.body){
+        if (el.scrollWidth - el.clientWidth > 4){
+          var ov = getComputedStyle(el).overflowX;
+          if (ov === 'auto' || ov === 'scroll') return true;
+        }
+        el = el.parentNode;
+      }
+      return false;
+    }
+
+    function currentIndex(){
+      var a = document.querySelector('.res-tab.active');
+      return a ? order.indexOf(a.dataset.tab) : 0;
+    }
+
+    function go(dir){ // dir: +1 次へ / -1 前へ（端はループ）
+      var n = (currentIndex() + dir + order.length) % order.length;
+      tabEls[n].click();                          // 既存のタブ切替ロジックを再利用
+      window.scrollTo({ top: 0, behavior: 'auto' });
+      var panel = document.getElementById('panel-' + order[n]);
+      if (panel){
+        panel.classList.remove('res-swipe-next', 'res-swipe-prev');
+        void panel.offsetWidth;                   // リフローでアニメ再生
+        panel.classList.add(dir > 0 ? 'res-swipe-next' : 'res-swipe-prev');
+      }
+    }
+
+    var sx = 0, sy = 0, tracking = false, ignore = false;
+
+    document.addEventListener('touchstart', function(e){
+      if (!isMobile() || e.touches.length !== 1){ tracking = false; return; }
+      var inPanel = e.target.closest ? e.target.closest('.res-panel.active') : null;
+      if (!inPanel){ tracking = false; return; }
+      ignore = hasHScrollAncestor(e.target, inPanel);
+      var t = e.touches[0];
+      sx = t.clientX; sy = t.clientY; tracking = true;
+    }, {passive:true});
+
+    document.addEventListener('touchend', function(e){
+      if (!tracking || ignore){ tracking = false; return; }
+      tracking = false;
+      var t = e.changedTouches[0];
+      var dx = t.clientX - sx, dy = t.clientY - sy;
+      if (Math.abs(dx) < 70) return;              // 移動量が小さければ無視
+      if (Math.abs(dx) < Math.abs(dy) * 1.8) return; // 縦方向優位なら無視
+      dismissHint();
+      go(dx < 0 ? 1 : -1);                        // 左へスワイプ＝次、右へ＝前
+    }, {passive:true});
+
+    // ===== 初回のみヒント表示 =====
+    var HINT_KEY = 'resSwipeHintSeen';
+    var hintEl = null, hintTimer = null;
+    function dismissHint(){
+      if (!hintEl) return;
+      hintEl.classList.remove('show');
+      clearTimeout(hintTimer);
+      var el = hintEl; hintEl = null;
+      setTimeout(function(){ if (el && el.parentNode) el.parentNode.removeChild(el); }, 400);
+    }
+    function showHint(){
+      var seen;
+      try { seen = localStorage.getItem(HINT_KEY); } catch(_) { seen = '1'; }
+      if (seen || !isMobile()) return;
+      try { localStorage.setItem(HINT_KEY, '1'); } catch(_) {}
+      hintEl = document.createElement('div');
+      hintEl.className = 'res-swipe-hint';
+      hintEl.innerHTML = '<span class="res-swipe-hint-arrow">←</span> スワイプでシステム切替 <span class="res-swipe-hint-arrow">→</span>';
+      document.body.appendChild(hintEl);
+      requestAnimationFrame(function(){ hintEl && hintEl.classList.add('show'); });
+      hintTimer = setTimeout(dismissHint, 4000);
+    }
+    if (document.readyState === 'complete' || document.readyState === 'interactive'){
+      setTimeout(showHint, 900);
+    } else {
+      window.addEventListener('DOMContentLoaded', function(){ setTimeout(showHint, 900); });
+    }
+  })();
+  </script>
+
 </body>
 </html>
