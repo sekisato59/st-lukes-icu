@@ -156,10 +156,12 @@
     .risk-table td.cat { background:#FAFBFC;font-weight:700;color:#4C1D95;white-space:nowrap; }
 
     /* ====== モバイル: リスク表は横4列だと潰れて読めないため、行ごとのカード積み重ねに変換 ====== */
+    /* ※ script.js が表を .ie-table-scroll でラップし `.ie-table-scroll > table{display:table!important}`
+         が効くため、> セレクタ＋!important で上書きする */
     @media (max-width: 767px) {
-      .risk-table { min-width: 0 !important; display: block; font-size: 0.8rem; }
-      .risk-table thead { display: none; }
-      .risk-table tbody, .risk-table tr, .risk-table td { display: block; width: auto; }
+      .ie-table-scroll > .risk-table, .risk-table { display: block !important; min-width: 0 !important; max-width: 100% !important; font-size: 0.8rem; }
+      .risk-table thead { display: none !important; }
+      .risk-table tbody, .risk-table tr, .risk-table td { display: block !important; width: auto !important; }
       .risk-table tr {
         border: 1px solid var(--border); border-radius: 8px;
         margin-bottom: 10px; padding: 9px 13px 11px; background: #fff;
