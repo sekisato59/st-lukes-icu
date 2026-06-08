@@ -307,6 +307,247 @@ window.BACTERIA_RELATED = {
     { section: "発熱性好中球減少症（FN）", items: [
       { embed: "../id-icu-notes/note-fn.html#ch5-s2", label: "FN 板書ノート ▸ 起因菌の内訳（FN での頻度）" }
     ] }
+  ],
+
+  // ============ Escherichia coli ============
+  ecoli: [
+    { section: "ESBL 産生菌の治療", items: [
+      { embed: "../articles-gl-idsa-amr-gnr2024.html#sec1-overview", label: "IDSA AMR-GNR 2024 ▸ 最頻 ESBL 産生菌は大腸菌（CTX-M-15）" },
+      { embed: "../articles-gl-idsa-amr-gnr2024.html#sec1-cystitis", label: "IDSA AMR-GNR 2024 ▸ ESBL-E 単純性膀胱炎は NFT/ST 第一選択（経口 FOM は大腸菌のみ）" },
+      { embed: "../articles-gl-idsa-amr-gnr2024.html#sec1-nonuti", label: "IDSA AMR-GNR 2024 ▸ ESBL-E 菌血症はカルバペネム第一選択（MERINO）" },
+      { embed: "../id-icu-notes/note-resistant-gnr.html#ch2-s3", label: "耐性GNR 板書ノート ▸ ESBL 産生菌（代表は大腸菌・クレブシエラ）" }
+    ] },
+    { section: "カルバペネム耐性腸内細菌目（CRE）", items: [
+      { embed: "../articles-gl-idsa-amr-gnr2024.html#sec3-mbl", label: "IDSA AMR-GNR 2024 ▸ NDM/MBL 産生 CRE は CAZ-AVI＋ATM またはセフィデロコル" }
+    ] },
+    { section: "菌血症の投与期間", items: [
+      { embed: "../disease-topics/dt-bacteremia-duration.html#bd-decision", label: "菌血症投与期間 ▸ Enterobacterales（大腸菌等）はソースコントロール下で 7 日間（HIGH）" }
+    ] }
+  ],
+
+  // ============ Klebsiella pneumoniae ============
+  kpneu: [
+    { section: "ESBL 産生菌の治療", items: [
+      { embed: "../articles-gl-idsa-amr-gnr2024.html#sec1-overview", label: "IDSA AMR-GNR 2024 ▸ 肺炎桿菌は代表的 ESBL 産生菌（経口 FOM は fosA で無効）" },
+      { embed: "../articles-gl-idsa-amr-gnr2024.html#sec1-cystitis", label: "IDSA AMR-GNR 2024 ▸ ESBL-E 単純性膀胱炎は NFT/ST 第一選択" },
+      { embed: "../articles-gl-idsa-amr-gnr2024.html#sec1-nonuti", label: "IDSA AMR-GNR 2024 ▸ ESBL-E 菌血症はカルバペネム第一選択（MERINO）" },
+      { embed: "../id-icu-notes/note-resistant-gnr.html#ch2-s3", label: "耐性GNR 板書ノート ▸ ESBL 産生菌（代表は大腸菌・クレブシエラ）" }
+    ] },
+    { section: "菌血症の投与期間", items: [
+      { embed: "../disease-topics/dt-bacteremia-duration.html#bd-decision", label: "菌血症投与期間 ▸ Enterobacterales（Klebsiella 等）はソースコントロール下で 7 日間（HIGH）" }
+    ] }
+  ],
+
+  // ============ Enterobacter cloacae complex ============
+  enterobacter: [
+    { section: "AmpC 産生菌としての治療戦略", items: [
+      { embed: "../articles-gl-idsa-amr-gnr2024.html#sec2-overview", label: "IDSA AMR-GNR 2024 ▸ AmpC の特徴とリスク層別（E. cloacae は高リスク・約20%が誘導耐性化）" },
+      { embed: "../id-icu-notes/note-resistant-gnr.html#ch2-s2", label: "耐性GNR 板書ノート ▸ AmpC 産生菌（高リスク3菌の筆頭 Enterobacter cloacae）" },
+      { embed: "../id-icu-notes/note-fn.html#ch9-s1", label: "FN 板書ノート ▸ AmpC 産生菌（AMPC-HESK の E＝Enterobacter cloacae）" },
+      { embed: "../id-icu-notes/note-fn.html#ch9-s2", label: "FN 板書ノート ▸ CFPM vs PIPC/TAZ（Enterobacter 疑いでは CFPM/MEPM を選択）" }
+    ] }
+  ],
+
+  // ============ Citrobacter freundii ============
+  citrobacter: [
+    { section: "AmpC 産生菌としての治療戦略", items: [
+      { embed: "../articles-gl-idsa-amr-gnr2024.html#sec2-overview", label: "IDSA AMR-GNR 2024 ▸ AmpC の特徴とリスク層別（C. freundii は高リスク・約20%が誘導耐性化）" },
+      { embed: "../id-icu-notes/note-resistant-gnr.html#ch2-s2", label: "耐性GNR 板書ノート ▸ AmpC 産生菌（高リスク3菌に Citrobacter freundii）" },
+      { embed: "../id-icu-notes/note-fn.html#ch9-s1", label: "FN 板書ノート ▸ AmpC 産生菌（AMPC-HESK の C＝Citrobacter freundii）" }
+    ] }
+  ],
+
+  // ============ Citrobacter koseri ============
+  ckoseri: [
+    { section: "AmpC をめぐる分類上の注意", items: [
+      { embed: "../articles-gl-idsa-amr-gnr2024.html#sec2-overview", label: "IDSA AMR-GNR 2024 ▸ C. koseri は AmpC 染色体遺伝子を持たず高リスク菌に含めない" }
+    ] }
+  ],
+
+  // ============ Serratia marcescens ============
+  serratia: [
+    { section: "AmpC 産生菌としての位置づけ", items: [
+      { embed: "../articles-gl-idsa-amr-gnr2024.html#sec2-overview", label: "IDSA AMR-GNR 2024 ▸ AmpC の特徴とリスク層別（S. marcescens は低リスク・耐性出現<5%）" },
+      { embed: "../id-icu-notes/note-resistant-gnr.html#ch2-s2", label: "耐性GNR 板書ノート ▸ AmpC 産生菌（旧 AMPCHES の S＝Serratia）" },
+      { embed: "../id-icu-notes/note-fn.html#ch9-s1", label: "FN 板書ノート ▸ AmpC 産生菌（AMPC-HESK の S＝Serratia marcescens）" }
+    ] },
+    { section: "脊髄硬膜外膿瘍での疫学", items: [
+      { embed: "../articles-gl-sea-nejm2026.html#sea-s9", label: "脊髄硬膜外膿瘍 NEJM 2026 ▸ IDU 関連 SEA・椎間板炎で S. marcescens が高頻度に分離" }
+    ] }
+  ],
+
+  // ============ Morganella morganii ============
+  morgan: [
+    { section: "AmpC 産生菌としての位置づけ", items: [
+      { embed: "../articles-gl-idsa-amr-gnr2024.html#sec2-overview", label: "IDSA AMR-GNR 2024 ▸ AmpC の特徴とリスク層別（M. morganii は低リスク・耐性出現<5%）" },
+      { embed: "../id-icu-notes/note-resistant-gnr.html#ch2-s2", label: "耐性GNR 板書ノート ▸ AmpC 産生菌（旧 AMPCHES の M＝Morganella）" },
+      { embed: "../id-icu-notes/note-fn.html#ch9-s1", label: "FN 板書ノート ▸ AmpC 産生菌（AMPC-HESK の M＝Morganella morganii）" }
+    ] }
+  ],
+
+  // ============ Klebsiella aerogenes ============
+  kaero: [
+    { section: "AmpC 産生菌としての治療戦略", items: [
+      { embed: "../articles-gl-idsa-amr-gnr2024.html#sec2-overview", label: "IDSA AMR-GNR 2024 ▸ AmpC の特徴とリスク層別（K. aerogenes は高リスク・約20%が誘導耐性化）" },
+      { embed: "../articles-gl-idsa-amr-gnr2024.html#sec2-cefepime", label: "IDSA AMR-GNR 2024 ▸ AmpC-E の第一選択はセフェピム（E. cloacae・K. aerogenes・C. freundii）" },
+      { embed: "../articles-gl-idsa-amr-gnr2024.html#sec2-ceftriazone", label: "IDSA AMR-GNR 2024 ▸ 侵襲性感染症ではセフトリアキソン回避（K. aerogenes 等）" },
+      { embed: "../id-icu-notes/note-resistant-gnr.html#ch2-s2", label: "耐性GNR 板書ノート ▸ AmpC 産生菌（高リスク3菌に Klebsiella aerogenes）" },
+      { embed: "../id-icu-notes/note-fn.html#ch9-s1", label: "FN 板書ノート ▸ AmpC 産生菌（AMPC-HESK の K＝Klebsiella aerogenes）" }
+    ] }
+  ],
+
+  // ============ Proteus vulgaris ============
+  pvulg: [
+    { section: "AmpC をめぐる分類上の注意", items: [
+      { embed: "../articles-gl-idsa-amr-gnr2024.html#sec2-overview", label: "IDSA AMR-GNR 2024 ▸ 旧「indole positive Proteus」＝P. vulgaris（AmpC 遺伝子なし）の混同に注意" }
+    ] }
+  ],
+
+  // ============ Pseudomonas aeruginosa ============
+  paerug: [
+    { section: "緑膿菌菌血症の治療期間（BALANCE post-hoc）", items: [
+      { embed: "../articles-gl-pa-bacteremia2026.html#pa-background", label: "PA 菌血症 投与期間（CID 2026）▸ 緑膿菌菌血症の重篤性と PA 特化エビデンスが必要な理由" },
+      { embed: "../articles-gl-pa-bacteremia2026.html#pa-discussion", label: "PA 菌血症 投与期間（CID 2026）▸ 緑膿菌を Enterobacterales と同一視できない理由" },
+      { embed: "../articles-gl-pa-bacteremia2026.html#pa-shorten2", label: "PA 菌血症 投与期間（CID 2026）▸ 緑膿菌専用 RCT SHORTEN-2 と現時点の臨床判断" },
+      { embed: "../disease-topics/dt-pa-infection.html#dt-pa-s1", label: "緑膿菌感染症（総説）▸ 緑膿菌菌血症の特徴と Enterobacterales との違い" },
+      { embed: "../disease-topics/dt-pa-infection.html#dt-pa-s2", label: "緑膿菌感染症（総説）▸ BALANCE 緑膿菌サブグループ157例の知見" },
+      { embed: "../disease-topics/dt-pa-infection.html#dt-pa-s3", label: "緑膿菌感染症（総説）▸ 緑膿菌菌血症の投与期間：現時点での推奨" }
+    ] },
+    { section: "DTR/MDR 緑膿菌の定義と耐性機序", items: [
+      { embed: "../articles-gl-idsa-amr-gnr2024.html#sec4-overview", label: "IDSA AMR-GNR 2024 ▸ DTR 緑膿菌の定義（8剤非感受性）と耐性機序" },
+      { embed: "../articles-gl-ct-cza-psa2026.html#s1", label: "MDR 緑膿菌 C/T vs CZA（2026）▸ MDR 緑膿菌の臨床的重要性と耐性菌の定義" },
+      { link: "../id-icu-notes/note-resistant-gnr.html#ch3-s2", label: "耐性GNR 板書ノート ▸ 耐性緑膿菌（MDRP/CRPA/DTRP）の定義と治療方針" }
+    ] },
+    { section: "DTR 緑膿菌の治療（新規β-ラクタム配合剤）", items: [
+      { embed: "../articles-gl-idsa-amr-gnr2024.html#sec4-nonuti", label: "IDSA AMR-GNR 2024 ▸ DTR 緑膿菌 尿路外感染症の治療（C/T・CAZ-AVI・IMI-REL 優先）" },
+      { embed: "../articles-gl-idsa-amr-gnr2024.html#sec4-mbl", label: "IDSA AMR-GNR 2024 ▸ MBL 産生 DTR 緑膿菌はセフィデロコルが唯一の優先薬" },
+      { embed: "../articles-gl-idsa-amr-gnr2024.html#sec4-resistance", label: "IDSA AMR-GNR 2024 ▸ DTR 緑膿菌の耐性出現リスク（C/T 治療後の交差耐性）" },
+      { embed: "../articles-gl-ct-cza-psa2026.html#s2", label: "MDR 緑膿菌 C/T vs CZA（2026）▸ セフトロザン/タゾバクタムと CAZ-AVI の基本特性比較" },
+      { embed: "../articles-gl-ct-cza-psa2026.html#s8", label: "MDR 緑膿菌 C/T vs CZA（2026）▸ 再発感染は C/T が有意に低い（aOR 0.46）" },
+      { embed: "../articles-gl-ct-cza-psa2026.html#s12", label: "MDR 緑膿菌 C/T vs CZA（2026）▸ 感染部位別（肺炎/菌血症/KPC・MBL 株）の薬剤選択" },
+      { link: "../id-icu-notes/note-resistant-gnr.html#ch4-s2", label: "耐性GNR 板書ノート ▸ 抗緑膿菌新規β-ラクタム配合剤の各論・用量・腎機能調整" }
+    ] }
+  ],
+
+  // ============ Acinetobacter baumannii ============
+  acinetobacter: [
+    { section: "CRAB（カルバペネム耐性アシネトバクター）の治療", items: [
+      { embed: "../articles-gl-idsa-amr-gnr2024.html#sec5-overview", label: "IDSA AMR-GNR 2024 ▸ CRAB の特徴と治療が困難な3つの理由" },
+      { embed: "../articles-gl-idsa-amr-gnr2024.html#sec5-approach", label: "IDSA AMR-GNR 2024 ▸ CRAB の全体的治療アプローチ（スルバクタム含有2剤併用）" },
+      { embed: "../articles-gl-idsa-amr-gnr2024.html#sec5-suldur", label: "IDSA AMR-GNR 2024 ▸ スルバクタム-デュルロバクタム（SUL-DUR）— 優先薬" },
+      { embed: "../articles-gl-idsa-amr-gnr2024.html#sec5-amsul", label: "IDSA AMR-GNR 2024 ▸ 高用量アンピシリン-スルバクタム（スルバクタム9g/日）" },
+      { embed: "../articles-gl-idsa-amr-gnr2024.html#sec5-tet", label: "IDSA AMR-GNR 2024 ▸ CRAB におけるテトラサイクリン系薬（ミノサイクリン優先）" },
+      { embed: "../articles-gl-idsa-amr-gnr2024.html#sec5-fdc", label: "IDSA AMR-GNR 2024 ▸ CRAB におけるセフィデロコルの役割" }
+    ] },
+    { section: "多剤耐性アシネトバクター髄膜炎・脳室炎", items: [
+      { embed: "../articles-gl-nosocomial-meningitis2010.html#nm-s7", label: "医療関連髄膜炎・脳室炎 2010 ▸ 多剤耐性GNR（特にアシネトバクター）への治療・髄腔内投与" }
+    ] }
+  ],
+
+  // ============ Clostridioides difficile ============
+  cdiff: [
+    { section: "疫学・重症度", items: [
+      { embed: "../articles-gl-cdi-shea2021.html#cdi-epidemio", label: "SHEA/IDSA CDI GL 2021 ▸ CDI の疫学（年間約46万例・再発の負担は変化なし）" },
+      { embed: "../articles-gl-cdi-shea2021.html#cdi-severity", label: "SHEA/IDSA CDI GL 2021 ▸ 重症度分類（非重症／重症／劇症型）" }
+    ] },
+    { section: "治療推奨（全体像）", items: [
+      { embed: "../articles-gl-cdi-shea2021.html#cdi-table1", label: "SHEA/IDSA CDI GL 2021 ▸ 治療推奨一覧（Table 1）：病型別の薬剤・用量" }
+    ] },
+    { section: "初期治療（フィダキソマイシン vs バンコマイシン）", items: [
+      { embed: "../articles-gl-cdi-shea2021.html#cdi-pico1-rec", label: "SHEA/IDSA CDI GL 2021 ▸ 初回 CDI はフィダキソマイシン優先（VCM も代替可）" },
+      { embed: "../articles-gl-cdi-shea2021.html#cdi-pico1-evidence", label: "SHEA/IDSA CDI GL 2021 ▸ エビデンス（4RCT・1,673例、持続治療反応 RR 1.16）" }
+    ] },
+    { section: "再発 CDI と FMT", items: [
+      { embed: "../articles-gl-cdi-shea2021.html#cdi-pico2-rec", label: "SHEA/IDSA CDI GL 2021 ▸ 再発 CDI もフィダキソマイシン優先・FMT は複数回再発後" },
+      { embed: "../articles-gl-cdi-shea2021.html#cdi-pico2-evidence", label: "SHEA/IDSA CDI GL 2021 ▸ エビデンス（30日持続反応 RR 1.27・FMT ドナー便スクリーニング必須）" }
+    ] },
+    { section: "ベズロトクスマブ（再発予防）", items: [
+      { embed: "../articles-gl-cdi-shea2021.html#cdi-pico3-rec", label: "SHEA/IDSA CDI GL 2021 ▸ 6ヶ月以内再発例にベズロトクスマブ追加（CHF は注意）" },
+      { embed: "../articles-gl-cdi-shea2021.html#cdi-pico3-evidence", label: "SHEA/IDSA CDI GL 2021 ▸ エビデンス（MODIFY I/II・再発 RR 0.62）" }
+    ] }
+  ],
+
+  // ============ Nocardia 属 ============
+  nocardia: [
+    { section: "Nocardia の臨床", items: [
+      { embed: "../id-icu-notes/note-anaerobic.html#ch2-s1", label: "嫌気性菌 板書ノート ▸ Nocardia と Actinomyces（SNAP で治療を覚える）" }
+    ] }
+  ],
+
+  // ============ Actinomyces 属 ============
+  actinomyces: [
+    { section: "Actinomyces の臨床", items: [
+      { embed: "../id-icu-notes/note-anaerobic.html#ch2-s1", label: "嫌気性菌 板書ノート ▸ Nocardia と Actinomyces（SNAP で治療を覚える）" }
+    ] }
+  ],
+
+  // ============ Fusobacterium necrophorum ============
+  fnec: [
+    { section: "Lemierre 症候群", items: [
+      { embed: "../id-icu-notes/note-anaerobic.html#ch3-s1", label: "嫌気性菌 板書ノート ▸ 口腔内嫌気性菌と Lemierre 症候群（F. necrophorum）" }
+    ] }
+  ],
+
+  // ============ Bacteroides fragilis ============
+  bfragilis: [
+    { section: "腹腔内嫌気性菌としての位置づけ", items: [
+      { embed: "../id-icu-notes/note-anaerobic.html#ch3-s2", label: "嫌気性菌 板書ノート ▸ B. fragilis は腹腔内嫌気性菌の筆頭（分離率約80%・MNZ/MEPM 感受性）" }
+    ] }
+  ],
+
+  // ============ Clostridium perfringens ============
+  cperf: [
+    { section: "ガス壊疽（クロストリジウム性筋壊死）", items: [
+      { embed: "../id-icu-notes/note-anaerobic.html#ch3-s3", label: "嫌気性菌 板書ノート ▸ C. perfringens はガス壊疽の最多原因菌（PCG＋CLDM＋デブリードメント）" }
+    ] }
+  ],
+
+  // ============ Clostridium septicum ============
+  csept: [
+    { section: "C. septicum 菌血症と悪性腫瘍", items: [
+      { embed: "../id-icu-notes/note-anaerobic.html#ch3-s3", label: "嫌気性菌 板書ノート ▸ C. septicum 菌血症は occult 悪性腫瘍（大腸癌・AML）の重要マーカー" }
+    ] }
+  ],
+
+  // ============ Cutibacterium acnes ============
+  cacnes: [
+    { section: "血液培養の汚染菌としての位置づけ", items: [
+      { embed: "../articles-gl-ie2026.html#ie2-section3", label: "JCS IE 2026 ▸ 血液培養（Cutibacterium/Corynebacterium は汚染率 88–94%・IE 原因はまれ）" }
+    ] }
+  ],
+
+  // ============ Neisseria meningitidis ============
+  nmen: [
+    { section: "髄膜炎菌髄膜炎の治療・予防", items: [
+      { embed: "../articles-gl-escmid-bactmening2016.html#ch6-s1", label: "ESCMID 細菌性髄膜炎 2016 ▸ 髄膜炎菌接触者への予防的抗菌薬" },
+      { embed: "../articles-gl-escmid-bactmening2016.html#ch3-s3", label: "ESCMID 細菌性髄膜炎 2016 ▸ N. meningitidis ペニシリン中等度耐性への対応" },
+      { embed: "../id-icu-notes/note-meningitis.html#ch1-s1", label: "髄膜炎 板書ノート ▸ Neisseria meningitidis の特徴（飛沫感染・血清型B・CTRX）" }
+    ] }
+  ],
+
+  // ============ Neisseria gonorrhoeae ============
+  ngon: [
+    { section: "Fitz-Hugh-Curtis 症候群", items: [
+      { embed: "../id-icu-notes/note-iai.html#ch3-s2", label: "腹腔内感染症 板書ノート ▸ Fitz-Hugh-Curtis 症候群（淋菌による肝周囲炎・CTRX）" }
+    ] }
+  ],
+
+  // ============ Mycobacterium tuberculosis ============
+  tb: [
+    { section: "結核性髄膜炎", items: [
+      { embed: "../articles-gl-ncs-cerebraledema2020.html#ncs-s10", label: "NCS 脳浮腫管理 2020 ▸ 結核性髄膜炎：コルチコステロイドの推奨" },
+      { embed: "../id-icu-notes/note-meningitis.html#ch1-s4", label: "髄膜炎 板書ノート ▸ 起因菌：結核性（脳底部障害・髄液PCR陰性が多い）" }
+    ] },
+    { section: "HIV 患者の結核", items: [
+      { embed: "../articles-gl-hiv-oi.html#s-tb", label: "HIV 日和見感染症 ▸ 結核（LTBI 治療・活動性TB・ART 開始タイミング・TB-IRIS）" }
+    ] }
+  ],
+
+  // ============ Salmonella Typhi ============
+  styphi: [
+    { section: "腸チフスの治療", items: [
+      { embed: "../articles-gl-static-cidal2018.html#sc-typhoid", label: "静菌薬 vs 殺菌薬 2018 ▸ 腸チフス：クロラムフェニコールは FQ と同等" }
+    ] }
   ]
 
 };
