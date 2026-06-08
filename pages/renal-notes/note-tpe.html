@@ -17,6 +17,7 @@
     }
     .section-label.renal { color: #166534; }
 
+    /* ===== ページヘッダー ===== */
     .page-header {
       max-width: 1294px;
       margin: 64px auto 0;
@@ -97,7 +98,7 @@
     }
     .danger strong { color: #7F1D1D; }
 
-    /* ====== ＋α カード（緑） ====== */
+    /* ====== ＋α カード ====== */
     .ie-alpha { background: #F0FDF4; border: 1px solid #BBF7D0; border-radius: 10px; margin: 14px 0; overflow: hidden; }
     .ie-alpha-inner { padding: 16px 18px; }
     .ie-alpha-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
@@ -121,47 +122,114 @@
     .card-inner .box-title { font-size: 0.9rem; font-weight: 800; color: #14532D; margin: 0 0 6px; line-height: 1.5; }
     .box-row .rule-body, .box-row p { margin: 0; }
 
-    /* ====== タンパクプロファイルカード（独自グリッド） ====== */
-    .protein-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
-    @media (max-width:640px) { .protein-grid { grid-template-columns: 1fr; } }
+    /* ======================================================
+       タンパクプロファイルカード — 1列ストリップ形式
+       ====================================================== */
+    .protein-list { margin-top: 12px; display: flex; flex-direction: column; gap: 10px; }
+
     .protein-card {
-      background: #F8FAFC; border: 1px solid #CBD5E1; border-radius: 8px;
-      padding: 12px 14px;
+      background: #F8FAFC;
+      border: 1px solid #CBD5E1;
+      border-radius: 10px;
+      overflow: hidden;
     }
-    .protein-card.highlight-yellow { background: #FFFBEB; border-color: #FDE68A; }
-    .protein-card.highlight-green  { background: #F0FDF4; border-color: #BBF7D0; }
-    .protein-name {
-      font-size: 1.05rem; font-weight: 900; color: var(--text);
-      margin-bottom: 8px; padding-bottom: 5px;
-      border-bottom: 2px solid #CBD5E1;
+    .protein-card.highlight-yellow { background: #FFFDF0; border-color: #FCD34D; }
+    .protein-card.highlight-green  { background: #F0FDF4; border-color: #86EFAC; }
+
+    /* カードヘッダー行 */
+    .protein-head {
+      padding: 10px 16px 8px;
+      border-bottom: 1px solid #E2E8F0;
     }
-    .highlight-yellow .protein-name { border-color: #FCD34D; }
-    .highlight-green  .protein-name { border-color: #86EFAC; }
-    .protein-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
-    .protein-tag {
-      font-size: 0.68rem; font-weight: 700; padding: 2px 8px; border-radius: 3px;
-      background: #E2E8F0; color: #475569;
+    .highlight-yellow .protein-head { border-bottom-color: #FDE68A; }
+    .highlight-green  .protein-head { border-bottom-color: #BBF7D0; }
+    .protein-name-lg {
+      font-size: 1.0rem; font-weight: 900; color: var(--text);
+      letter-spacing: 0.02em;
     }
-    .protein-tag.intravascular { background: #DBEAFE; color: #1E40AF; }
-    .protein-tag.halflife      { background: #FCE7F3; color: #9D174D; }
-    .protein-tag.synthesis     { background: #FEF9C3; color: #78350F; }
-    .protein-stat-row { display: flex; gap: 8px; flex-wrap: wrap; }
-    .protein-stat {
-      font-size: 0.75rem; color: #64748B; line-height: 1.6;
-      background: #fff; border: 1px solid #E2E8F0; border-radius: 4px; padding: 3px 9px;
+    .protein-subtitle {
+      font-size: 0.7rem; font-weight: 700; color: #64748B;
+      margin-left: 8px; vertical-align: 1px;
     }
-    .protein-stat strong { color: var(--text); }
-    .protein-comment { font-size: 0.78rem; color: #475569; line-height: 1.75; margin-top: 8px; }
+    .highlight-yellow .protein-subtitle { color: #92400E; }
+    .highlight-green  .protein-subtitle { color: #166534; }
+
+    /* 3指標バー（flex — 数値のみなので abbr-tooltip 干渉なし） */
+    .protein-stats-bar {
+      display: flex;
+      align-items: stretch;
+      border-bottom: 1px solid #E2E8F0;
+    }
+    .highlight-yellow .protein-stats-bar { border-bottom-color: #FDE68A; }
+    .highlight-green  .protein-stats-bar { border-bottom-color: #BBF7D0; }
+    .pstat-item {
+      flex: 1;
+      padding: 8px 10px;
+      text-align: center;
+      border-right: 1px solid #E2E8F0;
+    }
+    .highlight-yellow .pstat-item { border-right-color: #FDE68A; }
+    .highlight-green  .pstat-item { border-right-color: #BBF7D0; }
+    .pstat-item:last-child { border-right: none; }
+    .pstat-val {
+      font-size: 0.96rem; font-weight: 900; line-height: 1.2; margin-bottom: 2px;
+      color: #1E293B;
+    }
+    .highlight-yellow .pstat-val { color: #92400E; }
+    .highlight-green  .pstat-val { color: #166534; }
+    .pstat-key {
+      font-size: 0.62rem; font-weight: 700; color: #94A3B8; letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    /* サブ情報行 */
+    .protein-sub-row {
+      display: flex; gap: 6px; flex-wrap: wrap;
+      padding: 6px 16px 0;
+    }
+    .protein-badge {
+      font-size: 0.65rem; font-weight: 600; color: #64748B;
+      background: #fff; border: 1px solid #CBD5E1; border-radius: 3px; padding: 1px 7px;
+    }
+    .highlight-yellow .protein-badge { background: #FFFBEB; border-color: #FDE68A; color: #78350F; }
+    .highlight-green  .protein-badge { background: #F0FDF4; border-color: #BBF7D0; color: #166534; }
+
+    /* コメント行（block layout — abbr-tooltip 安全） */
+    .protein-comment {
+      font-size: 0.82rem; color: #475569; line-height: 1.8;
+      padding: 8px 16px 12px;
+      margin: 0;
+    }
     .protein-comment strong { color: var(--text); }
 
-    /* ====== formula box ====== */
+    /* ======================================================
+       計算式ボックス — Noto Sans JP 表示
+       ====================================================== */
     .formula-box {
       background: #F8FAFC; border: 1px solid #CBD5E1; border-radius: 8px;
-      padding: 14px 18px; margin: 10px 0; font-size: 0.88rem; line-height: 1.9; color: var(--text);
+      padding: 14px 18px; margin: 10px 0;
     }
-    .formula-box .formula-title { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.08em; color: #64748B; margin-bottom: 6px; }
-    .formula-box code { font-family: 'Courier New', Courier, monospace; font-size: 0.9rem; font-weight: 700; color: #14532D; }
-    .formula-box .example { font-size: 0.8rem; color: #64748B; margin-top: 6px; line-height: 1.8; }
+    .formula-box .formula-title {
+      font-size: 0.68rem; font-weight: 800; letter-spacing: 0.1em;
+      color: #64748B; margin-bottom: 8px;
+    }
+    /* ← Courier New を廃止。Noto Sans JP の太字で表示 */
+    .formula-box .formula-expr {
+      font-size: 0.98rem; font-weight: 900;
+      color: #14532D;
+      line-height: 1.6;
+      letter-spacing: 0.01em;
+    }
+    .formula-box .example {
+      font-size: 0.76rem; color: #64748B; margin-top: 6px; line-height: 1.75;
+    }
+    .formula-box.formula-example {
+      background: #F0FDF4; border-color: #BBF7D0;
+    }
+    .formula-box.formula-example .formula-title { color: #166534; }
+    .formula-box.formula-example .formula-line {
+      font-size: 0.86rem; font-weight: 700; color: #14532D; line-height: 2.0; margin: 0;
+    }
 
     /* ====== stat-grid（緑テーマ） ====== */
     .ie-stat { background: #F0FDF4; border: 1px solid #BBF7D0; }
@@ -194,12 +262,16 @@
     .gl-chapter-banner .gl-chapter-title { font-size: 1.15rem !important; }
     .note-mini { font-size: 0.74rem; color: #6B7280; display: block; margin-top: 2px; }
 
-    /* ====== モバイル統一 ====== */
+    /* ======================================================
+       モバイル統一（cascade 優先のため末尾配置）
+       ====================================================== */
     @media (max-width:600px) {
+      /* 見出し */
       .card-inner h3.rule-title { font-size: 0.92rem; }
       .card-inner h4.sub-head { font-size: 0.88rem; }
       .gl-sec-head { font-size: 1rem !important; margin: 22px 0 10px !important; padding-left: 14px !important; }
       .gl-chapter-banner .gl-chapter-title { font-size: 1.05rem !important; }
+      /* 本文 */
       .card-inner .rule-body, .card-inner ul li, .card-inner ol li, .card-inner p,
       .keypoint, .danger, .bundle-content p, .ie-alpha-inner p, .ie-alpha-inner ul li {
         font-size: 0.8rem; line-height: 1.78;
@@ -217,10 +289,19 @@
       .bundle-step { padding: 10px 0; gap: 10px; }
       .bundle-content .sub-note { font-size: 0.73rem; padding-left: 10px; }
       .note-mini { font-size: 0.7rem !important; }
-      .protein-card { padding: 10px 12px; }
-      .protein-name { font-size: 0.96rem; }
-      .protein-stat { font-size: 0.7rem; padding: 2px 7px; }
-      .protein-comment { font-size: 0.75rem; }
+      /* タンパクカード */
+      .protein-name-lg { font-size: 0.92rem; }
+      .pstat-val { font-size: 0.86rem; }
+      .pstat-key { font-size: 0.58rem; }
+      .protein-comment { font-size: 0.78rem; padding: 7px 14px 10px; }
+      .protein-head { padding: 8px 14px 7px; }
+      .protein-sub-row { padding: 5px 14px 0; }
+      /* 計算式 */
+      .formula-box { padding: 12px 14px; }
+      .formula-box .formula-expr { font-size: 0.86rem; }
+      .formula-box .formula-title { font-size: 0.64rem; }
+      .formula-box .example { font-size: 0.72rem; }
+      .formula-box.formula-example .formula-line { font-size: 0.8rem; }
     }
   </style>
 </head>
@@ -303,8 +384,8 @@
         <div class="card" style="margin-bottom:12px;">
           <div class="card-inner">
             <h3 class="rule-title">「血漿をまるごと入れ替える」治療</h3>
-            <p class="rule-body">通常の血液透析やCRRTは半透膜の細孔を通じて小分子（尿素・クレアチニン・電解質）を除去するが、免疫グロブリンや免疫複合体などの<strong>大分子タンパクは除去できない</strong>。</p>
-            <p class="rule-body">TPEはこの問題を解決するための体外循環療法である。血液を体外へ引き込んだのち、<strong>血漿分離器（プラズマフィルター）で血球成分と血漿を分離し、分離された血漿を廃棄して同量の置換液（アルブミン製剤または新鮮凍結血漿FFP）と交換して体内に戻す</strong>。この操作により通常の透析では除去不可能な病因物質（自己抗体・免疫複合体・異常タンパクなど）を体外に排出できる。</p>
+            <p class="rule-body">通常の血液透析やCRRTは半透膜の細孔を通じて小分子（尿素・クレアチニン・電解質）を除去するが、<span class="mark-red"><strong>免疫グロブリンや免疫複合体などの大分子タンパクは除去できない</strong></span>。</p>
+            <p class="rule-body">TPEはこの問題を解決するための体外循環療法である。血液を体外へ引き込んだのち、<strong>血漿分離器（プラズマフィルター）で血球成分と血漿を分離し、分離された血漿を廃棄して同量の置換液（アルブミン製剤またはFFP）と交換して体内に戻す</strong>。この操作により通常の透析では除去不可能な病因物質（自己抗体・免疫複合体・異常タンパクなど）を体外に排出できる。</p>
             <div class="box-group">
               <div class="box-row">
                 <p class="box-title">適応の考え方：「血漿中に病因物質が存在する」疾患</p>
@@ -338,19 +419,19 @@
             <div class="box-group">
               <div class="box-row">
                 <p class="box-title">① ふるい係数 SC（Sieving Coefficient）</p>
-                <p class="rule-body" style="margin:0;">プラズマフィルターの膜を物質がどの割合で通過するかを示す指標（0〜1）。単純TPEでは血漿をまるごと廃棄するため、血漿に溶存する物質のSCは理論上1.0（完全除去）である。<strong>SCが1.0に近いほど1回の操作で効率よく除去できる。</strong></p>
+                <p class="rule-body" style="margin:0;">プラズマフィルターの膜を物質がどの割合で通過するかを示す指標（0〜1）。単純TPEでは血漿をまるごと廃棄するため、血漿に溶存する物質のSCは理論上1.0（完全除去）となる。<span class="mark-yellow"><strong>SCが1.0に近いほど1回の操作で効率よく除去できる。</strong></span></p>
               </div>
               <div class="box-row">
                 <p class="box-title">② 血中半減期（t1/2）</p>
-                <p class="rule-body" style="margin:0;">TPEで一時的に物質濃度を下げても、<strong>半減期が短い物質ほど合成速度が速くリバウンドしやすい</strong>ため、短期間に複数回の施行が必要になる。半減期が長い物質は1回の施行で十分な濃度低下が維持されやすい。</p>
+                <p class="rule-body" style="margin:0;">TPEで一時的に物質濃度を下げても、<span class="mark-red"><strong>半減期が短い物質ほど合成速度が速くリバウンドしやすい</strong></span>ため、短期間に複数回の施行が必要になる。半減期が長い物質は1回の施行で十分な濃度低下が維持されやすい。</p>
               </div>
               <div class="box-row">
                 <p class="box-title">③ 血管外濃度（分布容積 Vd）</p>
-                <p class="rule-body" style="margin:0;">物質が血管外（組織・間質・リンパ管）にも広く分布している場合、TPEで除去できるのは血管内に存在する分のみである。<strong>血管外分布が大きいほど1回のTPEによる除去量が相対的に限られ</strong>、TPE後に血管外から物質が血管内へ再移行してくるため複数回の施行が必要となる。</p>
+                <p class="rule-body" style="margin:0;">物質が血管外（組織・間質・リンパ管）にも広く分布している場合、TPEで除去できるのは血管内に存在する分のみである。<span class="mark-red"><strong>血管外分布が大きいほど1回のTPEによる除去量が相対的に限られ</strong></span>、TPE後に血管外から物質が血管内へ再移行してくるため複数回の施行が必要となる。</p>
               </div>
               <div class="box-row">
                 <p class="box-title">④ 合成速度</p>
-                <p class="rule-body" style="margin:0;"><strong>合成速度が速い物質ほどTPE後の血中濃度回復が速く</strong>、より頻繁な施行が求められる。自己抗体のような病因物質では、産生速度と除去速度のバランスが治療効果を左右する。</p>
+                <p class="rule-body" style="margin:0;"><span class="mark-yellow"><strong>合成速度が速い物質ほどTPE後の血中濃度回復が速く</strong></span>、より頻繁な施行が求められる。自己抗体のような病因物質では、産生速度と除去速度のバランスが治療効果を左右する。</p>
               </div>
             </div>
             <div class="ie-alpha" style="margin-top:14px;">
@@ -377,100 +458,173 @@
         <div class="card" style="margin-bottom:12px;">
           <div class="card-inner">
             <h3 class="rule-title">各タンパクの血管内分布・半減期・合成速度を把握する</h3>
-            <p class="rule-body">TPEの対象となりうる主要血漿タンパクの性質を以下に示す。<strong>血管内分布率・半減期・合成速度</strong>の3つが「何回・どのくらいの間隔で施行するか」を考える際の軸になる。</p>
-            <div class="protein-grid">
+            <p class="rule-body" style="margin-bottom:12px;">TPEの対象となりうる主要血漿タンパクの性質を以下に示す。<strong>血管内分布率・半減期・合成速度</strong>の3つが「何回・どのくらいの間隔で施行するか」を考える際の軸になる。</p>
+
+            <div class="protein-list">
 
               <!-- IgG -->
               <div class="protein-card highlight-yellow">
-                <div class="protein-name">IgG <span style="font-size:0.72rem;font-weight:600;color:#92400E;">自己免疫疾患の主要抗体</span></div>
-                <div class="protein-meta">
-                  <span class="protein-tag intravascular">血管内 45%</span>
-                  <span class="protein-tag halflife">半減期 22日</span>
-                  <span class="protein-tag synthesis">合成 6.7%/日</span>
+                <div class="protein-head">
+                  <span class="protein-name-lg">IgG</span>
+                  <span class="protein-subtitle">自己免疫疾患の主要抗体 — 複数回施行が必要</span>
                 </div>
-                <div class="protein-stat-row">
-                  <div class="protein-stat">血中濃度 <strong>12.1 mg/mL</strong></div>
-                  <div class="protein-stat">分子量 <strong>150 kDa</strong></div>
+                <div class="protein-stats-bar">
+                  <div class="pstat-item">
+                    <div class="pstat-val">45%</div>
+                    <div class="pstat-key">血管内分布</div>
+                  </div>
+                  <div class="pstat-item">
+                    <div class="pstat-val">22日</div>
+                    <div class="pstat-key">半減期</div>
+                  </div>
+                  <div class="pstat-item">
+                    <div class="pstat-val">6.7%/日</div>
+                    <div class="pstat-key">合成速度</div>
+                  </div>
                 </div>
-                <p class="protein-comment"><strong>55%が血管外分布。</strong>1回のTPEで除去できるのは血管内分布分のみ。長い半減期と遅い合成速度のため、48時間ごとの施行が適切とされる。6回施行すると基礎値の約16〜20%まで低下する。</p>
+                <div class="protein-sub-row">
+                  <span class="protein-badge">血中濃度 12.1 mg/mL</span>
+                  <span class="protein-badge">分子量 150 kDa</span>
+                </div>
+                <p class="protein-comment"><span class="mark-red"><strong>55%が血管外分布</strong></span>しており、1回のTPEで除去できるのは血管内の45%分のみ。血管外からのリバウンドを待ちながら<span class="mark-yellow"><strong>24〜48時間間隔で複数回</strong></span>施行することで体内総量を段階的に減らす。6回施行で基礎値の約<strong>16〜20%まで低下</strong>する。</p>
               </div>
 
               <!-- IgM -->
               <div class="protein-card highlight-green">
-                <div class="protein-name">IgM <span style="font-size:0.72rem;font-weight:600;color:#166534;">大分子・血管内優位</span></div>
-                <div class="protein-meta">
-                  <span class="protein-tag intravascular">血管内 78%</span>
-                  <span class="protein-tag halflife">半減期 5日</span>
-                  <span class="protein-tag synthesis">合成 19%/日</span>
+                <div class="protein-head">
+                  <span class="protein-name-lg">IgM</span>
+                  <span class="protein-subtitle">大分子・血管内優位 — 1回で効率よく除去</span>
                 </div>
-                <div class="protein-stat-row">
-                  <div class="protein-stat">血中濃度 <strong>0.9 mg/mL</strong></div>
-                  <div class="protein-stat">分子量 <strong>950 kDa</strong></div>
+                <div class="protein-stats-bar">
+                  <div class="pstat-item">
+                    <div class="pstat-val">78%</div>
+                    <div class="pstat-key">血管内分布</div>
+                  </div>
+                  <div class="pstat-item">
+                    <div class="pstat-val">5日</div>
+                    <div class="pstat-key">半減期</div>
+                  </div>
+                  <div class="pstat-item">
+                    <div class="pstat-val">19%/日</div>
+                    <div class="pstat-key">合成速度</div>
+                  </div>
                 </div>
-                <p class="protein-comment">大分子量のため血管外へ移行しにくく、<strong>78%が血管内に留まる。</strong>IgGより1回のTPEで効率よく除去できる。ただし半減期が短く合成速度が速いため、リバウンドに注意して施行計画を立てる。</p>
+                <div class="protein-sub-row">
+                  <span class="protein-badge">血中濃度 0.9 mg/mL</span>
+                  <span class="protein-badge">分子量 950 kDa</span>
+                </div>
+                <p class="protein-comment">大分子量（950 kDa）のため血管外へ移行しにくく、<span class="mark-green"><strong>78%が血管内に留まる</strong></span>。IgGより1回のTPEで効率よく除去できる。ただし<span class="mark-red"><strong>半減期が短く（5日）合成速度も速い（19%/日）</strong></span>ため、リバウンドに注意して施行計画を立てる。</p>
               </div>
 
               <!-- IgA -->
               <div class="protein-card">
-                <div class="protein-name">IgA</div>
-                <div class="protein-meta">
-                  <span class="protein-tag intravascular">血管内 42%</span>
-                  <span class="protein-tag halflife">半減期 6日</span>
-                  <span class="protein-tag synthesis">合成 25%/日</span>
+                <div class="protein-head">
+                  <span class="protein-name-lg">IgA</span>
+                  <span class="protein-subtitle">血管外分布が多く・合成速度も速い</span>
                 </div>
-                <div class="protein-stat-row">
-                  <div class="protein-stat">血中濃度 <strong>2.6 mg/mL</strong></div>
-                  <div class="protein-stat">分子量 <strong>160 kDa</strong></div>
+                <div class="protein-stats-bar">
+                  <div class="pstat-item">
+                    <div class="pstat-val">42%</div>
+                    <div class="pstat-key">血管内分布</div>
+                  </div>
+                  <div class="pstat-item">
+                    <div class="pstat-val">6日</div>
+                    <div class="pstat-key">半減期</div>
+                  </div>
+                  <div class="pstat-item">
+                    <div class="pstat-val">25%/日</div>
+                    <div class="pstat-key">合成速度</div>
+                  </div>
+                </div>
+                <div class="protein-sub-row">
+                  <span class="protein-badge">血中濃度 2.6 mg/mL</span>
+                  <span class="protein-badge">分子量 160 kDa</span>
                 </div>
                 <p class="protein-comment">血管外分布が多く（58%）、合成速度も速い。IgA血管炎などで問題となる場合があるが、TPEの適応は疾患・病態に応じて判断する。</p>
               </div>
 
               <!-- アルブミン -->
               <div class="protein-card">
-                <div class="protein-name">アルブミン <span style="font-size:0.72rem;font-weight:600;color:#64748B;">主要な置換タンパク</span></div>
-                <div class="protein-meta">
-                  <span class="protein-tag intravascular">血管内 40%</span>
-                  <span class="protein-tag halflife">半減期 17日</span>
-                  <span class="protein-tag synthesis">合成 10%/日</span>
+                <div class="protein-head">
+                  <span class="protein-name-lg">アルブミン</span>
+                  <span class="protein-subtitle">置換液として補充が必須</span>
                 </div>
-                <div class="protein-stat-row">
-                  <div class="protein-stat">血中濃度 <strong>42 mg/mL</strong></div>
-                  <div class="protein-stat">分子量 <strong>65 kDa</strong></div>
+                <div class="protein-stats-bar">
+                  <div class="pstat-item">
+                    <div class="pstat-val">40%</div>
+                    <div class="pstat-key">血管内分布</div>
+                  </div>
+                  <div class="pstat-item">
+                    <div class="pstat-val">17日</div>
+                    <div class="pstat-key">半減期</div>
+                  </div>
+                  <div class="pstat-item">
+                    <div class="pstat-val">10%/日</div>
+                    <div class="pstat-key">合成速度</div>
+                  </div>
                 </div>
-                <p class="protein-comment">TPEで血漿を廃棄するとアルブミンも同時に失われる。このためアルブミン製剤またはFFPによる補充が必須となる。血管外分布が60%と多い点も覚えておきたい。</p>
+                <div class="protein-sub-row">
+                  <span class="protein-badge">血中濃度 42 mg/mL</span>
+                  <span class="protein-badge">分子量 65 kDa</span>
+                </div>
+                <p class="protein-comment"><span class="mark-yellow"><strong>TPEで血漿を廃棄するとアルブミンも同時に失われる</strong></span>ため、アルブミン製剤またはFFPによる補充が必須となる。血管外分布が60%と多い点も覚えておきたい。</p>
               </div>
 
               <!-- フィブリノーゲン -->
               <div class="protein-card">
-                <div class="protein-name">フィブリノーゲン</div>
-                <div class="protein-meta">
-                  <span class="protein-tag intravascular">血管内 80%</span>
-                  <span class="protein-tag halflife">半減期 4.2日</span>
-                  <span class="protein-tag synthesis">合成 25%/日</span>
+                <div class="protein-head">
+                  <span class="protein-name-lg">フィブリノーゲン</span>
+                  <span class="protein-subtitle">血管内優位・除去後は急速回復</span>
                 </div>
-                <div class="protein-stat-row">
-                  <div class="protein-stat">血中濃度 <strong>2〜4 mg/mL</strong></div>
-                  <div class="protein-stat">分子量 <strong>340 kDa</strong></div>
+                <div class="protein-stats-bar">
+                  <div class="pstat-item">
+                    <div class="pstat-val">80%</div>
+                    <div class="pstat-key">血管内分布</div>
+                  </div>
+                  <div class="pstat-item">
+                    <div class="pstat-val">4.2日</div>
+                    <div class="pstat-key">半減期</div>
+                  </div>
+                  <div class="pstat-item">
+                    <div class="pstat-val">25%/日</div>
+                    <div class="pstat-key">合成速度</div>
+                  </div>
                 </div>
-                <p class="protein-comment">血管内分布率が80%と高く1回のTPEで効率よく除去される。短い半減期と速い合成速度を反映し、TPE後に急速に回復する。アルブミン置換液では補充されないため、出血傾向への注意が必要。</p>
+                <div class="protein-sub-row">
+                  <span class="protein-badge">血中濃度 2〜4 mg/mL</span>
+                  <span class="protein-badge">分子量 340 kDa</span>
+                </div>
+                <p class="protein-comment">血管内分布率が<strong>80%</strong>と高く1回のTPEで効率よく除去される。ただし半減期が短く合成速度が速いためTPE後に急速に回復する。<span class="mark-red"><strong>アルブミン製剤を置換液に使う場合は補充されない</strong></span>ため、繰り返し施行時は出血傾向に注意が必要。</p>
               </div>
 
               <!-- 補体C3 -->
               <div class="protein-card">
-                <div class="protein-name">補体 C3</div>
-                <div class="protein-meta">
-                  <span class="protein-tag intravascular">血管内 63%</span>
-                  <span class="protein-tag halflife">半減期 2日</span>
-                  <span class="protein-tag synthesis">合成 56%/日</span>
+                <div class="protein-head">
+                  <span class="protein-name-lg">補体 C3</span>
+                  <span class="protein-subtitle">合成速度が最も速い — 最短で回復</span>
                 </div>
-                <div class="protein-stat-row">
-                  <div class="protein-stat">血中濃度 <strong>1.5 mg/mL</strong></div>
-                  <div class="protein-stat">分子量 <strong>240 kDa</strong></div>
+                <div class="protein-stats-bar">
+                  <div class="pstat-item">
+                    <div class="pstat-val">63%</div>
+                    <div class="pstat-key">血管内分布</div>
+                  </div>
+                  <div class="pstat-item">
+                    <div class="pstat-val">2日</div>
+                    <div class="pstat-key">半減期</div>
+                  </div>
+                  <div class="pstat-item">
+                    <div class="pstat-val">56%/日</div>
+                    <div class="pstat-key">合成速度</div>
+                  </div>
                 </div>
-                <p class="protein-comment">半減期が極めて短く合成速度が最も速い（56%/日）。TPEで一旦除去しても急速に回復する。アルブミン置換では補体は補充されない点に留意する。</p>
+                <div class="protein-sub-row">
+                  <span class="protein-badge">血中濃度 1.5 mg/mL</span>
+                  <span class="protein-badge">分子量 240 kDa</span>
+                </div>
+                <p class="protein-comment">半減期が極めて短く<span class="mark-red"><strong>合成速度が最も速い（56%/日）</strong></span>。TPEで一旦除去しても急速に回復する。アルブミン置換では補体は補充されない点に留意する。</p>
               </div>
 
-            </div><!-- /.protein-grid -->
+            </div><!-- /.protein-list -->
           </div>
         </div>
 
@@ -482,7 +636,7 @@
         <div class="card" style="margin-bottom:12px;">
           <div class="card-inner">
             <h3 class="rule-title">血管内分布率の差が「1回で何%除去できるか」を決める</h3>
-            <p class="rule-body">血管内に80%程度が分布するIgMやフィブリノーゲンは、1回のTPEで血管内の大部分を対象にできるため除去効率が高い。一方、<strong>血管内に約45%しか存在しないIgGは1回での除去量が限られ、複数回の施行が前提となる。</strong></p>
+            <p class="rule-body">血管内に80%程度が分布するIgMやフィブリノーゲンは、1回のTPEで血管内の大部分を対象にできるため除去効率が高い。一方、<span class="mark-red"><strong>血管内に約45%しか存在しないIgGは1回での除去量が限られ、複数回の施行が前提となる。</strong></span></p>
             <p class="rule-body">また、血漿交換開始直後が最も処理効率が高く、時間とともに置換液と患者血漿が混合しプラズマフィルターのファウリングが起こるため、1回の施行時間を延ばしても除去効率の改善は頭打ちになる。</p>
             <div class="ie-stat-grid">
               <div class="ie-stat">
@@ -535,7 +689,7 @@
                 <div class="ie-stat-label">PV × 2.0倍<br>処理時の置換率</div>
               </div>
             </div>
-            <p class="rule-body" style="margin-top:12px;"><strong>一般的に総血漿量の1〜1.5倍を処理量とする。</strong>1.5倍を超えても置換率の改善はわずかであり（1.5倍で78%→2.0倍で86%）、置換液の使用量が増えて合併症リスクとコストが上がるだけになる。</p>
+            <p class="rule-body" style="margin-top:12px;"><span class="mark-yellow"><strong>一般的に総血漿量の1〜1.5倍を処理量とする。</strong></span>1.5倍を超えても置換率の改善はわずかであり（1.5倍で78%→2.0倍で86%）、置換液の使用量が増えて合併症リスクとコストが上がるだけになる。</p>
             <p class="rule-body">TPEによる物質の除去量は、① 患者の血漿量（体重の1/13または6.5〜7%）、② 対象物質の血管内外コンパートメントへの分布、③ 血管内外コンパートメント間の移動速度、の3つによって規定される。</p>
             <div class="keypoint">
               処理量を増やしても血管外→血管内への再分布速度が追い付かなければ除去量は増えない。IgGのように血管外分布が多い物質では、<strong>1回の処理量を増やすより間隔を設けた複数回施行が合理的</strong>である。
@@ -552,25 +706,27 @@
           <div class="card-inner">
             <h3 class="rule-title">PV = 血液量 × (1 − Hct) — 2ステップで求める</h3>
             <p class="rule-body">TPEの処理量を設定するには、まず患者の総血漿量PVを推算する。</p>
+
             <div class="formula-box">
               <div class="formula-title">STEP 1 — 患者血液量の推算</div>
-              <code>血液量（mL）= 体重（kg）× 1/13 ≒ 体重 × 75 mL/kg</code>
+              <div class="formula-expr">血液量（mL）＝ 体重（kg）× 1/13 ≒ 体重 × 75 mL/kg</div>
               <div class="example">体重の約1/13（または6.5〜7%）が血液量の目安。</div>
             </div>
+
             <div class="formula-box">
               <div class="formula-title">STEP 2 — 総血漿量（PV）の算出</div>
-              <code>PV（mL）= 血液量 × (1 − Hct)</code>
+              <div class="formula-expr">PV（mL）＝ 血液量 × (1 − Hct)</div>
               <div class="example">Hctは小数で代入（例：40% → 0.4）。</div>
             </div>
-            <div class="formula-box" style="background:#F0FDF4;border-color:#BBF7D0;">
-              <div class="formula-title" style="color:#166534;">具体例：体重65 kg、Hct 40%の場合</div>
-              <p style="margin:4px 0;font-size:0.84rem;color:#14532D;line-height:2.0;">
-                血液量 = 65 × 1/13 ≒ <strong>5,000 mL</strong><br>
-                総血漿量PV = 5,000 × (1 − 0.4) = <strong>3,000 mL</strong><br>
-                1回の処理量（1.0〜1.5倍）= <strong>3,000〜4,500 mL</strong>
-              </p>
+
+            <div class="formula-box formula-example">
+              <div class="formula-title">具体例：体重65 kg、Hct 40%の場合</div>
+              <p class="formula-line">血液量 = 65 × 1/13 ≒ <span class="mark-green"><strong>5,000 mL</strong></span></p>
+              <p class="formula-line">総血漿量PV = 5,000 × (1 − 0.4) = <span class="mark-green"><strong>3,000 mL</strong></span></p>
+              <p class="formula-line">1回の処理量（1.0〜1.5倍）= <span class="mark-yellow"><strong>3,000〜4,500 mL</strong></span></p>
             </div>
-            <p class="rule-body" style="margin-top:8px;">以上より、<strong>1回あたり3,000〜4,500 mLの血漿を処理・廃棄し、同量の置換液を補充する</strong>計算となる。これが標準的な処方量の目安である。</p>
+
+            <p class="rule-body" style="margin-top:8px;">以上より、<span class="mark-yellow"><strong>1回あたり3,000〜4,500 mLの血漿を処理・廃棄し、同量の置換液を補充する</strong></span>計算となる。これが標準的な処方量の目安である。</p>
           </div>
         </div>
 
@@ -590,7 +746,7 @@
         <div class="card" style="margin-bottom:12px;">
           <div class="card-inner">
             <h3 class="rule-title">RRTと同じ要領でアクセスを確保する</h3>
-            <p class="rule-body">腎代替療法（CRRT・血液透析）と同様に、<strong>超音波エコーガイド下でバスキュラーカテーテルを挿入する</strong>。血液流量QBは<strong>100〜200 mL/分</strong>で施行する。</p>
+            <p class="rule-body">腎代替療法（CRRT・血液透析）と同様に、<span class="mark-yellow"><strong>超音波エコーガイド下でバスキュラーカテーテルを挿入する</strong></span>。血液流量QBは<strong>100〜200 mL/分</strong>で施行する。</p>
             <p class="rule-body">挿入部位は大腿静脈・内頸静脈・鎖骨下静脈から選択する（施設の方針・患者状態に応じて判断）。十分な血流量を確保できる口径のカテーテルが必要である。</p>
           </div>
         </div>
@@ -603,15 +759,15 @@
         <div class="card" style="margin-bottom:12px;">
           <div class="card-inner">
             <h3 class="rule-title">TPE中にヘパリンが膜分離されることを考慮した投与設計</h3>
-            <p class="rule-body">体外循環回路内での凝固を防ぐために抗凝固が必要である。TPEでは<strong>ヘパリンが膜分離によって血漿とともに除去される</strong>ため、通常の血液透析より多めの投与量が必要になる点が特徴的である。</p>
+            <p class="rule-body">体外循環回路内での凝固を防ぐために抗凝固が必要である。TPEでは<span class="mark-red"><strong>ヘパリンが膜分離によって血漿とともに除去される</strong></span>ため、通常の血液透析より多めの投与量が必要になる点が特徴的である。</p>
             <div class="box-group">
               <div class="box-row">
                 <p class="box-title">出血傾向のない場合 — 未分画ヘパリン</p>
-                <p class="rule-body" style="margin:0;">開始前に<strong>1,000〜3,000 IU を静注</strong>し、施行中は<strong>1,000〜2,000 IU/時で持続静注</strong>する。TPEによってヘパリンが膜分離されることを考慮した用量設定である。</p>
+                <p class="rule-body" style="margin:0;">開始前に<span class="mark-yellow"><strong>1,000〜3,000 IU を静注</strong></span>し、施行中は<span class="mark-yellow"><strong>1,000〜2,000 IU/時で持続静注</strong></span>する。TPEによってヘパリンが膜分離されることを考慮した用量設定である。</p>
               </div>
               <div class="box-row">
                 <p class="box-title">出血傾向のある患者 — ナファモスタット または 回路内クエン酸</p>
-                <p class="rule-body" style="margin:0;"><strong>ナファモスタット 20〜50 mg/時</strong>の持続注入、または回路内クエン酸（regional citrate anticoagulation）を用いる。いずれも抗凝固作用が回路内に限局するため、全身性の出血リスクを抑えられる。</p>
+                <p class="rule-body" style="margin:0;"><span class="mark-yellow"><strong>ナファモスタット 20〜50 mg/時</strong></span>の持続注入、または回路内クエン酸（regional citrate anticoagulation）を用いる。いずれも抗凝固作用が回路内に限局するため、全身性の出血リスクを抑えられる。</p>
               </div>
             </div>
             <div class="keypoint" style="margin-top:12px;">
@@ -628,7 +784,7 @@
         <div class="card" style="margin-bottom:12px;">
           <div class="card-inner">
             <h3 class="rule-title">国内での標準的なフィルター選択</h3>
-            <p class="rule-body">国内で使用可能な血漿分離器は複数存在する。単純TPEとして使用頻度が最も高い血漿分離器は<strong>プラズマフロー OP®</strong> である。</p>
+            <p class="rule-body">国内で使用可能な血漿分離器は複数存在する。単純TPEとして使用頻度が最も高い血漿分離器は<span class="mark-yellow"><strong>プラズマフロー OP®</strong></span> である。</p>
             <div class="ie-alpha">
               <div class="ie-alpha-inner">
                 <div class="ie-alpha-header">
@@ -665,16 +821,16 @@
                   <strong>メリット：</strong>ウイルス不活化処理済みで感染リスクがほぼない。準備が即時可能。アレルギー反応は稀。
                 </p>
                 <p class="rule-body" style="margin:0;">
-                  <strong>デメリット・注意点：</strong>高価。カルシウム・カリウムを含まない（電解質補充に注意）。免疫グロブリン・フィブリノーゲン・凝固因子・補体などは補充されないため、繰り返し施行すると凝固系が徐々に低下する。
+                  <span class="mark-red"><strong>デメリット：</strong></span>高価。<strong>カルシウム・カリウムを含まない</strong>（電解質補充に注意）。<strong>免疫グロブリン・フィブリノーゲン・凝固因子・補体などは補充されない</strong>ため、繰り返し施行すると凝固系が徐々に低下する。
                 </p>
               </div>
               <div class="box-row">
                 <p class="box-title">新鮮凍結血漿（FFP） — 凝固因子補充が必要な疾患に</p>
                 <p class="rule-body" style="margin:0 0 6px;">
-                  <strong>メリット：</strong>凝固因子・免疫グロブリン・補体を含むすべてのタンパクが置換される。
+                  <span class="mark-green"><strong>メリット：</strong></span>凝固因子・免疫グロブリン・補体を含む<strong>すべてのタンパクが置換される</strong>。
                 </p>
                 <p class="rule-body" style="margin:0;">
-                  <strong>デメリット・注意点：</strong>高価。血液型合わせと解凍に時間がかかる（緊急時に不向きな場合あり）。クエン酸中毒による低カルシウム血症が起こりやすい。蕁麻疹・アレルギー反応のリスク。TRALI・TACOの可能性。ウイルス感染のリスク（アルブミン製剤より高い）。
+                  <span class="mark-red"><strong>デメリット：</strong></span>高価。血液型合わせと解凍に時間がかかる（緊急時は準備が遅れる）。<strong>クエン酸中毒による低カルシウム血症</strong>が起こりやすい。蕁麻疹・アレルギー反応。TRALI・TACOのリスク。ウイルス感染リスク。
                 </p>
               </div>
             </div>
@@ -688,28 +844,28 @@
               <div class="bundle-step">
                 <div class="bundle-num">①</div>
                 <div class="bundle-content">
-                  <p><strong>自己免疫疾患（抗体除去が目的）</strong>→ <span style="color:#16A34A;font-weight:700;">5%アルブミン製剤</span></p>
+                  <p><strong>自己免疫疾患（抗体除去が目的）</strong>→ <span class="mark-green"><strong>5%アルブミン製剤</strong></span></p>
                   <p class="sub-note">凝固因子・補体の補充は不要。ウイルス安全性・即時使用可能な点からアルブミンが第一選択。繰り返し施行時は凝固能のモニタリングを行う。</p>
                 </div>
               </div>
               <div class="bundle-step">
                 <div class="bundle-num">②</div>
                 <div class="bundle-content">
-                  <p><strong>TTP（血栓性血小板減少性紫斑病）</strong>→ <span style="color:#16A34A;font-weight:700;">FFP（必須）</span></p>
+                  <p><strong>TTP（血栓性血小板減少性紫斑病）</strong>→ <span class="mark-red"><strong>FFP（必須）</strong></span></p>
                   <p class="sub-note">正常なADAMTS13を含む血漿で補充することが治療の本質。アルブミンでは代替できない。</p>
                 </div>
               </div>
               <div class="bundle-step">
                 <div class="bundle-num">③</div>
                 <div class="bundle-content">
-                  <p><strong>出血傾向を伴う疾患（肺胞出血を伴うANCA関連血管炎など）</strong>→ <span style="color:#16A34A;font-weight:700;">FFP</span></p>
+                  <p><strong>出血傾向を伴う疾患（肺胞出血を伴うANCA関連血管炎など）</strong>→ <span class="mark-red"><strong>FFP</strong></span></p>
                   <p class="sub-note">凝固因子・補体が失われると出血が悪化するリスクがある。FFPですべてのタンパクを補充する。</p>
                 </div>
               </div>
               <div class="bundle-step">
                 <div class="bundle-num">④</div>
                 <div class="bundle-content">
-                  <p><strong>肝不全（凝固因子補充が必要）</strong>→ <span style="color:#16A34A;font-weight:700;">FFP</span></p>
+                  <p><strong>肝不全（凝固因子補充が必要）</strong>→ <span class="mark-red"><strong>FFP</strong></span></p>
                   <p class="sub-note">肝不全では自力での凝固因子産生が低下しているため、FFPにより凝固因子を同時補充できる利点が大きい。</p>
                 </div>
               </div>
@@ -720,15 +876,15 @@
         <div class="card" style="margin-bottom:12px;">
           <div class="card-inner">
             <h3 class="rule-title">置換液の実際の量・調製方法</h3>
-            <p class="rule-body">単純血漿交換TPEでは<strong>1.2〜1.5倍の血漿量を置換するのが標準的</strong>である。</p>
+            <p class="rule-body">単純血漿交換TPEでは<span class="mark-yellow"><strong>1.2〜1.5倍の血漿量を置換するのが標準的</strong></span>である。</p>
             <div class="box-group">
               <div class="box-row">
                 <p class="box-title">5%アルブミン製剤を使う場合</p>
-                <p class="rule-body" style="margin:0;"><strong>0.9%食塩水と1:1の割合で希釈</strong>して使用する。大量使用が見込まれる場合は高張アルブミン製剤（20%または25%）を食塩水で希釈する方法もあるが、<strong>希釈後の血漿浸透圧に注意する</strong>（アルブミン製剤単体の浸透圧は低いため、食塩水との混合比で調整する）。</p>
+                <p class="rule-body" style="margin:0;"><strong>0.9%食塩水と1:1の割合で希釈</strong>して使用する。大量使用が見込まれる場合は高張アルブミン製剤（20%または25%）を食塩水で希釈する方法もあるが、<span class="mark-red"><strong>希釈後の血漿浸透圧に注意する</strong></span>（アルブミン製剤単体の浸透圧は低いため、食塩水との混合比で調整する）。</p>
               </div>
               <div class="box-row">
                 <p class="box-title">FFPを使う場合</p>
-                <p class="rule-body" style="margin:0;">国内で使用可能なFFPはFFP-LR 240 mLおよびFFP-LR 480 mLがあり、<strong>4単位製剤480 mL</strong>が主として用いられる。解凍・血液型合わせに時間を要するため、早めに準備を開始する。施行中はイオン化カルシウムをモニタリングし必要時にCa補充を行う。</p>
+                <p class="rule-body" style="margin:0;">国内で使用可能なFFPはFFP-LR 240 mLおよびFFP-LR 480 mLがあり、<strong>4単位製剤480 mL</strong>が主として用いられる。解凍・血液型合わせに時間を要するため、早めに準備を開始する。<span class="mark-red"><strong>施行中はイオン化Caをモニタリングし、必要時にCa補充を行う。</strong></span></p>
               </div>
             </div>
           </div>
@@ -751,7 +907,7 @@
               </div>
               <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
                 <span style="color:#16A34A;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
-                <span class="rule-body"><strong>IgM（血管内78%）はIgG（血管内45%）より1回のTPEで除去効率が高い：</strong>IgGは血管外分布が多く、48h間隔で6回施行して基礎値の16〜20%まで低下する。</span>
+                <span class="rule-body"><strong>IgM（血管内78%）はIgG（血管内45%）より1回のTPEで除去効率が高い：</strong>IgGは血管外分布が多く、24〜48h間隔で6回施行して基礎値の16〜20%まで低下する。</span>
               </div>
               <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
                 <span style="color:#16A34A;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
