@@ -27,15 +27,23 @@ window.BACTERIA_RELATED = {
 
   // ============ Staphylococcus aureus ============
   saureus: [
-    { embed: "../articles-gl-ie2026.html#ie4-section4", label: "JCS IE 2026 ▸ 標的治療：Staphylococcus（MSSA=セファゾリン／MRSA=VCM・DAP）" },
-    { embed: "../articles-gl-ie2026.html#ie-section2", label: "JCS IE 2026 ▸ 疫学（S. aureus・MRSA 増加と急性重症化）" },
-    { link: "../id-icu-notes/note-ie.html#ie-target-mssa", label: "IE 板書ノート ▸ MSSA 標的治療" },
-    { link: "../id-icu-notes/note-ie.html#ie-target-mrsa", label: "IE 板書ノート ▸ MRSA 標的治療" },
-    { link: "../articles-gl-idsa-crbsi2009.html#sau", label: "IDSA CRBSI 2009 ▸ 黄色ブドウ球菌（S. aureus）— カテーテル抜去・経食道エコー・治療期間" },
-    { link: "../articles-gl-vcm-tdm2020.html#vcm-s4", label: "VCM TDM 2020 ▸ 重症 MRSA は AUC/MIC 400–600 目標（AUC ガイド投与）" },
-    { link: "../articles-gl-scap-icm2025.html#scap-common-path", label: "重症市中肺炎 2025 ▸ S. aureus・PVL 産生株（壊死性肺炎）" },
-    { link: "../articles-gl-balance-bacteremia2025.html#bal-discussion", label: "BALANCE 2025 ▸ 菌血症の投与期間（S. aureus は短縮対象外）" },
-    { link: "../articles-gl-ssc2026.html#ssc-s2", label: "SSC 2026 ▸ S. aureus 菌血症はフォロー血培でクリアランス確認" }
+    { section: "感染性心内膜炎（IE）", items: [
+      { embed: "../articles-gl-ie2026.html#ie4-section4", label: "JCS IE 2026 ▸ 標的治療：Staphylococcus（MSSA=セファゾリン／MRSA=VCM・DAP）" },
+      { embed: "../articles-gl-ie2026.html#ie-section2", label: "JCS IE 2026 ▸ 疫学（MRSA 増加・急性重症化）" },
+      { link: "../id-icu-notes/note-ie.html#ie-target-mssa", label: "IE 板書ノート ▸ MSSA 標的治療" },
+      { link: "../id-icu-notes/note-ie.html#ie-target-mrsa", label: "IE 板書ノート ▸ MRSA 標的治療" }
+    ] },
+    { section: "カテーテル関連血流感染（CRBSI）", items: [
+      { link: "../articles-gl-idsa-crbsi2009.html#sau", label: "IDSA CRBSI 2009 ▸ S. aureus はカテーテル抜去・経食道エコー・治療期間" }
+    ] },
+    { section: "菌血症マネジメント", items: [
+      { link: "../articles-gl-vcm-tdm2020.html#vcm-s4", label: "VCM TDM 2020 ▸ 重症 MRSA は AUC/MIC 400–600 目標" },
+      { link: "../articles-gl-balance-bacteremia2025.html#bal-discussion", label: "BALANCE 2025 ▸ 菌血症の投与期間（S. aureus は短縮対象外）" },
+      { link: "../articles-gl-ssc2026.html#ssc-s2", label: "SSC 2026 ▸ フォロー血培でクリアランス確認" }
+    ] },
+    { section: "肺炎", items: [
+      { link: "../articles-gl-scap-icm2025.html#scap-common-path", label: "重症市中肺炎 2025 ▸ S. aureus・PVL 産生株（壊死性肺炎）" }
+    ] }
   ],
 
   // ============ Staphylococcus epidermidis ============
@@ -726,10 +734,16 @@ window.BACTERIA_RELATED = {
   // ============ Stenotrophomonas maltophilia ============
   // 元ページの該当ボックスをそのまま埋め込む（embed）。custom クラス主体の板書ノート箱はリンクのみ（link）。
   steno: [
-    { embed: "../articles-gl-idsa-amr-gnr2024.html#sec6-overview", label: "IDSA AMR-GNR 2024 ▸ S. maltophilia の特徴と治療の難しさ" },
-    { embed: "../articles-gl-idsa-amr-gnr2024.html#sec6-approach", label: "IDSA AMR-GNR 2024 ▸ 治療の全体アプローチ（2剤併用）" },
-    { link: "../id-icu-notes/note-resistant-gnr.html#ch3-s1", label: "耐性GNR 板書ノート ▸ S. maltophilia（当院での使用例）" },
-    { link: "../id-icu-notes/note-fn.html#ch5-s2", label: "FN 板書ノート ▸ 起因菌の内訳（FN での頻度）" }
+    { section: "特徴・耐性機序", items: [
+      { embed: "../articles-gl-idsa-amr-gnr2024.html#sec6-overview", label: "IDSA AMR-GNR 2024 ▸ S. maltophilia の特徴と治療の難しさ" }
+    ] },
+    { section: "治療", items: [
+      { embed: "../articles-gl-idsa-amr-gnr2024.html#sec6-approach", label: "IDSA AMR-GNR 2024 ▸ 治療の全体アプローチ（2剤併用）" },
+      { link: "../id-icu-notes/note-resistant-gnr.html#ch3-s1", label: "耐性GNR 板書ノート ▸ S. maltophilia（当院での使用例）" }
+    ] },
+    { section: "発熱性好中球減少症（FN）", items: [
+      { link: "../id-icu-notes/note-fn.html#ch5-s2", label: "FN 板書ノート ▸ 起因菌の内訳（FN での頻度）" }
+    ] }
   ]
 
 };

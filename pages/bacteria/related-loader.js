@@ -90,6 +90,19 @@
     target.innerHTML = "<ul>" + itemsHtml + "</ul>";
   }
 
+  // 1項目（embed または link）を slot に描画
+  function renderItem(item, slot) {
+    if (item.link) {
+      slot.innerHTML = linkLine(item.label, item.link);
+    } else if (item.embed) {
+      // 先にフォールバックのリンクを置き、取得成功で差し替え
+      slot.innerHTML = linkLine(item.label, item.embed);
+      fetchSection(item.embed).then(function (html) {
+        if (html) slot.innerHTML = '<div class="bp-rel-embed">' + html + "</div>" + srcLink(item.label, item.embed);
+      }).catch(function () { /* keep fallback link */ });
+    }
+  }
+
   function render() {
     var target = document.getElementById("bp-related-content");
     if (!target) return;
@@ -101,24 +114,38 @@
       return;
     }
 
-    var isNew = data.some(function (d) { return d.embed || d.link; });
-    if (!isNew) { renderLegacy(target, data); return; }
+    var grouped = data.some(function (d) { return d.section && d.items; });
+    var flat = data.some(function (d) { return d.embed || d.link; });
 
-    target.innerHTML = "";
-    data.forEach(function (item) {
-      var slot = document.createElement("div");
-      slot.className = "bp-rel-item";
-      target.appendChild(slot);
-      if (item.link) {
-        slot.innerHTML = linkLine(item.label, item.link);
-      } else if (item.embed) {
-        // 先にフォールバックのリンクを置き、取得成功で差し替え
-        slot.innerHTML = linkLine(item.label, item.embed);
-        fetchSection(item.embed).then(function (html) {
-          if (html) slot.innerHTML = '<div class="bp-rel-embed">' + html + "</div>" + srcLink(item.label, item.embed);
-        }).catch(function () { /* keep fallback link */ });
-      }
-    });
+    if (grouped) {
+      // トピック（IE / CRBSI 等）ごとに見出し＋項目をまとめる
+      target.innerHTML = "";
+      data.forEach(function (group) {
+        var g = document.createElement("div");
+        g.className = "bp-rel-group";
+        var h = document.createElement("h3");
+        h.className = "bp-rel-section";
+        h.textContent = group.section || "";
+        g.appendChild(h);
+        (group.items || []).forEach(function (item) {
+          var slot = document.createElement("div");
+          slot.className = "bp-rel-item";
+          g.appendChild(slot);
+          renderItem(item, slot);
+        });
+        target.appendChild(g);
+      });
+    } else if (flat) {
+      target.innerHTML = "";
+      data.forEach(function (item) {
+        var slot = document.createElement("div");
+        slot.className = "bp-rel-item";
+        target.appendChild(slot);
+        renderItem(item, slot);
+      });
+    } else {
+      renderLegacy(target, data);
+    }
   }
 
   if (document.readyState === "loading") {
