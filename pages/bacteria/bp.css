@@ -289,6 +289,94 @@
   border-radius: 6px; letter-spacing: 0.01em;
 }
 
+/* ===== 埋め込んだ板書ノートの drug-block 等を正しく描画する（note-ie の drug-block を移植） =====
+   note-*.html はページ固有クラスをローカル <style> で定義しているため、embed 時に崩れる。
+   関連事項に埋め込む板書ボックス用の CSS をここに移植する（.bp-rel-embed 配下に限定）。 */
+.bp-rel-embed .drug-block {
+  background: #FAFBFC; border: 1px solid var(--border); border-radius: 10px;
+  margin: 0 0 4px; overflow: hidden;
+}
+.bp-rel-embed .drug-block-head {
+  background: linear-gradient(135deg, #4C1D95, #6D28D9); color: #fff; padding: 12px 18px;
+}
+.bp-rel-embed .drug-block-head .drug-jp { font-size: 0.98rem; font-weight: 800; letter-spacing: 0.02em; color: #fff; }
+.bp-rel-embed .drug-block-head .drug-en { font-size: 0.74rem; font-weight: 500; color: rgba(255,255,255,0.75); margin-left: 10px; }
+.bp-rel-embed .drug-block-head .drug-tag {
+  float: right; font-size: 0.68rem; font-weight: 700;
+  background: rgba(255,255,255,0.2); padding: 3px 10px; border-radius: 3px; letter-spacing: 0.04em;
+}
+.bp-rel-embed .drug-block-body { padding: 12px 18px; }
+.bp-rel-embed .drug-section { margin: 0; padding: 10px 0; border-bottom: 1px dashed #DDD6FE; }
+.bp-rel-embed .drug-section:first-child { padding-top: 0; }
+.bp-rel-embed .drug-section:last-child { padding-bottom: 0; border-bottom: none; }
+.bp-rel-embed .drug-section-title {
+  font-size: 0.88rem; font-weight: 800; color: #4C1D95;
+  margin: 0 0 6px; padding: 0 0 4px; border-bottom: 2px solid #C4B5FD; letter-spacing: 0.02em;
+}
+.bp-rel-embed .drug-section-title::before { content: '■'; color: #7C3AED; margin-right: 6px; font-size: 0.7rem; }
+.bp-rel-embed .drug-block-body p,
+.bp-rel-embed .drug-block-body ul li,
+.bp-rel-embed .drug-block-body ol li { font-size: 0.85rem; color: #475569; line-height: 1.7; margin: 4px 0; }
+.bp-rel-embed .drug-block-body ul, .bp-rel-embed .drug-block-body ol { padding-left: 26px; margin: 4px 0 8px; list-style: revert; }
+.bp-rel-embed .drug-block-body ul { list-style: disc; }
+.bp-rel-embed .drug-block-body ol { list-style: decimal; }
+.bp-rel-embed .drug-block-body ul li::before { content: none; }
+.bp-rel-embed .drug-block-body ul li::marker { color: #C4B5FD; }
+.bp-rel-embed .drug-block-body ol li::marker { color: #7C3AED; font-weight: 700; }
+.bp-rel-embed .drug-block-body strong { font-weight: 700; color: var(--text); }
+/* keypoint / danger / point（注意ボックス） */
+.bp-rel-embed .keypoint, .bp-rel-embed .danger, .bp-rel-embed .point {
+  border-radius: 8px; padding: 11px 14px; margin: 10px 0; font-size: 0.82rem; line-height: 1.7;
+}
+.bp-rel-embed .keypoint { background: #FFFBEB; border: 1px solid #FDE68A; color: #78350F; }
+.bp-rel-embed .danger { background: #FEF2F2; border: 1px solid #FECACA; color: #7F1D1D; }
+.bp-rel-embed .point { background: #F0FDF4; border: 1px solid #BBF7D0; color: #14532D; }
+.bp-rel-embed .alert-head { display: block; font-weight: 800; font-size: 0.84rem; line-height: 1.5; margin-bottom: 5px; }
+.bp-rel-embed .alert-head::before {
+  display: inline-block; color: #fff; font-size: 0.64rem; font-weight: 800;
+  padding: 2px 8px; border-radius: 4px; letter-spacing: 0.06em; margin-right: 8px; vertical-align: middle;
+}
+.bp-rel-embed .keypoint .alert-head { color: #92400E; }
+.bp-rel-embed .keypoint .alert-head::before { content: '注意'; background: #F59E0B; }
+.bp-rel-embed .danger .alert-head { color: #991B1B; }
+.bp-rel-embed .danger .alert-head::before { content: 'Pitfall'; background: #DC2626; }
+.bp-rel-embed .point .alert-head { color: #15803D; }
+.bp-rel-embed .point .alert-head::before { content: 'ポイント'; background: #16A34A; }
+.bp-rel-embed .keypoint p, .bp-rel-embed .danger p, .bp-rel-embed .point p { margin: 0; }
+
+/* ===== 右サイド目次（bp-toc.js が動的生成） ===== */
+.bp-shell { display: flex; gap: 28px; align-items: flex-start; max-width: 1200px; margin: 0 auto; }
+.bp-shell .bp-page { margin: 0; flex: 1 1 auto; min-width: 0; max-width: 920px; }
+.bp-toc {
+  flex: 0 0 214px; position: sticky; top: 84px; align-self: flex-start;
+  max-height: calc(100vh - 104px); overflow-y: auto; padding: 24px 0 24px;
+}
+.bp-toc-card {
+  background: rgba(255,255,255,0.93); border: 1px solid var(--border); border-radius: 12px;
+  padding: 14px 12px; box-shadow: 0 1px 3px rgba(15,23,42,0.05);
+}
+.bp-toc-title {
+  font-size: 0.74rem; font-weight: 800; color: var(--bp-primary);
+  margin: 0 0 10px; padding-bottom: 8px; border-bottom: 2px solid var(--bp-border-soft);
+  letter-spacing: 0.06em;
+}
+.bp-toc a {
+  display: block; font-size: 0.78rem; line-height: 1.45; color: var(--text);
+  text-decoration: none; padding: 5px 8px; border-radius: 6px;
+  transition: background 0.15s, color 0.15s;
+}
+.bp-toc a:hover { background: var(--bp-bg-soft); color: var(--bp-primary); }
+.bp-toc a.bp-toc-sub { font-size: 0.72rem; color: var(--muted); padding-left: 16px; }
+.bp-toc a.bp-toc-sub::before { content: '– '; color: var(--bp-primary-light); }
+/* スクロール時に固定ナビへ潜らないようオフセット */
+.bp-block, .bp-rel-section { scroll-margin-top: 80px; }
+
+@media (max-width: 980px) {
+  .bp-shell { display: block; }
+  .bp-shell .bp-page { max-width: 920px; margin: 0 auto; }
+  .bp-toc { display: none; }
+}
+
 /* インライン番号付き出典：本文中の [1] [2] スーパースクリプト */
 .bp-ref {
   font-size: 0.72em; color: #2563EB; font-weight: 700;

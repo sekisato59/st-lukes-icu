@@ -38,8 +38,8 @@ window.BACTERIA_RELATED = {
     { section: "感染性心内膜炎（IE）", items: [
       { embed: "../articles-gl-ie2026.html#ie4-section4", label: "JCS IE 2026 ▸ 標的治療：Staphylococcus（MSSA=セファゾリン／MRSA=VCM・DAP）" },
       { embed: "../articles-gl-ie2026.html#ie-section2", label: "JCS IE 2026 ▸ 疫学（MRSA 増加・急性重症化）" },
-      { link: "../id-icu-notes/note-ie.html#ie-target-mssa", label: "IE 板書ノート ▸ MSSA 標的治療" },
-      { link: "../id-icu-notes/note-ie.html#ie-target-mrsa", label: "IE 板書ノート ▸ MRSA 標的治療" }
+      { embed: "../id-icu-notes/note-ie.html#ie-target-mssa", label: "IE 板書ノート ▸ MSSA 標的治療" },
+      { embed: "../id-icu-notes/note-ie.html#ie-target-mrsa", label: "IE 板書ノート ▸ MRSA 標的治療" }
     ] },
     { section: "カテーテル関連血流感染（CRBSI）", items: [
       { embed: "../articles-gl-idsa-crbsi2009.html#sau", label: "IDSA CRBSI 2009 ▸ S. aureus はカテーテル抜去・経食道エコー・治療期間" }
