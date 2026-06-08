@@ -344,6 +344,93 @@
 .bp-rel-embed .point .alert-head::before { content: 'ポイント'; background: #16A34A; }
 .bp-rel-embed .keypoint p, .bp-rel-embed .danger p, .bp-rel-embed .point p { margin: 0; }
 
+/* ===== 板書ノートのその他カスタムコンポーネントを移植（embed 表示用・.bp-rel-embed 限定） =====
+   note-*.html のローカル <style> から、関連事項に embed する節で使われる固有クラスを移植。
+   これにより VGS の標的治療・S. gallolyticus・脳膿瘍・肝膿瘍・髄膜炎バンドル・嫌気性カバー表
+   などの板書ボックスを、リンクではなくテキストボックスとして正しく描画できる。 */
+/* 菌名リスト */
+.bp-rel-embed .organism-list { padding-left: 26px; list-style: disc; margin: 4px 0 8px; }
+.bp-rel-embed .organism-list li { margin-bottom: 3px; color: #6B7280; line-height: 1.6; }
+.bp-rel-embed .organism-list li::before { content: none; }
+.bp-rel-embed .organism-list li::marker { color: #9CA3AF; }
+.bp-rel-embed .organism-list li em { font-weight: 600; color: #6B7280; font-style: italic; }
+.bp-rel-embed .organism-list li strong { color: #374151; font-weight: 800; }
+.bp-rel-embed .note-mini { display: inline-block; font-size: 0.74rem; color: #6B7280; margin-left: 8px; font-style: italic; }
+/* 引用 */
+.bp-rel-embed .citation { font-size: 0.7rem; color: #9CA3AF; font-style: italic; display: block; margin-top: 8px; padding-left: 14px; }
+.bp-rel-embed .citation a { color: var(--bp-primary); font-weight: 600; text-decoration: none; }
+.bp-rel-embed .citation a:hover { text-decoration: underline; }
+/* 画像コンテナ */
+.bp-rel-embed .note-img-wrap { margin: 12px 0; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+.bp-rel-embed .note-img-wrap img { width: 100%; height: auto; display: block; }
+.bp-rel-embed .note-img-caption { font-size: 0.75rem; color: #6B7280; padding: 6px 12px; background: #F9FAFB; border-top: 1px solid var(--border); line-height: 1.5; }
+/* 症例ボックス */
+.bp-rel-embed .case-box { background: #F8FAFF; border: 1px solid #C7D2FE; border-radius: 10px; padding: 14px 18px; margin: 10px 0; }
+.bp-rel-embed .case-box-title { font-size: 0.88rem; font-weight: 900; color: #3730A3; margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px solid #E0E7FF; letter-spacing: 0.02em; }
+.bp-rel-embed .case-box p { font-size: 0.84rem; color: #374151; line-height: 1.65; margin: 3px 0; }
+.bp-rel-embed .case-box ul { list-style: disc; padding-left: 22px; margin: 4px 0; }
+.bp-rel-embed .case-box ul li { font-size: 0.84rem; color: #374151; line-height: 1.65; margin-bottom: 3px; }
+.bp-rel-embed .case-box ul li::before { content: none; }
+.bp-rel-embed .case-box ul li::marker { color: #818CF8; }
+.bp-rel-embed .case-box strong { color: #1F2937; font-weight: 700; }
+/* 検査値グリッド */
+.bp-rel-embed .labs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; margin: 8px 0; }
+.bp-rel-embed .labs-block { background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; }
+.bp-rel-embed .labs-block-title { font-size: 0.74rem; font-weight: 800; color: #6D28D9; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
+.bp-rel-embed .labs-block p { font-size: 0.8rem; color: #374151; line-height: 1.6; margin: 2px 0; }
+/* DENOVA スコア */
+.bp-rel-embed .denova-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 10px 0; }
+.bp-rel-embed .denova-item { display: flex; align-items: flex-start; gap: 10px; background: #F5F3FF; border: 1px solid #DDD6FE; border-radius: 8px; padding: 10px 12px; }
+.bp-rel-embed .denova-letter { display: inline-flex; align-items: center; justify-content: center; min-width: 26px; height: 26px; background: #6D28D9; color: #fff; border-radius: 5px; font-weight: 800; font-size: 0.85rem; font-family: ui-monospace,Menlo,Consolas,monospace; flex-shrink: 0; margin-top: 1px; }
+.bp-rel-embed .denova-text { font-size: 0.82rem; color: #1F2937; line-height: 1.5; }
+.bp-rel-embed .denova-text strong { color: #4C1D95; }
+/* 治療バンドル（髄膜炎） */
+.bp-rel-embed .bundle-flow { margin: 8px 0; }
+.bp-rel-embed .bundle-step { display: flex; align-items: flex-start; gap: 12px; padding: 10px 0; border-bottom: 1px dashed #DDD6FE; }
+.bp-rel-embed .bundle-step:last-child { border-bottom: none; padding-bottom: 0; }
+.bp-rel-embed .bundle-num { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; min-width: 26px; background: #DC2626; color: #fff; border-radius: 50%; font-weight: 900; font-size: 0.82rem; margin-top: 1px; }
+.bp-rel-embed .bundle-content { flex: 1; }
+.bp-rel-embed .bundle-content p { margin: 2px 0; font-size: 0.85rem; color: #475569; line-height: 1.65; }
+.bp-rel-embed .bundle-content strong { color: var(--text); }
+.bp-rel-embed .bundle-content .sub-note { font-size: 0.78rem; color: #6B7280; line-height: 1.6; margin-top: 4px; padding-left: 12px; }
+/* スコアボックス（Candidaスコア等） */
+.bp-rel-embed .score-box { background: #F5F3FF; border: 1px solid #C4B5FD; border-radius: 8px; padding: 10px 14px; margin: 8px 0; }
+.bp-rel-embed .score-box-title { font-size: 0.84rem; font-weight: 800; color: #4C1D95; margin-bottom: 6px; padding-bottom: 4px; border-bottom: 1px solid #DDD6FE; letter-spacing: 0.04em; }
+.bp-rel-embed .score-row { display: flex; align-items: baseline; padding: 3px 0; font-size: 0.84rem; color: #1F2937; gap: 10px; }
+.bp-rel-embed .score-row .pt { display: inline-flex; align-items: center; justify-content: center; min-width: 22px; height: 22px; background: #7C3AED; color: #fff; border-radius: 4px; font-weight: 800; font-size: 0.72rem; font-family: ui-monospace,Menlo,Consolas,monospace; flex-shrink: 0; padding: 0 5px; }
+.bp-rel-embed .score-foot { margin-top: 8px; font-size: 0.8rem; color: #4C1D95; font-weight: 600; padding-top: 6px; border-top: 1px dashed #C4B5FD; }
+/* 嫌気性菌カバー早見表 */
+.bp-rel-embed .anae-cov-wrap { overflow-x: auto; margin: 10px 0 0; }
+.bp-rel-embed .anae-cov { width: 100%; border-collapse: collapse; font-size: 0.85rem; font-variant-numeric: tabular-nums; }
+.bp-rel-embed .anae-cov th { background: #F5F3FF; color: #4C1D95; font-weight: 700; padding: 8px; text-align: center; font-size: 0.78rem; border-bottom: 1px solid var(--border); white-space: nowrap; }
+.bp-rel-embed .anae-cov th:first-child { text-align: left; padding-left: 14px; min-width: 200px; }
+.bp-rel-embed .anae-cov td { padding: 8px; border-bottom: 1px solid #E2E8F0; text-align: center; color: #1E293B; font-weight: 500; }
+.bp-rel-embed .anae-cov td:first-child { text-align: left; padding-left: 14px; font-style: italic; font-weight: 600; color: #4C1D95; }
+.bp-rel-embed .anae-cov tr:last-child td { border-bottom: none; }
+.bp-rel-embed .anae-cov .dia-row td { background: linear-gradient(135deg,#4C1D95,#7C3AED); color: #fff; font-weight: 700; text-align: left; font-style: normal; font-size: 0.78rem; letter-spacing: 0.06em; padding: 6px 14px; }
+.bp-rel-embed .anae-cov .ana { font-weight: 700; font-size: 1.05rem; line-height: 1; }
+.bp-rel-embed .anae-cov .ana-best { background: #7DD3FC; color: #0C4A6E; }
+.bp-rel-embed .anae-cov .ana-good { background: #DCFCE7; color: #15803D; }
+.bp-rel-embed .anae-cov .ana-mid { background: #FED7AA; color: #9A3412; }
+.bp-rel-embed .anae-cov .ana-low { background: #FECACA; color: #991B1B; font-size: 0.86rem; }
+.bp-rel-embed .anae-cov .ana-mlow { background: #FEF08A; color: #854D0E; font-size: 0.86rem; }
+.bp-rel-embed .anae-cov-legend { display: flex; flex-wrap: wrap; gap: 14px 18px; padding: 10px 12px 0; font-size: 0.76rem; color: #475569; align-items: center; }
+.bp-rel-embed .anae-cov-legend .ana-leg { display: inline-flex; align-items: center; justify-content: center; min-width: 32px; height: 24px; padding: 0 8px; border-radius: 4px; font-weight: 700; margin-right: 6px; font-size: 0.86rem; }
+/* 頭文字（mnemonic）ボックス */
+.bp-rel-embed .mnemonic-box { background: #F5F3FF; border: 1px solid #C4B5FD; border-radius: 8px; padding: 12px 16px; margin: 8px 0; }
+.bp-rel-embed .mnemonic-title { font-size: 0.84rem; font-weight: 800; color: #4C1D95; margin-bottom: 8px; padding-bottom: 5px; border-bottom: 1px solid #DDD6FE; letter-spacing: 0.04em; }
+.bp-rel-embed .mnemonic-row { display: flex; align-items: baseline; padding: 4px 0; font-size: 0.84rem; color: #1F2937; gap: 10px; }
+.bp-rel-embed .mnemonic-acro { display: inline-flex; align-items: center; justify-content: center; min-width: 28px; height: 22px; background: #7C3AED; color: #fff; border-radius: 4px; font-weight: 800; font-size: 0.78rem; flex-shrink: 0; font-family: ui-monospace,Menlo,Consolas,monospace; }
+.bp-rel-embed .mnemonic-acro.red { background: #DC2626; }
+/* 治療選択肢（S. maltophilia 等） */
+.bp-rel-embed .tx-option { display: flex; align-items: flex-start; gap: 10px; padding: 7px 0; border-bottom: 1px dashed #DDD6FE; }
+.bp-rel-embed .tx-option:last-child { border-bottom: none; }
+.bp-rel-embed .tx-num { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; min-width: 22px; background: #4338CA; color: #fff; border-radius: 50%; font-weight: 900; font-size: 0.76rem; margin-top: 2px; }
+.bp-rel-embed .tx-body { flex: 1; font-size: 0.84rem; color: #475569; line-height: 1.65; }
+.bp-rel-embed .tx-body strong { color: var(--text); }
+/* FN 起因菌テーブル（セル折り返し可） */
+.bp-rel-embed .fn-org-table td, .bp-rel-embed .fn-org-table th { white-space: normal !important; }
+
 /* ===== 右サイド目次（bp-toc.js が動的生成） ===== */
 .bp-shell { display: flex; gap: 28px; align-items: flex-start; max-width: 1200px; margin: 0 auto; }
 .bp-shell .bp-page { margin: 0; flex: 1 1 auto; min-width: 0; max-width: 920px; }

@@ -77,7 +77,9 @@
       if (!start) return null;
       var wrap = document.createElement("div");
       var node = start.nextElementSibling;
-      while (node && !/^H[1-3]$/.test(node.tagName)) {
+      // 次の見出し（H1-3）または章バナー（板書ノートの gl-chapter-banner）で停止
+      while (node && !/^H[1-3]$/.test(node.tagName) &&
+             !(node.classList && node.classList.contains("gl-chapter-banner"))) {
         wrap.appendChild(node.cloneNode(true));
         node = node.nextElementSibling;
       }

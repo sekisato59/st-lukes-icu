@@ -115,8 +115,8 @@ window.BACTERIA_RELATED = {
     { section: "細菌性髄膜炎", items: [
       { embed: "../articles-gl-escmid-bactmening2016.html#ch1-s1", label: "ESCMID 2016 ▸ 年齢別起炎菌（成人最多 53%）" },
       { embed: "../articles-gl-jns-bm2014.html#bm-csf-detail", label: "JNS BM 2014 ▸ 髄液検査の解釈（グラム染色感度は菌種別最高 90%）" },
-      { link: "../id-icu-notes/note-meningitis.html#ch1-s1", label: "髄膜炎板書ノート ▸ 起因菌" },
-      { link: "../id-icu-notes/note-meningitis.html#ch1-s6", label: "髄膜炎板書ノート ▸ 治療バンドル（尿中抗原・DEX 併用）" }
+      { embed: "../id-icu-notes/note-meningitis.html#ch1-s1", label: "髄膜炎板書ノート ▸ 起因菌" },
+      { embed: "../id-icu-notes/note-meningitis.html#ch1-s6", label: "髄膜炎板書ノート ▸ 治療バンドル（尿中抗原・DEX 併用）" }
     ] },
     { section: "感染性心内膜炎（IE）", items: [
       { embed: "../articles-gl-ie2026.html#ie4-section3", label: "JCS IE 2026 ▸ 標的治療①：Streptococcus（肺炎球菌 IE は稀・髄膜炎合併注意）" }
@@ -158,7 +158,7 @@ window.BACTERIA_RELATED = {
       { embed: "../articles-gl-ie2026.html#ie7-section3", label: "JCS IE 2026 ▸ 予防的抗菌薬（SAG のアモキシシリン MIC 上昇傾向）" }
     ] },
     { section: "腹腔内感染症（IAI）", items: [
-      { link: "../id-icu-notes/note-iai.html#ch4-s2", label: "IAI 板書ノート ▸ 細菌性肝膿瘍（SAG は膿瘍を形成しやすい）" }
+      { embed: "../id-icu-notes/note-iai.html#ch4-s2", label: "IAI 板書ノート ▸ 細菌性肝膿瘍（SAG は膿瘍を形成しやすい）" }
     ] }
   ],
 
@@ -180,14 +180,14 @@ window.BACTERIA_RELATED = {
   vgs: [
     { section: "感染性心内膜炎（IE）", items: [
       { embed: "../articles-gl-ie2026.html#ie4-section3", label: "JCS IE 2026 ▸ 標的治療①：Streptococcus（最も治療しやすい原因菌）" },
-      { link: "../id-icu-notes/note-ie.html#ie-target-vgs", label: "IE 板書ノート ▸ 標的治療（VGS）" },
-      { link: "../id-icu-notes/note-ie.html#ie-sgall", label: "IE 板書ノート ▸ S. gallolyticus／VGS と大腸腫瘍" }
+      { embed: "../id-icu-notes/note-ie.html#ie-target-vgs", label: "IE 板書ノート ▸ 標的治療（VGS）" },
+      { embed: "../id-icu-notes/note-ie.html#ie-sgall", label: "IE 板書ノート ▸ S. gallolyticus／VGS と大腸腫瘍" }
     ] },
     { section: "腹腔内感染症（IAI）", items: [
-      { link: "../id-icu-notes/note-iai.html#ch4-s2", label: "IAI 板書ノート ▸ 細菌性肝膿瘍（門脈経由の主要起因菌）" }
+      { embed: "../id-icu-notes/note-iai.html#ch4-s2", label: "IAI 板書ノート ▸ 細菌性肝膿瘍（門脈経由の主要起因菌）" }
     ] },
     { section: "脳膿瘍", items: [
-      { link: "../id-icu-notes/note-meningitis.html#ch3-s1", label: "髄膜炎板書ノート ▸ 脳膿瘍（血行性経路の主要起因菌）" }
+      { embed: "../id-icu-notes/note-meningitis.html#ch3-s1", label: "髄膜炎板書ノート ▸ 脳膿瘍（血行性経路の主要起因菌）" }
     ] }
   ],
 
@@ -196,11 +196,11 @@ window.BACTERIA_RELATED = {
     { section: "感染性心内膜炎（IE）", items: [
       { embed: "../articles-gl-ie2026.html#ie4-section5", label: "JCS IE 2026 ▸ 標的治療③：Enterococcus（DAA＝ABPC＋CTRX）" },
       { embed: "../articles-gl-ie2026.html#ie2-section1", label: "JCS IE 2026 ▸ Duke-ISCVID 基準（E. faecalis は典型 IE 病原体）" },
-      { link: "../id-icu-notes/note-ie.html#ie-target-entero", label: "IE 板書ノート ▸ 標的治療（Enterococcus）" },
-      { link: "../id-icu-notes/note-ie.html#ie-denova-score", label: "IE 板書ノート ▸ DENOVA スコア（E. faecalis 菌血症で TEE は必要か）" }
+      { embed: "../id-icu-notes/note-ie.html#ie-target-entero", label: "IE 板書ノート ▸ 標的治療（Enterococcus）" },
+      { embed: "../id-icu-notes/note-ie.html#ie-denova-score", label: "IE 板書ノート ▸ DENOVA スコア（E. faecalis 菌血症で TEE は必要か）" }
     ] },
     { section: "腹腔内感染症（IAI）", items: [
-      { link: "../id-icu-notes/note-iai.html#ch3-s1", label: "IAI 板書ノート ▸ 腸管穿孔（弱毒のため培養陽性後にカバー追加でよい）" }
+      { embed: "../id-icu-notes/note-iai.html#ch3-s1", label: "IAI 板書ノート ▸ 腸管穿孔（弱毒のため培養陽性後にカバー追加でよい）" }
     ] }
   ],
 
@@ -217,19 +217,19 @@ window.BACTERIA_RELATED = {
     { section: "感染性心内膜炎（IE）・大腸腫瘍", items: [
       { embed: "../articles-gl-ie2026.html#ie4-section3", label: "JCS IE 2026 ▸ 標的治療①：Streptococcus（VGS と並ぶ最も治療しやすい菌）" },
       { embed: "../articles-gl-ie2026.html#ie8-section5", label: "JCS IE 2026 ▸ 高齢者 IE（S. gallolyticus 検出率が高い）" },
-      { link: "../id-icu-notes/note-ie.html#ie-sgall", label: "IE 板書ノート ▸ S. gallolyticus 専用解説（血培陽性で大腸内視鏡必須）" },
-      { link: "../id-icu-notes/note-ie.html#ie-target-vgs", label: "IE 板書ノート ▸ 標的治療（VGS）" },
-      { link: "../id-icu-notes/note-ie.html#ie-case2-hx", label: "IE 板書ノート ▸ 症例2（GPC chain からの S. gallolyticus IE）" }
+      { embed: "../id-icu-notes/note-ie.html#ie-sgall", label: "IE 板書ノート ▸ S. gallolyticus 専用解説（血培陽性で大腸内視鏡必須）" },
+      { embed: "../id-icu-notes/note-ie.html#ie-target-vgs", label: "IE 板書ノート ▸ 標的治療（VGS）" },
+      { embed: "../id-icu-notes/note-ie.html#ie-case2-hx", label: "IE 板書ノート ▸ 症例2（GPC chain からの S. gallolyticus IE）" }
     ] }
   ],
 
   // ============ 嫌気性 GPC ============
   anaerogpc: [
     { section: "腹腔内感染症（IAI）", items: [
-      { link: "../id-icu-notes/note-iai.html#ch5-s1", label: "IAI 板書ノート ▸ 嫌気性菌カバー早見表（横隔膜上：Peptostreptococcus・ABPC/SBT 第一選択）" }
+      { embed: "../id-icu-notes/note-iai.html#ch5-s1", label: "IAI 板書ノート ▸ 嫌気性菌カバー早見表（横隔膜上：Peptostreptococcus・ABPC/SBT 第一選択）" }
     ] },
     { section: "VAP（人工呼吸器関連肺炎）", items: [
-      { link: "../id-icu-notes/note-vap.html#ch2-s4", label: "VAP 板書ノート ▸ 嫌気性菌（口腔由来の代表）" }
+      { embed: "../id-icu-notes/note-vap.html#ch2-s4", label: "VAP 板書ノート ▸ 嫌気性菌（口腔由来の代表）" }
     ] }
   ],
 
@@ -254,8 +254,8 @@ window.BACTERIA_RELATED = {
       { embed: "../articles-gl-escmid-bactmening2016.html#ch3-s2", label: "ESCMID 2016 ▸ 菌種・感受性同定後の治療" },
       { embed: "../articles-gl-escmid-bactmening2016.html#ch3-s3", label: "ESCMID 2016 ▸ Listeria 髄膜炎治療の臨床的ポイント" },
       { embed: "../articles-gl-jns-bm2014.html#bm-csf-detail", label: "JNS BM 2014 ▸ 髄液所見（Listeria はグラム染色感度 <50%）" },
-      { link: "../id-icu-notes/note-meningitis.html#ch1-s1", label: "髄膜炎板書ノート ▸ 起因菌" },
-      { link: "../id-icu-notes/note-meningitis.html#ch1-s6", label: "髄膜炎板書ノート ▸ 経験的治療（妊婦含む・ABPC 追加）" }
+      { embed: "../id-icu-notes/note-meningitis.html#ch1-s1", label: "髄膜炎板書ノート ▸ 起因菌" },
+      { embed: "../id-icu-notes/note-meningitis.html#ch1-s6", label: "髄膜炎板書ノート ▸ 経験的治療（妊婦含む・ABPC 追加）" }
     ] },
     { section: "絨毛膜羊膜炎", items: [
       { embed: "../articles-gl-chorioamnionitis-ajog2024.html#s2", label: "絨毛膜羊膜炎 2024 ▸ 感染経路（血行性・経胎盤感染の代表）" }
@@ -264,7 +264,7 @@ window.BACTERIA_RELATED = {
       { embed: "../articles-gl-pcp-nccn2026.html#nccn-pjp-s4", label: "NCCN PCP 2026 ▸ TMP/SMX の投与量・注意（Listeria にも活性）" }
     ] },
     { section: "非定型肺炎", items: [
-      { link: "../id-icu-notes/note-atypical-pneumonia.html#ch3-s4", label: "非定型肺炎ノート ▸ 細胞内寄生菌（妊婦・移植後で Listeria を鑑別）" }
+      { embed: "../id-icu-notes/note-atypical-pneumonia.html#ch3-s4", label: "非定型肺炎ノート ▸ 細胞内寄生菌（妊婦・移植後で Listeria を鑑別）" }
     ] }
   ],
 
@@ -277,14 +277,14 @@ window.BACTERIA_RELATED = {
       { link: "../id-icu-notes/note-ie.html#ie-duke-major", label: "IE 板書ノート ▸ Duke 大基準（人工物例でのみ典型菌扱い）" }
     ] },
     { section: "VAP・カテーテル関連感染", items: [
-      { link: "../id-icu-notes/note-vap.html#ch2-s3", label: "VAP 板書ノート ▸ Corynebacterium 検出時の対応（免疫不全で VCM 検討）" }
+      { embed: "../id-icu-notes/note-vap.html#ch2-s3", label: "VAP 板書ノート ▸ Corynebacterium 検出時の対応（免疫不全で VCM 検討）" }
     ] }
   ],
 
   // ============ Corynebacterium striatum ============
   cstri: [
     { section: "VAP・院内感染", items: [
-      { link: "../id-icu-notes/note-vap.html#ch2-s3", label: "VAP 板書ノート ▸ Corynebacterium 検出時の対応（免疫不全で VCM 検討）" }
+      { embed: "../id-icu-notes/note-vap.html#ch2-s3", label: "VAP 板書ノート ▸ Corynebacterium 検出時の対応（免疫不全で VCM 検討）" }
     ] },
     { section: "感染性心内膜炎（IE）", items: [
       { embed: "../articles-gl-ie2026.html#ie2-section3", label: "JCS IE 2026 ▸ 血液培養（Corynebacterium spp. は汚染率 88–94%）" },
@@ -302,10 +302,10 @@ window.BACTERIA_RELATED = {
     ] },
     { section: "治療", items: [
       { embed: "../articles-gl-idsa-amr-gnr2024.html#sec6-approach", label: "IDSA AMR-GNR 2024 ▸ 治療の全体アプローチ（2剤併用）" },
-      { link: "../id-icu-notes/note-resistant-gnr.html#ch3-s1", label: "耐性GNR 板書ノート ▸ S. maltophilia（当院での使用例）" }
+      { embed: "../id-icu-notes/note-resistant-gnr.html#ch3-s1", label: "耐性GNR 板書ノート ▸ S. maltophilia（当院での使用例）" }
     ] },
     { section: "発熱性好中球減少症（FN）", items: [
-      { link: "../id-icu-notes/note-fn.html#ch5-s2", label: "FN 板書ノート ▸ 起因菌の内訳（FN での頻度）" }
+      { embed: "../id-icu-notes/note-fn.html#ch5-s2", label: "FN 板書ノート ▸ 起因菌の内訳（FN での頻度）" }
     ] }
   ]
 
