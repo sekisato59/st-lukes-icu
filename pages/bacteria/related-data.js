@@ -858,42 +858,12 @@ window.BACTERIA_RELATED = {
   ],
 
   // ============ Stenotrophomonas maltophilia ============
+  // 元ページの該当ボックスをそのまま埋め込む（embed）。custom クラス主体の板書ノート箱はリンクのみ（link）。
   steno: [
-    {
-      title: "定着か感染かの見極めが第一歩 — 免疫不全で真の感染",
-      body: "ブドウ糖非発酵グラム陰性桿菌で水環境に遍在し、一般に病原性は低い。免疫不全（血液腫瘍・嚢胞性線維症・人工呼吸器依存）では真の感染を起こし、特に血液腫瘍患者の出血性肺炎・菌血症は重篤。CRAB と同様にまず定着と感染を識別することが治療の第一歩。発熱性好中球減少症（FN）の起因菌としては 2–5%。",
-      links: [
-        { label: "IDSA AMR-GNR 2024：S. maltophilia の特徴", url: "../articles-gl-idsa-amr-gnr2024.html#sec6-overview" },
-        { label: "FN 板書ノート：起因菌の内訳", url: "../id-icu-notes/note-fn.html#ch5-s2" },
-        { label: "耐性GNR 板書ノート：S. maltophilia", url: "../id-icu-notes/note-resistant-gnr.html#ch3-s1" }
-      ]
-    },
-    {
-      title: "固有の多剤耐性 — L1/L2 βラクタマーゼでβラクタムが無効",
-      body: "L1（MBL型：カルバペネム・ペニシリン・セファロスポリンを加水分解、アズトレオナムは分解しない）と L2（セリン型：セファロスポリン・アズトレオナムを加水分解）の 2 種のβラクタマーゼにより大部分のβラクタム系が無効。アミノグリコシドは染色体性修飾酵素で固有耐性、フルオロキノロンは排出ポンプ亢進・Smqnr 遺伝子で耐性化する。セフタジジムは L1/L2 で固有に不活化され、2024 年から CLSI が感受性ブレイクポイントを廃止した（感受性と出ても使用しない）。",
-      links: [
-        { label: "IDSA AMR-GNR 2024：特徴・耐性機序", url: "../articles-gl-idsa-amr-gnr2024.html#sec6-overview" },
-        { label: "IDSA AMR-GNR 2024：セフタジジムは使用しない", url: "../articles-gl-idsa-amr-gnr2024.html#sec6-ceftaz" },
-        { label: "耐性GNR 板書ノート：耐性機序", url: "../id-icu-notes/note-resistant-gnr.html#ch3-s1" }
-      ]
-    },
-    {
-      title: "治療は「2 剤併用」が基本 — 単剤では不十分",
-      body: "動物モデルで単剤の殺菌効果が不十分なため、臨床的改善まで 2 剤以上の併用が推奨される。アプローチ A：セフィデロコル／高用量ミノサイクリン／ST 合剤（TMP-SMX）／レボフロキサシンの 4 剤から 2 剤を選択。アプローチ B：CAZ-AVI＋アズトレオナム（L1 は ATM を分解せず、L2 はアビバクタムで阻害でき両機序を回避、感受性率約 92%、肝酵素上昇に注意）。当院では ①ST 合剤＋ミノサイクリン（腎機能障害・骨髄抑制なし）②レボフロキサシン＋ミノサイクリン（腎障害・骨髄抑制あり）③セフィデロコル＋ミノサイクリン（ST／キノロン既使用・耐性例）。",
-      links: [
-        { label: "IDSA AMR-GNR 2024：全体的治療アプローチ", url: "../articles-gl-idsa-amr-gnr2024.html#sec6-approach" },
-        { label: "IDSA AMR-GNR 2024：CAZ-AVI＋アズトレオナム", url: "../articles-gl-idsa-amr-gnr2024.html#sec6-cazatm" },
-        { label: "耐性GNR 板書ノート：S. maltophilia の抗菌薬選択", url: "../id-icu-notes/note-resistant-gnr.html#ch3-s1" }
-      ]
-    },
-    {
-      title: "個別薬の位置づけ — セフィデロコル / ST 合剤",
-      body: "セフィデロコルは感受性ほぼ 100%（非感受性株が存在せず CLSI は感受性のみのブレイクポイント）、好中球減少ウサギ肺炎モデルで肺組織から完全除菌し、生存率はセフィデロコル 87% vs TMP-SMX 25%。ST 合剤は感受性 90% 以上だが PK/PD 上は静菌的で単剤では完全な抑制が難しく、用量は TMP 成分 10–15 mg/kg/日を分割投与（>15 mg/kg/日では毒性が増え追加の利益はない）。",
-      links: [
-        { label: "IDSA AMR-GNR 2024：セフィデロコル", url: "../articles-gl-idsa-amr-gnr2024.html#sec6-fdc" },
-        { label: "IDSA AMR-GNR 2024：TMP-SMX の役割", url: "../articles-gl-idsa-amr-gnr2024.html#sec6-tmp" }
-      ]
-    }
+    { embed: "../articles-gl-idsa-amr-gnr2024.html#sec6-overview", label: "IDSA AMR-GNR 2024 ▸ S. maltophilia の特徴と治療の難しさ" },
+    { embed: "../articles-gl-idsa-amr-gnr2024.html#sec6-approach", label: "IDSA AMR-GNR 2024 ▸ 治療の全体アプローチ（2剤併用）" },
+    { link: "../id-icu-notes/note-resistant-gnr.html#ch3-s1", label: "耐性GNR 板書ノート ▸ S. maltophilia（当院での使用例）" },
+    { link: "../id-icu-notes/note-fn.html#ch5-s2", label: "FN 板書ノート ▸ 起因菌の内訳（FN での頻度）" }
   ]
 
 };
