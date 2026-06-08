@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>抗MRSA薬（DAP / LZD / TZD） | 抗菌薬道場 | 聖路加ICU</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=M+PLUS+Rounded+1c:wght@500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style-v2.css?v=20260613">
+  <link rel="stylesheet" href="bacteria/bp.css?v=202606081800">
+  <style>
+    /* ====== 薬剤ボックス（VAP 板書ノートから移植） ====== */
+    .drug-block { background: #FAFBFC; border: 1px solid var(--border); border-radius: 10px; margin: 0 0 4px; overflow: hidden; }
+    .drug-block-head { background: linear-gradient(135deg, #4C1D95, #6D28D9); color: #fff; padding: 12px 18px; }
+    .drug-block-head .drug-jp { font-size: 0.98rem; font-weight: 800; letter-spacing: 0.02em; color: #fff; }
+    .drug-block-head .drug-en { font-size: 0.74rem; font-weight: 500; color: rgba(255,255,255,0.75); margin-left: 10px; }
+    .drug-vap-tag { float: right; font-size: 0.68rem; font-weight: 700; background: rgba(255,255,255,0.2); padding: 3px 10px; border-radius: 3px; letter-spacing: 0.04em; }
+    .drug-vap-tag.unfit { background: rgba(220,38,38,0.85); color: #fff; }
+    .drug-vap-tag.fit { background: rgba(34,197,94,0.85); color: #fff; }
+    .drug-block-body { padding: 12px 18px; }
+    .drug-section { margin: 0; padding: 10px 0; border-bottom: 1px dashed #DDD6FE; }
+    .drug-section:first-child { padding-top: 0; }
+    .drug-section:last-child { padding-bottom: 0; border-bottom: none; }
+    .drug-section-title { font-size: 0.88rem; font-weight: 800; color: #4C1D95; margin: 0 0 6px; padding: 0 0 4px; border-bottom: 2px solid #C4B5FD; letter-spacing: 0.02em; }
+    .drug-section-title::before { content: '■'; color: #7C3AED; margin-right: 6px; font-size: 0.7rem; }
+    .drug-block-body p, .drug-block-body ul li, .drug-block-body ol li { font-size: 0.85rem; color: #475569; line-height: 1.7; margin: 4px 0; }
+    .drug-block-body ul, .drug-block-body ol { padding-left: 26px; margin: 4px 0 8px; }
+    .drug-block-body ul { list-style: disc; }
+    .drug-block-body ul li::marker { color: #C4B5FD; }
+    .drug-block-body strong { font-weight: 700; color: var(--text); }
+    /* 注意ボックス */
+    .danger, .keypoint, .point { border-radius: 8px; padding: 11px 14px; margin: 10px 0; font-size: 0.82rem; line-height: 1.7; }
+    .danger { background: #FEF2F2; border: 1px solid #FECACA; color: #7F1D1D; }
+    .keypoint { background: #FFFBEB; border: 1px solid #FDE68A; color: #78350F; }
+    .point { background: #F0FDF4; border: 1px solid #BBF7D0; color: #14532D; }
+    .alert-head { display: block; font-weight: 800; font-size: 0.84rem; line-height: 1.5; margin-bottom: 5px; }
+    .alert-head::before { display: inline-block; color: #fff; font-size: 0.64rem; font-weight: 800; padding: 2px 8px; border-radius: 4px; letter-spacing: 0.06em; margin-right: 8px; vertical-align: middle; }
+    .danger .alert-head { color: #991B1B; } .danger .alert-head::before { content: 'Pitfall'; background: #DC2626; }
+    .keypoint .alert-head { color: #92400E; } .keypoint .alert-head::before { content: '注意'; background: #F59E0B; }
+    .point .alert-head { color: #15803D; } .point .alert-head::before { content: 'ポイント'; background: #16A34A; }
+    .danger p, .keypoint p, .point p { margin: 0; }
+    .citation { font-size: 0.72rem; color: #9CA3AF; font-style: italic; display: block; margin-top: 4px; }
+    .citation a { color: #6366F1; font-weight: 600; text-decoration: none; }
+    .citation a:hover { text-decoration: underline; }
+    /* 出典注記カード */
+    .abx-source-note { background: var(--bp-bg-soft); border: 1px solid var(--bp-border-soft); border-radius: 8px; padding: 11px 14px; font-size: 0.82rem; line-height: 1.7; color: var(--text); }
+    .abx-source-note a { color: var(--bp-primary); font-weight: 700; text-decoration: none; }
+    .abx-source-note a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body class="bp-theme-abx" style="background-image:url('../images/背景3.jpg');background-size:cover;background-position:center top;background-attachment:fixed;background-repeat:no-repeat;background-color:#F4F8FB;">
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="../index.html" class="nav-logo">
+        <img src="../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+        <span class="nav-logo-text">聖路加国際病院ICU</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="メニューを開く"><span></span><span></span><span></span></button>
+      <ul class="nav-menu" id="navMenu"></ul>
+    </div>
+  </nav>
+
+  <section class="bp-hero">
+    <div class="bp-hero-inner">
+      <a href="resident-resources.html#id-bact" class="bp-back">← 抗菌薬道場へ戻る</a>
+      <div class="bp-cat-tag">抗菌薬道場 ／ 抗MRSA薬</div>
+      <h1 class="bp-name-sci" style="font-style:normal;">抗MRSA薬</h1>
+      <p class="bp-name-kana">Anti-MRSA agents — GPC 治療薬（DAP / LZD / TZD）の使い分け</p>
+      <div class="bp-meta"><span>VCM</span><span>DAP</span><span>LZD</span><span>TZD</span></div>
+    </div>
+  </section>
+
+  <main class="bp-page">
+
+    <!-- ============ このページについて（出典） ============ -->
+    <div class="bp-block">
+      <h2>このページについて</h2>
+      <div class="abx-source-note">
+        本ページは <a href="id-icu-notes/note-vap.html#ch3-s2">VAP 板書ノート ▸ GPC への治療薬（DAP / LZD / TZD）</a> のまとめを引用・再構成したものです。MRSA を含む GPC に対する 3 剤（ダプトマイシン／リネゾリド／テジゾリド）の特徴と使い分けを扱います。バンコマイシン（VCM）の投与設計・TDM は <a href="articles-gl-vcm-tdm2020.html">バンコマイシン TDM 2020（ASHP/IDSA）</a> を参照してください。
+      </div>
+    </div>
+
+    <!-- ============ 3剤の使い分け早見表 ============ -->
+    <div class="bp-block">
+      <h2>3 剤の使い分け早見表</h2>
+      <table class="ie-table">
+        <thead>
+          <tr><th style="width:20%;">薬剤</th><th style="width:22%;">VAP 適応</th><th>備考</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="white-space:nowrap;font-weight:700;">Daptomycin</td>
+            <td style="color:#DC2626;font-weight:700;">不適</td>
+            <td>肺サーファクタントで不活化される</td>
+          </tr>
+          <tr>
+            <td style="white-space:nowrap;font-weight:700;">Linezolid</td>
+            <td style="color:#16A34A;font-weight:700;">適応あり</td>
+            <td>BA 100%、髄液移行最高、副作用に注意</td>
+          </tr>
+          <tr>
+            <td style="white-space:nowrap;font-weight:700;">Tedizolid</td>
+            <td style="color:#16A34A;font-weight:700;">適応あり</td>
+            <td>1日1回投与、副作用少ない</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ============ ダプトマイシン ============ -->
+    <div class="bp-block">
+      <h2>ダプトマイシン（DAP）</h2>
+      <div class="drug-block">
+        <div class="drug-block-head">
+          <span class="drug-jp">Daptomycin</span><span class="drug-en">ダプトマイシン</span>
+          <span class="drug-vap-tag unfit">VAP 不適</span>
+        </div>
+        <div class="drug-block-body">
+          <div class="drug-section">
+            <div class="drug-section-title">特徴</div>
+            <ul>
+              <li>Gram 陽性菌の <strong>細胞膜に作用し脱分極を誘導</strong> → 蛋白・DNA・RNA 合成を阻害</li>
+              <li>肺への移行性は良い（血行感染による肺感染症には有効）</li>
+            </ul>
+          </div>
+          <div class="drug-section">
+            <div class="drug-section-title">VAP での使用</div>
+            <div class="danger">
+              <div class="alert-head">肺サーファクタントで不活化</div>
+              <p>肺サーファクタントで不活化されるため、経気道感染をする VAP では治療選択肢にならない。</p>
+            </div>
+          </div>
+          <div class="drug-section">
+            <div class="drug-section-title">副作用</div>
+            <ul>
+              <li>好酸球性肺炎（原因不明の発熱・呼吸状態悪化で考慮）</li>
+              <li>CK 上昇（横紋筋融解症リスク）</li>
+              <li>INR 偽延長（検査値解釈に注意）</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ リネゾリド ============ -->
+    <div class="bp-block">
+      <h2>リネゾリド（LZD）</h2>
+      <div class="drug-block">
+        <div class="drug-block-head">
+          <span class="drug-jp">Linezolid</span><span class="drug-en">リネゾリド</span>
+          <span class="drug-vap-tag fit">VAP 適応</span>
+        </div>
+        <div class="drug-block-body">
+          <div class="drug-section">
+            <div class="drug-section-title">特徴</div>
+            <ul>
+              <li>CLDM 同様 TSS で <strong>毒素産生を抑える</strong>効果</li>
+              <li><strong>Bioavailability 100%</strong>（経口・静注同等）</li>
+              <li><strong>髄液移行性は全抗菌薬中最高（90%）</strong></li>
+              <li>溶媒 1 回 300 mL と多く、<strong>1 日 2 回投与が原則</strong></li>
+            </ul>
+          </div>
+          <div class="drug-section">
+            <div class="drug-section-title">副作用</div>
+            <table class="ie-table">
+              <thead>
+                <tr><th style="width:32%;">副作用</th><th style="width:24%;">出現時期</th><th>備考</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="font-weight:700;color:#DC2626;">血小板減少</td>
+                  <td>7 日以上で有意上昇<br>10/14 日でさらに増加</td>
+                  <td>長期投与時は連日 PLT モニタリング</td>
+                </tr>
+                <tr>
+                  <td style="font-weight:700;color:#DC2626;">視神経炎・失明</td>
+                  <td>長期投与</td>
+                  <td><strong>不可逆性</strong>のため早期発見が重要</td>
+                </tr>
+                <tr>
+                  <td style="font-weight:700;color:#DC2626;">セロトニン症候群</td>
+                  <td>早期</td>
+                  <td>SSRI / MAOI との併用は <strong>禁忌</strong></td>
+                </tr>
+                <tr>
+                  <td style="font-weight:700;">消化器症状・皮疹</td>
+                  <td>—</td>
+                  <td>頻度は低い</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="drug-section">
+            <div class="drug-section-title">臨床試験：VCM vs LZD（Zephyr 試験）</div>
+            <p class="rule-body">リネゾリドが MRSA 院内肺炎において <strong>臨床的有効性が有意に高い</strong>ことが示された。</p>
+            <table class="ie-table">
+              <thead>
+                <tr><th style="width:38%;">アウトカム</th><th>結果</th></tr>
+              </thead>
+              <tbody>
+                <tr><td style="font-weight:700;">治癒率（Clinical success）</td><td><strong>LZD 57.6% vs VCM 46.6%（P = 0.042）</strong> — LZD 優位</td></tr>
+                <tr><td style="font-weight:700;">腎毒性</td><td><strong>LZD 8.4% vs VCM 18.2%</strong> — LZD 優位</td></tr>
+                <tr><td style="font-weight:700;">60 日全死亡率</td><td>両群で有意差なし</td></tr>
+              </tbody>
+            </table>
+            <p class="citation"><a href="https://doi.org/10.1016/j.medmal.2013.09.011" target="_blank" rel="noopener">Chavanet P. Med Mal Infect 2013; 43(11-12): 451-5（Zephyr 試験）↗</a></p>
+          </div>
+          <div class="drug-section">
+            <div class="drug-section-title">臨床試験：LZD vs TZD（VITAL 試験）</div>
+            <p class="rule-body">テジゾリドのリネゾリドに対する <strong>28 日全死亡率では非劣性</strong>が示されたが、TOC 治癒率では非劣性が証明されなかった。</p>
+            <table class="ie-table">
+              <thead>
+                <tr><th style="width:42%;">アウトカム</th><th style="width:14%;">TZD</th><th style="width:14%;">LZD</th><th>差（CI）</th></tr>
+              </thead>
+              <tbody>
+                <tr><td style="font-weight:700;">28 日 ACM</td><td>28.1%</td><td>26.4%</td><td><strong>−1.8%（−8.2 〜 4.7）</strong> 非劣性</td></tr>
+                <tr><td style="font-weight:700;">TOC 治癒率</td><td>56.3%</td><td>63.9%</td><td>−7.6%（−15.7 〜 0.5）— 非劣性証明されず</td></tr>
+                <tr><td style="font-weight:700;">薬剤関連有害事象</td><td>8.1%</td><td>11.9%</td><td>—</td></tr>
+              </tbody>
+            </table>
+            <div class="keypoint">
+              <div class="alert-head">研究設計の注意点</div>
+              <p>投薬日数の違い（TZD 7 日 vs LZD 10 日）など、研究設計にツッコミどころがある。</p>
+            </div>
+            <p class="citation"><a href="https://doi.org/10.1093/cid/ciab032" target="_blank" rel="noopener">Wunderink RG et al. Clin Infect Dis 2021; 73(3): e710-e718（VITAL 試験）↗</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ テジゾリド ============ -->
+    <div class="bp-block">
+      <h2>テジゾリド（TZD）</h2>
+      <div class="drug-block">
+        <div class="drug-block-head">
+          <span class="drug-jp">Tedizolid</span><span class="drug-en">テジゾリド</span>
+          <span class="drug-vap-tag fit">VAP 適応</span>
+        </div>
+        <div class="drug-block-body">
+          <div class="drug-section">
+            <div class="drug-section-title">特徴</div>
+            <ul>
+              <li><strong>1 日 1 回投与</strong>でよいため、リネゾリドと比較すると <strong>溶媒の輸液負荷が軽減</strong>される</li>
+              <li><strong>血小板減少などの副作用がリネゾリドと比較して少ない</strong></li>
+            </ul>
+          </div>
+          <div class="drug-section">
+            <div class="drug-section-title">VAP での使用</div>
+            <p class="rule-body">VITAL 試験で 28 日 ACM 非劣性が示されたが、TOC 治癒率では LZD に対する非劣性は証明されていない（上記参照）。</p>
+          </div>
+          <div class="drug-section">
+            <div class="drug-section-title">副作用</div>
+            <p class="rule-body">リネゾリドと同系統のため副作用プロファイルは類似するが、<strong>頻度は LZD より低い</strong>。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ キーポイント ============ -->
+    <div class="bp-block">
+      <h2>キーポイント</h2>
+      <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+        <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+          <span style="color:var(--bp-primary);font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+          <span class="rule-body"><strong>Daptomycin は VAP 不適：</strong>肺移行性は良いが肺サーファクタントで不活化される。</span>
+        </div>
+        <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+          <span style="color:var(--bp-primary);font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+          <span class="rule-body"><strong>Linezolid：</strong>BA 100%、髄液 90%。副作用は <strong>血小板減少（7日以上↑）・視神経炎（不可逆）・セロトニン症候群（SSRI/MAOI 禁）</strong>。</span>
+        </div>
+        <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+          <span style="color:var(--bp-primary);font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+          <span class="rule-body"><strong>Zephyr 試験（VCM vs LZD）：</strong>治癒率 57.6% vs 46.6%、腎毒性 8.4% vs 18.2% で <strong>LZD が優位</strong>。60日死亡率は差なし。</span>
+        </div>
+        <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+          <span style="color:var(--bp-primary);font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+          <span class="rule-body"><strong>Tedizolid：</strong>1 日 1 回・血小板減少が少ない。VITAL 試験は 28日 ACM 非劣性、TOC 治癒率では非劣性証明されず。</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ 関連リンク ============ -->
+    <div class="bp-block">
+      <h2>関連リンク</h2>
+      <ul class="bp-link-list">
+        <li><a href="id-icu-notes/note-vap.html#ch3-s2">VAP 板書ノート ▸ GPC への治療薬（出典）</a></li>
+        <li><a href="articles-gl-vcm-tdm2020.html">バンコマイシン TDM 2020（ASHP/IDSA）</a></li>
+        <li><a href="articles-gl-tdm-antibiotics2022.html">抗菌薬 TDM 2022</a></li>
+        <li><a href="bacteria/saureus.html">細菌道場 ▸ Staphylococcus aureus</a></li>
+      </ul>
+    </div>
+
+    <p class="bp-footer-note">
+      出典：VAP（人工呼吸器関連肺炎）ID×ICU 板書ノート「GPC への治療薬（DAP / LZD / TZD）」。本資料は教育目的のサマリーです。投与設計・適応は院内プロトコル・添付文書・感染症科コンサルトを参照してください。
+    </p>
+  </main>
+
+  <script src="../script.js?v=20260616"></script>
+  <script src="../abbr-tooltip.js"></script>
+  <script src="bacteria/bp-toc.js?v=202606081800"></script>
+</body>
+</html>
