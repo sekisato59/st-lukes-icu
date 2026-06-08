@@ -27,149 +27,15 @@ window.BACTERIA_RELATED = {
 
   // ============ Staphylococcus aureus ============
   saureus: [
-    {
-      title: "感染性心内膜炎（IE） — 標的治療と外科介入",
-      body: "MSSA はセファゾリン 2g×3/日、MRSA はバンコマイシンまたはダプトマイシン（日本で IE 保険適用は 2 剤のみ）。VCM MIC>1 の高用量 VCM は腎障害リスクあり。MSSA でも髄膜炎合併時はセファゾリンを避け、CFPM／MEPM／VCM を選択（中枢移行性の問題）。",
-      links: [
-        { label: "IE 2026 GL：標的治療②（Staph）", url: "../articles-gl-ie2026.html#ie4-section4" },
-        { label: "IE 2026 GL：髄膜炎合併・長期治療", url: "../articles-gl-ie2026.html#ie4-section7" },
-        { label: "IE 板書ノート：MSSA 標的治療", url: "../id-icu-notes/note-ie.html#ie-target-mssa" },
-        { label: "IE 板書ノート：MRSA 標的治療", url: "../id-icu-notes/note-ie.html#ie-target-mrsa" }
-      ]
-    },
-    {
-      title: "感染性心内膜炎 — 合併症リスクと心エコーの位置づけ",
-      body: "S. aureus 菌血症の汚染率はわずか 1%、IE では typical organism として診断当日扱い。心不全・治療抵抗性感染・塞栓症・脳合併症・伝導障害すべてのリスクを他菌の 2-3 倍に上げる。MRSA 増加が急性・重篤経過 IE の増加要因。",
-      links: [
-        { label: "IE 2026 GL：疫学（MRSA 増加）", url: "../articles-gl-ie2026.html#ie-section2" },
-        { label: "IE 2026 GL：血液培養", url: "../articles-gl-ie2026.html#ie2-section3" },
-        { label: "IE 2026 GL：心不全リスク", url: "../articles-gl-ie2026.html#ie3-section1" },
-        { label: "IE 2026 GL：治療抵抗性・弁輪周囲膿瘍", url: "../articles-gl-ie2026.html#ie3-section2" },
-        { label: "IE 2026 GL：脳合併症（梗塞リスク 2-3 倍）", url: "../articles-gl-ie2026.html#ie3-section4" }
-      ]
-    },
-    {
-      title: "経験的治療 — MRSA 保菌歴・自己弁/人工弁・市中/医療関連で切り替え",
-      body: "想定起因菌（MRSA・MSSA・レンサ球菌・腸球菌・HACEK）を網羅する経験治療レジメンを選ぶ。S. aureus 同定時点で MSSA→セファゾリン、MRSA→VCM の分岐へ。",
-      links: [
-        { label: "IE 2026 GL：エンピリック治療", url: "../articles-gl-ie2026.html#ie4-section2" },
-        { label: "IE 板書ノート：経験的治療選択", url: "../id-icu-notes/note-ie.html#ie-empiric-choice" },
-        { label: "IE 板書ノート：GPC 同定マップ", url: "../id-icu-notes/note-ie.html#ie-gpc" }
-      ]
-    },
-    {
-      title: "症例から学ぶ — ICD リード感染（MSSA）",
-      body: "ICD リード感染で MSSA が同定された症例。MRI で硬膜外膿瘍を除外したのち、セフトリアキソンからセファゾリン単剤へ変更（中枢移行性に基づく薬剤選択）。",
-      links: [
-        { label: "IE 板書ノート：症例 2", url: "../id-icu-notes/note-ie.html#ie-case2-hx" }
-      ]
-    },
-    {
-      title: "菌血症の治療期間 — BALANCE/GNBSI 試験の対象外",
-      body: "S. aureus 菌血症は組織接着因子・転移性感染巣形成能のため BALANCE 試験の除外基準。最低 14 日（複雑性 4-6 週間）が推奨される。S. aureus／S. lugdunensis は GNBSI メタ解析でも長期投与必要病態として 7 日戦略の対象外。",
-      links: [
-        { label: "疾患トピック：BALANCE と臨床判断", url: "../disease-topics/dt-bacteremia-duration.html#bd-decision" },
-        { label: "BALANCE 2025：考察", url: "../articles-gl-balance-bacteremia2025.html#bal-discussion" },
-        { label: "GNBSI メタ解析（除外基準）", url: "../articles-gl-gnbsi-meta2025.html" }
-      ]
-    },
-    {
-      title: "S. aureus 菌血症のフォロー血培",
-      body: "S. aureus・S. lugdunensis・カンジダ属の菌血症ではクリアランス確認のため繰り返し血液培養を行う。",
-      links: [
-        { label: "SSC 2026 GL：微生物学的検査", url: "../articles-gl-ssc2026.html#ssc-s2" }
-      ]
-    },
-    {
-      title: "VCM TDM — 重症 MRSA 感染では AUC/MIC 400-600 目標",
-      body: "重症 MRSA 感染ではトラフ値単独モニタリングを廃止し、AUC ガイド投与へ（AUC/MIC ≥400、目標 AUC 400-600 μg·h/mL）。ローディングドーズは 20-35 mg/kg。AUC<400 で耐性化（VISA 出現）促進、>600 で AKI リスク上昇。",
-      links: [
-        { label: "VCM TDM 2020：AUC/MIC の根拠", url: "../articles-gl-vcm-tdm2020.html#vcm-s1" },
-        { label: "VCM TDM 2020：MIC 解釈", url: "../articles-gl-vcm-tdm2020.html#vcm-s3" },
-        { label: "VCM TDM 2020：AUC モニタリングの推奨", url: "../articles-gl-vcm-tdm2020.html#vcm-s4" },
-        { label: "VCM TDM 2020：ローディングドーズ", url: "../articles-gl-vcm-tdm2020.html#vcm-s10" },
-        { label: "TDM 2022：VCM AUC", url: "../articles-gl-tdm-antibiotics2022.html#tdm-vcm-s2" }
-      ]
-    },
-    {
-      title: "MRSA 治療の代替薬 — テイコプラニン・アルベカシン",
-      body: "テイコプラニンは MRSA・腸球菌に使用、長半減期のためローディングドーズ必須。心臓手術 SSI 予防では MRSA 保菌・βラクタムアレルギー患者で術直前 TEIC 12mg/kg 単回投与を推奨。アルベカシンは VCM 不耐容/使用困難な MRSA の代替で、Cpeak ≥15 μg/mL 目標。",
-      links: [
-        { label: "TDM 2022：テイコプラニン", url: "../articles-gl-tdm-antibiotics2022.html#tdm-teic-s2" },
-        { label: "TDM 2022：心臓手術 SSI 予防 TEIC", url: "../articles-gl-tdm-antibiotics2022.html#tdm-teic-s4" },
-        { label: "TDM 2022：ABK", url: "../articles-gl-tdm-antibiotics2022.html#tdm-agm-s1" },
-        { label: "TEIC vs VCM Cochrane 2010", url: "../articles-gl-teicoplanin-cochrane2010.html#tc-conclusions" }
-      ]
-    },
-    {
-      title: "重症市中肺炎（sCAP） — PVL 産生株は壊死性肺炎",
-      body: "S. aureus は CAP 分離株 6%、MRSA 3.0%（米国・西欧で有意差）。PVL 産生 S. aureus は若年者の壊死性肺炎を起こし、MSSA・MRSA・PVL 有無で 4 種の標的治療レジメン（セファゾリン/フルクロキサシリン、リネゾリド/VCM/セフタロリン ＋ クリンダマイシン/リファンピシン）。",
-      links: [
-        { label: "sCAP 2025：起因菌頻度", url: "../articles-gl-scap-icm2025.html#scap-common-path" },
-        { label: "sCAP 2025：標的治療レジメン", url: "../articles-gl-scap-icm2025.html#scap-abx" }
-      ]
-    },
-    {
-      title: "VAP — GPC として最重要起因菌",
-      body: "S. aureus（MSSA/MRSA）はコアグラーゼ陽性 GPC として VAP の最重要起因菌。S. lugdunensis は CoNS だが S. aureus に近似する病原性。リネゾリドは MRSA 院内肺炎で臨床的有効性が VCM より有意に高い（DAP は肺サーファクタント不活化のため使用不可）。",
-      links: [
-        { label: "VAP 板書ノート：GPC（Staph）", url: "../id-icu-notes/note-vap.html#ch2-s2" }
-      ]
-    },
-    {
-      title: "脊髄硬膜外膿瘍（SEA） — 起因菌の 50% 以上が S. aureus",
-      body: "観察研究 2282 例で MSSA 40% ＋ MRSA 18% ＝ S. aureus 全体 58%。MRSA 感染は非手術治療失敗の独立リスク因子（Kim スコア +3 点）。経験的治療は VCM ＋ セフトリアキソン、IDU/SSI/敗血症ではセフェピムへ変更、治療 6-8 週間。",
-      links: [
-        { label: "SEA 2026：微生物学（S. aureus 58%）", url: "../articles-gl-sea-nejm2026.html#sea-s9" },
-        { label: "SEA 2026：非手術失敗予測", url: "../articles-gl-sea-nejm2026.html#sea-s11" },
-        { label: "SEA 2026：SUMMARY", url: "../articles-gl-sea-nejm2026.html#sea-summary" }
-      ]
-    },
-    {
-      title: "心臓植込みデバイス感染 — S. aureus は抜去後 2-4 週間",
-      body: "デバイス抜去後の抗菌薬投与期間は S. aureus で 2-4 週間（非 S. aureus 菌は 2 週間）と区別する。初期は VCM（MRSA カバー）+ GNB カバー。",
-      links: [
-        { label: "ペースメーカ 2017 GL：治療期間", url: "../articles-gl-pacemaker2017.html#pm-s4d" }
-      ]
-    },
-    {
-      title: "院内髄膜炎・脳室炎（HAVM）",
-      body: "S. aureus の CSF 培養陽性は感染を強く示唆する。MSSA はナフシリン/オキサシリン（日本ではセファゾリン代替）、MRSA は VCM（MIC≥1 ならリネゾリド/ダプトマイシン/TMP-SMX）。治療 10-14 日、繰り返し陽性なら最終陽性日から起算。長期予防的抗菌薬は MRSA・Candida 選択を招き禁忌。",
-      links: [
-        { label: "疾患トピック：HAVM 起因菌・治療", url: "../disease-topics/dt-meningitis.html#mn-targeted" },
-        { label: "IDSA HAVM 2017：標的治療", url: "../articles-gl-idsa-havm2017.html#havm-targeted" },
-        { label: "IDSA HAVM 2017：治療期間", url: "../articles-gl-idsa-havm2017.html#havm-duration" },
-        { label: "髄膜炎板書ノート：院内型", url: "../id-icu-notes/note-meningitis.html#ch2-s1" }
-      ]
-    },
-    {
-      title: "市中細菌性髄膜炎 — S. aureus は 1-2%、IE 関連が多い",
-      body: "成人細菌性髄膜炎で S. aureus は 1-2%、感染性心内膜炎との関連が多い。同定されたら他感染巣（IE・脊椎硬膜外膿瘍）を必ず検索する。MRSA で VCM MIC>2 ならリネゾリドへ変更。治療期間 14 日以上。",
-      links: [
-        { label: "ESCMID 2016：S. aureus 髄膜炎", url: "../articles-gl-escmid-bactmening2016.html#ch3-s3" }
-      ]
-    },
-    {
-      title: "糖尿病性足感染（DFI）",
-      body: "北米・西欧の最近抗菌薬未使用の軽症 DFI は連鎖球菌・S. aureus（MRSA リスクならカバー）のみを標的とする。骨と軟部組織の培養一致率は <50% で、S. aureus で最高。",
-      links: [
-        { label: "IWGDF 2023：軽症 DFI 抗菌薬選択", url: "../articles-gl-iwgdf-dfi2023.html#dfi-s8" }
-      ]
-    },
-    {
-      title: "インフルエンザ後の二次性細菌性肺炎",
-      body: "インフルエンザ後の二次性細菌性肺炎では肺炎球菌・S. aureus（MRSA 含む）との混合感染が COVID-19 より高頻度。インフルエンザの NA が相乗作用に関与する可能性。",
-      links: [
-        { label: "疾患トピック：インフルエンザ呼吸器合併症", url: "../disease-topics/dt-influenza.html#flu-resp-comp" }
-      ]
-    },
-    {
-      title: "静菌薬 vs 殺菌薬 — リネゾリドは VCM に劣らず",
-      body: "MRSA 感染試験で殺菌薬（TMP-SMX+RFP）と静菌薬（リネゾリド）が同等の転帰。好中球減少例でもリネゾリドは VCM に劣らない。",
-      links: [
-        { label: "Static vs Cidal 2018：SSTI", url: "../articles-gl-static-cidal2018.html#sc-ssti" }
-      ]
-    }
+    { embed: "../articles-gl-ie2026.html#ie4-section4", label: "JCS IE 2026 ▸ 標的治療：Staphylococcus（MSSA=セファゾリン／MRSA=VCM・DAP）" },
+    { embed: "../articles-gl-ie2026.html#ie-section2", label: "JCS IE 2026 ▸ 疫学（S. aureus・MRSA 増加と急性重症化）" },
+    { link: "../id-icu-notes/note-ie.html#ie-target-mssa", label: "IE 板書ノート ▸ MSSA 標的治療" },
+    { link: "../id-icu-notes/note-ie.html#ie-target-mrsa", label: "IE 板書ノート ▸ MRSA 標的治療" },
+    { link: "../articles-gl-idsa-crbsi2009.html#sau", label: "IDSA CRBSI 2009 ▸ 黄色ブドウ球菌（S. aureus）— カテーテル抜去・経食道エコー・治療期間" },
+    { link: "../articles-gl-vcm-tdm2020.html#vcm-s4", label: "VCM TDM 2020 ▸ 重症 MRSA は AUC/MIC 400–600 目標（AUC ガイド投与）" },
+    { link: "../articles-gl-scap-icm2025.html#scap-common-path", label: "重症市中肺炎 2025 ▸ S. aureus・PVL 産生株（壊死性肺炎）" },
+    { link: "../articles-gl-balance-bacteremia2025.html#bal-discussion", label: "BALANCE 2025 ▸ 菌血症の投与期間（S. aureus は短縮対象外）" },
+    { link: "../articles-gl-ssc2026.html#ssc-s2", label: "SSC 2026 ▸ S. aureus 菌血症はフォロー血培でクリアランス確認" }
   ],
 
   // ============ Staphylococcus epidermidis ============
