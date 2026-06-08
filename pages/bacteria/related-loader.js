@@ -53,16 +53,26 @@
     });
   }
 
+  // 取得済みページをキャッシュ（同一ページに複数 embed があっても 1 回だけ fetch）
+  var pageCache = {};
+  function fetchDoc(page) {
+    if (!pageCache[page]) {
+      pageCache[page] = fetch(page).then(function (r) {
+        if (!r.ok) throw new Error("fetch failed");
+        return r.text();
+      }).then(function (txt) {
+        return new DOMParser().parseFromString(txt, "text/html");
+      });
+    }
+    return pageCache[page];
+  }
+
   // 元ページから #anchor 見出し直後のカード群（次の見出しまで）を取得
   function fetchSection(url) {
     var h = url.indexOf("#");
     var page = h >= 0 ? url.slice(0, h) : url;
     var anchor = h >= 0 ? url.slice(h + 1) : "";
-    return fetch(page).then(function (r) {
-      if (!r.ok) throw new Error("fetch failed");
-      return r.text();
-    }).then(function (txt) {
-      var doc = new DOMParser().parseFromString(txt, "text/html");
+    return fetchDoc(page).then(function (doc) {
       var start = anchor ? doc.getElementById(anchor) : null;
       if (!start) return null;
       var wrap = document.createElement("div");
