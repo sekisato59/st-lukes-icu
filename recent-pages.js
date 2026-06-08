@@ -10,6 +10,13 @@
  */
 const RECENT_PAGES = [
   {
+    title: "ワルデンシュトレームマクログロブリン血症 / リンパ形質細胞性リンパ腫 NCCN Guidelines v2.2026",
+    url: "pages/articles-gl-nccn-wm2026.html",
+    date: "2026-06-08",
+    tag: "論文",
+    thumb: "images/朝カンファ風景.webp"
+  },
+  {
     title: "梅毒 Syphilis — 板書ノート | 感染症各論",
     url: "pages/id-icu-notes/note-syphilis.html",
     date: "2026-06-07",
