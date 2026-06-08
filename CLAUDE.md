@@ -254,6 +254,19 @@ grep -c 'ie-table\|ie-score-card\|ie-stat-grid' pages/articles-gl-xxxx.html
 - `mark-red` / `mark-yellow` / `mark-green` / `mark-orange` — 下線ハイライト
 - 使い方: `<span class="mark-red"><strong>重要テキスト</strong></span>`
 
+**⚠️ マーカー色は「意味」で選ぶ（統一ルール・必須遵守）。「ただ目立たせたい／カラフルにしたい」で色を選ばない（読者が混乱する）。**
+
+| 色 | 意味 | 使う場面の例 |
+|---|---|---|
+| `mark-green`（緑） | **推奨・第一選択・良好** | 第一選択薬、有効・優位・改善・治癒、推奨される対応 |
+| `mark-red`（赤） | **禁忌・不適・危険・重大警告** | 禁忌、不可逆/致死的/重篤、避ける・中止すべき、重大な落とし穴 |
+| `mark-yellow`（黄） | **注意・条件付き** | 慎重投与、モニタリング必要、「〜の場合」、要確認の条件 |
+| `mark-orange`（橙） | **補足的な強調** | 上記に当てはまらないが覚えておきたいキーワード・数値 |
+
+- 1ページ内で同じ意味には同じ色を使う。色をローテーションさせて「賑やかし」にしない。
+- 迷ったら「この語は推奨か／禁忌・危険か／注意条件か／単なる補足強調か」で判定する。
+- アラートボックス（`alert-red`/`alert-yellow`/`alert-green`/`danger`/`keypoint`/`point`）も同じ色意味で揃える。
+
 ### アラートボックス（style-v2.css のクラス）
 - `alert-red` / `alert-blue` — style-v2.css で定義済み
 - `alert-yellow` / `alert-green` — ページ内 `<style>` で定義
