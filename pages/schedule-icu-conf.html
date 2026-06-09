@@ -340,12 +340,7 @@
         font-size:0.7rem; letter-spacing:0.08em;
         margin-bottom:9px;
       }
-      /* ディスカッションボックス内にネストされた accordion を紺系に統一 */
-      .nx-cb-discuss .nx-acc { border-color:#BFDBFE; }
-      .nx-cb-discuss .nx-acc summary { color:#1E40AF; background:#DBEAFE; }
-      .nx-cb-discuss .nx-acc summary::before { color:#1E40AF; }
-      .nx-cb-discuss .nx-acc[open] > summary { background:#BFDBFE; border-bottom-color:#93C5FD; }
-      .nx-cb-discuss .nx-acc[open] { box-shadow:0 0 0 2px #93C5FD; }
+      /* ディスカッションボックス内の accordion も既定の nx-acc（GCS トグルと同じ配色・フォント）で統一 */
 
       /* ===== AIUEOTIPS 静的リファレンステーブル（意識障害の鑑別） ===== */
       /* 1カラム縦並び。各行は [Letter | Category — diseases inline] */
@@ -408,35 +403,42 @@
       @media (max-width:720px) {
         .nx-pair, .nx-drug-grid, .nx-check-grid, .nx-types, .nx-mech { grid-template-columns:1fr; }
       }
-    /* ── 鎮静薬カード（qa-neuro-sedation.html の drug-card を踏襲） ──── */
+    /* ── 鎮静薬カード（qa-neuro-sedation.html の drug-card を踏襲、青テーマ統一） ── */
     .nx-drug-card { background:#fff; border:1px solid #BFDBFE; border-radius:6px; overflow:hidden; margin-bottom:10px; }
     .nx-drug-card:last-child { margin-bottom:0; }
-    .nx-drug-name { color:#fff; font-size:0.94rem; font-weight:800; padding:9px 16px; line-height:1.4; }
-    .nx-drug-alias { font-size:0.76rem; color:rgba(255,255,255,0.82); font-weight:500; margin-left:6px; }
-    .nx-drug-tag { float:right; font-size:0.65rem; font-weight:700; padding:3px 9px; border-radius:3px; letter-spacing:0.04em; }
-    .nx-drug-tag.t-pref  { background:rgba(22,163,74,0.92); color:#fff; }
-    .nx-drug-tag.t-first { background:rgba(37,99,235,0.92); color:#fff; }
-    .nx-drug-tag.t-limit { background:rgba(220,38,38,0.85); color:#fff; }
-    .nx-drug-rows { padding:8px 16px 10px; }
-    .nx-drug-row { display:grid; grid-template-columns:52px 1fr; gap:10px; align-items:start; padding:7px 0; font-size:0.83rem; line-height:1.7; }
+    /* 薬剤名は親見出し(0.82rem)より小さく */
+    .nx-drug-name { background:linear-gradient(135deg,#1269B0,#1586C0); color:#fff; font-size:0.76rem; font-weight:800; padding:8px 14px; line-height:1.45; }
+    .nx-drug-alias { font-size:0.70rem; color:rgba(255,255,255,0.80); font-weight:400; margin-left:6px; }
+    .nx-drug-tag { float:right; font-size:0.62rem; font-weight:700; background:rgba(255,255,255,0.22); color:#fff; padding:2px 8px; border-radius:3px; letter-spacing:0.04em; border:1px solid rgba(255,255,255,0.35); margin-top:1px; }
+    /* テーブル形式 */
+    .nx-drug-rows { padding:8px 16px 12px; }
+    .nx-drug-row { display:block; padding:7px 0; font-size:0.82rem; line-height:1.8; color:#334155; }
     .nx-drug-row + .nx-drug-row { border-top:1px dashed #E2E8F0; }
-    .nx-drug-lbl { display:inline-block; width:52px; box-sizing:border-box; text-align:center; font-size:0.70rem; font-weight:800; padding:2px 0; border-radius:4px; letter-spacing:0.02em; line-height:1.4; margin-top:2px; flex-shrink:0; }
-    .nx-drug-lbl.l-cls  { color:#1E40AF; background:#DBEAFE; border:1px solid #BFDBFE; }
-    .nx-drug-lbl.l-dose { color:#0F766E; background:#CCFBF1; border:1px solid #99F6E4; }
-    .nx-drug-lbl.l-ok   { color:#15803D; background:#DCFCE7; border:1px solid #86EFAC; }
-    .nx-drug-lbl.l-ng   { color:#B45309; background:#FFF7ED; border:1px solid #FED7AA; }
-    .nx-drug-lbl.l-use  { color:#6D28D9; background:#EDE9FE; border:1px solid #C4B5FD; }
-    .nx-drug-body { color:#334155; padding-top:1px; }
+    /* 分類・用量などはバッヂではなく文中ラベル（「分類：」）として表示 */
+    .nx-drug-lbl { display:inline; width:auto; height:auto; background:none; border:none; border-radius:0; padding:0; margin:0; font-size:0.78rem; font-weight:800; color:#1E40AF; letter-spacing:0.02em; }
+    .nx-drug-lbl::after { content:"："; }
+    .nx-drug-body { display:inline; padding-top:0; }
     .nx-drug-body strong { color:#1E293B; }
-    .nx-drug-body .ok { color:#15803D; font-weight:700; }
-    .nx-drug-body .ng { color:#DC2626; font-weight:700; }
-    .nx-padis-link { display:inline-flex; align-items:center; gap:6px; background:#F0FDF4; border:1px solid #86EFAC; border-radius:6px; padding:6px 14px; font-size:0.78rem; font-weight:700; color:#15803D; text-decoration:none; margin:10px 0 4px; }
-    .nx-padis-link:hover { background:#DCFCE7; }
+
+    /* ===== 配色統一：装飾テーマ色をバナーの青／紺／白へ =====
+       機能的配色（RASS スケール／GCS 合計点／特徴表の ✓✗）と
+       未入力・未選択バッヂ（.nx-score-out.nx-incomplete）は意図的に除外。 */
+    /* テキストマーカー（mark-*）は青ハイライトに統一 */
+    .mark-green, .mark-red, .mark-yellow, .mark-orange { background:linear-gradient(transparent 55%, rgba(18,105,176,0.22) 55%) !important; }
+    /* POINT ボックス（旧・黄）→ 青系（info と同配色） */
+    .nx-cb-point { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; }
+    .nx-cb-point .nx-cb-h { color:#1D4ED8; }
+    /* STEP UP ボックス（旧・紫/赤）→ 青系 */
+    .nx-cb-stepup-purple, .nx-cb-stepup-red { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; }
+    .nx-cb-stepup-purple .nx-cb-h, .nx-cb-stepup-red .nx-cb-h { color:#1D4ED8; }
+    .nx-cb-stepup-purple strong, .nx-cb-stepup-red strong { color:#1E40AF; }
+    /* サブ見出しのドット（旧・黄）→ 青 */
+    .nx-h::before { background:#1586C0; }
     </style>
 
     <!-- 神経系イントロ -->
     <div class="nx-intro">
-      ICU患者の <strong>痛み・興奮・せん妄・不動・不眠</strong> に関する診療ガイドライン <strong>PADIS</strong>（Pain, Anxiety, Agitation/Sedation, Delirium, Immobility, and Sleep Disruption in ICU）が2025年に一部改訂されている。一度は内容に目を通しておくことが望ましい。
+      ICU患者の 痛み・興奮・せん妄・不動・不眠 に関する診療ガイドライン <a href="articles-gl-padis2025.html" class="nx-link" style="border-bottom:1.5px dashed var(--blue);white-space:nowrap;">PADIS</a>（Pain, Anxiety, Agitation/Sedation, Delirium, Immobility, and Sleep Disruption in ICU）が2025年に一部改訂されている。一度は内容に目を通しておくことが望ましい。
     </div>
 
     <!-- ─── 意識レベル ─── -->
@@ -444,7 +446,7 @@
       <div class="card-inner">
         <div style="display:flex;border-radius:6px;overflow:hidden;margin-bottom:10px;"><div style="background:#0F172A;color:#fff;padding:6px 12px;font-size:0.75rem;font-weight:900;display:flex;align-items:center;">N</div><div style="background:linear-gradient(135deg,#1269B0,#1586C0);color:#fff;padding:6px 14px;font-size:0.82rem;font-weight:700;flex:1;">意識レベル</div></div>
 
-        <p class="rule-body" style="margin:0 0 10px;font-size:0.82rem;line-height:1.7;">非挿管患者では <strong>GCS</strong>、挿管患者では <strong>RASS</strong> を使用して評価を行う。</p>
+        <p class="rule-body" style="margin:0 0 10px;font-size:0.82rem;line-height:1.8;">非挿管患者では <strong>GCS</strong>、挿管患者では <strong>RASS</strong> を使用して評価を行う。</p>
 
         <details class="nx-acc" id="nx-gcs">
           <summary><span class="nx-tag">非挿管患者</span><strong>GCS</strong>（Glasgow Coma Scale）— クリックで採点<span class="nx-score-out nx-incomplete" id="gcs-score-out">未入力</span></summary>
@@ -503,10 +505,10 @@
         <div class="nx-cb nx-cb-discuss" style="padding:12px 14px;">
           <div class="nx-cb-h" style="margin-bottom:7px;">Frequent discussion point</div>
           <div style="font-weight:800;color:#1E3A8A;font-size:0.82rem;line-height:1.4;padding-bottom:7px;margin-bottom:3px;border-bottom:1px solid #93C5FD;">無鎮静で意識障害があるなら、それはなぜ？？</div>
-          <p class="rule-body" style="margin:0;font-size:0.82rem;line-height:1.65;color:var(--muted);">鎮静薬が切れているのに意識が戻らない／下がる場合、「ICUせん妄」「環境のせい」と片付けると、<strong>低血糖・電解質異常・薬剤性・感染症・頭蓋内病変</strong>といった<strong>可逆性の原因</strong>を見逃して不可逆損傷に至る恐れがある。下の <strong>AIUEOTIPS</strong> で系統的に鑑別を挙げ、最低限 <strong>頭部CT・血糖・電解質（Na/Ca）・血ガス・アンモニア・体温・感染源</strong> はその場で確認する。</p>
+          <p class="rule-body" style="margin:0;font-size:0.82rem;line-height:1.8;color:var(--muted);">鎮静薬が切れているのに意識が戻らない／下がる場合、「ICUせん妄」「環境のせい」と片付けると、<strong>低血糖・電解質異常・薬剤性・感染症・頭蓋内病変</strong>といった<strong>可逆性の原因</strong>を見逃して不可逆損傷に至る恐れがある。下の <strong>AIUEOTIPS</strong> で系統的に鑑別を挙げ、最低限 <strong>頭部CT・血糖・電解質（Na/Ca）・血ガス・アンモニア・体温・感染源</strong> はその場で確認する。</p>
 
-          <details class="nx-acc" style="margin:8px 0 0;background:#fff;">
-            <summary style="padding:5px 14px;font-size:0.82rem;"><strong>AIUEOTIPS</strong>（意識障害の鑑別フレームワーク）<span class="nx-hint" style="margin-left:6px;">↓ クリックで一覧表を開く</span></summary>
+          <details class="nx-acc" style="margin:10px 0 0;">
+            <summary><strong>AIUEOTIPS</strong>（意識障害の鑑別フレームワーク）— クリックで一覧表を開く</summary>
             <div style="padding:10px 12px;">
               <div class="nx-aiueo-ref">
 
@@ -619,53 +621,106 @@
       <div class="card-inner">
         <div style="display:flex;border-radius:6px;overflow:hidden;margin-bottom:10px;"><div style="background:#0F172A;color:#fff;padding:6px 12px;font-size:0.75rem;font-weight:900;display:flex;align-items:center;">N</div><div style="background:linear-gradient(135deg,#1269B0,#1586C0);color:#fff;padding:6px 14px;font-size:0.82rem;font-weight:700;flex:1;">鎮静（Agitation/Sedation）</div></div>
         <p class="rule-body">不必要に深い鎮静は <span class="mark-red"><strong>せん妄・筋力低下・人工呼吸/ICU滞在延長・死亡率増加</strong></span> に関連する。BZ系はせん妄リスク・回復遅延から、近年は非BZ系（プロポフォール・デクスメデトミジン）が主流。</p>
-
         <div class="nx-cb nx-cb-point">
           <div class="nx-cb-h">★ POINT — Light Sedation 推奨</div>
           <span class="mark-green"><strong>RASS 0、または -1〜-2 を目標</strong></span> に管理し、毎日の鎮静中断（Daily Sedation Interruption）を行う。
         </div>
 
-<div class="nx-h">鎮静薬</div>
-        <div class="nx-table-scroll"><table class="nx-flat-table">
-          <thead>
-            <tr>
-              <th style="width:140px;">薬剤</th>
-              <th style="width:120px;">分類</th>
-              <th style="width:260px;">投与方法</th>
-              <th>特徴</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="drug-n">プロポフォール<span class="alt">Propofol</span></td>
-              <td class="cat">短時間作用静脈麻酔薬</td>
-              <td class="dose">
-                <div class="dose-row"><span class="dose-lbl">持続</span><span class="dose-val">原液1V (10mg/mL)　<span class="num">0.03〜0.30 mL/kg/h</span>（= 0.3〜3 mg/kg/h）</span></div>
-                <div class="dose-row"><span class="dose-lbl">間欠</span><span class="dose-val">原液1V を処置時に <span class="num">1〜2 mL</span> ずつ</span></div>
-              </td>
-              <td class="feat"><div class="feat-row feat-ok"><span class="feat-mark">◯</span><span class="feat-text">発現が迅速で浅い鎮静を維持しやすい。持続停止後は速やかに代謝。<strong>深い鎮静や短期間鎮静に最適</strong></span></div><div class="feat-row feat-ng"><span class="feat-mark">△</span><span class="feat-text">高脂溶性・分布容積大 → <strong>長期投与で半減期延長（蓄積）</strong>。低血圧・呼吸抑制</span></div></td>
-            </tr>
-            <tr>
-              <td class="drug-n">デクスメデトミジン<span class="alt">Dexmedetomidine</span></td>
-              <td class="cat">α2作動薬</td>
-              <td class="dose">
-                <div class="dose-row"><span class="dose-lbl">負荷</span><span class="dose-val">原液 4μg/mL を <span class="num">6 μg/kg/h × 10 分</span></span></div>
-                <div class="dose-row"><span class="dose-lbl">維持</span><span class="dose-val"><span class="num">0.2〜0.7 μg/kg/h</span></span></div>
-              </td>
-              <td class="feat"><div class="feat-row feat-ok"><span class="feat-mark">◯</span><span class="feat-text">α2作動薬。<span class="mark-green"><strong>呼吸抑制をきたさない</strong></span>・<strong>協力的鎮静（Cooperative Sedation）</strong>が可能。せん妄リスク軽減・人工呼吸期間短縮に有用</span></div><div class="feat-row feat-ng"><span class="feat-mark">△</span><span class="feat-text">徐脈・低血圧</span></div></td>
-            </tr>
-            <tr>
-              <td class="drug-n">ミダゾラム<span class="alt">Midazolam</span></td>
-              <td class="cat">ベンゾジアゼピン</td>
-              <td class="dose">
-                <div class="dose-row"><span class="dose-lbl">持続</span><span class="dose-val">5A (10mg 2mL) ＋ 生食40mL = 50mg/50mL を <span class="num">0.1〜0.4 mg/kg/h</span>（上限なし）</span></div>
-                <div class="dose-row"><span class="dose-lbl">間欠</span><span class="dose-val">1A ＋ 生食8mL を処置時 <span class="num">1〜2 mL</span></span></div>
-                <div class="dose-row"><span class="dose-lbl">DIV</span><span class="dose-val">1A ＋ 生食50mL を <span class="num">30 分</span> 投与</span></div>
-              </td>
-              <td class="feat"><div class="feat-row feat-ok"><span class="feat-mark">◯</span><span class="feat-text"><strong>アルコール離脱・重症せん妄で優先</strong></span></div><div class="feat-row feat-ng"><span class="feat-mark">△</span><span class="feat-text">せん妄リスク増・回復遅延・組織蓄積による効果遷延・タキフィラキシス</span></div></td>
-            </tr>
-          </tbody>
-        </table></div>
+        <details class="nx-acc">
+          <summary><strong>鎮静薬</strong>（主要3剤の使い分け）— クリックで一覧を開く</summary>
+          <div style="padding:12px 14px;">
+
+        <!-- ── デクスメデトミジン ── -->
+        <div class="nx-drug-card">
+          <div class="nx-drug-name">
+            <span class="nx-drug-tag">PADIS 2025 優先</span>
+            デクスメデトミジン<span class="nx-drug-alias">Dexmedetomidine（プレセデックス）</span>
+          </div>
+          <div class="nx-drug-rows">
+            <div class="nx-drug-row">
+              <span class="nx-drug-lbl">分類</span>
+              <span class="nx-drug-body">α₂アドレナリン受容体作動薬。鎮静・鎮痛・抗不安作用を併せ持つ。</span>
+            </div>
+            <div class="nx-drug-row">
+              <span class="nx-drug-lbl">用量</span>
+              <span class="nx-drug-body">負荷：<strong>6 μg/kg/h × 10分</strong>（省略可）。維持：<strong>0.2〜0.7 μg/kg/h</strong> 持続投与。</span>
+            </div>
+            <div class="nx-drug-row">
+              <span class="nx-drug-lbl">長所</span>
+              <span class="nx-drug-body"><strong>呼吸抑制がなく</strong>、鎮静中も呼びかけに応答して意思疎通が可能（協力的鎮静）。29試験・3,087名のメタ解析でせん妄予防効果が示されており、2025年PADISガイドラインで特に推奨されている。</span>
+            </div>
+            <div class="nx-drug-row">
+              <span class="nx-drug-lbl">短所</span>
+              <span class="nx-drug-body">徐脈・低血圧に注意。基礎心疾患のある患者や CPP 維持が必要な神経 ICU では慎重に投与する。深鎮静（RASS −3 以下）が必要な場面には不向き。</span>
+            </div>
+            <div class="nx-drug-row">
+              <span class="nx-drug-lbl">特徴</span>
+              <span class="nx-drug-body">機械換気下で浅鎮静を維持しながら神経学的評価を継続したい患者に適する。<strong>2025年版 PADIS ガイドラインでは、せん妄予防目的においてプロポフォールより優先して使用することが提案</strong>されている。</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── プロポフォール ── -->
+        <div class="nx-drug-card">
+          <div class="nx-drug-name">
+            <span class="nx-drug-tag">第一選択（2018）</span>
+            プロポフォール<span class="nx-drug-alias">Propofol（ディプリバン）</span>
+          </div>
+          <div class="nx-drug-rows">
+            <div class="nx-drug-row">
+              <span class="nx-drug-lbl">分類</span>
+              <span class="nx-drug-body">GABA-A 受容体増強による短時間作用型静脈麻酔薬。全身麻酔・ICU 鎮静いずれにも広く使用される。</span>
+            </div>
+            <div class="nx-drug-row">
+              <span class="nx-drug-lbl">用量</span>
+              <span class="nx-drug-body">持続：原液（10 mg/mL）<strong>0.03〜0.30 mL/kg/h</strong>（= 0.3〜3 mg/kg/h）。処置時間欠：原液 <strong>1〜2 mL</strong> ずつ追加。</span>
+            </div>
+            <div class="nx-drug-row">
+              <span class="nx-drug-lbl">長所</span>
+              <span class="nx-drug-body">効果発現・消失がともに迅速で鎮静深度の調整が容易。投与中断後の速やかな覚醒により、神経学的評価を頻回に行える。</span>
+            </div>
+            <div class="nx-drug-row">
+              <span class="nx-drug-lbl">短所</span>
+              <span class="nx-drug-body">低血圧・心機能抑制に注意。長期投与では脂肪組織への蓄積により覚醒遅延が生じやすい。高用量（>4〜5 mg/kg/h）・長時間（>48 時間）投与で稀に <strong>PRIS（プロポフォール注入症候群）</strong>（代謝性アシドーシス・横紋筋融解・心筋障害）が発症する。</span>
+            </div>
+            <div class="nx-drug-row">
+              <span class="nx-drug-lbl">特徴</span>
+              <span class="nx-drug-body">ICU 鎮静の標準薬（PADIS 2018）。2025年版では、せん妄予防・浅鎮静維持が優先される症例ではデクスメデトミジンを先行させることが提案されている。</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── ミダゾラム ── -->
+        <div class="nx-drug-card">
+          <div class="nx-drug-name">
+            <span class="nx-drug-tag">特定状況のみ</span>
+            ミダゾラム<span class="nx-drug-alias">Midazolam（ドルミカム）</span>
+          </div>
+          <div class="nx-drug-rows">
+            <div class="nx-drug-row">
+              <span class="nx-drug-lbl">分類</span>
+              <span class="nx-drug-body">ベンゾジアゼピン系（BZD）。GABA-A 受容体増強により鎮静・抗不安・健忘・抗痙攣の4作用を持つ。</span>
+            </div>
+            <div class="nx-drug-row">
+              <span class="nx-drug-lbl">用量</span>
+              <span class="nx-drug-body">持続：5A（10 mg 2 mL）＋生食 40 mL = <strong>50 mg/50 mL</strong> を <strong>0.1〜0.4 mg/kg/h</strong>。間欠：1A＋生食 8 mL を処置時 <strong>1〜2 mL</strong>。DIV：1A＋生食 50 mL を <strong>30 分</strong> かけて静注。</span>
+            </div>
+            <div class="nx-drug-row">
+              <span class="nx-drug-lbl">長所</span>
+              <span class="nx-drug-body">循環動態への影響が少なく低血圧患者にも使用しやすい。抗痙攣作用が強く SE（てんかん重積状態）の治療薬として重要。アルコール離脱症候群にも有効。</span>
+            </div>
+            <div class="nx-drug-row">
+              <span class="nx-drug-lbl">短所</span>
+              <span class="nx-drug-body"><strong>BZD 持続投与はせん妄の独立したリスク因子</strong>（複数の RCT で確認）。高脂溶性で組織蓄積性が高く、長期投与後は覚醒遅延が生じやすい。腎・肝機能低下患者では活性代謝物の蓄積により遷延がさらに顕著となる。</span>
+            </div>
+            <div class="nx-drug-row">
+              <span class="nx-drug-lbl">特徴</span>
+              <span class="nx-drug-body">PADIS ガイドラインでは ICU 鎮静薬としての日常的使用は<strong>推奨されない</strong>。SE・アルコール離脱・処置時の短時間鎮静など BZD が特に有効な状況では積極的に使用する。</span>
+            </div>
+          </div>
+        </div>
+          </div>
+        </details>
 
         <div class="nx-h">Daily Sedation Interruption（SAT）</div>
         <div class="nx-flow">
@@ -689,7 +744,7 @@
           ▸ <strong>BIS値（PSi値）：</strong>0（平坦脳波）〜100（覚醒）。GA手術では BIS 40〜60 を目標<br>
           ▸ <strong>Suppression Ratio（SR）：</strong>過去63秒の平坦脳波の割合。心肺蘇生後の高値は <strong>神経予後不良</strong> を示唆<br>
           ▸ <strong>脳波：</strong>Burst Suppression や三相波の検出に有用（前頭部のみの評価に注意）<br>
-          <span style="font-size:0.7rem;color:#7C3AED;">引用：J Jpn Soc Intensive Care Med Vol.31 No.4</span>
+          <span style="font-size:0.7rem;color:#1E40AF;">引用：J Jpn Soc Intensive Care Med Vol.31 No.4</span>
         </div>
 
         <div class="nx-cb nx-cb-stepup-red">
@@ -818,7 +873,7 @@
         <div class="nx-h">評価ツール</div>
         <ul class="nx-list">
           <li><span class="nx-tag">ICDSC</span>8項目スケールで症状の有無を評価</li>
-          <li><span class="nx-tag nx-tag-em">CAM-ICU</span><span style="color:#16A34A;font-weight:700;font-size:0.7rem;margin-right:6px;">当院標準</span>感度 82% / 特異度 96%</li>
+          <li><span class="nx-tag nx-tag-em">CAM-ICU</span><span style="color:#1269B0;font-weight:700;font-size:0.7rem;margin-right:6px;">当院標準</span>感度 82% / 特異度 96%</li>
         </ul>
 
         <details class="nx-acc" id="nx-cam-icu-acc">
