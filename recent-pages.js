@@ -10,6 +10,13 @@
  */
 const RECENT_PAGES = [
   {
+    title: "カルボシステイン・高張食塩水は急性呼吸不全の人工呼吸期間を短縮せず有害 — MARCH試験（NEJM 2026）",
+    url: "pages/articles-gl-march-mucoactive2026.html",
+    date: "2026-06-10",
+    tag: "ガイドライン",
+    thumb: "images/朝カンファ風景.webp"
+  },
+  {
     title: "ワルデンシュトレームマクログロブリン血症 / リンパ形質細胞性リンパ腫 NCCN Guidelines v2.2026",
     url: "pages/articles-gl-nccn-wm2026.html",
     date: "2026-06-08",
