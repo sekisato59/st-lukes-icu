@@ -328,7 +328,7 @@
       }
       /* バッジ以降のタイトル・本文はバッジ文字位置に合わせて字下げ
          （本文 p の inline margin:0 を上書きするため !important） */
-      .nx-cb-discuss > :not(.nx-cb-h) { margin-left:12px !important; }
+      .nx-cb-discuss > :not(.nx-cb-h) { margin-left:6px !important; }
       /* ディスカッションボックス内の accordion も既定の nx-acc（GCS トグルと同じ配色・フォント）で統一 */
 
       /* ===== AIUEOTIPS 静的リファレンステーブル（意識障害の鑑別） ===== */
@@ -410,6 +410,9 @@
     .nx-drug-lbl { font-size:0.65rem; font-weight:700; background:rgba(56,150,255,0.22); color:#1763B8; padding:2px 7px; border-radius:3px; flex-shrink:0; }
     .nx-drug-body { flex:1; }
     .nx-drug-body strong { color:#1E293B; }
+    /* 本文の各バレット行：折り返しを本文先頭（・の右）に揃えるぶら下げインデント */
+    .nx-drug-li { display:block; padding-left:1em; text-indent:-1em; }
+    .nx-drug-li + .nx-drug-li { margin-top:2px; }
     /* 本文をバレット表示にする版 */
     .nx-drug-ul { list-style:disc; padding:8px 16px 12px 36px; margin:0; font-size:0.8rem; line-height:1.75; color:#334155; }
     .nx-drug-ul li { padding:3px 0; }
@@ -463,7 +466,7 @@
       <div class="card-inner">
         <div style="display:flex;border-radius:6px;overflow:hidden;margin-bottom:10px;"><div style="background:#0F172A;color:#fff;padding:6px 12px;font-size:0.75rem;font-weight:900;display:flex;align-items:center;">N</div><div style="background:linear-gradient(135deg,#1269B0,#1586C0);color:#fff;padding:6px 14px;font-size:0.82rem;font-weight:700;flex:1;">意識レベル</div></div>
 
-        <p class="rule-body" style="margin:0 0 8px;font-size:0.82rem;">・非挿管患者は <strong>GCS</strong> で、挿管患者は <strong>RASS</strong> で評価を行う。</p>
+        <ul class="rule-body" style="list-style:disc;padding-left:18px;margin:0 0 8px;"><li>非挿管患者は <strong>GCS</strong> で、挿管患者は <strong>RASS</strong> で評価を行う。</li></ul>
 
         <details class="nx-acc" id="nx-gcs" style="margin:4px 0;">
           <summary style="padding:3px 14px;">非挿管患者 → <strong>GCS</strong><span class="nx-score-out nx-incomplete" id="gcs-score-out">未入力</span></summary>
@@ -523,7 +526,7 @@
         <div class="nx-cb nx-cb-discuss" style="padding:12px 14px;">
           <div class="nx-cb-h" style="margin-bottom:7px;">Frequent discussion point</div>
           <div style="font-weight:800;color:#1E3A8A;font-size:0.82rem;line-height:1.4;padding-bottom:7px;margin-bottom:3px;border-bottom:1px solid #93C5FD;">無鎮静で意識障害があるなら、それはなぜ？？</div>
-          <p class="rule-body" style="margin:0;font-size:0.82rem;line-height:1.8;color:var(--muted);">鎮静薬が切れているのに意識が戻らない／下がる場合、「ICUせん妄」「環境のせい」と片付けると、<strong>低血糖・電解質異常・薬剤性・感染症・頭蓋内病変</strong>といった<strong>可逆性の原因</strong>を見逃して不可逆損傷に至る恐れがある。下の <strong>AIUEOTIPS</strong> で系統的に鑑別を挙げ、最低限 <strong>頭部CT・血糖・電解質（Na/Ca）・血ガス・アンモニア・体温・感染源</strong> はその場で確認する。</p>
+          <p class="rule-body" style="margin:0;font-size:0.82rem;line-height:1.8;color:var(--muted);">鎮静を切っても意識が戻らない／下がるときは「ICUせん妄」で片付けず、<strong>低血糖・電解質異常・薬剤性・感染症・頭蓋内病変</strong>など<strong>可逆性の原因</strong>を疑う。<strong>AIUEOTIPS</strong> で系統的に鑑別を行う。</p>
 
           <details class="nx-acc" style="margin:10px 0 0;">
             <summary><strong>AIUEOTIPS</strong>（意識障害の鑑別フレームワーク）</summary>
@@ -638,8 +641,8 @@
     <div class="card" style="margin-bottom:8px;">
       <div class="card-inner">
         <div style="display:flex;border-radius:6px;overflow:hidden;margin-bottom:10px;"><div style="background:#0F172A;color:#fff;padding:6px 12px;font-size:0.75rem;font-weight:900;display:flex;align-items:center;">N</div><div style="background:linear-gradient(135deg,#1269B0,#1586C0);color:#fff;padding:6px 14px;font-size:0.82rem;font-weight:700;flex:1;">鎮静（Agitation/Sedation）</div></div>
-        <ul class="rule-body" style="list-style:disc;padding-left:18px;">
-          <li>なぜ深い鎮静を避けるのか？ → 不必要に深い鎮静は <span class="mark-red"><strong>せん妄・筋力低下・人工呼吸/ICU滞在延長・死亡率増加</strong></span> に関連する</li>
+        <ul class="rule-body" style="list-style:disc;padding-left:18px;font-size:0.8rem;">
+          <li>患者に鎮静は必要か評価する。たとえ、挿管患者であっても <strong style="color:#1763B8;">RASS 0、または -1〜-2</strong> を達成できていれば、<strong style="color:#1763B8;">必ずしも鎮静薬は必要ではない</strong>。不必要に深い鎮静は <strong style="color:#1763B8;">せん妄・筋力低下・人工呼吸/ICU滞在延長・死亡率増加</strong> に関連する。</li>
           <li>どの薬剤を選ぶか？ → BZ系はせん妄リスク・回復遅延から、近年は非BZ系（プロポフォール・デクスメデトミジン）が主流</li>
         </ul>
         <div class="nx-cb nx-cb-point">
@@ -742,11 +745,11 @@
           </div>
 
           <div class="nx-drug-rows">
-            <div class="nx-drug-row"><span class="nx-drug-lbl">分類</span><span class="nx-drug-body"><strong style="color:#1763B8;">α₂アドレナリン受容体作動薬</strong>。鎮静・鎮痛・抗不安作用を併せ持つ。</span></div>
-            <div class="nx-drug-row"><span class="nx-drug-lbl">用量</span><span class="nx-drug-body">負荷 <strong>6 μg/kg/h × 10分</strong>（省略可）／維持 <strong style="color:#1763B8;">0.2〜0.7 μg/kg/h</strong> 持続投与</span></div>
-            <div class="nx-drug-row"><span class="nx-drug-lbl">長所</span><span class="nx-drug-body"><strong style="color:#1763B8;">呼吸抑制がなく</strong>、鎮静中も呼びかけに応答して意思疎通が可能（協力的鎮静）。29試験・3,087名のメタ解析でせん妄予防効果が示されており、<strong style="color:#1763B8;">2025年PADISガイドラインで特に推奨</strong>されている。</span></div>
-            <div class="nx-drug-row"><span class="nx-drug-lbl">短所</span><span class="nx-drug-body"><strong style="color:#1763B8;">徐脈・低血圧に注意</strong>。基礎心疾患のある患者や CPP 維持が必要な神経 ICU では慎重に投与する。<strong style="color:#1763B8;">深鎮静（RASS −3 以下）が必要な場面には不向き</strong>。</span></div>
-            <div class="nx-drug-row"><span class="nx-drug-lbl">特徴</span><span class="nx-drug-body">機械換気下で浅鎮静を維持しながら神経学的評価を継続したい患者に適する。<strong style="color:#1763B8;">2025年版 PADIS ガイドラインでは、せん妄予防目的においてプロポフォールより優先して使用することが提案</strong>されている。</span></div>
+            <div class="nx-drug-row"><span class="nx-drug-lbl">分類</span><span class="nx-drug-body"><span class="nx-drug-li">・<strong style="color:#1763B8;">α₂アドレナリン受容体作動薬</strong></span><span class="nx-drug-li">・鎮静・鎮痛・抗不安作用を併せ持つ</span></span></div>
+            <div class="nx-drug-row"><span class="nx-drug-lbl">用量</span><span class="nx-drug-body"><span class="nx-drug-li">・負荷 <strong>6 μg/kg/h × 10分</strong>（省略可）</span><span class="nx-drug-li">・維持 <strong style="color:#1763B8;">0.2〜0.7 μg/kg/h</strong> 持続投与</span></span></div>
+            <div class="nx-drug-row"><span class="nx-drug-lbl">長所</span><span class="nx-drug-body"><span class="nx-drug-li">・<strong style="color:#1763B8;">呼吸抑制がなく</strong>、鎮静中も呼びかけに応答して意思疎通が可能（協力的鎮静）</span><span class="nx-drug-li">・29試験・3,087名のメタ解析でせん妄予防効果が示されており、<strong style="color:#1763B8;">2025年PADISガイドラインで特に推奨</strong>されている</span></span></div>
+            <div class="nx-drug-row"><span class="nx-drug-lbl">短所</span><span class="nx-drug-body"><span class="nx-drug-li">・<strong style="color:#1763B8;">徐脈・低血圧に注意</strong></span><span class="nx-drug-li">・基礎心疾患のある患者や CPP 維持が必要な神経 ICU では慎重に投与する</span><span class="nx-drug-li">・<strong style="color:#1763B8;">深鎮静（RASS −3 以下）が必要な場面には不向き</strong></span></span></div>
+            <div class="nx-drug-row"><span class="nx-drug-lbl">特徴</span><span class="nx-drug-body"><span class="nx-drug-li">・機械換気下で浅鎮静を維持しながら神経学的評価を継続したい患者に適する</span><span class="nx-drug-li">・<strong style="color:#1763B8;">2025年版 PADIS ガイドラインでは、せん妄予防目的においてプロポフォールより優先して使用することが提案</strong>されている</span></span></div>
           </div>
         </div>
 
