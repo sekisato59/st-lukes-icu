@@ -282,12 +282,11 @@
       /* ===== スケールテーブル（BPS/CPOT 採点） ===== */
       /* ===== トグル（デザイン26：枠なし・字間広め・下ヘアライン・右シェブロン） ===== */
       .nx-acc { border:none; border-radius:0; margin:4px 0; overflow:visible; }
-      .nx-acc summary { padding:5px 8px 6px 18px; font-size:0.8rem; font-weight:800; letter-spacing:0.04em; color:#1763B8; cursor:pointer; background:transparent; list-style:none; display:flex; align-items:center; gap:10px; border-bottom:1px solid #DBEAFE; }
+      .nx-acc summary { padding:6px 10px; font-size:0.8rem; font-weight:800; letter-spacing:0.04em; color:#1763B8; cursor:pointer; background:transparent; list-style:none; display:flex; align-items:center; gap:8px; border-bottom:1px solid #DBEAFE; }
       .nx-acc summary::-webkit-details-marker { display:none; }
-      /* スコアバッジ（未入力/未選択/○点）は右端へ、シェブロンはその直後 */
-      .nx-acc summary::after { content:"▸"; margin-left:8px; color:var(--blue); font-size:0.74rem; transition:transform 0.15s; flex-shrink:0; }
-      .nx-acc summary:not(:has(.nx-score-out))::after { margin-left:auto; }
-      .nx-acc[open] > summary::after { transform:rotate(90deg); }
+      /* 開閉シェブロンは左・大きめ。スコアバッジ（未入力/未選択/○点）は右端へ（.nx-score-out の margin-left:auto） */
+      .nx-acc summary::before { content:"▸"; color:var(--blue); font-size:0.95rem; transition:transform 0.15s; flex-shrink:0; }
+      .nx-acc[open] > summary::before { transform:rotate(90deg); }
       .nx-scale-table { width:100%; border-collapse:collapse; font-size:0.78rem; line-height:1.55; margin:0; }
       .nx-scale-table thead th { background:#F1F5F9; padding:7px 12px; text-align:left; border-bottom:2px solid #CBD5E1; font-weight:700; font-size:0.74rem; color:#475569; letter-spacing:0.02em; }
       .nx-scale-table thead th.col-pt { text-align:center; width:60px; }
@@ -414,13 +413,10 @@
     /* 本文の各バレット行：折り返しを本文先頭（・の右）に揃えるぶら下げインデント */
     .nx-drug-li { display:block; padding-left:1em; text-indent:-1em; }
     .nx-drug-li + .nx-drug-li { margin-top:2px; }
-    /* カルテ再現枠：PC・モバイルとも横スクロールなしでコンテナ幅に収める（長い薬品名は折り返し） */
+    /* カルテ再現枠：PC・モバイルとも横スクロールなしでコンテナ幅に収める。
+       長い薬品名（content セル）は折り返し、用量など nowrap の値セル（500mg 等）は1行を維持。 */
     .kt-screen { min-width:0 !important; }
     .kt-screen td { overflow-wrap:anywhere; word-break:break-word; }
-    /* モバイルでは右端の値セル（不穏時・鎮静の導入・維持時 等）も折り返して収める */
-    @media (max-width:767px){
-      .kt-screen td { white-space:normal !important; }
-    }
     /* 本文をバレット表示にする版 */
     .nx-drug-ul { list-style:disc; padding:8px 16px 12px 36px; margin:0; font-size:0.8rem; line-height:1.75; color:#334155; }
     .nx-drug-ul li { padding:3px 0; }
@@ -474,7 +470,7 @@
       <div class="card-inner">
         <div style="display:flex;border-radius:6px;overflow:hidden;margin-bottom:10px;"><div style="background:#0F172A;color:#fff;padding:6px 12px;font-size:0.75rem;font-weight:900;display:flex;align-items:center;">N</div><div style="background:linear-gradient(135deg,#1269B0,#1586C0);color:#fff;padding:6px 14px;font-size:0.82rem;font-weight:700;flex:1;">意識レベル</div></div>
 
-        <ul class="rule-body" style="list-style:disc;padding-left:18px;margin:0;"><li>非挿管患者は <strong>GCS</strong> で、挿管患者は <strong>RASS</strong> で評価を行う。</li></ul>
+        <ul class="rule-body" style="list-style:disc;padding-left:18px;margin:0;font-size:0.8rem;"><li>非挿管患者は <strong>GCS</strong> で、挿管患者は <strong>RASS</strong> で評価を行う。</li></ul>
 
         <details class="nx-acc" id="nx-gcs" style="margin:0;">
           <summary>非挿管患者 → <strong>GCS</strong><span class="nx-score-out nx-incomplete" id="gcs-score-out">未入力</span></summary>
@@ -532,8 +528,7 @@
         </details>
 
         <div class="nx-cb nx-cb-discuss" style="padding:12px 14px;">
-          <div class="nx-cb-h" style="margin-bottom:7px;">Frequent discussion point</div>
-          <div style="font-weight:800;color:#1E3A8A;font-size:0.82rem;line-height:1.4;padding-bottom:7px;margin-bottom:3px;border-bottom:1px solid #93C5FD;">無鎮静で意識障害があるなら、それはなぜ？？</div>
+          <div style="font-weight:800;color:#1E3A8A;font-size:0.82rem;line-height:1.4;padding-bottom:7px;margin-bottom:3px;border-bottom:1px solid #93C5FD;"><span style="display:inline-block;background:#1E3A8A;color:#fff;font-weight:800;font-size:0.72rem;padding:2px 8px;border-radius:5px;margin-right:8px;">Q</span>無鎮静で意識障害があるなら、それはなぜ？？</div>
           <p class="rule-body" style="margin:0;font-size:0.82rem;line-height:1.8;color:var(--muted);">鎮静を切っても意識が戻らない／下がるときは「ICUせん妄」で片付けず、<strong>低血糖・電解質異常・薬剤性・感染症・頭蓋内病変</strong>など<strong>可逆性の原因</strong>を疑う。<strong>AIUEOTIPS</strong> で系統的に鑑別を行う。</p>
 
           <details class="nx-acc" style="margin:2px 0 0;">
@@ -654,7 +649,7 @@
           <li>鎮静を行う場合は、目標とする鎮静深度を定め、患者背景や各鎮静薬の特徴を踏まえて薬剤を選択する。</li>
         </ul>
         <details class="nx-acc">
-          <summary><strong>▶ 参考：鎮静薬の使い分け</strong></summary>
+          <summary><strong>参考：鎮静薬の使い分け</strong></summary>
           <div style="padding:12px 14px;">
 
         <!-- ── デクスメデトミジン ── -->
@@ -1081,41 +1076,29 @@
           </div>
         </details>
 
-        <div class="nx-h">Daily Sedation Interruption（SAT）</div>
-        <div class="nx-flow">
-          <div class="nx-flow-step"><span class="nx-flow-num">1</span><span class="nx-flow-title">対象患者の選定</span><div class="nx-flow-body">循環動態安定、人工呼吸器依存が一定の基準を満たす患者を選択</div></div>
-          <div class="nx-flow-step"><span class="nx-flow-num">2</span><span class="nx-flow-title">鎮静薬の中断</span><div class="nx-flow-body">持続投与を一時的に中止、自然覚醒を確認</div></div>
-          <div class="nx-flow-step"><span class="nx-flow-num">3</span><span class="nx-flow-title">覚醒状態の評価</span><div class="nx-flow-body">覚醒可能（RASS 0〜-2）なら持続投与を再開せず観察</div></div>
-          <div class="nx-flow-step"><span class="nx-flow-num">4</span><span class="nx-flow-title">必要時の再導入</span><div class="nx-flow-body">不穏・痛みが生じれば <strong>最小用量で再導入</strong>、過剰鎮静を避ける</div></div>
-        </div>
 
-        <div class="nx-cb nx-cb-info">
-          <div class="nx-cb-h">SAT のメリット — エビデンス</div>
-          ▸ 人工呼吸からの早期離脱：補助呼吸なしの日数増加（14.7 vs 11.6日, P=0.02）<span style="color:var(--muted);font-size:0.72rem;">　Girard TD. Lancet 2008</span><br>
-          ▸ ICU滞在期間短縮（9.1 vs 12.9日, P=0.01）<br>
-          ▸ 3か月時点の認知機能障害発生率低下（ARR 20.2%, P=0.03）<br>
-          ▸ PTSD発症率低下　<span style="color:var(--muted);font-size:0.72rem;">Kress JP. NEJM 2000</span>
-        </div>
+        <details class="nx-acc">
+          <summary><strong>参考：汎用麻酔深度モニター（BIS®／Sedline®）</strong></summary>
+          <div style="padding:10px 12px;font-size:0.8rem;line-height:1.7;color:#334155;">
+            心肺蘇生後・痙攣で深鎮静管理下の鎮静深度評価、てんかんを疑う意識障害の脳波簡易評価で使用。<br>
+            ▸ <strong>BIS値（PSi値）：</strong>0（平坦脳波）〜100（覚醒）。GA手術では BIS 40〜60 を目標<br>
+            ▸ <strong>Suppression Ratio（SR）：</strong>過去63秒の平坦脳波の割合。心肺蘇生後の高値は <strong>神経予後不良</strong> を示唆<br>
+            ▸ <strong>脳波：</strong>Burst Suppression や三相波の検出に有用（前頭部のみの評価に注意）<br>
+            <span style="font-size:0.7rem;color:#1E40AF;">引用：J Jpn Soc Intensive Care Med Vol.31 No.4</span>
+          </div>
+        </details>
 
-        <div class="nx-cb nx-cb-stepup-purple">
-          <div class="nx-cb-h">★ STEP UP — 汎用麻酔深度モニター（BIS®／Sedline®）</div>
-          心肺蘇生後・痙攣で深鎮静管理下の鎮静深度評価、てんかんを疑う意識障害の脳波簡易評価で使用。<br>
-          ▸ <strong>BIS値（PSi値）：</strong>0（平坦脳波）〜100（覚醒）。GA手術では BIS 40〜60 を目標<br>
-          ▸ <strong>Suppression Ratio（SR）：</strong>過去63秒の平坦脳波の割合。心肺蘇生後の高値は <strong>神経予後不良</strong> を示唆<br>
-          ▸ <strong>脳波：</strong>Burst Suppression や三相波の検出に有用（前頭部のみの評価に注意）<br>
-          <span style="font-size:0.7rem;color:#1E40AF;">引用：J Jpn Soc Intensive Care Med Vol.31 No.4</span>
-        </div>
-
-        <div class="nx-cb nx-cb-stepup-red">
-          <div class="nx-cb-h">★ STEP UP — PRIS（Propofol Infusion Syndrome）</div>
-          長時間 or 高用量プロポフォールで起こる稀な合併症。<strong>代謝性アシドーシス・心筋障害・不整脈・AKI・横紋筋融解・肝障害・高K血症</strong>。機序はミトコンドリア機能障害・脂肪酸代謝異常が関与。<br>
-          ▸ <strong>リスク因子：</strong>高用量（&gt;5 mg/kg/h）・投与&gt;48時間・併存重症感染症・ステロイド/カテコラミン併用<br>
-          ▸ <strong>治療：</strong>プロポフォール中止＋支持療法
-        </div>
+        <details class="nx-acc">
+          <summary><strong>参考：PRIS（Propofol Infusion Syndrome）</strong></summary>
+          <div style="padding:10px 12px;font-size:0.8rem;line-height:1.7;color:#334155;">
+            長時間 or 高用量プロポフォールで起こる稀な合併症。<strong>代謝性アシドーシス・心筋障害・不整脈・AKI・横紋筋融解・肝障害・高K血症</strong>。機序はミトコンドリア機能障害・脂肪酸代謝異常が関与。<br>
+            ▸ <strong>リスク因子：</strong>高用量（&gt;5 mg/kg/h）・投与&gt;48時間・併存重症感染症・ステロイド/カテコラミン併用<br>
+            ▸ <strong>治療：</strong>プロポフォール中止＋支持療法
+          </div>
+        </details>
 
         <div class="nx-cb nx-cb-discuss">
-          <div class="nx-cb-h">Frequent discussion point</div>
-          <div>そもそも患者に鎮静は必要か？　目標RASSは？　今日のSATは？</div>
+          <div><span style="display:inline-block;background:#1E3A8A;color:#fff;font-weight:800;font-size:0.72rem;padding:2px 8px;border-radius:5px;margin-right:8px;">Q</span>そもそも患者に鎮静は必要か？　目標RASSは？　今日のSATは？</div>
         </div>
       </div>
     </div>
@@ -1481,6 +1464,27 @@
       <div style="background:linear-gradient(135deg,#1269B0,#1586C0);color:#fff;padding:14px 18px;flex:1;"><div style="font-size:1.05rem;font-weight:900;">Respiratory System</div><div style="font-size:0.75rem;color:rgba(255,255,255,0.7);">呼吸器系</div></div>
     </div>
 
+    <div class="card" style="margin-bottom:8px;" id="resp-sat">
+      <div class="card-inner">
+        <div style="display:flex;border-radius:6px;overflow:hidden;margin-bottom:10px;"><div style="background:#0F172A;color:#fff;padding:6px 12px;font-size:0.75rem;font-weight:900;display:flex;align-items:center;">R</div><div style="background:linear-gradient(135deg,#1269B0,#1586C0);color:#fff;padding:6px 14px;font-size:0.82rem;font-weight:700;flex:1;">Daily Sedation Interruption（SAT）</div></div>
+        <p class="rule-body" style="margin:0 0 10px;">鎮静の中断（SAT＝自発覚醒トライアル）は、SBT（自発呼吸トライアル）と組み合わせて人工呼吸器離脱を進める重要なステップ。<a href="#sys-neuro" style="color:var(--blue);font-weight:700;">神経系（鎮静）</a>とあわせて評価する。</p>
+        <div class="nx-flow">
+          <div class="nx-flow-step"><span class="nx-flow-num">1</span><span class="nx-flow-title">対象患者の選定</span><div class="nx-flow-body">循環動態安定、人工呼吸器依存が一定の基準を満たす患者を選択</div></div>
+          <div class="nx-flow-step"><span class="nx-flow-num">2</span><span class="nx-flow-title">鎮静薬の中断</span><div class="nx-flow-body">持続投与を一時的に中止、自然覚醒を確認</div></div>
+          <div class="nx-flow-step"><span class="nx-flow-num">3</span><span class="nx-flow-title">覚醒状態の評価</span><div class="nx-flow-body">覚醒可能（RASS 0〜-2）なら持続投与を再開せず観察</div></div>
+          <div class="nx-flow-step"><span class="nx-flow-num">4</span><span class="nx-flow-title">必要時の再導入</span><div class="nx-flow-body">不穏・痛みが生じれば <strong>最小用量で再導入</strong>、過剰鎮静を避ける</div></div>
+        </div>
+
+        <div class="nx-cb nx-cb-info">
+          <div class="nx-cb-h">SAT のメリット — エビデンス</div>
+          ▸ 人工呼吸からの早期離脱：補助呼吸なしの日数増加（14.7 vs 11.6日, P=0.02）<span style="color:var(--muted);font-size:0.72rem;">　Girard TD. Lancet 2008</span><br>
+          ▸ ICU滞在期間短縮（9.1 vs 12.9日, P=0.01）<br>
+          ▸ 3か月時点の認知機能障害発生率低下（ARR 20.2%, P=0.03）<br>
+          ▸ PTSD発症率低下　<span style="color:var(--muted);font-size:0.72rem;">Kress JP. NEJM 2000</span>
+        </div>
+      </div>
+    </div>
+
     <div class="card" style="margin-bottom:8px;">
       <div class="card-inner">
         <div style="display:flex;border-radius:6px;overflow:hidden;margin-bottom:8px;"><div style="background:#0F172A;color:#fff;padding:6px 12px;font-size:0.75rem;font-weight:900;display:flex;align-items:center;">R</div><div style="background:linear-gradient(135deg,#1269B0,#1586C0);color:#fff;padding:6px 14px;font-size:0.82rem;font-weight:700;flex:1;">挿管患者</div></div>
@@ -1633,8 +1637,7 @@
         </ul>
         <p class="rule-body" style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border);">上記を踏まえた<span class="mark-orange"><strong>プロブレム毎のアセスメントとプラン</strong></span></p>
         <div class="nx-cb nx-cb-discuss" style="margin-top:10px;">
-          <div class="nx-cb-h">Frequent discussion point</div>
-          <p class="rule-body" style="margin:0;font-size:0.82rem;line-height:1.7;color:var(--muted);"><span class="mark-yellow"><strong>抗菌薬のde-escalation / 終了は検討できるか？</strong></span>漫然と広域抗菌薬を継続していないか、毎日見直す習慣をつけよう。</p>
+          <p class="rule-body" style="margin:0;font-size:0.82rem;line-height:1.7;color:var(--muted);"><span style="display:inline-block;background:#1E3A8A;color:#fff;font-weight:800;font-size:0.72rem;padding:2px 8px;border-radius:5px;margin-right:8px;">Q</span><span class="mark-yellow"><strong>抗菌薬のde-escalation / 終了は検討できるか？</strong></span>漫然と広域抗菌薬を継続していないか、毎日見直す習慣をつけよう。</p>
         </div>
       </div>
     </div>
@@ -1667,8 +1670,7 @@
         </div>
         <p class="rule-body" style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border);">上記を踏まえた<span class="mark-orange"><strong>プロブレム毎のアセスメントとプラン</strong></span></p>
         <div class="nx-cb nx-cb-discuss" style="margin-top:10px;">
-          <div class="nx-cb-h">Frequent discussion point</div>
-          <p class="rule-body" style="margin:0;font-size:0.82rem;line-height:1.7;color:var(--muted);"><span class="mark-yellow"><strong>入室48時間以内に経腸栄養を開始できているか？</strong></span>開始できていない場合、その理由と開始の見通しを明確にする。</p>
+          <p class="rule-body" style="margin:0;font-size:0.82rem;line-height:1.7;color:var(--muted);"><span style="display:inline-block;background:#1E3A8A;color:#fff;font-weight:800;font-size:0.72rem;padding:2px 8px;border-radius:5px;margin-right:8px;">Q</span><span class="mark-yellow"><strong>入室48時間以内に経腸栄養を開始できているか？</strong></span>開始できていない場合、その理由と開始の見通しを明確にする。</p>
         </div>
       </div>
     </div>
@@ -1691,8 +1693,7 @@
         </ul>
         <p class="rule-body" style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border);">上記を踏まえた<span class="mark-orange"><strong>プロブレム毎のアセスメントとプラン</strong></span></p>
         <div class="nx-cb nx-cb-discuss" style="margin-top:10px;">
-          <div class="nx-cb-h">Frequent discussion point</div>
-          <p class="rule-body" style="margin:0;font-size:0.82rem;line-height:1.7;color:var(--muted);"><span class="mark-yellow"><strong>今日のリハビリの目標は何か？</strong></span>「リハビリ継続」で終わらせず、具体的な到達目標をPTと共有する。</p>
+          <p class="rule-body" style="margin:0;font-size:0.82rem;line-height:1.7;color:var(--muted);"><span style="display:inline-block;background:#1E3A8A;color:#fff;font-weight:800;font-size:0.72rem;padding:2px 8px;border-radius:5px;margin-right:8px;">Q</span><span class="mark-yellow"><strong>今日のリハビリの目標は何か？</strong></span>「リハビリ継続」で終わらせず、具体的な到達目標をPTと共有する。</p>
         </div>
       </div>
     </div>
