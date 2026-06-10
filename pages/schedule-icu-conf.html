@@ -414,10 +414,12 @@
     /* 本文の各バレット行：折り返しを本文先頭（・の右）に揃えるぶら下げインデント */
     .nx-drug-li { display:block; padding-left:1em; text-indent:-1em; }
     .nx-drug-li + .nx-drug-li { margin-top:2px; }
-    /* カルテ再現枠：PCは380px固定（スクショ風）／モバイルは幅自動・折り返しで横スクロールなし */
+    /* カルテ再現枠：PC・モバイルとも横スクロールなしでコンテナ幅に収める（長い薬品名は折り返し） */
+    .kt-screen { min-width:0 !important; }
+    .kt-screen td { overflow-wrap:anywhere; word-break:break-word; }
+    /* モバイルでは右端の値セル（不穏時・鎮静の導入・維持時 等）も折り返して収める */
     @media (max-width:767px){
-      .kt-screen { min-width:0 !important; }
-      .kt-screen td { overflow-wrap:anywhere; word-break:break-word; white-space:normal !important; }
+      .kt-screen td { white-space:normal !important; }
     }
     /* 本文をバレット表示にする版 */
     .nx-drug-ul { list-style:disc; padding:8px 16px 12px 36px; margin:0; font-size:0.8rem; line-height:1.75; color:#334155; }
@@ -767,12 +769,82 @@
               <div class="nx-drug-dose-val">0.3〜3 mg/kg/h</div>
             </div>
           </div>
+
+          <!-- カルテ画面（PRN注射オーダ）再現 -->
+          <div style="margin:12px 16px 0;">
+            <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid #C7CAD1;border-radius:4px;background:#fff;box-shadow:0 2px 8px rgba(15,23,42,0.18);">
+              <div class="kt-screen" style="min-width:380px;font-family:'Meiryo','Hiragino Kaku Gothic ProN',sans-serif;font-size:10.5px;color:#1A1A1A;line-height:1.5;-webkit-text-size-adjust:100%;text-size-adjust:100%;">
+                <div style="display:flex;align-items:center;justify-content:space-between;background:#E6E7EB;border-bottom:1px solid #C7CAD1;padding:5px 8px;">
+                  <div style="flex-shrink:0;color:#333;">PRN注射</div>
+                  <div style="flex-shrink:0;text-align:right;color:#333;">本院:麻酔科 ICU</div>
+                </div>
+                <table style="width:100%;border-collapse:collapse;font-size:10.5px;">
+                  <tr style="border-bottom:1px solid #E2E3E7;">
+                    <td style="width:62px;padding:3px 8px;vertical-align:top;">手技</td>
+                    <td style="padding:3px 5px;">末梢静脈　側管：点滴精密</td>
+                    <td style="width:54px;padding:3px 8px;text-align:right;white-space:nowrap;"></td>
+                  </tr>
+                  <tr style="border-bottom:1px solid #E2E3E7;">
+                    <td style="padding:3px 8px;vertical-align:top;">薬品</td>
+                    <td style="padding:3px 5px;color:#C2371A;font-weight:600;">(ﾊｲｱﾗｰﾄ)ﾌﾟﾛﾎﾟﾌｫｰﾙ静注1% [500mg/50mL]</td>
+                    <td style="padding:3px 8px;text-align:right;white-space:nowrap;color:#C2371A;">500mg</td>
+                  </tr>
+                  <tr style="border-bottom:1px solid #E2E3E7;">
+                    <td style="padding:3px 8px;vertical-align:top;color:#1565C0;">医療従</td>
+                    <td style="padding:3px 5px;color:#1565C0;">（先発薬：1%ﾃﾞｨﾌﾟﾘﾊﾞﾝ注[500mg]）</td>
+                    <td></td>
+                  </tr>
+                  <tr style="border-bottom:1px solid #E2E3E7;">
+                    <td style="padding:3px 8px;vertical-align:top;">用法</td>
+                    <td style="padding:3px 5px;"></td>
+                    <td style="padding:3px 8px;text-align:right;white-space:nowrap;">不穏時</td>
+                  </tr>
+                  <tr style="border-bottom:1px solid #E2E3E7;">
+                    <td style="padding:3px 8px;vertical-align:top;color:#1565C0;">用法実施</td>
+                    <td style="padding:3px 5px;color:#1565C0;">指示枠1番目</td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td style="padding:3px 8px;vertical-align:top;color:#1565C0;">実施場所</td>
+                    <td style="padding:3px 5px;color:#1565C0;">本院：ICU</td>
+                    <td></td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- カルテ画面（コメントオーダ）再現 -->
+          <div style="margin:12px 16px 0;">
+            <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid #C7CAD1;border-radius:4px;background:#fff;box-shadow:0 2px 8px rgba(15,23,42,0.18);">
+              <div class="kt-screen" style="min-width:380px;font-family:'Meiryo','Hiragino Kaku Gothic ProN',sans-serif;font-size:10.5px;color:#1A1A1A;line-height:1.5;-webkit-text-size-adjust:100%;text-size-adjust:100%;">
+                <div style="display:flex;align-items:center;justify-content:space-between;background:#E6E7EB;border-bottom:1px solid #C7CAD1;padding:5px 8px;">
+                  <div style="flex-shrink:0;color:#333;">コメントオーダ</div>
+                  <div style="flex-shrink:0;text-align:right;color:#333;">本院:麻酔科 ICU</div>
+                </div>
+                <table style="width:100%;border-collapse:collapse;font-size:10.5px;">
+                  <tr>
+                    <td style="width:22px;padding:5px 6px;vertical-align:top;text-align:center;color:#777;border-right:1px solid #E8EAED;">1</td>
+                    <td style="padding:2px 10px 5px;vertical-align:top;">
+                      <div style="padding:3px 0;border-bottom:1px solid #ECEEF1;">【鎮静（プロポフォール）】</div>
+                      <div style="padding:3px 0;border-bottom:1px solid #ECEEF1;">RASS目標（日中）-2〜0</div>
+                      <div style="padding:3px 0;border-bottom:1px solid #ECEEF1;">RASS目標（夜間）-3以下</div>
+                      <div style="padding:3px 0;border-bottom:1px solid #ECEEF1;">投与開始量　●ml/h</div>
+                      <div style="padding:3px 0;border-bottom:1px solid #ECEEF1;">Push量　1ml（Drと相談して増量可）</div>
+                      <div style="padding:3px 0;">投与量上限　4mg/kg/h</div>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+
           <div class="nx-drug-rows">
-            <div class="nx-drug-row"><span class="nx-drug-lbl">分類</span><span class="nx-drug-body">GABA-A 受容体増強による短時間作用型静脈麻酔薬。全身麻酔・ICU 鎮静いずれにも広く使用される。</span></div>
-            <div class="nx-drug-row"><span class="nx-drug-lbl">用量</span><span class="nx-drug-body">持続 原液（10 mg/mL）<strong>0.03〜0.30 mL/kg/h</strong>（= 0.3〜3 mg/kg/h）／処置時間欠 原液 <strong>1〜2 mL</strong> ずつ追加</span></div>
-            <div class="nx-drug-row"><span class="nx-drug-lbl">長所</span><span class="nx-drug-body">効果発現・消失がともに迅速で鎮静深度の調整が容易。投与中断後の速やかな覚醒により、神経学的評価を頻回に行える。</span></div>
-            <div class="nx-drug-row"><span class="nx-drug-lbl">短所</span><span class="nx-drug-body">低血圧・心機能抑制に注意。長期投与では脂肪組織への蓄積により覚醒遅延が生じやすい。高用量（>4〜5 mg/kg/h）・長時間（>48 時間）投与で稀に <strong>PRIS（プロポフォール注入症候群）</strong>（代謝性アシドーシス・横紋筋融解・心筋障害）が発症する。</span></div>
-            <div class="nx-drug-row"><span class="nx-drug-lbl">特徴</span><span class="nx-drug-body">ICU 鎮静の標準薬（PADIS 2018）。2025年版では、せん妄予防・浅鎮静維持が優先される症例ではデクスメデトミジンを先行させることが提案されている。</span></div>
+            <div class="nx-drug-row"><span class="nx-drug-lbl">分類</span><span class="nx-drug-body"><span class="nx-drug-li">・GABA-A 受容体増強による<strong style="color:#1763B8;">短時間作用型静脈麻酔薬</strong></span><span class="nx-drug-li">・全身麻酔・ICU 鎮静いずれにも広く使用される</span></span></div>
+            <div class="nx-drug-row"><span class="nx-drug-lbl">用量</span><span class="nx-drug-body"><span class="nx-drug-li">・持続 原液（10 mg/mL）<strong style="color:#1763B8;">0.03〜0.30 mL/kg/h</strong>（= 0.3〜3 mg/kg/h）</span><span class="nx-drug-li">・処置時間欠 原液 <strong>1〜2 mL</strong> ずつ追加</span></span></div>
+            <div class="nx-drug-row"><span class="nx-drug-lbl">長所</span><span class="nx-drug-body"><span class="nx-drug-li">・<strong style="color:#1763B8;">効果発現・消失がともに迅速</strong>で鎮静深度の調整が容易</span><span class="nx-drug-li">・<strong style="color:#1763B8;">投与中断後の速やかな覚醒</strong>により、神経学的評価を頻回に行える</span></span></div>
+            <div class="nx-drug-row"><span class="nx-drug-lbl">短所</span><span class="nx-drug-body"><span class="nx-drug-li">・<strong style="color:#1763B8;">低血圧・心機能抑制に注意</strong></span><span class="nx-drug-li">・長期投与では脂肪組織への蓄積により覚醒遅延が生じやすい</span><span class="nx-drug-li">・高用量（>4〜5 mg/kg/h）・長時間（>48 時間）投与で稀に <strong style="color:#1763B8;">PRIS（プロポフォール注入症候群）</strong>（代謝性アシドーシス・横紋筋融解・心筋障害）が発症する</span></span></div>
+            <div class="nx-drug-row"><span class="nx-drug-lbl">特徴</span><span class="nx-drug-body"><span class="nx-drug-li">・<strong style="color:#1763B8;">ICU 鎮静の標準薬（PADIS 2018）</strong></span><span class="nx-drug-li">・2025年版では、せん妄予防・浅鎮静維持が優先される症例ではデクスメデトミジンを先行させることが提案されている</span></span></div>
           </div>
         </div>
 
@@ -789,12 +861,221 @@
               <div class="nx-drug-dose-val">0.1〜0.4 mg/kg/h</div>
             </div>
           </div>
+
+          <!-- カルテ画面（定期注射・間欠）再現 -->
+          <div style="margin:12px 16px 0;">
+            <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid #C7CAD1;border-radius:4px;background:#fff;box-shadow:0 2px 8px rgba(15,23,42,0.18);">
+              <div class="kt-screen" style="min-width:380px;font-family:'Meiryo','Hiragino Kaku Gothic ProN',sans-serif;font-size:10.5px;color:#1A1A1A;line-height:1.5;-webkit-text-size-adjust:100%;text-size-adjust:100%;">
+                <div style="display:flex;align-items:center;justify-content:space-between;background:#E6E7EB;border-bottom:1px solid #C7CAD1;padding:5px 8px;">
+                  <div style="flex-shrink:0;color:#333;">定期注射（間欠）</div>
+                  <div style="flex-shrink:0;text-align:right;color:#333;">本院:麻酔科 ICU</div>
+                </div>
+                <table style="width:100%;border-collapse:collapse;font-size:10.5px;">
+                  <tr style="border-bottom:1px solid #E2E3E7;">
+                    <td style="width:62px;padding:3px 8px;vertical-align:top;">手技</td>
+                    <td style="padding:3px 5px;">末梢静脈　ワンショット</td>
+                    <td style="width:54px;padding:3px 8px;text-align:right;white-space:nowrap;"></td>
+                  </tr>
+                  <tr style="border-bottom:1px solid #E2E3E7;">
+                    <td style="padding:3px 8px;vertical-align:top;">薬品</td>
+                    <td style="padding:3px 5px;color:#C2371A;font-weight:600;">(ﾊｲｱﾗｰﾄ)(配合注意)ﾐﾀﾞｿﾞﾗﾑ注10mg(ﾄﾞﾙﾐｶﾑ)[10mg/2mL]</td>
+                    <td style="padding:3px 8px;text-align:right;white-space:nowrap;color:#C2371A;">10mg</td>
+                  </tr>
+                  <tr style="border-bottom:1px solid #E2E3E7;">
+                    <td style="padding:3px 8px;vertical-align:top;color:#1565C0;">医療従</td>
+                    <td style="padding:3px 5px;color:#1565C0;">◆生理食塩液、ﾌﾞﾄﾞｳ糖液は希釈可能</td>
+                    <td></td>
+                  </tr>
+                  <tr style="border-bottom:1px solid #E2E3E7;">
+                    <td style="padding:3px 8px;vertical-align:top;">薬品</td>
+                    <td style="padding:3px 5px;">生理食塩液 [20mL]</td>
+                    <td style="padding:3px 8px;text-align:right;white-space:nowrap;">8mL</td>
+                  </tr>
+                  <tr style="border-bottom:1px solid #E2E3E7;">
+                    <td style="padding:3px 8px;vertical-align:top;">用法</td>
+                    <td style="padding:3px 5px;"></td>
+                    <td style="padding:3px 8px;text-align:right;white-space:nowrap;">1日1回</td>
+                  </tr>
+                  <tr style="border-bottom:1px solid #E2E3E7;">
+                    <td style="padding:3px 8px;vertical-align:top;color:#1565C0;">用法実施</td>
+                    <td style="padding:3px 5px;color:#1565C0;">指示枠1番目</td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td style="padding:3px 8px;vertical-align:top;color:#1565C0;">実施場所</td>
+                    <td style="padding:3px 5px;color:#1565C0;">本院：CCM</td>
+                    <td></td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- カルテ画面（PRN注射・持続）再現 -->
+          <div style="margin:12px 16px 0;">
+            <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid #C7CAD1;border-radius:4px;background:#fff;box-shadow:0 2px 8px rgba(15,23,42,0.18);">
+              <div class="kt-screen" style="min-width:380px;font-family:'Meiryo','Hiragino Kaku Gothic ProN',sans-serif;font-size:10.5px;color:#1A1A1A;line-height:1.5;-webkit-text-size-adjust:100%;text-size-adjust:100%;">
+                <div style="display:flex;align-items:center;justify-content:space-between;background:#E6E7EB;border-bottom:1px solid #C7CAD1;padding:5px 8px;">
+                  <div style="flex-shrink:0;color:#333;">PRN注射（持続）</div>
+                  <div style="flex-shrink:0;text-align:right;color:#333;">本院:麻酔科 ICU</div>
+                </div>
+                <table style="width:100%;border-collapse:collapse;font-size:10.5px;">
+                  <tr style="border-bottom:1px solid #E2E3E7;">
+                    <td style="width:62px;padding:3px 8px;vertical-align:top;">手技</td>
+                    <td style="padding:3px 5px;">末梢静脈　側管：点滴</td>
+                    <td style="width:54px;padding:3px 8px;text-align:right;white-space:nowrap;"></td>
+                  </tr>
+                  <tr style="border-bottom:1px solid #E2E3E7;">
+                    <td style="padding:3px 8px;vertical-align:top;">薬品</td>
+                    <td style="padding:3px 5px;color:#C2371A;font-weight:600;">(ﾊｲｱﾗｰﾄ)(配合注意)ﾐﾀﾞｿﾞﾗﾑ注10mg(ﾄﾞﾙﾐｶﾑ)[10mg/2mL]</td>
+                    <td style="padding:3px 8px;text-align:right;white-space:nowrap;color:#C2371A;">50mg</td>
+                  </tr>
+                  <tr style="border-bottom:1px solid #E2E3E7;">
+                    <td style="padding:3px 8px;vertical-align:top;"></td>
+                    <td style="padding:3px 5px;">生理食塩液 [20mL]</td>
+                    <td style="padding:3px 8px;text-align:right;white-space:nowrap;">40mL</td>
+                  </tr>
+                  <tr style="border-bottom:1px solid #E2E3E7;">
+                    <td style="padding:3px 8px;vertical-align:top;">用法</td>
+                    <td style="padding:3px 5px;"></td>
+                    <td style="padding:3px 8px;text-align:right;white-space:nowrap;">鎮静の導入・維持時</td>
+                  </tr>
+                  <tr style="border-bottom:1px solid #E2E3E7;">
+                    <td style="padding:3px 8px;vertical-align:top;color:#1565C0;">用法実施</td>
+                    <td style="padding:3px 5px;color:#1565C0;">指示枠1番目</td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td style="padding:3px 8px;vertical-align:top;color:#1565C0;">実施場所</td>
+                    <td style="padding:3px 5px;color:#1565C0;">本院：ICU</td>
+                    <td></td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- カルテ画面（コメントオーダ・持続）再現 -->
+          <div style="margin:12px 16px 0;">
+            <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid #C7CAD1;border-radius:4px;background:#fff;box-shadow:0 2px 8px rgba(15,23,42,0.18);">
+              <div class="kt-screen" style="min-width:380px;font-family:'Meiryo','Hiragino Kaku Gothic ProN',sans-serif;font-size:10.5px;color:#1A1A1A;line-height:1.5;-webkit-text-size-adjust:100%;text-size-adjust:100%;">
+                <div style="display:flex;align-items:center;justify-content:space-between;background:#E6E7EB;border-bottom:1px solid #C7CAD1;padding:5px 8px;">
+                  <div style="flex-shrink:0;color:#333;">コメントオーダ</div>
+                  <div style="flex-shrink:0;text-align:right;color:#333;">本院:麻酔科 ICU</div>
+                </div>
+                <table style="width:100%;border-collapse:collapse;font-size:10.5px;">
+                  <tr>
+                    <td style="width:22px;padding:5px 6px;vertical-align:top;text-align:center;color:#777;border-right:1px solid #E8EAED;">1</td>
+                    <td style="padding:2px 10px 5px;vertical-align:top;">
+                      <div style="padding:3px 0;border-bottom:1px solid #ECEEF1;">【鎮静（ミダゾラム）】</div>
+                      <div style="padding:3px 0;border-bottom:1px solid #ECEEF1;">RASS目標（日中）-2〜0</div>
+                      <div style="padding:3px 0;border-bottom:1px solid #ECEEF1;">RASS目標（夜間）-3以下</div>
+                      <div style="padding:3px 0;border-bottom:1px solid #ECEEF1;">投与開始量　●ml/h</div>
+                      <div style="padding:3px 0;border-bottom:1px solid #ECEEF1;">Push量　1ml（Drと相談して増量可）</div>
+                      <div style="padding:3px 0;">投与量上限　●ml/h</div>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+
           <div class="nx-drug-rows">
-            <div class="nx-drug-row"><span class="nx-drug-lbl">分類</span><span class="nx-drug-body">ベンゾジアゼピン系（BZD）。GABA-A 受容体増強により鎮静・抗不安・健忘・抗痙攣の4作用を持つ。</span></div>
-            <div class="nx-drug-row"><span class="nx-drug-lbl">用量</span><span class="nx-drug-body">持続 5A（10 mg 2 mL）＋生食 40 mL = <strong>50 mg/50 mL</strong> を <strong>0.1〜0.4 mg/kg/h</strong>／間欠 1A＋生食 8 mL を処置時 <strong>1〜2 mL</strong>／DIV 1A＋生食 50 mL を <strong>30 分</strong> かけて静注</span></div>
-            <div class="nx-drug-row"><span class="nx-drug-lbl">長所</span><span class="nx-drug-body">循環動態への影響が少なく低血圧患者にも使用しやすい。抗痙攣作用が強く SE（てんかん重積状態）の治療薬として重要。アルコール離脱症候群にも有効。</span></div>
-            <div class="nx-drug-row"><span class="nx-drug-lbl">短所</span><span class="nx-drug-body"><strong>BZD 持続投与はせん妄の独立したリスク因子</strong>（複数の RCT で確認）。高脂溶性で組織蓄積性が高く、長期投与後は覚醒遅延が生じやすい。腎・肝機能低下患者では活性代謝物の蓄積により遷延がさらに顕著となる。</span></div>
-            <div class="nx-drug-row"><span class="nx-drug-lbl">特徴</span><span class="nx-drug-body">PADIS ガイドラインでは ICU 鎮静薬としての日常的使用は<strong>推奨されない</strong>。SE・アルコール離脱・処置時の短時間鎮静など BZD が特に有効な状況では積極的に使用する。</span></div>
+            <div class="nx-drug-row"><span class="nx-drug-lbl">分類</span><span class="nx-drug-body"><span class="nx-drug-li">・<strong style="color:#1763B8;">ベンゾジアゼピン系（BZD）</strong></span><span class="nx-drug-li">・GABA-A 受容体増強により鎮静・抗不安・健忘・抗痙攣の4作用を持つ</span></span></div>
+            <div class="nx-drug-row"><span class="nx-drug-lbl">用量</span><span class="nx-drug-body"><span class="nx-drug-li">・持続 5A（10 mg 2 mL）＋生食 40 mL = <strong>50 mg/50 mL</strong> を <strong style="color:#1763B8;">0.1〜0.4 mg/kg/h</strong></span><span class="nx-drug-li">・間欠 1A＋生食 8 mL を処置時 <strong>1〜2 mL</strong></span><span class="nx-drug-li">・DIV 1A＋生食 50 mL を <strong>30 分</strong> かけて静注</span></span></div>
+            <div class="nx-drug-row"><span class="nx-drug-lbl">長所</span><span class="nx-drug-body"><span class="nx-drug-li">・<strong style="color:#1763B8;">循環動態への影響が少なく</strong>低血圧患者にも使用しやすい</span><span class="nx-drug-li">・抗痙攣作用が強く <strong style="color:#1763B8;">SE（てんかん重積状態）の治療薬として重要</strong></span><span class="nx-drug-li">・アルコール離脱症候群にも有効</span></span></div>
+            <div class="nx-drug-row"><span class="nx-drug-lbl">短所</span><span class="nx-drug-body"><span class="nx-drug-li">・<strong style="color:#1763B8;">BZD 持続投与はせん妄の独立したリスク因子</strong>（複数の RCT で確認）</span><span class="nx-drug-li">・高脂溶性で組織蓄積性が高く、長期投与後は覚醒遅延が生じやすい</span><span class="nx-drug-li">・腎・肝機能低下患者では活性代謝物の蓄積により遷延がさらに顕著となる</span></span></div>
+            <div class="nx-drug-row"><span class="nx-drug-lbl">特徴</span><span class="nx-drug-body"><span class="nx-drug-li">・PADIS ガイドラインでは ICU 鎮静薬としての日常的使用は<strong style="color:#1763B8;">推奨されない</strong></span><span class="nx-drug-li">・SE・アルコール離脱・処置時の短時間鎮静など BZD が特に有効な状況では積極的に使用する</span></span></div>
+          </div>
+        </div>
+
+        <!-- ── チオペンタール（ラボナール） ── -->
+        <div class="nx-drug-card">
+          <div class="nx-drug-name">
+            <div class="nx-drug-name-main">
+              <div class="nx-drug-name-text">チオペンタール</div>
+              <span class="nx-drug-alias">Thiopental（ラボナール）</span>
+            </div>
+            <div class="nx-drug-divline"></div>
+            <div class="nx-drug-dose-box">
+              <div class="nx-drug-dose-lbl">維持用量</div>
+              <div class="nx-drug-dose-val">2〜3 mg/kg/h</div>
+            </div>
+          </div>
+
+          <!-- カルテ画面（PRN注射オーダ）再現 -->
+          <div style="margin:12px 16px 0;">
+            <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid #C7CAD1;border-radius:4px;background:#fff;box-shadow:0 2px 8px rgba(15,23,42,0.18);">
+              <div class="kt-screen" style="min-width:380px;font-family:'Meiryo','Hiragino Kaku Gothic ProN',sans-serif;font-size:10.5px;color:#1A1A1A;line-height:1.5;-webkit-text-size-adjust:100%;text-size-adjust:100%;">
+                <div style="display:flex;align-items:center;justify-content:space-between;background:#E6E7EB;border-bottom:1px solid #C7CAD1;padding:5px 8px;">
+                  <div style="flex-shrink:0;color:#333;">PRN注射</div>
+                  <div style="flex-shrink:0;text-align:right;color:#333;">本院:麻酔科 ICU</div>
+                </div>
+                <table style="width:100%;border-collapse:collapse;font-size:10.5px;">
+                  <tr style="border-bottom:1px solid #E2E3E7;">
+                    <td style="width:62px;padding:3px 8px;vertical-align:top;">手技</td>
+                    <td style="padding:3px 5px;">末梢静脈　側管：点滴精密</td>
+                    <td style="width:54px;padding:3px 8px;text-align:right;white-space:nowrap;"></td>
+                  </tr>
+                  <tr style="border-bottom:1px solid #E2E3E7;">
+                    <td style="padding:3px 8px;vertical-align:top;">薬品</td>
+                    <td style="padding:3px 5px;color:#C2371A;font-weight:600;">(ﾊｲｱﾗｰﾄ)(配合禁)ﾗﾎﾞﾅｰﾙ注射用0.5g[溶解液20mL付]</td>
+                    <td style="padding:3px 8px;text-align:right;white-space:nowrap;color:#C2371A;">500mg</td>
+                  </tr>
+                  <tr style="border-bottom:1px solid #E2E3E7;">
+                    <td style="padding:3px 8px;vertical-align:top;color:#1565C0;">医療従</td>
+                    <td style="padding:3px 5px;color:#1565C0;">◆配合変化を起こす可能性があるので<br>他の薬剤との混合を避けること</td>
+                    <td></td>
+                  </tr>
+                  <tr style="border-bottom:1px solid #E2E3E7;">
+                    <td style="padding:3px 8px;vertical-align:top;">用法</td>
+                    <td style="padding:3px 5px;"></td>
+                    <td style="padding:3px 8px;text-align:right;white-space:nowrap;">鎮静の導入・維持時</td>
+                  </tr>
+                  <tr style="border-bottom:1px solid #E2E3E7;">
+                    <td style="padding:3px 8px;vertical-align:top;color:#1565C0;">用法実施</td>
+                    <td style="padding:3px 5px;color:#1565C0;">指示枠1番目</td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td style="padding:3px 8px;vertical-align:top;color:#1565C0;">実施場所</td>
+                    <td style="padding:3px 5px;color:#1565C0;">本院：ICU</td>
+                    <td></td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- カルテ画面（コメントオーダ）再現 -->
+          <div style="margin:12px 16px 0;">
+            <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid #C7CAD1;border-radius:4px;background:#fff;box-shadow:0 2px 8px rgba(15,23,42,0.18);">
+              <div class="kt-screen" style="min-width:380px;font-family:'Meiryo','Hiragino Kaku Gothic ProN',sans-serif;font-size:10.5px;color:#1A1A1A;line-height:1.5;-webkit-text-size-adjust:100%;text-size-adjust:100%;">
+                <div style="display:flex;align-items:center;justify-content:space-between;background:#E6E7EB;border-bottom:1px solid #C7CAD1;padding:5px 8px;">
+                  <div style="flex-shrink:0;color:#333;">コメントオーダ</div>
+                  <div style="flex-shrink:0;text-align:right;color:#333;">本院:麻酔科 ICU</div>
+                </div>
+                <table style="width:100%;border-collapse:collapse;font-size:10.5px;">
+                  <tr>
+                    <td style="width:22px;padding:5px 6px;vertical-align:top;text-align:center;color:#777;border-right:1px solid #E8EAED;">1</td>
+                    <td style="padding:2px 10px 5px;vertical-align:top;">
+                      <div style="padding:3px 0;border-bottom:1px solid #ECEEF1;">【鎮静（ラボナール/チオペンタール）】</div>
+                      <div style="padding:3px 0;border-bottom:1px solid #ECEEF1;">投与開始量　●ml/h　目安2-3mg/kg/h</div>
+                      <div style="padding:3px 0;border-bottom:1px solid #ECEEF1;">Push量　● ml　目安3-5mg/kg IV</div>
+                      <div style="padding:3px 0;">投与量上限　5mg/kg/h</div>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div class="nx-drug-rows">
+            <div class="nx-drug-row"><span class="nx-drug-lbl">分類</span><span class="nx-drug-body"><span class="nx-drug-li">・<strong style="color:#1763B8;">バルビツール酸系</strong>（超短時間作用型）</span><span class="nx-drug-li">・GABA-A 受容体増強により強力な鎮静・抗痙攣作用を持つ</span></span></div>
+            <div class="nx-drug-row"><span class="nx-drug-lbl">用量</span><span class="nx-drug-body"><span class="nx-drug-li">・難治性てんかん重積・難治性頭蓋内圧亢進に対し、負荷 <strong>3〜5 mg/kg IV</strong> 後に持続静注 <strong style="color:#1763B8;">2〜3 mg/kg/h</strong>（上限 5 mg/kg/h）</span><span class="nx-drug-li">・EEG の <strong style="color:#1763B8;">burst suppression</strong> を目標に調整する</span></span></div>
+            <div class="nx-drug-row"><span class="nx-drug-lbl">長所</span><span class="nx-drug-body"><span class="nx-drug-li">・強力な脳代謝抑制により <strong style="color:#1763B8;">脳血流・頭蓋内圧を低下</strong>させる（脳保護作用）</span><span class="nx-drug-li">・<strong style="color:#1763B8;">強力な抗痙攣作用</strong>をもち、難治性てんかん重積に有効</span></span></div>
+            <div class="nx-drug-row"><span class="nx-drug-lbl">短所</span><span class="nx-drug-body"><span class="nx-drug-li">・<strong style="color:#1763B8;">強い循環抑制（低血圧）・呼吸抑制</strong>をきたす</span><span class="nx-drug-li">・<strong style="color:#1763B8;">長時間投与で著明に蓄積し、覚醒が大きく遷延</strong>する</span><span class="nx-drug-li">・免疫抑制・感染症リスク、腸管蠕動低下に注意</span></span></div>
+            <div class="nx-drug-row"><span class="nx-drug-lbl">特徴</span><span class="nx-drug-body"><span class="nx-drug-li">・<strong style="color:#1763B8;">ICU のルーチン鎮静には使用しない</strong></span><span class="nx-drug-li">・難治性てんかん重積・難治性頭蓋内圧亢進（バルビツール酸昏睡療法）に限定して使用する</span></span></div>
           </div>
         </div>
           </div>
