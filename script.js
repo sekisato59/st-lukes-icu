@@ -472,7 +472,7 @@ if (copyBtn) {
   function shouldSkip(table){
     if (table.dataset.scrollApplied === '1') return true;
     if (table.closest('.ie-table-scroll')) return true;
-    if (table.closest('nav, .navbar, .nav-menu, .ie-sidebar, .mob-toc-drawer, .qa-figure')) return true;
+    if (table.closest('nav, .navbar, .nav-menu, .ie-sidebar, .mob-toc-drawer, .qa-figure, .kt-screen')) return true;
     return false;
   }
   function wrapWithScroll(table){
