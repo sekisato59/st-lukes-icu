@@ -10,6 +10,13 @@
  */
 const RECENT_PAGES = [
   {
+    title: "抗凝固薬リバースの拮抗薬 — プロタミン・PCC・イダルシズマブ・アンデキサネット（NEJM Review 2026）",
+    url: "pages/articles-gl-anticoag-reversal2026.html",
+    date: "2026-06-11",
+    tag: "論文",
+    thumb: "images/朝カンファ風景.webp"
+  },
+  {
     title: "カルボシステイン・高張食塩水は急性呼吸不全の人工呼吸期間を短縮せず有害 — MARCH試験（NEJM 2026）",
     url: "pages/articles-gl-march-mucoactive2026.html",
     date: "2026-06-10",
