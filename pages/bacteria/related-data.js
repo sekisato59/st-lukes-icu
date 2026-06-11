@@ -548,6 +548,17 @@ window.BACTERIA_RELATED = {
     { section: "腸チフスの治療", items: [
       { embed: "../articles-gl-static-cidal2018.html#sc-typhoid", label: "静菌薬 vs 殺菌薬 2018 ▸ 腸チフス：クロラムフェニコールは FQ と同等" }
     ] }
+  ],
+
+  // ============ Haemophilus influenzae ============
+  hinfluenzae: [
+    { section: "細菌性髄膜炎での位置づけと治療", items: [
+      { embed: "../articles-gl-escmid-bactmening2016.html#ch3-s2", label: "ESCMID 細菌性髄膜炎 2016 ▸ β-ラクタマーゼ陰性株はアンピシリン、陽性株は第3世代セフェム" },
+      { embed: "../articles-gl-escmid-bactmening2016.html#ch4-s1", label: "ESCMID 細菌性髄膜炎 2016 ▸ デキサメタゾンは肺炎球菌・H. influenzae で効果がより顕著" }
+    ] },
+    { section: "髄膜炎の診断（グラム染色）", items: [
+      { embed: "../articles-gl-jns-bm2014.html#bm-diff", label: "日本神経学会 細菌性髄膜炎 2014 ▸ インフルエンザ菌のグラム染色感度 86%" }
+    ] }
   ]
 
 };
