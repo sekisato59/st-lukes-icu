@@ -10,6 +10,13 @@
  */
 const RECENT_PAGES = [
   {
+    title: "骨粗鬆症 まとめ（保存版）— 病態・診断・製剤各論",
+    url: "pages/articles-gl-osteoporosis-notion.html",
+    date: "2026-06-11",
+    tag: "論文",
+    thumb: "images/朝カンファ風景.webp"
+  },
+  {
     title: "ARISE FLUIDS試験 — 早期敗血症性ショックの輸液制限+早期昇圧 vs 大量輸液+後期昇圧（NEJM 2026）",
     url: "pages/articles-gl-arise-fluids2026.html",
     date: "2026-06-11",
@@ -35,13 +42,6 @@ const RECENT_PAGES = [
     url: "pages/articles-gl-anticoag-reversal2026.html",
     date: "2026-06-11",
     tag: "論文",
-    thumb: "images/朝カンファ風景.webp"
-  },
-  {
-    title: "骨粗鬆症 まとめ（保存版）— 病態・診断・製剤各論",
-    url: "pages/articles-gl-osteoporosis-notion.html",
-    date: "2026-06-11",
-    tag: "ガイドライン",
     thumb: "images/朝カンファ風景.webp"
   },
   {
