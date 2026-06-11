@@ -17,6 +17,27 @@ const RECENT_PAGES = [
     thumb: "images/朝カンファ風景.webp"
   },
   {
+    title: "非心臓大手術でのトラネキサム酸の病院方針 — 輸血を減らし90日VTEは非劣性（TRACTION試験・NEJM 2026）",
+    url: "pages/articles-gl-traction-txa2026.html",
+    date: "2026-06-11",
+    tag: "ガイドライン",
+    thumb: "images/朝カンファ風景.webp"
+  },
+  {
+    title: "免疫不全患者の菌血症 抗菌薬7日間 vs 14日間（BALANCE post hoc解析, CMI 2026）",
+    url: "pages/articles-gl-balance-immunocompromised2026.html",
+    date: "2026-06-11",
+    tag: "ガイドライン",
+    thumb: "images/IDICUtop.png"
+  },
+  {
+    title: "ARISE FLUIDS試験 — 早期敗血症性ショックの輸液制限+早期昇圧 vs 大量輸液+後期昇圧（NEJM 2026）",
+    url: "pages/articles-gl-arise-fluids2026.html",
+    date: "2026-06-11",
+    tag: "ガイドライン",
+    thumb: "images/IDICUtop.png"
+  },
+  {
     title: "カルボシステイン・高張食塩水は急性呼吸不全の人工呼吸期間を短縮せず有害 — MARCH試験（NEJM 2026）",
     url: "pages/articles-gl-march-mucoactive2026.html",
     date: "2026-06-10",
