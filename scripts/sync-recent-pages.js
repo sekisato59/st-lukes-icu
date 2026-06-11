@@ -147,7 +147,17 @@ function inferTag(url, html) {
   if (url.includes('/exam-'))           return '解説';
   if (url.includes('articles-gl-')) {
     const head = html.slice(0, 8000);
-    if (/症例報告|症例集積|case\s*report/i.test(head)) return '症例';
+    const tm = html.match(/<title>([\s\S]+?)<\/title>/);
+    const title = tm ? tm[1] : '';
+    if (/症例報告|症例集積|case\s*report/i.test(head) || /症例報告|症例集積/.test(title)) return '症例';
+    // ① タイトルが試験・解析・総説系なら「論文」を確定させる。
+    //    （本文に「ガイドライン」の語が偶発的に含まれても上書きさせない）
+    const paperInTitle = /試験|トライアル|\btrial\b|\bRCT\b|ランダム化|メタ解析|メタ分析|プール解析|\bNMA\b|ネットワークメタ|系統的レビュー|システマティック|\bSR[・･\s]|コホート|観察研究|レジストリ|登録研究|post[\s-]?hoc|ポストホック|二次解析|サブ解析|統合解析|個別患者データ|レビュー|\breview\b|総説|seminar|セミナー|state[-\s]?of[-\s]?the[-\s]?art|ナラティブ|narrative|core\s*curriculum|神話|\bmyths?\b/i;
+    if (paperInTitle.test(title)) return '論文';
+    // ② タイトルがガイドライン・声明・提言系なら「ガイドライン」。
+    const glInTitle = /ガイドライン|guideline|standards?\s*of\s*care|科学的声明|声明|statement|提言|recommendation|勧告|コンセンサス|consensus|用語集|実践ガイド|完全ガイド|ガイド$/i;
+    if (glInTitle.test(title)) return 'ガイドライン';
+    // ③ タイトルから判別できない場合のみ、本文の語で補助判定。
     if (/ガイドライン|consensus|recommendation/i.test(head)) return 'ガイドライン';
     return '論文';
   }
