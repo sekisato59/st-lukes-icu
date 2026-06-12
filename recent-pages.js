@@ -17,6 +17,27 @@ const RECENT_PAGES = [
     thumb: "images/IDICUtop.png"
   },
   {
+    title: "高マグネシウム血症の症状は？",
+    url: "pages/yoshida-qa/q-renal-02.html",
+    date: "2026-06-12",
+    tag: "解説",
+    thumb: "images/header吉田先生.png"
+  },
+  {
+    title: "壊死性筋膜炎にクリンダマイシンを併用する理由は？",
+    url: "pages/yoshida-qa/q-id-03.html",
+    date: "2026-06-12",
+    tag: "解説",
+    thumb: "images/header吉田先生.png"
+  },
+  {
+    title: "便秘薬の分類と使い分けは？",
+    url: "pages/yoshida-qa/q-gi-03.html",
+    date: "2026-06-12",
+    tag: "解説",
+    thumb: "images/header吉田先生.png"
+  },
+  {
     title: "ASPEN 2021 vs ESPEN 2022 — 重症患者栄養ガイドライン比較",
     url: "pages/disease-topics/dt-aspen-espen.html",
     date: "2026-06-12",
