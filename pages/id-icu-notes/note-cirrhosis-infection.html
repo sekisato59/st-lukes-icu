@@ -75,17 +75,51 @@
     @media (max-width: 900px) {
       .vap-banner-overlay { max-width: 60%; left: 4%; top: 45%; }
     }
-    @media (max-width: 600px) {
-      .vap-banner { line-height: 1.4; }
-      img[src*="headerID*ICUpage"] { height: 150px; object-fit: cover; object-position: left center; }
-      .vap-banner-overlay {
-        position: absolute;
-        left: 5%;
-        top: 50%;
-        transform: translateY(-50%);
-        max-width: 88%;
-        padding: 0;
+    @media (max-width: 640px) {
+      /* モバイルは「画像を背景・テキストは通常フロー」のヒーローに切替（重なり防止） */
+      .vap-banner {
+        line-height: 1.4;
+        overflow: hidden;
+        border-radius: 0 0 16px 16px;
       }
+      .vap-banner-img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: 80% center;
+        -webkit-mask-image: none;
+        mask-image: none;
+        z-index: 0;
+      }
+      .vap-banner::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        background: linear-gradient(102deg, rgba(243,241,255,0.97) 0%, rgba(243,241,255,0.93) 46%, rgba(243,241,255,0.60) 100%);
+      }
+      .vap-banner-overlay {
+        position: relative;
+        z-index: 2;
+        top: auto;
+        left: auto;
+        transform: none;
+        max-width: 100%;
+        padding: 17px 20px 19px;
+      }
+      .vap-banner-tags { gap: 5px; margin-bottom: 10px; }
+      .vap-banner-tags span {
+        font-size: 0.62rem;
+        padding: 2px 9px;
+        background: rgba(124,58,237,0.13);
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+      }
+      .vap-banner-title { font-size: 1.2rem; line-height: 1.36; margin-bottom: 6px; }
+      .vap-banner-sub { font-size: 0.75rem; line-height: 1.55; margin-bottom: 6px; }
+      .vap-banner-lecturer { font-size: 0.69rem; }
     }
 
     /* ====== 見出し階層 ====== */
@@ -131,6 +165,19 @@
     .card-inner ol li::marker { color: #7C3AED; font-weight: 700; }
     .card-inner strong { color: var(--text); font-weight: 700; }
     .card-inner em { font-style: italic; color: #1F2937; }
+
+    /* ====== 美しい日本語の改行（文節単位・英数字を途中で割らない） ====== */
+    .card-inner .rule-body,
+    .card-inner p,
+    .card-inner li,
+    .card-inner td,
+    .card-inner th,
+    .danger p, .keypoint p, .point p,
+    .mnemonic-row > span:last-child,
+    .vap-banner-sub {
+      word-break: auto-phrase;
+      line-break: strict;
+    }
 
     /* ====== Pitfall/注意/ポイント ボックス ====== */
     .danger, .keypoint, .point {
@@ -204,6 +251,9 @@
       .mnemonic-title { font-size: 0.82rem; }
       .mnemonic-row { font-size: 0.8rem; }
       .gl-chapter-banner .gl-chapter-title { font-size: 1rem !important; }
+      /* 略語表：ラベル列を細くして定義列に余白を回す */
+      .card-inner table:not(.ie-table) td:first-child { width: 100px !important; }
+      .card-inner table:not(.ie-table) td { padding: 5px 7px !important; }
     }
     @media (max-width: 767px) {
       .card-inner :is(p, li, dd, dt, td, th, blockquote, figcaption, caption),
@@ -402,7 +452,7 @@
               <tbody>
                 <tr><td style="font-weight:700;">宿主・分布</td><td>免疫低下者（immune ↓）</td><td>熱帯（tropical）<br><span style="font-size:0.72rem;color:var(--muted);">米国西海岸・豪州北海岸</span></td></tr>
                 <tr><td style="font-weight:700;">CNS病変</td><td>髄膜炎（meningitis）</td><td>占拠性病変（SOL）</td></tr>
-                <tr><td style="font-weight:700;">治療（Tx）</td><td colspan="2" style="text-align:center;"><span class="mark-green"><strong>Ambisome</strong></span></td></tr>
+                <tr><td style="font-weight:700;">治療（Tx）</td><td><span class="mark-green"><strong>Ambisome</strong></span></td><td><span class="mark-green"><strong>Ambisome</strong></span></td></tr>
               </tbody>
             </table>
           </div>
