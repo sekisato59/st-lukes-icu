@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ASPEN 2021 vs ESPEN 2022 — 重症患者栄養ガイドライン比較 | 聖路加ICU</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../style-v2.css?v=20260618">
+  <style>
+    .subpage-hero { padding: calc(64px + 14px) 0 16px !important; }
+    .content-wrap { display:flex;gap:32px;align-items:flex-start;max-width:1294px;margin:0 auto;padding:32px 20px 80px; }
+    .main-col { flex:1;min-width:0;max-width:900px; }
+
+    .ie-table { width:100%;border-collapse:collapse;font-size:0.82rem;margin-top:10px; }
+    .ie-table th { background:#FFFBEB;border:1px solid #FDE68A;padding:8px 12px;font-weight:700;font-size:0.78rem;text-align:left; }
+    .ie-table td { border:1px solid var(--border);padding:8px 12px;vertical-align:top;line-height:1.7; }
+    .ie-table tr:nth-child(even) td { background:#F8FAFC; }
+
+    /* 2ガイドライン比較表のヘッダー色分け（表ヘッダーのみ・帯ではない） */
+    .cmp th.col-item { background:#F3F4F6;color:var(--text); }
+    .cmp th.col-aspen { background:#EFF6FF;color:#1E40AF;border-color:#BFDBFE; }
+    .cmp th.col-espen { background:#F0FDF4;color:#15803D;border-color:#BBF7D0; }
+    .cmp td.lab { white-space:nowrap;font-weight:700;color:var(--text);background:#FCFCFD; }
+
+    .ie-stat-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px; }
+    @media (max-width:520px) { .ie-stat-grid { grid-template-columns:1fr 1fr; } }
+    .ie-stat { background:#FFFBEB;border:1px solid #FDE68A;border-radius:8px;padding:14px 12px;text-align:center; }
+    .ie-stat-val { font-size:1.25rem;font-weight:900;color:#B45309;line-height:1.3; }
+    .ie-stat-label { font-size:0.68rem;color:var(--muted);margin-top:5px;line-height:1.5; }
+    .ie-stat-blue { background:#EFF6FF;border-color:#BFDBFE; }
+    .ie-stat-blue .ie-stat-val { color:#1E40AF; }
+    .ie-stat-green { background:#F0FDF4;border-color:#BBF7D0; }
+    .ie-stat-green .ie-stat-val { color:#15803D; }
+
+    .alert-red { background:#FEF2F2;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#7F1D1D;line-height:1.7; }
+    .alert-green2 { background:#F0FDF4;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#14532D;line-height:1.7; }
+
+    /* 一致/相違の小ラベル（grade-badge と同系統の控えめなタグ） */
+    .verdict { display:inline-block;font-size:0.68rem;font-weight:800;padding:2px 9px;border-radius:4px;margin-left:8px;vertical-align:middle;letter-spacing:0.02em; }
+    .v-same { background:#D1FAE5;color:#065F46; }
+    .v-diff { background:#FEE2E2;color:#991B1B; }
+    .v-partial { background:#FEF3C7;color:#92400E; }
+    .gtag { display:inline-block;font-size:0.66rem;font-weight:700;padding:1px 6px;border-radius:3px;vertical-align:middle; }
+    .g-aspen { background:#EFF6FF;color:#1E40AF; }
+    .g-espen { background:#F0FDF4;color:#15803D; }
+
+    .dt-source { text-align:right;margin-top:-10px;margin-bottom:16px;padding-right:4px; }
+    .dt-source a { font-size:0.68rem;color:#9CA3AF;text-decoration:none;transition:color 0.15s; }
+    .dt-source a:hover { color:#2D7A4F; }
+    .dt-source::before { content:"出典：";font-size:0.65rem;color:#BFBFBF; }
+    .ie-sidebar-card { background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:16px;position:sticky;top:80px;max-height:calc(100vh - 100px);overflow-y:auto; }
+    .ie-sidebar-title { font-size:0.7rem;font-weight:800;color:var(--muted);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--border); }
+    .ie-toc-chapter { display:block;font-size:0.78rem;font-weight:700;color:var(--text);padding:5px 0;border-bottom:1px solid var(--border);margin-bottom:2px;text-decoration:none; }
+    .ie-toc-chapter:hover { color:#B45309; }
+    .ie-toc-section { display:block;font-size:0.72rem;color:var(--muted);padding:3px 0 3px 10px;text-decoration:none;line-height:1.4; }
+    .ie-toc-section:hover { color:#B45309; }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="../../index.html" class="nav-logo">
+        <img src="../../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+        <span class="nav-logo-text">聖路加国際病院ICU</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-menu" id="navMenu"></ul>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="subpage-hero hero-image-bg hero-image-disease">
+    <div class="container" style="max-width:1294px;margin:0 auto;padding:0 20px;">
+      <a href="../disease-topics.html" class="back-link">&larr; 【研修医向け】マニュアル一覧へ戻る</a>
+      <div style="font-size:0.72rem;color:rgba(255,255,255,0.6);margin-bottom:6px;letter-spacing:0.08em;">NUTRITION / METABOLISM</div>
+      <h1 style="font-size:clamp(1.3rem,3vw,1.75rem);font-weight:900;color:#fff;line-height:1.35;margin-bottom:12px;">
+        ASPEN 2021 vs ESPEN 2022<br>重症患者栄養ガイドライン 徹底比較
+      </h1>
+      <div>
+        <span class="ie-badge">疾患トピックス</span>
+        <span class="ie-badge">ASPEN 2021 ・ ESPEN 2022 を比較</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== MAIN LAYOUT ===== -->
+  <div class="content-wrap">
+
+    <div class="main-col">
+
+    <!-- ===== 導入 ===== -->
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">このページの目的</h3>
+        <p class="rule-body">重症成人患者の栄養管理について、米国の <a href="../articles-gl-aspen-nutrition2021.html" style="color:var(--blue);font-weight:700;">ASPEN 2021</a> と欧州の <a href="../articles-gl-espen-nutrition2022.html" style="color:var(--blue);font-weight:700;">ESPEN 2022</a> という2つの主要ガイドラインを、エネルギー・タンパク質・投与経路（EN/PN）・補足的PN・脂肪乳剤などの軸ごとに並べて比較する。両ガイドラインで<span class="mark-green"><strong>結論が一致する点</strong></span>と<span class="mark-red"><strong>方針が分かれる点</strong></span>を整理し、ベッドサイドでどちらをどう使うかを示すことを目的とする。</p>
+        <p class="rule-body" style="margin-top:8px;">本ページの記述は、当サイト収録済みの2つのガイドラインまとめページの内容のみで構成している。各カードの出典タグから元ページの該当箇所へ移動できる。</p>
+        <div style="margin-top:12px;font-size:0.78rem;line-height:1.9;">
+          <span class="gtag g-aspen">ASPEN</span> = 本ページで青系の表記は ASPEN 2021 を指す<br>
+          <span class="gtag g-espen">ESPEN</span> = 緑系の表記は ESPEN 2022 を指す
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== 略語一覧 ===== -->
+    <div class="card" style="margin-bottom:24px;">
+      <div class="card-inner">
+        <h3 class="rule-title" style="margin-bottom:10px;">本ページで使用する略語一覧</h3>
+        <table style="width:100%;border-collapse:collapse;font-size:0.8rem;line-height:1.6;">
+          <tbody>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:120px;color:var(--blue);">EN</td><td style="padding:4px 8px;">Enteral Nutrition &mdash; 経腸栄養</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">PN</td><td style="padding:4px 8px;">Parenteral Nutrition &mdash; 経静脈栄養</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">SPN</td><td style="padding:4px 8px;">Supplemental Parenteral Nutrition &mdash; 補足的経静脈栄養</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">ILE</td><td style="padding:4px 8px;">Injectable Lipid Emulsion &mdash; 脂肪乳剤</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">IC</td><td style="padding:4px 8px;">Indirect Calorimetry &mdash; 間接熱量計（最も正確なエネルギー測定法）</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">EE / REE</td><td style="padding:4px 8px;">（Resting）Energy Expenditure &mdash; （安静時）エネルギー消費量</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">GLN</td><td style="padding:4px 8px;">Glutamine &mdash; グルタミン</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">EPA / DHA</td><td style="padding:4px 8px;">エイコサペンタエン酸 / ドコサヘキサエン酸（オメガ3脂肪酸）</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">SO / FO / MCT</td><td style="padding:4px 8px;">Soybean Oil 大豆油 / Fish Oil 魚油 / 中鎖脂肪酸トリグリセリド</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">GRV</td><td style="padding:4px 8px;">Gastric Residual Volume &mdash; 胃内残留量</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">AKI</td><td style="padding:4px 8px;">Acute Kidney Injury &mdash; 急性腎障害</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">NRS / NUTRIC</td><td style="padding:4px 8px;">栄養リスクスクリーニング（NRS 2002）/ ICU専用栄養リスクスコア</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">GLIM</td><td style="padding:4px 8px;">Global Leadership Initiative on Malnutrition &mdash; 低栄養の国際的診断基準</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">GRADE</td><td style="padding:4px 8px;">推奨の強さとエビデンスの質の評価体系（ASPENが採用）</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">Grade A/B/0</td><td style="padding:4px 8px;">ESPENの推奨格付け：A（RCTに基づく強い推奨）/ B（コホート研究ベース）/ 0（エキスパートオピニオン）</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">GPP</td><td style="padding:4px 8px;">Good Practice Point &mdash; 良い診療のための推奨（ESPEN・expert opinion）</td></tr>
+            <tr><td style="padding:4px 8px;font-weight:700;color:var(--blue);">RD / RR / CI</td><td style="padding:4px 8px;">Risk Difference リスク差 / Relative Risk 相対リスク / Confidence Interval 信頼区間</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════
+         第1章 全体像と方法論の違い
+    ══════════════════════════════════════════════ -->
+    <div id="cmp-ch1" class="gl-chapter-banner dt first"><div class="gl-chapter-title">第1章 2つのガイドラインの全体像と方法論</div><div class="gl-chapter-subtitle">Scope and Methodology</div></div>
+
+    <h3 id="cmp-s1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+      <span class="section-label dt">SECTION 1</span>
+      スコープと推奨の作り方が根本的に異なる
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">「絞り込んだASPEN」と「網羅するESPEN」</h3>
+        <p class="rule-body">両者の最大の違いは推奨の作り方にある。<span class="mark-orange"><strong>ASPEN 2021</strong></span>は2016年版を更新し、集中治療栄養の5つの基盤的な問い（PICO）に絞って、<span class="mark-green"><strong>RCTが存在する設問のみにGRADEプロセスを厳格適用</strong></span>した。その結果、推奨数は大きく絞られたが、各推奨のエビデンスの確実性は高い。一方<span class="mark-orange"><strong>ESPEN 2022</strong></span>は実践・部分改訂ガイドラインとして、<span class="mark-green"><strong>56もの推奨</strong></span>を提示し、RCTがない領域もGrade 0／GPP（専門家意見）を含めて幅広く実践的にカバーしている。</p>
+        <p class="rule-body" style="margin-top:8px;">この方法論の差が、後述する「ESPENは踏み込むがASPENは推奨を作らない領域（グルタミン・微量栄養素・血糖・プロキネティクスなど）」を生む根本原因である。ASPENはRCTがない問いには推奨を作らず、別の独立ガイドラインや個別判断に委ねる立場をとる。</p>
+      </div>
+    </div>
+    <div class="dt-source"><a href="../articles-gl-aspen-nutrition2021.html#aspen-s1">ASPEN 2021 &#9659; 目的・背景・方法</a> / <a href="../articles-gl-espen-nutrition2022.html#espen-ch1">ESPEN 2022 &#9659; 第1章 総論</a></div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">基本スペックの比較</h3>
+        <table class="ie-table cmp">
+          <thead><tr><th class="col-item">項目</th><th class="col-aspen">ASPEN 2021</th><th class="col-espen">ESPEN 2022</th></tr></thead>
+          <tbody>
+            <tr><td class="lab">発行</td><td>JPEN 2022年1月（2021年オンライン公開）</td><td>Clinical Nutrition 2023年9月</td></tr>
+            <tr><td class="lab">位置づけ</td><td>2016 ASPEN/SCCM の更新版</td><td>実践・部分改訂ガイドライン</td></tr>
+            <tr><td class="lab">スコープ</td><td>5つのPICO（エネルギー・タンパク質・EN vs PN・SPN・ILE）に限定</td><td>栄養全般を網羅（リスク評価〜PN実践まで）。56推奨</td></tr>
+            <tr><td class="lab">推奨の作り方</td><td>RCTがある問いのみにGRADEを厳格適用</td><td>Grade A/B/0・GPP・声明（S）を併用し実践重視</td></tr>
+            <tr><td class="lab">効果指標</td><td>Risk Difference（RD）を一貫使用<br>36 RCT・20,578例をメタ解析</td><td>RR/HRなど。多数のメタ解析・観察研究を引用</td></tr>
+            <tr><td class="lab">推奨の表現</td><td>Strong（recommend）/ Weak（suggest）</td><td>Grade A/B/0/GPP + 合意率（%）</td></tr>
+          </tbody>
+        </table>
+        <div class="alert-green2">
+          <strong>読み解きのコツ：</strong>「エビデンスの確実性を厳密に知りたい」ときはASPEN、「目の前の具体的な状況（敗血症・外傷・肥満・プロキネティクス・リフィーディングなど）にどう対応するか」を知りたいときはESPENを参照する、と使い分けると実用的である。
+        </div>
+      </div>
+    </div>
+    <div class="dt-source"><a href="../articles-gl-aspen-nutrition2021.html#aspen-overview">ASPEN 2021 &#9659; ガイドライン概要</a> / <a href="../articles-gl-espen-nutrition2022.html#espen-s1-risk">ESPEN 2022 &#9659; S1 低栄養リスク評価</a></div>
+
+    <!-- ══════════════════════════════════════════════
+         第2章 エネルギー
+    ══════════════════════════════════════════════ -->
+    <div id="cmp-ch2" class="gl-chapter-banner dt"><div class="gl-chapter-title">第2章 エネルギー投与量</div><div class="gl-chapter-subtitle">Energy Targets</div></div>
+
+    <h3 id="cmp-s2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+      <span class="section-label dt">SECTION 2</span>
+      過剰栄養回避は共通、目標の決め方が異なる<span class="verdict v-partial">一部相違</span>
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">エネルギー目標の比較</h3>
+        <table class="ie-table cmp">
+          <thead><tr><th class="col-item">論点</th><th class="col-aspen">ASPEN 2021</th><th class="col-espen">ESPEN 2022</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="lab">推奨値</td>
+              <td>ICU入室後7〜10日間は<strong>12〜25 kcal/kg/日</strong>を提案<br>（弱い推奨／Moderate）</td>
+              <td>測定EEを基準に時相で調整。急性期早期（72h）は<strong>EEの70%未満</strong>、3日目以降は<strong>80〜100%</strong></td>
+            </tr>
+            <tr>
+              <td class="lab">目標の決め方</td>
+              <td>体重あたりの幅広い範囲（試験間の異質性を反映）</td>
+              <td><strong>間接熱量計（IC）でEEを測定</strong>するのが第一選択（Grade B）。予測式は最大60%誤差</td>
+            </tr>
+            <tr>
+              <td class="lab">ICが使えない時</td>
+              <td>—（言及なし）</td>
+              <td>VCO2×8.19で推計。予測式使用時は第1週<strong>70%未満</strong>を等カロリーより優先（RR 0.92, p=0.02）</td>
+            </tr>
+            <tr>
+              <td class="lab">最重要メッセージ</td>
+              <td colspan="2" style="background:#FFFBEB;"><strong>両者共通：過剰栄養（overfeeding）の回避。</strong>ASPENは安全性解析で高エネルギー群に死亡率増加傾向を確認。ESPENは内因性エネルギー産生（500〜1400 kcal/日）への上乗せがICU滞在・人工呼吸期間延長・感染増加を招くと警告。</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="rule-body" style="margin-top:10px;"><span class="mark-green"><strong>一致点：</strong></span>急性期に「目標カロリーを完全充足させない」点では両者の方向性は揃っている。ASPENの12〜25 kcal/kg/日という控えめな範囲も、ESPENの「早期は70%未満」も、いずれも過剰栄養回避を最重要視した結果である。</p>
+        <p class="rule-body" style="margin-top:8px;"><span class="mark-orange"><strong>相違点：</strong></span>ESPENは<strong>間接熱量計による実測と時相別の段階調整</strong>を前面に出すのに対し、ASPENは試験間の異質性が大きいことを理由に単純な体重換算の範囲を提示するにとどめ、精密化には「より均一なエネルギー介入試験が必要」と保留している。</p>
+      </div>
+    </div>
+    <div class="dt-source"><a href="../articles-gl-aspen-nutrition2021.html#aspen-q1-rec">ASPEN 2021 &#9659; 推奨1 エネルギー量</a> / <a href="../articles-gl-espen-nutrition2022.html#espen-energy">ESPEN 2022 &#9659; S5 エネルギー目標</a></div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">数値で見るエネルギー方針</h3>
+        <div class="ie-stat-grid">
+          <div class="ie-stat ie-stat-blue">
+            <div class="ie-stat-val">12&ndash;25</div>
+            <div class="ie-stat-label">ASPEN：kcal/kg/日<br>（入室後7〜10日）</div>
+          </div>
+          <div class="ie-stat ie-stat-green">
+            <div class="ie-stat-val">&lt;70%</div>
+            <div class="ie-stat-label">ESPEN：急性期早期（72h）<br>のEEに対する目標</div>
+          </div>
+          <div class="ie-stat ie-stat-green">
+            <div class="ie-stat-val">80&ndash;100%</div>
+            <div class="ie-stat-label">ESPEN：3日目以降の<br>測定EEに対する目標</div>
+          </div>
+          <div class="ie-stat ie-stat-green">
+            <div class="ie-stat-val">最大60%</div>
+            <div class="ie-stat-label">ESPEN：予測式が<br>EEを誤る幅</div>
+          </div>
+          <div class="ie-stat">
+            <div class="ie-stat-val">500&ndash;1400</div>
+            <div class="ie-stat-label">内因性エネルギー産生<br>kcal/日（ESPEN）</div>
+          </div>
+          <div class="ie-stat ie-stat-green">
+            <div class="ie-stat-val">RR 0.92</div>
+            <div class="ie-stat-label">予測式使用・第1週低カロリー<br>の予後（ESPEN, p=0.02）</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="dt-source"><a href="../articles-gl-aspen-nutrition2021.html#aspen-q1-rec">ASPEN 2021 &#9659; 推奨1</a> / <a href="../articles-gl-espen-nutrition2022.html#espen-energy">ESPEN 2022 &#9659; S5</a></div>
+
+    <!-- ══════════════════════════════════════════════
+         第3章 タンパク質
+    ══════════════════════════════════════════════ -->
+    <div id="cmp-ch3" class="gl-chapter-banner dt"><div class="gl-chapter-title">第3章 タンパク質投与量</div><div class="gl-chapter-subtitle">Protein Targets</div></div>
+
+    <h3 id="cmp-s3" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+      <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>
+      高用量の利益は両者とも否定的<span class="verdict v-same">概ね一致</span>
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">タンパク質目標の比較</h3>
+        <table class="ie-table cmp">
+          <thead><tr><th class="col-item">論点</th><th class="col-aspen">ASPEN 2021</th><th class="col-espen">ESPEN 2022</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="lab">推奨値</td>
+              <td><strong>1.2〜2.0 g/kg/日</strong>を目安に個別化<br>（2016年版の提案値を踏襲・弱い推奨）</td>
+              <td><strong>1.3 g/kg/日</strong>を段階的に投与<br>（Grade 0 更新）</td>
+            </tr>
+            <tr>
+              <td class="lab">高用量の評価</td>
+              <td>高品質RCTが不十分で、新たな推奨値は設定できない（4試験697例で差なし）</td>
+              <td>高用量（1.6±0.5）vs 低用量（0.9±0.3）の大規模RCTで有意差なし。<strong>中用量が最良</strong></td>
+            </tr>
+            <tr>
+              <td class="lab">注意すべき集団</td>
+              <td>熱傷・肥満・多発外傷は試験に含まれず、個別化の余地が大きい</td>
+              <td><span class="mark-red"><strong>AKI患者では高タンパクで死亡率増加</strong></span>の可能性。外傷では1.5〜2 g/kg/日を考慮</td>
+            </tr>
+            <tr>
+              <td class="lab">投与の仕方</td>
+              <td>—（量の議論が中心）</td>
+              <td>急性期後にアミノ酸利用率が改善するため<strong>段階的増量</strong>を支持。身体活動（リハビリ）がタンパク利用を改善</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="rule-body" style="margin-top:10px;"><span class="mark-green"><strong>一致点：</strong></span>「高タンパク投与が転帰を改善するという高品質エビデンスはない」という結論は両者で共通する。ASPENは1.2〜2.0という幅、ESPENは1.3という一点を示すが、いずれも<strong>中等量を個別化</strong>という実務上の落とし所は同じである。</p>
+        <p class="rule-body" style="margin-top:8px;"><span class="mark-orange"><strong>相違点：</strong></span>ESPENは「中用量が最良」「AKIでは高タンパクが有害の可能性」「段階的増量」とより踏み込んだ実践的注意を加えている。ASPENは特殊集団のデータ不足を理由に2016年版の数値を維持するにとどめている。</p>
+      </div>
+    </div>
+    <div class="dt-source"><a href="../articles-gl-aspen-nutrition2021.html#aspen-q2-rec">ASPEN 2021 &#9659; 推奨2 タンパク質量</a> / <a href="../articles-gl-espen-nutrition2022.html#espen-protein">ESPEN 2022 &#9659; S6 タンパク質目標</a></div>
+
+    <!-- ══════════════════════════════════════════════
+         第4章 EN vs PN
+    ══════════════════════════════════════════════ -->
+    <div id="cmp-ch4" class="gl-chapter-banner dt"><div class="gl-chapter-title">第4章 投与経路 — EN vs PN（第1週）</div><div class="gl-chapter-subtitle">Enteral vs Parenteral Route</div></div>
+
+    <h3 id="cmp-s4" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+      <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 4</span>
+      最も方針が分かれる論点<span class="verdict v-diff">相違あり</span>
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">EN を優先するか、ルートは自由か</h3>
+        <table class="ie-table cmp">
+          <thead><tr><th class="col-item">論点</th><th class="col-aspen">ASPEN 2021</th><th class="col-espen">ESPEN 2022</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="lab">結論</td>
+              <td><span class="mark-orange"><strong>ENでもPNでも可</strong></span>（"either acceptable"）<br>強い推奨／High</td>
+              <td><span class="mark-green"><strong>早期ENを早期PNより優先</strong></span><br>Grade A</td>
+            </tr>
+            <tr>
+              <td class="lab">主な根拠</td>
+              <td>同等エネルギー下の2大規模RCT（Harvey 2014 + NUTRIREA-2、計4,798例）で転帰に差なし</td>
+              <td>早期EN vs 早期PNのメタ解析で感染性合併症 <strong>RR 0.50</strong>（CI 0.37〜0.67, p=0.005）、ICU在室−0.73日、入院−1.23日</td>
+            </tr>
+            <tr>
+              <td class="lab">決定因子</td>
+              <td>コスト・利便性・患者個別の要因でルートを選んでよい</td>
+              <td>原則ENを先行。EN禁忌・不耐ならPNを段階的に</td>
+            </tr>
+            <tr>
+              <td class="lab">死亡率</td>
+              <td>両ルートで差なし</td>
+              <td>EN vs PNで死亡率に差なし（利益は感染・在室期間）</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="rule-body" style="margin-top:10px;"><span class="mark-red"><strong>相違点：</strong></span>表面的には「ASPEN＝ルート自由／ESPEN＝EN優先」と対立して見える。ASPENは<strong>同等カロリーで揃えた最新の2大RCT</strong>を重視し、現代的管理ではPNの感染増加の懸念は当てはまらないと結論した。一方ESPENはメタ解析全体のEN優位シグナル（RR 0.50）を採用してGrade Aで早期EN優先を維持している。</p>
+        <div class="alert-green2">
+          <strong>実は接近している：</strong>ESPEN自身も「近年のRCTではEN/PNの明確な差が示されなくなっており、過去に観察されたENの利点はPN群のカロリー・アミノ酸過剰によるものだった可能性がある」と注記している。つまり<span class="mark-green"><strong>両者の差は「カロリーを揃えれば差は縮む」という理解で橋渡しできる</strong></span>。過剰栄養を避けたうえでなら、ルート選択の自由度（ASPEN）と早期EN優先（ESPEN）は実務上両立する。
+        </div>
+      </div>
+    </div>
+    <div class="dt-source"><a href="../articles-gl-aspen-nutrition2021.html#aspen-q3-rec">ASPEN 2021 &#9659; 推奨3 EN vs PN</a> / <a href="../articles-gl-espen-nutrition2022.html#espen-early-en">ESPEN 2022 &#9659; S2 早期EN（R5）</a></div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">開始タイミングの扱い</h3>
+        <p class="rule-body">「いつ始めるか」については、<span class="mark-orange"><strong>ESPENが明確</strong></span>である。経口不可なら<strong>48時間以内に早期EN</strong>（Grade B、感染性合併症 RR 0.76, p&lt;0.03）を推奨し、ECMO・外傷性脳損傷・脳卒中・重症急性膵炎・腹臥位管理中など多数の特殊病態でも早期ENを推奨する（R40, Grade B）。一方ASPENの5つのPICOには「開始タイミング」そのものは含まれず、EN vs PNやSPNの文脈で第1週の管理を論じている。</p>
+        <div class="ie-stat-grid" style="margin-top:12px;">
+          <div class="ie-stat ie-stat-green">
+            <div class="ie-stat-val">48h</div>
+            <div class="ie-stat-label">ESPEN：早期EN開始の<br>タイムリミット</div>
+          </div>
+          <div class="ie-stat ie-stat-green">
+            <div class="ie-stat-val">RR 0.76</div>
+            <div class="ie-stat-label">早期EN vs 遅延EN<br>感染性合併症（ESPEN）</div>
+          </div>
+          <div class="ie-stat ie-stat-blue">
+            <div class="ie-stat-val">4,798例</div>
+            <div class="ie-stat-label">ASPEN：EN vs PN<br>2大RCTの総症例数</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="dt-source"><a href="../articles-gl-espen-nutrition2022.html#espen-early-en">ESPEN 2022 &#9659; S2 早期EN（R4・R40）</a> / <a href="../articles-gl-aspen-nutrition2021.html#aspen-q3-nutrirea">ASPEN 2021 &#9659; NUTRIREA-2 詳細</a></div>
+
+    <!-- ══════════════════════════════════════════════
+         第5章 補足的PN（SPN）
+    ══════════════════════════════════════════════ -->
+    <div id="cmp-ch5" class="gl-chapter-banner dt"><div class="gl-chapter-title">第5章 補足的PN（SPN）の開始時期</div><div class="gl-chapter-subtitle">Timing of Supplemental PN</div></div>
+
+    <h3 id="cmp-s5" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+      <span class="section-label dt">SECTION 5</span>
+      「早期SPNは控える」で一致<span class="verdict v-same">一致</span>
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">SPN開始時期の比較</h3>
+        <table class="ie-table cmp">
+          <thead><tr><th class="col-item">論点</th><th class="col-aspen">ASPEN 2021</th><th class="col-espen">ESPEN 2022</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="lab">推奨</td>
+              <td><span class="mark-red"><strong>ICU入室7日目より前にSPNを開始しない</strong></span><br>強い推奨／High</td>
+              <td>EN不耐時のSPNの最適開始は<strong>4〜7日目頃</strong>（GPP）。早期は有害の可能性</td>
+            </tr>
+            <tr>
+              <td class="lab">根拠</td>
+              <td>6 RCT・6,731例で死亡率・感染症に改善なし</td>
+              <td>EPaNIC研究で早期完全栄養がICU依存・人工呼吸・感染・腎代替を増加</td>
+            </tr>
+            <tr>
+              <td class="lab">共通の警告</td>
+              <td colspan="2" style="background:#FFFBEB;"><strong>両者とも同じEPaNIC試験を主要根拠とする。</strong>第1週からのSPN付加はエネルギー・タンパク摂取を増やすが転帰を改善せず、むしろICU在室延長・感染増加という潜在的ハームがある。</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="rule-body" style="margin-top:10px;"><span class="mark-green"><strong>一致点：</strong></span>この論点は両ガイドラインで最もよく揃っている。表現は「7日目前は開始しない（ASPEN）」「4〜7日目頃が最適（ESPEN）」と微妙に異なるが、<strong>第1週前半の早期SPNを避ける</strong>という結論は完全に一致する。</p>
+        <div class="alert-red">
+          <strong>共通の留保：</strong>両者とも、対象RCTに<span class="mark-red"><strong>重度の栄養不良患者は含まれていない</strong></span>ことに注意を促している。そうした高リスク患者では個別判断で早期にSPNを導入する余地が残されている。
+        </div>
+      </div>
+    </div>
+    <div class="dt-source"><a href="../articles-gl-aspen-nutrition2021.html#aspen-q4-rec">ASPEN 2021 &#9659; 推奨4 SPN開始時期</a> / <a href="../articles-gl-espen-nutrition2022.html#espen-delayed-en">ESPEN 2022 &#9659; S3 EN不耐時のPN（R20）</a></div>
+
+    <!-- ══════════════════════════════════════════════
+         第6章 脂肪乳剤（ILE）
+    ══════════════════════════════════════════════ -->
+    <div id="cmp-ch6" class="gl-chapter-banner dt"><div class="gl-chapter-title">第6章 脂肪乳剤（ILE）の選択</div><div class="gl-chapter-subtitle">Lipid Injectable Emulsions</div></div>
+
+    <h3 id="cmp-s6" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+      <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 6</span>
+      大豆油単独への姿勢が微妙に異なる<span class="verdict v-partial">一部相違</span>
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">ILE選択の比較</h3>
+        <table class="ie-table cmp">
+          <thead><tr><th class="col-item">論点</th><th class="col-aspen">ASPEN 2021</th><th class="col-espen">ESPEN 2022</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="lab">混合油脂 vs 大豆油</td>
+              <td>主要アウトカムに有意差なし。<strong>混合油脂でも100%大豆油でもどちらも投与可</strong>（弱い推奨／Low）</td>
+              <td><span class="mark-yellow"><strong>大豆油単独乳剤は避ける</strong></span>（炎症促進が懸念される18炭素オメガ6が豊富）。複合乳剤を推奨（GPP）</td>
+            </tr>
+            <tr>
+              <td class="lab">魚油（FO）</td>
+              <td>FO含有 vs 非含有で、肺炎のみ有意に減少（RD −0.03, p=0.03）だが下流アウトカムに反映されず。<strong>どちらも投与可</strong></td>
+              <td>魚油含有PN（EPA+DHA 0.1〜0.2 g/kg/日）は投与可（Grade 0 更新）。感染症 RR 0.65、ICU −2.14日、入院 −3.98日</td>
+            </tr>
+            <tr>
+              <td class="lab">投与量上限</td>
+              <td>—（種類の議論が中心）</td>
+              <td>IV脂質は<strong>1 g/kg/日</strong>標準、最大1.5 g/kg/日（GPP）</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="rule-body" style="margin-top:10px;"><span class="mark-orange"><strong>相違点：</strong></span>ASPENは「混合油脂でも大豆油でもよい」と中立だが、ESPENは<strong>大豆油単独乳剤を明確に避けるよう求め</strong>、複合乳剤（魚油・MCT・オリーブ油含有）を推奨している。魚油についても、ASPENは「肺炎は減るが臨床的有意性は不確実」と慎重なのに対し、ESPENは魚油含有PNの感染・在室期間短縮（24 RCTのメタ解析）を根拠に投与可としており、ESPENの方が魚油・複合乳剤に積極的である。</p>
+        <p class="rule-body" style="margin-top:8px;"><span class="mark-green"><strong>共通の実務注意：</strong></span>両者ともプロポフォール（脂質由来カロリー、約1.1 kcal/mL）を総エネルギーに算入すること、血清トリグリセリドをモニタリングすることを求めている。</p>
+      </div>
+    </div>
+    <div class="dt-source"><a href="../articles-gl-aspen-nutrition2021.html#aspen-q5a">ASPEN 2021 &#9659; 推奨5 ILE選択</a> / <a href="../articles-gl-espen-nutrition2022.html#espen-glucose-lipid">ESPEN 2022 &#9659; S7 脂質（R24）</a> / <a href="../articles-gl-espen-nutrition2022.html#espen-omega3">ESPEN 2022 &#9659; S9 オメガ3</a></div>
+
+    <!-- ══════════════════════════════════════════════
+         第7章 ESPENのみが踏み込む領域
+    ══════════════════════════════════════════════ -->
+    <div id="cmp-ch7" class="gl-chapter-banner dt"><div class="gl-chapter-title">第7章 ESPENが踏み込み、ASPENが推奨を作らない領域</div><div class="gl-chapter-subtitle">Topics Covered Only by ESPEN</div></div>
+
+    <h3 id="cmp-s7" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+      <span class="section-label dt">SECTION 7</span>
+      なぜ差が生まれるのか
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">ASPENが「推奨を作れなかった」3つの問い</h3>
+        <p class="rule-body">ASPEN 2021はRCTのある5問に絞ったため、以下はあえて推奨を作っていない。これらはESPENが実践的にカバーしている領域とちょうど対をなす。</p>
+        <table class="ie-table">
+          <thead><tr><th style="white-space:nowrap;">ASPENが保留した問い</th><th>ASPENの立場</th></tr></thead>
+          <tbody>
+            <tr><td class="lab">栄養リスクスコア<br>（NUTRIC・NRS2002）</td><td>BMI単独との比較RCTがなく推奨不可（観察研究のみ）。2016年版の栄養リスク層別化はRCT未検証として不採用</td></tr>
+            <tr><td class="lab">免疫栄養素<br>（グルタミン・ω-3等）</td><td>介入・用量が多様で別の独立ガイドラインに委譲</td></tr>
+            <tr><td class="lab">プロバイオティクス</td><td>菌種・用量が多様でアウトカム報告が不十分</td></tr>
+          </tbody>
+        </table>
+        <p class="rule-body" style="margin-top:10px;">つまり「ASPENに記載がない＝重要でない」のではなく、<span class="mark-orange"><strong>方法論（RCT限定GRADE）の結果として推奨化していないだけ</strong></span>である。臨床でこれらの判断が必要なときは、ESPENの該当推奨が実用的な指針になる。</p>
+      </div>
+    </div>
+    <div class="dt-source"><a href="../articles-gl-aspen-nutrition2021.html#aspen-unanswered">ASPEN 2021 &#9659; 回答できなかった問い</a></div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">ESPENが提供する実践推奨（ASPEN 2021に対応推奨なし）</h3>
+        <table class="ie-table">
+          <thead><tr><th style="white-space:nowrap;">領域</th><th>ESPEN 2022の推奨（要点）</th><th style="white-space:nowrap;">Grade</th></tr></thead>
+          <tbody>
+            <tr><td class="lab">グルタミン</td><td>熱傷&gt;20%BSA：EN追加 0.3〜0.5 g/kg/日×10〜15日。外傷：0.2〜0.3 g/kg/日×5日。<span class="mark-red"><strong>一般ICUは禁止／肝腎不全への静注ジペプチドは絶対禁忌</strong></span></td><td>B / 0 / B / A</td></tr>
+            <tr><td class="lab">オメガ3</td><td>魚油含有PN（EPA+DHA 0.1〜0.2 g/kg/日）は投与可。高用量強化ENのボーラス・定常使用は禁止</td><td>0更新 / B</td></tr>
+            <tr><td class="lab">微量栄養素</td><td>PN施行患者には毎日補充。<span class="mark-red"><strong>高用量抗酸化物質単独療法は禁止</strong></span>（セレン・ビタミンD/C等で利益なし）</td><td>B / A更新</td></tr>
+            <tr><td class="lab">糖質</td><td>糖質（PN）・炭水化物（EN）は5 mg/kg/分を超えない</td><td>GPP</td></tr>
+            <tr><td class="lab">血糖管理</td><td>血糖 ≥180 mg/dL（10 mmol/L）でインスリン開始。最初の2日は4時間ごと測定</td><td>A / GPP</td></tr>
+            <tr><td class="lab">プロキネティクス</td><td>胃排泄遅延の第一選択は静注エリスロマイシン（100〜250 mg×3、RR 0.58）。効果が72hで1/3に低下するため3日まで</td><td>B</td></tr>
+            <tr><td class="lab">リフィーディング</td><td>第1週は電解質を毎日測定。低リン血症（&lt;0.65 mmol/L）発症時は48時間カロリー制限し段階的増量</td><td>GPP / B</td></tr>
+            <tr><td class="lab">EN経路・方法</td><td>標準は胃内投与（不耐なら幽門後へ）。原則は持続投与（下痢 RR 0.42）</td><td>GPP / B</td></tr>
+            <tr><td class="lab">特殊病態</td><td>敗血症：蘇生後に少量EN（フルの20〜50%）から段階的。外傷：早期EN優先＋タンパク1.5〜2 g/kg/日。肥満：IC＋尿中窒素でガイド、調整体重1.3 g/kg/日</td><td>GPP / B / 0</td></tr>
+          </tbody>
+        </table>
+        <div class="alert-green2">
+          <strong>ポイント：</strong>これらは<span class="mark-green"><strong>「ASPENと矛盾する」のではなく「ASPENが触れていない」領域</strong></span>である。ベッドサイドでグルタミン・血糖・プロキネティクス・リフィーディングの判断に迷ったら、ESPEN側を参照すればよい。
+        </div>
+      </div>
+    </div>
+    <div class="dt-source"><a href="../articles-gl-espen-nutrition2022.html#espen-glutamine">ESPEN 2022 &#9659; S8 グルタミン</a> / <a href="../articles-gl-espen-nutrition2022.html#espen-micronutrients">S10 微量栄養素</a> / <a href="../articles-gl-espen-nutrition2022.html#espen-prokinetics">S15 プロキネティクス</a> / <a href="../articles-gl-espen-nutrition2022.html#espen-refeeding">S16 リフィーディング</a></div>
+
+    <!-- ══════════════════════════════════════════════
+         第8章 総合 — 使い分け
+    ══════════════════════════════════════════════ -->
+    <div id="cmp-ch8" class="gl-chapter-banner dt"><div class="gl-chapter-title">第8章 総合 — 一致点・相違点とベッドサイドでの使い分け</div><div class="gl-chapter-subtitle">Putting It Together</div></div>
+
+    <h3 id="cmp-s8" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+      <span class="section-label dt">SECTION 8</span>
+      一覧で見る一致・相違
+    </h3>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">論点別 早見表</h3>
+        <table class="ie-table cmp">
+          <thead><tr><th class="col-item">論点</th><th class="col-aspen">ASPEN 2021</th><th class="col-espen">ESPEN 2022</th><th class="col-item" style="white-space:nowrap;">判定</th></tr></thead>
+          <tbody>
+            <tr><td class="lab">エネルギー</td><td>12〜25 kcal/kg/日（弱）</td><td>早期&lt;70%→3日目以降80〜100%、IC測定</td><td><span class="verdict v-partial">一部相違</span></td></tr>
+            <tr><td class="lab">タンパク質</td><td>1.2〜2.0 g/kg/日（弱）</td><td>1.3 g/kg/日を段階的（中用量最良）</td><td><span class="verdict v-same">概ね一致</span></td></tr>
+            <tr><td class="lab">EN vs PN</td><td>どちらでも可（強）</td><td>早期ENを優先（Grade A）</td><td><span class="verdict v-diff">相違あり</span></td></tr>
+            <tr><td class="lab">早期EN開始</td><td>PICO外（言及限定的）</td><td>48時間以内（Grade B）</td><td><span class="verdict v-diff">ESPENのみ</span></td></tr>
+            <tr><td class="lab">補足的PN</td><td>7日目前に開始しない（強）</td><td>4〜7日目頃が最適（GPP）</td><td><span class="verdict v-same">一致</span></td></tr>
+            <tr><td class="lab">ILE</td><td>混合でも大豆油でも可（弱）</td><td>大豆油単独は回避・複合乳剤推奨</td><td><span class="verdict v-partial">一部相違</span></td></tr>
+            <tr><td class="lab">過剰栄養回避</td><td>安全性解析で高エネルギーに死亡傾向</td><td>内因性産生への上乗せを警告</td><td><span class="verdict v-same">一致</span></td></tr>
+            <tr><td class="lab">免疫栄養・血糖・<br>微量栄養素ほか</td><td>推奨を作らず（RCT限定）</td><td>多数の実践推奨あり</td><td><span class="verdict v-diff">ESPENのみ</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="dt-source"><a href="../articles-gl-aspen-nutrition2021.html#aspen-summary">ASPEN 2021 &#9659; SUMMARY</a> / <a href="../articles-gl-espen-nutrition2022.html#espen-sum8">ESPEN 2022 &#9659; SUMMARY</a></div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <h3 class="rule-title">ベッドサイドでの使い分け（実務的まとめ）</h3>
+        <div class="ie-flow">
+          <div class="ie-flow-item"><div class="ie-flow-num">1</div><div style="flex:1;"><p class="rule-body"><strong>共通の大原則を守る：</strong>急性期は過剰栄養を避け、目標カロリーを段階的に。早期からの完全栄養・早期SPNは控える（両者一致）。</p></div></div>
+          <div class="ie-flow-arrow">&darr;</div>
+          <div class="ie-flow-item"><div class="ie-flow-num">2</div><div style="flex:1;"><p class="rule-body"><strong>ルートは原則ENを先行（ESPEN）。</strong>ただしカロリーを揃えればEN/PNの差は縮むため、EN困難例で短期PNを選ぶことは許容される（ASPEN）。</p></div></div>
+          <div class="ie-flow-arrow">&darr;</div>
+          <div class="ie-flow-item"><div class="ie-flow-num">3</div><div style="flex:1;"><p class="rule-body"><strong>量の確実性を重視するならASPEN</strong>の数値範囲（12〜25 kcal/kg・1.2〜2.0 g/kg）を、<strong>時相別の精密化や実測（IC）を行うならESPEN</strong>の枠組みを使う。</p></div></div>
+          <div class="ie-flow-arrow">&darr;</div>
+          <div class="ie-flow-item"><div class="ie-flow-num">4</div><div style="flex:1;"><p class="rule-body"><strong>個別の臨床課題（敗血症・外傷・肥満・グルタミン・血糖・プロキネティクス・リフィーディング）はESPENを参照</strong>する。ASPENは推奨を作っていないため。</p></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="dt-source"><a href="../articles-gl-aspen-nutrition2021.html#aspen-summary">ASPEN 2021 &#9659; SUMMARY</a> / <a href="../articles-gl-espen-nutrition2022.html#espen-sum2">ESPEN 2022 &#9659; SUMMARY 2</a></div>
+
+    <!-- SUMMARY -->
+    <h3 id="cmp-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+      <span class="section-label dt">SUMMARY</span>このページのキーメッセージ
+    </h3>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-inner">
+        <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span class="summary-num dt">&oplus;</span><span class="rule-body"><strong>方法論が違う：</strong>ASPENはRCT限定GRADEで5問に絞り、ESPENは56推奨で実践網羅。この違いがカバー範囲の差を生む。</span></div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span class="summary-num dt">&oplus;</span><span class="rule-body"><strong>最大の相違はEN vs PN：</strong>ASPENは「どちらでも可（強）」、ESPENは「早期EN優先（Grade A）」。ただしカロリーを揃えれば差は縮むとESPEN自身が注記。</span></div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span class="summary-num dt">&oplus;</span><span class="rule-body"><strong>最も一致するのはSPNと過剰栄養回避：</strong>早期SPNを控える（EPaNICが共通根拠）・過剰栄養を避けるは両者完全一致。</span></div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span class="summary-num dt">&oplus;</span><span class="rule-body"><strong>タンパクとILEは概ね近い：</strong>タンパクは中等量を個別化で一致。ILEはESPENの方が大豆油単独回避・魚油に積極的。</span></div>
+          <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;"><span class="summary-num dt">&oplus;</span><span class="rule-body"><strong>使い分け：</strong>量の確実性＝ASPEN、時相別の精密化・個別病態（敗血症/外傷/肥満/血糖/グルタミン/リフィーディング）＝ESPEN。</span></div>
+        </div>
+      </div>
+    </div>
+
+    </div><!-- /.main-col -->
+
+    <!-- ===== SIDEBAR ===== -->
+    <aside class="ie-sidebar">
+      <div class="ie-sidebar-card">
+        <div class="ie-sidebar-title">目次</div>
+        <a href="#cmp-ch1" class="ie-toc-chapter">第1章 全体像と方法論</a>
+        <a href="#cmp-s1" class="ie-toc-section">S1 &mdash; スコープと推奨の作り方</a>
+        <a href="#cmp-ch2" class="ie-toc-chapter">第2章 エネルギー投与量</a>
+        <a href="#cmp-s2" class="ie-toc-section">S2 &mdash; 目標の決め方の比較</a>
+        <a href="#cmp-ch3" class="ie-toc-chapter">第3章 タンパク質投与量</a>
+        <a href="#cmp-s3" class="ie-toc-section">S3 &mdash; 高用量の評価</a>
+        <a href="#cmp-ch4" class="ie-toc-chapter">第4章 EN vs PN（第1週）</a>
+        <a href="#cmp-s4" class="ie-toc-section">S4 &mdash; ルートと開始タイミング</a>
+        <a href="#cmp-ch5" class="ie-toc-chapter">第5章 補足的PN（SPN）</a>
+        <a href="#cmp-s5" class="ie-toc-section">S5 &mdash; 早期SPNを控える</a>
+        <a href="#cmp-ch6" class="ie-toc-chapter">第6章 脂肪乳剤（ILE）</a>
+        <a href="#cmp-s6" class="ie-toc-section">S6 &mdash; 大豆油・魚油への姿勢</a>
+        <a href="#cmp-ch7" class="ie-toc-chapter">第7章 ESPENのみが踏み込む領域</a>
+        <a href="#cmp-s7" class="ie-toc-section">S7 &mdash; グルタミン・血糖ほか</a>
+        <a href="#cmp-ch8" class="ie-toc-chapter">第8章 総合・使い分け</a>
+        <a href="#cmp-s8" class="ie-toc-section">S8 &mdash; 早見表とまとめ</a>
+        <a href="#cmp-summary" class="ie-toc-section">SUMMARY</a>
+      </div>
+    </aside>
+
+  </div><!-- /.content-wrap -->
+
+  <!-- ===== 出典 ===== -->
+  <div style="max-width:1294px;margin:0 auto;padding:0 20px 40px;">
+    <p style="font-size:0.72rem;color:#9CA3AF;margin-top:16px;line-height:1.7;">
+      本ページは当サイト収録済みの以下2つのガイドラインまとめページの内容のみを比較・統合して作成しました。<br>
+      1. ASPEN 2021 重症成人患者に対する栄養サポートガイドライン（J Parenter Enteral Nutrition 2022年1月）<br>
+      2. ESPEN 2022 ICU臨床栄養 実践・部分改訂ガイドライン（Clinical Nutrition 2023年9月）<br>
+      本資料は教育目的で作成したサマリーです。診断・治療方針の決定には必ず原典ガイドラインを参照してください。
+    </p>
+    <p style="font-size:0.75rem;color:var(--muted);text-align:right;margin-top:8px;">制作：ICU 関谷</p>
+  </div>
+
+  <script src="../../script.js?v=20260618"></script>
+  <script src="../../mob-toc.js"></script>
+  <script src="../../abbr-tooltip.js"></script>
+</body>
+</html>

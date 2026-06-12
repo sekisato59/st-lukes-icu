@@ -10,6 +10,13 @@
  */
 const RECENT_PAGES = [
   {
+    title: "ASPEN 2021 vs ESPEN 2022 — 重症患者栄養ガイドライン比較",
+    url: "pages/disease-topics/dt-aspen-espen.html",
+    date: "2026-06-12",
+    tag: "解説",
+    thumb: "images/icu-study.jpg"
+  },
+  {
     title: "骨粗鬆症 まとめ（保存版）— 病態・診断・製剤各論",
     url: "pages/articles-gl-osteoporosis-notion.html",
     date: "2026-06-11",
