@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>肝硬変患者の感染症 — 板書ノート | ID×ICUカンファレンス | 聖路加ICU</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../style-v2.css?v=20260618">
+  <style>
+    /* ===== ID×ICU 板書ノート 専用テーマ ===== */
+    .gl-chapter-banner {
+      background: linear-gradient(150deg, #2E1065 0%, #6D28D9 100%) !important;
+    }
+    .section-label.icu { color: #7C3AED; }
+
+    /* ===== バナー画像 + テキストオーバーレイ ===== */
+    .vap-banner {
+      position: relative;
+      width: 100%;
+      max-width: 1294px;
+      margin: 64px auto 0;
+      line-height: 0;
+    }
+    .vap-banner-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 85%, transparent 100%);
+      mask-image: linear-gradient(to bottom, #000 0%, #000 85%, transparent 100%);
+    }
+    .vap-banner-overlay {
+      position: absolute;
+      left: 5%;
+      top: 50%;
+      transform: translateY(-50%);
+      max-width: 55%;
+      line-height: 1.4;
+    }
+    .vap-banner-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+    .vap-banner-tags span {
+      display: inline-block;
+      background: rgba(245,243,255,0.85);
+      color: #4C1D95;
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 4px;
+      letter-spacing: 0.04em;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
+    .vap-banner-title {
+      font-size: clamp(1.1rem, 2.6vw, 1.6rem);
+      font-weight: 900;
+      line-height: 1.35;
+      margin: 0 0 6px;
+      color: #4C1D95;
+    }
+    .vap-banner-sub {
+      font-size: clamp(0.78rem, 1.4vw, 0.92rem);
+      font-weight: 700;
+      color: #6D28D9;
+      margin: 0 0 6px;
+    }
+    .vap-banner-lecturer {
+      font-size: clamp(0.72rem, 1.2vw, 0.82rem);
+      color: #7C3AED;
+      margin: 0;
+    }
+
+    @media (max-width: 900px) {
+      .vap-banner-overlay { max-width: 60%; left: 4%; top: 45%; }
+    }
+    @media (max-width: 600px) {
+      .vap-banner { line-height: 1.4; }
+      img[src*="headerID*ICUpage"] { height: 150px; object-fit: cover; object-position: left center; }
+      .vap-banner-overlay {
+        position: absolute;
+        left: 5%;
+        top: 50%;
+        transform: translateY(-50%);
+        max-width: 88%;
+        padding: 0;
+      }
+    }
+
+    /* ====== 見出し階層 ====== */
+    .card-inner h3.rule-title {
+      font-size: 0.98rem;
+      color: var(--text);
+      padding-bottom: 6px;
+      border-bottom: 2px solid #C4B5FD;
+      margin: 0 0 10px;
+    }
+    .card-inner h4.sub-head {
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: #5B21B6;
+      background: #F5F3FF;
+      border: 1px solid #E9E3FF;
+      border-radius: 6px;
+      padding: 7px 12px;
+      margin: 18px 0 9px;
+      letter-spacing: 0.01em;
+      line-height: 1.4;
+    }
+    .card-inner h4.sub-head:first-child { margin-top: 0; }
+
+    /* ====== 本文 ====== */
+    .card-inner .rule-body,
+    .card-inner ul li,
+    .card-inner ol li,
+    .card-inner p {
+      color: #475569;
+      line-height: 1.7;
+    }
+    .card-inner > .rule-body, .card-inner > p { padding-left: 18px; }
+    .card-inner p { margin: 4px 0; }
+    .card-inner ul, .card-inner ol {
+      list-style: disc;
+      padding-left: 26px;
+      margin: 4px 0 8px;
+    }
+    .card-inner ol { list-style: decimal; }
+    .card-inner ul li, .card-inner ol li { margin-bottom: 3px; }
+    .card-inner ul li::marker { color: #C4B5FD; }
+    .card-inner ol li::marker { color: #7C3AED; font-weight: 700; }
+    .card-inner strong { color: var(--text); font-weight: 700; }
+    .card-inner em { font-style: italic; color: #1F2937; }
+
+    /* ====== Pitfall/注意/ポイント ボックス ====== */
+    .danger, .keypoint, .point {
+      border-radius: 8px; padding: 11px 14px; margin: 10px 0;
+      font-size: 0.82rem; line-height: 1.7;
+    }
+    .danger   { background: #FEF2F2; border: 1px solid #FECACA; color: #7F1D1D; }
+    .keypoint { background: #FFFBEB; border: 1px solid #FDE68A; color: #78350F; }
+    .point    { background: #F0FDF4; border: 1px solid #BBF7D0; color: #14532D; }
+    .alert-head {
+      display: block;
+      font-weight: 800; font-size: 0.84rem; line-height: 1.5; margin-bottom: 5px;
+    }
+    .alert-head::before {
+      display: inline-block; color: #fff; font-size: 0.64rem; font-weight: 800;
+      padding: 2px 8px; border-radius: 4px; letter-spacing: 0.06em;
+      margin-right: 8px; vertical-align: middle;
+    }
+    .danger   .alert-head { color: #991B1B; }
+    .danger   .alert-head::before { content: 'Pitfall'; background: #DC2626; }
+    .keypoint .alert-head { color: #92400E; }
+    .keypoint .alert-head::before { content: '注意'; background: #F59E0B; }
+    .point    .alert-head { color: #15803D; }
+    .point    .alert-head::before { content: 'ポイント'; background: #16A34A; }
+    .danger p, .keypoint p, .point p { margin: 0; font-size: 0.82rem; line-height: 1.7; }
+    .danger p strong { color: #991B1B; }
+    .keypoint p strong { color: #92400E; }
+    .point p strong { color: #15803D; }
+
+    /* ====== 莢膜菌リストボックス ====== */
+    .mnemonic-box {
+      background: #F5F3FF; border: 1px solid #C4B5FD; border-radius: 8px;
+      padding: 12px 16px; margin: 8px 0;
+    }
+    .mnemonic-title {
+      font-size: 0.84rem; font-weight: 800; color: #4C1D95;
+      margin-bottom: 8px; padding-bottom: 5px;
+      border-bottom: 1px solid #DDD6FE;
+      letter-spacing: 0.04em;
+    }
+    .mnemonic-row {
+      display: flex; align-items: baseline; padding: 4px 0;
+      font-size: 0.84rem; color: #1F2937; gap: 10px;
+    }
+    .mnemonic-acro {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-width: 28px; height: 22px; background: #7C3AED; color: #fff;
+      border-radius: 4px; font-weight: 800; font-size: 0.78rem; flex-shrink: 0;
+      font-family: ui-monospace, Menlo, Consolas, monospace;
+    }
+
+    /* ====== ie-table ====== */
+    .card-inner .ie-table td { color: #475569; }
+    .card-inner .ie-table th { color: var(--text); }
+    .card-inner .ie-table strong { color: var(--text); }
+
+    /* card 余白 */
+    .card .card-inner { padding: 14px 18px; }
+    .card { margin-bottom: 12px !important; }
+    .gl-chapter-banner { margin-top: 32px !important; padding: 14px 20px !important; }
+    .gl-chapter-banner.first { margin-top: 8px !important; }
+    .gl-chapter-banner .gl-chapter-title { font-size: 1.15rem !important; }
+
+    /* ====== モバイル ====== */
+    @media (max-width: 767px) {
+      .card-inner h4.sub-head { font-size: 0.84rem; padding: 6px 10px; margin: 14px 0 8px; }
+      .danger, .keypoint, .point { padding: 10px 12px; font-size: 0.8rem; }
+      .alert-head { font-size: 0.81rem; }
+      .alert-head::before { font-size: 0.6rem; padding: 2px 7px; }
+      .danger p, .keypoint p, .point p { font-size: 0.8rem; line-height: 1.7; }
+      .mnemonic-title { font-size: 0.82rem; }
+      .mnemonic-row { font-size: 0.8rem; }
+      .gl-chapter-banner .gl-chapter-title { font-size: 1rem !important; }
+    }
+    @media (max-width: 767px) {
+      .card-inner :is(p, li, dd, dt, td, th, blockquote, figcaption, caption),
+      .card-inner :is([class$="-body"], [class$="-text"], [class$="-note"], [class$="-desc"], [class$="-row"]),
+      .danger :is(p, li), .keypoint :is(p, li), .point :is(p, li),
+      .card-inner [style*="font-size:0.8"], .card-inner [style*="font-size: 0.8"],
+      .card-inner [style*="font-size:0.9"], .card-inner [style*="font-size: 0.9"] {
+        font-size: 0.78rem !important;
+        line-height: 1.7 !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="../../index.html" class="nav-logo">
+        <img src="../../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+        <span class="nav-logo-text">聖路加国際病院ICU</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-menu" id="navMenu"></ul>
+    </div>
+  </nav>
+
+  <!-- ===== HEADER ===== -->
+  <div class="vap-banner">
+    <img src="../../images/headerID*ICUpage.png" alt="ID×ICUカンファレンス 板書ノート" class="vap-banner-img">
+    <div class="vap-banner-overlay">
+      <div class="vap-banner-tags">
+        <span>ID×ICU カンファレンス</span>
+        <span>2026年6月</span>
+        <span>感染症 / 肝硬変</span>
+      </div>
+      <h1 class="vap-banner-title">肝硬変患者の感染症 — 板書ノート</h1>
+      <p class="vap-banner-sub">易感染性の4機序・SBP・静脈瘤破裂とAbx ／ Vibrio・Aeromonas・Cryptococcus</p>
+      <p class="vap-banner-lecturer">レジュメ作成：ICU 関谷</p>
+    </div>
+  </div>
+
+  <!-- ===== MAIN CONTAINER ===== -->
+  <div class="container" style="max-width:1294px;margin:0 auto;padding:8px 20px 32px;">
+    <div class="ie-page-flex">
+
+      <!-- ===== MAIN CONTENT ===== -->
+      <div class="ie-main-col">
+
+        <!-- 略語一覧 -->
+        <div class="card" style="margin-top:0;margin-bottom:24px;">
+          <div class="card-inner">
+            <h3 class="rule-title">本ページで使用する略語一覧</h3>
+            <table style="width:100%;border-collapse:collapse;font-size:0.78rem;line-height:1.6;color:#475569;">
+              <tbody>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:150px;color:var(--blue);">LC</td><td style="padding:4px 8px;">Liver Cirrhosis — 肝硬変</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">Child-Pugh</td><td style="padding:4px 8px;">チャイルド・ピュー分類（肝予備能。C は最重症）</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">GNR</td><td style="padding:4px 8px;">Gram-Negative Rod — グラム陰性桿菌</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CTRX</td><td style="padding:4px 8px;">Ceftriaxone — セフトリアキソン</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">SBP</td><td style="padding:4px 8px;">Spontaneous Bacterial Peritonitis — 特発性細菌性腹膜炎</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">PMN</td><td style="padding:4px 8px;">Polymorphonuclear leukocyte — 多形核白血球（好中球）</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">BDG</td><td style="padding:4px 8px;">β-D-glucan — β-D-グルカン</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">MΦ</td><td style="padding:4px 8px;">Macrophage — マクロファージ</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CD4</td><td style="padding:4px 8px;">CD4陽性Tリンパ球</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">HSV / VZV</td><td style="padding:4px 8px;">単純ヘルペスウイルス／水痘・帯状疱疹ウイルス</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">TB</td><td style="padding:4px 8px;">Tuberculosis — 結核</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">SOL</td><td style="padding:4px 8px;">Space-Occupying Lesion — 占拠性病変</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">NF（Nec Fas.）</td><td style="padding:4px 8px;">Necrotizing Fasciitis — 壊死性筋膜炎</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">DOXY</td><td style="padding:4px 8px;">Doxycycline — ドキシサイクリン</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">FQs</td><td style="padding:4px 8px;">Fluoroquinolones — フルオロキノロン</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CFPM</td><td style="padding:4px 8px;">Cefepime — セフェピム</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">MBL</td><td style="padding:4px 8px;">Metallo-β-lactamase — メタロβラクタマーゼ</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">AmpC</td><td style="padding:4px 8px;">AmpC β-lactamase — AmpC型βラクタマーゼ</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">BCx</td><td style="padding:4px 8px;">Blood Culture — 血液培養</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">MCFG</td><td style="padding:4px 8px;">Micafungin — ミカファンギン</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">L-AmB / Ambisome</td><td style="padding:4px 8px;">Liposomal Amphotericin B — リポソーマルアムホテリシンB（アムビゾーム®）</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">5-FC</td><td style="padding:4px 8px;">Flucytosine — フルシトシン</td></tr>
+                <tr><td style="padding:4px 8px;font-weight:700;color:var(--blue);">AKI</td><td style="padding:4px 8px;">Acute Kidney Injury — 急性腎障害</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+
+        <!-- ════════════════════════════════════════ -->
+        <!-- 第1章 肝硬変と易感染性 -->
+        <!-- ════════════════════════════════════════ -->
+        <div id="ch1" class="gl-chapter-banner first">
+          <div class="gl-chapter-title">第1章　肝硬変と易感染性</div>
+          <div class="gl-chapter-subtitle">Cirrhosis &amp; Infection — なぜ肝硬変では感染症が増えるのか</div>
+        </div>
+
+        <h3 id="ch1-s1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 1</span>
+          肝硬変で感染しやすくなる4つの機序
+        </h3>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">① 腸管バリアの破綻と Bacterial translocation</h3>
+            <p class="rule-body">門脈圧亢進により<strong>腸管の浮腫（edema）</strong>が進み、腸管のバリア機能が破綻して <strong>bacterial translocation（腸管内細菌の体内移行）</strong>が起こる。</p>
+            <h4 class="sub-head">消化管出血時の血流感染</h4>
+            <p class="rule-body">肝硬変（LC）の<strong>消化管出血</strong>では <strong>GNR（<em>E. coli</em>・<em>Klebsiella</em>）</strong>による感染が増える。<span class="mark-green"><strong>CTRX 2g/日</strong></span>の投与で<strong>死亡率が低下</strong>する。</p>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">② 好中球の貪食能低下・機能性好中球減少</h3>
+            <p class="rule-body">好中球の<strong>貪食能（phagocytosis）が低下</strong>し、<strong>functional neutropenia（機能性好中球減少）</strong>の状態となる。</p>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">③ 補体の低下とオプソニン化障害 → 莢膜菌に弱い</h3>
+            <p class="rule-body">補体（<strong>C3 → C3b</strong>）が低下すると<strong>オプソニン化（opsonization）</strong>が障害される。オプソニン化された菌はマクロファージ（MΦ）・好中球（Neu）に貪食されるため、補体低下では<strong>莢膜（encapsulated）を持つ菌に対して弱くなる</strong>。</p>
+            <div class="mnemonic-box">
+              <div class="mnemonic-title">★ 補体低下で弱くなる莢膜菌（encapsulated bacteria）</div>
+              <div class="mnemonic-row"><span class="mnemonic-acro">1</span><span><em>Streptococcus pneumoniae</em>（肺炎球菌・PCV20／PCV21）</span></div>
+              <div class="mnemonic-row"><span class="mnemonic-acro">2</span><span><em>Haemophilus influenzae</em>（Hib）</span></div>
+              <div class="mnemonic-row"><span class="mnemonic-acro">3</span><span><em>Klebsiella pneumoniae</em></span></div>
+              <div class="mnemonic-row"><span class="mnemonic-acro">4</span><span><em>Neisseria meningitidis</em>（髄膜炎菌）</span></div>
+              <div class="mnemonic-row"><span class="mnemonic-acro">5</span><span><em>Salmonella</em></span></div>
+              <div class="mnemonic-row"><span class="mnemonic-acro">6</span><span><em>Cryptococcus</em>（クリプトコッカス）</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">④ 細胞性免疫の低下</h3>
+            <p class="rule-body"><strong>CD4 の機能が低下</strong>し、<strong>免疫疲弊（immune fatigue）</strong>を来す。これにより細胞性免疫が関与する病原体が再活性化・顕在化しやすくなる。</p>
+            <p class="rule-body">例）<span class="mark-orange"><strong>HSV・VZV・結核（TB）</strong></span></p>
+          </div>
+        </div>
+
+        <h3 id="ch1-s2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 2</span>
+          腹水と特発性細菌性腹膜炎（SBP）
+        </h3>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">SBP — Spontaneous Bacterial Peritonitis</h3>
+            <p class="rule-body">肝硬変の腹水（ascites）に細菌感染を生じる病態が<strong>特発性細菌性腹膜炎（SBP）</strong>である。</p>
+            <table class="ie-table" style="margin-top:10px;">
+              <tbody>
+                <tr><td style="white-space:nowrap;font-weight:700;width:130px;">起因菌（Micro）</td><td><em>E. coli</em> ・ <em>Klebsiella</em> ・ <em>S. pneumoniae</em></td></tr>
+                <tr><td style="white-space:nowrap;font-weight:700;">診断（Diagnosis）</td><td>腹水 <strong>PMN ≥ 250</strong>（/μL）</td></tr>
+                <tr><td style="white-space:nowrap;font-weight:700;">治療（Tx）</td><td><span class="mark-green"><strong>CTRX</strong></span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <h3 id="ch1-s3" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 3</span>
+          進行肝硬変の静脈瘤破裂における抗菌薬の役割
+        </h3>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">Role of Abx for varix rupture in advanced cirrhosis</h3>
+            <p class="rule-body">進行肝硬変の<strong>静脈瘤破裂（varix rupture）</strong>に対する抗菌薬（<span class="mark-green"><strong>CTRX</strong></span>）投与は、以下の4つのアウトカムを改善する。</p>
+            <ol>
+              <li><strong>再出血（Re-Bleeding）↓</strong></li>
+              <li><strong>再出血関連死亡（Re-Bleeding related mortality）↓</strong></li>
+              <li><strong>感染関連死亡（Infection related mortality）↓</strong></li>
+              <li><strong>全死亡（Overall mortality）↓</strong></li>
+            </ol>
+          </div>
+        </div>
+
+        <h3 id="ch1-s4" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 4</span>
+          Cryptococcus — <em>neoformans</em> と <em>gattii</em>
+        </h3>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">BDG 陰性となる真菌</h3>
+            <p class="rule-body"><strong>β-D-グルカン（BDG）が陰性（⊖）</strong>になる真菌として、<span class="mark-orange"><strong>Cryptococcus（crypto）</strong></span>と<span class="mark-orange"><strong>Mucor（ムーコル）</strong></span>がある。</p>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title"><em>C. neoformans</em> と <em>C. gattii</em> の対比</h3>
+            <table class="ie-table">
+              <thead>
+                <tr><th style="width:30%;">　</th><th><em>C. neoformans</em></th><th><em>C. gattii</em></th></tr>
+              </thead>
+              <tbody>
+                <tr><td style="font-weight:700;">宿主・分布</td><td>免疫低下者（immune ↓）</td><td>熱帯（tropical）<br><span style="font-size:0.72rem;color:var(--muted);">米国西海岸・豪州北海岸</span></td></tr>
+                <tr><td style="font-weight:700;">CNS病変</td><td>髄膜炎（meningitis）</td><td>占拠性病変（SOL）</td></tr>
+                <tr><td style="font-weight:700;">治療（Tx）</td><td colspan="2" style="text-align:center;"><span class="mark-green"><strong>Ambisome</strong></span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Ch1 SUMMARY -->
+        <h3 id="ch1-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SUMMARY</span>
+          第1章のキーメッセージ
+        </h3>
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+                <span class="rule-body"><strong>易感染性の4機序：</strong>腸管バリア破綻（bacterial translocation）／好中球貪食能↓（functional neutropenia）／補体↓（莢膜菌に弱い）／細胞性免疫↓（CD4機能↓・免疫疲弊）。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+                <span class="rule-body"><strong>消化管出血：</strong>GNR（E. coli・Klebsiella）感染が増え、CTRX 2g/日で死亡率が低下する。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+                <span class="rule-body"><strong>SBP：</strong>起因菌は E. coli・Klebsiella・S. pneumoniae。腹水 PMN ≥ 250 で診断し、CTRX で治療する。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+                <span class="rule-body"><strong>静脈瘤破裂のAbx（CTRX）：</strong>再出血・再出血関連死亡・感染関連死亡・全死亡の4つをいずれも低下させる。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+                <span class="rule-body"><strong>Cryptococcus：</strong>BDG陰性。C. neoformans は免疫低下者で髄膜炎、C. gattii は熱帯地域で占拠性病変（SOL）。治療は Ambisome。</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- ════════════════════════════════════════ -->
+        <!-- 第2章 症例で学ぶ -->
+        <!-- ════════════════════════════════════════ -->
+        <div id="ch2" class="gl-chapter-banner">
+          <div class="gl-chapter-title">第2章　症例で学ぶ — 肝硬変の重症軟部組織感染・真菌感染</div>
+          <div class="gl-chapter-subtitle">Vibrio vulnificus / Aeromonas hydrophila / Cryptococcus neoformans</div>
+        </div>
+
+        <h3 id="ch2-s1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 1</span>
+          CASE 1・CASE 2 — Vibrio vulnificus と Aeromonas hydrophila
+        </h3>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">共通する臨床像 — LC ＋ 発熱・意識低下 ＋ 下肢の黒色化</h3>
+            <p class="rule-body">いずれも背景に<strong>肝硬変（LC）</strong>があり、<strong>発熱 39℃・意識レベル低下・右下肢の黒色化（壊死）</strong>で来院した症例。曝露歴（水・食物）が鑑別の鍵となる。</p>
+            <table class="ie-table" style="margin-top:10px;">
+              <thead>
+                <tr><th style="width:22%;">　</th><th>CASE 1 — <em>Vibrio vulnificus</em></th><th>CASE 2 — <em>Aeromonas hydrophila</em></th></tr>
+              </thead>
+              <tbody>
+                <tr><td style="font-weight:700;">背景</td><td>LC（Child-Pugh C）</td><td>LC</td></tr>
+                <tr><td style="font-weight:700;">曝露歴</td><td>生牡蠣（raw oyster）<br>海水・汽水（salt water）</td><td>淡水（fresh water）</td></tr>
+                <tr><td style="font-weight:700;">菌の分類</td><td>GNR</td><td>GNR（<strong>MBL / AmpC</strong> 産生）</td></tr>
+                <tr><td style="font-weight:700;">臨床像</td><td>① 敗血症（sepsis）<br>② 壊死性筋膜炎（NF）</td><td>① 敗血症（sepsis）<br>② 壊死性筋膜炎（NF）</td></tr>
+                <tr><td style="font-weight:700;">治療</td><td><span class="mark-green"><strong>CTRX + DOXY</strong></span> または FQs<br>② デブリードメント（debridement）</td><td><span class="mark-green"><strong>CFPM</strong></span><br>② FQs</td></tr>
+              </tbody>
+            </table>
+            <div class="keypoint" style="margin-top:10px;">
+              <div class="alert-head">曝露した水で菌を見分ける</div>
+              <p><strong>海水・生牡蠣 → Vibrio vulnificus</strong>、<strong>淡水 → Aeromonas hydrophila</strong>。いずれも肝硬変患者で敗血症・壊死性筋膜炎を来し、抗菌薬に加えて<strong>外科的デブリードメント</strong>を要する。</p>
+            </div>
+          </div>
+        </div>
+
+        <h3 id="ch2-s2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 2</span>
+          CASE 3 — Cryptococcus neoformans
+        </h3>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">提示 — LC ＋ 発熱・意識低下 ＋ 下肢黒色化、血培で酵母</h3>
+            <p class="rule-body">背景に<strong>LC</strong>、<strong>発熱 39℃・意識低下・右下肢の黒色化</strong>に加え、<strong>血液培養（BCx）で酵母（yeast）が陽性（⊕）</strong>となった症例 → <span class="mark-orange"><strong><em>Cryptococcus neoformans</em></strong></span>。</p>
+            <div class="keypoint" style="margin-top:10px;">
+              <div class="alert-head">血培で酵母が出たら（カンジダの場合の初期対応）</div>
+              <p>血培で酵母を認めた場合の基本対応：① <strong>MCFG 100mg</strong>（ミカファンギン）開始 ／ ② <strong>カテーテル抜去（cathe removal）</strong> ／ ③ <strong>血培の再検（BCx repeat）</strong> ／ ④ <strong>眼底検査（Eye）</strong>。</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title"><em>Cryptococcus neoformans</em> の臨床像</h3>
+            <ol>
+              <li><strong>肺結節（pulmonary nodule）</strong></li>
+              <li><strong>敗血症性ショック（septic shock）→ 髄膜炎（meningitis）</strong></li>
+              <li><strong>壊死性筋膜炎（necrotizing fasciitis）</strong></li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">抗真菌薬 — 3つの柱</h3>
+
+            <h4 class="sub-head">① L-Amphotericin B（Ambisome）</h4>
+            <p class="rule-body"><strong>Ambisome 3〜5 mg/kg/日</strong>。主な有害事象は以下。</p>
+            <ol>
+              <li><strong>Infusion reaction（輸注反応）：</strong>発熱・発疹・胸痛（fever, rash, chest pain）</li>
+              <li><strong>AKI（急性腎障害）</strong></li>
+              <li><strong>低カリウム血症（K ↓）</strong></li>
+            </ol>
+
+            <h4 class="sub-head">② Azole（アゾール系）</h4>
+            <p class="rule-body">Fluconazole（Fluc）・Voriconazole（Vori）・Posaconazole（Posa）。</p>
+
+            <h4 class="sub-head">③ 5-FC（Flucytosine）</h4>
+            <ul>
+              <li>経口（oral）</li>
+              <li>骨髄抑制（myelosuppression）に注意</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">病型による治療戦略 — localized か disseminated か</h3>
+            <table class="ie-table">
+              <thead>
+                <tr><th style="width:30%;">病型</th><th>病態</th><th>治療</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="font-weight:700;color:#15803D;">localized<br><span style="font-size:0.72rem;color:var(--muted);font-weight:400;">限局型</span></td>
+                  <td>肺（pulmonary）</td>
+                  <td><span class="mark-green"><strong>Azole</strong></span></td>
+                </tr>
+                <tr>
+                  <td style="font-weight:700;color:#DC2626;">disseminated<br><span style="font-size:0.72rem;color:var(--muted);font-weight:400;">播種型</span></td>
+                  <td>真菌血症（fungemia）・髄膜炎（meningitis）・壊死性筋膜炎（NF）</td>
+                  <td><span class="mark-green"><strong>Ambisome</strong></span><br><span style="font-size:0.78rem;">髄膜炎では <strong>Ambisome + 5-FC</strong></span></td>
+                </tr>
+              </tbody>
+            </table>
+            <h4 class="sub-head">播種型のステップダウン</h4>
+            <div class="ie-flow" style="margin-top:8px;">
+              <div class="ie-flow-item">
+                <div class="ie-flow-num">1</div>
+                <div style="flex:1;"><p class="rule-body"><strong>Ambisome</strong>（髄膜炎では 5-FC 併用）</p></div>
+              </div>
+              <div class="ie-flow-arrow">↓</div>
+              <div class="ie-flow-item">
+                <div class="ie-flow-num">2</div>
+                <div style="flex:1;"><p class="rule-body"><strong>Azole 高用量（HD）</strong></p></div>
+              </div>
+              <div class="ie-flow-arrow">↓</div>
+              <div class="ie-flow-item">
+                <div class="ie-flow-num">3</div>
+                <div style="flex:1;"><p class="rule-body"><strong>Azole 通常用量（normal）</strong></p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ch2 SUMMARY -->
+        <h3 id="ch2-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SUMMARY</span>
+          第2章のキーメッセージ
+        </h3>
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+                <span class="rule-body"><strong>3症例の共通像：</strong>LC ＋ 発熱・意識低下 ＋ 右下肢の黒色化（壊死）。曝露歴と血液培養が鑑別の鍵。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+                <span class="rule-body"><strong>Vibrio vulnificus：</strong>生牡蠣・海水曝露。敗血症・壊死性筋膜炎。治療は CTRX + DOXY（または FQs）＋ デブリードメント。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+                <span class="rule-body"><strong>Aeromonas hydrophila：</strong>淡水曝露。MBL/AmpC 産生 GNR。敗血症・壊死性筋膜炎。治療は CFPM・FQs。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+                <span class="rule-body"><strong>Cryptococcus neoformans：</strong>血培で酵母陽性。肺結節・敗血症性ショック→髄膜炎・壊死性筋膜炎。Ambisome の有害事象は infusion reaction・AKI・低K。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+                <span class="rule-body"><strong>病型別戦略：</strong>限局型（肺）は Azole。播種型（真菌血症・髄膜炎・NF）は Ambisome、髄膜炎は 5-FC を併用し、Ambisome → Azole HD → Azole 通常用量へステップダウン。</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 出典注記 -->
+        <p style="font-size:0.72rem;color:#9CA3AF;margin-top:24px;line-height:1.7;">
+          本資料は教育目的のサマリーで、ID×ICU カンファレンスの板書記録（2026年6月「肝硬変患者の感染症」）をもとに構成しています。<br>
+          診断・治療方針の決定には必ず最新のガイドラインおよび原著文献を参照してください。
+        </p>
+        <p style="font-size:0.75rem;color:var(--muted);text-align:right;margin-top:8px;">制作：ICU 関谷</p>
+
+      </div><!-- /ie-main-col -->
+
+      <!-- ===== SIDEBAR ===== -->
+      <aside class="ie-sidebar">
+        <div class="ie-sidebar-card">
+          <div class="ie-sidebar-title">目次</div>
+
+          <a href="#ch1" class="ie-toc-chapter">第1章　肝硬変と易感染性</a>
+          <a href="#ch1-s1" class="ie-toc-section">S1 — 易感染性の4機序</a>
+          <a href="#ch1-s2" class="ie-toc-section">S2 — 腹水とSBP</a>
+          <a href="#ch1-s3" class="ie-toc-section">S3 — 静脈瘤破裂とAbx</a>
+          <a href="#ch1-s4" class="ie-toc-section">S4 — Cryptococcus</a>
+          <a href="#ch1-summary" class="ie-toc-section">SUMMARY</a>
+
+          <a href="#ch2" class="ie-toc-chapter">第2章　症例で学ぶ</a>
+          <a href="#ch2-s1" class="ie-toc-section">S1 — Vibrio / Aeromonas</a>
+          <a href="#ch2-s2" class="ie-toc-section">S2 — Cryptococcus neoformans</a>
+          <a href="#ch2-summary" class="ie-toc-section">SUMMARY</a>
+        </div>
+      </aside>
+
+    </div><!-- /ie-page-flex -->
+  </div><!-- /container -->
+
+  <script src="../../script.js?v=20260618"></script>
+  <script src="../../abbr-tooltip.js"></script>
+</body>
+</html>

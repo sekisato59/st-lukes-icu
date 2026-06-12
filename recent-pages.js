@@ -17,6 +17,13 @@ const RECENT_PAGES = [
     thumb: "images/icu-study.jpg"
   },
   {
+    title: "肝硬変患者の感染症 — 板書ノート | ID×ICUカンファレンス",
+    url: "pages/id-icu-notes/note-cirrhosis-infection.html",
+    date: "2026-06-12",
+    tag: "解説",
+    thumb: "images/IDICUtop.png"
+  },
+  {
     title: "骨粗鬆症 まとめ（保存版）— 病態・診断・製剤各論",
     url: "pages/articles-gl-osteoporosis-notion.html",
     date: "2026-06-11",
