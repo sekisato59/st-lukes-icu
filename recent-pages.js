@@ -10,6 +10,41 @@
  */
 const RECENT_PAGES = [
   {
+    title: "ペルシュロン動脈梗塞 — 画像所見パターンと臨床スペクトラム",
+    url: "pages/articles-gl-percheron2010.html",
+    date: "2026-06-13",
+    tag: "ガイドライン",
+    thumb: "images/朝カンファ風景.webp"
+  },
+  {
+    title: "後方循環虚血（PCI）と脳底動脈閉塞 — 血管内治療時代の診断と管理",
+    url: "pages/articles-gl-pci-endovascular2021.html",
+    date: "2026-06-13",
+    tag: "ガイドライン",
+    thumb: "images/朝カンファ風景.webp"
+  },
+  {
+    title: "左室拡張機能の心エコー評価とHFpEF診断 — ASE 2025更新版（J Am Soc Echocardiogr 2025）",
+    url: "pages/articles-gl-hfpef-ase2025.html",
+    date: "2026-06-13",
+    tag: "ガイドライン",
+    thumb: "images/朝カンファ風景.webp"
+  },
+  {
+    title: "慢性炎症に伴う貧血（Anemia of Inflammation） — NEJM 2019",
+    url: "pages/articles-gl-aoi2019.html",
+    date: "2026-06-13",
+    tag: "論文",
+    thumb: "images/朝カンファ風景.webp"
+  },
+  {
+    title: "慢性疾患の貧血（慢性炎症に伴う貧血） — NEJM 2005",
+    url: "pages/articles-gl-acd2005.html",
+    date: "2026-06-13",
+    tag: "論文",
+    thumb: "images/朝カンファ風景.webp"
+  },
+  {
     title: "便秘薬の分類と使い分けは？",
     url: "pages/yoshida-qa/q-gi-03.html",
     date: "2026-06-12",
