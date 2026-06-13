@@ -119,10 +119,13 @@ button { cursor: pointer; font-family: inherit; }
   flex-shrink: 0;
 }
 .nav-logo-text {
-  font-size: 1.05rem;
+  /* 画面幅が狭くなっても「聖路加国際病院ICU」を常に横一列で維持する。
+     改行・縦並びを禁止（nowrap）し、幅に応じてフォントサイズのみを縮小する（clamp）。 */
+  font-size: clamp(0.8rem, 2.9vw, 1.05rem);
   font-weight: 900;
   color: #123293;
   letter-spacing: -0.03em;
+  white-space: nowrap;
 }
 
 .nav-menu { display: flex; gap: 2px; flex-wrap: nowrap; align-items: center; }
@@ -1874,7 +1877,8 @@ a.resource-item:hover .resource-name { color: var(--blue); }
   /* モバイルではロゴ（画像＋テキスト）を一回り小さく */
   .nav-logo { gap: 7px; }
   .nav-logo-img { width: 30px; height: 30px; }
-  .nav-logo-text { font-size: 0.92rem; }
+  /* モバイルは上限 0.92rem。狭幅では nowrap を保ったままフォントのみ縮小して横一列を維持 */
+  .nav-logo-text { font-size: clamp(0.8rem, 2.6vw, 0.92rem); }
   .nav-menu {
     position: fixed;
     top: var(--navbar-h);
