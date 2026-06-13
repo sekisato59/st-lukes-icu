@@ -10,6 +10,27 @@
  */
 const RECENT_PAGES = [
   {
+    title: "併存疾患についてのカルテの書き方は？",
+    url: "pages/yoshida-qa/q-presentation-02.html",
+    date: "2026-06-13",
+    tag: "解説",
+    thumb: "images/header吉田先生.png"
+  },
+  {
+    title: "ACPと治療コードの話し合いで意識していることは？",
+    url: "pages/yoshida-qa/q-other-02.html",
+    date: "2026-06-13",
+    tag: "解説",
+    thumb: "images/header吉田先生.png"
+  },
+  {
+    title: "低亜鉛血症のときに使用する薬剤は？",
+    url: "pages/yoshida-qa/q-nutrition-03.html",
+    date: "2026-06-13",
+    tag: "解説",
+    thumb: "images/header吉田先生.png"
+  },
+  {
     title: "慢性疾患の貧血（慢性炎症に伴う貧血） — NEJM 2005",
     url: "pages/articles-gl-acd2005.html",
     date: "2026-06-13",

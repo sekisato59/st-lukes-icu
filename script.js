@@ -526,8 +526,98 @@ if (copyBtn) {
       if (longCell) table.style.minWidth = (cols === 4 ? '720px' : '600px');
     } catch (e) { /* fail-safe: min-width を付けない */ }
   }
+  // ===== 列幅の中央集約・自動バランス（colgroup 自動注入） =====
+  // 列幅を一切明示していない表はブラウザの自動レイアウト任せになり、「長文セルのある列が
+  // 幅を独占し、ラベル列が痩せて改行がガタつく」偏りが出る（サイト共通の長年の課題）。
+  // ここで内容（各列の代表文字数）から列幅比を決定的に算出し <colgroup> を注入して一括管理する。
+  //  - 代表値は「中央値」を使う。1セルだけ極端に長い外れ値（例: 漢方の製剤リスト）に幅を奪われない。
+  //  - clamp(下限/上限)で「極小列が消える」「説明列が画面を食い尽くす」を両方防ぐ。
+  //  - 手書き <colgroup> がある表は“設計者の上書き指定”として尊重しスキップする。
+  //  - table-layout は auto のまま（既存の手書き colgroup と同じ挙動／nowrap セルが欠けない）。
+  var SIZE_FLOOR = 4;   // 列の最小重み（文字数換算）。これ未満でも下限で確保
+  var SIZE_CAP = 36;    // 列の最大重み。長文列が幅を独占しないよう頭打ち
+  function shouldSize(table){
+    if (table.dataset.colgroupApplied === '1') return true;     // 二重処理防止
+    if (table.tagName !== 'TABLE') return true;
+    if (table.querySelector('colgroup')) return true;           // 手書き colgroup を尊重
+    if (table.closest('nav, .navbar, .nav-menu, .ie-sidebar, .mob-toc-drawer, .qa-figure, .kt-screen')) return true;
+    return false;
+  }
+  function median(arr){
+    if (!arr.length) return SIZE_FLOOR;
+    var s = arr.slice().sort(function(a,b){ return a-b; });
+    var m = Math.floor(s.length / 2);
+    return s.length % 2 ? s[m] : (s[m-1] + s[m]) / 2;
+  }
+  function autoColgroup(table){
+    try {
+      // 列数を確定（ヘッダ行の colspan 合計を正とする。applyMinWidth と同じ基準）
+      var headRow = table.querySelector('thead tr') || table.querySelector('tr');
+      if (!headRow) return;
+      var N = 0;
+      headRow.querySelectorAll('th, td').forEach(function(c){
+        N += parseInt(c.getAttribute('colspan') || '1', 10);
+      });
+      if (N < 3) return;  // 2列以下は偏りが出にくく、略語一覧等を壊さないため対象外
+
+      // rowspan/colspan を考慮して本文セルを列インデックスへ正しく割り付け、列ごとに文字数を収集
+      var perCol = {};            // 列index -> 文字数配列（本文のみ）
+      var occ = Object.create(null); // "row,col" -> 既に rowspan で占有
+      var rows = table.rows;
+      for (var r = 0; r < rows.length; r++){
+        var row = rows[r];
+        var allTh = Array.prototype.every.call(row.cells, function(c){ return c.tagName === 'TH'; });
+        var isHeader = (row.parentNode && row.parentNode.tagName === 'THEAD') || allTh;
+        var col = 0;
+        for (var i = 0; i < row.cells.length; i++){
+          while (occ[r + ',' + col]) col++;
+          var cell = row.cells[i];
+          var csp = parseInt(cell.getAttribute('colspan') || '1', 10);
+          var rsp = parseInt(cell.getAttribute('rowspan') || '1', 10);
+          var len = (cell.textContent || '').replace(/\s+/g, '').length;
+          for (var rr = 1; rr < rsp; rr++){
+            for (var cc = 0; cc < csp; cc++){ occ[(r + rr) + ',' + (col + cc)] = true; }
+          }
+          if (!isHeader){
+            for (var cc2 = 0; cc2 < csp; cc2++){
+              var ci = col + cc2;
+              (perCol[ci] = perCol[ci] || []).push(csp > 1 ? len / csp : len);
+            }
+          }
+          col += csp;
+        }
+      }
+
+      // 列ごとの重み = clamp(中央値, 下限, 上限)
+      var weights = [];
+      var sum = 0;
+      for (var k = 0; k < N; k++){
+        var w = Math.max(SIZE_FLOOR, Math.min(SIZE_CAP, median(perCol[k] || [])));
+        weights.push(w);
+        sum += w;
+      }
+      if (sum <= 0) return;
+
+      // % へ正規化（整数）。各列 >=3% を保証し、丸め誤差は最大列に寄せて合計100%に
+      var pct = weights.map(function(w){ return Math.max(3, Math.round(100 * w / sum)); });
+      var total = pct.reduce(function(a, b){ return a + b; }, 0);
+      var maxIdx = pct.indexOf(Math.max.apply(null, pct));
+      pct[maxIdx] += (100 - total);
+      if (pct[maxIdx] < 3) return;  // 異常時は何もしない（フェイルセーフ）
+
+      var cg = document.createElement('colgroup');
+      for (var p = 0; p < N; p++){
+        var colEl = document.createElement('col');
+        colEl.style.width = pct[p] + '%';
+        cg.appendChild(colEl);
+      }
+      table.insertBefore(cg, table.firstChild);
+      table.dataset.colgroupApplied = '1';
+    } catch (e) { /* フェイルセーフ: colgroup を付けない（描画は壊さない） */ }
+  }
   function processAll(){
     document.querySelectorAll('table').forEach(function(table){
+      if (!shouldSize(table)) autoColgroup(table);
       if (shouldSkip(table)) return;
       applyMinWidth(table);
       wrapWithScroll(table);

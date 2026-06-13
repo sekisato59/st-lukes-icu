@@ -46,4 +46,19 @@ fi
 # その結果、コミット結果確認に追加の bash 呼び出しが必要になり 1 コミット往復が 5 倍に。
 # 必要時は手動で `node scripts/audit-pages.js` を実行する。
 
+# 4) テーブルの手書き colgroup 不具合を「ステージ済み HTML だけ」監査（非ブロッキング警告）
+#    列幅自体は script.js が全表に colgroup を自動注入して中央管理するため、
+#    ここでは設計者が手書きした colgroup の配分ミス（幅合計≠100% / col数とヘッダ不一致）だけを
+#    軽量にチェックする。全件スキャンはしない（速度優先）。コミットはブロックしない。
+if [ -f scripts/audit-tables.js ]; then
+  staged_html=$(git diff --cached --name-only --diff-filter=ACM -- '*.html' 2>/dev/null)
+  if [ -n "$staged_html" ]; then
+    tbl_out=$(echo "$staged_html" | xargs node scripts/audit-tables.js 2>/dev/null) || true
+    if echo "$tbl_out" | grep -qE 'WIDTH_SUM|COL_MISMATCH'; then
+      echo "[pre-commit] ⚠ テーブルの手書き colgroup に不具合があります（コミットは継続します）:"
+      echo "$tbl_out" | grep -E 'WIDTH_SUM|COL_MISMATCH' | sed 's/^/    /'
+    fi
+  fi
+fi
+
 exit 0

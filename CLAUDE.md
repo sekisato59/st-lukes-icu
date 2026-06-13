@@ -383,7 +383,7 @@ grep -c 'ie-table\|ie-score-card\|ie-stat-grid' pages/articles-gl-xxxx.html
   ```html
   <td style="white-space:nowrap;">良好<br><span style="font-size:0.72rem;color:var(--muted);">死亡率28%、1/3がLT</span></td>
   ```
-- 4列以上のテーブルでは `<colgroup>` で列幅比率を明示する
+- **列幅は中央管理されている：** `script.js` が全コンテンツ表（3列以上）に、各列の中央値文字数から算出した列幅比で `<colgroup>` を読み込み時に自動注入する。**新規表に colgroup は基本不要**（自動でバランス調整される）。自動配分が意図に合わない時だけ手書き `<colgroup>` で上書きする（＝手書きがある表はJSがスキップ＝尊重）。手書きする時は `<col>`数=ヘッダ列数・幅合計100%を守る。比較マトリクスの比較列は同幅。詳細は skill `st-lukes-table-design`、監査は `node scripts/audit-tables.js`。
 - 説明列（自由テキスト）にはnowrapを付けない（自然な折り返しを許容）
 
 **モバイル表示ルール（横スクロール優先・鬼の改行禁止）：**

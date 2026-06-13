@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../style-v2.css?v=20260615">
+  <link rel="stylesheet" href="../style-v2.css?v=20260619">
   <style>
     html, body { max-width:100%;overflow-x:hidden; }
     body { background:#F8FAFC; }
@@ -921,13 +921,21 @@
           </div>
 
           <div class="kt-cond" data-show-if="use_sedatives=yes" hidden>
-            <div class="kt-cond-title">持続鎮静薬／<a class="drug-info-link" href="articles-gl-sedatives-neuroicu2025.html" target="_blank" rel="noopener">薬剤情報まとめ</a></div>
+            <div class="kt-cond-title">持続鎮静薬／<a class="drug-info-link" href="articles-gl-padis2025.html#sed-drug-ref" target="_blank" rel="noopener">PADIS 薬剤クイックリファレンス</a></div>
             <div class="kt-drug-grid" data-drug-group="sedatives"
                  data-options='[{"name":"プロポフォール","short":"PROP","unit":"mL/h","placeholder":"5","convertTo":{"unit":"mg/h","factor":10,"note":"1% 製剤として換算"}},
                                 {"name":"ミダゾラム（ドルミカム）","short":"MDZ","unit":"mg/h","placeholder":"2"},
                                 {"name":"デクスメデトミジン（プレセデックス）","short":"DEX","unit":"µg/kg/h","placeholder":"0.4"},
                                 {"name":"チオペンタール（ラボナール）","short":"THP","unit":"mg/kg/h","placeholder":"3"}]'></div>
             <div class="kt-drug-custom"><input type="text" data-drug-custom="sedatives" placeholder="その他（自由記載）"></div>
+            <!-- 薬剤一覧（sedatives-cards.js から動的生成） -->
+            <details id="sed-details" style="margin-top:12px;">
+              <summary style="font-size:0.78rem;font-weight:700;color:#1D4ED8;cursor:pointer;padding:6px 0;user-select:none;list-style:none;display:flex;align-items:center;gap:6px;">
+                <span style="display:inline-block;width:14px;height:14px;border:2px solid #1D4ED8;border-radius:50%;text-align:center;line-height:10px;font-size:0.65rem;">▶</span>
+                薬剤特性・注意点を表示（DEX / プロポフォール / ミダゾラム）
+              </summary>
+              <div id="sed-cards-kbs" style="margin-top:10px;"></div>
+            </details>
           </div>
 
           <div class="kt-step-nav">
@@ -1877,7 +1885,7 @@
   </div>
 </div>
 
-<script src="../script.js?v=20260616"></script>
+<script src="../script.js?v=20260619"></script>
 <script src="../abbr-tooltip.js"></script>
 <script>
 /* ===== By Systemカルテ作成ツール（ステップ ウィザード） ===== */
@@ -2897,6 +2905,18 @@
   showStep(1, false);
   render();
 })();
+</script>
+<script src="../sedatives-cards.js"></script>
+<script>
+  // details が開いたタイミングで初めてレンダリング（遅延描画）
+  var sedDetails = document.getElementById('sed-details');
+  if (sedDetails) {
+    sedDetails.addEventListener('toggle', function() {
+      if (sedDetails.open && !document.getElementById('sed-cards-kbs').childElementCount) {
+        renderSedativeCards('sed-cards-kbs');
+      }
+    });
+  }
 </script>
 </body>
 </html>

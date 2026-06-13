@@ -550,6 +550,34 @@ window.BACTERIA_RELATED = {
     ] }
   ],
 
+  // ============ Cryptococcus neoformans ============
+  cneoformans: [
+    { section: "髄膜脳炎の治療（導入・地固め・維持）", items: [
+      { embed: "../articles-gl-hiv-oi.html#ch3", label: "HIV 日和見感染症 ▸ クリプトコッカス症：L-AmB＋5-FC 導入、エキノキャンジンは無効" },
+      { embed: "../id-icu-notes/note-meningitis.html#ch1-s3", label: "髄膜炎 板書ノート ▸ 起因菌：真菌性：HIV 感染者に多く、L-AmB＋5-FC、キャンディン系は無効" }
+    ] },
+    { section: "L-AmB 導入の投与期間", items: [
+      { embed: "../articles-gl-cm-lamb2026.html#cm-summary", label: "クリプトコッカス髄膜炎 L-AmB 短期 vs 長期投与（OFID 2026）▸ キーメッセージ" }
+    ] }
+  ],
+
+  // ============ Cryptococcus gattii ============
+  cgattii: [
+    { section: "C. neoformans との違い", items: [
+      { embed: "../id-icu-notes/note-meningitis.html#ch1-s3", label: "髄膜炎 板書ノート ▸ 起因菌：真菌性：地域流行性で、非免疫不全者でも脳膿瘍を来しうる" }
+    ] },
+    { section: "クリプトコッカス髄膜炎の治療", items: [
+      { embed: "../articles-gl-cm-lamb2026.html#cm-summary", label: "クリプトコッカス髄膜炎 L-AmB 短期 vs 長期投与（OFID 2026）▸ キーメッセージ" }
+    ] }
+  ],
+
+  // ============ Aeromonas hydrophila ============
+  aerohydro: [
+    { section: "AmpC 産生菌としての位置づけ", items: [
+      { embed: "../id-icu-notes/note-fn.html#ch9-s1", label: "好中球減少性発熱 板書ノート ▸ AmpC 産生菌（AMPC-HESK）：Aeromonas は頭文字 A に含まれる" }
+    ] }
+  ],
+
   // ============ Haemophilus influenzae ============
   hinfluenzae: [
     { section: "細菌性髄膜炎での位置づけと治療", items: [
