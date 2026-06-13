@@ -218,6 +218,63 @@ grep -c 'ie-table\|ie-score-card\|ie-stat-grid' pages/articles-gl-xxxx.html
 - バッジ形式のデザインは使わない（ダサい）
 - シャドウ・過剰な装飾・絵文字は使わない
 
+### 間隔トークン（余白の量子化・「間隔がちがう」防止）
+
+`style-v2.css` の `:root` に **8px ベースライン・4px 刻みの間隔トークン**を定義済み。
+**新規に margin / padding / gap を書くときは、生の px ではなくこの変数を使う。**
+余白を 4/8px の倍数に揃えることで、「箱ごとに margin を手打ちして 14px と 16px が
+混在し、見た目の間隔がズレる」類の不具合（過去に AIUEOTIPS 箱で発生）を構造的に防ぐ。
+
+| トークン | 値 | 主な用途 |
+|---|---|---|
+| `--sp-1` | 4px | 行内の最小間隔・ラベル下の微調整 |
+| `--sp-2` | 8px | **基準単位**。リスト項目間・箱内の標準縦間隔 |
+| `--sp-3` | 12px | 小カード内パディング |
+| `--sp-4` | 16px | カード間・カード内パディング標準 |
+| `--sp-5` / `--sp-6` | 20 / 24px | セクション内ブロック間 |
+| `--sp-8` 〜 `--sp-12` | 32〜48px | セクション間・章バナー前後 |
+| `--card-gap` | 16px | カード間の標準間隔（既存慣習と一致） |
+| `--row-gap` | 8px | リスト・行の標準縦間隔 |
+| `--inline-gap` | 8px | ラベルと本文など横方向の標準間隔 |
+
+```html
+<!-- ✅ 新規はトークンで -->
+<div class="card" style="margin-bottom:var(--card-gap);">…</div>
+<div style="padding:var(--sp-4);">…</div>
+<!-- ❌ 直書きで 14px・15px・18px などの半端値を散らさない -->
+```
+
+- 「2つの箱の間隔が違う」と感じたら、まず両者の margin/padding が**同じトークン**を
+  指しているか確認する。`6px+8px=14px` のような“足し算でズレる”組み合わせを避ける。
+- 既存ページの一括リファクタは不要（リスクが高い）。**今後の新規・修正分から**適用する。
+
+### モバイル崩れの事前検証（`scripts/shoot-responsive.js`）
+
+「表の文字肥大・トップバナー被り・テキストボックスのはみ出し・余白ズレ」など、
+**従来は実機で見て初めて発覚していたモバイル不具合を、コミット前に自分の目で検出する**ための
+スクショ撮影ツール。インストール済みの Chrome を headless 駆動するため追加依存なし。
+
+```bash
+# 既定 3 幅（375 / 768 / 1180px）でフルページ撮影
+node scripts/shoot-responsive.js pages/articles-gl-xxxx.html
+
+# 複数ページ・幅指定も可
+node scripts/shoot-responsive.js pages/index.html pages/schedule-icu-conf.html
+node scripts/shoot-responsive.js --widths 375,414,768 pages/foo.html
+
+open .screenshots/index.html   # 全ページ・全幅を横並びで一覧（クリックで原寸）
+```
+
+- 出力先 `.screenshots/` は `.gitignore` 済み（コミットされない）。
+- 既定幅はブレークポイント（767/900px）の**両側**を含むため、レスポンシブの境界崩れを捕まえやすい。
+- 共通 CSS（`style-v2.css` / `script.js`）を編集したら、影響の大きいページを数枚撮って確認する習慣にする。
+- 内部は **1 ページごとに Chrome を起動し直し**、各幅を新ターゲットで撮る（超縦長ページの連続キャプチャで
+  new-headless が劣化ハングするのを避けるため）。1 ショットが 30 秒を超えたら `⚠ スキップ` して run は続行する。
+- **既知の制約**：（a）一部の特殊なページはデスクトップ幅(1180)でレイアウトが収束せずスキップされることがある
+  （`articles-gl-ssc2026.html` 等。モバイル幅は撮れるので**主目的のモバイル検証には影響しない**）。
+  （b）`index.html` などフルビューポート構成のページはデスクトップ幅で全高が測れず途中までになることがある。
+  モバイル幅(375/768)の撮影は安定しているため、モバイル崩れの確認用途では問題ない。
+
 ### abbr-tooltip と相性のあるレイアウト規則
 - **`<abbr>` を含む可能性のある親要素には `display: flex` / `display: grid` を使わない。**
   `abbr-tooltip.js` が略語（SCr / AUC / TDM 等）を `<abbr>` で動的にラップするため、
@@ -918,6 +975,7 @@ pages/
 | `audit-pages.js` | ページ構造の整合性チェック（孤児・abbr-tooltip 等） | pre-commit hook（警告のみ） |
 | `sync-check.py` | dt-*.html 間の整合性チェック | 手動 |
 | `export-mainpage-slides.js` | スライド書き出し | 手動 |
+| `shoot-responsive.js` | 複数幅でフルページ・スクショ撮影（モバイル崩れの事前検出） | 手動 |
 
 ### コミット時に自動実行される hook
 
