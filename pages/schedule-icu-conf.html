@@ -158,7 +158,7 @@
         <p class="rule-body" style="margin-bottom:12px;">各システムについて <span class="mark-orange"><strong>O → A → P</strong></span> の流れでプレゼンします。各項目をクリックすると詳細へジャンプします。</p>
 
         <div style="display:flex;flex-direction:column;gap:0;">
-          <a href="#sys-neuro" style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--border);text-decoration:none;color:var(--text);transition:background 0.15s,padding-left 0.15s;font-size:0.83rem;"><span style="color:var(--blue);font-weight:800;width:30px;flex-shrink:0;white-space:nowrap;">#1</span><span><strong>神経系</strong><span style="color:var(--muted);margin-left:8px;">PADIS：意識 / 鎮痛 / 鎮静 / せん妄 / 二次性脳損傷予防</span></span><span style="margin-left:auto;color:var(--muted);font-size:0.75rem;">↓</span></a>
+          <a href="#sys-neuro" style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--border);text-decoration:none;color:var(--text);transition:background 0.15s,padding-left 0.15s;font-size:0.83rem;"><span style="color:var(--blue);font-weight:800;width:30px;flex-shrink:0;white-space:nowrap;">#1</span><span><strong>神経系</strong><span style="color:var(--muted);margin-left:8px;">PADIS：意識 / 鎮痛 / 鎮静 / せん妄</span></span><span style="margin-left:auto;color:var(--muted);font-size:0.75rem;">↓</span></a>
           <a href="#sys-cardio" style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--border);text-decoration:none;color:var(--text);transition:background 0.15s,padding-left 0.15s;font-size:0.83rem;"><span style="color:var(--blue);font-weight:800;width:30px;flex-shrink:0;white-space:nowrap;">#2</span><span><strong>循環器系</strong><span style="color:var(--muted);margin-left:8px;">昇圧薬 / 体液量 / 組織還流</span></span><span style="margin-left:auto;color:var(--muted);font-size:0.75rem;">↓</span></a>
           <a href="#sys-resp" style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--border);text-decoration:none;color:var(--text);transition:background 0.15s,padding-left 0.15s;font-size:0.83rem;"><span style="color:var(--blue);font-weight:800;width:30px;flex-shrink:0;white-space:nowrap;">#3</span><span><strong>呼吸器系</strong><span style="color:var(--muted);margin-left:8px;">挿管 / 非挿管 / HFNC・NIV</span></span><span style="margin-left:auto;color:var(--muted);font-size:0.75rem;">↓</span></a>
           <a href="#sys-renal" style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--border);text-decoration:none;color:var(--text);transition:background 0.15s,padding-left 0.15s;font-size:0.83rem;"><span style="color:var(--blue);font-weight:800;width:30px;flex-shrink:0;white-space:nowrap;">#4</span><span><strong>腎電解質系</strong><span style="color:var(--muted);margin-left:8px;">透析 / 血液ガス / 酸塩基</span></span><span style="margin-left:auto;color:var(--muted);font-size:0.75rem;">↓</span></a>
@@ -287,6 +287,16 @@
       /* 開閉シェブロンは左・大きめ。スコアバッジ（未入力/未選択/○点）は右端へ（.nx-score-out の margin-left:auto） */
       .nx-acc summary::before { content:"▸"; color:var(--blue); font-size:0.95rem; transition:transform 0.15s; flex-shrink:0; }
       .nx-acc[open] > summary::before { transform:rotate(90deg); }
+      /* 参考トグル（補足読み物）：スコアリングツール（青▸＋スコアバッジ）と区別するため
+         ミュートなスレート配色＋「＋/−」マーカーにして“読み物”であることを示す */
+      .nx-acc-ref summary { color:#475569; border-bottom-color:#E2E8F0; }
+      .nx-acc-ref summary::before { content:"＋"; color:#94A3B8; font-size:0.86rem; font-weight:800; transform:none; }
+      .nx-acc-ref[open] > summary::before { content:"−"; transform:none; }
+      .nx-acc-ref summary:hover { color:#1763B8; }
+      /* スコアリング/評価ツール用トグル：囲み（箱）は付けず、開閉マーカーを
+         「青い角丸ボタン（▸）」にする“デザイン”で区別する（地色・枠なしでコンパクト）。 */
+      .nx-acc-tool summary::before { content:"▸"; flex-shrink:0; display:inline-flex; align-items:center; justify-content:center; width:18px; height:18px; background:var(--blue); color:#fff; border-radius:5px; font-size:0.66rem; line-height:1; }
+      .nx-acc-tool[open] > summary::before { transform:rotate(90deg); }
       .nx-scale-table { width:100%; border-collapse:collapse; font-size:0.78rem; line-height:1.55; margin:0; }
       .nx-scale-table thead th { background:#F1F5F9; padding:7px 12px; text-align:left; border-bottom:2px solid #CBD5E1; font-weight:700; font-size:0.74rem; color:#475569; letter-spacing:0.02em; }
       .nx-scale-table thead th.col-pt { text-align:center; width:60px; }
@@ -369,26 +379,10 @@
       .nx-cb-point .nx-cb-h { color:#92400E; }
       .nx-cb-info    { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; }
       .nx-cb-info .nx-cb-h { color:#1D4ED8; }
-      /* 二次性脳損傷予防：番号付きセクションブロック（教科書文体） */
-      .nx-prose { background:#FAFCFE; border:1px solid #E2E8F0; border-radius:8px; padding:12px 16px 14px; margin:10px 0; }
-      .nx-prose-h { display:flex; align-items:center; gap:10px; font-size:0.86rem; font-weight:800; color:#1E40AF; margin-bottom:8px; padding-bottom:6px; border-bottom:1px solid #E2E8F0; }
-      .nx-prose-num { display:inline-flex; align-items:center; justify-content:center; width:24px; height:24px; background:#1E40AF; color:#fff; font-size:0.78rem; font-weight:800; border-radius:50%; flex-shrink:0; font-variant-numeric:tabular-nums; }
-      .nx-prose .rule-body { font-size:0.82rem; line-height:1.85; }
       .nx-cb-stepup-purple,
       .nx-cb-stepup-red    { background:#F1F5F9; border:1px solid #CBD5E1; color:#334155; }
       .nx-cb-stepup-purple .nx-cb-h,
       .nx-cb-stepup-red    .nx-cb-h { color:#1E40AF; }
-      .nx-types { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:8px 0; }
-      .nx-type { border:1px solid var(--border); border-radius:8px; padding:12px 14px; background:#fff; }
-      .nx-type-1 { background:#F8FAFC; }
-      .nx-type-2 { background:#FEF2F2; }
-      .nx-type-h { font-size:0.80rem; font-weight:800; color:#0F172A; margin-bottom:4px; }
-      .nx-type-body { font-size:0.76rem; line-height:1.65; color:#334155; }
-      .nx-mech { display:grid; grid-template-columns:repeat(3, 1fr); gap:8px; margin:8px 0 12px; }
-      .nx-mech-card { background:#FAFAF9; border:1px solid var(--border); border-radius:8px; padding:10px 12px; }
-      .nx-mech-num { display:inline-block; background:#2563EB; color:#fff; font-size:0.66rem; font-weight:800; padding:2px 7px; border-radius:4px; margin-bottom:4px; }
-      .nx-mech-name { font-size:0.76rem; font-weight:800; color:#0F172A; margin-bottom:3px; }
-      .nx-mech-body { font-size:0.70rem; line-height:1.6; color:#475569; }
       @media (max-width:720px) {
         .nx-pair, .nx-drug-grid, .nx-check-grid, .nx-types, .nx-mech { grid-template-columns:1fr; }
       }
@@ -470,13 +464,9 @@
       <div class="card-inner">
         <div style="display:flex;border-radius:6px;overflow:hidden;margin-bottom:10px;"><div style="background:#0F172A;color:#fff;padding:6px 12px;font-size:0.75rem;font-weight:900;display:flex;align-items:center;">N</div><div style="background:linear-gradient(135deg,#1269B0,#1586C0);color:#fff;padding:6px 14px;font-size:0.82rem;font-weight:700;flex:1;">意識レベル</div></div>
 
-        <div class="nx-cb" style="background:#FFEDD5;border:1px solid #FB923C;padding:12px 14px;margin:0 0 10px;">
-          <p class="rule-body" style="margin:0;font-size:0.82rem;line-height:1.8;color:#9A3412;"><span style="display:inline-block;background:#EA580C;color:#fff;font-weight:800;font-size:0.72rem;padding:2px 8px;border-radius:5px;margin-bottom:6px;">プレゼン</span><br>・患者の現在の意識レベル</p>
-        </div>
-
         <ul class="rule-body" style="list-style:disc;padding-left:18px;margin:0;font-size:0.8rem;"><li>非挿管患者は <strong>GCS</strong> で、挿管患者は <strong>RASS</strong> で評価を行う。</li></ul>
 
-        <details class="nx-acc" id="nx-gcs" style="margin:0;">
+        <details class="nx-acc nx-acc-tool" id="nx-gcs" style="margin:0;">
           <summary>非挿管患者 → <strong>GCS</strong><span class="nx-score-out nx-incomplete" id="gcs-score-out">未入力</span></summary>
           <div class="nx-table-scroll" style="border:none;border-radius:0;margin:0;">
           <table class="nx-scale-table" data-scale="gcs" data-parts="e,v,m">
@@ -506,7 +496,7 @@
           </div>
         </details>
 
-        <details class="nx-acc" id="nx-rass-acc" style="margin:0;">
+        <details class="nx-acc nx-acc-tool" id="nx-rass-acc" style="margin:0;">
           <summary>挿管患者 → <strong>RASS</strong><span class="nx-score-out nx-incomplete" id="rass-score-out">未選択</span></summary>
           <div class="nx-table-scroll" style="border:none;border-radius:0;margin:0;">
           <table class="nx-scale-table nx-rass-table" id="nx-rass">
@@ -535,7 +525,7 @@
           <div style="font-weight:800;color:#1E3A8A;font-size:0.82rem;line-height:1.4;padding-bottom:8px;margin-bottom:8px;border-bottom:1px solid #93C5FD;"><span style="display:inline-block;background:#1E3A8A;color:#fff;font-weight:800;font-size:0.72rem;padding:2px 8px;border-radius:5px;margin-right:8px;">Q</span>無鎮静で意識障害があるなら、それはなぜ？？</div>
           <p class="rule-body" style="margin:0;font-size:0.82rem;line-height:1.8;color:var(--muted);">鎮静を切っても意識が戻らない／下がるときは「ICUせん妄」で片付けず、<strong>低血糖・電解質異常・薬剤性・感染症・頭蓋内病変</strong>など<strong>可逆性の原因</strong>を疑う。<strong>AIUEOTIPS</strong> で系統的に鑑別を行う。</p>
 
-          <details class="nx-acc" style="margin:2px 0 0;">
+          <details class="nx-acc nx-acc-ref" style="margin:2px 0 0;">
             <summary><strong>AIUEOTIPS</strong>（意識障害の鑑別）</summary>
             <div style="padding:10px 12px;">
               <div class="nx-aiueo-ref">
@@ -641,6 +631,10 @@
             </div>
           </details>
         </div>
+
+        <div class="nx-cb" style="background:#FFEDD5;border:1px solid #FB923C;padding:12px 14px;margin:14px 0 0;">
+          <p class="rule-body" style="margin:0;font-size:0.82rem;line-height:1.8;color:#9A3412;"><span style="display:inline-block;background:#EA580C;color:#fff;font-weight:800;font-size:0.72rem;padding:2px 8px;border-radius:5px;margin-bottom:6px;">プレゼン</span><br>・患者の現在の意識レベル</p>
+        </div>
       </div>
     </div>
 
@@ -649,20 +643,11 @@
       <div class="card-inner">
         <div style="display:flex;border-radius:6px;overflow:hidden;margin-bottom:10px;"><div style="background:#0F172A;color:#fff;padding:6px 12px;font-size:0.75rem;font-weight:900;display:flex;align-items:center;">N</div><div style="background:linear-gradient(135deg,#1269B0,#1586C0);color:#fff;padding:6px 14px;font-size:0.82rem;font-weight:700;flex:1;">鎮静（Agitation/Sedation）</div></div>
 
-        <div class="nx-cb" style="background:#FFEDD5;border:1px solid #FB923C;padding:12px 14px;margin:0 0 10px;">
-          <span style="display:inline-block;background:#EA580C;color:#fff;font-weight:800;font-size:0.72rem;padding:2px 8px;border-radius:5px;margin-bottom:6px;">プレゼン</span>
-          <ul class="rule-body" style="list-style:disc;padding-left:18px;margin:0;font-size:0.82rem;line-height:1.8;color:#9A3412;">
-            <li>そもそも患者に鎮静は必要か？</li>
-            <li>目標RASSは？</li>
-            <li>今日のSATは？</li>
-          </ul>
-        </div>
-
         <ul class="rule-body" style="list-style:disc;padding-left:18px;font-size:0.82rem;line-height:2.0;margin:0;">
           <li style="margin-bottom:10px;">患者に鎮静は必要か評価する。たとえ、挿管患者であっても <strong style="color:#1763B8;">RASS 0、または -1〜-2</strong> を達成できていれば、<strong style="color:#1763B8;">必ずしも鎮静薬は必要ではない</strong>。不必要に深い鎮静は <strong style="color:#1763B8;">せん妄・筋力低下・人工呼吸/ICU滞在延長・死亡率増加</strong> に関連する。</li>
           <li>鎮静を行う場合は、目標とする鎮静深度を定め、患者背景や各鎮静薬の特徴を踏まえて薬剤を選択する。</li>
         </ul>
-        <details class="nx-acc">
+        <details class="nx-acc nx-acc-ref">
           <summary><strong>参考：鎮静薬の使い分け</strong></summary>
           <div style="padding:12px 14px;">
 
@@ -1093,7 +1078,7 @@
         </details>
 
 
-        <details class="nx-acc">
+        <details class="nx-acc nx-acc-ref">
           <summary><strong>参考：汎用麻酔深度モニター（BIS®／Sedline®）</strong></summary>
           <div style="padding:12px 14px;font-size:0.8rem;line-height:1.7;color:#334155;background:#F8FAFC;border:1px solid var(--border);border-radius:8px;margin:6px 0 2px;">
             <p style="margin:0 0 8px;">心肺蘇生後・痙攣で深鎮静管理下の鎮静深度評価、てんかんを疑う意識障害の脳波簡易評価で使用。</p>
@@ -1104,7 +1089,7 @@
           </div>
         </details>
 
-        <details class="nx-acc">
+        <details class="nx-acc nx-acc-ref">
           <summary><strong>参考：PRIS（Propofol Infusion Syndrome）</strong></summary>
           <div style="padding:12px 14px;font-size:0.8rem;line-height:1.7;color:#334155;background:#F8FAFC;border:1px solid var(--border);border-radius:8px;margin:6px 0 2px;">
             <p style="margin:0 0 8px;">長時間 or 高用量プロポフォールで起こる稀な合併症。<strong>代謝性アシドーシス・心筋障害・不整脈・AKI・横紋筋融解・肝障害・高K血症</strong>。機序はミトコンドリア機能障害・脂肪酸代謝異常が関与。</p>
@@ -1112,6 +1097,15 @@
             <div class="nx-drug-row"><span class="nx-drug-lbl" style="min-width:5em;text-align:center;">治療</span><span class="nx-drug-body">プロポフォール中止＋支持療法</span></div>
           </div>
         </details>
+
+        <div class="nx-cb" style="background:#FFEDD5;border:1px solid #FB923C;padding:12px 14px;margin:14px 0 0;">
+          <span style="display:inline-block;background:#EA580C;color:#fff;font-weight:800;font-size:0.72rem;padding:2px 8px;border-radius:5px;margin-bottom:6px;">プレゼン</span>
+          <ul class="rule-body" style="list-style:disc;padding-left:18px;margin:0;font-size:0.82rem;line-height:1.8;color:#9A3412;">
+            <li>そもそも患者に鎮静は必要か？</li>
+            <li>目標RASSは？</li>
+            <li>今日のSATは？</li>
+          </ul>
+        </div>
       </div>
     </div>
 
@@ -1120,17 +1114,10 @@
       <div class="card-inner">
         <div style="display:flex;border-radius:6px;overflow:hidden;margin-bottom:10px;"><div style="background:#0F172A;color:#fff;padding:6px 12px;font-size:0.75rem;font-weight:900;display:flex;align-items:center;">N</div><div style="background:linear-gradient(135deg,#1269B0,#1586C0);color:#fff;padding:6px 14px;font-size:0.82rem;font-weight:700;flex:1;">鎮痛（Pain）</div></div>
 
-        <div class="nx-cb" style="background:#FFEDD5;border:1px solid #FB923C;padding:12px 14px;margin:0 0 10px;">
-          <span style="display:inline-block;background:#EA580C;color:#fff;font-weight:800;font-size:0.72rem;padding:2px 8px;border-radius:5px;margin-bottom:6px;">プレゼン</span>
-          <ul class="rule-body" style="list-style:disc;padding-left:18px;margin:0;font-size:0.82rem;line-height:1.8;color:#9A3412;">
-            <li>現在の疼痛スコア（NRS / BPS / CPOT）は？</li>
-            <li>現在使用している鎮痛薬の種類と投与量は？</li>
-          </ul>
-        </div>
-
         <p class="rule-body" style="font-size:0.82rem;">ICU患者は術後・処置・神経障害性など多様な急性〜慢性疼痛を経験する。治療不十分は予後不良・PICSの一因。<span class="mark-orange"><strong>O→A→P</strong></span> の流れでプレゼンする。</p>
 
         <div style="background:linear-gradient(135deg,#1269B0,#1586C0);color:#fff;padding:8px 14px;border-radius:6px;font-size:0.88rem;font-weight:800;letter-spacing:0.02em;margin:18px 0 10px;">疼痛評価ツール</div>
+        <p class="rule-body" style="font-size:0.82rem;margin:0 0 10px;">生理学的指標（HR・BP・RR）は非特異的で信頼性が低いため、単独では用いず、下記のスケールと組み合わせて評価する。</p>
         <ul class="rule-body" style="list-style:disc;padding-left:18px;margin:0;font-size:0.82rem;line-height:1.9;">
           <li><strong>自己申告が可能：</strong>
             <ul style="list-style:circle;padding-left:20px;margin:2px 0 0;">
@@ -1139,10 +1126,10 @@
               <li><strong>VDS</strong>（言語記述、高齢・認知障害に有用）</li>
             </ul>
           </li>
-          <li style="margin-top:6px;"><strong>自己申告が困難：</strong>下記の計算ツール（スケール）で評価</li>
-        </ul>
+          <li style="margin-top:6px;"><strong>自己申告が困難：</strong>下記の計算ツール（スケール）で評価
+            <div style="padding-left:6px;margin-top:4px;">
 
-        <details class="nx-acc" id="nx-bps">
+        <details class="nx-acc nx-acc-tool" id="nx-bps">
           <summary><strong>BPSスケール</strong>（挿管中・合計 3〜12点）<span class="nx-score-out nx-incomplete" id="bps-score-out">未入力</span></summary>
           <table class="nx-scale-table" data-scale="bps" data-parts="face,move,muscle,vent">
             <thead><tr><th style="width:120px;">項目</th><th>所見</th><th class="col-pt">点</th></tr></thead>
@@ -1167,7 +1154,7 @@
           </div>
         </details>
 
-        <details class="nx-acc" id="nx-cpot">
+        <details class="nx-acc nx-acc-tool" id="nx-cpot">
           <summary><strong>CPOTスケール</strong>（挿管・非挿管両対応・合計 0〜8点）<span class="nx-score-out nx-incomplete" id="cpot-score-out">未入力</span></summary>
           <table class="nx-scale-table" data-scale="cpot" data-parts="face,arm,vent">
             <thead><tr><th style="width:120px;">項目</th><th>所見</th><th class="col-pt">点</th></tr></thead>
@@ -1191,13 +1178,13 @@
             <button type="button" class="reset" data-reset="cpot">リセット</button>
           </div>
         </details>
+            </div>
+          </li>
+        </ul>
 
-        <p class="rule-body" style="font-size:0.78rem;color:#64748B;margin:10px 0 0;line-height:1.7;">※ 生理学的指標（HR・BP・RR）は非特異的で信頼性が低いため、単独では用いず、上記スケールと組み合わせて評価する。</p>
-
-        <details class="nx-acc">
+        <details class="nx-acc nx-acc-ref">
           <summary><strong>参考：鎮痛薬の使い分け</strong></summary>
           <div style="padding:8px 0 2px;">
-            <p class="rule-body" style="font-size:0.78rem;color:var(--muted);margin:0 0 10px;">※ 投与30〜60分以内に再評価。サンプルオーダー画面・コメントオーダ画面は順次反映予定（現在はレミフェンタニルのコメントのみ実データ、他は空欄プレースホルダ）。</p>
         <div style="background:linear-gradient(135deg,#1269B0,#1586C0);color:#fff;padding:8px 14px;border-radius:6px;font-size:0.88rem;font-weight:800;letter-spacing:0.02em;margin:22px 0 12px;">① 持続鎮痛薬（硬膜外・PCEA）<span style="font-size:0.72rem;font-weight:600;color:rgba(255,255,255,0.82);margin-left:8px;">局所麻酔薬の持続硬膜外投与</span></div>
         <!-- ── ロピバカイン ── -->
         <div class="nx-drug-card">
@@ -1213,23 +1200,30 @@
             </div>
           </div>
 
-          <!-- カルテ画面（持続注射オーダ）再現 ※サンプルオーダー画像を後日反映 -->
+          <!-- カルテ画面（麻薬注射オーダ）再現 -->
           <div style="margin:12px 16px 0;">
             <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid #C7CAD1;border-radius:4px;background:#fff;box-shadow:0 2px 8px rgba(15,23,42,0.18);">
               <div class="kt-screen" style="min-width:380px;font-family:'Meiryo','Hiragino Kaku Gothic ProN',sans-serif;font-size:10.5px;color:#1A1A1A;line-height:1.5;-webkit-text-size-adjust:100%;text-size-adjust:100%;">
                 <div style="display:flex;align-items:center;justify-content:space-between;background:#E6E7EB;border-bottom:1px solid #C7CAD1;padding:5px 8px;">
-                  <div style="flex-shrink:0;color:#333;">持続注射</div>
+                  <div style="flex-shrink:0;color:#333;">麻薬注射</div>
                   <div style="flex-shrink:0;text-align:right;color:#333;">本院:麻酔科 ICU</div>
                 </div>
                 <table style="width:100%;border-collapse:collapse;font-size:10.5px;">
-                  <tr style="border-bottom:1px solid #E2E3E7;"><td style="width:62px;padding:3px 8px;vertical-align:top;color:#9AA0A6;">手技</td><td style="padding:3px 5px;color:#9AA0A6;">●（サンプルオーダー画像を後日反映）</td><td style="width:54px;padding:3px 8px;text-align:right;white-space:nowrap;"></td></tr>
-                  <tr style="border-bottom:1px solid #E2E3E7;"><td style="padding:3px 8px;vertical-align:top;color:#9AA0A6;">薬品</td><td style="padding:3px 5px;color:#9AA0A6;">●</td><td style="padding:3px 8px;text-align:right;white-space:nowrap;color:#9AA0A6;">●</td></tr>
-                  <tr><td style="padding:3px 8px;vertical-align:top;color:#9AA0A6;">用法</td><td style="padding:3px 5px;color:#9AA0A6;">●</td><td style="padding:3px 8px;text-align:right;white-space:nowrap;color:#9AA0A6;">●</td></tr>
+                  <tr style="border-bottom:1px solid #E2E3E7;"><td style="width:62px;padding:3px 8px;vertical-align:top;">手技</td><td style="padding:3px 5px;">胸部硬膜外　点滴精密</td><td></td></tr>
+                  <tr style="border-bottom:1px solid #E2E3E7;"><td style="padding:3px 8px;vertical-align:top;">薬品</td><td style="padding:3px 5px;color:#C2371A;font-weight:600;">(ﾊｲｱﾗｰﾄ)ﾌｪﾝﾀﾆﾙ注射液0.5mg [0.5mg(500µg)/10ml]</td><td style="width:54px;padding:3px 8px;text-align:right;white-space:nowrap;color:#C2371A;">500µg</td></tr>
+                  <tr style="border-bottom:1px solid #E2E3E7;"><td style="padding:3px 8px;vertical-align:top;"></td><td style="padding:3px 5px;color:#C2371A;font-weight:600;">(ﾊｲｱﾗｰﾄ)(静注禁)ｱﾅﾍﾟｲﾝ注2mg/mL [0.2% 100mL]</td><td style="width:54px;padding:3px 8px;text-align:right;white-space:nowrap;color:#C2371A;">89.5mL</td></tr>
+                  <tr style="border-bottom:1px solid #E2E3E7;"><td style="padding:3px 8px;vertical-align:top;color:#1565C0;">医療従</td><td style="padding:3px 5px;color:#1565C0;">◆静注禁、硬膜外投与</td><td></td></tr>
+                  <tr style="border-bottom:1px solid #E2E3E7;"><td style="padding:3px 8px;vertical-align:top;">薬品</td><td style="padding:3px 5px;color:#C2371A;font-weight:600;">(ﾊｲｱﾗｰﾄ)ﾄﾞﾛﾚﾌﾟﾀﾝ注射液25mg [25mg/10mL]</td><td style="width:54px;padding:3px 8px;text-align:right;white-space:nowrap;color:#C2371A;">1.25mg</td></tr>
+                  <tr style="border-bottom:1px solid #E2E3E7;"><td style="padding:3px 8px;vertical-align:top;color:#1565C0;">フリー</td><td style="padding:3px 5px;color:#1565C0;">電動PCA使用<br>ICUでの使用分</td><td></td></tr>
+                  <tr style="border-bottom:1px solid #E2E3E7;"><td style="padding:3px 8px;vertical-align:top;">用法</td><td style="padding:3px 5px;"></td><td style="width:54px;padding:3px 8px;text-align:right;white-space:nowrap;">1日2回</td></tr>
+                  <tr style="border-bottom:1px solid #E2E3E7;"><td style="padding:3px 8px;vertical-align:top;">速度</td><td style="padding:3px 5px;">時間当たり</td><td style="width:54px;padding:3px 8px;text-align:right;white-space:nowrap;">6ml/h</td></tr>
+                  <tr style="border-bottom:1px solid #E2E3E7;"><td style="padding:3px 8px;vertical-align:top;color:#1565C0;">実施場所</td><td style="padding:3px 5px;color:#1565C0;">ICU</td><td></td></tr>
+                  <tr style=""><td style="padding:3px 8px;vertical-align:top;color:#1565C0;">用法実</td><td style="padding:3px 5px;color:#1565C0;">指示枠1番目</td><td></td></tr>
                 </table>
               </div>
             </div>
           </div>
-          <!-- カルテ画面（コメントオーダ）再現 ※コメントオーダ画像を後日反映 -->
+          <!-- カルテ画面（コメントオーダ）再現 -->
           <div style="margin:12px 16px 0;">
             <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid #C7CAD1;border-radius:4px;background:#fff;box-shadow:0 2px 8px rgba(15,23,42,0.18);">
               <div class="kt-screen" style="min-width:380px;font-family:'Meiryo','Hiragino Kaku Gothic ProN',sans-serif;font-size:10.5px;color:#1A1A1A;line-height:1.5;-webkit-text-size-adjust:100%;text-size-adjust:100%;">
@@ -1241,7 +1235,34 @@
                   <tr>
                     <td style="width:22px;padding:5px 6px;vertical-align:top;text-align:center;color:#777;border-right:1px solid #E8EAED;">1</td>
                     <td style="padding:2px 10px 5px;vertical-align:top;">
-                      <div style="padding:3px 0;color:#9AA0A6;">●（コメントオーダ画像を後日反映）</div>
+                      <div style="padding:3px 0;border-bottom:1px solid #ECEEF1;">＜ICU術後硬膜外麻酔＞</div>
+                      <div style="padding:3px 0;border-bottom:1px solid #ECEEF1;">電動PCA初期設定</div>
+                      <div style="padding:3px 0;border-bottom:1px solid #ECEEF1;">リザーバー容量100ml　投与単位：ミリリットル</div>
+                      <div style="padding:3px 0;border-bottom:1px solid #ECEEF1;">投与速度：6.00ml/h　　ドーズ量：2.00ml</div>
+                      <div style="padding:3px 0;border-bottom:1px solid #ECEEF1;">ロックアウトタイム：30min　時間有効回数：2/hr</div>
+                      <div style="padding:3px 0;border-bottom:1px solid #ECEEF1;">気泡検知：off　アップストリームセンサ：on</div>
+                      <div style="padding:3px 0;border-bottom:1px solid #ECEEF1;">ロックレベルLL：2</div>
+                      <div style="padding:3px 0;border-bottom:1px solid #ECEEF1;">● 疼痛時指示</div>
+                      <div style="padding:3px 0;border-bottom:1px solid #ECEEF1;">ICUレジデントおよびICU夜間・休日担当医へ</div>
+                      <div style="padding:3px 0;border-bottom:1px solid #ECEEF1;">1．ペインスケール聴取</div>
+                      <div style="padding:3px 0;border-bottom:1px solid #ECEEF1;">2.コールドテスト実施</div>
+                      <div style="padding:3px 0;border-bottom:1px solid #ECEEF1;">その後</div>
+                      <div style="padding:3px 0;border-bottom:1px solid #ECEEF1;">①0.2%アナペイン2ml　硬膜外より</div>
+                      <div style="padding:3px 0;border-bottom:1px solid #ECEEF1;">　　push（三方活栓より単身を）</div>
+                      <div style="padding:3px 0;border-bottom:1px solid #ECEEF1;">②麻酔域が創に対して十分でpush回数少なければ</div>
+                      <div style="padding:3px 0;border-bottom:1px solid #ECEEF1;">電動PCAポンプのリモコンドーズコードPUSH</div>
+                      <div style="padding:3px 0;border-bottom:1px solid #ECEEF1;">①、②どちらでも可。</div>
+                      <div style="padding:3px 0;border-bottom:1px solid #ECEEF1;">3．処置後ペインスケール聴取・コールドテスト実施</div>
+                      <div style="padding:3px 0;border-bottom:1px solid #ECEEF1;">明らかに麻酔領域（冷感消失領域少なければ）</div>
+                      <div style="padding:3px 0;border-bottom:1px solid #ECEEF1;">0.2%アナペイン5ml硬膜外投与</div>
+                      <div style="padding:3px 0;border-bottom:1px solid #ECEEF1;">● Epi挿入中は下記5点に注意して観察してください。</div>
+                      <div style="padding:3px 0;border-bottom:1px solid #ECEEF1;">①膝立て運動、足背の運動が可能かどうか</div>
+                      <div style="padding:3px 0;border-bottom:1px solid #ECEEF1;">②嘔気嘔吐の有無</div>
+                      <div style="padding:3px 0;border-bottom:1px solid #ECEEF1;">③コールドテストの実施</div>
+                      <div style="padding:3px 0;border-bottom:1px solid #ECEEF1;">④血圧低下</div>
+                      <div style="padding:3px 0;border-bottom:1px solid #ECEEF1;">⑤掻痒感</div>
+                      <div style="padding:3px 0;border-bottom:1px solid #ECEEF1;">特に①は硬膜外カテーテル抜去後24時間経過まで</div>
+                      <div style="padding:3px 0;">　フォローをお願いします。</div>
                     </td>
                   </tr>
                 </table>
@@ -1272,23 +1293,26 @@
             </div>
           </div>
 
-          <!-- カルテ画面（PRN注射オーダ）再現 ※サンプルオーダー画像を後日反映 -->
+          <div style="margin:14px 16px 0;font-size:0.74rem;font-weight:800;color:#1763B8;">［持続点滴］</div>
+          <!-- カルテ画面（麻薬注射オーダ）再現 -->
           <div style="margin:12px 16px 0;">
             <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid #C7CAD1;border-radius:4px;background:#fff;box-shadow:0 2px 8px rgba(15,23,42,0.18);">
               <div class="kt-screen" style="min-width:380px;font-family:'Meiryo','Hiragino Kaku Gothic ProN',sans-serif;font-size:10.5px;color:#1A1A1A;line-height:1.5;-webkit-text-size-adjust:100%;text-size-adjust:100%;">
                 <div style="display:flex;align-items:center;justify-content:space-between;background:#E6E7EB;border-bottom:1px solid #C7CAD1;padding:5px 8px;">
-                  <div style="flex-shrink:0;color:#333;">PRN注射</div>
+                  <div style="flex-shrink:0;color:#333;">麻薬注射</div>
                   <div style="flex-shrink:0;text-align:right;color:#333;">本院:麻酔科 ICU</div>
                 </div>
                 <table style="width:100%;border-collapse:collapse;font-size:10.5px;">
-                  <tr style="border-bottom:1px solid #E2E3E7;"><td style="width:62px;padding:3px 8px;vertical-align:top;color:#9AA0A6;">手技</td><td style="padding:3px 5px;color:#9AA0A6;">●（サンプルオーダー画像を後日反映）</td><td style="width:54px;padding:3px 8px;text-align:right;white-space:nowrap;"></td></tr>
-                  <tr style="border-bottom:1px solid #E2E3E7;"><td style="padding:3px 8px;vertical-align:top;color:#9AA0A6;">薬品</td><td style="padding:3px 5px;color:#9AA0A6;">●</td><td style="padding:3px 8px;text-align:right;white-space:nowrap;color:#9AA0A6;">●</td></tr>
-                  <tr><td style="padding:3px 8px;vertical-align:top;color:#9AA0A6;">用法</td><td style="padding:3px 5px;color:#9AA0A6;">●</td><td style="padding:3px 8px;text-align:right;white-space:nowrap;color:#9AA0A6;">●</td></tr>
+                  <tr style="border-bottom:1px solid #E2E3E7;"><td style="width:62px;padding:3px 8px;vertical-align:top;">手技</td><td style="padding:3px 5px;">末梢静脈　側管：点滴精密</td><td></td></tr>
+                  <tr style="border-bottom:1px solid #E2E3E7;"><td style="padding:3px 8px;vertical-align:top;">薬品</td><td style="padding:3px 5px;color:#C2371A;font-weight:600;">(ﾊｲｱﾗｰﾄ)ﾌｪﾝﾀﾆﾙ注射液0.5mg [0.5mg(500µg)/10ml]</td><td style="width:54px;padding:3px 8px;text-align:right;white-space:nowrap;color:#C2371A;">1000µg</td></tr>
+                  <tr style="border-bottom:1px solid #E2E3E7;"><td style="padding:3px 8px;vertical-align:top;">用法</td><td style="padding:3px 5px;"></td><td style="width:54px;padding:3px 8px;text-align:right;white-space:nowrap;">1日1回</td></tr>
+                  <tr style="border-bottom:1px solid #E2E3E7;"><td style="padding:3px 8px;vertical-align:top;color:#1565C0;">用法実施</td><td style="padding:3px 5px;color:#1565C0;">指示枠1番目</td><td></td></tr>
+                  <tr style=""><td style="padding:3px 8px;vertical-align:top;color:#1565C0;">実施場所</td><td style="padding:3px 5px;color:#1565C0;">本院：ICU</td><td></td></tr>
                 </table>
               </div>
             </div>
           </div>
-          <!-- カルテ画面（コメントオーダ）再現 ※コメントオーダ画像を後日反映 -->
+          <!-- カルテ画面（コメントオーダ）再現 -->
           <div style="margin:12px 16px 0;">
             <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid #C7CAD1;border-radius:4px;background:#fff;box-shadow:0 2px 8px rgba(15,23,42,0.18);">
               <div class="kt-screen" style="min-width:380px;font-family:'Meiryo','Hiragino Kaku Gothic ProN',sans-serif;font-size:10.5px;color:#1A1A1A;line-height:1.5;-webkit-text-size-adjust:100%;text-size-adjust:100%;">
@@ -1300,7 +1324,67 @@
                   <tr>
                     <td style="width:22px;padding:5px 6px;vertical-align:top;text-align:center;color:#777;border-right:1px solid #E8EAED;">1</td>
                     <td style="padding:2px 10px 5px;vertical-align:top;">
-                      <div style="padding:3px 0;color:#9AA0A6;">●（コメントオーダ画像を後日反映）</div>
+                      <div style="padding:3px 0;border-bottom:1px solid #ECEEF1;">【フェンタニル指示コメント】</div>
+                      <div style="padding:3px 0;border-bottom:1px solid #ECEEF1;">投与量　●ml/h</div>
+                      <div style="padding:3px 0;">Push量　● ml</div>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div style="margin:14px 16px 0;font-size:0.74rem;font-weight:800;color:#1763B8;">［IV-PCA］</div>
+          <!-- カルテ画面（麻薬注射オーダ）再現 -->
+          <div style="margin:12px 16px 0;">
+            <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid #C7CAD1;border-radius:4px;background:#fff;box-shadow:0 2px 8px rgba(15,23,42,0.18);">
+              <div class="kt-screen" style="min-width:380px;font-family:'Meiryo','Hiragino Kaku Gothic ProN',sans-serif;font-size:10.5px;color:#1A1A1A;line-height:1.5;-webkit-text-size-adjust:100%;text-size-adjust:100%;">
+                <div style="display:flex;align-items:center;justify-content:space-between;background:#E6E7EB;border-bottom:1px solid #C7CAD1;padding:5px 8px;">
+                  <div style="flex-shrink:0;color:#333;">麻薬注射</div>
+                  <div style="flex-shrink:0;text-align:right;color:#333;">本院:麻酔科 ICU</div>
+                </div>
+                <table style="width:100%;border-collapse:collapse;font-size:10.5px;">
+                  <tr style="border-bottom:1px solid #E2E3E7;"><td style="width:62px;padding:3px 8px;vertical-align:top;">手技</td><td style="padding:3px 5px;">末梢静脈　側管：点滴</td><td></td></tr>
+                  <tr style="border-bottom:1px solid #E2E3E7;"><td style="padding:3px 8px;vertical-align:top;">薬品</td><td style="padding:3px 5px;color:#C2371A;font-weight:600;">(ﾊｲｱﾗｰﾄ)ﾌｪﾝﾀﾆﾙ注射液0.5mg [0.5mg(500µg)/10ml]</td><td style="width:54px;padding:3px 8px;text-align:right;white-space:nowrap;color:#C2371A;">1000µg</td></tr>
+                  <tr style="border-bottom:1px solid #E2E3E7;"><td style="padding:3px 8px;vertical-align:top;"></td><td style="padding:3px 5px;">生理食塩液 [100mL]</td><td style="width:54px;padding:3px 8px;text-align:right;white-space:nowrap;">80mL</td></tr>
+                  <tr style="border-bottom:1px solid #E2E3E7;"><td style="padding:3px 8px;vertical-align:top;color:#1565C0;">フリー</td><td style="padding:3px 5px;color:#1565C0;">IV-PCA用</td><td></td></tr>
+                  <tr style="border-bottom:1px solid #E2E3E7;"><td style="padding:3px 8px;vertical-align:top;">用法</td><td style="padding:3px 5px;"></td><td style="width:54px;padding:3px 8px;text-align:right;white-space:nowrap;">1日2回</td></tr>
+                  <tr style="border-bottom:1px solid #E2E3E7;"><td style="padding:3px 8px;vertical-align:top;color:#1565C0;">実施場所</td><td style="padding:3px 5px;color:#1565C0;">ICU</td><td></td></tr>
+                  <tr style=""><td style="padding:3px 8px;vertical-align:top;color:#1565C0;">用法実</td><td style="padding:3px 5px;color:#1565C0;">指示枠1番目</td><td></td></tr>
+                </table>
+              </div>
+            </div>
+          </div>
+          <!-- カルテ画面（コメントオーダ）再現 -->
+          <div style="margin:12px 16px 0;">
+            <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid #C7CAD1;border-radius:4px;background:#fff;box-shadow:0 2px 8px rgba(15,23,42,0.18);">
+              <div class="kt-screen" style="min-width:380px;font-family:'Meiryo','Hiragino Kaku Gothic ProN',sans-serif;font-size:10.5px;color:#1A1A1A;line-height:1.5;-webkit-text-size-adjust:100%;text-size-adjust:100%;">
+                <div style="display:flex;align-items:center;justify-content:space-between;background:#E6E7EB;border-bottom:1px solid #C7CAD1;padding:5px 8px;">
+                  <div style="flex-shrink:0;color:#333;">コメントオーダ</div>
+                  <div style="flex-shrink:0;text-align:right;color:#333;">本院:麻酔科 ICU</div>
+                </div>
+                <table style="width:100%;border-collapse:collapse;font-size:10.5px;">
+                  <tr>
+                    <td style="width:22px;padding:5px 6px;vertical-align:top;text-align:center;color:#777;border-right:1px solid #E8EAED;">1</td>
+                    <td style="padding:2px 10px 5px;vertical-align:top;">
+                      <div style="padding:3px 0;border-bottom:1px solid #ECEEF1;">＜ICU術後IV-PCA＞</div>
+                      <div style="padding:3px 0;border-bottom:1px solid #ECEEF1;">電動PCA初期設定</div>
+                      <div style="padding:3px 0;border-bottom:1px solid #ECEEF1;">リザーバー容量100ml　投与単位：ミリリットル</div>
+                      <div style="padding:3px 0;border-bottom:1px solid #ECEEF1;">投与速度：2ml/h（20µg/h）</div>
+                      <div style="padding:3px 0;border-bottom:1px solid #ECEEF1;">　ドーズ量　：2ml/回（20µg/回）</div>
+                      <div style="padding:3px 0;border-bottom:1px solid #ECEEF1;">ロックアウトタイム：5min　時間有効回数：12/hr</div>
+                      <div style="padding:3px 0;border-bottom:1px solid #ECEEF1;">気泡検知：off　アップストリームセンサ：on</div>
+                      <div style="padding:3px 0;border-bottom:1px solid #ECEEF1;">ロックレベルLL：2</div>
+                      <div style="padding:3px 0;border-bottom:1px solid #ECEEF1;">● 疼痛時指示</div>
+                      <div style="padding:3px 0;border-bottom:1px solid #ECEEF1;">ICUレジデントおよびICU夜間休日担当医へ</div>
+                      <div style="padding:3px 0;border-bottom:1px solid #ECEEF1;">1．ペインスケール聴取</div>
+                      <div style="padding:3px 0;border-bottom:1px solid #ECEEF1;">2．呼吸回数チェック</div>
+                      <div style="padding:3px 0;border-bottom:1px solid #ECEEF1;">　3．push回数少なければPCAボタンpush</div>
+                      <div style="padding:3px 0;border-bottom:1px solid #ECEEF1;">4．処置後ペインスケール聴取・呼吸回数確認実施</div>
+                      <div style="padding:3px 0;border-bottom:1px solid #ECEEF1;">● IV-PCA使用中は下記5点に注意して観察してください。</div>
+                      <div style="padding:3px 0;border-bottom:1px solid #ECEEF1;">①呼吸抑制（呼吸回数の低下）</div>
+                      <div style="padding:3px 0;border-bottom:1px solid #ECEEF1;">②嘔気嘔吐の有無</div>
+                      <div style="padding:3px 0;border-bottom:1px solid #ECEEF1;">③血圧低下</div>
+                      <div style="padding:3px 0;">④掻痒感</div>
                     </td>
                   </tr>
                 </table>
@@ -1330,18 +1414,20 @@
             </div>
           </div>
 
-          <!-- カルテ画面（PRN注射オーダ）再現 ※サンプルオーダー画像を後日反映 -->
+          <!-- カルテ画面（麻薬注射オーダ）再現 -->
           <div style="margin:12px 16px 0;">
             <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid #C7CAD1;border-radius:4px;background:#fff;box-shadow:0 2px 8px rgba(15,23,42,0.18);">
               <div class="kt-screen" style="min-width:380px;font-family:'Meiryo','Hiragino Kaku Gothic ProN',sans-serif;font-size:10.5px;color:#1A1A1A;line-height:1.5;-webkit-text-size-adjust:100%;text-size-adjust:100%;">
                 <div style="display:flex;align-items:center;justify-content:space-between;background:#E6E7EB;border-bottom:1px solid #C7CAD1;padding:5px 8px;">
-                  <div style="flex-shrink:0;color:#333;">PRN注射</div>
+                  <div style="flex-shrink:0;color:#333;">麻薬注射</div>
                   <div style="flex-shrink:0;text-align:right;color:#333;">本院:麻酔科 ICU</div>
                 </div>
                 <table style="width:100%;border-collapse:collapse;font-size:10.5px;">
-                  <tr style="border-bottom:1px solid #E2E3E7;"><td style="width:62px;padding:3px 8px;vertical-align:top;color:#9AA0A6;">手技</td><td style="padding:3px 5px;color:#9AA0A6;">●（サンプルオーダー画像を後日反映）</td><td style="width:54px;padding:3px 8px;text-align:right;white-space:nowrap;"></td></tr>
-                  <tr style="border-bottom:1px solid #E2E3E7;"><td style="padding:3px 8px;vertical-align:top;color:#9AA0A6;">薬品</td><td style="padding:3px 5px;color:#9AA0A6;">●</td><td style="padding:3px 8px;text-align:right;white-space:nowrap;color:#9AA0A6;">●</td></tr>
-                  <tr><td style="padding:3px 8px;vertical-align:top;color:#9AA0A6;">用法</td><td style="padding:3px 5px;color:#9AA0A6;">●</td><td style="padding:3px 8px;text-align:right;white-space:nowrap;color:#9AA0A6;">●</td></tr>
+                  <tr style="border-bottom:1px solid #E2E3E7;"><td style="width:62px;padding:3px 8px;vertical-align:top;">手技</td><td style="padding:3px 5px;">末梢静脈　側管：点滴精密</td><td></td></tr>
+                  <tr style="border-bottom:1px solid #E2E3E7;"><td style="padding:3px 8px;vertical-align:top;">薬品</td><td style="padding:3px 5px;color:#C2371A;font-weight:600;">(ﾊｲｱﾗｰﾄ)ﾚﾐﾌｪﾝﾀﾆﾙ静注用5mg[5mg(5000µg)/瓶]</td><td style="width:54px;padding:3px 8px;text-align:right;white-space:nowrap;color:#C2371A;">5000µg</td></tr>
+                  <tr style="border-bottom:1px solid #E2E3E7;"><td style="padding:3px 8px;vertical-align:top;">用法</td><td style="padding:3px 5px;"></td><td style="width:54px;padding:3px 8px;text-align:right;white-space:nowrap;">1日2回</td></tr>
+                  <tr style="border-bottom:1px solid #E2E3E7;"><td style="padding:3px 8px;vertical-align:top;color:#1565C0;">用法実施</td><td style="padding:3px 5px;color:#1565C0;">指示枠1番目</td><td></td></tr>
+                  <tr style=""><td style="padding:3px 8px;vertical-align:top;color:#1565C0;">実施場所</td><td style="padding:3px 5px;color:#1565C0;">本院：ICU</td><td></td></tr>
                 </table>
               </div>
             </div>
@@ -1397,18 +1483,21 @@
             </div>
           </div>
 
-          <!-- カルテ画面（PRN注射オーダ）再現 ※サンプルオーダー画像を後日反映 -->
+          <!-- カルテ画面（麻薬注射オーダ）再現 -->
           <div style="margin:12px 16px 0;">
             <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid #C7CAD1;border-radius:4px;background:#fff;box-shadow:0 2px 8px rgba(15,23,42,0.18);">
               <div class="kt-screen" style="min-width:380px;font-family:'Meiryo','Hiragino Kaku Gothic ProN',sans-serif;font-size:10.5px;color:#1A1A1A;line-height:1.5;-webkit-text-size-adjust:100%;text-size-adjust:100%;">
                 <div style="display:flex;align-items:center;justify-content:space-between;background:#E6E7EB;border-bottom:1px solid #C7CAD1;padding:5px 8px;">
-                  <div style="flex-shrink:0;color:#333;">PRN注射</div>
-                  <div style="flex-shrink:0;text-align:right;color:#333;">本院:麻酔科 ICU</div>
+                  <div style="flex-shrink:0;color:#333;">麻薬注射</div>
+                  <div style="flex-shrink:0;text-align:right;color:#333;">本院:麻酔科 CCM</div>
                 </div>
                 <table style="width:100%;border-collapse:collapse;font-size:10.5px;">
-                  <tr style="border-bottom:1px solid #E2E3E7;"><td style="width:62px;padding:3px 8px;vertical-align:top;color:#9AA0A6;">手技</td><td style="padding:3px 5px;color:#9AA0A6;">●（サンプルオーダー画像を後日反映）</td><td style="width:54px;padding:3px 8px;text-align:right;white-space:nowrap;"></td></tr>
-                  <tr style="border-bottom:1px solid #E2E3E7;"><td style="padding:3px 8px;vertical-align:top;color:#9AA0A6;">薬品</td><td style="padding:3px 5px;color:#9AA0A6;">●</td><td style="padding:3px 8px;text-align:right;white-space:nowrap;color:#9AA0A6;">●</td></tr>
-                  <tr><td style="padding:3px 8px;vertical-align:top;color:#9AA0A6;">用法</td><td style="padding:3px 5px;color:#9AA0A6;">●</td><td style="padding:3px 8px;text-align:right;white-space:nowrap;color:#9AA0A6;">●</td></tr>
+                  <tr style="border-bottom:1px solid #E2E3E7;"><td style="width:62px;padding:3px 8px;vertical-align:top;">手技</td><td style="padding:3px 5px;">末梢静脈　側管：点滴</td><td></td></tr>
+                  <tr style="border-bottom:1px solid #E2E3E7;"><td style="padding:3px 8px;vertical-align:top;">薬品</td><td style="padding:3px 5px;color:#C2371A;font-weight:600;">(ﾊｲｱﾗｰﾄ)(類似有)ﾓﾙﾋﾈ塩酸塩注射液10mg[10mg/1mL]</td><td style="width:54px;padding:3px 8px;text-align:right;white-space:nowrap;color:#C2371A;">10mg</td></tr>
+                  <tr style="border-bottom:1px solid #E2E3E7;"><td style="padding:3px 8px;vertical-align:top;"></td><td style="padding:3px 5px;">生理食塩液 [100mL]</td><td style="width:54px;padding:3px 8px;text-align:right;white-space:nowrap;">100mL</td></tr>
+                  <tr style="border-bottom:1px solid #E2E3E7;"><td style="padding:3px 8px;vertical-align:top;">用法</td><td style="padding:3px 5px;"></td><td style="width:54px;padding:3px 8px;text-align:right;white-space:nowrap;">1日1回</td></tr>
+                  <tr style="border-bottom:1px solid #E2E3E7;"><td style="padding:3px 8px;vertical-align:top;color:#1565C0;">用法実施</td><td style="padding:3px 5px;color:#1565C0;">指示枠1番目</td><td></td></tr>
+                  <tr style=""><td style="padding:3px 8px;vertical-align:top;color:#1565C0;">実施場所</td><td style="padding:3px 5px;color:#1565C0;">本院：CCM</td><td></td></tr>
                 </table>
               </div>
             </div>
@@ -1737,13 +1826,19 @@
           </div>
         </details>
 
-        <div class="nx-cb nx-cb-info" style="margin-top:14px;">
-          <div class="nx-cb-h">ICU 持続投与の組成（カンファレンスでの言い回し）</div>
-          <div style="font-variant-numeric:tabular-nums;line-height:1.85;">
-            ▸ レミフェンタニル：γ（組成 1mL=100μg/mL）<br>
-            ▸ フェンタニル ［持続点滴］：μg/h（組成 1mL=50μg）<br>
-            ▸ フェンタニル ［IV-PCA］：μg/h（組成 1mL=10μg）
-          </div>
+
+        <div class="nx-cb" style="background:#FFEDD5;border:1px solid #FB923C;padding:12px 14px;margin:14px 0 0;">
+          <span style="display:inline-block;background:#EA580C;color:#fff;font-weight:800;font-size:0.72rem;padding:2px 8px;border-radius:5px;margin-bottom:6px;">プレゼン</span>
+          <ul class="rule-body" style="list-style:disc;padding-left:18px;margin:0;font-size:0.82rem;line-height:1.8;color:#9A3412;">
+            <li>現在の疼痛スコア（NRS / BPS / CPOT）は？</li>
+            <li>現在使用している鎮痛薬の種類と投与量は？
+              <div style="font-variant-numeric:tabular-nums;line-height:1.8;font-size:0.8rem;margin-top:3px;">
+                ▸ レミフェンタニル：γ（組成 1mL=100μg/mL）<br>
+                ▸ フェンタニル ［持続点滴］：μg/h（組成 1mL=50μg）<br>
+                ▸ フェンタニル ［IV-PCA］：μg/h（組成 1mL=10μg）
+              </div>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
@@ -1760,7 +1855,7 @@
           <li><span class="nx-tag nx-tag-em">CAM-ICU</span><span style="color:#1269B0;font-weight:700;font-size:0.7rem;margin-right:6px;">当院標準</span>感度 82% / 特異度 96%</li>
         </ul>
 
-        <details class="nx-acc" id="nx-cam-icu-acc">
+        <details class="nx-acc nx-acc-tool" id="nx-cam-icu-acc">
           <summary>CAM-ICU 評価ツール</summary>
           <div style="margin:0;padding:0;">
             <iframe class="nx-tool-iframe" data-tool="cam-icu" src="../cam-icu.html?embed=1" style="width:100%;border:0;display:block;height:1400px;" loading="lazy" title="CAM-ICU 評価ツール"></iframe>
@@ -1778,84 +1873,6 @@
       </div>
     </div>
 
-    <!-- ─── 二次性脳損傷予防（脳外科患者） ─── -->
-    <div class="card" style="margin-bottom:16px;">
-      <div class="card-inner">
-        <div style="display:flex;border-radius:6px;overflow:hidden;margin-bottom:10px;"><div style="background:#0F172A;color:#fff;padding:6px 12px;font-size:0.75rem;font-weight:900;display:flex;align-items:center;">N</div><div style="background:linear-gradient(135deg,#1269B0,#1586C0);color:#fff;padding:6px 14px;font-size:0.82rem;font-weight:700;flex:1;">脳外科患者・二次性脳損傷予防</div></div>
-        <p class="rule-body">脳損傷（頭部外傷・脳出血・脳梗塞・髄膜炎・脳膿瘍など）は発症経過から <strong>一次性</strong> と <strong>二次性</strong> に分類される。</p>
-
-        <div class="nx-types">
-          <div class="nx-type nx-type-1">
-            <div class="nx-type-h">一次性脳損傷</div>
-            <div class="nx-type-body">発症直後 — 頭部への直接的損傷の結果。<br><strong>治療反応性が低いことが多い</strong></div>
-          </div>
-          <div class="nx-type nx-type-2">
-            <div class="nx-type-h">二次性脳損傷</div>
-            <div class="nx-type-body">発症 数時間〜数日後 — 一次性損傷を契機に <strong>脳浮腫の負のスパイラル</strong>。<br><span class="mark-red"><strong>予防可能、発症すると予後不良</strong></span></div>
-          </div>
-        </div>
-
-        <div class="nx-h">脳浮腫の3メカニズム</div>
-        <div class="nx-mech">
-          <div class="nx-mech-card">
-            <span class="nx-mech-num">①</span>
-            <div class="nx-mech-name">細胞毒性浮腫</div>
-            <div class="nx-mech-body">ATP欠乏 → Na/Kポンプ機能不全 → 細胞内浸透圧上昇</div>
-          </div>
-          <div class="nx-mech-card">
-            <span class="nx-mech-num">②</span>
-            <div class="nx-mech-name">血管原性浮腫</div>
-            <div class="nx-mech-body">血液脳関門（BBB）破綻による浸透圧異常</div>
-          </div>
-          <div class="nx-mech-card">
-            <span class="nx-mech-num">③</span>
-            <div class="nx-mech-name">間質性浮腫</div>
-            <div class="nx-mech-body">髄液圧上昇に伴う水分移動</div>
-          </div>
-        </div>
-        <p class="rule-body" style="font-size:0.82rem;color:#475569;">主因は <strong>脳圧亢進（ICP上昇）／低酸素血症／代謝異常</strong>。低酸素・高CO₂・高血糖・発熱・電解質異常・痙攣がいずれも増悪因子。</p>
-
-        <div class="nx-h">二次性脳損傷の予防</div>
-        <p class="rule-body" style="margin-bottom:16px;">二次性脳損傷の予防は、<strong>頭蓋内圧（ICP）上昇・低酸素・代謝異常</strong>という三つの増悪因子を同時に管理することを基本とする。以下に、プレゼンテーション時に確認すべき項目を <strong>頭蓋内環境 → 浸透圧療法 → 全身管理 → 鎮痛・鎮静</strong> の順に整理する。</p>
-
-        <div class="nx-prose">
-          <div class="nx-prose-h"><span class="nx-prose-num">1</span>頭蓋内環境の最適化</div>
-          <p class="rule-body">ベッドアップは <span class="mark-green"><strong>15〜30度</strong></span>、頸部は正中位を保ち頸静脈の圧迫を避ける。<br>
-          これにより頭蓋内静脈還流が改善し、<strong>ICP は 15〜20% 低下</strong> する。<br>
-          ただし <span class="mark-red"><strong>45度を超えると脳還流圧低下を介して代償性に ICP が上昇</strong></span> するため、過度の挙上は禁物である。<br>
-          <strong>ICP &gt; 20 mmHg または脳ヘルニア徴候</strong> を認める場合は、脳室・硬膜外ドレーンによる持続モニタリングや、開頭減圧術・脳室ドレナージ術といった外科的減圧の適応を躊躇なく検討する。</p>
-        </div>
-
-        <div class="nx-prose">
-          <div class="nx-prose-h"><span class="nx-prose-num">2</span>浸透圧療法</div>
-          <p class="rule-body">脳浮腫を伴う ICP 上昇には <span class="mark-green"><strong>マンニトール／高張食塩水</strong></span> による浸透圧利尿が第一選択となる。<br>
-          本邦で用いられるグリセオールは作用発現が緩徐であり、<strong>米国ではほぼ使用されず</strong>、マンニトールと 3% 食塩水が標準治療となっている。<br>
-          両剤の選択は、循環動態・腎機能・血清 Na 値を踏まえて行う。</p>
-        </div>
-
-        <div class="nx-prose">
-          <div class="nx-prose-h"><span class="nx-prose-num">3</span>全身管理</div>
-          <p class="rule-body"><strong>酸素化　</strong><span class="mark-green"><strong>SpO₂ &gt; 92%、PaO₂ &gt; 60 mmHg</strong></span> を目標。一方 <span class="mark-red"><strong>PaO₂ &gt; 120 mmHg の高酸素血症</strong></span> はフリーラジカルを介して二次性損傷を助長するため避ける。</p>
-          <p class="rule-body" style="margin-top:8px;"><strong>輸液　</strong><strong>正常体液量（Euvolemia）</strong>を <strong>等張液</strong> で維持。低張液は脳浮腫を悪化させるため使用しない。<strong>アルブミン製剤</strong>は <span class="mark-red"><strong>SAFE study</strong></span> で外傷性脳損傷患者の死亡率上昇が示されており、原則として推奨されない。</p>
-          <p class="rule-body" style="margin-top:8px;"><strong>血糖　</strong><span class="mark-green"><strong>110〜180 mg/dL</strong></span> の範囲を維持。高血糖（<strong>INTERACT2</strong> で予後不良との関連）も低血糖も回避する。</p>
-          <p class="rule-body" style="margin-top:8px;"><strong>体温　</strong>発熱を厳格に避け <span class="mark-green"><strong>正常体温（Normothermia）</strong></span> を保つ。<span class="mark-red"><strong>38.3℃ 以上は神経学的予後不良因子</strong></span>。<br>
-          32〜35℃ の低体温療法は大規模試験で生命予後改善のエビデンスが確立しておらず、ルーチンには推奨されない。シヴァリングが生じれば代謝が著明に亢進するため、必要に応じて筋弛緩薬の使用も検討する。</p>
-        </div>
-
-        <div class="nx-prose">
-          <div class="nx-prose-h"><span class="nx-prose-num">4</span>鎮痛・鎮静</div>
-          <p class="rule-body">痛みや不安に伴う <strong>ICP 上昇を抑制</strong>し、脳代謝を低下させて細胞毒性浮腫の進行を防ぐ。<br>
-          一般 ICU では Light Sedation が推奨されるが、本病態では <span class="mark-orange"><strong>深鎮静が必要</strong></span> となるため、<span class="mark-green"><strong>デクスメデトミジンではなくプロポフォールやミダゾラム</strong></span> を選択する。<br>
-          鎮痛は静脈投与のオピオイド（フェンタニル等）が中心となる。</p>
-        </div>
-
-        <div class="nx-cb nx-cb-discuss">
-          <div class="nx-cb-h">脳外科患者プレゼンの追加項目</div>
-          ▸ <strong>てんかん・痙攣：</strong>抗痙攣薬の種類・投与量・増量可能な時期、抗浮腫薬、脳波所見<br>
-          ▸ <strong>頭部外傷：</strong>ICP上限、CPP目標値、二次性脳損傷予防チェックリスト
-        </div>
-      </div>
-    </div>
 
 
     <!-- 神経系 — 採点インタラクション -->
