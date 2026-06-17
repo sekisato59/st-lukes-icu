@@ -12,7 +12,8 @@ const SEARCH_INDEX = [
   // ── 専門医試験（隠しページ） ──
   {"title":"集中治療専門医試験 勉強ノート","url":"pages/exam-icu-board.html","desc":"専門医試験対策の個人勉強ノート（By System）","keywords":"$"},
   {"title":"神経系の集中治療（専門医テキスト第4版）","url":"pages/exam-neurology.html","desc":"神経集中治療・GBS・てんかん重積・aSAH・PCAS・TTM・せん妄・PAD・頭部外傷","keywords":"神経 脳 ICP CPP 二次性脳損傷 FOUR score GCS GBS ギランバレー EGRIS IVIG てんかん SE 重積 脳波 cEEG くも膜下出血 aSAH ニモジピン DCI 脳血管攣縮 PCAS 心停止後症候群 TTM 体温管理 シバリング NSE SSEP 敗血症関連脳障害 SAE せん妄 ICUせん妄 ABCDEFバンドル RASS BPS CPOT 頭部外傷 TBI PRx 減圧開頭術 $"},
-  {"title":"第1章 神経集中治療総論","url":"pages/exam-neurology.html#ch1","desc":"二次性脳損傷の予防、CPP=MAP-ICP、脳血流自動調節能、FOUR score","keywords":"二次性脳損傷 ICP CPP MAP 自動調節能 FOUR score GCS PaCO2 脳血流 $"},
+  {"title":"第1章 神経集中治療総論","url":"pages/exam-neurology.html#ch1","desc":"CPP=MAP-ICP、脳血流自動調節能、ICP波形、FOUR score、rSO₂","keywords":"ICP CPP MAP 自動調節能 FOUR score GCS PaCO2 脳血流 ICP波形 rSO2 NIRS $"},
+  {"title":"二次性脳損傷の予防","url":"pages/secondary-brain-injury.html","desc":"脳外科患者プレゼン要点：頭蓋内環境の最適化・浸透圧療法・全身管理・鎮痛鎮静、CPP=MAP-ICP、FOUR score、rSO₂","keywords":"二次性脳損傷 一次性脳損傷 脳浮腫 細胞毒性浮腫 血管原性浮腫 ICP 頭蓋内圧 マンニトール 高張食塩水 SAFE study INTERACT2 ベッドアップ 浸透圧療法 CPP MAP 自動調節能 FOUR score GCS rSO2 NIRS 脳外科 プレゼン $"},
   {"title":"第2章 神経筋疾患（GBS・MG）","url":"pages/exam-neurology.html#ch2","desc":"GBS・EGRIS・IVIG・PE、MGクリーゼ","keywords":"GBS ギランバレー EGRIS 20-30-40ルール IVIG 血漿交換 PE 重症筋無力症 MGクリーゼ Campylobacter $"},
   {"title":"第3章 てんかん重積状態と脳波モニタリング","url":"pages/exam-neurology.html#ch3","desc":"SE定義・治療フロー（BZD→ホスフェニトイン→全身麻酔薬）・cEEG","keywords":"てんかん 重積 SE RSE super-RSE GCSE NCSE ベンゾジアゼピン ホスフェニトイン レベチラセタム プロポフォール ミダゾラム 脳波 cEEG TELSTAR $"},
   {"title":"第4章 くも膜下出血（aSAH）","url":"pages/exam-neurology.html#ch4","desc":"aSAH疫学・ニモジピン・DCI・コイル塞栓術vsクリッピング","keywords":"くも膜下出血 aSAH ニモジピン DCI 遅発性脳虚血 脳血管攣縮 コイル塞栓術 クリッピング クラゾセンタン $"},

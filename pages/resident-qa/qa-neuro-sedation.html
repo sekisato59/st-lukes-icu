@@ -233,67 +233,6 @@
       line-height: 1.9;
     }
 
-    /* ===== 薬剤カード（薬剤名はバナー型ヘッダーで強調） ===== */
-    .drug-card {
-      background: #fff;
-      border: 1px solid #BFDBFE;
-      border-radius: 6px;
-      overflow: hidden;
-      margin-bottom: 10px;
-    }
-    .drug-card:last-child { margin-bottom: 0; }
-    .drug-name {
-      background: linear-gradient(135deg, #1E40AF, #2563EB);
-      color: #fff;
-      font-size: 0.96rem;
-      font-weight: 800;
-      padding: 9px 16px;
-      margin: 0;
-      letter-spacing: 0.01em;
-      line-height: 1.4;
-    }
-    .drug-name-alias {
-      font-size: 0.78rem;
-      color: rgba(255,255,255,0.82);
-      font-weight: 500;
-      margin-left: 6px;
-    }
-    .drug-rows { padding: 8px 16px 10px; }
-    .drug-row {
-      display: grid;
-      grid-template-columns: 56px 1fr;
-      gap: 12px;
-      align-items: start;
-      padding: 7px 0;
-      font-size: 0.85rem;
-      line-height: 1.7;
-    }
-    .drug-row + .drug-row { border-top: 1px dashed #E2E8F0; }
-    .drug-row-label {
-      display: inline-block;
-      width: 56px;
-      box-sizing: border-box;
-      text-align: center;
-      font-size: 0.72rem;
-      font-weight: 800;
-      color: #1E40AF;
-      background: #DBEAFE;
-      border: 1px solid #BFDBFE;
-      padding: 3px 0;
-      border-radius: 4px;
-      letter-spacing: 0.02em;
-      line-height: 1.4;
-      margin-top: 1px;
-    }
-    .drug-row-body { color: #334155; padding-top: 2px; }
-    .drug-row-body strong { color: #1E293B; }
-    @media (max-width: 600px) {
-      .drug-row {
-        grid-template-columns: 56px 1fr;
-        gap: 10px;
-      }
-    }
-
     /* ===== 比較テーブル（統一） ===== */
     .qa-table {
       width: 100%;
@@ -316,6 +255,35 @@
     }
     .qa-table tr.highlight { background: #EFF6FF; }
     .qa-table tr.highlight td { color: #1E3A8A; font-weight: 700; }
+
+    /* ===== RASS スコアリングボード（目標鎮静深度＋使うとき） ===== */
+    .rass-board { margin: 4px 0 2px; }
+    .rb-zone { margin-bottom: 10px; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+    .rb-zone:last-child { margin-bottom: 0; }
+    .rb-zone-label { display: flex; align-items: center; gap: 8px; font-size: 0.78rem; font-weight: 800; color: #334155; padding: 7px 12px; background: #F1F5F9; line-height: 1.4; }
+    .rb-zone-tag { font-size: 0.66rem; font-weight: 800; letter-spacing: 0.04em; color: #fff; background: #94A3B8; padding: 2px 9px; border-radius: 999px; flex-shrink: 0; }
+    .rb-zone-target { border-color: #6EE7B7; box-shadow: 0 0 0 1px #6EE7B7 inset; }
+    .rb-zone-target .rb-zone-label { background: #ECFDF5; color: #065F46; }
+    .rb-tag-target { background: #10B981; }
+    .rb-row { display: grid; grid-template-columns: 44px minmax(96px,150px) 1fr; gap: 10px; align-items: center; padding: 7px 12px; border-top: 1px solid #F1F5F9; background: #fff; }
+    .rb-score { display: flex; align-items: center; justify-content: center; width: 40px; height: 32px; border-radius: 7px; font-size: 0.92rem; font-weight: 900; color: #fff; font-family: ui-monospace,Menlo,Consolas,monospace; letter-spacing: -0.03em; }
+    .rb-name { font-size: 0.82rem; font-weight: 800; color: #1E293B; line-height: 1.3; }
+    .rb-en { display: block; font-size: 0.58rem; font-weight: 700; color: #94A3B8; letter-spacing: 0.04em; margin-top: 1px; }
+    .rb-desc { font-size: 0.76rem; line-height: 1.5; color: #475569; }
+    .rb-row[data-score="4"]  .rb-score { background:#B91C1C; }
+    .rb-row[data-score="3"]  .rb-score { background:#DC2626; }
+    .rb-row[data-score="2"]  .rb-score { background:#EA580C; }
+    .rb-row[data-score="1"]  .rb-score { background:#F59E0B; }
+    .rb-row[data-score="0"]  .rb-score { background:#16A34A; }
+    .rb-row[data-score="-1"] .rb-score { background:#10B981; }
+    .rb-row[data-score="-2"] .rb-score { background:#059669; }
+    .rb-row[data-score="-3"] .rb-score { background:#047857; }
+    .rb-row[data-score="-4"] .rb-score { background:#1E40AF; }
+    .rb-row[data-score="-5"] .rb-score { background:#312E81; }
+    @media (max-width: 560px) {
+      .rb-row { grid-template-columns: 40px 1fr; }
+      .rb-desc { grid-column: 1 / -1; }
+    }
 
     /* ===== カラーボックス：POINT（青・マーカーと同色）===== */
     .box-pearl {
@@ -367,11 +335,11 @@
       margin: 0;
     }
     .src-list li {
-      padding: 12px 0;
+      padding: 7px 0;
       border-bottom: 1px dashed #E2E8F0;
     }
-    .src-list li:first-child { padding-top: 2px; }
-    .src-list li:last-child { padding-bottom: 2px; border-bottom: none; }
+    .src-list li:first-child { padding-top: 0; }
+    .src-list li:last-child { padding-bottom: 0; border-bottom: none; }
 
     /* バッジ（カテゴリ別に色分け）*/
     .src-list .src-cat {
@@ -381,7 +349,7 @@
       letter-spacing: 0.06em;
       padding: 2px 9px;
       border-radius: 3px;
-      margin-bottom: 6px;
+      margin-bottom: 3px;
     }
     .src-list .src-cat-site     { background: #DBEAFE; color: #1E40AF; }
     .src-list .src-cat-tool     { background: #FEF3C7; color: #92400E; }
@@ -407,25 +375,30 @@
       line-height: 1.7;
     }
 
-    /* ===== もっと深く学ぶ ===== */
+    /* ===== もっと深く学ぶ（テキストリスト形式） ===== */
     .learn-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 10px;
+      display: flex;
+      flex-direction: column;
     }
     .learn-card {
-      display: block;
-      padding: 12px 14px;
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 8px;
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      padding: 9px 2px;
+      background: transparent;
+      border: none;
+      border-bottom: 1px dashed #E2E8F0;
+      border-radius: 0;
       text-decoration: none;
       color: inherit;
-      transition: border-color 0.15s, transform 0.15s;
+      transition: background 0.15s;
     }
-    .learn-card:hover { transform: translateY(-1px); border-color: #2563EB; }
-    .learn-card-cat { font-size: 0.62rem; font-weight: 800; letter-spacing: 0.08em; color: #2563EB; margin-bottom: 3px; }
-    .learn-card-title { font-size: 0.82rem; font-weight: 700; color: var(--text); line-height: 1.5; }
+    .learn-card:first-child { padding-top: 0; }
+    .learn-card:last-child { padding-bottom: 0; border-bottom: none; }
+    .learn-card:hover { background: #F8FAFC; }
+    .learn-card:hover .learn-card-title { color: #2563EB; }
+    .learn-card-cat { font-size: 0.64rem; font-weight: 800; letter-spacing: 0.06em; color: #2563EB; margin: 0; flex-shrink: 0; }
+    .learn-card-title { font-size: 0.85rem; font-weight: 700; color: var(--text); line-height: 1.6; }
 
     @media (max-width: 900px) {
       .qa-body { grid-template-columns: 1fr; }
@@ -471,10 +444,10 @@
         <h4 class="qa-card-heading"><span class="qa-card-num">1</span>鎮静は何のためにするの？</h4>
         <p>鎮静には <strong>4 つの明確な目的</strong> があります。</p>
         <ul class="qa-list">
-          <li><strong><span class="mark-orange">不安・苦痛をやわらげる</span></strong><span class="li-desc">挿管されていることや体を動かせない時間は、患者にとって強い不安と苦痛を伴う体験になります。</span></li>
-          <li><strong><span class="mark-orange">人工呼吸器と楽に同調させる</span></strong><span class="li-desc"><a href="../articles-gl-pva-asynchrony2025.html" style="color:#2563EB;font-weight:700;">患者と人工呼吸器の非同調（ファイティング）</a>は、人工呼吸期間と ICU 滞在の延長、肺損傷、呼吸困難の悪化、過鎮静の必要性増加など、有害な転帰と関連します。<span style="color:#B91C1C;font-weight:700;">裏を返せば、人工呼吸器と同期できていて不快感の少ない患者では、必ず鎮静をしなければいけないわけではありません。</span></span></li>
-          <li><strong><span class="mark-orange">脳代謝・全身の酸素消費を抑える</span></strong><span class="li-desc">脳出血・頭部外傷など頭蓋内圧（ICP）の管理が必要な患者、またはショックや低酸素症で全身の酸素消費を抑えて生命維持を優先したい場面で特に大きな意義があります。</span></li>
-          <li><strong><span class="mark-orange">処置を安全に行う</span></strong><span class="li-desc">気管支鏡・体位変換・抜管前など、苦痛や危険を伴う処置を安全に行うために、一時的に深めの鎮静が必要になる場合があります。</span></li>
+          <li><strong>不安・苦痛をやわらげる</strong><span class="li-desc">挿管されていることや体を動かせない時間は、患者にとって強い不安と苦痛を伴う体験になります。</span></li>
+          <li><strong>人工呼吸器と楽に同調させる</strong><span class="li-desc"><a href="../articles-gl-pva-asynchrony2025.html" style="color:#2563EB;font-weight:700;">患者と人工呼吸器の非同調（ファイティング）</a>は、人工呼吸期間と ICU 滞在の延長、肺損傷、呼吸困難の悪化、過鎮静の必要性増加など、有害な転帰と関連します。<span style="color:#B91C1C;font-weight:700;">裏を返せば、人工呼吸器と同期できていて不快感の少ない患者では、必ず鎮静をしなければいけないわけではありません。</span></span></li>
+          <li><strong>脳代謝・全身の酸素消費を抑える</strong><span class="li-desc">脳出血・頭部外傷など頭蓋内圧（ICP）の管理が必要な患者、またはショックや低酸素症で全身の酸素消費を抑えて生命維持を優先したい場面で特に大きな意義があります。</span></li>
+          <li><strong>処置を安全に行う</strong><span class="li-desc">気管支鏡・体位変換・抜管前など、苦痛や危険を伴う処置を安全に行うために、一時的に深めの鎮静が必要になる場合があります。</span></li>
         </ul>
         <div class="box-pearl">
           <span class="box-label">POINT</span>
@@ -502,17 +475,30 @@
       <div class="qa-card" id="s-rass">
         <h4 class="qa-card-heading"><span class="qa-card-num">3</span>目標を決める — RASS で「軽い鎮静」を狙う</h4>
         <p><strong>RASS（Richmond Agitation-Sedation Scale）</strong> は鎮静の深さを共通言語で表すスケール。聖路加 ICU でもこれを使ってカルテに記載します。</p>
-        <table class="qa-table">
-          <thead>
-            <tr><th style="width:20%;">スコア</th><th style="width:35%;">状態</th><th>使うとき</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>+4 〜 +1</td><td>興奮〜落ち着かない</td><td>原則 0 以下を目指す</td></tr>
-            <tr class="highlight"><td><strong>0 〜 −2</strong></td><td><strong>覚醒〜軽い鎮静</strong>（呼びかけで開眼）</td><td><strong>挿管中の標準目標</strong></td></tr>
-            <tr><td>−3</td><td>中等度鎮静</td><td>呼吸器同調が悪い時の一時的調整</td></tr>
-            <tr><td>−4 〜 −5</td><td>深い鎮静・昏睡</td><td>頭蓋内圧管理・難治性 ARDS など限定的</td></tr>
-          </tbody>
-        </table>
+        <div class="rass-board">
+          <div class="rb-zone">
+            <div class="rb-zone-label"><span class="rb-zone-tag">避ける</span>原則 0 以下を目指す（不必要に深い鎮静も避ける）</div>
+            <div class="rb-row" data-score="4"><span class="rb-score">+4</span><span class="rb-name">闘争的<span class="rb-en">COMBATIVE</span></span><span class="rb-desc">明らかに闘争的、暴力的、スタッフへの即時の危険</span></div>
+            <div class="rb-row" data-score="3"><span class="rb-score">+3</span><span class="rb-name">強い不穏<span class="rb-en">VERY AGITATED</span></span><span class="rb-desc">チューブ・カテーテル類を引き抜く、攻撃的</span></div>
+            <div class="rb-row" data-score="2"><span class="rb-score">+2</span><span class="rb-name">不穏<span class="rb-en">AGITATED</span></span><span class="rb-desc">頻繁な無目的の動き、人工呼吸器との非同調</span></div>
+            <div class="rb-row" data-score="1"><span class="rb-score">+1</span><span class="rb-name">落ち着きがない<span class="rb-en">RESTLESS</span></span><span class="rb-desc">不安または不安そうだが、活発で攻撃的でない</span></div>
+          </div>
+          <div class="rb-zone rb-zone-target">
+            <div class="rb-zone-label"><span class="rb-zone-tag rb-tag-target">標準目標</span>挿管中の標準目標 — 覚醒〜軽い鎮静（light sedation）</div>
+            <div class="rb-row" data-score="0"><span class="rb-score">0</span><span class="rb-name">意識清明・穏やか<span class="rb-en">ALERT AND CALM</span></span><span class="rb-desc">意識清明で穏やか</span></div>
+            <div class="rb-row" data-score="-1"><span class="rb-score">−1</span><span class="rb-name">傾眠<span class="rb-en">DROWSY</span></span><span class="rb-desc">声かけに対し 10 秒以上 開眼・アイコンタクト</span></div>
+            <div class="rb-row" data-score="-2"><span class="rb-score">−2</span><span class="rb-name">軽度鎮静<span class="rb-en">LIGHT SEDATION</span></span><span class="rb-desc">声かけに対し 10 秒未満 開眼・アイコンタクト</span></div>
+          </div>
+          <div class="rb-zone">
+            <div class="rb-zone-label"><span class="rb-zone-tag">一時的</span>呼吸器同調が悪い時の一時的調整</div>
+            <div class="rb-row" data-score="-3"><span class="rb-score">−3</span><span class="rb-name">中等度鎮静<span class="rb-en">MODERATE SEDATION</span></span><span class="rb-desc">声かけに動き・開眼で反応するが、アイコンタクトなし</span></div>
+          </div>
+          <div class="rb-zone">
+            <div class="rb-zone-label"><span class="rb-zone-tag">限定的</span>頭蓋内圧管理・難治性 ARDS など限定的</div>
+            <div class="rb-row" data-score="-4"><span class="rb-score">−4</span><span class="rb-name">深い鎮静<span class="rb-en">DEEP SEDATION</span></span><span class="rb-desc">身体刺激で動き・開眼あり</span></div>
+            <div class="rb-row" data-score="-5"><span class="rb-score">−5</span><span class="rb-name">昏睡<span class="rb-en">UNAROUSABLE</span></span><span class="rb-desc">声かけ・身体刺激ともに反応なし</span></div>
+          </div>
+        </div>
         <div class="box-pearl">
           <span class="box-label">POINT</span>
           <p>RASS <strong>−2〜0</strong> を目指す <strong>light sedation</strong> が現在の標準。深い鎮静（RASS ≦ −3）を続けると以下のリスクが上がります：</p>
@@ -528,61 +514,9 @@
       <!-- ────────── STEP 4 ────────── -->
       <div class="qa-card" id="s-drugs">
         <h4 class="qa-card-heading"><span class="qa-card-num">4</span>薬の選び方 — 3 つの主役を覚える</h4>
-        <p>ICU の鎮静薬は基本的に <strong>3 つ</strong>。それぞれ得意・不得意があります。</p>
-        <div class="drug-card">
-          <h5 class="drug-name">プロポフォール<span class="drug-name-alias">（ディプリバン）</span></h5>
-          <div class="drug-rows">
-            <div class="drug-row">
-              <span class="drug-row-label">長所</span>
-              <span class="drug-row-body">立ち上がり・覚醒が早く調整しやすい</span>
-            </div>
-            <div class="drug-row">
-              <span class="drug-row-label">短所</span>
-              <span class="drug-row-body">低血圧、高用量・長期で <strong>PRIS</strong>、高 TG 血症</span>
-            </div>
-            <div class="drug-row">
-              <span class="drug-row-label">使い所</span>
-              <span class="drug-row-body"><strong>多くの ICU 患者の第一選択</strong></span>
-            </div>
-          </div>
-        </div>
-
-        <div class="drug-card">
-          <h5 class="drug-name">デクスメデトミジン<span class="drug-name-alias">（プレセデックス）</span></h5>
-          <div class="drug-rows">
-            <div class="drug-row">
-              <span class="drug-row-label">長所</span>
-              <span class="drug-row-body"><strong>せん妄が減る</strong>／呼吸抑制が少ない／覚醒下で意思疎通が可能</span>
-            </div>
-            <div class="drug-row">
-              <span class="drug-row-label">短所</span>
-              <span class="drug-row-body">徐脈・低血圧、深い鎮静は不得意</span>
-            </div>
-            <div class="drug-row">
-              <span class="drug-row-label">使い所</span>
-              <span class="drug-row-body">軽い鎮静で十分な患者、<strong>せん妄ハイリスク患者</strong></span>
-            </div>
-          </div>
-        </div>
-
-        <div class="drug-card">
-          <h5 class="drug-name">ミダゾラム<span class="drug-name-alias">（ドルミカム）</span></h5>
-          <div class="drug-rows">
-            <div class="drug-row">
-              <span class="drug-row-label">長所</span>
-              <span class="drug-row-body">血圧が下がりにくい／痙攣にも使える</span>
-            </div>
-            <div class="drug-row">
-              <span class="drug-row-label">短所</span>
-              <span class="drug-row-body"><strong>せん妄リスク増加</strong>、蓄積で覚醒遅延、長期投与 NG</span>
-            </div>
-            <div class="drug-row">
-              <span class="drug-row-label">使い所</span>
-              <span class="drug-row-body"><strong>原則第一選択にしない</strong>（短時間の処置・特殊状況のみ）</span>
-            </div>
-          </div>
-        </div>
-        <div class="box-pearl">
+        <p>ICU の鎮静薬は基本的に <strong>3 つ</strong>（＋難治例で使うチオペンタール）。それぞれ得意・不得意があります。下のカードに各薬剤の作用機序・投与量・副作用をまとめています。</p>
+        <div id="sed-cards-sedation"></div>
+        <div class="box-pearl" style="margin-top:12px;">
           <span class="box-label">POINT — ICM-RPG 2022 の推奨</span>
           <p>機械換気成人 ICU 患者では、<strong>他の鎮静薬よりデクスメデトミジンを使うことを提案</strong>（弱い推奨／中確実性）。せん妄減少という利益が、徐脈・低血圧の増加を上回ると判断される症例で。<br>→ 詳細は <a href="../articles-gl-dex-icm2022.html" style="color:#2563EB;font-weight:700;">DEX ICM-RPG 2022 まとめ</a> へ。</p>
         </div>
@@ -593,10 +527,10 @@
         <h4 class="qa-card-heading"><span class="qa-card-num">5</span>毎日の評価 — 「切れるか？」を必ず考える</h4>
         <p>鎮静は <strong>「始めたら最後まで続ける薬」ではありません</strong>。毎朝、以下を確認します。</p>
         <ul class="qa-list">
-          <li><strong><span class="mark-orange">SAT（spontaneous awakening trial）</span></strong><span class="li-desc">鎮静薬を一時的に止めて、患者が自分で目を覚ませるか・落ち着いて覚醒できるかを確認します。</span></li>
-          <li><strong><span class="mark-orange">SBT（spontaneous breathing trial）</span></strong><span class="li-desc">人工呼吸器のサポートを最小限にして、自発呼吸だけで耐えられるかを確認します。</span></li>
-          <li><strong><span class="mark-orange">CAM-ICU</span></strong><span class="li-desc">せん妄（注意力の低下や思考の混乱、意識レベル変動）が出ていないかを毎日評価します。</span></li>
-          <li><strong><span class="mark-orange">RASS</span></strong><span class="li-desc">実際の鎮静深度が目標と合っているかを確認し、過剰なら鎮静薬を減量・中止します。</span></li>
+          <li><strong>SAT（spontaneous awakening trial）</strong><span class="li-desc">鎮静薬を一時的に止めて、患者が自分で目を覚ませるか・落ち着いて覚醒できるかを確認します。</span></li>
+          <li><strong>SBT（spontaneous breathing trial）</strong><span class="li-desc">人工呼吸器のサポートを最小限にして、自発呼吸だけで耐えられるかを確認します。</span></li>
+          <li><strong>CAM-ICU</strong><span class="li-desc">せん妄（注意力の低下や思考の混乱、意識レベル変動）が出ていないかを毎日評価します。</span></li>
+          <li><strong>RASS</strong><span class="li-desc">実際の鎮静深度が目標と合っているかを確認し、過剰なら鎮静薬を減量・中止します。</span></li>
         </ul>
         <p>この一連の流れは <strong>ABCDEF バンドル</strong>（Assess pain → Both SAT/SBT → Choice of drug → Delirium → Early mobility → Family）として知られ、PICS 予防の中心戦略です。</p>
         <div class="box-pearl">
@@ -718,5 +652,7 @@
 
   <script src="../../script.js?v=20260620"></script>
   <script src="../../abbr-tooltip.js"></script>
+  <script src="../../sedatives-cards.js"></script>
+  <script>renderSedativeCards('sed-cards-sedation', {style:'navy'});</script>
 </body>
 </html>
