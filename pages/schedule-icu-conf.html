@@ -239,6 +239,49 @@
       .nx-scale-foot .total strong { color:#DC2626; font-size:1.05rem; padding:0 4px; }
       .nx-scale-foot .reset { background:#fff; border:1px solid var(--border); border-radius:6px; padding:5px 12px; font-size:0.72rem; font-weight:700; color:var(--muted); cursor:pointer; transition:all 0.15s; font-family:inherit; }
       .nx-scale-foot .reset:hover { background:#FEF2F2; color:#DC2626; border-color:#FECACA; }
+      /* ===== CAM-ICU インライン評価ツール ===== */
+      .nx-cam { padding:0; }
+      .nx-cam-step { padding:12px 14px; border-bottom:1px solid #E2E8F0; transition:background 0.15s; }
+      .nx-cam-step.is-active { background:#EFF6FF; box-shadow:inset 3px 0 0 #1269B0; }
+      .nx-cam-step.is-disabled { pointer-events:none; background:#FBFCFD; }
+      .nx-cam-step.is-disabled .nx-cam-step-n { background:#A8B4C4; }
+      .nx-cam-step.is-disabled .nx-cam-yn label,
+      .nx-cam-step.is-disabled .nx-cam-q-pills label,
+      .nx-cam-step.is-disabled .nx-cam-letters span,
+      .nx-cam-step.is-disabled .nx-cam-err input { opacity:0.5; }
+      .nx-cam-step.is-pos { background:#FEF2F2; }
+      .nx-cam-step.is-neg { background:#F0FDF4; }
+      .nx-cam-step-h { font-size:0.82rem; font-weight:800; color:#0F172A; display:flex; align-items:center; gap:8px; }
+      .nx-cam-step-n { display:inline-flex; align-items:center; justify-content:center; min-width:34px; height:22px; padding:0 7px; background:#1269B0; color:#fff; border-radius:5px; font-size:0.72rem; font-weight:800; flex-shrink:0; letter-spacing:0.02em; }
+      .nx-cam-step-d { font-size:0.76rem; line-height:1.65; color:#475569; margin:7px 0 9px; }
+      .nx-cam-yn { display:flex; gap:8px; flex-wrap:wrap; }
+      .nx-cam-yn input[type="radio"] { position:absolute; opacity:0; width:0; height:0; pointer-events:none; }
+      .nx-cam-yn label { cursor:pointer; font-size:0.78rem; font-weight:700; padding:6px 14px; border-radius:7px; border:1px solid #CBD5E1; background:#fff; color:#475569; transition:all 0.15s; }
+      .nx-cam-yn label:hover { border-color:#93C5FD; }
+      .nx-cam-yn input:checked + label { background:#DBEAFE; border-color:#93C5FD; color:#1E40AF; }
+      .nx-cam-yn input:checked + label.yn-pos { background:#FEE2E2; border-color:#FCA5A5; color:#B91C1C; }
+      .nx-cam-yn input:checked + label.yn-neg { background:#DCFCE7; border-color:#86EFAC; color:#15803D; }
+      .nx-cam-letters { display:flex; gap:5px; flex-wrap:wrap; margin:0 0 5px; }
+      .nx-cam-letters span { display:inline-flex; align-items:center; justify-content:center; width:26px; height:26px; border-radius:5px; background:#F1F5F9; color:#475569; font-weight:800; font-size:0.82rem; }
+      .nx-cam-letters span.hit { background:#FEE2E2; color:#DC2626; }
+      .nx-cam-letters-note { font-size:0.72rem; color:#94A3B8; margin:0 0 9px; }
+      .nx-cam-err { display:flex; align-items:center; gap:8px; font-size:0.8rem; font-weight:700; color:#334155; }
+      .nx-cam-err input { width:64px; padding:5px 8px; border:1px solid #CBD5E1; border-radius:6px; font-size:0.85rem; font-family:inherit; text-align:center; }
+      .nx-cam-err span { font-weight:400; color:#64748B; font-size:0.76rem; }
+      .nx-cam-q { display:flex; flex-direction:column; gap:2px; }
+      .nx-cam-q-row { display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; padding:6px 0; border-bottom:1px dashed #E2E8F0; }
+      .nx-cam-q-row:last-child { border-bottom:none; }
+      .nx-cam-q-t { font-size:0.78rem; color:#334155; line-height:1.5; flex:1; min-width:190px; }
+      .nx-cam-q-pills { display:flex; gap:6px; flex-shrink:0; }
+      .nx-cam-q-pills input[type="radio"] { position:absolute; opacity:0; width:0; height:0; pointer-events:none; }
+      .nx-cam-q-pills label { cursor:pointer; font-size:0.74rem; font-weight:700; padding:4px 13px; border-radius:6px; border:1px solid #CBD5E1; background:#fff; color:#475569; transition:all 0.15s; }
+      .nx-cam-q-pills input:checked + label.qc { background:#DCFCE7; border-color:#86EFAC; color:#15803D; }
+      .nx-cam-q-pills input:checked + label.qw { background:#FEE2E2; border-color:#FCA5A5; color:#B91C1C; }
+      .nx-cam-result { padding:12px 14px; font-size:0.84rem; line-height:1.7; font-weight:800; color:#475569; background:#F8FAFC; border-top:1px solid var(--border); }
+      .nx-cam-result.is-pos { background:#FEF2F2; color:#7F1D1D; }
+      .nx-cam-result.is-neg { background:#F0FDF4; color:#14532D; }
+      .nx-cam-result.is-unable { background:#FFFBEB; color:#92400E; }
+      .nx-cam-result-d { font-weight:400; font-size:0.76rem; margin-top:5px; line-height:1.65; color:#475569; }
 
       /* RASS インタラクティブ選択（GCS と同じスケールテーブルデザイン） */
       .nx-rass-row { cursor:pointer; transition:background 0.12s; }
@@ -1853,19 +1896,75 @@
         </ul>
 
         <details class="nx-acc nx-acc-tool" id="nx-cam-icu-acc">
-          <summary>CAM-ICU 評価ツール</summary>
-          <div style="margin:0;padding:0;">
-            <iframe class="nx-tool-iframe" data-tool="cam-icu" src="../cam-icu.html?embed=1" style="width:100%;border:0;display:block;height:1400px;" loading="lazy" title="CAM-ICU 評価ツール"></iframe>
+          <summary>CAM-ICU 評価ツール<span class="nx-score-out nx-incomplete" id="cam-score-out">未評価</span></summary>
+          <div class="nx-cam" id="nx-cam">
+            <!-- Gate: RASS -4/-5 -->
+            <div class="nx-cam-step" id="cam-step0">
+              <div class="nx-cam-step-h"><span class="nx-cam-step-n">RASS</span>まず深鎮静を除外</div>
+              <p class="nx-cam-step-d">現在の <strong>RASS が −4 / −5</strong>（深鎮静・昏睡）なら CAM-ICU は評価不能。上の RASS スコアリングボードで確認する。</p>
+              <div class="nx-cam-yn">
+                <input type="radio" name="cam-gate" id="cam-gate-y" value="yes"><label for="cam-gate-y">RASS −4 / −5</label>
+                <input type="radio" name="cam-gate" id="cam-gate-n" value="no"><label for="cam-gate-n">−3 以上（評価可能）</label>
+              </div>
+            </div>
+
+            <!-- Feature 1 -->
+            <div class="nx-cam-step is-disabled" id="cam-step1">
+              <div class="nx-cam-step-h"><span class="nx-cam-step-n">F1</span>精神状態の急性変化または変動</div>
+              <p class="nx-cam-step-d">ベースラインと異なる急性変化があるか？ または過去 24 時間で精神状態が変動したか？</p>
+              <div class="nx-cam-yn">
+                <input type="radio" name="cam-f1" id="cam-f1-y" value="yes"><label for="cam-f1-y" class="yn-pos">あり（陽性）</label>
+                <input type="radio" name="cam-f1" id="cam-f1-n" value="no"><label for="cam-f1-n" class="yn-neg">なし</label>
+              </div>
+            </div>
+
+            <!-- Feature 2 -->
+            <div class="nx-cam-step is-disabled" id="cam-step2">
+              <div class="nx-cam-step-h"><span class="nx-cam-step-n">F2</span>注意力欠如（SAVEAHAART テスト）</div>
+              <p class="nx-cam-step-d">「<strong>A を聞いたら手を握って</strong>」と指示して 10 文字を読み上げ、<strong>2 個以上のエラー</strong>で陽性。A で握らない／A 以外で握る、どちらもエラー。</p>
+              <div class="nx-cam-letters"><span>S</span><span class="hit">A</span><span>V</span><span>E</span><span class="hit">A</span><span>H</span><span class="hit">A</span><span class="hit">A</span><span>R</span><span>T</span></div>
+              <div class="nx-cam-letters-note">赤字の "A" は計 4 回 — ここで握るのが正常反応</div>
+              <div class="nx-cam-err"><label for="cam-f2err">エラー数</label><input type="number" id="cam-f2err" min="0" max="10" step="1" placeholder="0"><span>／10 回中</span></div>
+            </div>
+
+            <!-- Feature 3 -->
+            <div class="nx-cam-step is-disabled" id="cam-step3">
+              <div class="nx-cam-step-h"><span class="nx-cam-step-n">F3</span>意識レベルの変化</div>
+              <p class="nx-cam-step-d">現在の <strong>RASS が 0 以外</strong>なら陽性（上の RASS ボードの判定を反映）。</p>
+              <div class="nx-cam-yn">
+                <input type="radio" name="cam-f3" id="cam-f3-y" value="yes"><label for="cam-f3-y" class="yn-pos">RASS ≠ 0（陽性）</label>
+                <input type="radio" name="cam-f3" id="cam-f3-n" value="no"><label for="cam-f3-n" class="yn-neg">RASS ＝ 0</label>
+              </div>
+            </div>
+
+            <!-- Feature 4 -->
+            <div class="nx-cam-step is-disabled" id="cam-step4">
+              <div class="nx-cam-step-h"><span class="nx-cam-step-n">F4</span>思考の混乱</div>
+              <p class="nx-cam-step-d">Q1〜Q4 ＋ 動作課題の 5 項目で <strong>2 個以上のエラー</strong>なら陽性。</p>
+              <div class="nx-cam-q">
+                <div class="nx-cam-q-row"><span class="nx-cam-q-t">Q1　石は水に浮きますか？（正：いいえ）</span><span class="nx-cam-q-pills"><input type="radio" name="cam-q1" id="cam-q1c" value="correct"><label for="cam-q1c" class="qc">正</label><input type="radio" name="cam-q1" id="cam-q1w" value="wrong"><label for="cam-q1w" class="qw">誤</label></span></div>
+                <div class="nx-cam-q-row"><span class="nx-cam-q-t">Q2　海に魚はいますか？（正：はい）</span><span class="nx-cam-q-pills"><input type="radio" name="cam-q2" id="cam-q2c" value="correct"><label for="cam-q2c" class="qc">正</label><input type="radio" name="cam-q2" id="cam-q2w" value="wrong"><label for="cam-q2w" class="qw">誤</label></span></div>
+                <div class="nx-cam-q-row"><span class="nx-cam-q-t">Q3　1 ポンドは 2 ポンドより重いですか？（正：いいえ）</span><span class="nx-cam-q-pills"><input type="radio" name="cam-q3" id="cam-q3c" value="correct"><label for="cam-q3c" class="qc">正</label><input type="radio" name="cam-q3" id="cam-q3w" value="wrong"><label for="cam-q3w" class="qw">誤</label></span></div>
+                <div class="nx-cam-q-row"><span class="nx-cam-q-t">Q4　釘を打つのにハンマーは使えますか？（正：はい）</span><span class="nx-cam-q-pills"><input type="radio" name="cam-q4" id="cam-q4c" value="correct"><label for="cam-q4c" class="qc">正</label><input type="radio" name="cam-q4" id="cam-q4w" value="wrong"><label for="cam-q4w" class="qw">誤</label></span></div>
+                <div class="nx-cam-q-row"><span class="nx-cam-q-t">動作　「指 2 本立てて」→ もう一方の手で同じ数（提示せず）</span><span class="nx-cam-q-pills"><input type="radio" name="cam-q5" id="cam-q5c" value="correct"><label for="cam-q5c" class="qc">正</label><input type="radio" name="cam-q5" id="cam-q5w" value="wrong"><label for="cam-q5w" class="qw">誤</label></span></div>
+              </div>
+            </div>
+
+            <div class="nx-cam-result" id="cam-result"><span>RASS の確認から始めてください</span></div>
+            <div class="nx-scale-foot" style="justify-content:flex-end;">
+              <button type="button" class="reset" data-reset="cam">リセット</button>
+            </div>
           </div>
         </details>
-        <p style="font-size:0.74rem;color:#64748B;margin:8px 2px 0;">※ RASS = -4 または -5 の場合は <strong>評価対象外</strong>（深鎮静）／4 Feature の流れ：F1 急性変化 → F2 注意力欠如 → F3 意識レベル → F4 思考の混乱。陽性 = F1 + F2 + (F3 または F4)</p>
 
-        <div class="nx-cb nx-cb-discuss" style="margin-top:14px;">
-          <div class="nx-cb-h">プレゼンに含める項目</div>
-          ▸ せん妄はあるか？（CAM-ICU 結果）<br>
-          ▸ せん妄の <strong>原因</strong>：鎮静薬・電解質・低酸素・感染・離脱・新規薬剤等<br>
-          ▸ <strong>抗せん妄薬</strong> の種類・投与量<br>
-          ▸ 不眠の原因／使用する眠剤の種類・投与量
+        <div class="nx-cb" style="background:#FFEDD5;border:1px solid #FB923C;padding:12px 14px;margin:14px 0 0;">
+          <span style="display:inline-block;background:#EA580C;color:#fff;font-weight:800;font-size:0.72rem;padding:2px 8px;border-radius:5px;margin-bottom:6px;">プレゼン</span>
+          <ul class="rule-body" style="list-style:disc;padding-left:18px;margin:0;font-size:0.82rem;line-height:1.8;color:#9A3412;">
+            <li>せん妄はあるか？（CAM-ICU 結果）</li>
+            <li>せん妄の <strong>原因</strong>：鎮静薬・電解質・低酸素・感染・離脱・新規薬剤 等</li>
+            <li><strong>抗せん妄薬</strong> の種類・投与量</li>
+            <li>不眠の原因／使用する眠剤の種類・投与量</li>
+          </ul>
         </div>
       </div>
     </div>
@@ -1957,20 +2056,139 @@
       });
     })();
 
-    /* ===== 便利ツール iframe 自動高さ調整 (cam-icu, apache-ii, sofa, rass 等) ===== */
+    /* ===== CAM-ICU インライン評価ツール（陽性 = F1 + F2 + (F3 または F4)） ===== */
     (function(){
-      window.addEventListener('message', function(e){
-        if (!e.data || typeof e.data !== 'object') return;
-        var t = e.data.type;
-        if (t !== 'cam-icu-height' && t !== 'tool-height') return;
-        var h = Math.max(400, parseInt(e.data.height, 10) || 0);
-        document.querySelectorAll('iframe.nx-tool-iframe').forEach(function(f){
-          // 送信元 iframe を特定
-          if (f.contentWindow === e.source) {
-            f.style.height = h + 'px';
-          }
+      var root = document.getElementById('nx-cam');
+      if (!root) return;
+      var step0 = document.getElementById('cam-step0');
+      var step1 = document.getElementById('cam-step1');
+      var step2 = document.getElementById('cam-step2');
+      var step3 = document.getElementById('cam-step3');
+      var step4 = document.getElementById('cam-step4');
+      var f2err = document.getElementById('cam-f2err');
+      var resultEl = document.getElementById('cam-result');
+      var verdictEl = document.getElementById('cam-verdict');
+      var badge = document.getElementById('cam-score-out');
+
+      var POS_DETAIL = '<strong>次の対応：</strong>原因評価（薬剤・電解質・感染・低酸素・脱水・拘束 等）と非薬物的介入（早期離床・睡眠リズム・家族面会 等）を優先。' +
+        '<br><strong>サブタイプ：</strong>RASS &gt; 0 → 過活動型／RASS ≤ 0 → 低活動型（最頻・見逃されやすい）。';
+
+      function stepState(el, st){ el.classList.remove('is-pos','is-neg','is-disabled','is-active'); if (st) el.classList.add(st); }
+      function setActive(el){ el.classList.add('is-active'); }
+      function getYN(name){
+        var y = root.querySelector('input[name="'+name+'"][value="yes"]');
+        var n = root.querySelector('input[name="'+name+'"][value="no"]');
+        if (y && y.checked) return true;
+        if (n && n.checked) return false;
+        return null;
+      }
+      function setResult(kind, head, detail){
+        resultEl.className = 'nx-cam-result' + (kind ? ' is-'+kind : '');
+        resultEl.innerHTML = '<span>'+head+'</span>' + (detail ? '<div class="nx-cam-result-d">'+detail+'</div>' : '');
+        var v = '—', incomplete = true;
+        if (kind === 'pos') { v = '陽性'; incomplete = false; }
+        else if (kind === 'neg') { v = '陰性'; incomplete = false; }
+        else if (kind === 'unable') { v = '評価不能'; incomplete = false; }
+        if (verdictEl) verdictEl.textContent = v;
+        if (badge) {
+          badge.textContent = incomplete ? '未評価' : v;
+          badge.classList.toggle('nx-incomplete', incomplete);
+        }
+      }
+
+      function evaluate(){
+        [step0, step1, step2, step3, step4].forEach(function(s){ s.classList.remove('is-active'); });
+        // Gate: RASS -4/-5 → 評価不能
+        var gate = getYN('cam-gate'); // true = RASS -4/-5
+        if (gate === null) {
+          setActive(step0);
+          [step1, step2, step3, step4].forEach(function(s){ stepState(s, 'is-disabled'); });
+          setResult(null, 'RASS −4 / −5 かどうかを選択してください', '');
+          return;
+        }
+        if (gate === true) {
+          [step1, step2, step3, step4].forEach(function(s){ stepState(s, 'is-disabled'); });
+          setResult('unable', '評価不能（Unable to assess）', 'RASS −4 / −5（深鎮静・昏睡）のため CAM-ICU は評価できません。鎮静を浅くしてから再評価してください。');
+          return;
+        }
+
+        // Feature 1
+        stepState(step1, null);
+        var f1 = getYN('cam-f1');
+        if (f1 === null) {
+          setActive(step1);
+          [step2, step3, step4].forEach(function(s){ stepState(s, 'is-disabled'); });
+          setResult(null, 'F1（精神状態の急性変化）を選択してください', '');
+          return;
+        }
+        stepState(step1, f1 ? 'is-pos' : 'is-neg');
+        if (!f1) {
+          [step2, step3, step4].forEach(function(s){ stepState(s, 'is-disabled'); });
+          setResult('neg', 'CAM-ICU 陰性 — せん妄なし', 'F1 が陰性のため、この時点でせん妄は否定的。ICU 入室中は 1 シフトに 1 回以上の評価を継続。');
+          return;
+        }
+
+        // Feature 2
+        stepState(step2, null);
+        var raw = (f2err.value || '').trim();
+        if (raw === '') {
+          setActive(step2);
+          [step3, step4].forEach(function(s){ stepState(s, 'is-disabled'); });
+          setResult(null, 'F2（SAVEAHAART）のエラー数を入力してください', 'A 4 回での握りそびれ＋誤握りの合計（0〜10）を入力。');
+          return;
+        }
+        var f2 = (parseInt(raw, 10) || 0) >= 2;
+        stepState(step2, f2 ? 'is-pos' : 'is-neg');
+        if (!f2) {
+          [step3, step4].forEach(function(s){ stepState(s, 'is-disabled'); });
+          setResult('neg', 'CAM-ICU 陰性 — せん妄なし', 'F2 が陰性（エラー 2 個未満）のため、せん妄は否定的。');
+          return;
+        }
+
+        // Feature 3
+        stepState(step3, null);
+        var f3 = getYN('cam-f3');
+        if (f3 === null) {
+          setActive(step3);
+          stepState(step4, 'is-disabled');
+          setResult(null, 'F3（意識レベル）を選択してください', '上の RASS ボードで現在の RASS を確認し、0 以外（≠0）かを選ぶ。');
+          return;
+        }
+        stepState(step3, f3 ? 'is-pos' : 'is-neg');
+        if (f3) {
+          stepState(step4, 'is-disabled');
+          setResult('pos', 'CAM-ICU 陽性 — せん妄あり', '必要な所見 F1 ＋ F2 ＋ F3 を満たす。<br>' + POS_DETAIL);
+          return;
+        }
+
+        // Feature 4（F3 陰性のとき必要）
+        stepState(step4, null);
+        var errs = 0, answered = 0;
+        ['cam-q1','cam-q2','cam-q3','cam-q4','cam-q5'].forEach(function(n){
+          var c = root.querySelector('input[name="'+n+'"][value="correct"]');
+          var w = root.querySelector('input[name="'+n+'"][value="wrong"]');
+          if ((c && c.checked) || (w && w.checked)) answered++;
+          if (w && w.checked) errs++;
         });
+        if (answered < 5) {
+          setActive(step4);
+          setResult(null, 'F4（思考の混乱）の 5 項目を完了してください', 'F1 陽性・F2 陽性・F3 陰性のため、F4 の評価が必要。');
+          return;
+        }
+        var f4 = errs >= 2;
+        stepState(step4, f4 ? 'is-pos' : 'is-neg');
+        if (f4) setResult('pos', 'CAM-ICU 陽性 — せん妄あり', '必要な所見 F1 ＋ F2 ＋ F4 を満たす。<br>' + POS_DETAIL);
+        else setResult('neg', 'CAM-ICU 陰性 — せん妄なし', 'F1・F2 陽性だが F3／F4 とも陰性のため、せん妄は否定的。');
+      }
+
+      root.addEventListener('change', evaluate);
+      var rst = root.querySelector('[data-reset="cam"]');
+      if (rst) rst.addEventListener('click', function(){
+        root.querySelectorAll('input[type="radio"]').forEach(function(r){ r.checked = false; });
+        f2err.value = '';
+        evaluate();
       });
+      evaluate();
     })();
     </script>
 
