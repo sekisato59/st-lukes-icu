@@ -228,8 +228,10 @@
       .nx-pair-box li { padding:2px 0; }
       .nx-pair-box li::before { content:"▸ "; color:var(--blue); font-weight:700; }
       /* インタラクティブスコア出力 */
-      .nx-score-out { margin-left:auto; font-size:0.76rem; font-weight:700; color:#1E40AF; background:#DBEAFE; padding:3px 10px; border-radius:10px; font-variant-numeric:tabular-nums; }
+      .nx-score-out { margin-left:auto; font-size:0.76rem; font-weight:700; color:#1E40AF; background:#DBEAFE; padding:3px 10px; border-radius:10px; font-variant-numeric:tabular-nums; white-space:nowrap; flex-shrink:0; }
       .nx-score-out.nx-incomplete { color:#92400E; background:#FEF3C7; }
+      /* サマリーのラベル部分を1つの flex item にまとめ、語中改行・項目バラけを防ぐ */
+      .nx-acc summary .nx-acc-sumlabel { flex:1 1 auto; min-width:0; line-height:1.45; }
       .nx-scale-table tbody td label { display:flex; align-items:center; gap:7px; cursor:pointer; padding:2px 0; line-height:1.55; font-size:0.78rem; }
       .nx-scale-table tbody td label:hover { color:#0369A1; }
       .nx-scale-table tbody tr.is-selected td { background:#EFF6FF; }
@@ -507,10 +509,10 @@
         <ul class="rule-body" style="list-style:disc;padding-left:18px;margin:0;font-size:0.8rem;"><li>非挿管患者は <strong>GCS</strong> で、挿管患者は <strong>RASS</strong> で評価を行う。</li></ul>
 
         <details class="nx-acc nx-acc-tool" id="nx-gcs" style="margin:0;">
-          <summary>非挿管患者 → <strong>GCS</strong><span class="nx-score-out nx-incomplete" id="gcs-score-out">未入力</span></summary>
+          <summary><span class="nx-acc-sumlabel">非挿管患者 → <strong>GCS</strong></span><span class="nx-score-out nx-incomplete" id="gcs-score-out">未入力</span></summary>
           <div class="nx-table-scroll" style="border:none;border-radius:0;margin:0;">
           <table class="nx-scale-table" data-scale="gcs" data-parts="e,v,m">
-          <thead><tr><th style="width:140px;">項目</th><th>所見</th><th class="col-pt">点</th></tr></thead>
+          <thead><tr><th>項目</th><th>所見</th><th class="col-pt">点</th></tr></thead>
           <tbody>
             <tr><td rowspan="4" class="col-cat">開眼<br><span style="font-weight:400;color:#94A3B8;font-size:0.7rem;">Eye opening</span></td><td><label><input type="radio" name="gcs-e" value="4">自発的に開眼</label></td><td class="col-pt">4</td></tr>
             <tr><td><label><input type="radio" name="gcs-e" value="3">呼びかけで開眼</label></td><td class="col-pt">3</td></tr>
@@ -537,10 +539,11 @@
         </details>
 
         <details class="nx-acc nx-acc-tool" id="nx-rass-acc" style="margin:0;">
-          <summary>挿管患者 → <strong>RASS</strong><span class="nx-score-out nx-incomplete" id="rass-score-out">未選択</span></summary>
+          <summary><span class="nx-acc-sumlabel">挿管患者 → <strong>RASS</strong></span><span class="nx-score-out nx-incomplete" id="rass-score-out">未選択</span></summary>
           <div class="nx-table-scroll" style="border:none;border-radius:0;margin:0;">
-          <table class="nx-scale-table nx-rass-table" id="nx-rass">
-          <thead><tr><th style="width:150px;">評価ステップ</th><th>所見</th><th class="col-pt">点</th><th style="width:150px;">使うとき（目標鎮静深度）</th></tr></thead>
+          <table class="nx-scale-table nx-rass-table" id="nx-rass" style="min-width:600px;">
+          <colgroup><col style="width:24%;"><col style="width:34%;"><col style="width:10%;"><col style="width:32%;"></colgroup>
+          <thead><tr><th>評価ステップ</th><th>所見</th><th class="col-pt">点</th><th>使うとき（目標鎮静深度）</th></tr></thead>
           <tbody>
             <tr class="nx-rass-row" data-rass="+4"><td rowspan="5" class="col-cat">① 30秒間<br>視診のみで観察</td><td>暴力的で好戦的な行動</td><td class="col-pt nx-rass-pt-pos">+4</td><td rowspan="4" style="font-size:0.74rem;line-height:1.5;vertical-align:middle;color:#475569;">原則 <strong>0 以下</strong> を目指す</td></tr>
             <tr class="nx-rass-row" data-rass="+3"><td>興奮して攻撃的（チューブ自己抜去等）</td><td class="col-pt nx-rass-pt-pos">+3</td></tr>
@@ -1170,7 +1173,7 @@
             <div style="padding-left:6px;margin-top:4px;">
 
         <details class="nx-acc nx-acc-tool" id="nx-bps">
-          <summary><strong>BPSスケール</strong>（挿管中・合計 3〜12点）<span class="nx-score-out nx-incomplete" id="bps-score-out">未入力</span></summary>
+          <summary><span class="nx-acc-sumlabel"><strong>BPSスケール</strong>（挿管中・合計 3〜12点）</span><span class="nx-score-out nx-incomplete" id="bps-score-out">未入力</span></summary>
           <table class="nx-scale-table" data-scale="bps" data-parts="face,move,muscle,vent">
             <thead><tr><th style="width:120px;">項目</th><th>所見</th><th class="col-pt">点</th></tr></thead>
             <tbody>
@@ -1195,7 +1198,7 @@
         </details>
 
         <details class="nx-acc nx-acc-tool" id="nx-cpot">
-          <summary><strong>CPOTスケール</strong>（挿管・非挿管両対応・合計 0〜8点）<span class="nx-score-out nx-incomplete" id="cpot-score-out">未入力</span></summary>
+          <summary><span class="nx-acc-sumlabel"><strong>CPOTスケール</strong>（挿管・非挿管両対応・合計 0〜8点）</span><span class="nx-score-out nx-incomplete" id="cpot-score-out">未入力</span></summary>
           <table class="nx-scale-table" data-scale="cpot" data-parts="face,arm,vent">
             <thead><tr><th style="width:120px;">項目</th><th>所見</th><th class="col-pt">点</th></tr></thead>
             <tbody>
@@ -1896,7 +1899,7 @@
         </ul>
 
         <details class="nx-acc nx-acc-tool" id="nx-cam-icu-acc">
-          <summary>CAM-ICU 評価ツール<span class="nx-score-out nx-incomplete" id="cam-score-out">未評価</span></summary>
+          <summary><span class="nx-acc-sumlabel">CAM-ICU 評価ツール</span><span class="nx-score-out nx-incomplete" id="cam-score-out">未評価</span></summary>
           <div class="nx-cam" id="nx-cam">
             <!-- Gate: RASS -4/-5 -->
             <div class="nx-cam-step" id="cam-step0">
