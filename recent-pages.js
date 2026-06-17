@@ -10,6 +10,13 @@
  */
 const RECENT_PAGES = [
   {
+    title: "敗血症の重症成人における輸液療法 — JAMA総説（JAMA 2023）",
+    url: "pages/articles-gl-fluid-sepsis2023.html",
+    date: "2026-06-17",
+    tag: "論文",
+    thumb: "images/IDICUtop.png"
+  },
+  {
     title: "慢性疾患の貧血（慢性炎症に伴う貧血） — NEJM 2005",
     url: "pages/articles-gl-acd2005.html",
     date: "2026-06-13",
