@@ -10,6 +10,20 @@
  */
 const RECENT_PAGES = [
   {
+    title: "MSSA菌血症に対するセファゾリン（SNAP試験） NEJM 2026",
+    url: "pages/articles-gl-snap-cfz2026.html",
+    date: "2026-06-18",
+    tag: "論文",
+    thumb: "images/IDICUtop.png"
+  },
+  {
+    title: "右室不全（Right Ventricular Failure） NEJM総説 2023",
+    url: "pages/articles-gl-rvf-nejm2023.html",
+    date: "2026-06-18",
+    tag: "論文",
+    thumb: "images/朝カンファ風景.webp"
+  },
+  {
     title: "敗血症の重症成人における輸液療法 — JAMA総説（JAMA 2023）",
     url: "pages/articles-gl-fluid-sepsis2023.html",
     date: "2026-06-18",
