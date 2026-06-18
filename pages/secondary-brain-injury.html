@@ -20,8 +20,9 @@
     /* セクション見出し（GL 共通 .gl-sec-head に合わせ、左ボーダーのみ青に） */
     .sbi-sec-head { font-size:1.1rem; font-weight:900; color:var(--text); margin:28px 0 16px; padding-left:24px; border-left:4px solid #2563EB; line-height:1.4; }
 
-    /* カード番号チップ（rule-title 内） */
-    .sbi-num { display:inline-flex; align-items:center; justify-content:center; width:22px; height:22px; background:#2563EB; color:#fff; font-size:0.74rem; font-weight:800; border-radius:50%; margin-right:8px; vertical-align:-3px; font-variant-numeric:tabular-nums; }
+    /* カード番号チップ（rule-title 内）— flex で番号と本文を中央そろえ */
+    .rule-title.sbi-rt { display:flex; align-items:center; gap:8px; }
+    .sbi-num { display:inline-flex; align-items:center; justify-content:center; width:22px; height:22px; background:#2563EB; color:#fff; font-size:0.74rem; font-weight:800; border-radius:50%; flex-shrink:0; font-variant-numeric:tabular-nums; }
 
     /* 統計グリッド（青テーマ） */
     .ie-stat-grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:12px; margin:12px 0 4px; }
@@ -49,8 +50,9 @@
     .nx-mech { display:grid; grid-template-columns:repeat(3, 1fr); gap:10px; margin:8px 0 4px; }
     @media (max-width:560px) { .nx-mech { grid-template-columns:1fr; } }
     .nx-mech-card { background:#F8FAFC; border:1px solid var(--border); border-radius:8px; padding:11px 13px; }
-    .nx-mech-num { display:inline-block; background:#2563EB; color:#fff; font-size:0.72rem; font-weight:800; padding:2px 8px; border-radius:4px; margin-bottom:5px; }
-    .nx-mech-name { font-size:0.84rem; font-weight:800; color:#0F172A; margin-bottom:3px; }
+    .nx-mech-h { display:flex; align-items:center; gap:7px; margin-bottom:4px; }
+    .nx-mech-num { display:inline-flex; align-items:center; justify-content:center; min-width:20px; height:20px; background:#2563EB; color:#fff; font-size:0.72rem; font-weight:800; padding:0 6px; border-radius:4px; flex-shrink:0; }
+    .nx-mech-name { font-size:0.84rem; font-weight:800; color:#0F172A; }
     .nx-mech-body { font-size:0.79rem; line-height:1.65; color:#475569; }
 
     /* プレゼン追加項目ボックス（alert-blue ベース） */
@@ -125,11 +127,11 @@
             <div class="nx-types">
               <div class="nx-type">
                 <div class="nx-type-h">一次性脳損傷</div>
-                <div class="nx-type-body">発症直後 — 頭部への直接的損傷の結果。<br><strong>治療反応性が低いことが多い</strong></div>
+                <div class="nx-type-body">発症直後 — 頭部への直接的損傷の結果。<strong>治療反応性が低いことが多い</strong>。</div>
               </div>
               <div class="nx-type">
                 <div class="nx-type-h">二次性脳損傷</div>
-                <div class="nx-type-body">発症 数時間〜数日後 — 一次性損傷を契機に <strong>脳浮腫の負のスパイラル</strong>。<br><span class="mark-blue"><strong>予防可能、発症すると予後不良</strong></span></div>
+                <div class="nx-type-body">発症 数時間〜数日後 — 一次性損傷を契機に <strong>脳浮腫の負のスパイラル</strong>。<span class="mark-blue"><strong>予防可能、発症すると予後不良</strong></span>。</div>
               </div>
             </div>
           </div>
@@ -140,18 +142,15 @@
             <h3 class="rule-title">脳浮腫の3メカニズム</h3>
             <div class="nx-mech">
               <div class="nx-mech-card">
-                <span class="nx-mech-num">①</span>
-                <div class="nx-mech-name">細胞毒性浮腫</div>
+                <div class="nx-mech-h"><span class="nx-mech-num">1</span><span class="nx-mech-name">細胞毒性浮腫</span></div>
                 <div class="nx-mech-body">ATP欠乏 → Na/Kポンプ機能不全 → 細胞内浸透圧上昇</div>
               </div>
               <div class="nx-mech-card">
-                <span class="nx-mech-num">②</span>
-                <div class="nx-mech-name">血管原性浮腫</div>
+                <div class="nx-mech-h"><span class="nx-mech-num">2</span><span class="nx-mech-name">血管原性浮腫</span></div>
                 <div class="nx-mech-body">血液脳関門（BBB）破綻による浸透圧異常</div>
               </div>
               <div class="nx-mech-card">
-                <span class="nx-mech-num">③</span>
-                <div class="nx-mech-name">間質性浮腫</div>
+                <div class="nx-mech-h"><span class="nx-mech-num">3</span><span class="nx-mech-name">間質性浮腫</span></div>
                 <div class="nx-mech-body">髄液圧上昇に伴う水分移動</div>
               </div>
             </div>
@@ -170,21 +169,21 @@
 
         <div class="card" style="margin-bottom:16px;">
           <div class="card-inner">
-            <h3 class="rule-title"><span class="sbi-num">1</span>頭蓋内環境の最適化</h3>
+            <h3 class="rule-title sbi-rt"><span class="sbi-num">1</span>頭蓋内環境の最適化</h3>
             <p class="rule-body">ベッドアップは <span class="mark-green"><strong>15〜30度</strong></span>、頸部は正中位を保ち頸静脈の圧迫を避ける。これにより頭蓋内静脈還流が改善し、<strong>ICP は 15〜20% 低下</strong> する。ただし <span class="mark-blue"><strong>45度を超えると脳還流圧低下を介して代償性に ICP が上昇</strong></span> するため、過度の挙上は禁物である。<strong>ICP &gt; 20 mmHg または脳ヘルニア徴候</strong> を認める場合は、脳室・硬膜外ドレーンによる持続モニタリングや、開頭減圧術・脳室ドレナージ術といった外科的減圧の適応を躊躇なく検討する。</p>
           </div>
         </div>
 
         <div class="card" style="margin-bottom:16px;">
           <div class="card-inner">
-            <h3 class="rule-title"><span class="sbi-num">2</span>浸透圧療法</h3>
+            <h3 class="rule-title sbi-rt"><span class="sbi-num">2</span>浸透圧療法</h3>
             <p class="rule-body">脳浮腫を伴う ICP 上昇には <span class="mark-green"><strong>マンニトール／高張食塩水</strong></span> による浸透圧利尿が第一選択となる。本邦で用いられるグリセオールは作用発現が緩徐であり、<strong>米国ではほぼ使用されず</strong>、マンニトールと 3% 食塩水が標準治療となっている。両剤の選択は、循環動態・腎機能・血清 Na 値を踏まえて行う。</p>
           </div>
         </div>
 
         <div class="card" style="margin-bottom:16px;">
           <div class="card-inner">
-            <h3 class="rule-title"><span class="sbi-num">3</span>全身管理</h3>
+            <h3 class="rule-title sbi-rt"><span class="sbi-num">3</span>全身管理</h3>
             <p class="rule-body"><strong>酸素化　</strong><span class="mark-green"><strong>SpO₂ &gt; 92%、PaO₂ &gt; 60 mmHg</strong></span> を目標。一方 <span class="mark-blue"><strong>PaO₂ &gt; 120 mmHg の高酸素血症</strong></span> はフリーラジカルを介して二次性損傷を助長するため避ける。</p>
             <p class="rule-body" style="margin-top:8px;"><strong>輸液　</strong><strong>正常体液量（Euvolemia）</strong>を <strong>等張液</strong> で維持。低張液は脳浮腫を悪化させるため使用しない。<strong>アルブミン製剤</strong>は <span class="mark-blue"><strong>SAFE study</strong></span> で外傷性脳損傷患者の死亡率上昇が示されており、原則として推奨されない。</p>
             <p class="rule-body" style="margin-top:8px;"><strong>血糖　</strong><span class="mark-green"><strong>110〜180 mg/dL</strong></span> の範囲を維持。高血糖（<strong>INTERACT2</strong> で予後不良との関連）も低血糖も回避する。</p>
@@ -194,7 +193,7 @@
 
         <div class="card" style="margin-bottom:16px;">
           <div class="card-inner">
-            <h3 class="rule-title"><span class="sbi-num">4</span>鎮痛・鎮静</h3>
+            <h3 class="rule-title sbi-rt"><span class="sbi-num">4</span>鎮痛・鎮静</h3>
             <p class="rule-body">痛みや不安に伴う <strong>ICP 上昇を抑制</strong>し、脳代謝を低下させて細胞毒性浮腫の進行を防ぐ。一般 ICU では Light Sedation が推奨されるが、本病態では <span class="mark-blue"><strong>深鎮静が必要</strong></span> となるため、<span class="mark-green"><strong>デクスメデトミジンではなくプロポフォールやミダゾラム</strong></span> を選択する。鎮痛は静脈投与のオピオイド（フェンタニル等）が中心となる。</p>
             <div class="alert-blue sbi-discuss" style="margin-top:12px;">
               <span class="sbi-discuss-h">脳外科患者プレゼンの追加項目</span>
