@@ -10,8 +10,11 @@
  *   node scripts/audit-red-markers.js          監査のみ（違反を一覧、終了コード1）
  *   node scripts/audit-red-markers.js --fix     赤箱内の非赤マーカーを mark-red に統一
  *
- * 検出対象の「赤箱」：class に alert-red もしくは danger を含む要素（div/p 等、タグ非依存）。
- *   ネスト対応で、開始タグと同名タグの深さを数えて対応する閉じまでを赤箱の範囲とする。
+ * 検出対象の「赤箱」（タグ非依存・ネスト対応で対応閉じまでを範囲とする）：
+ *   (a) class に alert-red もしくは danger を含む要素
+ *   (b) inline style の背景色が「赤」の要素（hex / rgba を色値で判定。固定パレット非依存）
+ *       ※ オレンジ・琥珀・桃（#EA580C / #F59E0B / #FED7AA 等の暖色）は赤箱に含めない
+ *   赤箱内の非赤マーカー（mark-green / yellow / orange / blue / pink）を mark-red に統一する。
  */
 'use strict';
 const fs = require('fs');
@@ -29,11 +32,34 @@ function walk(dir, acc) {
   return acc;
 }
 
+// 「赤（オレンジではない）」判定：R が高く・G/B が低く・G≈B（橙は G≫B なので除外）。
+//   これにより #EA580C(橙) / #F59E0B(琥珀) / #FED7AA(桃) 等の暖色ボックスは赤箱に含めない。
+function isRedHex(h) {
+  h = h.toUpperCase();
+  const r = parseInt(h.slice(1, 3), 16), g = parseInt(h.slice(3, 5), 16), b = parseInt(h.slice(5, 7), 16);
+  return r >= 180 && r - g >= 35 && r - b >= 35 && Math.abs(g - b) <= 25;
+}
+function isRedRgba(v) {
+  const n = v.match(/\d+/g);
+  return n && +n[0] >= 180 && +n[0] - +n[1] >= 35 && +n[0] - +n[2] >= 35 && Math.abs(+n[1] - +n[2]) <= 25;
+}
+// 開始タグが「赤箱」か：(a) class に alert-red / danger、または
+//   (b) inline style の背景が赤（hex / rgba、橙は除外）。固定パレットに依存せず色値で判定する。
+function isRedOpenTag(tag) {
+  if (/\bclass="[^"]*\b(?:alert-red|danger)\b[^"]*"/i.test(tag)) return true;
+  const sm = tag.match(/style="([^"]*)"/i);
+  if (!sm) return false;
+  const bm = sm[1].match(/background(?:-color)?:\s*(#[0-9A-Fa-f]{6}|rgba?\([^)]+\))/i);
+  if (!bm) return false;
+  return bm[1][0] === '#' ? isRedHex(bm[1]) : isRedRgba(bm[1]);
+}
+
 function findRedBoxes(html) {
   const boxes = [];
-  const openRe = /<(\w+)\b[^>]*\bclass="[^"]*\b(?:alert-red|danger)\b[^"]*"[^>]*>/g;
+  const openRe = /<(\w+)\b[^>]*>/g;
   let m;
   while ((m = openRe.exec(html))) {
+    if (!isRedOpenTag(m[0])) continue;
     const tag = m[1];
     const start = m.index;
     const afterOpen = openRe.lastIndex;
@@ -59,10 +85,17 @@ for (const f of files) {
   const boxes = findRedBoxes(html);
   if (!boxes.length) continue;
   let result = '', cursor = 0, n = 0;
+  const hits = [];
   for (const b of boxes) {
     result += html.slice(cursor, b.afterOpen);
     let inner = html.slice(b.afterOpen, b.end);
-    inner = inner.replace(/\bmark-(?:yellow|green|orange)\b/g, () => { n++; return 'mark-red'; });
+    inner = inner.replace(/\bmark-(yellow|green|orange|blue|pink)\b/g, (m, c, off) => {
+      n++;
+      // 違反の周辺テキスト（マーカー対象語）を抜き出してレビューしやすくする
+      const ctx = inner.slice(off, off + 120).replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim().slice(0, 48);
+      hits.push(`mark-${c} → ${ctx}`);
+      return 'mark-red';
+    });
     result += inner;
     cursor = b.end;
   }
@@ -70,6 +103,7 @@ for (const f of files) {
   if (n) {
     total += n; fileCount++;
     report.push(`${path.relative(path.join(__dirname, '..'), f)}: ${n}件`);
+    hits.forEach((h) => report.push(`     ${h}`));
     if (FIX) fs.writeFileSync(f, result);
   }
 }

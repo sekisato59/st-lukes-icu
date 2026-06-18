@@ -1790,15 +1790,6 @@ const ALL_PAGES = [
   },
   {
     "date":      "2026/03/30",
-    "genre":     "カタログ",
-    "type":      "",
-    "system":    "",
-    "system_id": "",
-    "title":     "【研修医向け】疾患/症候マニュアル",
-    "url":       "pages/disease-topics.html"
-  },
-  {
-    "date":      "2026/03/30",
     "genre":     "スケジュール",
     "type":      "",
     "system":    "",
