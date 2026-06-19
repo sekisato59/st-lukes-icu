@@ -10,6 +10,13 @@
  */
 const RECENT_PAGES = [
   {
+    title: "前立腺炎（Prostatitis） JAMA総説 2025",
+    url: "pages/articles-gl-prostatitis2025.html",
+    date: "2026-06-19",
+    tag: "論文",
+    thumb: "images/IDICUtop.png"
+  },
+  {
     title: "右室不全（Right Ventricular Failure） NEJM総説 2023",
     url: "pages/articles-gl-rvf-nejm2023.html",
     date: "2026-06-19",
@@ -19,13 +26,6 @@ const RECENT_PAGES = [
   {
     title: "MSSA菌血症に対するセファゾリン（SNAP試験） NEJM 2026",
     url: "pages/articles-gl-snap-cfz2026.html",
-    date: "2026-06-19",
-    tag: "論文",
-    thumb: "images/IDICUtop.png"
-  },
-  {
-    title: "前立腺炎（Prostatitis） JAMA総説 2025",
-    url: "pages/articles-gl-prostatitis2025.html",
     date: "2026-06-19",
     tag: "論文",
     thumb: "images/IDICUtop.png"
