@@ -10,18 +10,25 @@
  */
 const RECENT_PAGES = [
   {
+    title: "右室不全（Right Ventricular Failure） NEJM総説 2023",
+    url: "pages/articles-gl-rvf-nejm2023.html",
+    date: "2026-06-19",
+    tag: "論文",
+    thumb: "images/朝カンファ風景.webp"
+  },
+  {
     title: "MSSA菌血症に対するセファゾリン（SNAP試験） NEJM 2026",
     url: "pages/articles-gl-snap-cfz2026.html",
-    date: "2026-06-18",
+    date: "2026-06-19",
     tag: "論文",
     thumb: "images/IDICUtop.png"
   },
   {
-    title: "右室不全（Right Ventricular Failure） NEJM総説 2023",
-    url: "pages/articles-gl-rvf-nejm2023.html",
-    date: "2026-06-18",
-    tag: "論文",
-    thumb: "images/朝カンファ風景.webp"
+    title: "急性期の栄養療法について教えてください",
+    url: "pages/yoshida-qa/q-nutrition-04.html",
+    date: "2026-06-19",
+    tag: "解説",
+    thumb: "images/header吉田先生.png"
   },
   {
     title: "敗血症の重症成人における輸液療法 — JAMA総説（JAMA 2023）",
