@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ステロイド使用患者の感染症 — 板書ノート | ID×ICUカンファレンス | 聖路加ICU</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../style-v2.css?v=20260620">
+  <style>
+    /* ===== ID×ICU 板書ノート 専用テーマ ===== */
+    .gl-chapter-banner {
+      background: linear-gradient(150deg, #2E1065 0%, #6D28D9 100%) !important;
+    }
+    .section-label.icu { color: #7C3AED; }
+
+    /* ===== バナー画像 + テキストオーバーレイ ===== */
+    .vap-banner {
+      position: relative;
+      width: 100%;
+      max-width: 1294px;
+      margin: 64px auto 0;
+      line-height: 0;
+    }
+    .vap-banner-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 85%, transparent 100%);
+      mask-image: linear-gradient(to bottom, #000 0%, #000 85%, transparent 100%);
+    }
+    .vap-banner-overlay {
+      position: absolute;
+      left: 5%;
+      top: 50%;
+      transform: translateY(-50%);
+      max-width: 55%;
+      line-height: 1.4;
+    }
+    .vap-banner-back {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #6D28D9;
+      text-decoration: none;
+      margin-bottom: 12px;
+    }
+    .vap-banner-back:hover { color: #4C1D95; }
+    .vap-banner-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+    .vap-banner-tags span {
+      display: inline-block;
+      background: rgba(245,243,255,0.85);
+      color: #4C1D95;
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 4px;
+      letter-spacing: 0.04em;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
+    .vap-banner-title {
+      font-size: clamp(1.1rem, 2.6vw, 1.6rem);
+      font-weight: 900;
+      line-height: 1.35;
+      margin: 0 0 6px;
+      color: #4C1D95;
+    }
+    .vap-banner-sub {
+      font-size: clamp(0.78rem, 1.4vw, 0.92rem);
+      font-weight: 700;
+      color: #6D28D9;
+      margin: 0 0 6px;
+    }
+    .vap-banner-lecturer {
+      font-size: clamp(0.72rem, 1.2vw, 0.82rem);
+      color: #7C3AED;
+      margin: 0;
+    }
+    @media (max-width: 900px) {
+      .vap-banner-overlay { max-width: 60%; left: 4%; top: 45%; }
+    }
+    @media (max-width: 600px) {
+      .vap-banner { line-height: 1.4; }
+      img[src*="headerID*ICUpage"] { height: 150px; object-fit: cover; object-position: left center; }
+      .vap-banner-overlay {
+        position: absolute;
+        left: 5%;
+        top: 50%;
+        transform: translateY(-50%);
+        max-width: 88%;
+        padding: 0;
+      }
+    }
+
+    /* ====== モバイル用 文字サイズ統一（固定rem の独自要素を本文と揃える） ====== */
+    @media (max-width: 600px) {
+      /* 見出し */
+      .card-inner h3.rule-title { font-size: 0.92rem; }
+      .card-inner h4.sub-head { font-size: 0.88rem; }
+
+      /* 本文ベース */
+      .card-inner .rule-body,
+      .card-inner ul li,
+      .card-inner ol li,
+      .card-inner p,
+      .organism-list li { font-size: 0.78rem; line-height: 1.65; }
+
+      /* 警告 / 注意ボックス */
+      .danger, .keypoint, .point { font-size: 0.8rem; line-height: 1.7; padding: 10px 12px; }
+      .alert-head { font-size: 0.81rem; }
+      .alert-head::before { font-size: 0.6rem; padding: 2px 7px; }
+      .danger p, .keypoint p, .point p { font-size: 0.8rem; line-height: 1.7; }
+
+      /* 治療バンドル */
+      .bundle-num { width: 22px; height: 22px; min-width: 22px; font-size: 0.74rem; }
+      .bundle-step { padding: 8px 0; gap: 10px; }
+      .bundle-content p { font-size: 0.78rem; line-height: 1.6; }
+      .bundle-content .sub-note { font-size: 0.72rem; padding-left: 8px; }
+
+      /* SPACE 強調ボックス */
+      .space-emph { padding: 8px 12px; }
+      .space-emph-title { font-size: 0.78rem; margin-bottom: 4px; padding-bottom: 3px; }
+      .space-row { font-size: 0.76rem; padding: 3px 0; }
+      .space-row .acro { width: 18px; height: 18px; font-size: 0.68rem; margin-right: 8px; }
+
+      /* ＋α カード */
+      .ie-alpha-inner { padding:16px 16px; }
+      .ie-alpha-title { font-size: 0.84rem; }
+      .ie-alpha-badge { font-size: 0.62rem; padding: 1px 8px; }
+      .ie-alpha-inner p,
+      .ie-alpha-inner ul li { font-size: 0.76rem; line-height: 1.6; }
+      .ie-alpha-inner ul { padding-left: 18px; }
+
+      /* CSF 髄液所見 */
+      .csf-box-head { font-size: 0.78rem; }
+      .csf-row { font-size: 0.72rem; }
+
+      /* 録画ボタン */
+      .note-btn-video { font-size: 0.76rem; padding: 8px 14px; }
+
+      /* セクション見出し（h3 のインライン style） */
+      .ie-main-col h3[id^="ch"] { font-size: 0.98rem !important; }
+
+      /* 章バナー */
+      .gl-chapter-banner .gl-chapter-title { font-size: 1.02rem !important; }
+
+      /* 略語テーブル — th/td 行間圧縮 */
+      .card-inner table[style*="font-size:0.78rem"] { font-size: 0.72rem !important; line-height: 1.55 !important; }
+      .card-inner table[style*="font-size:0.78rem"] td { padding: 3px 6px !important; }
+
+      /* note-mini（本文中の小注釈） */
+      .note-mini { font-size: 0.68rem !important; display: block; margin-top: 2px; }
+    }
+
+    /* ====== 見出し階層 ====== */
+    .card-inner h3.rule-title {
+      font-size: 0.98rem;
+      color: var(--text);
+      padding-bottom: 6px;
+      border-bottom: 2px solid #C4B5FD;
+      margin: 0 0 10px;
+    }
+    .card-inner h4.sub-head { font-size:0.9rem; font-weight:800; color:#5B21B6; background:#F5F3FF; border:1px solid #E9E3FF; border-radius:6px; padding:7px 12px; margin:18px 0 9px; letter-spacing:0.01em; line-height:1.4; }
+    .card-inner h4.sub-head:first-child { margin-top:0; }
+    .card-inner > .rule-body, .card-inner > p { padding-left: 18px; }
+
+    /* ====== 本文 ====== */
+    .card-inner .rule-body,
+    .card-inner ul li,
+    .card-inner ol li,
+    .card-inner p {
+      color: #475569;
+      line-height: 1.7;
+    }
+    .card-inner p { margin: 4px 0; }
+    .card-inner ul, .card-inner ol {
+      list-style: disc;
+      padding-left: 26px;
+      margin: 4px 0 8px;
+    }
+    .card-inner ul li, .card-inner ol li { margin-bottom: 3px; }
+    .card-inner ul li::marker { color: #C4B5FD; }
+    .card-inner strong { color: var(--text); font-weight: 700; }
+    .card-inner em { font-style: italic; color: #1F2937; }
+
+    /* 菌名リスト */
+    .organism-list { padding-left: 26px; list-style: disc; margin: 4px 0 8px; }
+    .organism-list li { margin-bottom: 3px; color: #6B7280; line-height: 1.6; }
+    .organism-list li::marker { color: #9CA3AF; }
+    .organism-list li em { font-weight: 600; color: #6B7280; font-style: italic; }
+    .organism-list li strong { color: #374151; font-weight: 800; }
+
+    /* ====== 警告 / 注意ボックス ====== */
+    .danger, .keypoint, .point { border-radius:8px; padding:11px 14px; margin:10px 0; font-size:0.82rem; line-height:1.7; }
+    .danger { background:#FEF2F2; border:1px solid #FECACA; color:#7F1D1D; }
+    .keypoint { background:#FFFBEB; border:1px solid #FDE68A; color:#78350F; }
+    .point { background:#F0FDF4; border:1px solid #BBF7D0; color:#14532D; }
+    .alert-head { display:block; font-weight:800; font-size:0.84rem; line-height:1.5; margin-bottom:5px; }
+    .alert-head::before { display:inline-block; color:#fff; font-size:0.64rem; font-weight:800; padding:2px 8px; border-radius:4px; letter-spacing:0.06em; margin-right:8px; vertical-align:middle; }
+    .danger .alert-head { color:#991B1B; } .danger .alert-head::before { content:'Pitfall'; background:#DC2626; }
+    .keypoint .alert-head { color:#92400E; } .keypoint .alert-head::before { content:'注意'; background:#F59E0B; }
+    .point .alert-head { color:#15803D; } .point .alert-head::before { content:'ポイント'; background:#16A34A; }
+    .danger p, .keypoint p, .point p { margin:0; font-size:0.82rem; line-height:1.7; }
+    .danger p strong { color:#991B1B; } .keypoint p strong { color:#92400E; } .point p strong { color:#15803D; }
+
+    /* ====== 治療バンドル ステップ ====== */
+    .bundle-flow { margin: 8px 0; }
+    .bundle-step {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 10px 0; border-bottom: 1px dashed #DDD6FE;
+    }
+    .bundle-step:last-child { border-bottom: none; padding-bottom: 0; }
+    .bundle-num {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 26px; height: 26px; min-width: 26px;
+      background: #DC2626; color: #fff;
+      border-radius: 50%; font-weight: 900; font-size: 0.82rem;
+      margin-top: 1px;
+    }
+    .bundle-content { flex: 1; }
+    .bundle-content p { margin: 2px 0; font-size: 0.85rem; color: #475569; line-height: 1.65; }
+    .bundle-content strong { color: var(--text); }
+    .bundle-content .sub-note {
+      font-size: 0.78rem; color: #6B7280; line-height: 1.6;
+      margin-top: 4px; padding-left: 12px;
+    }
+
+    /* ====== SPACE 強調ボックス ====== */
+    .space-emph {
+      background: #F5F3FF; border: 1px solid #C4B5FD; border-radius: 8px;
+      padding: 10px 14px; margin: 8px 0;
+    }
+    .space-emph-title {
+      font-size: 0.84rem; font-weight: 800; color: #4C1D95;
+      margin-bottom: 6px; padding-bottom: 4px;
+      border-bottom: 1px solid #DDD6FE;
+      letter-spacing: 0.04em;
+    }
+    .space-row {
+      display: flex; align-items: baseline; padding: 4px 0;
+      font-size: 0.84rem; color: #1F2937;
+    }
+    .space-row em { font-weight: 600; }
+    .space-row .acro {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 22px; height: 22px; background: #7C3AED; color: #fff;
+      border-radius: 4px; margin-right: 10px;
+      font-weight: 800; font-size: 0.78rem;
+      font-family: ui-monospace, Menlo, Consolas, monospace;
+    }
+
+    /* ====== ＋α カード（紫） ====== */
+    .ie-alpha {
+      background: #FAF5FF; border: 1px solid #DDD6FE; border-radius: 10px;
+      margin: 10px 0; overflow: hidden;
+    }
+    .ie-alpha-inner { padding:16px 16px; }
+    .ie-alpha-header { display: flex; align-items: center; gap: 10px; margin-bottom:16px; }
+    .ie-alpha-badge {
+      background: #7C3AED; color: #fff; font-size: 0.7rem; font-weight: 800;
+      padding: 2px 10px; border-radius: 4px; letter-spacing: 0.06em;
+      white-space: nowrap;
+    }
+    .ie-alpha-title { font-size: 0.92rem; font-weight: 800; color: #4C1D95; }
+    .ie-alpha-inner p { font-size: 0.84rem; color: #4C1D95; line-height: 1.85; margin: 3px 0; }
+    .ie-alpha-inner ul { padding-left: 22px; list-style: disc; margin: 4px 0; }
+    .ie-alpha-inner ul li { font-size: 0.84rem; color: #4C1D95; line-height: 1.65; margin-bottom: 3px; }
+    .ie-alpha-inner ul li::marker { color: #C4B5FD; }
+    .ie-alpha-inner strong { color: #3B0764; }
+
+    /* ====== 録画ボタン ====== */
+    .note-actions { display: flex; gap: 10px; margin: 0 0 12px; flex-wrap: wrap; }
+    .note-btn-video {
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+      background: linear-gradient(135deg, #6D28D9, #7C3AED);
+      color: #fff; font-size: 0.82rem; font-weight: 700;
+      padding: 9px 18px; border-radius: 8px; text-decoration: none;
+      letter-spacing: 0.04em; line-height: 1;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .note-btn-video:hover {
+      transform: translateY(-1px); box-shadow: 0 4px 10px rgba(124,58,237,0.32);
+    }
+
+    /* ====== CSF 髄液所見テーブル ====== */
+    .csf-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 10px;
+      margin: 10px 0;
+    }
+    .csf-box {
+      background: #F8FAFC; border: 1px solid var(--border); border-radius: 8px;
+      padding: 10px 14px;
+    }
+    .csf-box-head {
+      font-size: 0.82rem; font-weight: 800; color: #1F2937;
+      margin-bottom: 8px; padding-bottom: 6px;
+      border-bottom: 2px solid #C4B5FD;
+    }
+    .csf-row {
+      display: flex; justify-content: space-between; align-items: baseline;
+      font-size: 0.78rem; padding: 3px 0; color: #475569;
+      border-bottom: 1px dashed #F1F5F9;
+    }
+    .csf-row:last-child { border-bottom: none; }
+    .csf-label { color: #6B7280; flex-shrink: 0; margin-right: 8px; }
+    .csf-val { font-weight: 700; color: var(--text); text-align: right; }
+    .csf-val.red { color: #DC2626; }
+    .csf-val.blue { color: #2563EB; }
+    .csf-val.green { color: #16A34A; }
+
+    /* ====== 引用 ====== */
+    .citation {
+      font-size: 0.7rem; color: #9CA3AF; font-style: italic;
+      display: block; margin-top: 8px; padding-left: 14px;
+    }
+
+    /* ====== ie-table 色調整 ====== */
+    .card-inner .ie-table td { color: #475569; }
+    .card-inner .ie-table th { color: var(--text); }
+    .card-inner .ie-table strong { color: var(--text); }
+
+    /* card 間隔 */
+    .card .card-inner { padding: 14px 18px; }
+    .card { margin-bottom: 12px !important; }
+    .gl-chapter-banner { margin-top: 32px !important; padding: 14px 20px !important; }
+    .gl-chapter-banner.first { margin-top: 8px !important; }
+    .gl-chapter-banner .gl-chapter-title { font-size: 1.15rem !important; }
+
+    /* BioFire panel テーブル — 行間を詰める */
+    .tight-rows th, .tight-rows td { padding: 4px 10px !important; line-height: 1.35 !important; }
+
+    @media (max-width: 767px) {
+      .card-inner h4.sub-head { font-size:0.84rem; padding:6px 10px; margin:14px 0 8px; }
+      .danger, .keypoint, .point { padding:10px 12px; font-size:0.8rem; }
+      .alert-head { font-size:0.81rem; }
+      .alert-head::before { font-size:0.6rem; padding:2px 7px; }
+      .danger p, .keypoint p, .point p { font-size:0.8rem; line-height:1.7; }
+    }
+    /* ===== mobile-body-cap: モバイル本文サイズ統一（基準: 耐性GNRページ本文 0.78rem）。本文・表・テキストボックス内本文はこれより大きくしない ===== */
+    @media (max-width: 767px) {
+      .card-inner :is(p, li, dd, dt, td, th, blockquote, figcaption, caption),
+      .card-inner :is([class$="-body"], [class$="-text"], [class$="-note"], [class$="-desc"], [class$="-row"]),
+      .danger :is(p, li), .keypoint :is(p, li), .point :is(p, li), .pearl :is(p, li),
+      .card-inner [style*="font-size:0.8"], .card-inner [style*="font-size: 0.8"],
+      .card-inner [style*="font-size:0.9"], .card-inner [style*="font-size: 0.9"] {
+        font-size: 0.78rem !important;
+        line-height: 1.7 !important;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="../../index.html" class="nav-logo">
+        <img src="../../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+        <span class="nav-logo-text">聖路加国際病院ICU</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-menu" id="navMenu"></ul>
+    </div>
+  </nav>
+
+  <!-- ===== HEADER ===== -->
+  <div class="vap-banner">
+    <img src="../../images/headerID*ICUpage.png" alt="ID×ICUカンファレンス 板書ノート" class="vap-banner-img">
+    <div class="vap-banner-overlay">
+      <div class="vap-banner-tags">
+        <span>ID×ICU カンファレンス</span>
+        <span>免疫不全・予防</span>
+        <span>感染症 / 免疫抑制</span>
+      </div>
+      <h1 class="vap-banner-title">ステロイド使用患者の感染症 — 板書ノート</h1>
+      <p class="vap-banner-sub">ステロイドが壊す免疫の4本柱 ／ 起因菌・予防・開始前スクリーニングの考え方</p>
+      <p class="vap-banner-lecturer">講義：森先生（感染症科） ／ 制作：ICU 関谷</p>
+    </div>
+  </div>
+
+  <!-- ===== MAIN CONTAINER ===== -->
+  <div class="container" style="max-width:1294px;margin:0 auto;padding:8px 20px 32px;">
+    <div class="ie-page-flex">
+
+      <!-- ===== MAIN CONTENT ===== -->
+      <div class="ie-main-col">
+
+        <!-- 導入 -->
+        <div class="card" style="margin-top:0;margin-bottom:16px;">
+          <div class="card-inner">
+            <p class="rule-body" style="padding-left:0;">ステロイドは免疫の<strong>複数の層を同時に</strong>抑制するため、感染のリスクは「広く」かつ「深く」なる。本ノートは ID×ICU カンファレンスの板書をもとに、<strong>① どの免疫が落ちるか → ② どの病原体が問題になるか → ③ 用量・予防・開始前スクリーニング → ④ CMV と免疫調節作用</strong> の順に、ステロイド患者の感染症を整理する。</p>
+          </div>
+        </div>
+
+        <!-- 略語一覧 -->
+        <div class="card" style="margin-top:0;margin-bottom:24px;">
+          <div class="card-inner">
+            <h3 class="rule-title">本ページで使用する略語一覧</h3>
+            <table style="width:100%;border-collapse:collapse;font-size:0.78rem;line-height:1.6;color:#475569;">
+              <tbody>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:150px;color:var(--blue);">CMI</td><td style="padding:4px 8px;">Cell-Mediated Immunity — 細胞性免疫</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CD4 T細胞</td><td style="padding:4px 8px;">CD4陽性ヘルパーT細胞（細胞性免疫の司令塔）</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">Th1 / Th2 / Th17 / Tfh / Treg</td><td style="padding:4px 8px;">ヘルパーT細胞のサブセット（分化した役割分担）</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">PCP</td><td style="padding:4px 8px;"><em>Pneumocystis</em> Pneumonia — ニューモシスチス肺炎</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">TB / NTM</td><td style="padding:4px 8px;">結核菌 / 非結核性抗酸菌（Non-Tuberculous Mycobacteria）</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">MAC</td><td style="padding:4px 8px;"><em>Mycobacterium avium</em> complex</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">RGM</td><td style="padding:4px 8px;">Rapidly Growing Mycobacteria — 迅速発育抗酸菌</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">RIPE</td><td style="padding:4px 8px;">Rifampicin / Isoniazid / Pyrazinamide / Ethambutol — 結核標準4剤</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CAM / AZM</td><td style="padding:4px 8px;">Clarithromycin / Azithromycin — マクロライド系</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">EB</td><td style="padding:4px 8px;">Ethambutol — エタンブトール</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">RFP / RBT</td><td style="padding:4px 8px;">Rifampicin / Rifabutin — リファマイシン系</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">AMK</td><td style="padding:4px 8px;">Amikacin — アミカシン</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">IPM</td><td style="padding:4px 8px;">Imipenem — イミペネム</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">HSV / VZV</td><td style="padding:4px 8px;">単純ヘルペスウイルス / 水痘・帯状疱疹ウイルス</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">CMV</td><td style="padding:4px 8px;">Cytomegalovirus — サイトメガロウイルス</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">HBV</td><td style="padding:4px 8px;">Hepatitis B Virus — B型肝炎ウイルス</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">HBsAg / HBsAb / HBcAb</td><td style="padding:4px 8px;">HBs抗原 / HBs抗体 / HBc抗体（B型肝炎の血清マーカー）</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">TAF / ETV</td><td style="padding:4px 8px;">Tenofovir Alafenamide / Entecavir — 核酸アナログ（HBV予防）</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">HSCT</td><td style="padding:4px 8px;">Hematopoietic Stem Cell Transplantation — 造血幹細胞移植</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">LTBI</td><td style="padding:4px 8px;">Latent Tuberculosis Infection — 潜在性結核感染</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">T-spot</td><td style="padding:4px 8px;">インターフェロンγ遊離試験（IGRA／結核感染の検査）</td></tr>
+                <tr><td style="padding:4px 8px;font-weight:700;color:var(--blue);">BAL / CSF</td><td style="padding:4px 8px;">気管支肺胞洗浄液 / 脳脊髄液（髄液）</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- 第1章　ステロイドが壊す免疫 -->
+        <!-- ═══════════════════════════════════════ -->
+        <div id="ch1" class="gl-chapter-banner first">
+          <div class="gl-chapter-title">第1章　ステロイドが壊す免疫</div>
+          <div class="gl-chapter-subtitle">Steroid と Infection — どの免疫が、なぜ落ちるのか</div>
+        </div>
+
+        <!-- ── S1 細胞性免疫 ── -->
+        <h3 id="ch1-s1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 1</span>
+          細胞性免疫の中心：CD4 T細胞
+        </h3>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">ステロイド ＝ 細胞性免疫（CMI）の低下</h3>
+            <p class="rule-body">ステロイドが最も強く抑制するのは<strong>細胞性免疫（CMI）</strong>であり、その中心は <strong>CD4陽性ヘルパーT細胞</strong>である。CD4 T細胞は刺激を受けて複数の<strong>サブセット</strong>へ分化し、それぞれ「守る相手」が異なる。どのサブセットが落ちるかを押さえると、<strong>どの病原体に弱くなるか</strong>が予想できる。</p>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">CD4 T細胞のサブセットと守る相手</h3>
+            <table class="ie-table">
+              <thead><tr><th style="white-space:nowrap;">サブセット</th><th>主に守る相手</th><th>低下すると弱くなる感染</th></tr></thead>
+              <tbody>
+                <tr><td style="white-space:nowrap;"><strong>Th1</strong></td><td>マクロファージを活性化し<strong>細胞内寄生体</strong>を処理</td><td><strong>細胞内寄生体</strong>（抗酸菌・Listeria・Nocardia・Salmonella 等）</td></tr>
+                <tr><td style="white-space:nowrap;"><strong>Th2</strong></td><td><strong>寄生虫</strong>に対する免疫（好酸球・IgE）</td><td>寄生虫（Strongyloides 等）</td></tr>
+                <tr><td style="white-space:nowrap;"><strong>Th17</strong></td><td>好中球を動員し<strong>バリア／粘膜免疫</strong>を守る</td><td><em>Candida</em>・<em>S. aureus</em>（皮膚・粘膜）</td></tr>
+                <tr><td style="white-space:nowrap;"><strong>Tfh</strong></td><td><strong>B細胞</strong>を助け抗体産生（液性免疫）を促す</td><td>液性免疫（莢膜菌など）</td></tr>
+                <tr><td style="white-space:nowrap;"><strong>Treg</strong></td><td>過剰な免疫を制御（ブレーキ役）</td><td>—</td></tr>
+              </tbody>
+            </table>
+            <div class="point" style="margin-top:10px;">
+              <span class="alert-head">ポイント</span>
+              <p>板書の要点を一言にすると、<strong>Th1が落ちて細胞内寄生体に弱くなり、Th17が落ちて粘膜の <em>Candida</em>・<em>S. aureus</em> に弱くなる</strong>、ということ。ステロイド患者の起因菌を考えるときの出発点になる。</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── S2 4本柱 ── -->
+        <h3 id="ch1-s2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span class="section-label icu">SECTION 2</span>
+          ステロイドが抑制する4本柱
+        </h3>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">免疫の4本柱が同時に落ちる</h3>
+            <p class="rule-body">ステロイドは細胞性免疫だけでなく、感染防御の<strong>4つの柱すべて</strong>を低下させる。落ちる深さには差があり、最も深く落ちるのは <strong>CMI</strong> である。</p>
+            <div class="space-emph" style="margin-top:10px;">
+              <div class="space-emph-title">ステロイドが抑制する免疫（4本柱）</div>
+              <div class="space-row"><span class="acro">1</span><strong>バリア</strong>（皮膚・粘膜）↓</div>
+              <div class="space-row"><span class="acro">2</span><strong>好中球</strong>：数・機能 ↓↓（遊走・貪食の障害）</div>
+              <div class="space-row"><span class="acro">3</span><strong>液性免疫</strong>（抗体）↓</div>
+              <div class="space-row"><span class="acro">4</span><strong>細胞性免疫（CMI）</strong> ↓↓↓ ＝ 最も強く低下</div>
+            </div>
+            <p class="rule-body" style="margin-top:10px;">CMI低下の帰結として板書が特に挙げるのは、<strong>① 細胞内寄生体</strong>と <strong>② <em>Candida</em>・<em>S. aureus</em></strong> である（Th1・Th17低下に対応）。</p>
+            <div class="keypoint" style="margin-top:10px;">
+              <span class="alert-head">注意</span>
+              <p>4本柱が同時に落ちるため、ステロイド患者の感染は<strong>「広い」</strong>。一方で最も深く落ちるのは CMI なので、<strong>起因菌の山を張るときは細胞内寄生体・<em>Candida</em>・<em>S. aureus</em> を軸に考える</strong>。</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── SUMMARY 第1章 ── -->
+        <h3 id="ch1-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 10px;padding-left:14px;border-left:4px solid #7C3AED;line-height:1.4;">
+          <span style="color:#7C3AED;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+          第1章のキーメッセージ
+        </h3>
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+                <span class="rule-body"><strong>ステロイド＝細胞性免疫（CMI）低下：</strong>中心は CD4 T細胞で、サブセットごとに守る相手が違う。どのサブセットが落ちるかで弱くなる感染が決まる。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+                <span class="rule-body"><strong>Th1低下 → 細胞内寄生体：</strong>抗酸菌・Listeria・Nocardia・Salmonella などマクロファージ内に潜む菌に弱くなる。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+                <span class="rule-body"><strong>Th17低下 → 粘膜の <em>Candida</em>・<em>S. aureus</em>：</strong>Th17は好中球動員とバリア／粘膜免疫を担うため、低下で皮膚・粘膜感染に弱くなる。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+                <span class="rule-body"><strong>4本柱が同時に落ちる：</strong>バリア↓・好中球↓↓・液性↓・CMI↓↓↓。感染の幅が広がるが、最も深いのは CMI。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+                <span style="color:#7C3AED;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+                <span class="rule-body"><strong>起因菌は CMI 低下を軸に予想する：</strong>細胞内寄生体・<em>Candida</em>・<em>S. aureus</em> を基本線に、用量・期間でさらに上乗せして考える（第3章）。</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- 第2章　問題になる病原体（細胞内寄生体） -->
+        <!-- ═══════════════════════════════════════ -->
+        <div id="ch2" class="gl-chapter-banner">
+          <div class="gl-chapter-title">第2章　問題になる病原体（細胞内寄生体）</div>
+          <div class="gl-chapter-subtitle">Intracellular Pathogens — 細菌・抗酸菌・ウイルス・真菌・寄生虫</div>
+        </div>
+
+        <!-- ── S1 細菌 ── -->
+        <h3 id="ch2-s1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+          <span class="section-label icu" style="color:#DC2626;">SECTION 1</span>
+          細菌（Bacteria）
+        </h3>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">細胞内寄生菌（Th1低下で問題になる細菌）</h3>
+            <ul class="organism-list">
+              <li><em><strong>Staphylococcus aureus</strong></em></li>
+              <li><em><strong>Salmonella</strong></em></li>
+              <li><em><strong>Nocardia</strong></em></li>
+              <li><em><strong>Listeria</strong></em></li>
+              <li><em><strong>Legionella</strong></em> ／ <em><strong>Mycoplasma</strong></em> ／ <em><strong>Chlamydia</strong></em></li>
+              <li><em><strong>Rickettsia</strong></em> ／ <em><strong>Coxiella</strong></em> ／ <em><strong>Brucella</strong></em></li>
+            </ul>
+            <p class="rule-body" style="margin-top:8px;">これらは<strong>細胞内に潜む</strong>ため、マクロファージを活性化する Th1 依存の細胞性免疫で制御される。ステロイドによる CMI 低下で、潜伏していた菌の<strong>再活性化や播種</strong>を起こしやすい。とくに <em>Nocardia</em>・<em>Listeria</em> は細胞性免疫低下患者で想起すべき菌。</p>
+          </div>
+        </div>
+
+        <!-- ── S2 抗酸菌 ── -->
+        <h3 id="ch2-s2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+          <span class="section-label icu" style="color:#DC2626;">SECTION 2</span>
+          抗酸菌（Mycobacterium：TB / NTM / RGM）
+        </h3>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">抗酸菌の分類と治療薬</h3>
+            <table class="ie-table">
+              <thead><tr><th style="white-space:nowrap;">分類</th><th>代表菌・部位</th><th>治療（板書記載）</th></tr></thead>
+              <tbody>
+                <tr><td style="white-space:nowrap;"><strong>結核菌（TB）</strong></td><td>結核</td><td><strong>RIPE</strong>（標準4剤）</td></tr>
+                <tr><td style="white-space:nowrap;"><strong>NTM</strong><br><span style="font-size:0.72rem;color:var(--muted);">非結核性抗酸菌</span></td><td>MAC（<em>M. avium</em> complex）／<em>M. kansasii</em></td><td>マクロライド（CAM／AZM）＋ EB ＋ リファマイシン（RFP／RBT）の<strong>多剤併用</strong></td></tr>
+                <tr><td style="white-space:nowrap;"><strong>RGM</strong><br><span style="font-size:0.72rem;color:var(--muted);">迅速発育抗酸菌</span></td><td><em>M. abscessus</em>（肺）／<em>M. fortuitum</em>（皮膚・軟部）／<em>M. chelonae</em>（角膜炎）</td><td>マクロライド（CAM）／AMK／IPM</td></tr>
+              </tbody>
+            </table>
+            <div class="danger" style="margin-top:10px;">
+              <span class="alert-head">RGM は高度耐性 — RESISTANT!!!</span>
+              <p>迅速発育抗酸菌（とくに <em>M. abscessus</em>）は<strong>多剤耐性で治療に難渋</strong>する。板書でも「RESISTANT!!!」と強調されている。ステロイド患者で慢性の肺病変・皮膚軟部組織感染・角膜炎をみたら RGM を鑑別に入れる。</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── S3 ウイルス・真菌 ── -->
+        <h3 id="ch2-s3" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+          <span class="section-label icu" style="color:#DC2626;">SECTION 3</span>
+          ウイルス・真菌
+        </h3>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h4 class="sub-head">ウイルス（Virus）</h4>
+            <ul class="organism-list">
+              <li><strong>HSV ／ VZV</strong> — 潜伏ウイルスの再活性化（口唇・性器ヘルペス、帯状疱疹、播種性病変）</li>
+              <li><strong>CMV</strong> — 再活性化と臓器障害（詳細は<a href="#ch4" style="color:var(--blue);font-weight:700;">第4章</a>）</li>
+            </ul>
+            <h4 class="sub-head" style="margin-top:14px;">真菌（Fungus）</h4>
+            <ul class="organism-list">
+              <li><em><strong>Candida</strong></em> — Th17低下による粘膜カンジダ、播種性カンジダ症</li>
+              <li><em><strong>Cryptococcus</strong></em>（クリプトコッカス）</li>
+              <li><em><strong>Aspergillus</strong></em>（アスペルギルス）</li>
+              <li><strong>PCP</strong>（<em>Pneumocystis</em> 肺炎）</li>
+            </ul>
+            <p class="rule-body" style="margin-top:8px;">真菌は細胞性免疫低下患者で重要。<em>Candida</em>・<em>Aspergillus</em>・PCP は用量依存にリスクが上がり、<strong>予防の対象</strong>にもなる（第3章）。</p>
+          </div>
+        </div>
+
+        <!-- ── S4 その他 Red Flag ── -->
+        <h3 id="ch2-s4" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+          <span class="section-label icu" style="color:#DC2626;">SECTION 4</span>
+          その他（寄生虫）— Red Flag
+        </h3>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">ステロイドで顕在化する寄生虫感染</h3>
+            <ul class="organism-list">
+              <li><strong>Toxoplasma</strong> → <strong>播種性トキソプラズマ症</strong>（disseminated toxoplasmosis）</li>
+              <li><strong>Strongyloides</strong>（糞線虫）→ <strong>過剰感染症候群</strong>（hyperinfection syndrome）</li>
+            </ul>
+            <div class="danger" style="margin-top:10px;">
+              <span class="alert-head">Red Flag — 糞線虫 過剰感染症候群</span>
+              <p><strong>ステロイドは糞線虫 hyperinfection の最大の誘因</strong>。増殖した幼虫が腸壁を貫通する際に<strong>腸内細菌を全身へ運び込み</strong>、グラム陰性桿菌（<em>E. coli</em> など）による<strong>菌血症・髄膜炎・肺炎</strong>を合併する。板書でも <strong>BAL → <em>E. coli</em>、CSF → <em>E. coli</em></strong> と示され、原因不明のグラム陰性菌感染をみたら糞線虫を疑う「Red Flag sign」として強調されている。流行地での生活歴があればステロイド開始前のスクリーニング／駆虫を考慮する。</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── SUMMARY 第2章 ── -->
+        <h3 id="ch2-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 10px;padding-left:14px;border-left:4px solid #DC2626;line-height:1.4;">
+          <span style="color:#DC2626;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+          第2章のキーメッセージ
+        </h3>
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#DC2626;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+                <span class="rule-body"><strong>細菌は細胞内寄生菌が中心：</strong><em>S. aureus</em>・Salmonella・Nocardia・Listeria・Legionella/Mycoplasma/Chlamydia・Rickettsia/Coxiella/Brucella。とくに Nocardia・Listeria を想起。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#DC2626;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+                <span class="rule-body"><strong>抗酸菌は TB / NTM / RGM で整理：</strong>TB は RIPE、NTM（MAC・<em>M. kansasii</em>）はマクロライド＋EB＋リファマイシン、RGM はマクロライド/AMK/IPM。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#DC2626;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+                <span class="rule-body"><strong>RGM は高度耐性：</strong><em>M. abscessus</em>（肺）・<em>M. fortuitum</em>（皮膚）・<em>M. chelonae</em>（角膜炎）は治療難渋。慢性病変で鑑別に入れる。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#DC2626;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+                <span class="rule-body"><strong>ウイルス・真菌：</strong>HSV/VZV・CMV の再活性化、<em>Candida</em>・<em>Cryptococcus</em>・<em>Aspergillus</em>・PCP。後3者は予防対象になりうる。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+                <span style="color:#DC2626;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+                <span class="rule-body"><strong>糞線虫 hyperinfection は Red Flag：</strong>幼虫が腸内細菌を運びグラム陰性桿菌（<em>E. coli</em>）の菌血症・髄膜炎を合併。ステロイドが最大の誘因。</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- 第3章　用量・予防・開始前スクリーニング -->
+        <!-- ═══════════════════════════════════════ -->
+        <div id="ch3" class="gl-chapter-banner">
+          <div class="gl-chapter-title">第3章　用量・予防・開始前スクリーニング</div>
+          <div class="gl-chapter-subtitle">Dose &amp; Prophylaxis ／ Pre-test — いつ予防し、何を確認するか</div>
+        </div>
+
+        <!-- ── S1 用量と予防 ── -->
+        <h3 id="ch3-s1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+          <span class="section-label icu" style="color:#EA580C;">SECTION 1</span>
+          用量と予防（Dose &amp; Prophylaxis）
+        </h3>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">予防開始の用量・期間の目安</h3>
+            <p class="rule-body">ステロイド感染症リスクは<strong>用量と期間</strong>で決まる。板書が挙げる予防開始の目安は以下。</p>
+            <table class="ie-table">
+              <thead><tr><th style="white-space:nowrap;">対象</th><th>用量・期間の目安（板書）</th></tr></thead>
+              <tbody>
+                <tr><td style="white-space:nowrap;"><strong>PCP 予防</strong></td><td>プレドニゾロン換算 <strong>20 mg/日 × 3〜4週間</strong> 以上が目安。標準的な予防薬は ST合剤。</td></tr>
+                <tr><td style="white-space:nowrap;"><strong>Aspergillus</strong></td><td>プレドニゾロン換算 <strong>0.3 mg/kg × 3週間</strong>（高用量・長期）でリスク上昇。</td></tr>
+                <tr><td style="white-space:nowrap;"><strong>累積投与量</strong></td><td>プレドニゾロン累積 <strong>650〜700 mg</strong> が一つの目安（累積曝露でリスクが積み上がる）。</td></tr>
+              </tbody>
+            </table>
+            <div class="point" style="margin-top:10px;">
+              <span class="alert-head">ポイント</span>
+              <p>板書は<strong>好中球低下（Neutrophil ↓）</strong>も併記している。ステロイドは細胞性免疫だけでなく好中球機能も落とすため、用量・期間が増えるほど真菌・PCP のリスクが上乗せされる。「<strong>その日の用量</strong>」だけでなく<strong>累積量</strong>でもリスクを見積もる。</p>
+            </div>
+            <p class="rule-body" style="margin-top:8px;font-size:0.78rem;color:var(--muted);padding-left:0;">※ 用量・期間の数値は板書に記載された目安。実際の予防適応・薬剤選択は患者背景に応じて個別に判断する。</p>
+          </div>
+        </div>
+
+        <!-- ── S2 開始前スクリーニング ── -->
+        <h3 id="ch3-s2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+          <span class="section-label icu" style="color:#EA580C;">SECTION 2</span>
+          開始前スクリーニング（Pre-test）
+        </h3>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">① 潜在性結核（T-spot）</h3>
+            <p class="rule-body">ステロイド（とくに高用量・長期）開始前には <strong>T-spot</strong>（IGRA）で<strong>潜在性結核（LTBI）</strong>を確認する。陽性なら結核<strong>再活性化</strong>のリスクがあり、予防内服を検討する。</p>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">② HBV 再活性化リスクの層別化</h3>
+            <p class="rule-body">免疫抑制で <strong>HBV 再活性化</strong>が起こりうるため、開始前に <strong>HBsAg ／ HBcAb(IgG) ／ HBsAb</strong> の3点セットを確認し、リスクを層別化する。</p>
+            <table class="ie-table" style="margin-top:8px;">
+              <thead><tr><th style="white-space:nowrap;">群</th><th>血清マーカー</th><th>意味・対応</th></tr></thead>
+              <tbody>
+                <tr><td style="white-space:nowrap;"><strong>A群</strong></td><td><strong>HBsAg 陽性</strong>（現感染）</td><td>核酸アナログで<strong>予防投与</strong>：<strong>テノホビル（TAF）</strong>／<strong>エンテカビル（ETV）</strong></td></tr>
+                <tr><td style="white-space:nowrap;"><strong>B群</strong></td><td><strong>HBsAg 陰性 ＋ HBcAb 陽性</strong>（既往感染）</td><td><strong>de novo 再活性化</strong>のリスク。HBsAb の有無とレジメンでさらに層別化（下記）。</td></tr>
+              </tbody>
+            </table>
+            <h4 class="sub-head" style="margin-top:14px;">B群（既往感染）のリスク層別化</h4>
+            <ul class="organism-list">
+              <li><strong>HBsAb 陽性</strong> → <strong>中和抗体あり（protective）</strong>：相対的に低リスク</li>
+              <li><strong>HBsAb 陰性</strong> → リスク ↑</li>
+              <li><strong>造血幹細胞移植（HSCT）／抗CD20モノクローナル抗体（リツキシマブ）</strong> → <strong>最高リスク（Highest Risk!!!）</strong></li>
+            </ul>
+            <div class="danger" style="margin-top:10px;">
+              <span class="alert-head">HBsAg 陰性でも安心しない</span>
+              <p>HBcAb 陽性の<strong>既往感染</strong>でも、<strong>リツキシマブや造血幹細胞移植</strong>では HBV 再活性化が劇症化しうる。「HBsAg 陰性＝大丈夫」ではない。レジメンと HBsAb を併せてリスクを評価し、高リスクではモニタリング±予防投与を行う。</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── SUMMARY 第3章 ── -->
+        <h3 id="ch3-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 10px;padding-left:14px;border-left:4px solid #EA580C;line-height:1.4;">
+          <span style="color:#EA580C;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+          第3章のキーメッセージ
+        </h3>
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#EA580C;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+                <span class="rule-body"><strong>PCP予防の目安：</strong>プレドニゾロン 20 mg/日 × 3〜4週間以上。標準予防薬は ST合剤。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#EA580C;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+                <span class="rule-body"><strong>Aspergillus・累積量：</strong>0.3 mg/kg × 3週間でリスク上昇、累積 650〜700 mg が目安。好中球低下も上乗せ要因。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#EA580C;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+                <span class="rule-body"><strong>開始前に T-spot：</strong>潜在性結核（LTBI）を確認。陽性なら再活性化リスクとして予防内服を検討。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#EA580C;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+                <span class="rule-body"><strong>HBV は3点セットで層別化：</strong>HBsAg/HBcAb/HBsAb。HBsAg陽性は TAF/ETV で予防、HBcAb陽性既往感染は de novo 再活性化に注意。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+                <span style="color:#EA580C;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+                <span class="rule-body"><strong>HSCT・リツキシマブは最高リスク：</strong>HBsAg陰性でも既往感染なら劇症化しうる。HBsAb陽性は中和抗体ありで相対的に低リスク。</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- 第4章　CMV と 免疫調節作用 -->
+        <!-- ═══════════════════════════════════════ -->
+        <div id="ch4" class="gl-chapter-banner">
+          <div class="gl-chapter-title">第4章　CMV と 免疫調節作用</div>
+          <div class="gl-chapter-subtitle">CMV ／ Immunomodulatory ／ 吸入・外用ステロイド</div>
+        </div>
+
+        <!-- ── S1 CMV ── -->
+        <h3 id="ch4-s1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+          <span class="section-label icu" style="color:#16A34A;">SECTION 1</span>
+          CMV：infection と disease を区別する
+        </h3>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">① CMV infection（感染）</h3>
+            <p class="rule-body">CMV 抗原／PCR が陽性の状態。臨床像で2つに分ける。</p>
+            <ul class="organism-list">
+              <li><strong>無症候性</strong>（asymptomatic）</li>
+              <li><strong>症候性</strong>（symptomatic）：<strong>viremia（ウイルス血症）・cytopenia（血球減少）</strong></li>
+            </ul>
+            <h4 class="sub-head" style="margin-top:14px;">② CMV disease（臓器障害）</h4>
+            <ul class="organism-list">
+              <li><strong>肺炎</strong>（pneumonitis）</li>
+              <li><strong>網膜炎</strong>（retinitis）</li>
+              <li><strong>消化管</strong>（GI：腸炎・潰瘍）</li>
+              <li><strong>脳室炎／脳炎</strong>（peri-ventriculitis）</li>
+            </ul>
+            <div class="keypoint" style="margin-top:10px;">
+              <span class="alert-head">注意</span>
+              <p>「<strong>抗原血症（infection）</strong>」と「<strong>臓器障害（disease）</strong>」を分けて考える。抗原陽性だけで臓器障害があるとは限らない。一方、肺炎・網膜炎・消化管・脳室炎などの <strong>disease は治療対象</strong>であり、見逃さない。</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── S2 免疫調節作用 ── -->
+        <h3 id="ch4-s2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+          <span class="section-label icu" style="color:#16A34A;">SECTION 2</span>
+          免疫調節作用（Immunomodulatory）による帰結
+        </h3>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">病原体感受性だけでなく「転帰」も悪くする</h3>
+            <p class="rule-body">ステロイドは特定の病原体に弱くするだけでなく、<strong>免疫調節作用そのもの</strong>が以下の転帰悪化につながる。</p>
+            <div class="space-emph" style="margin-top:10px;">
+              <div class="space-emph-title">Immunomodulatory による帰結</div>
+              <div class="space-row"><span class="acro">1</span><strong>侵襲性真菌感染</strong>（invasive fungal infection）</div>
+              <div class="space-row"><span class="acro">2</span><strong>敗血症</strong>（sepsis）</div>
+              <div class="space-row"><span class="acro">3</span><strong>移植片喪失</strong>（graft loss）</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── S3 吸入・外用 ── -->
+        <h3 id="ch4-s3" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+          <span class="section-label icu" style="color:#16A34A;">SECTION 3</span>
+          吸入・外用ステロイド
+        </h3>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-inner">
+            <h3 class="rule-title">全身投与だけが問題ではない</h3>
+            <p class="rule-body">板書は最後に <strong>吸入・外用ステロイド（Inhaler / topical steroid）</strong>を挙げている。全身投与でなくても<strong>局所の免疫を抑制</strong>し、感染リスクとなりうる点を忘れない。代表的には吸入ステロイドによる<strong>口腔咽頭カンジダ</strong>や局所感染が挙げられる。</p>
+          </div>
+        </div>
+
+        <!-- ── SUMMARY 第4章 ── -->
+        <h3 id="ch4-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 10px;padding-left:14px;border-left:4px solid #16A34A;line-height:1.4;">
+          <span style="color:#16A34A;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
+          第4章のキーメッセージ
+        </h3>
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#16A34A;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span>
+                <span class="rule-body"><strong>CMV は infection と disease を区別：</strong>抗原陽性（infection）は無症候／症候性（viremia・cytopenia）、臓器障害（disease）は治療対象。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#16A34A;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span>
+                <span class="rule-body"><strong>CMV disease の4部位：</strong>肺炎・網膜炎・消化管・脳室炎。これらを見たら disease として治療を検討。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#16A34A;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span>
+                <span class="rule-body"><strong>免疫調節作用の帰結：</strong>侵襲性真菌感染・敗血症・移植片喪失。病原体感受性だけでなく転帰も悪化させる。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:#16A34A;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span>
+                <span class="rule-body"><strong>吸入・外用も忘れない：</strong>局所ステロイドも局所免疫を抑制。吸入ステロイドの口腔咽頭カンジダなどに注意。</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+                <span style="color:#16A34A;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span>
+                <span class="rule-body"><strong>全体像：</strong>免疫の4本柱（とくにCMI）が落ちる → 細胞内寄生体・真菌・寄生虫・CMV を想定 → 用量と期間で予防し、開始前にLTBI・HBVを確認する。</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 出典・注記 -->
+        <p style="font-size:0.72rem;color:#9CA3AF;margin-top:32px;line-height:1.7;">
+          本ページは ID×ICUカンファレンス「ステロイド使用患者の感染症」の板書ノートです。記載は板書の内容に基づきます。実際の診療判断は患者個別の状況に応じて行ってください。
+        </p>
+        <p style="font-size:0.75rem;color:var(--muted);text-align:right;margin-top:8px;">講義：森先生（感染症科） ／ 制作：ICU 関谷</p>
+
+      </div><!-- /ie-main-col -->
+
+      <!-- ===== SIDEBAR TOC ===== -->
+      <aside class="ie-sidebar">
+        <a href="../schedule-weekly-id-icu.html#id-organ" style="display:flex;align-items:center;justify-content:center;padding:9px 14px;background:rgba(124,58,237,0.08);border:1px solid #C4B5FD;border-radius:8px;font-size:0.78rem;font-weight:700;color:#6D28D9;text-decoration:none;margin-bottom:12px;transition:background 0.15s,color 0.15s;line-height:1;">
+          ← ID×ICUカンファレンス 一覧へ戻る
+        </a>
+        <div class="ie-sidebar-card">
+          <div class="ie-sidebar-title">目次</div>
+          <a href="#ch1" class="ie-toc-chapter">第1章　ステロイドが壊す免疫</a>
+          <a href="#ch1-s1" class="ie-toc-section">S1 — 細胞性免疫の中心：CD4 T細胞</a>
+          <a href="#ch1-s2" class="ie-toc-section">S2 — ステロイドが抑制する4本柱</a>
+          <a href="#ch1-summary" class="ie-toc-section">SUMMARY</a>
+          <a href="#ch2" class="ie-toc-chapter">第2章　問題になる病原体（細胞内寄生体）</a>
+          <a href="#ch2-s1" class="ie-toc-section">S1 — 細菌</a>
+          <a href="#ch2-s2" class="ie-toc-section">S2 — 抗酸菌（TB / NTM / RGM）</a>
+          <a href="#ch2-s3" class="ie-toc-section">S3 — ウイルス・真菌</a>
+          <a href="#ch2-s4" class="ie-toc-section">S4 — その他（Red Flag）</a>
+          <a href="#ch2-summary" class="ie-toc-section">SUMMARY</a>
+          <a href="#ch3" class="ie-toc-chapter">第3章　用量・予防・開始前スクリーニング</a>
+          <a href="#ch3-s1" class="ie-toc-section">S1 — 用量と予防</a>
+          <a href="#ch3-s2" class="ie-toc-section">S2 — 開始前スクリーニング</a>
+          <a href="#ch3-summary" class="ie-toc-section">SUMMARY</a>
+          <a href="#ch4" class="ie-toc-chapter">第4章　CMV と 免疫調節作用</a>
+          <a href="#ch4-s1" class="ie-toc-section">S1 — CMV：infection と disease</a>
+          <a href="#ch4-s2" class="ie-toc-section">S2 — 免疫調節作用による帰結</a>
+          <a href="#ch4-s3" class="ie-toc-section">S3 — 吸入・外用ステロイド</a>
+          <a href="#ch4-summary" class="ie-toc-section">SUMMARY</a>
+        </div>
+      </aside>
+
+    </div><!-- /ie-page-flex -->
+  </div>
+
+  <script src="../../script.js?v=20260620"></script>
+  <script src="../../abbr-tooltip.js"></script>
+</body>
+</html>

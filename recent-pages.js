@@ -38,6 +38,13 @@ const RECENT_PAGES = [
     thumb: "images/IDICUtop.png"
   },
   {
+    title: "ステロイド使用患者の感染症 — 板書ノート | ID×ICUカンファレンス",
+    url: "pages/id-icu-notes/note-steroid.html",
+    date: "2026-06-19",
+    tag: "解説",
+    thumb: "images/IDICUtop.png"
+  },
+  {
     title: "敗血症の重症成人における輸液療法 — JAMA総説（JAMA 2023）",
     url: "pages/articles-gl-fluid-sepsis2023.html",
     date: "2026-06-18",
