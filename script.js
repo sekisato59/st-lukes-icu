@@ -46,7 +46,8 @@
         { href: 'pages/resident-resources.html#id',      label: '感染症' },
         { href: 'pages/resident-resources.html#nutr',    label: '栄養/代謝系' },
         { href: 'pages/resident-resources.html#msk',     label: '筋骨格系' },
-        { href: 'pages/resident-resources.html#prev',    label: '予防' }
+        { href: 'pages/resident-resources.html#prev',    label: '予防' },
+        { href: 'pages/resident-resources.html#ai',      label: 'AI' }
       ])
     + dd('当院ICUについて', [
         { href: 'pages/about-icu.html',          label: '当院ICUについて' },
