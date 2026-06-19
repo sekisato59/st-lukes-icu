@@ -24,11 +24,11 @@ const RECENT_PAGES = [
     thumb: "images/IDICUtop.png"
   },
   {
-    title: "PPI 長期投与による有害事象は？",
-    url: "pages/yoshida-qa/q-gi-04.html",
+    title: "前立腺炎（Prostatitis） JAMA総説 2025",
+    url: "pages/articles-gl-prostatitis2025.html",
     date: "2026-06-19",
-    tag: "解説",
-    thumb: "images/header吉田先生.png"
+    tag: "論文",
+    thumb: "images/IDICUtop.png"
   },
   {
     title: "敗血症の重症成人における輸液療法 — JAMA総説（JAMA 2023）",
@@ -670,6 +670,13 @@ const RECENT_PAGES = [
   {
     title: "Angioectasiaとはなんですか？",
     url: "pages/yoshida-qa/q-gi-01.html",
+    date: "2026-05-03",
+    tag: "解説",
+    thumb: "images/header吉田先生.png"
+  },
+  {
+    title: "PPI 長期投与による有害事象は？",
+    url: "pages/yoshida-qa/q-gi-04.html",
     date: "2026-05-03",
     tag: "解説",
     thumb: "images/header吉田先生.png"
