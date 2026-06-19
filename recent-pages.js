@@ -10,6 +10,13 @@
  */
 const RECENT_PAGES = [
   {
+    title: "ステロイド使用患者の感染症 — 板書ノート | ID×ICUカンファレンス",
+    url: "pages/id-icu-notes/note-steroid.html",
+    date: "2026-06-19",
+    tag: "解説",
+    thumb: "images/IDICUtop.png"
+  },
+  {
     title: "好酸球増多症（Hypereosinophilia・HES）への診断アプローチ",
     url: "pages/articles-gl-eosinophilia.html",
     date: "2026-06-19",
@@ -35,13 +42,6 @@ const RECENT_PAGES = [
     url: "pages/articles-gl-snap-cfz2026.html",
     date: "2026-06-19",
     tag: "論文",
-    thumb: "images/IDICUtop.png"
-  },
-  {
-    title: "ステロイド使用患者の感染症 — 板書ノート | ID×ICUカンファレンス",
-    url: "pages/id-icu-notes/note-steroid.html",
-    date: "2026-06-19",
-    tag: "解説",
     thumb: "images/IDICUtop.png"
   },
   {
