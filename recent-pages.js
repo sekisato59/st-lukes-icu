@@ -31,6 +31,13 @@ const RECENT_PAGES = [
     thumb: "images/IDICUtop.png"
   },
   {
+    title: "好酸球増多症（Hypereosinophilia・HES）への診断アプローチ",
+    url: "pages/articles-gl-eosinophilia.html",
+    date: "2026-06-19",
+    tag: "ガイドライン",
+    thumb: "images/IDICUtop.png"
+  },
+  {
     title: "敗血症の重症成人における輸液療法 — JAMA総説（JAMA 2023）",
     url: "pages/articles-gl-fluid-sepsis2023.html",
     date: "2026-06-18",
