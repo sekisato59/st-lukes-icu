@@ -32,6 +32,8 @@
     { system: 'renal',        file: 'q-renal-01.html',        title: '腎不全の原因（腎前性・腎性・腎後性）の鑑別はどう進めますか？' },
     { system: 'gi',           file: 'q-gi-01.html',           title: 'Angioectasia（消化管血管拡張症）とはなんですか？' },
     { system: 'gi',           file: 'q-gi-02.html',           title: '入院患者の肝逸脱酵素が上昇したときに考えることは？' },
+    { system: 'gi',           file: 'q-gi-03.html',           title: '便秘薬の分類と使い分けは？' },
+    { system: 'gi',           file: 'q-gi-04.html',           title: 'PPI 長期投与による有害事象は？' },
     { system: 'heme',         file: 'q-heme-01.html',         title: '入院中の汎血球減少をどう考えますか？' },
     { system: 'heme',         file: 'q-heme-02.html',         title: '入院患者の貧血で、鉄欠乏と慢性炎症をどう判断しますか？' },
     { system: 'heme',         file: 'q-heme-03.html',         title: '貧血の鑑別でMCVだけで判断していい？' },
@@ -219,6 +221,9 @@
       { kind: 'paper',   title: '急性肝不全（ALF）— Lancet Seminar 2024',                                          url: '../articles-gl-alf-lancet2024.html' },
       { kind: 'paper',   title: '急性肝不全（ALF）の管理と予後 — UpToDate 2025',                                   url: '../articles-gl-alf-uptodate2025.html' },
       { kind: 'paper',   title: '慢性HBV感染症 包括レビュー — NEJM 2026',                                          url: '../articles-gl-hbv-review2026.html' }
+    ],
+    'q-gi-04.html': [
+      { kind: 'gl',      title: 'SHEA/IDSA 2021 CDI管理ガイドライン Focused Update',                                url: '../articles-gl-cdi-shea2021.html' }
     ],
     'q-heme-01.html': [
       { kind: 'paper',   title: '血小板減少症の鑑別フロー — Intensivist 2026',                                     url: '../articles-gl-thrombocytopenia2026.html' },

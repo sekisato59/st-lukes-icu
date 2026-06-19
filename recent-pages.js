@@ -24,8 +24,8 @@ const RECENT_PAGES = [
     thumb: "images/IDICUtop.png"
   },
   {
-    title: "急性期の栄養療法について教えてください",
-    url: "pages/yoshida-qa/q-nutrition-04.html",
+    title: "PPI 長期投与による有害事象は？",
+    url: "pages/yoshida-qa/q-gi-04.html",
     date: "2026-06-19",
     tag: "解説",
     thumb: "images/header吉田先生.png"
@@ -719,6 +719,13 @@ const RECENT_PAGES = [
   {
     title: "血糖降下薬を使っていない患者さんで低血糖がありました。どう考えますか？",
     url: "pages/yoshida-qa/q-nutrition-01.html",
+    date: "2026-05-03",
+    tag: "解説",
+    thumb: "images/header吉田先生.png"
+  },
+  {
+    title: "急性期の栄養療法について教えてください",
+    url: "pages/yoshida-qa/q-nutrition-04.html",
     date: "2026-05-03",
     tag: "解説",
     thumb: "images/header吉田先生.png"
