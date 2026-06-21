@@ -1974,7 +1974,7 @@ const ALL_PAGES = [
     "type":      "",
     "system":    "",
     "system_id": "",
-    "title":     "ICUコアカン",
+    "title":     "資料ダウンロード",
     "url":       "pages/icu-core-conf.html"
   },
   {

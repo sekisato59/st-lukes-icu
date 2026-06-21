@@ -36,18 +36,19 @@
 
   navMenu.innerHTML = ''
     + dd('【ICU】レジデント資料', [
-        { href: 'pages/resident-resources.html#onboard', label: 'ローテ開始前' },
-        { href: 'pages/resident-resources.html#neuro',   label: '神経系' },
-        { href: 'pages/resident-resources.html#cv',      label: '循環器系' },
-        { href: 'pages/resident-resources.html#resp',    label: '呼吸器系' },
-        { href: 'pages/resident-resources.html#renal',   label: '腎電解質系' },
-        { href: 'pages/resident-resources.html#gi',      label: '消化器/肝胆道系' },
-        { href: 'pages/resident-resources.html#heme',    label: '血液系' },
-        { href: 'pages/resident-resources.html#id',      label: '感染症' },
-        { href: 'pages/resident-resources.html#nutr',    label: '栄養/代謝系' },
-        { href: 'pages/resident-resources.html#msk',     label: '筋骨格系' },
-        { href: 'pages/resident-resources.html#prev',    label: '予防' },
-        { href: 'pages/resident-resources.html#ai',      label: 'AI' }
+        { href: 'pages/resident-resources.html#onboard', label: '#0 ローテ開始前' },
+        { href: 'pages/resident-resources.html#neuro',   label: '#1 神経系' },
+        { href: 'pages/resident-resources.html#cv',      label: '#2 循環器系' },
+        { href: 'pages/resident-resources.html#resp',    label: '#3 呼吸器系' },
+        { href: 'pages/resident-resources.html#renal',   label: '#4 腎電解質系' },
+        { href: 'pages/resident-resources.html#gi',      label: '#5 消化器/肝胆道系' },
+        { href: 'pages/resident-resources.html#heme',    label: '#6 血液系' },
+        { href: 'pages/resident-resources.html#id',      label: '#7 感染症' },
+        { href: 'pages/resident-resources.html#nutr',    label: '#8 栄養/代謝系' },
+        { href: 'pages/resident-resources.html#msk',     label: '#9 筋骨格系' },
+        { href: 'pages/resident-resources.html#prev',    label: '#10 予防' },
+        { href: 'pages/resident-resources.html#ai',      label: '#11 医療×AI' },
+        { href: 'pages/icu-core-conf.html',              label: '資料ダウンロード' }
       ])
     + dd('当院ICUについて', [
         { href: 'pages/about-icu.html',          label: '当院ICUについて' },
@@ -59,8 +60,7 @@
     + dd('学習コンテンツ', [
         { href: 'pages/yoshida-qa.html',              label: '【9+10】吉田先生のお悩み相談コーナー' },
         { href: 'pages/schedule-weekly-id-icu.html',  label: '【感染症】ID×ICU conference' },
-        { href: 'pages/icu-passport.html',            label: 'ICU PASSPORT（レクチャーシート）' },
-        { href: 'pages/icu-core-conf.html',           label: 'レジデントのICU資料集' }
+        { href: 'pages/icu-passport.html',            label: 'ICU PASSPORT（レクチャーシート）' }
       ])
     + dd('論文GL', [
         { href: 'pages/articles-guidelines.html', label: '論文GL（ICU）' },

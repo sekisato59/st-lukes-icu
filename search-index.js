@@ -65,7 +65,7 @@ const SEARCH_INDEX = [
   {"title":"関谷 智 先生","url":"pages/staff-sekiya.html","desc":"スタッフ医師 集中治療科","keywords":"関谷智 せきや スタッフ医師 スタッフ紹介"},
 
   // ── ICUコアカン ──
-  {"title":"ICUコアカン","url":"pages/icu-core-conf.html","desc":"ICUコアカンファレンス一覧","keywords":"コアカン カンファレンス 学習 プレゼンテーション By System 透析"},
+  {"title":"資料ダウンロード","url":"pages/icu-core-conf.html","desc":"ICUコアカンファレンスのテーマ別PDF資料ダウンロード一覧","keywords":"資料ダウンロード ダウンロード 資料 コアカン カンファレンス 学習 プレゼンテーション By System 透析 PDF"},
   {"title":"【ICU】注目論文・最新ガイドラインまとめ","url":"pages/articles-guidelines.html","desc":"ICU関連の注目論文や最新ガイドラインの要約","keywords":"論文 ガイドライン エビデンス 文献 レビュー 最新 ICU"},
   {"title":"【内科外来】注目論文・最新ガイドラインまとめ","url":"pages/articles-outpatient.html","desc":"内科外来関連の注目論文や最新ガイドラインの要約","keywords":"内科外来 外来 ガイドライン 糖尿病 高血圧 脂質 骨粗鬆症 CKD GLP-1"},
   {"title":"論文まとめ：神経系","url":"pages/articles-guidelines.html#art-neuro","desc":"神経系の注目論文・ガイドライン","keywords":"神経 脳 意識障害 TTM 心停止"},
