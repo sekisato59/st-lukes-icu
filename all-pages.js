@@ -1330,6 +1330,15 @@ const ALL_PAGES = [
     "url":       "pages/articles-gl-af-jama2024.html"
   },
   {
+    "date":      "2026/06/20",
+    "genre":     "疾患マニュアル",
+    "type":      "Review",
+    "system":    "血液系",
+    "system_id": "dt-heme",
+    "title":     "血小板減少のまとめ — ICUでの鑑別と対応",
+    "url":       "pages/disease-topics/dt-thrombocytopenia.html"
+  },
+  {
     "date":      "2026/04/01",
     "genre":     "疾患マニュアル",
     "type":      "",

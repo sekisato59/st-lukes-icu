@@ -609,6 +609,7 @@ const SEARCH_INDEX = [
   {"title":"画像","url":"pages/video-lectures.html#vid-imaging","desc":"動画講座集 › カテゴリ","keywords":"画像 胸部X線 読影 石井"},
 
   // ── 疾患・項目別まとめ ──
+  {"title":"血小板減少のまとめ — ICUでの鑑別と対応（総説）","url":"pages/disease-topics/dt-thrombocytopenia.html","desc":"ICUの血小板減少を循環型フローで鑑別。定義・重症度・赤信号、偽性/ECMO/TMA(TTP・HUS)/HIT/DIC/ITP/肝疾患/妊娠、処置前閾値と血小板輸血を収録GL・論文10本から統合した総説","keywords":"血小板減少 血小板減少症 thrombocytopenia 血小板 platelet PLT 鑑別 循環型フロー 偽性血小板減少 pseudothrombocytopenia EDTA TMA TTP HUS aHUS HIT ヘパリン起因性 DIC 播種性血管内凝固 ITP 免疫性血小板減少 DIT 薬剤性 ECMO PROTECMO 破砕赤血球 schistocyte MAHA 溶血 ADAMTS13 PLASMIC 4Ts 血小板輸血 処置前閾値 HELLP 妊娠 SFTS デング HLH 血球貪食 肝硬変 TPO-RA IVIG TPE 赤信号"},
   {"title":"低ナトリウム血症（総説）","url":"pages/disease-topics/dt-hyponatremia.html","desc":"低Na血症の診断・治療の総説","keywords":"低ナトリウム 低Na SIADH 補正速度 ODS 尿浸透圧 尿Na 3%食塩水 SIAD ADH RAAS UOsm UNa NaCl SGLT2 RIB SCI TBW eGFR"},
   {"title":"高ナトリウム血症（総説）","url":"pages/disease-topics/dt-hypernatremia.html","desc":"ICU獲得性高Na血症の疫学・補正速度と死亡率・治療戦略・安全性の総説","keywords":"高ナトリウム 高Na血症 hypernatremia 補正速度 フリーウォーター D5W ヒドロクロロチアジド 脳浮腫 ICU獲得性 メタ解析 死亡率 CVVH CI ICU GEE FW"},
   {"title":"酸塩基平衡障害（総説）","url":"pages/disease-topics/dt-acidbase.html","desc":"代謝性アシドーシスの病態・診断・治療、混合性酸塩基障害、EDKA","keywords":"酸塩基 アシドーシス アルカローシス AG アニオンギャップ HAGMA NAGMA 乳酸 代償 Winters 重炭酸ナトリウム BICAR-ICU KRT EDKA SGLT2 正常血糖DKA 混合性 代償公式 Delta ABG VBG DKA RTA"},

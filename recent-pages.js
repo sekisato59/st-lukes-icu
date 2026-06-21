@@ -10,6 +10,13 @@
  */
 const RECENT_PAGES = [
   {
+    title: "血小板減少のまとめ — ICUでの鑑別と対応",
+    url: "pages/disease-topics/dt-thrombocytopenia.html",
+    date: "2026-06-21",
+    tag: "解説",
+    thumb: "images/icu-study.jpg"
+  },
+  {
     title: "ステロイド使用患者の感染症 — 板書ノート | ID×ICUカンファレンス",
     url: "pages/id-icu-notes/note-steroid.html",
     date: "2026-06-19",
