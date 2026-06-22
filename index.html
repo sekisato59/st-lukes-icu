@@ -13,7 +13,7 @@
   <!-- search-index.js（751KB）は body 末尾の script.js 直前に移動して初回レンダリングをブロックしないようにする -->
   <!-- recent-pages.js は時刻ベース(時単位)の ?v= で動的に読み込む（手動 bump 忘れ防止・同日更新対応）-->
   <script>document.write('<script src="recent-pages.js?v=' + new Date().toISOString().slice(0,13).replace(/[-T]/g,'') + '"><\/script>');</script>
-  <link rel="stylesheet" href="style-home.css?v=20260609">
+  <link rel="stylesheet" href="style-home.css?v=20260622">
 </head>
 <body style="background-image:url('images/背景3.jpg');background-size:cover;background-position:center top;background-attachment:fixed;background-repeat:no-repeat;background-color:var(--hero-bg);">
 
@@ -53,13 +53,14 @@
   <!-- ===== コンテンツ ===== -->
   <section class="dum-content-block">
     <div class="dum-content-inner">
+      <div class="dum-main-col">
       <div class="dum-notice">
         <div class="dum-notice-body">
           <strong>ご利用にあたって</strong>
           <p>患者の個人情報取り扱いには十分ご注意ください。このページはICUローテーター向けの情報提供ページです。最新の情報は担当指導医・スタッフにご確認ください。レイアウトはPCデスクトップ用に最適化しています。</p>
         </div>
       </div>
-      <div class="dum-learn-panel">
+      <div class="dum-learn-panel" id="news">
         <div class="dum-block-head">
           <div class="dum-block-head-left">
             <h2 class="dum-block-title">新着コンテンツ</h2>
@@ -474,6 +475,47 @@
 
         </div><!-- /.faq-list -->
       </div>
+      </div><!-- /.dum-main-col -->
+
+      <!-- ===== 右サイドバー（PC専用・統計＋ショートカット） ===== -->
+      <aside class="dum-side" aria-label="ページ情報とショートカット">
+        <div class="dum-side-stats">
+          <div class="dum-side-stat">
+            <div class="dum-side-stat-num" id="statPages">—</div>
+            <div class="dum-side-stat-label">収録ページ（総数）</div>
+          </div>
+          <div class="dum-side-stat">
+            <div class="dum-side-stat-num" id="statGl">—</div>
+            <div class="dum-side-stat-label">論文・GLまとめ</div>
+          </div>
+          <div class="dum-side-stat">
+            <div class="dum-side-stat-num" id="statIndex">—</div>
+            <div class="dum-side-stat-label">検索インデックス項目</div>
+          </div>
+        </div>
+
+        <nav class="dum-side-nav" aria-label="このページ内へ移動">
+          <div class="dum-side-nav-title">このページ内</div>
+          <a href="#news">新着コンテンツ</a>
+          <a href="#about">当院ICUについて</a>
+          <a href="#learning">学習コンテンツ</a>
+          <a href="#videos">講義動画</a>
+          <a href="#tools">便利ツール</a>
+          <a href="#faq">よくある質問</a>
+        </nav>
+
+        <nav class="dum-side-nav" aria-label="主要ページへ移動">
+          <div class="dum-side-nav-title">主要ページ</div>
+          <a href="pages/about-icu.html">当院ICUについて</a>
+          <a href="pages/pre-rotation-todo.html">ローテされる先生へ</a>
+          <a href="pages/resident-resources.html">【ICU】レジデント資料</a>
+          <a href="pages/articles-guidelines.html">論文GL（ICU）</a>
+          <a href="pages/articles-outpatient.html">論文GL（外来）</a>
+          <a href="pages/disease-topics.html">疾患マニュアル</a>
+          <a href="pages/video-lectures.html">聖路加ICU動画講座集</a>
+          <a href="pages/recent-all.html">サイト内検索</a>
+        </nav>
+      </aside>
 
     </div>
   </section>
@@ -573,6 +615,24 @@
           }).join('');
         }
       });
+    })();
+
+    /* ===== サイドバー統計：クライアントで実数を集計（常に最新・手動更新不要） ===== */
+    (function(){
+      function setNum(id, n){ var el = document.getElementById(id); if (el) el.textContent = n.toLocaleString('en-US'); }
+      function strip(u){ return String(u || '').split('#')[0]; }
+      var pages = new Set();
+      if (typeof SEARCH_INDEX !== 'undefined' && Array.isArray(SEARCH_INDEX)) {
+        SEARCH_INDEX.forEach(function(e){ pages.add(strip(e.url)); });
+        setNum('statIndex', SEARCH_INDEX.length);   // 検索インデックス項目（章アンカー含む）
+      }
+      if (typeof RECENT_PAGES !== 'undefined' && Array.isArray(RECENT_PAGES)) {
+        RECENT_PAGES.forEach(function(e){ pages.add(strip(e.url)); });
+      }
+      var gl = 0;
+      pages.forEach(function(u){ if (/articles-gl-/.test(u)) gl++; });   // 論文・GLまとめページ
+      setNum('statPages', pages.size);   // 収録ページ総数（重複URL除外）
+      setNum('statGl', gl);
     })();
 
     /* ===== 新着コンテンツ：recent-pages.js から日付降順で上位6件を描画 ===== */

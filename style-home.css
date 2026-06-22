@@ -715,3 +715,80 @@
       .dum-news-meta { font-size:0.62rem !important; }
     }
 
+    /* ============================================
+       Main ページ 右サイドバー（PC専用レール）
+       - コンテンツ全体をヒーロー画像と同じ箱に揃え（左端一致）、
+         右の空きスペースに統計＋ショートカットを配置する
+       ============================================ */
+    .dum-side { display:none; }   /* 既定（モバイル）では非表示。PCのみ表示 */
+
+    /* スクロール先がナビバー(64px)に隠れないように */
+    #news, #about, #learning, #videos, #tools, #faq { scroll-margin-top:84px; }
+
+    @media (min-width:1025px) {
+      /* ヒーロー画像と同じ最大幅・同じ左シフトで箱を揃える → 左端一致 */
+      .dum-content-inner {
+        max-width:1488px;
+        transform:translateX(-3%);
+        display:flex;
+        align-items:flex-start;
+        gap:clamp(18px, 1rem + 1vw, 32px);
+      }
+      /* メイン列：従来のコンテンツ幅を維持（カードサイズを変えない） */
+      .dum-main-col { flex:1 1 auto;min-width:0;max-width:1294px; }
+      /* 右レール：残りの空きスペース（≒194px）に収める */
+      .dum-side {
+        display:block;
+        flex:0 0 clamp(178px, 13.5vw, 224px);
+        position:sticky;top:84px;align-self:flex-start;
+        /* 「ご利用にあたって」(.dum-notice) と頭の位置を揃える */
+        margin-top:clamp(18px, 1rem + 0.8vw, 27px);
+        max-height:calc(100vh - 100px);
+        overflow-y:auto;
+        padding-bottom:8px;
+      }
+    }
+
+    /* 統計カード（収録ページ・検索インデックス・新着コンテンツ） */
+    .dum-side-stats {
+      background:rgba(255,255,255,0.72);
+      backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+      border:1px solid rgba(255,255,255,0.6);
+      border-radius:var(--dum-radius-md);
+      padding:6px 14px;
+      box-shadow:0 2px 12px rgba(13,79,140,0.06);
+      margin-bottom:14px;
+    }
+    .dum-side-stat { padding:9px 0;border-bottom:1px solid rgba(13,79,140,0.08); }
+    .dum-side-stat:last-child { border-bottom:none; }
+    .dum-side-stat-num {
+      font-size:1.5rem;font-weight:900;color:var(--hero-blue-dark);
+      line-height:1.05;letter-spacing:-0.02em;font-variant-numeric:tabular-nums;
+    }
+    .dum-side-stat-label {
+      font-size:0.66rem;font-weight:700;color:var(--hero-text-mute);
+      letter-spacing:0.04em;margin-top:2px;
+    }
+
+    /* ショートカット群（このページ内 / 主要ページ） */
+    .dum-side-nav {
+      background:rgba(255,255,255,0.72);
+      backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+      border:1px solid rgba(255,255,255,0.6);
+      border-radius:var(--dum-radius-md);
+      padding:10px 8px;
+      box-shadow:0 2px 12px rgba(13,79,140,0.06);
+      margin-bottom:14px;
+    }
+    .dum-side-nav-title {
+      font-size:0.6rem;font-weight:800;color:var(--hero-blue-dark);
+      letter-spacing:0.08em;padding:2px 8px 7px;
+    }
+    .dum-side-nav a {
+      display:block;text-decoration:none;
+      font-size:0.74rem;font-weight:600;color:var(--hero-text-dark);
+      padding:7px 8px;border-radius:6px;line-height:1.4;
+      transition:background .15s,color .15s;
+    }
+    .dum-side-nav a:hover { background:#E1F0FB;color:var(--hero-blue); }
+
