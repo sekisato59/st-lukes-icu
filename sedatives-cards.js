@@ -65,6 +65,26 @@
       '.nx-drug-body strong{color:#1E293B;}',
       '.nx-drug-li{display:block;padding-left:1em;text-indent:-1em;}',
       '.nx-drug-li + .nx-drug-li{margin-top:2px;}',
+      /* カルテ発注画面の再現（サンプルオーダーカード）— schedule-icu-conf と同一デザイン */
+      '.kt-wrap{margin:12px 16px 0;}',
+      '.kt-wrap:first-of-type{margin-top:14px;}',
+      '.kt-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid #C7CAD1;border-radius:4px;background:#fff;box-shadow:0 2px 8px rgba(15,23,42,0.18);}',
+      ".kt-screen{min-width:380px;font-family:Meiryo,'Hiragino Kaku Gothic ProN',sans-serif;font-size:10.5px;color:#1A1A1A;line-height:1.5;-webkit-text-size-adjust:100%;text-size-adjust:100%;}",
+      '.kt-ohead{display:flex;align-items:center;justify-content:space-between;background:#E6E7EB;border-bottom:1px solid #C7CAD1;padding:5px 8px;color:#333;}',
+      '.kt-ohead span{flex-shrink:0;}',
+      '.kt-table{width:100%;border-collapse:collapse;font-size:10.5px;}',
+      '.kt-table td{vertical-align:top;}',
+      '.kt-row{border-bottom:1px solid #E2E3E7;}',
+      '.kt-l{padding:3px 8px;white-space:nowrap;color:#333;}',
+      '.kt-v{padding:3px 5px;}',
+      '.kt-r{padding:3px 8px;text-align:right;white-space:nowrap;}',
+      '.kt-red{color:#C2371A;}',
+      '.kt-bold{font-weight:600;}',
+      '.kt-blue{color:#1565C0;}',
+      '.kt-num{width:22px;padding:5px 6px;text-align:center;color:#777;border-right:1px solid #E8EAED;}',
+      '.kt-clines{padding:2px 10px 5px;}',
+      '.kt-cline{padding:3px 0;border-bottom:1px solid #ECEEF1;}',
+      '.kt-cline.kt-last{border-bottom:none;}',
     ].join('');
     document.head.appendChild(s);
   }
@@ -238,6 +258,25 @@
       jp: 'デクスメデトミジン',
       alias: 'Dexmedetomidine（プレセデックス）',
       dose: '0.2〜0.7 μg/kg/h',
+      orders: [
+        { kind: 'order', head: 'PRN注射', rows: [
+          { l: '手技', v: '末梢静脈　側管：点滴精密', r: '' },
+          { l: '薬品', v: '(ﾊｲｱﾗｰﾄ)(配合注意)ﾌﾟﾚｾﾃﾞｯｸｽ静注液200µg/50mLｼﾘﾝｼﾞ[200µg/筒]', r: '200µg', red: true },
+          { l: '用法', v: '', r: '不穏時' },
+          { l: '用法実施', v: '指示枠1番目', r: '', blue: true, lblBlue: true },
+          { l: '実施場所', v: '本院：ICU', r: '', blue: true, lblBlue: true }
+        ]},
+        { kind: 'comment', head: 'コメントオーダ', lines: [
+          '【鎮静（プレセデックス）】',
+          '体重●kg計算（＊記入必須）',
+          'RASS目標（日中）-2〜0',
+          'RASS目標（夜間）-3以下',
+          '投与開始量　●μg/kg/hr (0.2-0.4目安)',
+          '投与量上限　0.7 μg/kg/hr',
+          '注）高度徐脈、低血圧',
+          '備）効果発現5-10分、最大効果15-30分。投与量増量は30分毎を目安に行う。'
+        ]}
+      ],
       rows: [
         { lbl: '分類', items: [
           '・<strong style="color:#1763B8;">α₂アドレナリン受容体作動薬</strong>',
@@ -269,6 +308,26 @@
       jp: 'プロポフォール',
       alias: 'Propofol（ディプリバン）',
       dose: '0.3〜3 mg/kg/h',
+      orders: [
+        { kind: 'order', head: 'PRN注射', rows: [
+          { l: '手技', v: '末梢静脈　側管：点滴精密', r: '' },
+          { l: '薬品', v: '(ﾊｲｱﾗｰﾄ)ﾌﾟﾛﾎﾟﾌｫｰﾙ静注1% [500mg/50mL]', r: '500mg', red: true },
+          { l: '医療従', v: '（先発薬：1%ﾃﾞｨﾌﾟﾘﾊﾞﾝ注[500mg]）', r: '', blue: true },
+          { l: '用法', v: '', r: '不穏時' },
+          { l: '用法実施', v: '指示枠1番目', r: '', blue: true, lblBlue: true },
+          { l: '実施場所', v: '本院：ICU', r: '', blue: true, lblBlue: true }
+        ]},
+        { kind: 'comment', head: 'コメントオーダ', lines: [
+          '【鎮静（プロポフォール）】',
+          'RASS目標（日中）-2〜0',
+          'RASS目標（夜間）-3以下',
+          '投与開始量　●ml/h',
+          'Push量　1ml（Drと相談して増量可）',
+          '投与量上限　4mg/kg/h',
+          'BMI＜30は実体重、BMI≧30は標準体重に換算して使用',
+          '投与量は「プロポフォール持続投与速度換算表」を使用'
+        ]}
+      ],
       rows: [
         { lbl: '分類', items: [
           '・GABA-A 受容体増強による<strong style="color:#1763B8;">短時間作用型静脈麻酔薬</strong>',
@@ -299,6 +358,33 @@
       jp: 'ミダゾラム',
       alias: 'Midazolam（ドルミカム）',
       dose: '0.1〜0.4 mg/kg/h',
+      orders: [
+        { kind: 'order', head: '定期注射（間欠）', rows: [
+          { l: '手技', v: '末梢静脈　ワンショット', r: '' },
+          { l: '薬品', v: '(ﾊｲｱﾗｰﾄ)(配合注意)ﾐﾀﾞｿﾞﾗﾑ注10mg(ﾄﾞﾙﾐｶﾑ)[10mg/2mL]', r: '10mg', red: true },
+          { l: '医療従', v: '◆生理食塩液、ﾌﾞﾄﾞｳ糖液は希釈可能', r: '', blue: true },
+          { l: '薬品', v: '生理食塩液 [20mL]', r: '8mL' },
+          { l: '用法', v: '', r: '1日1回' },
+          { l: '用法実施', v: '指示枠1番目', r: '', blue: true, lblBlue: true },
+          { l: '実施場所', v: '本院：CCM', r: '', blue: true, lblBlue: true }
+        ]},
+        { kind: 'order', head: 'PRN注射（持続）', rows: [
+          { l: '手技', v: '末梢静脈　側管：点滴', r: '' },
+          { l: '薬品', v: '(ﾊｲｱﾗｰﾄ)(配合注意)ﾐﾀﾞｿﾞﾗﾑ注10mg(ﾄﾞﾙﾐｶﾑ)[10mg/2mL]', r: '50mg', red: true },
+          { l: '', v: '生理食塩液 [20mL]', r: '40mL' },
+          { l: '用法', v: '', r: '鎮静の導入・維持時' },
+          { l: '用法実施', v: '指示枠1番目', r: '', blue: true, lblBlue: true },
+          { l: '実施場所', v: '本院：ICU', r: '', blue: true, lblBlue: true }
+        ]},
+        { kind: 'comment', head: 'コメントオーダ', lines: [
+          '【鎮静（ミダゾラム）】',
+          'RASS目標（日中）-2〜0',
+          'RASS目標（夜間）-3以下',
+          '投与開始量　●ml/h',
+          'Push量　1ml（Drと相談して増量可）',
+          '投与量上限　●ml/h'
+        ]}
+      ],
       rows: [
         { lbl: '分類', items: [
           '・<strong style="color:#1763B8;">ベンゾジアゼピン系（BZD）</strong>',
@@ -331,6 +417,22 @@
       jp: 'チオペンタール',
       alias: 'Thiopental（ラボナール）',
       dose: '2〜3 mg/kg/h',
+      orders: [
+        { kind: 'order', head: 'PRN注射', rows: [
+          { l: '手技', v: '末梢静脈　側管：点滴精密', r: '' },
+          { l: '薬品', v: '(ﾊｲｱﾗｰﾄ)(配合禁)ﾗﾎﾞﾅｰﾙ注射用0.5g[溶解液20mL付]', r: '500mg', red: true },
+          { l: '医療従', v: '◆配合変化を起こす可能性があるので<br>他の薬剤との混合を避けること', r: '', blue: true },
+          { l: '用法', v: '', r: '鎮静の導入・維持時' },
+          { l: '用法実施', v: '指示枠1番目', r: '', blue: true, lblBlue: true },
+          { l: '実施場所', v: '本院：ICU', r: '', blue: true, lblBlue: true }
+        ]},
+        { kind: 'comment', head: 'コメントオーダ', lines: [
+          '【鎮静（ラボナール/チオペンタール）】',
+          '投与開始量　●ml/h　目安2-3mg/kg/h',
+          'Push量　● ml　目安3-5mg/kg IV',
+          '投与量上限　5mg/kg/h'
+        ]}
+      ],
       rows: [
         { lbl: '分類', items: [
           '・<strong style="color:#1763B8;">バルビツール酸系</strong>（超短時間作用型）',
@@ -384,8 +486,33 @@
       + r.items.map(function (i) { return '<span class="nx-drug-li">' + i + '</span>'; }).join('')
       + '</span></div>';
   }
+  /* サンプルオーダーカード（カルテ発注画面の再現）を1枚分のHTMLに */
+  function buildOrderScreen(o) {
+    var fac = o.fac || '本院:麻酔科 ICU';
+    var head = '<div class="kt-ohead"><span>' + o.head + '</span><span>' + fac + '</span></div>';
+    var body;
+    if (o.kind === 'comment') {
+      var last = o.lines.length - 1;
+      body = '<table class="kt-table"><tr><td class="kt-num">1</td><td class="kt-clines">'
+        + o.lines.map(function (l, i) {
+            return '<div class="kt-cline' + (i === last ? ' kt-last' : '') + '">' + l + '</div>';
+          }).join('')
+        + '</td></tr></table>';
+    } else {
+      body = '<table class="kt-table">' + o.rows.map(function (r) {
+        var lcls = 'kt-l' + (r.lblBlue ? ' kt-blue' : '');
+        var vcls = 'kt-v' + (r.red ? ' kt-red kt-bold' : (r.blue ? ' kt-blue' : ''));
+        var rcls = 'kt-r' + (r.red ? ' kt-red' : '');
+        return '<tr class="kt-row"><td class="' + lcls + '">' + (r.l || '') + '</td>'
+          + '<td class="' + vcls + '">' + (r.v || '') + '</td>'
+          + '<td class="' + rcls + '">' + (r.r || '') + '</td></tr>';
+      }).join('') + '</table>';
+    }
+    return '<div class="kt-wrap"><div class="kt-scroll"><div class="kt-screen">' + head + body + '</div></div></div>';
+  }
   function renderNavy(drugs) {
     return drugs.map(function (d) {
+      var orders = (d.orders || []).map(buildOrderScreen).join('');
       return '<div class="nx-drug-card">'
         + '<div class="nx-drug-name">'
         + '<div class="nx-drug-name-main"><div class="nx-drug-name-text">' + d.jp + '</div>'
@@ -394,6 +521,7 @@
         + '<div class="nx-drug-dose-box"><div class="nx-drug-dose-lbl">維持用量</div>'
         + '<div class="nx-drug-dose-val">' + d.dose + '</div></div>'
         + '</div>'
+        + orders
         + '<div class="nx-drug-rows">' + d.rows.map(buildRow).join('') + '</div>'
         + '</div>';
     }).join('');
