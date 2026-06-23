@@ -12,44 +12,47 @@
   <link rel="stylesheet" href="../../style-v2.css?v=20260623">
   <link rel="stylesheet" href="../bacteria/bp.css?v=202606081900">
   <style>
-    /* ページ内本文サイズを bp-block に統一 */
-    .bp-page .ie-table { font-size: 0.84rem; margin: 6px 0 0; }
-    .bp-page .ie-table th { background: var(--bp-bg-soft); color: var(--bp-primary); font-weight: 800; }
-    .bp-page .ie-table th, .bp-page .ie-table td { line-height: 1.7; vertical-align: top; }
-    .bp-page .bp-block:not(.bp-memo):not(.bp-alert) li strong { color: var(--bp-primary); }
-    .bp-page .ie-table td strong { color: var(--bp-primary); }
+    /* 感染症各論＝ティール。論文GLまとめと同じカードUIを踏襲しつつ、テーマ色だけ teal に */
+    .section-label.idc { color: #0F766E; }
+    .ie-main-col .rule-body strong { color: #0F766E; }
 
-    /* ── 血清マーカー読み方（2ステップ） ── */
-    .sero-step { border: 1px solid var(--bp-border-soft); border-radius: 10px; padding: 13px 15px; margin-top: 12px; background: var(--bp-bg-soft); }
+    /* 血清マーカー読み方（2ステップ） */
+    .sero-step { border: 1px solid #99F6E4; border-radius: 10px; padding: 12px 15px; margin-top: 12px; background: #F0FDFA; }
     .sero-step:first-of-type { margin-top: 0; }
-    .sero-head { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px solid var(--bp-border-soft); }
-    .sero-num { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; background: var(--bp-primary); color: #fff; font-size: 0.74rem; font-weight: 800; flex-shrink: 0; }
-    .sero-title { font-size: 0.86rem; font-weight: 800; color: var(--bp-primary); }
+    .sero-head { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px solid #99F6E4; }
+    .sero-num { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; background: #0F766E; color: #fff; font-size: 0.74rem; font-weight: 800; flex-shrink: 0; }
+    .sero-title { font-size: 0.88rem; font-weight: 800; color: #0F766E; }
     .sero-step ul { margin: 4px 0 0; padding-left: 0; list-style: none; }
-    .sero-step li { position: relative; padding-left: 1.1em; font-size: 0.84rem; line-height: 1.8; margin-bottom: 4px; color: var(--text); }
-    .sero-step li::before { content: '▸'; position: absolute; left: 0; color: var(--bp-primary); font-weight: 700; }
+    .sero-step li { position: relative; padding-left: 1.1em; font-size: 0.85rem; line-height: 1.85; margin-bottom: 4px; color: var(--text); }
+    .sero-step li::before { content: '▸'; position: absolute; left: 0; color: #0F766E; font-weight: 700; }
 
-    /* ── 図（Notion 由来のアルゴリズム画像） ── */
-    .note-fig { border: 1px solid var(--bp-border-soft); border-radius: 10px; overflow: hidden; margin-top: 12px; background: #fff; }
-    .note-fig img { width: 100%; display: block; }
-    .note-fig-cap { background: var(--bp-bg-soft); padding: 8px 14px; font-size: 0.74rem; color: var(--muted); line-height: 1.6; border-top: 1px solid var(--bp-border-soft); }
-    /* ── テキストボックスの出典タグ ── */
-    .note-src { margin-top: 12px; padding-top: 8px; border-top: 1px dashed var(--bp-border-soft); text-align: right; font-size: 0.7rem; color: #9CA3AF; line-height: 1.65; }
+    /* 症例ボックス */
+    .case-box { background: #F0FDFA; border: 1px solid #99F6E4; border-radius: 10px; padding: 13px 15px; margin-top: 12px; font-size: 0.85rem; line-height: 1.9; color: var(--text); }
+    .case-box .case-label { display: inline-block; font-size: 0.7rem; font-weight: 800; color: #fff; background: #0F766E; border-radius: 5px; padding: 1px 9px; margin-bottom: 6px; }
+    .case-box strong { color: #0F766E; }
+
+    /* 図（Notion 由来のアルゴリズム画像） */
+    .ie-figure { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin: 14px 0 0; background: #fff; }
+    .ie-figure img { width: 100%; display: block; }
+    .ie-figure-caption { background: #F0FDFA; padding: 10px 16px; font-size: 0.76rem; color: var(--muted); line-height: 1.7; border-top: 1px solid var(--border); }
+
+    /* 治療薬グリッド */
+    .drug-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-top: 12px; }
+    .drug-box { background: #F0FDFA; border: 1px solid #99F6E4; border-radius: 8px; padding: 12px 14px; }
+    .drug-name { font-size: 0.82rem; font-weight: 900; color: #134E4A; margin-bottom: 2px; }
+    .drug-dose { font-size: 0.9rem; font-weight: 700; color: #0F766E; margin-bottom: 4px; }
+    .drug-note { font-size: 0.76rem; color: #4B7A77; line-height: 1.6; }
+
+    /* テキストボックスの出典タグ */
+    .note-src { text-align: right; margin-top: 10px; padding-top: 8px; border-top: 1px dashed var(--border); font-size: 0.7rem; color: #9CA3AF; line-height: 1.65; }
     .note-src::before { content: "出典："; color: #BFBFBF; }
     .note-src a { color: #9CA3AF; text-decoration: none; }
-    .note-src a:hover { color: var(--bp-primary); text-decoration: underline; }
-
-    /* ── 症例ボックス ── */
-    .case-box { background: var(--bp-bg-soft); border: 1px solid var(--bp-border-soft); border-radius: 10px; padding: 13px 15px; margin-top: 12px; font-size: 0.84rem; line-height: 1.85; color: var(--text); }
-    .case-box .case-label { display: inline-block; font-size: 0.7rem; font-weight: 800; color: #fff; background: var(--bp-primary); border-radius: 5px; padding: 1px 9px; margin-bottom: 6px; }
-    .case-box strong { color: var(--bp-primary); }
+    .note-src a:hover { color: #0F766E; text-decoration: underline; }
 
     @media (max-width: 767px) {
-      .bp-page .ie-table, .bp-page .ie-table td, .bp-page .ie-table th,
-      .bp-page .sero-step li, .bp-page .case-box, .bp-page .note-src { font-size: 0.78rem !important; line-height: 1.7 !important; }
-      .bp-page .note-src { font-size: 0.7rem !important; }
-      .bp-page .ie-table { min-width: 0 !important; }
-      .bp-page .sero-title { font-size: 0.82rem; }
+      .ie-main-col .ie-table, .ie-main-col .ie-table td, .ie-main-col .ie-table th,
+      .sero-step li, .case-box { font-size: 0.8rem !important; line-height: 1.7 !important; }
+      .ie-main-col .ie-table { min-width: 0 !important; }
     }
   </style>
 </head>
@@ -75,170 +78,250 @@
     </div>
   </section>
 
-  <main class="bp-page">
+  <!-- ===== MAIN CONTAINER ===== -->
+  <div class="container" style="max-width:1200px;margin:0 auto;padding:8px 20px 32px;">
+    <div class="ie-page-flex">
 
-    <!-- ============ ① ICUでなぜB型肝炎か ============ -->
-    <div class="bp-block">
-      <h2>ICUでなぜB型肝炎を押さえるのか</h2>
-      <p>HBVは世界で2.54億人が感染し、慢性化すると肝硬変・肝細胞癌（HCC）へ進展する。ICU/病棟で研修医が実際に遭遇する場面は、主に次の3つに集約される。</p>
-      <ul>
-        <li><strong>入院時・緊急検査でHBs抗原陽性が判明する</strong> — 既知でないキャリアが手術・侵襲的処置の前に見つかる。まず血清マーカーを正しく読む（§2）。</li>
-        <li><strong>急性肝不全（劇症肝炎）の原因になる</strong> — 急性HBV感染の一部や、慢性HBVの重症フレアが脳症・凝固障害を伴う肝不全に進む（§4）。</li>
-        <li><strong>免疫抑制・化学療法で「de novo B型肝炎」を起こす</strong> — 既往感染（HBs抗原陰性・HBc抗体陽性）でも再活性化し、劇症化・死亡しうる。<strong>開始前スクリーニングと核酸アナログ予防</strong>が鍵（§5）。</li>
-      </ul>
-      <p style="margin-top:8px;">病態・診断・治療・予防の包括的な総説は、緑テーマのまとめページ <a href="../articles-gl-hbv-review2026.html" style="color:var(--bp-primary);font-weight:700;">Hepatitis B: A Review（JAMA 2026）</a> に整理してある。本ノートは研修医が現場で使う要点と、サイト内の関連ページを横断的にまとめたもの。</p>
-    </div>
+      <!-- ===== MAIN CONTENT ===== -->
+      <div class="ie-main-col">
 
-    <!-- ============ ② 血清マーカーの読み方 ============ -->
-    <div class="bp-block">
-      <h2>血清マーカーの読み方</h2>
-      <p>HBVの検査はマーカーが多く混乱しやすい。まず<strong>HBs抗原</strong>を見て「いま活動性の感染があるか」を判断し、陰性なら<strong>HBs抗体・HBc抗体</strong>で「既感染か・ワクチン後か」を切り分ける、という2段階で考える。</p>
+        <!-- 略語一覧 -->
+        <div class="card" style="margin-top:0;margin-bottom:24px;">
+          <div class="card-inner">
+            <h3 class="rule-title">本ページで使用する略語一覧</h3>
+            <table style="width:100%;border-collapse:collapse;font-size:0.78rem;line-height:1.6;color:#475569;">
+              <tbody>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:150px;color:#0F766E;">HBV</td><td style="padding:4px 8px;">Hepatitis B Virus — B型肝炎ウイルス</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:#0F766E;">HBs抗原 / HBsAg</td><td style="padding:4px 8px;">B型肝炎表面抗原 — 活動性感染の指標</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:#0F766E;">HBs抗体 / HBsAb</td><td style="padding:4px 8px;">HBs抗体 — 免疫（既感染またはワクチン後）の指標</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:#0F766E;">HBc抗体 / HBcAb</td><td style="padding:4px 8px;">HBコア抗体 — 現感染または過去感染の指標（IgM＝急性／IgG＝既往）</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:#0F766E;">HBe抗原 / HBeAg</td><td style="padding:4px 8px;">B型肝炎e抗原 — ウイルス複製活性の指標</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:#0F766E;">HBV DNA</td><td style="padding:4px 8px;">ウイルス量 — 治療適応・効果判定・再活性化モニタリングの主要指標</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:#0F766E;">NUC</td><td style="padding:4px 8px;">Nucleos(t)ide Analogue — 核酸アナログ（ETV / TDF / TAF）</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:#0F766E;">ETV / TDF / TAF</td><td style="padding:4px 8px;">Entecavir / Tenofovir DF / Tenofovir AF — 第一選択の核酸アナログ</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:#0F766E;">de novo B型肝炎</td><td style="padding:4px 8px;">既往感染者が免疫抑制・化学療法で再活性化して発症するB型肝炎</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:#0F766E;">ALF</td><td style="padding:4px 8px;">Acute Liver Failure — 急性肝不全（劇症肝炎）</td></tr>
+                <tr><td style="padding:4px 8px;font-weight:700;color:#0F766E;">HCC</td><td style="padding:4px 8px;">Hepatocellular Carcinoma — 肝細胞癌</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
 
-      <div class="sero-step">
-        <div class="sero-head"><span class="sero-num">①</span><span class="sero-title">まず HBs抗原 を確認する</span></div>
-        <p style="margin:0 0 6px;">HBs抗原 <strong>陽性</strong> なら、急性期・慢性期いずれかの<strong>活動性B型肝炎</strong>がある。急性か慢性かは HBc抗体のクラスで見分ける。</p>
-        <ul>
-          <li><strong>急性肝炎：</strong><span class="mark-blue"><strong>IgM-HBc抗体 陽性</strong></span>が重要（直近の感染を示す）。</li>
-          <li><strong>慢性肝炎：</strong>Total（＝<strong>IgG-）HBc抗体 陽性</strong>になる。</li>
-        </ul>
-      </div>
+        <!-- ========== SECTION 1 ========== -->
+        <h3 id="n-intro" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #0F766E;line-height:1.4;">
+          <span class="section-label idc">SECTION 1</span>
+          ICUでなぜB型肝炎を押さえるのか
+        </h3>
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <p class="rule-body">HBVは世界で2.54億人が感染し、慢性化すると肝硬変・肝細胞癌（HCC）へ進展する。ICU/病棟で研修医が実際に遭遇する場面は、主に次の3つに集約される。</p>
+            <ul style="margin-top:8px;padding-left:20px;font-size:0.85rem;line-height:1.9;color:var(--text);">
+              <li><strong>入院時・緊急検査でHBs抗原陽性が判明する</strong> — 既知でないキャリアが手術・侵襲的処置の前に見つかる。まず血清マーカーを正しく読む（SECTION 2）。</li>
+              <li><strong>急性肝不全（劇症肝炎）の原因になる</strong> — 急性HBV感染の一部や、慢性HBVの重症フレアが脳症・凝固障害を伴う肝不全に進む（SECTION 4）。</li>
+              <li><strong>免疫抑制・化学療法で「de novo B型肝炎」を起こす</strong> — 既往感染（HBs抗原陰性・HBc抗体陽性）でも再活性化し、劇症化・死亡しうる。開始前スクリーニングと核酸アナログ予防が鍵（SECTION 5）。</li>
+            </ul>
+            <p class="rule-body" style="margin-top:10px;">病態・診断・治療・予防の包括的な総説は、緑テーマのまとめページ <a href="../articles-gl-hbv-review2026.html" style="color:#0F766E;font-weight:700;">Hepatitis B: A Review（JAMA 2026）</a> に整理してある。本ノートは研修医が現場で使う要点と、サイト内の関連ページを横断的にまとめたもの。</p>
+          </div>
+        </div>
 
-      <div class="sero-step">
-        <div class="sero-head"><span class="sero-num">②</span><span class="sero-title">HBs抗原 陰性なら HBs抗体 を確認する</span></div>
-        <p style="margin:0 0 6px;">HBs抗体 <strong>陽性</strong> なら、<strong>既感染</strong>（過去に感染して治癒）または<strong>ワクチン接種後</strong>のいずれか。これは HBc抗体の有無で区別する。</p>
-        <ul>
-          <li><strong>既感染：</strong>HBc抗体 <span class="mark-green"><strong>陽性</strong></span>になる。</li>
-          <li><strong>ワクチン接種後：</strong>ワクチンでは HBc抗体は獲得できないため <strong>陰性</strong>。</li>
-        </ul>
-      </div>
+        <!-- ========== SECTION 2 ========== -->
+        <h3 id="n-sero" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #0F766E;line-height:1.4;">
+          <span class="section-label idc">SECTION 2</span>
+          血清マーカーの読み方
+        </h3>
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <p class="rule-body">HBVの検査はマーカーが多く混乱しやすい。まず<strong>HBs抗原</strong>を見て「いま活動性の感染があるか」を判断し、陰性なら<strong>HBs抗体・HBc抗体</strong>で「既感染か・ワクチン後か」を切り分ける、という2段階で考える。</p>
 
-      <p style="margin-top:14px;">各マーカーの意味を表で整理すると次のとおり（詳細は <a href="../articles-gl-hbv-review2026.html#hbv-s5" style="color:var(--bp-primary);font-weight:700;">HBV Review §血清学的・ウイルス学的診断</a>）。</p>
-      <table class="ie-table">
-        <colgroup><col style="width:148px;"><col></colgroup>
-        <thead><tr><th style="white-space:nowrap;">マーカー</th><th>臨床的意義</th></tr></thead>
-        <tbody>
-          <tr><td style="white-space:nowrap;"><strong>HBs抗原</strong></td><td>感染の指標。6ヶ月以上の陽性持続で<strong>慢性感染</strong>と定義する。</td></tr>
-          <tr><td style="white-space:nowrap;"><strong>HBs抗体</strong></td><td>免疫の指標。HBc抗体も陽性なら<strong>過去感染による免疫</strong>、HBc抗体がなければ<strong>ワクチンによる免疫</strong>。</td></tr>
-          <tr><td style="white-space:nowrap;"><strong>HBe抗原</strong></td><td>ウイルス複製活性が高いことを示す（感染初期・免疫寛容期・免疫活性期）。</td></tr>
-          <tr><td style="white-space:nowrap;"><strong>IgM-HBc抗体</strong></td><td><strong>急性感染</strong>の指標。HBs抗原消失後・HBs抗体出現前のウインドウ期に唯一検出されるマーカーになりうる。</td></tr>
-          <tr><td style="white-space:nowrap;"><strong>IgG-HBc抗体<br>（総HBc抗体）</strong></td><td>現感染または過去感染の指標。慢性感染ではHBs抗原とともに持続陽性。</td></tr>
-          <tr><td style="white-space:nowrap;"><strong>HBV DNA定量</strong></td><td>ウイルス複製活性の定量。治療適応・治療効果判定・再活性化モニタリングの主要指標。</td></tr>
-        </tbody>
-      </table>
-      <div class="note-src"><a href="https://important-payment-415.notion.site/B-HBV-20274155d2594a19be522227af43686f" target="_blank" rel="noopener">Notion「B型肝炎 HBV」ページ</a>（2段階の読み方）／ <a href="../articles-gl-hbv-review2026.html#hbv-s5">Hepatitis B Review（JAMA 2026）§血清学的・ウイルス学的診断</a></div>
-    </div>
+            <div class="sero-step">
+              <div class="sero-head"><span class="sero-num">①</span><span class="sero-title">まず HBs抗原 を確認する</span></div>
+              <p class="rule-body" style="margin:0 0 6px;">HBs抗原 <strong>陽性</strong> なら、急性期・慢性期いずれかの<strong>活動性B型肝炎</strong>がある。急性か慢性かは HBc抗体のクラスで見分ける。</p>
+              <ul>
+                <li><strong>急性肝炎：</strong><span class="mark-blue"><strong>IgM-HBc抗体 陽性</strong></span>が重要（直近の感染を示す）。</li>
+                <li><strong>慢性肝炎：</strong>Total（＝<strong>IgG-）HBc抗体 陽性</strong>になる。</li>
+              </ul>
+            </div>
 
-    <!-- ============ ③ 症例で確認 ============ -->
-    <div class="bp-block">
-      <h2>症例で確認 — 緊急検査の HBs抗原</h2>
-      <p>緊急検査オーダーでも HBs抗原は確認できる。実際の読み方を2例で確認する。</p>
-      <div class="case-box">
-        <span class="case-label">CASE 1</span>
-        <p style="margin:0;">HIVの既往があり、食道静脈瘤を契機に撮影した腹部CTで肝硬変を指摘された MSM の男性。<strong>HBs抗原 陰性</strong>のため活動性肝炎はない。一方で <strong>HBc抗体 陽性</strong>なので、ワクチンではなく<strong>既感染</strong>と判断できる。</p>
-      </div>
-      <div class="case-box" style="margin-top:10px;">
-        <span class="case-label">CASE 2</span>
-        <p style="margin:0;">別の症例では、<strong>緊急検査のオーダーで HBs抗原 陽性</strong>と判明した。HBs抗原陽性＝活動性の感染ありとして、以降の侵襲的処置・薬剤選択・スタッフの曝露対策につなげる。</p>
-      </div>
-      <div class="note-src"><a href="https://important-payment-415.notion.site/B-HBV-20274155d2594a19be522227af43686f" target="_blank" rel="noopener">Notion「B型肝炎 HBV」ページ（提示症例）</a></div>
-    </div>
+            <div class="sero-step">
+              <div class="sero-head"><span class="sero-num">②</span><span class="sero-title">HBs抗原 陰性なら HBs抗体 を確認する</span></div>
+              <p class="rule-body" style="margin:0 0 6px;">HBs抗体 <strong>陽性</strong> なら、<strong>既感染</strong>（過去に感染して治癒）または<strong>ワクチン接種後</strong>のいずれか。これは HBc抗体の有無で区別する。</p>
+              <ul>
+                <li><strong>既感染：</strong>HBc抗体 <span class="mark-green"><strong>陽性</strong></span>になる。</li>
+                <li><strong>ワクチン接種後：</strong>ワクチンでは HBc抗体は獲得できないため <strong>陰性</strong>。</li>
+              </ul>
+            </div>
 
-    <!-- ============ ④ 急性B型肝炎と劇症化 ============ -->
-    <div class="bp-block">
-      <h2>急性B型肝炎と劇症化（急性肝不全）</h2>
-      <p>急性感染では曝露後の平均潜伏期間は約90日で、<strong>50〜70%は無症状</strong>。免疫正常成人の<strong>約95%は自然回復</strong>するが、<strong>0.1〜0.5%</strong>は脳症・黄疸・凝固障害を伴う<strong>急性肝不全</strong>に進行する。</p>
-      <p style="margin-top:8px;">慢性HBVの<strong>増悪（フレア）</strong>はHBV DNA複製の急増を伴い、自然発症のほか<strong>免疫抑制療法・肝毒性薬・他肝炎ウイルス重感染・抗ウイルス薬中止</strong>で誘発される。重症フレアでは <strong>ALT &gt;1,000 U/L</strong> に達し、急性肝炎と誤診されることもある。</p>
-      <p style="margin-top:8px;">HBVはアジア太平洋地域における急性肝不全（ALF）の主要原因の一つで、ICUでは凝固障害・脳症・腎障害を伴う重症像で出会う。<strong>HBV関連ALFには核酸アナログ（例：エンテカビル）</strong>を投与する。ALF全体の評価・管理は <a href="../articles-gl-alf-uptodate2025.html" style="color:var(--bp-primary);font-weight:700;">急性肝不全（UpToDate 2025）</a>・<a href="../articles-gl-acg-alf2023.html" style="color:var(--bp-primary);font-weight:700;">ACG ALFガイドライン2023</a>・<a href="../articles-gl-alf-lancet2024.html" style="color:var(--bp-primary);font-weight:700;">急性肝不全（Lancet 2024）</a> を参照。</p>
-      <div class="note-src"><a href="../articles-gl-hbv-review2026.html#hbv-s3">Hepatitis B Review（JAMA 2026）§慢性HBV感染の自然経過・急性感染と増悪</a></div>
-    </div>
+            <p class="rule-body" style="margin-top:14px;">各マーカーの意味を表で整理すると次のとおり。</p>
+            <table class="ie-table">
+              <colgroup><col style="width:148px;"><col></colgroup>
+              <thead><tr><th style="white-space:nowrap;">マーカー</th><th>臨床的意義</th></tr></thead>
+              <tbody>
+                <tr><td style="white-space:nowrap;"><strong>HBs抗原</strong></td><td>感染の指標。6ヶ月以上の陽性持続で<strong>慢性感染</strong>と定義する。</td></tr>
+                <tr><td style="white-space:nowrap;"><strong>HBs抗体</strong></td><td>免疫の指標。HBc抗体も陽性なら<strong>過去感染による免疫</strong>、HBc抗体がなければ<strong>ワクチンによる免疫</strong>。</td></tr>
+                <tr><td style="white-space:nowrap;"><strong>HBe抗原</strong></td><td>ウイルス複製活性が高いことを示す（感染初期・免疫寛容期・免疫活性期）。</td></tr>
+                <tr><td style="white-space:nowrap;"><strong>IgM-HBc抗体</strong></td><td><strong>急性感染</strong>の指標。HBs抗原消失後・HBs抗体出現前のウインドウ期に唯一検出されるマーカーになりうる。</td></tr>
+                <tr><td style="white-space:nowrap;"><strong>IgG-HBc抗体<br>（総HBc抗体）</strong></td><td>現感染または過去感染の指標。慢性感染ではHBs抗原とともに持続陽性。</td></tr>
+                <tr><td style="white-space:nowrap;"><strong>HBV DNA定量</strong></td><td>ウイルス複製活性の定量。治療適応・治療効果判定・再活性化モニタリングの主要指標。</td></tr>
+              </tbody>
+            </table>
+            <div class="note-src"><a href="https://important-payment-415.notion.site/B-HBV-20274155d2594a19be522227af43686f" target="_blank" rel="noopener">Notion「B型肝炎 HBV」ページ</a>（2段階の読み方）／ <a href="../articles-gl-hbv-review2026.html#hbv-s5">Hepatitis B Review（JAMA 2026）§血清学的・ウイルス学的診断</a></div>
+          </div>
+        </div>
 
-    <!-- ============ ⑤ de novo B型肝炎（最重要） ============ -->
-    <div class="bp-block">
-      <h2>de novo B型肝炎 — 免疫抑制・化学療法時の再活性化</h2>
-      <p>免疫抑制薬・抗癌薬・生物学的製剤の投与で、<strong>既往感染（HBs抗原陰性・HBc抗体陽性）の患者でもHBVが再活性化</strong>し、劇症肝炎・死亡に至りうる。これを <strong>de novo B型肝炎</strong>と呼ぶ。「HBs抗原が陰性だから大丈夫」ではない点が最大の落とし穴。</p>
-      <p style="margin-top:8px;">対策の原則は、<strong>免疫抑制・化学療法を行う全例で開始前にスクリーニング</strong>し、リスクに応じて<strong>核酸アナログ投与</strong>または<strong>HBV DNAモニタリング</strong>を行うこと。日本肝臓学会ガイドラインのフローを以下に示す。</p>
+        <!-- ========== SECTION 3 ========== -->
+        <h3 id="n-case" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #0F766E;line-height:1.4;">
+          <span class="section-label idc">SECTION 3</span>
+          症例で確認 — 緊急検査の HBs抗原
+        </h3>
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <p class="rule-body">緊急検査オーダーでも HBs抗原は確認できる。実際の読み方を2例で確認する。</p>
+            <div class="case-box">
+              <span class="case-label">CASE 1</span>
+              <p style="margin:0;">HIVの既往があり、食道静脈瘤を契機に撮影した腹部CTで肝硬変を指摘された MSM の男性。<strong>HBs抗原 陰性</strong>のため活動性肝炎はない。一方で <strong>HBc抗体 陽性</strong>なので、ワクチンではなく<strong>既感染</strong>と判断できる。</p>
+            </div>
+            <div class="case-box" style="margin-top:10px;">
+              <span class="case-label">CASE 2</span>
+              <p style="margin:0;">別の症例では、<strong>緊急検査のオーダーで HBs抗原 陽性</strong>と判明した。HBs抗原陽性＝活動性の感染ありとして、以降の侵襲的処置・薬剤選択・スタッフの曝露対策につなげる。</p>
+            </div>
+            <div class="note-src"><a href="https://important-payment-415.notion.site/B-HBV-20274155d2594a19be522227af43686f" target="_blank" rel="noopener">Notion「B型肝炎 HBV」ページ（提示症例）</a></div>
+          </div>
+        </div>
 
-      <div class="note-fig">
-        <img src="../../images/hbv-denovo-flow.png" alt="免疫抑制・化学療法により発症するB型肝炎対策ガイドライン フローチャート" loading="lazy">
-        <div class="note-fig-cap">免疫抑制・化学療法施行時のスクリーニングと対応フロー。全例でHBs抗原を確認し、HBs抗原陽性ならHBe抗原・HBe抗体・HBV DNA定量のうえ核酸アナログ投与。HBs抗原陰性ならHBc抗体・HBs抗体を確認し、いずれか陽性（既往感染）ならHBV DNA定量 → 20 IU/mL（1.3 LogIU/mL）以上で核酸アナログ投与、未満ならHBV DNA・AST/ALTを1〜3か月ごとにモニタリング。</div>
-      </div>
-      <div class="note-fig" style="margin-top:10px;">
-        <img src="../../images/hbv-denovo-notes1.png" alt="対策ガイドライン 注釈1〜6" loading="lazy">
-      </div>
-      <div class="note-fig" style="margin-top:10px;">
-        <img src="../../images/hbv-denovo-notes2.png" alt="対策ガイドライン 注釈7〜10・出典" loading="lazy">
-      </div>
+        <!-- ========== SECTION 4 ========== -->
+        <h3 id="n-acute" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #0F766E;line-height:1.4;">
+          <span class="section-label idc">SECTION 4</span>
+          急性B型肝炎と劇症化（急性肝不全）
+        </h3>
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <div class="ie-stat-grid" style="margin-bottom:12px;">
+              <div class="ie-stat" style="background:#F0FDFA;border-color:#99F6E4;"><div class="ie-stat-val" style="color:#0F766E;">約90日</div><div class="ie-stat-label">曝露後の<br>平均潜伏期間</div></div>
+              <div class="ie-stat" style="background:#F0FDFA;border-color:#99F6E4;"><div class="ie-stat-val" style="color:#0F766E;">約95%</div><div class="ie-stat-label">免疫正常成人の<br>自然回復率</div></div>
+              <div class="ie-stat" style="background:#FEF2F2;border-color:#FECACA;"><div class="ie-stat-val" style="color:#DC2626;">0.1〜0.5%</div><div class="ie-stat-label">急性肝不全への<br>進行率</div></div>
+            </div>
+            <p class="rule-body">急性感染では <strong>50〜70%は無症状</strong>。免疫正常成人の約95%は自然回復するが、<strong>0.1〜0.5%</strong>は脳症・黄疸・凝固障害を伴う<strong>急性肝不全</strong>に進行する。</p>
+            <p class="rule-body" style="margin-top:8px;">慢性HBVの<strong>増悪（フレア）</strong>はHBV DNA複製の急増を伴い、自然発症のほか<strong>免疫抑制療法・肝毒性薬・他肝炎ウイルス重感染・抗ウイルス薬中止</strong>で誘発される。重症フレアでは <strong>ALT &gt;1,000 U/L</strong> に達し、急性肝炎と誤診されることもある。</p>
+            <p class="rule-body" style="margin-top:8px;">HBVはアジア太平洋地域における急性肝不全（ALF）の主要原因の一つで、ICUでは凝固障害・脳症・腎障害を伴う重症像で出会う。<strong>HBV関連ALFには核酸アナログ（例：エンテカビル）</strong>を投与する。ALF全体の評価・管理は <a href="../articles-gl-alf-uptodate2025.html" style="color:#0F766E;font-weight:700;">急性肝不全（UpToDate 2025）</a>・<a href="../articles-gl-acg-alf2023.html" style="color:#0F766E;font-weight:700;">ACG ALFガイドライン2023</a>・<a href="../articles-gl-alf-lancet2024.html" style="color:#0F766E;font-weight:700;">急性肝不全（Lancet 2024）</a> を参照。</p>
+            <div class="note-src"><a href="../articles-gl-hbv-review2026.html#hbv-s3">Hepatitis B Review（JAMA 2026）§慢性HBV感染の自然経過・急性感染と増悪</a></div>
+          </div>
+        </div>
 
-      <ul style="margin-top:14px;">
-        <li><strong>核酸アナログ</strong>は <strong>ETV・TDF・TAF</strong> を用いる。</li>
-        <li><strong>高リスクレジメン</strong>（リツキシマブ・オビヌツズマブ ±ステロイド、フルダラビン、造血幹細胞移植）では再活性化リスクが高く、HBV DNAを <strong>1回/月</strong>でモニタリングする。通常の化学療法・免疫抑制では1〜3か月ごと。</li>
-        <li>再活性化は治療終了後にも起こりうるため、<strong>核酸アナログ終了後・免疫抑制終了後も少なくとも12か月間はモニタリング</strong>を継続する。造血幹細胞移植ではさらに長期。</li>
-      </ul>
+        <!-- ========== SECTION 5 ========== -->
+        <h3 id="n-denovo" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #0F766E;line-height:1.4;">
+          <span class="section-label idc">SECTION 5</span>
+          de novo B型肝炎 — 免疫抑制・化学療法時の再活性化
+        </h3>
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <p class="rule-body">免疫抑制薬・抗癌薬・生物学的製剤の投与で、<strong>既往感染（HBs抗原陰性・HBc抗体陽性）の患者でもHBVが再活性化</strong>し、劇症肝炎・死亡に至りうる。これを <strong>de novo B型肝炎</strong>と呼ぶ。「HBs抗原が陰性だから大丈夫」ではない点が最大の落とし穴。</p>
+            <p class="rule-body" style="margin-top:8px;">対策の原則は、<strong>免疫抑制・化学療法を行う全例で開始前にスクリーニング</strong>し、リスクに応じて<strong>核酸アナログ投与</strong>または<strong>HBV DNAモニタリング</strong>を行うこと。日本肝臓学会ガイドラインのフローを以下に示す。</p>
 
-      <p style="margin-top:12px;">ステロイドを軸にした再活性化リスクの3点層別化（A群：HBs抗原陽性／B群：HBs抗原陰性＋HBc抗体陽性の既往感染）は <a href="note-steroid.html#ch3-s2" style="color:var(--bp-primary);font-weight:700;">ステロイド誘発感染症ノート §開始前スクリーニング</a> に、リツキシマブ前の必須HBVスクリーニングとエンテカビル予防は <a href="../articles-gl-nccn-wm2026.html" style="color:var(--bp-primary);font-weight:700;">NCCN WM 2026</a> に詳しい。</p>
-      <div class="note-src">日本肝臓学会 肝炎診療ガイドライン作成委員会「B型肝炎治療ガイドライン（第3.1版）」2019年3月, P78-80 ／ <a href="https://important-payment-415.notion.site/B-HBV-20274155d2594a19be522227af43686f" target="_blank" rel="noopener">Notion「B型肝炎 HBV」ページ（図を引用）</a></div>
-    </div>
+            <div class="ie-figure">
+              <img src="../../images/hbv-denovo-flow.png" alt="免疫抑制・化学療法により発症するB型肝炎対策ガイドライン フローチャート" loading="lazy">
+              <div class="ie-figure-caption">免疫抑制・化学療法施行時のスクリーニングと対応フロー。全例でHBs抗原を確認し、HBs抗原陽性ならHBe抗原・HBe抗体・HBV DNA定量のうえ核酸アナログ投与。HBs抗原陰性ならHBc抗体・HBs抗体を確認し、いずれか陽性（既往感染）ならHBV DNA定量 → 20 IU/mL（1.3 LogIU/mL）以上で核酸アナログ投与、未満ならHBV DNA・AST/ALTを1〜3か月ごとにモニタリング。</div>
+            </div>
+            <div class="ie-figure">
+              <img src="../../images/hbv-denovo-notes1.png" alt="対策ガイドライン 注釈1〜6" loading="lazy">
+            </div>
+            <div class="ie-figure">
+              <img src="../../images/hbv-denovo-notes2.png" alt="対策ガイドライン 注釈7〜10・出典" loading="lazy">
+            </div>
 
-    <!-- ============ ⑥ 核酸アナログ治療の要点 ============ -->
-    <div class="bp-block">
-      <h2>核酸アナログ（NUC）治療の要点</h2>
-      <p>NUCはHBV DNA複製を阻害する経口薬。現在使用される <strong>ETV・TDF・TAF</strong> は10年間の単剤治療でも耐性が確認されていない。一方、ウイルスの鋳型である<strong>核内cccDNAは根絶できない</strong>ため、治療は<strong>原則として長期〜無期限</strong>となる。</p>
-      <table class="ie-table" style="margin-top:10px;">
-        <colgroup><col style="width:150px;"><col style="width:96px;"><col></colgroup>
-        <thead><tr><th style="white-space:nowrap;">薬剤</th><th style="white-space:nowrap;">用量</th><th>特徴</th></tr></thead>
-        <tbody>
-          <tr><td style="white-space:nowrap;"><strong>エンテカビル（ETV）</strong></td><td style="white-space:nowrap;">0.5 mg/日</td><td>コスト面で優位。ラミブジン既往・HIV重感染・妊娠時は避ける。腎機能低下時は用量調整。</td></tr>
-          <tr><td style="white-space:nowrap;"><strong>テノホビル DF（TDF）</strong></td><td style="white-space:nowrap;">300 mg/日</td><td>妊娠・HIV重感染時に好ましい。腎障害・骨密度低下リスクあり。腎機能低下時は用量調整。</td></tr>
-          <tr><td style="white-space:nowrap;"><strong>テノホビル AF（TAF）</strong></td><td style="white-space:nowrap;">25 mg/日</td><td>腎・骨毒性がTDFより有意に少ない。妊娠・HIV重感染時に好ましい。</td></tr>
-        </tbody>
-      </table>
-      <p style="margin-top:10px;">治療適応の国際ガイドライン比較・week 48成績・中止と再発リスクなどは <a href="../articles-gl-hbv-review2026.html#hbv-s8" style="color:var(--bp-primary);font-weight:700;">HBV Review §核酸アナログ療法</a> を参照。肝臓内科の長期管理（NUC・移植成績）の整理は <a href="../exam-hepato.html" style="color:var(--bp-primary);font-weight:700;">肝臓内科 試験ノート</a> にもある。</p>
-      <div class="note-src"><a href="../articles-gl-hbv-review2026.html#hbv-s8">Hepatitis B Review（JAMA 2026）§核酸アナログ（NUC）療法</a></div>
-    </div>
+            <ul style="margin-top:14px;padding-left:20px;font-size:0.85rem;line-height:1.9;color:var(--text);">
+              <li><strong>核酸アナログ</strong>は <strong>ETV・TDF・TAF</strong> を用いる。</li>
+              <li><strong>高リスクレジメン</strong>（リツキシマブ・オビヌツズマブ ±ステロイド、フルダラビン、造血幹細胞移植）では再活性化リスクが高く、HBV DNAを <strong>1回/月</strong>でモニタリングする。通常の化学療法・免疫抑制では1〜3か月ごと。</li>
+              <li>再活性化は治療終了後にも起こりうるため、<strong>核酸アナログ終了後・免疫抑制終了後も少なくとも12か月間はモニタリング</strong>を継続する。造血幹細胞移植ではさらに長期。</li>
+            </ul>
 
-    <!-- ============ ⑦ ICUでの実務まとめ ============ -->
-    <div class="bp-block bp-memo">
-      <h2>ICUでの実務まとめ</h2>
-      <ul>
-        <li><strong>マーカーは2段階：</strong>まず HBs抗原（活動性感染の有無）→陰性なら HBs抗体・HBc抗体（既感染かワクチン後か）。急性は IgM-HBc、慢性は IgG-HBc。</li>
-        <li><strong>HBs抗原陽性を見たら：</strong>侵襲的処置・薬剤選択・スタッフ曝露対策につなげ、肝臓内科／消化器内科にコンサルトする。</li>
-        <li><strong>免疫抑制・化学療法の前は必ずHBVスクリーニング：</strong>HBs抗原だけでなく HBc抗体・HBs抗体まで。既往感染でも de novo 再活性化が劇症化しうる。高リスクは核酸アナログ予防＋HBV DNA月1モニタリング。</li>
-        <li><strong>急性肝不全（脳症・凝固障害）を見たら：</strong>HBVを鑑別に入れ、HBV関連なら核酸アナログを開始。重症フレアの ALT &gt;1,000 を急性肝炎と取り違えない。</li>
-      </ul>
-      <div class="note-src">本ノート §2〜§6 の要約（編集）</div>
-    </div>
+            <p class="rule-body" style="margin-top:12px;">ステロイドを軸にした再活性化リスクの3点層別化（A群：HBs抗原陽性／B群：HBs抗原陰性＋HBc抗体陽性の既往感染）は <a href="note-steroid.html#ch3-s2" style="color:#0F766E;font-weight:700;">ステロイド誘発感染症ノート §開始前スクリーニング</a> に、リツキシマブ前の必須HBVスクリーニングとエンテカビル予防は <a href="../articles-gl-nccn-wm2026.html" style="color:#0F766E;font-weight:700;">NCCN WM 2026</a> に詳しい。</p>
+            <div class="note-src">日本肝臓学会 肝炎診療ガイドライン作成委員会「B型肝炎治療ガイドライン（第3.1版）」2019年3月, P78-80 ／ <a href="https://important-payment-415.notion.site/B-HBV-20274155d2594a19be522227af43686f" target="_blank" rel="noopener">Notion「B型肝炎 HBV」ページ（図を引用）</a></div>
+          </div>
+        </div>
 
-    <!-- ============ サイト内の関連ページ ============ -->
-    <div class="bp-block bp-related">
-      <h2>サイト内で B型肝炎を扱うページ</h2>
-      <ul>
-        <li><a href="../articles-gl-hbv-review2026.html">Hepatitis B: A Review（JAMA 2026）</a> — 疫学・ウイルス学・自然経過・診断・治療（NUC/PegIFN）・予防の包括的総説。</li>
-        <li><a href="note-steroid.html#ch3-s2">ステロイド誘発感染症ノート</a> — ステロイド／免疫抑制前のHBV再活性化リスク3点層別化（A群・B群）。</li>
-        <li><a href="../articles-gl-nccn-wm2026.html">NCCN ワルデンシュトレーム 2026</a> — リツキシマブ前の必須HBVスクリーニングとエンテカビル予防。</li>
-        <li><a href="../articles-gl-hiv-oi.html#ch5">HIV日和見感染ガイドライン</a> — 第5章 ウイルス性肝炎（HBV・HCV重複感染のスクリーニング）。</li>
-        <li><a href="../articles-gl-alf-uptodate2025.html">急性肝不全（UpToDate 2025）</a>／<a href="../articles-gl-acg-alf2023.html">ACG ALF 2023</a>／<a href="../articles-gl-alf-lancet2024.html">急性肝不全（Lancet 2024）</a> — HBVを含むALFの評価・管理。</li>
-        <li><a href="../exam-hepato.html">肝臓内科 試験ノート</a> — HBVの長期治療（NUC）・肝移植成績。</li>
-      </ul>
-    </div>
+        <!-- ========== SECTION 6 ========== -->
+        <h3 id="n-nuc" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #0F766E;line-height:1.4;">
+          <span class="section-label idc">SECTION 6</span>
+          核酸アナログ（NUC）治療の要点
+        </h3>
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <p class="rule-body">NUCはHBV DNA複製を阻害する経口薬。現在使用される <strong>ETV・TDF・TAF</strong> は10年間の単剤治療でも耐性が確認されていない。一方、ウイルスの鋳型である<strong>核内cccDNAは根絶できない</strong>ため、治療は<strong>原則として長期〜無期限</strong>となる。</p>
+            <div class="drug-grid">
+              <div class="drug-box"><div class="drug-name">エンテカビル（ETV）</div><div class="drug-dose">0.5 mg/日 経口</div><div class="drug-note">コスト面で優位。ラミブジン既往・HIV重感染・妊娠時は避ける。腎機能低下時は用量調整。</div></div>
+              <div class="drug-box"><div class="drug-name">テノホビル DF（TDF）</div><div class="drug-dose">300 mg/日 経口</div><div class="drug-note">妊娠・HIV重感染時に好ましい。腎障害・骨密度低下リスクあり。腎機能低下時は用量調整。</div></div>
+              <div class="drug-box"><div class="drug-name">テノホビル AF（TAF）</div><div class="drug-dose">25 mg/日 経口</div><div class="drug-note">腎・骨毒性がTDFより有意に少ない。妊娠・HIV重感染時に好ましい。</div></div>
+            </div>
+            <p class="rule-body" style="margin-top:12px;">治療適応の国際ガイドライン比較・week 48成績・中止と再発リスクなどは <a href="../articles-gl-hbv-review2026.html#hbv-s8" style="color:#0F766E;font-weight:700;">HBV Review §核酸アナログ療法</a> を参照。肝臓内科の長期管理（NUC・移植成績）の整理は <a href="../exam-hepato.html" style="color:#0F766E;font-weight:700;">肝臓内科 試験ノート</a> にもある。</p>
+            <div class="note-src"><a href="../articles-gl-hbv-review2026.html#hbv-s8">Hepatitis B Review（JAMA 2026）§核酸アナログ（NUC）療法</a></div>
+          </div>
+        </div>
 
-    <!-- ============ 関連リンク ============ -->
-    <div class="bp-block">
-      <h2>関連リンク</h2>
-      <ul class="bp-link-list">
-        <li><a href="../resident-resources.html#id-clinical">感染症各論（SECTION 4）一覧へ</a></li>
-        <li><a href="note-cirrhosis-infection.html">肝硬変患者の感染症 板書ノート</a></li>
-        <li><a href="note-cmv.html">サイトメガロウイルス感染症（CMV）板書ノート</a></li>
-      </ul>
-    </div>
+        <!-- ========== SECTION 7 ========== -->
+        <h3 id="n-icu" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #0F766E;line-height:1.4;">
+          <span class="section-label idc">SECTION 7</span>
+          ICUでの実務まとめ
+        </h3>
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <ul style="padding-left:20px;font-size:0.85rem;line-height:1.95;color:var(--text);">
+              <li><strong>マーカーは2段階：</strong>まず HBs抗原（活動性感染の有無）→陰性なら HBs抗体・HBc抗体（既感染かワクチン後か）。急性は IgM-HBc、慢性は IgG-HBc。</li>
+              <li><strong>HBs抗原陽性を見たら：</strong>侵襲的処置・薬剤選択・スタッフ曝露対策につなげ、肝臓内科／消化器内科にコンサルトする。</li>
+              <li><strong>免疫抑制・化学療法の前は必ずHBVスクリーニング：</strong>HBs抗原だけでなく HBc抗体・HBs抗体まで。既往感染でも de novo 再活性化が劇症化しうる。高リスクは核酸アナログ予防＋HBV DNA月1モニタリング。</li>
+              <li><strong>急性肝不全（脳症・凝固障害）を見たら：</strong>HBVを鑑別に入れ、HBV関連なら核酸アナログを開始。重症フレアの ALT &gt;1,000 を急性肝炎と取り違えない。</li>
+            </ul>
+            <div class="note-src">本ノート SECTION 2〜6 の要約（編集）</div>
+          </div>
+        </div>
 
-    <p class="bp-footer-note">
-      本資料は 日本肝臓学会ガイドラインおよび当サイト内の収録ページ（Hepatitis B Review ほか）をもとに作成した教育用サマリーです。診断・治療方針の決定には必ず最新のガイドライン・肝臓内科／感染症科コンサルトを参照してください。<br>
-      制作：ICU 関谷
-    </p>
-  </main>
+        <!-- ========== サイト内の関連ページ ========== -->
+        <h3 id="n-links" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:24px 0 10px;padding-left:14px;border-left:4px solid #0F766E;line-height:1.4;">
+          <span class="section-label idc">関連</span>
+          サイト内で B型肝炎を扱うページ
+        </h3>
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-inner">
+            <ul style="padding-left:20px;font-size:0.85rem;line-height:1.95;color:var(--text);">
+              <li><a href="../articles-gl-hbv-review2026.html" style="color:#0F766E;font-weight:700;">Hepatitis B: A Review（JAMA 2026）</a> — 疫学・ウイルス学・自然経過・診断・治療（NUC/PegIFN）・予防の包括的総説。</li>
+              <li><a href="note-steroid.html#ch3-s2" style="color:#0F766E;font-weight:700;">ステロイド誘発感染症ノート</a> — ステロイド／免疫抑制前のHBV再活性化リスク3点層別化（A群・B群）。</li>
+              <li><a href="../articles-gl-nccn-wm2026.html" style="color:#0F766E;font-weight:700;">NCCN ワルデンシュトレーム 2026</a> — リツキシマブ前の必須HBVスクリーニングとエンテカビル予防。</li>
+              <li><a href="../articles-gl-hiv-oi.html#ch5" style="color:#0F766E;font-weight:700;">HIV日和見感染ガイドライン</a> — 第5章 ウイルス性肝炎（HBV・HCV重複感染のスクリーニング）。</li>
+              <li><a href="../articles-gl-alf-uptodate2025.html" style="color:#0F766E;font-weight:700;">急性肝不全（UpToDate 2025）</a>／<a href="../articles-gl-acg-alf2023.html" style="color:#0F766E;font-weight:700;">ACG ALF 2023</a>／<a href="../articles-gl-alf-lancet2024.html" style="color:#0F766E;font-weight:700;">急性肝不全（Lancet 2024）</a> — HBVを含むALFの評価・管理。</li>
+              <li><a href="../exam-hepato.html" style="color:#0F766E;font-weight:700;">肝臓内科 試験ノート</a> — HBVの長期治療（NUC）・肝移植成績。</li>
+              <li><a href="note-cirrhosis-infection.html" style="color:#0F766E;font-weight:700;">肝硬変患者の感染症 板書ノート</a>／<a href="note-cmv.html" style="color:#0F766E;font-weight:700;">CMV感染症 板書ノート</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <p style="font-size:0.72rem;color:#9CA3AF;margin-top:16px;line-height:1.7;">
+          本資料は 日本肝臓学会ガイドラインおよび当サイト内の収録ページ（Hepatitis B Review ほか）をもとに作成した教育用サマリーです。診断・治療方針の決定には必ず最新のガイドライン・肝臓内科／感染症科コンサルトを参照してください。<br>
+          制作：ICU 関谷
+        </p>
+
+      </div><!-- /ie-main-col -->
+
+      <!-- ===== SIDEBAR TOC ===== -->
+      <aside class="ie-sidebar">
+        <a href="../resident-resources.html#id-clinical" style="display:flex;align-items:center;justify-content:center;padding:9px 14px;background:rgba(15,118,110,0.08);border:1px solid #99F6E4;border-radius:8px;font-size:0.78rem;font-weight:700;color:#0F766E;text-decoration:none;margin-bottom:12px;line-height:1;">
+          ← 感染症各論 一覧へ戻る
+        </a>
+        <div class="ie-sidebar-card">
+          <div class="ie-sidebar-title">目次</div>
+          <a href="#n-intro" class="ie-toc-chapter">SECTION 1 — ICUでなぜB型肝炎か</a>
+          <a href="#n-sero" class="ie-toc-chapter">SECTION 2 — 血清マーカーの読み方</a>
+          <a href="#n-case" class="ie-toc-chapter">SECTION 3 — 症例で確認</a>
+          <a href="#n-acute" class="ie-toc-chapter">SECTION 4 — 急性・劇症化</a>
+          <a href="#n-denovo" class="ie-toc-chapter">SECTION 5 — de novo 再活性化</a>
+          <a href="#n-nuc" class="ie-toc-chapter">SECTION 6 — 核酸アナログ</a>
+          <a href="#n-icu" class="ie-toc-chapter">SECTION 7 — ICU実務まとめ</a>
+          <a href="#n-links" class="ie-toc-chapter">関連ページ</a>
+        </div>
+      </aside>
+
+    </div><!-- /ie-page-flex -->
+  </div>
 
   <script src="../../script.js?v=20260623"></script>
   <script src="../../abbr-tooltip.js"></script>
-  <script src="../bacteria/bp-toc.js?v=20260623"></script>
 </body>
 </html>
