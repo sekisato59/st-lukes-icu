@@ -10,6 +10,13 @@
  */
 const RECENT_PAGES = [
   {
+    title: "B型肝炎 HBV — 板書ノート | 感染症各論",
+    url: "pages/id-icu-notes/note-hbv.html",
+    date: "2026-06-23",
+    tag: "解説",
+    thumb: "images/IDICUtop.png"
+  },
+  {
     title: "高カルシウム血症 — 診断アプローチと治療（UpToDate）",
     url: "pages/articles-gl-hypercalcemia-uptodate.html",
     date: "2026-06-23",
@@ -29,13 +36,6 @@ const RECENT_PAGES = [
     date: "2026-06-23",
     tag: "解説",
     thumb: "images/icu-study.jpg"
-  },
-  {
-    title: "B型肝炎 HBV — 板書ノート | 感染症各論",
-    url: "pages/id-icu-notes/note-hbv.html",
-    date: "2026-06-23",
-    tag: "解説",
-    thumb: "images/IDICUtop.png"
   },
   {
     title: "血小板減少のまとめ — ICUでの鑑別と対応",
