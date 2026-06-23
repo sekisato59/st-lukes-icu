@@ -217,6 +217,7 @@ grep -c 'ie-table\|ie-score-card\|ie-stat-grid' pages/articles-gl-xxxx.html
 - 凡例（白カード/紫カードの説明）を入れない
 - バッジ形式のデザインは使わない（ダサい）
 - シャドウ・過剰な装飾・絵文字は使わない
+- **カードを4枚以上並べるときは横2列（2カラム）グリッドにしない。必ず1列で縦に並べる。**（2×2や2×3のカード並びは不評。`grid-template-columns:repeat(2,1fr)` を4枚以上のカード群に使わず、`display:flex;flex-direction:column` または1カラムグリッドで縦積みにする。3枚以下なら2列可。表＝`ie-table`・統計の `ie-stat-grid` はこの対象外）
 
 ### 間隔トークン（余白の量子化・「間隔がちがう」防止）
 
