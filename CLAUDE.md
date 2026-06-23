@@ -219,6 +219,19 @@ grep -c 'ie-table\|ie-score-card\|ie-stat-grid' pages/articles-gl-xxxx.html
 - シャドウ・過剰な装飾・絵文字は使わない
 - **カードを4枚以上並べるときは横2列（2カラム）グリッドにしない。必ず1列で縦に並べる。**（2×2や2×3のカード並びは不評。`grid-template-columns:repeat(2,1fr)` を4枚以上のカード群に使わず、`display:flex;flex-direction:column` または1カラムグリッドで縦積みにする。3枚以下なら2列可。表＝`ie-table`・統計の `ie-stat-grid` はこの対象外）
 
+### システム別テーマ色（レジデント資料集のページ）
+
+**レジデント資料集（`pages/` 配下）でページを作るときは、ページ型の既定テーマ（GL=緑／疾患トピックス=橙 等）よりも「そのページが扱うシステムの色」を優先し、ページ全体（ヒーロー画像・章バナー・セクション見出し・カード・バッジ）を1色系統に統一する。** オレンジと青（紺）が混在するような配色は避ける。
+
+- **電解質システム → 緑に統一**（dt-* に置く場合でも適用）。実装レシピ：
+  - テーマクラスの `.dt`（=橙固定）を外す → `gl-chapter-banner` / `section-label` / `summary-num` は既定で緑になる
+  - インラインのオレンジ（`#B45309`/`#FFFBEB`/`#FDE68A`）→ 緑パレット（`#2D7A4F`/`#F0FDF4`/`#BBF7D0`）
+  - ヒーローは `hero-image-disease`（橙の疾患マニュアル背景）を外し、既定の `hero-image-bg`（緑の水彩 `free-bg3-desktop.jpg`）にする
+  - 鎮静薬由来の紺カード（`nx-drug-name` の紺グラデ・`nx-drug-lbl` の青バッジ）も緑へ（例：`linear-gradient(90deg,#14532D,#2D7A4F,#3D9B65)` / `rgba(45,122,79,0.14)`＋`#2D7A4F`）
+  - 例外：カルテ発注画面の再現（`kt-screen`）は実画面の忠実再現なので、内部の灰色・青・赤（`kt-blue`/`kt-red`）はそのまま残す（ページ配色の対象外）
+- 実例：[dt-diuretics.html](pages/disease-topics/dt-diuretics.html)（電解質＝緑）
+- 他システムの色が不明なときは、勝手に決めず確認する。既存ページの一括リファクタは不要（今後の新規・修正分から適用）。
+
 ### 間隔トークン（余白の量子化・「間隔がちがう」防止）
 
 `style-v2.css` の `:root` に **8px ベースライン・4px 刻みの間隔トークン**を定義済み。
