@@ -19,19 +19,6 @@
     .ie-table td { padding:10px 12px;border-bottom:1px solid var(--border);color:var(--muted);vertical-align:top; }
     .ie-table tr:last-child td { border-bottom:none; }
 
-    .ie-flow { display:flex;flex-direction:column;gap:6px; }
-    .ie-flow-item { display:flex;align-items:flex-start;gap:12px;background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:12px 16px;font-size:0.83rem; }
-    .ie-flow-num { background:#475569;color:#fff;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;flex-shrink:0;margin-top:-1px; }
-    .ie-flow-arrow { text-align:center;color:#475569;font-size:1.1rem;padding:2px 0; }
-
-    .ie-stat-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:8px; }
-    @media (max-width:520px) { .ie-stat-grid { grid-template-columns:1fr 1fr; } }
-    .ie-stat { background:#F1F5F9;border:1px solid #CBD5E1;border-radius:8px;padding:16px 12px;text-align:center;display:flex;flex-direction:column;justify-content:center;min-height:104px; }
-    .ie-stat-val { font-size:1.4rem;font-weight:900;color:#334155;line-height:1.3; }
-    .ie-stat-label { font-size:0.7rem;color:var(--muted);margin-top:6px;line-height:1.5; }
-
-    /* アラート（寒色テーマ：本文マーカーは 緑＋青 の2色に限定） */
-    .alert-green { background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;padding:13px 16px;margin-top:10px;font-size:0.83rem;line-height:1.75; }
     .alert-blue  { background:#EFF6FF;border:1px solid #BFDBFE;border-radius:8px;padding:13px 16px;margin-top:10px;font-size:0.83rem;line-height:1.75; }
     .mark-blue { background:linear-gradient(transparent 60%, #BFDBFE 60%); }
 
@@ -40,9 +27,15 @@
     .note-internal strong { color:#1E293B; }
     .note-internal::before { content:"院内確認";display:inline-block;font-size:0.62rem;font-weight:800;letter-spacing:0.06em;color:#fff;background:#475569;padding:2px 8px;border-radius:4px;margin-right:8px;vertical-align:1px; }
 
-    /* 手技カード内の小見出しラベル */
-    .proc-lead { display:block;font-size:0.75rem;font-weight:800;letter-spacing:0.04em;color:#475569;margin:16px 0 6px; }
+    .proc-lead { display:block;font-size:0.78rem;font-weight:800;letter-spacing:0.04em;color:#475569;margin:18px 0 6px;padding-bottom:4px;border-bottom:2px solid #E2E8F0; }
     .proc-lead:first-of-type { margin-top:6px; }
+
+    /* 各手技の独立ページへ誘導するリンクカード */
+    .proc-link { display:block;background:#fff;border:1px solid var(--border);border-radius:10px;padding:13px 40px 13px 16px;margin-bottom:9px;text-decoration:none;position:relative;transition:box-shadow .15s,transform .12s,border-color .15s; }
+    .proc-link:hover { box-shadow:0 4px 14px rgba(15,23,42,0.10);transform:translateY(-1px);border-color:#94A3B8; }
+    .proc-link::after { content:'';position:absolute;right:16px;top:50%;width:8px;height:8px;border-top:2.5px solid #475569;border-right:2.5px solid #475569;transform:translateY(-50%) rotate(45deg); }
+    .proc-link-name { font-size:0.92rem;font-weight:800;color:#1E293B;line-height:1.4; }
+    .proc-link-desc { font-size:0.76rem;color:var(--muted);margin-top:3px;line-height:1.5; }
 
     .ie-sidebar { width:220px;flex-shrink:0; }
     .ie-sidebar-card { position:sticky;top:80px;background:#F8FAFC;border:1px solid var(--border);border-radius:10px;padding:16px;font-size:0.78rem; }
@@ -91,121 +84,42 @@
       <!-- リード -->
       <div class="card" style="margin-bottom:16px;">
         <div class="card-inner">
-          <p class="rule-body">ICUで研修医が経験する基本手技を、<strong>血管アクセス（PICC・CV・ブラッドアクセス・ミッドライン・ファストラック）／穿刺手技（胸腔・腹腔・腰椎）／気道（気管切開）</strong>の3群にまとめた。各手技は「適応 → 禁忌・注意 → 部位・手順 → 合併症」の流れで確認できる。</p>
+          <p class="rule-body">ICUで研修医が経験する基本手技を、<strong>血管アクセス／穿刺手技／気道</strong>の3群にまとめた。各手技は個別ページで「適応 → 禁忌・注意 → 部位・手順 → 合併症」を確認できる。</p>
         </div>
       </div>
 
       <!-- 院内マニュアル確認バナー（最重要・全体注意） -->
       <div class="alert-blue" style="margin-bottom:24px;">
-        <strong>本ページの位置づけ：</strong>本ページは研修医が手技の<strong>全体像（適応・注意・合併症）</strong>をつかむための一般的なまとめである。<span class="mark-blue"><strong>キット内容・カテーテルの規格（Fr/長さ）・穿刺深度・固定法・同意書・抗凝固の休薬基準などの院内固有事項は、必ず当院の手技マニュアル／実機で確認すること。</strong></span>数値・物品の細部は施設ごとに異なるため、本ページには院内固有の手順を意図的に書き込んでいない（提供いただく院内マニュアルを反映して順次追記する）。
+        <strong>本ページの位置づけ：</strong>各手技ページは研修医が<strong>全体像（適応・注意・合併症）</strong>をつかむための一般的なまとめである。<span class="mark-blue"><strong>キット内容・カテーテルの規格（Fr/長さ）・穿刺深度・固定法・同意書・抗凝固の休薬基準などの院内固有事項は、必ず当院の手技マニュアル／実機で確認すること。</strong></span>数値・物品の細部は施設ごとに異なるため、院内固有の手順は意図的に書き込んでいない（提供いただく院内マニュアルを反映して順次追記する）。
       </div>
 
       <!-- ===================== 第1章 血管アクセス ===================== -->
-      <div id="ch1" style="background:linear-gradient(150deg,#1E293B 0%,#475569 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:8px;margin-bottom:0;">
+      <div id="ch1" style="background:linear-gradient(150deg,#1E293B 0%,#475569 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:8px;margin-bottom:16px;">
         <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
         <div style="font-size:1.3rem;font-weight:900;position:relative;">第1章 血管アクセス</div>
         <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Vascular Access</div>
       </div>
 
-      <!-- S1 PICC -->
-      <h3 id="proc-picc" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #475569;line-height:1.4;">
-        <span style="color:#475569;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
-        PICC（末梢挿入式中心静脈カテーテル）
-      </h3>
-      <div class="card" style="margin-bottom:16px;">
-        <div class="card-inner">
-          <p class="rule-body">上腕の末梢静脈から挿入し、先端を中心静脈（上大静脈下部）まで進めるカテーテル。<span class="mark-green"><strong>気胸・大量出血のリスクがほぼなく、中長期の静脈路として留置できる</strong></span>のが最大の利点。</p>
-          <span class="proc-lead">適応</span>
-          <p class="rule-body">中長期（おおむね1〜数週間以上）の静注療法、TPN（高カロリー輸液）、起壊死性・高浸透圧・血管刺激性薬剤の投与、長期抗菌薬、頻回採血・末梢確保困難例。</p>
-          <span class="proc-lead">禁忌・注意</span>
-          <p class="rule-body">挿入予定肢のシャント／同側の郭清・リンパ浮腫、挿入部の感染・血栓。先端が中心静脈に達するため、留置後は中心静脈カテーテルに準じた管理（CRBSI対策）を行う。</p>
-          <span class="proc-lead">部位・手順</span>
-          <div class="ie-flow">
-            <div class="ie-flow-item"><div class="ie-flow-num">1</div><div style="flex:1;"><strong>静脈の選択：</strong>上腕で尺側皮静脈（basilic）を第一選択に、上腕動脈・正中神経を避けてエコーで確認（次いで brachial／cephalic）。</div></div>
-            <div class="ie-flow-arrow">↓</div>
-            <div class="ie-flow-item"><div class="ie-flow-num">2</div><div style="flex:1;"><strong>穿刺・挿入：</strong>エコーガイド下に穿刺し、modified Seldinger法でシースを介してカテーテルを挿入。あらかじめ体表計測した長さまで進める。</div></div>
-            <div class="ie-flow-arrow">↓</div>
-            <div class="ie-flow-item"><div class="ie-flow-num">3</div><div style="flex:1;"><strong>先端位置確認：</strong>留置後に胸部X線で先端が上大静脈下部〜上大静脈・右房接合部にあることを確認してから使用開始。</div></div>
-          </div>
-          <span class="proc-lead">合併症</span>
-          <p class="rule-body">静脈血栓症（上肢深部静脈血栓）、カテーテル関連血流感染（CRBSI）、先端位置異常・遺残、不整脈（先端が深すぎる場合）、穿刺時の動脈・神経損傷。</p>
-          <div class="note-internal">当院で採用している PICC キット・本数・推奨挿入長の計測法・固定／ドレッシングの運用は院内マニュアルで確認する。</div>
-        </div>
-      </div>
+      <a class="proc-link" href="proc-picc.html">
+        <div class="proc-link-name">PICC（末梢挿入式中心静脈カテーテル）</div>
+        <div class="proc-link-desc">上腕から中心静脈へ。気胸リスクほぼなく中長期に留置できる</div>
+      </a>
+      <a class="proc-link" href="proc-cv.html">
+        <div class="proc-link-name">CV（中心静脈カテーテル）</div>
+        <div class="proc-link-desc">昇圧薬・確実な太い静脈路。内頸/鎖骨下/大腿の使い分け</div>
+      </a>
+      <a class="proc-link" href="proc-vascath.html">
+        <div class="proc-link-name">バスキャス（ブラッドアクセスカテーテル）</div>
+        <div class="proc-link-desc">血液浄化用の太いダブルルーメン。右内頸が第一選択になりやすい</div>
+      </a>
+      <a class="proc-link" href="proc-midline.html">
+        <div class="proc-link-name">ミッドラインカテーテル</div>
+        <div class="proc-link-desc">末梢とPICCの中間。非中心のため起壊死性薬・TPNは不可</div>
+      </a>
 
-      <!-- S2 CV -->
-      <h3 id="proc-cv" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #475569;line-height:1.4;">
-        <span style="color:#475569;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
-        CV（中心静脈カテーテル）
-      </h3>
-      <div class="card" style="margin-bottom:16px;">
-        <div class="card-inner">
-          <p class="rule-body">頸部・鎖骨下・鼠径から中心静脈に留置するカテーテル。確実な静脈路と、血管作動薬や高浸透圧輸液の投与、中心静脈圧／中心静脈血酸素飽和度のモニタに用いる。</p>
-          <span class="proc-lead">適応</span>
-          <p class="rule-body">昇圧薬・カテコラミンなど末梢から投与できない薬剤、TPN、確実で太い静脈路の確保、ScvO₂／CVPモニタ、ペーシング・肺動脈カテーテル等の導入路。</p>
-          <span class="proc-lead">部位の使い分け</span>
-          <table class="ie-table">
-            <thead><tr><th style="white-space:nowrap;">穿刺部位</th><th>特徴・注意</th></tr></thead>
-            <tbody>
-              <tr><td style="white-space:nowrap;"><strong>内頸静脈</strong><br><span style="font-size:0.72rem;color:var(--muted);">IJV</span></td><td>エコーで描出しやすく第一選択になりやすい。気胸リスクは鎖骨下より低い。</td></tr>
-              <tr><td style="white-space:nowrap;"><strong>鎖骨下静脈</strong><br><span style="font-size:0.72rem;color:var(--muted);">SCV</span></td><td>固定性・患者快適性は良いが、<strong>気胸・血胸のリスクが相対的に高く</strong>、圧迫止血が効きにくい。</td></tr>
-              <tr><td style="white-space:nowrap;"><strong>大腿静脈</strong><br><span style="font-size:0.72rem;color:var(--muted);">FV</span></td><td>緊急時に確保しやすいが、感染・血栓リスクが高めとされ、可能なら早期に入れ替え・抜去を検討。</td></tr>
-            </tbody>
-          </table>
-          <span class="proc-lead">手順（要点）</span>
-          <div class="ie-flow">
-            <div class="ie-flow-item"><div class="ie-flow-num">1</div><div style="flex:1;"><strong>準備：</strong>マキシマルバリアプリコーション（手指衛生・帽子マスク・滅菌ガウン手袋・大型ドレープ）と皮膚消毒で清潔野を作る。</div></div>
-            <div class="ie-flow-arrow">↓</div>
-            <div class="ie-flow-item"><div class="ie-flow-num">2</div><div style="flex:1;"><strong>穿刺：</strong>エコーガイド下に目的静脈を穿刺し、逆血を確認。Seldinger法でガイドワイヤーを挿入する。</div></div>
-            <div class="ie-flow-arrow">↓</div>
-            <div class="ie-flow-item"><div class="ie-flow-num">3</div><div style="flex:1;"><strong>留置・確認：</strong>ダイレーター後にカテーテルを留置、全ルーメンの逆血・フラッシュを確認。胸部X線で先端位置と気胸の有無を確認。</div></div>
-          </div>
-          <span class="proc-lead">合併症</span>
-          <p class="rule-body">気胸・血胸（特に鎖骨下）、動脈誤穿刺・血腫、空気塞栓、不整脈（ワイヤー・先端の刺激）、CRBSI、カテーテル関連血栓、先端位置異常。</p>
-          <div class="alert-green"><strong>空気塞栓の予防：</strong>挿入・抜去時は仰臥位〜頭低位とし、ハブの開放時間を最小限にする。抜去後は穿刺部を閉鎖し体位を保持する。</div>
-          <div class="note-internal">採用カテーテル（ルーメン数・Fr・長さ）、挿入長の目安、固定・ドレッシング、先端確認の院内ルールはマニュアルで確認する。</div>
-        </div>
-      </div>
-
-      <!-- S3 バスキャス -->
-      <h3 id="proc-vascath" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #475569;line-height:1.4;">
-        <span style="color:#475569;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>
-        バスキャス（ブラッドアクセスカテーテル）
-      </h3>
-      <div class="card" style="margin-bottom:16px;">
-        <div class="card-inner">
-          <p class="rule-body">血液浄化に用いる、太いダブル（／トリプル）ルーメンの中心静脈カテーテル。脱血・返血に十分な血流量を確保するため、通常のCVより内腔が太い。</p>
-          <span class="proc-lead">適応</span>
-          <p class="rule-body">急性血液浄化（持続的腎代替療法 CHDF／CKRT、間欠的血液透析、血漿交換など）の血管路確保。</p>
-          <span class="proc-lead">部位・注意</span>
-          <p class="rule-body">十分な血流が得やすく直線的に挿入できる<strong>右内頸静脈が第一選択</strong>になりやすい。大腿静脈も用いる。<span class="mark-blue"><strong>鎖骨下は将来のシャント作成に影響する中心静脈狭窄のリスクから、透析用では避ける傾向</strong></span>がある。挿入手技・清潔操作・先端確認はCVに準じる。</p>
-          <span class="proc-lead">合併症</span>
-          <p class="rule-body">CVと同様（気胸・動脈誤穿刺・血腫・空気塞栓・感染・血栓）に加え、太いカテーテルゆえの穿刺部出血、脱返血不良・再循環、中心静脈狭窄。</p>
-          <div class="note-internal">採用するブラッドアクセスカテーテルの種類・サイズ、回路接続・ロック（ヘパリン/生食等）の運用、留置期間の目安は院内マニュアル・血液浄化部門の取り決めに従う。</div>
-        </div>
-      </div>
-
-      <!-- S4 ミッドライン -->
-      <h3 id="proc-midline" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #475569;line-height:1.4;">
-        <span style="color:#475569;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 4</span>
-        ミッドラインカテーテル
-      </h3>
-      <div class="card" style="margin-bottom:16px;">
-        <div class="card-inner">
-          <p class="rule-body">上腕からエコーガイド下に挿入するが、<span class="mark-green"><strong>先端は腋窩〜鎖骨下静脈の手前にとどまり中心静脈には達しない</strong></span>、末梢静脈ラインとPICCの中間に位置するデバイス。</p>
-          <span class="proc-lead">適応</span>
-          <p class="rule-body">数日〜数週間程度の末梢静注療法で、通常の末梢ラインでは維持が難しい場合。先端が中心静脈に達しないため胸部X線確認は原則不要で、CRBSIリスクが中心静脈カテーテルより低いとされる。</p>
-          <span class="proc-lead">使えない薬剤（重要）</span>
-          <div class="alert-green"><span class="mark-green"><strong>中心静脈ではない</strong></span>ため、起壊死性薬剤・持続カテコラミン・TPN（高カロリー輸液）・高浸透圧／強い血管刺激性の薬剤には使用できない。これらが必要なら CV／PICC を選ぶ。</div>
-          <span class="proc-lead">合併症</span>
-          <p class="rule-body">血栓性静脈炎、留置肢の腫脹、感染、薬剤漏出（適応外薬剤を投与した場合の組織傷害）。</p>
-          <div class="note-internal">当院での採用可否・対象薬剤の線引き・留置期間の上限は院内の静脈アクセス運用に従う。</div>
-        </div>
-      </div>
-
-      <!-- S5 ファストラック（プレースホルダ） -->
+      <!-- ファストラック（本ページ本体に収録） -->
       <h3 id="proc-fasttrack" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #475569;line-height:1.4;">
-        <span style="color:#475569;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 5</span>
+        <span style="color:#475569;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">VASCULAR ACCESS</span>
         ファストラック
       </h3>
       <div class="card" style="margin-bottom:16px;">
@@ -217,7 +131,7 @@
 
       <!-- 血管アクセス比較 -->
       <h3 id="proc-vasc-compare" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #475569;line-height:1.4;">
-        <span style="color:#475569;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 6</span>
+        <span style="color:#475569;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
         血管アクセスの使い分け（早見表）
       </h3>
       <div class="card" style="margin-bottom:16px;">
@@ -235,171 +149,40 @@
         </div>
       </div>
 
-      <!-- SUMMARY 第1章 -->
-      <h3 id="sum1" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #475569;line-height:1.4;">
-        <span style="color:#475569;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
-        第1章のキーメッセージ
-      </h3>
-      <div class="card" style="margin-bottom:16px;">
-        <div class="card-inner">
-          <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
-            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#475569;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span><span class="rule-body"><strong>中心 or 末梢：</strong>強壊死性薬・カテコラミン・TPNは中心静脈（CV/PICC）から。ミッドラインは非中心で不可。</span></div>
-            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#475569;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span><span class="rule-body"><strong>PICCの利点：</strong>気胸リスクがほぼなく中長期に使える。先端はSVC下部、留置後にX線で確認。</span></div>
-            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#475569;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span><span class="rule-body"><strong>CVは清潔操作とエコー：</strong>マキシマルバリアプリコーション＋エコーガイド。鎖骨下は気胸リスクに注意。</span></div>
-            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#475569;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span><span class="rule-body"><strong>バスキャス：</strong>血液浄化用の太いカテーテル。右内頸が選ばれやすく、透析用に鎖骨下は避ける傾向。</span></div>
-            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;"><span style="color:#475569;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span><span class="rule-body"><strong>院内固有事項：</strong>キット・Fr・挿入長・固定は必ず院内マニュアル／実機で確認する。</span></div>
-          </div>
-        </div>
-      </div>
-
       <!-- ===================== 第2章 穿刺手技 ===================== -->
-      <div id="ch2" style="background:linear-gradient(150deg,#1E293B 0%,#475569 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+      <div id="ch2" style="background:linear-gradient(150deg,#1E293B 0%,#475569 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:16px;">
         <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
         <div style="font-size:1.3rem;font-weight:900;position:relative;">第2章 穿刺手技</div>
         <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Thoracentesis / Paracentesis / Lumbar Puncture</div>
       </div>
 
-      <!-- S1 胸腔穿刺 -->
-      <h3 id="proc-thora" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #475569;line-height:1.4;">
-        <span style="color:#475569;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
-        胸腔穿刺（Thoracentesis）
-      </h3>
-      <div class="card" style="margin-bottom:16px;">
-        <div class="card-inner">
-          <p class="rule-body">胸水を診断的または治療的に排液する手技。エコーで穿刺点と深さ・横隔膜の位置を確認してから穿刺する。</p>
-          <span class="proc-lead">適応</span>
-          <p class="rule-body">原因不明の胸水の<strong>診断</strong>（性状・Light基準で滲出性／漏出性を判定）、呼吸困難をきたす胸水の<strong>治療的排液</strong>。</p>
-          <span class="proc-lead">部位・手順</span>
-          <p class="rule-body">坐位で背側（後腋窩線〜肩甲線）を中心にエコーで穿刺点を決める。<span class="mark-green"><strong>肋間の血管・神経は肋骨の下縁を走るため、穿刺は肋骨の上縁を越える位置で行う</strong></span>。局所麻酔後に穿刺・排液する。</p>
-          <span class="proc-lead">注意・合併症</span>
-          <div class="alert-green"><strong>再膨張性肺水腫：</strong>一度に大量排液すると生じうるため、症状（咳・胸痛）や患者の状態をみながら排液量・速度に注意する。</div>
-          <p class="rule-body" style="margin-top:10px;">その他の合併症：気胸、出血（血胸）、穿刺による臓器損傷（肝・脾）、感染、迷走神経反射。</p>
-          <span class="proc-lead">検体提出</span>
-          <p class="rule-body">細胞数・分画、生化学（蛋白・LDH・糖など）、培養・グラム染色、細胞診。Light基準で滲出性かを評価する。</p>
-          <div class="note-internal">穿刺キット・排液量の院内目安・同意取得・抗凝固薬の扱いはマニュアルで確認する。</div>
-        </div>
-      </div>
-
-      <!-- S2 腹腔穿刺 -->
-      <h3 id="proc-para" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #475569;line-height:1.4;">
-        <span style="color:#475569;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 2</span>
-        腹腔穿刺（Paracentesis）
-      </h3>
-      <div class="card" style="margin-bottom:16px;">
-        <div class="card-inner">
-          <p class="rule-body">腹水を診断的または治療的に穿刺・排液する手技。新規腹水や入院時の腹水では、特発性細菌性腹膜炎（SBP）の除外のため診断的穿刺を行う。</p>
-          <span class="proc-lead">適応</span>
-          <p class="rule-body">腹水の<strong>診断</strong>（SBPの評価、原因検索）、緊張性腹水・呼吸苦に対する<strong>治療的大量排液</strong>。</p>
-          <span class="proc-lead">部位・手順</span>
-          <p class="rule-body">仰臥位で、典型的には<strong>左下腹部（臍と左上前腸骨棘を結ぶ線の外側1/3付近）</strong>を、エコーで腹水と腸管・血管（下腹壁動脈）を確認して穿刺する。</p>
-          <span class="proc-lead">診断のポイント</span>
-          <div class="ie-stat-grid">
-            <div class="ie-stat"><div class="ie-stat-val">≥250</div><div class="ie-stat-label">腹水中好中球数<br>(/µL) → SBPを示唆</div></div>
-            <div class="ie-stat"><div class="ie-stat-val">SAAG ≥1.1</div><div class="ie-stat-label">血清-腹水アルブミン<br>勾配 → 門脈圧亢進</div></div>
-            <div class="ie-stat"><div class="ie-stat-val">培養</div><div class="ie-stat-label">血液培養ボトルへ<br>ベッドサイド接種</div></div>
-          </div>
-          <span class="proc-lead">注意・合併症</span>
-          <div class="alert-green"><strong>大量排液時のアルブミン補充：</strong>治療的に多量（一般に5L超）を排液する場合は、循環不全（排液後循環機能障害）の予防にアルブミン補充を検討する。</div>
-          <p class="rule-body" style="margin-top:10px;">その他の合併症：穿刺部出血・腹壁血腫、腸管穿孔、腹水漏出、感染。</p>
-          <div class="note-internal">排液量の院内目安・アルブミン投与量・凝固障害時の対応はマニュアル／主治医方針に従う。</div>
-        </div>
-      </div>
-
-      <!-- S3 腰椎穿刺 -->
-      <h3 id="proc-lp" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #475569;line-height:1.4;">
-        <span style="color:#475569;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 3</span>
-        腰椎穿刺（Lumbar Puncture）
-      </h3>
-      <div class="card" style="margin-bottom:16px;">
-        <div class="card-inner">
-          <p class="rule-body">脊柱管（くも膜下腔）から髄液を採取・測定する手技。髄膜炎・脳炎の診断に不可欠で、初圧測定もできる。</p>
-          <span class="proc-lead">適応</span>
-          <p class="rule-body">髄膜炎・脳炎の診断、くも膜下出血の評価（頭部CT陰性時の確認）、特発性頭蓋内圧亢進症の評価・治療、髄腔内投与・髄液排液。</p>
-          <span class="proc-lead">禁忌・注意（重要）</span>
-          <div class="alert-green"><span class="mark-green"><strong>頭蓋内占拠性病変・圧亢進が疑われる場合は、脳ヘルニアのリスクから先に頭部画像を評価する</strong></span>（局所神経徴候・意識障害・乳頭浮腫・免疫不全など該当時）。穿刺部の感染、出血傾向・抗凝固も禁忌・要注意。</div>
-          <span class="proc-lead">部位・手順</span>
-          <div class="ie-flow">
-            <div class="ie-flow-item"><div class="ie-flow-num">1</div><div style="flex:1;"><strong>体位・穿刺部位：</strong>側臥位で背中を丸める。<strong>ヤコビー線（両腸骨稜上縁を結ぶ線）≒L4</strong>を目安に、脊髄円錐より下の L3/4 または L4/5 棘突起間を選ぶ。</div></div>
-            <div class="ie-flow-arrow">↓</div>
-            <div class="ie-flow-item"><div class="ie-flow-num">2</div><div style="flex:1;"><strong>消毒・局麻・穿刺：</strong>清潔操作で消毒・局所麻酔し、正中からやや頭側に向けて穿刺針を進め、くも膜下腔で髄液流出を確認。</div></div>
-            <div class="ie-flow-arrow">↓</div>
-            <div class="ie-flow-item"><div class="ie-flow-num">3</div><div style="flex:1;"><strong>初圧測定・採取：</strong>側臥位で初圧を測定し、必要量の髄液を分注して提出する。</div></div>
-          </div>
-          <span class="proc-lead">合併症</span>
-          <p class="rule-body">穿刺後頭痛（最も多い）、脳ヘルニア（禁忌例で危険）、脊髄硬膜外血腫（抗凝固・出血傾向）、感染、神経根刺激・背部痛。</p>
-          <span class="proc-lead">検体提出</span>
-          <p class="rule-body">細胞数・分画、糖（同時血糖と比較）、蛋白、培養・グラム染色、必要に応じ抗原・PCR・細胞診。くも膜下出血疑いではキサントクロミーの評価も。</p>
-          <div class="note-internal">針の種類・サイズ、抗凝固薬の休薬基準、検体提出ルールは院内マニュアル／神経内科の方針で確認する。</div>
-        </div>
-      </div>
-
-      <!-- SUMMARY 第2章 -->
-      <h3 id="sum2" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #475569;line-height:1.4;">
-        <span style="color:#475569;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
-        第2章のキーメッセージ
-      </h3>
-      <div class="card" style="margin-bottom:16px;">
-        <div class="card-inner">
-          <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
-            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#475569;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span><span class="rule-body"><strong>まずエコー：</strong>胸腔・腹腔穿刺は穿刺前にエコーで貯留と周囲臓器を確認する。</span></div>
-            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#475569;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span><span class="rule-body"><strong>胸腔穿刺：</strong>肋骨上縁を越えて穿刺（血管神経は下縁）。大量排液は再膨張性肺水腫に注意。</span></div>
-            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#475569;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span><span class="rule-body"><strong>腹腔穿刺：</strong>好中球≥250/µLでSBP、SAAG≥1.1で門脈圧亢進。大量排液時はアルブミン補充。</span></div>
-            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#475569;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span><span class="rule-body"><strong>腰椎穿刺：</strong>圧亢進が疑わしければ先に画像。L3/4・L4/5（ヤコビー線≒L4）で穿刺、初圧を測る。</span></div>
-            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;"><span style="color:#475569;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">⑤</span><span class="rule-body"><strong>抗凝固・出血傾向：</strong>いずれの穿刺でも休薬・凝固の確認を忘れない。</span></div>
-          </div>
-        </div>
-      </div>
+      <a class="proc-link" href="proc-thoracentesis.html">
+        <div class="proc-link-name">胸腔穿刺</div>
+        <div class="proc-link-desc">胸水の診断・治療排液。肋骨上縁を越えて穿刺、再膨張性肺水腫に注意</div>
+      </a>
+      <a class="proc-link" href="proc-paracentesis.html">
+        <div class="proc-link-name">腹腔穿刺</div>
+        <div class="proc-link-desc">腹水の診断（SBP/SAAG）・治療排液。大量排液時はアルブミン補充</div>
+      </a>
+      <a class="proc-link" href="proc-lp.html">
+        <div class="proc-link-name">腰椎穿刺</div>
+        <div class="proc-link-desc">髄膜炎・SAHの診断、初圧測定。圧亢進が疑わしければ先に画像</div>
+      </a>
 
       <!-- ===================== 第3章 気道 ===================== -->
-      <div id="ch3" style="background:linear-gradient(150deg,#1E293B 0%,#475569 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:0;">
+      <div id="ch3" style="background:linear-gradient(150deg,#1E293B 0%,#475569 100%);border-radius:10px;padding:18px 22px;color:#fff;position:relative;overflow:hidden;margin-top:48px;margin-bottom:16px;">
         <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px;"></div>
         <div style="font-size:1.3rem;font-weight:900;position:relative;">第3章 気道</div>
         <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);position:relative;">Tracheostomy</div>
       </div>
 
-      <!-- S1 気管切開 -->
-      <h3 id="proc-trach" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #475569;line-height:1.4;">
-        <span style="color:#475569;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SECTION 1</span>
-        気管切開（Tracheostomy）
-      </h3>
-      <div class="card" style="margin-bottom:16px;">
-        <div class="card-inner">
-          <p class="rule-body">頸部で気管を切開してカニューレを留置し、安定した気道を確保する手技。長期人工呼吸が見込まれる例で、鎮静軽減・口腔ケア・離脱促進・快適性の面から検討される。</p>
-          <span class="proc-lead">適応</span>
-          <p class="rule-body">挿管による人工呼吸が長期化する見込みの気道確保、上気道閉塞、気道分泌物の管理が困難な場合。実施時期は患者の経過・離脱見込みをふまえて判断する。</p>
-          <span class="proc-lead">術式</span>
-          <table class="ie-table">
-            <thead><tr><th style="white-space:nowrap;">術式</th><th>特徴</th></tr></thead>
-            <tbody>
-              <tr><td style="white-space:nowrap;"><strong>外科的気管切開</strong><br><span style="font-size:0.72rem;color:var(--muted);">手術室など</span></td><td>直視下に気管を切開・造設する。解剖が難しい例・出血リスク例などで選択。</td></tr>
-              <tr><td style="white-space:nowrap;"><strong>経皮的拡張気管切開</strong><br><span style="font-size:0.72rem;color:var(--muted);">PDT・ベッドサイド</span></td><td>ICUベッドサイドで、気管支鏡併用下にSeldinger法で拡張・造設する。</td></tr>
-            </tbody>
-          </table>
-          <span class="proc-lead">合併症</span>
-          <p class="rule-body"><strong>早期：</strong>出血、気胸・皮下気腫、気管後壁損傷、カニューレ位置不良。<strong>晩期：</strong>気管狭窄、肉芽、気管食道瘻、嚥下・発声の問題。</p>
-          <div class="alert-green"><strong>造設早期の事故抜去は致命的になりうる：</strong><span class="mark-green"><strong>瘻孔が成熟する前にカニューレが抜けると再挿入が困難</strong></span>で、緊急時は経口挿管を含む気道確保のバックアップを準備する。また<strong>気管腕頭動脈瘻（TIF）</strong>は頻度は低いが致死的な晩期合併症で、カニューレ周囲・気管内からの拍動性出血では緊急対応を要する。</div>
-          <div class="note-internal">採用カニューレ（サイズ・カフ／複管の有無）、PDTの実施体制、初回交換の時期、緊急時プロトコルは院内マニュアルで確認する。</div>
-        </div>
-      </div>
-
-      <!-- SUMMARY 第3章 -->
-      <h3 id="sum3" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #475569;line-height:1.4;">
-        <span style="color:#475569;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:2px;">SUMMARY</span>
-        第3章のキーメッセージ
-      </h3>
-      <div class="card" style="margin-bottom:16px;">
-        <div class="card-inner">
-          <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
-            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#475569;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">①</span><span class="rule-body"><strong>適応：</strong>長期人工呼吸の見込み・上気道閉塞・分泌物管理。離脱や快適性の面で有利。</span></div>
-            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#475569;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">②</span><span class="rule-body"><strong>術式：</strong>外科的 と 経皮的拡張（PDT）。PDTは気管支鏡併用でベッドサイド施行。</span></div>
-            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:#475569;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">③</span><span class="rule-body"><strong>早期事故抜去は危険：</strong>瘻孔成熟前の抜去は再挿入困難。バックアップ気道を常に準備。</span></div>
-            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;"><span style="color:#475569;font-weight:800;font-size:0.8rem;width:18px;flex-shrink:0;">④</span><span class="rule-body"><strong>TIF：</strong>拍動性出血は気管腕頭動脈瘻を疑い緊急対応。頻度は低いが致死的。</span></div>
-          </div>
-        </div>
-      </div>
+      <a class="proc-link" href="proc-tracheostomy.html">
+        <div class="proc-link-name">気管切開</div>
+        <div class="proc-link-desc">長期人工呼吸の気道確保。外科的/経皮的(PDT)、早期事故抜去・TIFに注意</div>
+      </a>
 
       <!-- 出典注記 -->
-      <p style="font-size:0.72rem;color:#9CA3AF;margin-top:24px;line-height:1.7;">
+      <p style="font-size:0.72rem;color:#9CA3AF;margin-top:32px;line-height:1.7;">
         本ページは研修医向けに ICU 基本手技の一般的な要点（適応・注意・合併症）を教育目的でまとめたものです。手技の適応判断・具体的手順・物品・規格・合併症対応は、必ず当院の手技マニュアルおよび指導医の指示に従ってください。院内固有の手順・ファストラックの詳細は、提供いただく院内マニュアルを反映して追記します。
       </p>
       <p style="font-size:0.75rem;color:var(--muted);text-align:right;margin-top:8px;">制作：ICU 関谷</p>
@@ -411,21 +194,18 @@
       <div class="ie-sidebar-card">
         <div class="ie-sidebar-title">目次</div>
         <a href="#ch1" class="ie-toc-chapter">第1章 血管アクセス</a>
-        <a href="#proc-picc" class="ie-toc-section">S1 — PICC</a>
-        <a href="#proc-cv" class="ie-toc-section">S2 — CV（中心静脈）</a>
-        <a href="#proc-vascath" class="ie-toc-section">S3 — バスキャス</a>
-        <a href="#proc-midline" class="ie-toc-section">S4 — ミッドライン</a>
-        <a href="#proc-fasttrack" class="ie-toc-section">S5 — ファストラック</a>
-        <a href="#proc-vasc-compare" class="ie-toc-section">S6 — 使い分け早見表</a>
-        <a href="#sum1" class="ie-toc-section">SUMMARY</a>
+        <a href="proc-picc.html" class="ie-toc-section">PICC</a>
+        <a href="proc-cv.html" class="ie-toc-section">CV（中心静脈）</a>
+        <a href="proc-vascath.html" class="ie-toc-section">バスキャス</a>
+        <a href="proc-midline.html" class="ie-toc-section">ミッドライン</a>
+        <a href="#proc-fasttrack" class="ie-toc-section">ファストラック</a>
+        <a href="#proc-vasc-compare" class="ie-toc-section">使い分け早見表</a>
         <a href="#ch2" class="ie-toc-chapter">第2章 穿刺手技</a>
-        <a href="#proc-thora" class="ie-toc-section">S1 — 胸腔穿刺</a>
-        <a href="#proc-para" class="ie-toc-section">S2 — 腹腔穿刺</a>
-        <a href="#proc-lp" class="ie-toc-section">S3 — 腰椎穿刺</a>
-        <a href="#sum2" class="ie-toc-section">SUMMARY</a>
+        <a href="proc-thoracentesis.html" class="ie-toc-section">胸腔穿刺</a>
+        <a href="proc-paracentesis.html" class="ie-toc-section">腹腔穿刺</a>
+        <a href="proc-lp.html" class="ie-toc-section">腰椎穿刺</a>
         <a href="#ch3" class="ie-toc-chapter">第3章 気道</a>
-        <a href="#proc-trach" class="ie-toc-section">S1 — 気管切開</a>
-        <a href="#sum3" class="ie-toc-section">SUMMARY</a>
+        <a href="proc-tracheostomy.html" class="ie-toc-section">気管切開</a>
       </div>
     </aside>
 
