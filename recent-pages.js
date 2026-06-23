@@ -17,6 +17,20 @@ const RECENT_PAGES = [
     thumb: "images/icu-study.jpg"
   },
   {
+    title: "低リン血症 — 原因・臨床症状・評価と治療（UpToDate 2026）",
+    url: "pages/articles-gl-hypophosphatemia-uptodate2026.html",
+    date: "2026-06-23",
+    tag: "ガイドライン",
+    thumb: "images/朝カンファ風景.webp"
+  },
+  {
+    title: "高カルシウム血症 — 診断アプローチと治療（UpToDate）",
+    url: "pages/articles-gl-hypercalcemia-uptodate.html",
+    date: "2026-06-23",
+    tag: "ガイドライン",
+    thumb: "images/朝カンファ風景.webp"
+  },
+  {
     title: "血小板減少のまとめ — ICUでの鑑別と対応",
     url: "pages/disease-topics/dt-thrombocytopenia.html",
     date: "2026-06-21",
