@@ -48,6 +48,7 @@
         { href: 'pages/resident-resources.html#msk',     label: '#9 筋骨格系' },
         { href: 'pages/resident-resources.html#prev',    label: '#10 予防' },
         { href: 'pages/resident-resources.html#ai',      label: '#11 医療×AI' },
+        { href: 'pages/resident-procedures.html',        label: '#12 手技・穿刺' },
         { href: 'pages/icu-core-conf.html',              label: '資料ダウンロード' }
       ])
     + dd('当院ICUについて', [

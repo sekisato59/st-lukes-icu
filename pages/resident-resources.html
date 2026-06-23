@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../style-v2.css?v=20260622">
+  <link rel="stylesheet" href="../style-v2.css?v=20260623">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
@@ -38,11 +38,26 @@
       margin: 0 auto;
       padding: 0 20px;
       display: flex;
-      justify-content: flex-end;
+      /* タブ数が増えメインコンテンツ幅(1294px)に収まらない時は、はみ出し分を
+         画面外にせず横スクロールで #0〜#12 を辿れるようにする。
+         overflow-y は visible 固定（active タブ上辺のクリップ防止。下線は wrap 背景の
+         2px グラデで描いているため overflow-x:auto でも線は消えない）。 */
+      overflow-x: auto;
+      overflow-y: visible;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+      scrollbar-color: #CBD5E1 transparent;
     }
+    .res-tabs-inner::-webkit-scrollbar { height: 6px; }
+    .res-tabs-inner::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 3px; }
+    .res-tabs-inner::-webkit-scrollbar-track { background: transparent; }
     .res-tabs {
       display: flex;
       gap: 2px;
+      /* 収まる時は右寄せ、収まらない時は auto マージンが 0 に潰れ #0 から左詰めでスクロール可 */
+      margin-left: auto;
+      flex: 0 0 auto;
+      padding-right: 2px;
     }
     .res-tab {
       flex-shrink: 0;
@@ -3513,7 +3528,7 @@ ICUチームへ一言：</pre>
     })();
   </script>
 
-  <script src="../script.js?v=20260622"></script>
+  <script src="../script.js?v=20260623"></script>
   <script src="../abbr-tooltip.js"></script>
 
   <!-- ===== ミラーカードの縁デザイン強制適用（<style> インジェクト） ===== -->
