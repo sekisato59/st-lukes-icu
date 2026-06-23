@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>利尿薬の使い分け — 研修医のための処方ガイド | 聖路加ICU</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../style-v2.css?v=20260622">
+  <style>
+    .subpage-hero { padding: calc(64px + 14px) 0 16px !important; }
+    .content-wrap { display:flex;gap:32px;align-items:flex-start;max-width:1294px;margin:0 auto;padding:32px 20px 80px; }
+    .main-col { flex:1;min-width:0;max-width:900px; }
+
+    .ie-table { width:100%;border-collapse:collapse;font-size:0.82rem;margin-top:10px; }
+    .ie-table th { background:#FFFBEB;border:1px solid #FDE68A;padding:8px 12px;font-weight:700;font-size:0.78rem;text-align:left;vertical-align:middle; }
+    .ie-table td { border:1px solid var(--border);padding:8px 12px;vertical-align:top;line-height:1.7; }
+    .ie-table tr:nth-child(even) td { background:#F8FAFC; }
+    .ie-table td.center { text-align:center; }
+
+    .table-scroll { overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%;margin-top:10px; }
+    .table-scroll .ie-table { margin-top:0;min-width:640px; }
+
+    .alert-red    { background:#FEF2F2;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#7F1D1D;line-height:1.7; }
+    .alert-blue   { background:#EFF6FF;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#1E3A5F;line-height:1.7; }
+    .alert-green  { background:#F0FDF4;border:1px solid #BBF7D0;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:0.85rem;color:#14532D;line-height:1.7; }
+
+    /* ── 作用部位マップ ── */
+    .site-map { display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px; }
+    @media (max-width:560px){ .site-map { grid-template-columns:1fr; } }
+    .site-box { background:#FFFBEB;border:1px solid #FDE68A;border-radius:8px;padding:11px 13px; }
+    .site-box .site-seg { font-size:0.72rem;font-weight:800;color:#B45309;letter-spacing:0.02em; }
+    .site-box .site-drug { font-size:0.82rem;font-weight:700;color:var(--text);margin-top:3px;line-height:1.5; }
+    .site-box .site-mech { font-size:0.72rem;color:var(--muted);margin-top:3px;line-height:1.55; }
+
+    /* ── dt-source 出典タグ ── */
+    .dt-source { text-align:right;margin-top:-10px;margin-bottom:16px;padding-right:4px; }
+    .dt-source a { font-size:0.68rem;color:#9CA3AF;text-decoration:none;transition:color 0.15s; }
+    .dt-source a:hover { color:#B45309; }
+    .dt-source::before { content:"出典：";font-size:0.65rem;color:#BFBFBF; }
+
+    /* ══ 紺カード（基本情報＋発注画面）— 鎮静薬カードと同一デザイン ══ */
+    .nx-drug-card { background:#fff;border:1px solid #E2E8F0;border-radius:6px;overflow:hidden;margin-bottom:12px;box-shadow:0 2px 6px rgba(15,23,42,0.06); }
+    .nx-drug-name { background:linear-gradient(90deg,#0C1F3A 0%,#1E4F8C 50%,#1269B0 100%);color:#fff;padding:10px 18px;display:flex;align-items:center;gap:14px; }
+    .nx-drug-name-main { flex:1; }
+    .nx-drug-name-text { font-size:0.9rem;font-weight:900;line-height:1.3; }
+    .nx-drug-alias { font-size:0.68rem;color:rgba(255,255,255,0.65);font-weight:400;display:block;margin-top:2px; }
+    .nx-drug-divline { width:1px;height:28px;background:rgba(255,255,255,0.25);flex-shrink:0; }
+    .nx-drug-dose-box { flex-shrink:0;text-align:right; }
+    .nx-drug-dose-lbl { font-size:0.58rem;color:rgba(255,255,255,0.6);letter-spacing:0.06em; }
+    .nx-drug-dose-val { font-size:0.8rem;font-weight:800;line-height:1.3; }
+    .nx-drug-rows { padding:12px 16px; }
+    .nx-drug-row { display:flex;gap:8px;align-items:baseline;padding:6px 0;font-size:0.78rem;line-height:1.75;color:#334155;border-bottom:1px solid #F1F5F9; }
+    .nx-drug-row:last-child { border-bottom:none; }
+    .nx-drug-lbl { font-size:0.65rem;font-weight:700;background:rgba(56,150,255,0.16);color:#1763B8;padding:2px 8px;border-radius:3px;flex-shrink:0;width:34px;text-align:center; }
+    .nx-drug-body { flex:1; }
+    .nx-drug-li { display:block;padding-left:1em;text-indent:-1em; }
+    .nx-drug-li + .nx-drug-li { margin-top:2px; }
+    .nx-drug-body strong { color:#1E293B; }
+
+
+    .ie-sidebar { width:220px;flex-shrink:0;position:sticky;top:80px; }
+    .ie-sidebar-card { background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px 12px;box-shadow:0 2px 8px rgba(0,0,0,0.05); }
+    .ie-sidebar-title { font-size:0.62rem;font-weight:800;color:#B45309;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:10px;padding-bottom:6px;border-bottom:2px solid #FDE68A; }
+    .ie-toc-chapter { display:block;font-size:0.75rem;font-weight:700;color:var(--text);padding:6px 8px;border-radius:5px;text-decoration:none;margin-top:6px;transition:background .15s; }
+    .ie-toc-chapter:hover { background:#FFFBEB; }
+    .ie-toc-section { display:block;font-size:0.7rem;color:var(--muted);padding:3px 8px 3px 18px;text-decoration:none;transition:color .15s; }
+    .ie-toc-section:hover { color:#B45309; }
+    @media (max-width:900px) { .ie-sidebar { display:none; } }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="../../index.html" class="nav-logo">
+        <img src="../../images/logo.png" alt="ST. LUKE'S ICU" class="nav-logo-img">
+        <span class="nav-logo-text">聖路加国際病院ICU</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-menu" id="navMenu"></ul>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="subpage-hero hero-image-bg hero-image-disease">
+    <div class="container" style="max-width:1294px;margin:0 auto;padding:0 20px;">
+      <a href="../resident-resources.html#renal" class="back-link">&larr; レジデント資料へ戻る</a>
+      <div style="font-size:0.72rem;color:rgba(255,255,255,0.6);margin-bottom:6px;letter-spacing:0.08em;">NEPHROLOGY / PRESCRIPTION GUIDE</div>
+      <h1 style="font-size:clamp(1.3rem,3vw,1.75rem);font-weight:900;color:#fff;line-height:1.35;margin-bottom:12px;">
+        利尿薬の使い分け — 研修医のための処方ガイド
+      </h1>
+      <div>
+        <span class="ie-badge">処方Tips</span>
+        <span class="ie-badge">Review</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== MAIN LAYOUT ===== -->
+  <div class="content-wrap">
+
+    <div class="main-col">
+
+      <!-- 略語一覧 -->
+      <div class="card" style="margin-bottom:24px;">
+        <div class="card-inner">
+          <h3 class="rule-title" style="margin-bottom:10px;">本ページで使用する略語・用語</h3>
+          <table style="width:100%;border-collapse:collapse;font-size:0.8rem;line-height:1.6;">
+            <tbody>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;width:130px;color:var(--blue);">ループ利尿薬</td><td style="padding:4px 8px;">ヘンレ係蹄太い上行脚の NKCC2 を阻害する利尿薬（フロセミド・トラセミド・ブメタニド）</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">サイアザイド</td><td style="padding:4px 8px;">遠位曲尿細管の NCC（Na-Cl 共輸送体）を阻害する利尿薬</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">MRA</td><td style="padding:4px 8px;">ミネラルコルチコイド受容体拮抗薬（mineralocorticoid receptor antagonist）。スピロノラクトン・エプレレノン・フィネレノン</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">NKCC2</td><td style="padding:4px 8px;">Na-K-2Cl 共輸送体。ループ利尿薬の作用標的</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">ENaC</td><td style="padding:4px 8px;">上皮性ナトリウムチャネル（集合管）。アルドステロン下流で Na 再吸収を担う</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">V2受容体</td><td style="padding:4px 8px;">集合管のバソプレシン V2 受容体。トルバプタンが拮抗しアクアポリン2を抑制</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">hANP</td><td style="padding:4px 8px;">ヒト心房性ナトリウム利尿ペプチド（カルペリチド）。本邦独自の静注薬</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">FST</td><td style="padding:4px 8px;">フロセミド負荷試験（furosemide stress test）。AKI の進行リスク評価</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 8px;font-weight:700;color:var(--blue);">COR / LOE</td><td style="padding:4px 8px;">推奨クラス（Class of Recommendation）／エビデンスレベル（Level of Evidence）</td></tr>
+              <tr><td style="padding:4px 8px;font-weight:700;color:var(--blue);">逐次ネフロン遮断</td><td style="padding:4px 8px;">作用部位の異なる利尿薬を併用し、下流での Na 再吸収代償を抑える戦略（sequential nephron blockade）</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ═══ 総論：作用部位マップ ═══ -->
+      <div id="dx-ch0" class="gl-chapter-banner dt first"><div class="gl-chapter-title">総論 利尿薬の作用部位と使い分けの原則</div><div class="gl-chapter-subtitle">Where Each Diuretic Acts &amp; How to Choose</div></div>
+
+      <h3 id="dx-s0-map" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+        <span class="section-label dt">SECTION 1</span>
+        ネフロンのどこに効かせるか
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">作用部位マップ</h3>
+          <p class="rule-body">利尿薬は近位から遠位まで、ネフロンの各部位に対応した系統がある。利尿効果の強さは概ね作用部位より上流で再吸収される Na 量に比例し、<span class="mark-green"><strong>ループ利尿薬が最も強力</strong></span>（ろ過 Na の約20–25%を担う部位を遮断）である。</p>
+
+          <div class="site-map">
+            <div class="site-box">
+              <div class="site-seg">① 近位尿細管</div>
+              <div class="site-drug">炭酸脱水酵素阻害薬（アセタゾラミド）／SGLT2阻害薬／マンニトール（浸透圧）</div>
+              <div class="site-mech">HCO₃⁻・グルコース・浸透圧を介した Na/水利尿。単独の利尿力は弱い</div>
+            </div>
+            <div class="site-box">
+              <div class="site-seg">② ヘンレ係蹄 太い上行脚</div>
+              <div class="site-drug">ループ利尿薬（フロセミド・トラセミド・ブメタニド）</div>
+              <div class="site-mech">NKCC2 を阻害。最も強力。うっ血治療の主役</div>
+            </div>
+            <div class="site-box">
+              <div class="site-seg">③ 遠位曲尿細管</div>
+              <div class="site-drug">サイアザイド系（ヒドロクロロチアジド・トリクロルメチアジド）</div>
+              <div class="site-mech">NCC を阻害。ループ抵抗性に上乗せ（逐次ネフロン遮断）</div>
+            </div>
+            <div class="site-box">
+              <div class="site-seg">④ 集合管</div>
+              <div class="site-drug">MRA（スピロノラクトン他）／バソプレシン拮抗薬（トルバプタン）</div>
+              <div class="site-mech">ENaC 経由の Na 再吸収抑制（K保持）／V2 拮抗で自由水利尿</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h3 id="dx-s0-principle" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+        <span class="section-label dt">SECTION 2</span>
+        病態から系統を選ぶ
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">使い分けの早見</h3>
+          <div class="table-scroll">
+          <table class="ie-table">
+            <thead><tr><th style="width:30%;">臨床状況</th><th>第一に考える系統</th></tr></thead>
+            <tbody>
+              <tr><td style="white-space:nowrap;"><strong>うっ血性心不全・体液過剰</strong></td><td><strong>ループ利尿薬</strong>（LVEF を問わずうっ血治療の基本）</td></tr>
+              <tr><td style="white-space:nowrap;"><strong>ループ抵抗性のうっ血</strong></td><td>ループ＋<strong>サイアザイド</strong>（逐次ネフロン遮断）／用量・投与法の見直し</td></tr>
+              <tr><td style="white-space:nowrap;"><strong>HFrEF の予後改善</strong></td><td><strong>MRA</strong>（スピロノラクトン）＝GDMTの一角（利尿目的とは別軸）</td></tr>
+              <tr><td style="white-space:nowrap;"><strong>腎機能低下を伴ううっ血／低Na</strong></td><td><strong>トルバプタン</strong>（電解質を乱しにくい自由水利尿）</td></tr>
+              <tr><td style="white-space:nowrap;"><strong>2型糖尿病＋CKD</strong></td><td><strong>フィネレノン</strong>（非ステロイド型MRA）・SGLT2阻害薬で心腎保護</td></tr>
+              <tr><td style="white-space:nowrap;"><strong>代謝性アルカローシス合併のうっ血</strong></td><td><strong>アセタゾラミド</strong>を補助的に（HCO₃⁻ 排泄）</td></tr>
+            </tbody>
+          </table>
+          </div>
+          <div class="alert-blue" style="margin-top:10px;"><strong>原則：</strong>利尿薬は症状（うっ血）を改善する薬であり、予後を改善するのは別の作用（MRA・SGLT2・トルバプタン等の位置づけ）である点に注意。ループ利尿薬は「うっ血を取る」、MRA/SGLT2 は「予後を変える」と整理すると混乱しにくい。</div>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-jcs-hf2025.html#ch6-diuretics">JCS 急性・慢性心不全診療GL 2025 ▸ 利尿薬治療戦略</a> / <a href="../articles-gl-loop-diuretics-bmj2019.html#s1">ループ利尿薬の使い方（BMJ 2019）▸ 作用機序</a></div>
+
+      <!-- ═══════════════════════════════════════════ -->
+      <!-- ═══ 第1章：ループ利尿薬 ═══ -->
+      <!-- ═══════════════════════════════════════════ -->
+      <div id="dx-ch1" class="gl-chapter-banner dt"><div class="gl-chapter-title">第1章 ループ利尿薬</div><div class="gl-chapter-subtitle">Loop Diuretics — Furosemide / Torsemide / Bumetanide</div></div>
+
+      <h3 id="dx-s1-order" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+        <span class="section-label dt">SECTION 1</span>
+        発注・基本情報
+      </h3>
+
+      <!-- フロセミド -->
+      <div class="nx-drug-card">
+        <div class="nx-drug-name">
+          <div class="nx-drug-name-main"><div class="nx-drug-name-text">フロセミド</div><span class="nx-drug-alias">Furosemide（ラシックス®）</span></div>
+          <div class="nx-drug-divline"></div>
+          <div class="nx-drug-dose-box"><div class="nx-drug-dose-lbl">代表用量</div><div class="nx-drug-dose-val">静注 20 mg〜</div></div>
+        </div>
+        <div class="nx-drug-rows">
+          <div class="nx-drug-row"><span class="nx-drug-lbl">分類</span><span class="nx-drug-body"><span class="nx-drug-li">・ループ利尿薬（NKCC2 阻害）</span></span></div>
+          <div class="nx-drug-row"><span class="nx-drug-lbl">用量</span><span class="nx-drug-body"><span class="nx-drug-li">・静注 20 mg を初回、効果不十分なら増量／反復（急性心不全では高用量＝普段の経口量の約2倍が短期症状改善に有利）</span><span class="nx-drug-li">・持続静注も選択肢（ボーラスと持続で有効性に大差なし）</span><span class="nx-drug-li">・経口は生物学的利用率が約50%のため <strong>経口量 ≒ 静注量の2倍</strong></span></span></div>
+          <div class="nx-drug-row"><span class="nx-drug-lbl">長所</span><span class="nx-drug-body"><span class="nx-drug-li">・最も強力で速効性。うっ血治療の第一選択</span><span class="nx-drug-li">・静注で発現が速く、来院後1時間以内の投与開始が重要</span></span></div>
+          <div class="nx-drug-row"><span class="nx-drug-lbl">短所</span><span class="nx-drug-body"><span class="nx-drug-li">・低K・低Mg・代謝性アルカローシス・脱水</span><span class="nx-drug-li">・経口吸収が個体差大。長期でビタミンB1低下の可能性</span></span></div>
+          <div class="nx-drug-row"><span class="nx-drug-lbl">特徴</span><span class="nx-drug-body"><span class="nx-drug-li">・効果は「閾値（all-or-none）」型。血中濃度ではなく尿細管内濃度が効果を決める</span></span></div>
+        </div>
+      </div>
+
+      <!-- トラセミド -->
+      <div class="nx-drug-card">
+        <div class="nx-drug-name">
+          <div class="nx-drug-name-main"><div class="nx-drug-name-text">トラセミド</div><span class="nx-drug-alias">Torsemide（ルプラック®）</span></div>
+          <div class="nx-drug-divline"></div>
+          <div class="nx-drug-dose-box"><div class="nx-drug-dose-lbl">代表用量</div><div class="nx-drug-dose-val">4〜8 mg/日</div></div>
+        </div>
+        <div class="nx-drug-rows">
+          <div class="nx-drug-row"><span class="nx-drug-lbl">分類</span><span class="nx-drug-body"><span class="nx-drug-li">・ループ利尿薬（NKCC2 阻害）</span></span></div>
+          <div class="nx-drug-row"><span class="nx-drug-lbl">用量</span><span class="nx-drug-body"><span class="nx-drug-li">・心不全で 4〜8 mg/日 単回（TRANSFORM-HF でフロセミドに非劣性）</span><span class="nx-drug-li">・等力価：<strong>フロセミド経口80 mg = 静注40 mg = トラセミド40 mg = ブメタニド1 mg</strong></span></span></div>
+          <div class="nx-drug-row"><span class="nx-drug-lbl">長所</span><span class="nx-drug-body"><span class="nx-drug-li">・経口生物学的利用率が高く安定、作用時間が長い</span><span class="nx-drug-li">・抗アルドステロン作用（心線維化抑制の可能性）、低K をきたしにくい</span></span></div>
+          <div class="nx-drug-row"><span class="nx-drug-lbl">短所</span><span class="nx-drug-body"><span class="nx-drug-li">・本邦では静注規格の使い勝手・採用がフロセミドほど普及していない</span></span></div>
+          <div class="nx-drug-row"><span class="nx-drug-lbl">特徴</span><span class="nx-drug-body"><span class="nx-drug-li">・吸収が安定し「飲んだら確実に効く」点でフロセミド経口より読みやすい</span></span></div>
+        </div>
+      </div>
+
+      <h3 id="dx-s1-feat" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+        <span class="section-label dt">SECTION 2</span>
+        サイト内から集めた特徴・エビデンス
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">「閾値（all-or-none）」の薬物動態</h3>
+          <p class="rule-body">ループ利尿薬は用量を上げるほど比例して効く薬ではなく、<span class="mark-green"><strong>尿細管内濃度が閾値を超えて初めて効く「all-or-none」型</strong></span>である。効果を決めるのは血清濃度ではなく尿細管腔内に到達した薬物量であり、「効かない」ときは血中濃度ではなく到達量の問題を考える。</p>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-loop-diuretics-bmj2019.html#s1">ループ利尿薬の使い方（BMJ 2019）▸ all-or-none 効果</a></div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">トラセミド vs フロセミド</h3>
+          <div class="table-scroll">
+          <table class="ie-table">
+            <thead><tr><th style="width:24%;">項目</th><th>トラセミド</th><th>フロセミド</th></tr></thead>
+            <tbody>
+              <tr><td style="white-space:nowrap;"><strong>経口生物学的利用率</strong></td><td>高く安定</td><td>低く個体差大（約50%）</td></tr>
+              <tr><td style="white-space:nowrap;"><strong>作用時間</strong></td><td>長い</td><td>中間（ブメタニドは最短）</td></tr>
+              <tr><td style="white-space:nowrap;"><strong>抗アルドステロン作用</strong></td><td>あり（心線維化抑制の可能性）</td><td>なし</td></tr>
+              <tr><td style="white-space:nowrap;"><strong>低カリウム血症</strong></td><td>来しにくい</td><td>来しやすい</td></tr>
+            </tbody>
+          </table>
+          </div>
+          <p class="rule-body" style="margin-top:10px;">小規模試験では再入院・予後でトラセミド有利の報告があるが、大規模 RCT の TRANSFORM-HF では全死亡でフロセミドに対する優越性は示されず、<strong>非劣性</strong>という位置づけ。吸収の安定性を活かしたい場面で選択する。</p>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-loop-diuretics-bmj2019.html#s3">ループ利尿薬の使い方（BMJ 2019）▸ トラセミドとの比較</a> / <a href="../articles-gl-jcs-hf2025.html#ch6-diuretics">JCS 心不全GL 2025 ▸ 利尿薬治療戦略</a></div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">よくある処方の誤り（5つ）</h3>
+          <ul style="margin:6px 0 0 20px;font-size:0.85rem;line-height:1.9;">
+            <li>1日に細かく分けて投与する（閾値を超えにくい）</li>
+            <li>毎回バラバラの用量にする</li>
+            <li>すでに有効な用量をさらに増やす</li>
+            <li>「やさしく」効かせようと閾値未満の少量にする</li>
+            <li>服薬タイミングが不規則</li>
+          </ul>
+          <div class="alert-green" style="margin-top:10px;"><strong>原則：</strong>まず「1回量を閾値超えまで上げて確実に効かせる」。反復が必要なら<strong>次の投与は6時間以上空ける</strong>。</div>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-loop-diuretics-bmj2019.html#s6">ループ利尿薬の使い方（BMJ 2019）▸ 避けるべき処方</a></div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">効き目の評価 — 「飲んだあと何回・何時間トイレに行ったか」</h3>
+          <p class="rule-body">利尿効果は患者への問診で評価できる。<strong>服用後に頻回排尿が続く4〜6時間の窓</strong>（合計2,000〜4,000 mL程度）が得られていれば効いている。作用時間はトラセミドが最長、ブメタニドが最短、フロセミドはその中間。</p>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-loop-diuretics-bmj2019.html#s5">ループ利尿薬の使い方（BMJ 2019）▸ 効果判定</a></div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">急性心不全での使い方（高用量・早期投与）</h3>
+          <p class="rule-body">うっ血のある急性心不全では LVEF を問わずループ利尿薬が基本で、<span class="mark-green"><strong>来院後おおむね1時間以内の静注開始</strong></span>が重要。DOSE 試験では高用量（普段の経口量の約2倍）が低用量より短期の症状改善に優れた（一過性の Cr 上昇は許容）。利尿に伴う Cr 上昇のみを理由に利尿薬を止めない。</p>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-jcs-hf2025.html#ch6-diuretics">JCS 心不全GL 2025 ▸ 利尿薬治療戦略（DOSE）</a> / <a href="../exam-circulation.html#p3-tx">試験ノート 循環 ▸ 急性心不全の治療</a></div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">利尿薬抵抗性とその対策</h3>
+          <p class="rule-body">単剤で不十分なときの戦略：</p>
+          <ul style="margin:6px 0 0 20px;font-size:0.85rem;line-height:1.9;">
+            <li><strong>逐次ネフロン遮断：</strong>サイアザイドを上乗せ（ループ効果の約25%を追加）。K保持性利尿薬の追加も（約3%）</li>
+            <li><strong>反復投与は6時間以上空ける</strong>（利尿後の Na 貪欲相が終わってから）</li>
+            <li><strong>利尿期前後の塩分制限</strong>（post-diuretic sodium avidity による再吸収を抑える）</li>
+            <li>ACE阻害薬/ARB・NSAIDs は GFR を下げて利尿効果を減弱させうる</li>
+          </ul>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-loop-diuretics-bmj2019.html#s8">ループ利尿薬（BMJ 2019）▸ 利尿強化</a> / <a href="../articles-gl-loop-diuretics-bmj2019.html#s9">▸ 併用薬による減弱</a></div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">AKI でのループ利尿薬 — 治療ではなく「体液管理」</h3>
+          <p class="rule-body">KDIGO は、<span class="mark-green"><strong>臨床的に意味のある体液過剰の管理目的</strong></span>でループ利尿薬を使うことを認める一方、<strong>AKI の予防・治療そのものに利尿薬の有効性のエビデンスはない</strong>とする。利尿薬反応性があれば RRT を回避・遅延できる可能性があり、無尿・抵抗性なら早期 RRT を検討。<strong>フロセミド負荷試験（FST：1 mg/kg、ループ使用中なら1.5 mg/kg を静注し2時間尿量を評価。&lt;200 mL で進行リスク高）</strong>が層別化に使える。</p>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-kdigo-aki2026.html#aki3-s3">KDIGO AKI 2026 ▸ 利尿薬の適正使用・FST</a></div>
+
+      <!-- ═══════════════════════════════════════════ -->
+      <!-- ═══ 第2章：サイアザイド系 ═══ -->
+      <!-- ═══════════════════════════════════════════ -->
+      <div id="dx-ch2" class="gl-chapter-banner dt"><div class="gl-chapter-title">第2章 サイアザイド系</div><div class="gl-chapter-subtitle">Thiazides — Sequential Nephron Blockade</div></div>
+
+      <h3 id="dx-s2-order" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+        <span class="section-label dt">SECTION 1</span>
+        発注・基本情報
+      </h3>
+
+      <div class="nx-drug-card">
+        <div class="nx-drug-name">
+          <div class="nx-drug-name-main"><div class="nx-drug-name-text">サイアザイド系</div><span class="nx-drug-alias">Hydrochlorothiazide / Trichlormethiazide（フルイトラン®）</span></div>
+          <div class="nx-drug-divline"></div>
+          <div class="nx-drug-dose-box"><div class="nx-drug-dose-lbl">代表用量</div><div class="nx-drug-dose-val">HCTZ 12.5〜25 mg/日</div></div>
+        </div>
+        <div class="nx-drug-rows">
+          <div class="nx-drug-row"><span class="nx-drug-lbl">分類</span><span class="nx-drug-body"><span class="nx-drug-li">・サイアザイド系（遠位曲尿細管の NCC 阻害）</span></span></div>
+          <div class="nx-drug-row"><span class="nx-drug-lbl">用量</span><span class="nx-drug-body"><span class="nx-drug-li">・ヒドロクロロチアジド 12.5〜25 mg/日／トリクロルメチアジド 1〜2 mg/日</span><span class="nx-drug-li">・心不全ではループへの<strong>上乗せ</strong>として少量から</span></span></div>
+          <div class="nx-drug-row"><span class="nx-drug-lbl">長所</span><span class="nx-drug-body"><span class="nx-drug-li">・ループ抵抗性うっ血に上乗せで利尿を増強（逐次ネフロン遮断）</span></span></div>
+          <div class="nx-drug-row"><span class="nx-drug-lbl">短所</span><span class="nx-drug-body"><span class="nx-drug-li">・低Na・低K・低Mg を増悪させやすく、電解質と腎機能のモニタリングが必須</span><span class="nx-drug-li">・eGFR 高度低下では単剤の利尿効果は乏しい</span></span></div>
+          <div class="nx-drug-row"><span class="nx-drug-lbl">特徴</span><span class="nx-drug-body"><span class="nx-drug-li">・軽度の代謝性アルカローシス（ループより軽い）</span></span></div>
+        </div>
+      </div>
+
+      <h3 id="dx-s2-feat" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+        <span class="section-label dt">SECTION 2</span>
+        サイト内から集めた特徴・エビデンス
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">ループ抵抗性への上乗せ（CLOROTIC）</h3>
+          <p class="rule-body">ループ利尿薬が効きにくいうっ血に対し、<span class="mark-green"><strong>サイアザイドの併用で利尿を増強できる</strong></span>（JCS 2025 では COR IIa）。CLOROTIC 試験でループへのサイアザイド追加の有効性が確認されている。下流（遠位曲尿細管）での Na 再吸収代償を抑える「逐次ネフロン遮断」の代表例。<strong>電解質異常・腎機能悪化のモニタリングが前提</strong>。</p>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-jcs-hf2025.html#ch6-diuretics">JCS 心不全GL 2025 ▸ 利尿薬治療戦略（CLOROTIC）</a> / <a href="../articles-gl-loop-diuretics-bmj2019.html#s8">ループ利尿薬（BMJ 2019）▸ 利尿強化</a></div>
+
+      <!-- ═══════════════════════════════════════════ -->
+      <!-- ═══ 第3章：MRA ═══ -->
+      <!-- ═══════════════════════════════════════════ -->
+      <div id="dx-ch3" class="gl-chapter-banner dt"><div class="gl-chapter-title">第3章 ミネラルコルチコイド受容体拮抗薬（MRA）</div><div class="gl-chapter-subtitle">Spironolactone / Eplerenone / Finerenone</div></div>
+
+      <h3 id="dx-s3-order" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+        <span class="section-label dt">SECTION 1</span>
+        発注・基本情報
+      </h3>
+
+      <!-- スピロノラクトン -->
+      <div class="nx-drug-card">
+        <div class="nx-drug-name">
+          <div class="nx-drug-name-main"><div class="nx-drug-name-text">スピロノラクトン</div><span class="nx-drug-alias">Spironolactone（アルダクトンA®）／ステロイド型MRA</span></div>
+          <div class="nx-drug-divline"></div>
+          <div class="nx-drug-dose-box"><div class="nx-drug-dose-lbl">代表用量</div><div class="nx-drug-dose-val">12.5〜25 mg/日</div></div>
+        </div>
+        <div class="nx-drug-rows">
+          <div class="nx-drug-row"><span class="nx-drug-lbl">分類</span><span class="nx-drug-body"><span class="nx-drug-li">・ステロイド型MRA（集合管 ENaC 上流の MR を拮抗、K保持性）</span></span></div>
+          <div class="nx-drug-row"><span class="nx-drug-lbl">用量</span><span class="nx-drug-body"><span class="nx-drug-li">・HFrEF 維持 12.5〜25 mg/日（NYHA II–IV・LVEF≤40% で COR I/A）</span></span></div>
+          <div class="nx-drug-row"><span class="nx-drug-lbl">長所</span><span class="nx-drug-body"><span class="nx-drug-li">・HFrEF の<strong>予後改善薬（GDMTの一角）</strong>。利尿は補助的</span></span></div>
+          <div class="nx-drug-row"><span class="nx-drug-lbl">短所</span><span class="nx-drug-body"><span class="nx-drug-li">・高K血症・腎機能悪化に注意（K・Cr モニタリング）</span><span class="nx-drug-li">・女性化乳房・性機能障害（ステロイド型に多い）</span></span></div>
+          <div class="nx-drug-row"><span class="nx-drug-lbl">特徴</span><span class="nx-drug-body"><span class="nx-drug-li">・エプレレノン（セララ®）は選択性が高く女性化乳房が少ない</span></span></div>
+        </div>
+      </div>
+
+      <!-- フィネレノン -->
+      <div class="nx-drug-card">
+        <div class="nx-drug-name">
+          <div class="nx-drug-name-main"><div class="nx-drug-name-text">フィネレノン</div><span class="nx-drug-alias">Finerenone（ケレンディア®）／非ステロイド型MRA</span></div>
+          <div class="nx-drug-divline"></div>
+          <div class="nx-drug-dose-box"><div class="nx-drug-dose-lbl">代表用量</div><div class="nx-drug-dose-val">10〜20 mg/日</div></div>
+        </div>
+        <div class="nx-drug-rows">
+          <div class="nx-drug-row"><span class="nx-drug-lbl">分類</span><span class="nx-drug-body"><span class="nx-drug-li">・非ステロイド型MRA（選択的）。抗炎症・抗線維化作用</span></span></div>
+          <div class="nx-drug-row"><span class="nx-drug-lbl">用量</span><span class="nx-drug-body"><span class="nx-drug-li">・10〜20 mg/日（eGFR・K値で開始量を調整）</span></span></div>
+          <div class="nx-drug-row"><span class="nx-drug-lbl">長所</span><span class="nx-drug-body"><span class="nx-drug-li">・<strong>2型糖尿病＋CKD で心腎イベントを抑制</strong>（FIDELIO/FIGARO/FIDELITY）</span><span class="nx-drug-li">・女性化乳房をきたしにくい。低K も少ない</span></span></div>
+          <div class="nx-drug-row"><span class="nx-drug-lbl">短所</span><span class="nx-drug-body"><span class="nx-drug-li">・高K血症（K&gt;5.5で休薬、≤5.0で再開のプロトコル管理）</span></span></div>
+          <div class="nx-drug-row"><span class="nx-drug-lbl">特徴</span><span class="nx-drug-body"><span class="nx-drug-li">・利尿薬というより<strong>心腎保護薬</strong>。HFpEF/HFmrEF でも CV 死＋心不全悪化を抑制（FINEARTS-HF）</span></span></div>
+        </div>
+      </div>
+
+      <h3 id="dx-s3-feat" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+        <span class="section-label dt">SECTION 2</span>
+        サイト内から集めた特徴・エビデンス
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">HFrEF における位置づけ（GDMTの一角）</h3>
+          <p class="rule-body">スピロノラクトンは NYHA II–IV・LVEF≤40% の HFrEF で <strong>COR I/A</strong>。HFpEF/HFmrEF ではスピロノラクトン/エプレレノンは COR IIb（TOPCAT で心不全入院は二次評価項目で減少も主要評価項目は未達）。<span class="mark-green"><strong>MRA は「利尿薬」というより予後改善のための GDMT 構成薬</strong></span>として位置づける。</p>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-jcs-hf2025.html#ch6-hfref">JCS 心不全GL 2025 ▸ HFrEF の薬物療法</a> / <a href="../articles-gl-jcs-hf2025.html#ch6-hfpef">▸ HFpEF/HFmrEF</a></div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">フィネレノン — 2型糖尿病＋CKD の心腎保護（FIDELITY）</h3>
+          <p class="rule-body">FIDELIO-DKD と FIGARO-DKD の統合解析 FIDELITY では、フィネレノンは<span class="mark-green"><strong>CV 複合イベントを14%（HR 0.86）、腎複合イベントを18%（HR 0.82）相対的に低下</strong></span>。CV 低下の主因は心不全入院の22%減（HR 0.78）。高K血症は増えるが（14.0% vs 6.9%）致死的高Kはゼロ、Kのみによる中止は1.7%。低K はむしろ少なく（1.1% vs 2.3%）、不整脈リスクの観点でも有利な可能性。</p>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-fidelity-ehj2022.html#fidelity-s5">FIDELITY 統合解析（EHJ 2022）▸ 心血管アウトカム</a> / <a href="../articles-gl-fidelity-ehj2022.html#fidelity-s6">▸ 腎アウトカム</a> / <a href="../articles-gl-fidelity-ehj2022.html#fidelity-s8">▸ 高K血症の管理</a></div>
+
+      <!-- ═══════════════════════════════════════════ -->
+      <!-- ═══ 第4章：バソプレシン拮抗薬 ═══ -->
+      <!-- ═══════════════════════════════════════════ -->
+      <div id="dx-ch4" class="gl-chapter-banner dt"><div class="gl-chapter-title">第4章 バソプレシン拮抗薬（トルバプタン）</div><div class="gl-chapter-subtitle">V2 Receptor Antagonist — Aquaresis</div></div>
+
+      <h3 id="dx-s4-order" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+        <span class="section-label dt">SECTION 1</span>
+        発注・基本情報
+      </h3>
+
+      <div class="nx-drug-card">
+        <div class="nx-drug-name">
+          <div class="nx-drug-name-main"><div class="nx-drug-name-text">トルバプタン</div><span class="nx-drug-alias">Tolvaptan（サムスカ®）</span></div>
+          <div class="nx-drug-divline"></div>
+          <div class="nx-drug-dose-box"><div class="nx-drug-dose-lbl">代表用量</div><div class="nx-drug-dose-val">7.5〜15 mg/日</div></div>
+        </div>
+        <div class="nx-drug-rows">
+          <div class="nx-drug-row"><span class="nx-drug-lbl">分類</span><span class="nx-drug-body"><span class="nx-drug-li">・バソプレシン V2 受容体拮抗薬（集合管のアクアポリン2を抑制し自由水を排泄＝aquaresis）</span></span></div>
+          <div class="nx-drug-row"><span class="nx-drug-lbl">用量</span><span class="nx-drug-body"><span class="nx-drug-li">・心不全の体液貯留に 7.5〜15 mg/日 単回（少量から）</span></span></div>
+          <div class="nx-drug-row"><span class="nx-drug-lbl">長所</span><span class="nx-drug-body"><span class="nx-drug-li">・電解質をほとんど乱さずに水を引ける（低Na・腎機能低下例で有用）</span><span class="nx-drug-li">・腎機能低下があってもループより効果が落ちにくい</span></span></div>
+          <div class="nx-drug-row"><span class="nx-drug-lbl">短所</span><span class="nx-drug-body"><span class="nx-drug-li">・<strong>急激な Na 上昇（過補正）に注意</strong>。導入は入院下で頻回に Na 測定</span><span class="nx-drug-li">・口渇・高Na・肝障害。肝不全では避ける</span></span></div>
+          <div class="nx-drug-row"><span class="nx-drug-lbl">特徴</span><span class="nx-drug-body"><span class="nx-drug-li">・急性期の症状は改善するが<strong>長期予後は改善しない</strong>（EVEREST）</span></span></div>
+        </div>
+      </div>
+
+      <h3 id="dx-s4-feat" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+        <span class="section-label dt">SECTION 2</span>
+        サイト内から集めた特徴・エビデンス
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">心不全での位置づけ（EVEREST / AQUAMARINE）</h3>
+          <p class="rule-body">JCS 2025 では、腎機能低下を伴ううっ血で特に有用（AQUAMARINE/K-STAR、COR IIa）。一方 <span class="mark-green"><strong>EVEREST 試験では急性症状は改善するが長期予後は改善しない</strong></span>ため、急性期に限って使い、慢性期は漫然と続けない。ループと同時併用すると過補正のリスクがあり、電解質モニタリングが必須。</p>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-jcs-hf2025.html#ch6-diuretics">JCS 心不全GL 2025 ▸ 利尿薬治療戦略（トルバプタン）</a></div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">体液過剰性の低Na血症での使い方</h3>
+          <p class="rule-body">心不全・肝硬変・ネフローゼに伴う体液過剰性の低Na血症では、<strong>水制限 → ループ利尿薬 → 不十分ならトルバプタン</strong>という段階を踏む。トルバプタンは電解質を伴わず水だけを引く（aquaresis）ため、ループのような等張性の喪失と性質が異なる。過補正回避のため少量開始・頻回モニタリングが原則。</p>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-hyponatremia-ndt2024.html#ch3">低Na血症 治療スタンダード（NDT 2024）▸ 体液過剰性低Na</a> / <a href="../exam-fluid.html#fluid-s3">試験ノート 輸液 ▸ 高容量性低Na血症</a></div>
+
+      <!-- ═══════════════════════════════════════════ -->
+      <!-- ═══ 第5章：炭酸脱水酵素阻害薬 ═══ -->
+      <!-- ═══════════════════════════════════════════ -->
+      <div id="dx-ch5" class="gl-chapter-banner dt"><div class="gl-chapter-title">第5章 炭酸脱水酵素阻害薬（アセタゾラミド）</div><div class="gl-chapter-subtitle">Carbonic Anhydrase Inhibitor</div></div>
+
+      <h3 id="dx-s5-order" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+        <span class="section-label dt">SECTION 1</span>
+        発注・基本情報
+      </h3>
+
+      <div class="nx-drug-card">
+        <div class="nx-drug-name">
+          <div class="nx-drug-name-main"><div class="nx-drug-name-text">アセタゾラミド</div><span class="nx-drug-alias">Acetazolamide（ダイアモックス®）</span></div>
+          <div class="nx-drug-divline"></div>
+          <div class="nx-drug-dose-box"><div class="nx-drug-dose-lbl">代表用量</div><div class="nx-drug-dose-val">250〜500 mg</div></div>
+        </div>
+        <div class="nx-drug-rows">
+          <div class="nx-drug-row"><span class="nx-drug-lbl">分類</span><span class="nx-drug-body"><span class="nx-drug-li">・炭酸脱水酵素阻害薬（近位尿細管で HCO₃⁻ 再吸収を抑制）</span></span></div>
+          <div class="nx-drug-row"><span class="nx-drug-lbl">用量</span><span class="nx-drug-body"><span class="nx-drug-li">・250〜500 mg（経口/静注）。利尿補助として短期に</span></span></div>
+          <div class="nx-drug-row"><span class="nx-drug-lbl">長所</span><span class="nx-drug-body"><span class="nx-drug-li">・<strong>HCO₃⁻ を排泄</strong>し代謝性アルカローシスを是正しながら利尿（うっ血＋アルカローシス合併で有用）</span></span></div>
+          <div class="nx-drug-row"><span class="nx-drug-lbl">短所</span><span class="nx-drug-body"><span class="nx-drug-li">・<strong>代謝性アシドーシス</strong>をきたす（ループ/サイアザイドと逆方向）</span><span class="nx-drug-li">・単独の利尿力は弱い。腎不全では相対禁忌（神経毒性）</span></span></div>
+          <div class="nx-drug-row"><span class="nx-drug-lbl">特徴</span><span class="nx-drug-body"><span class="nx-drug-li">・利尿の主役ではなく、酸塩基の調整を兼ねた<strong>補助薬</strong>として位置づける</span></span></div>
+        </div>
+      </div>
+
+      <h3 id="dx-s5-feat" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+        <span class="section-label dt">SECTION 2</span>
+        サイト内から集めた特徴・エビデンス
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">利尿薬と酸塩基 — 「ループ/サイアザイドはアルカローシス、アセタゾラミドはアシドーシス」</h3>
+          <p class="rule-body">ループ・サイアザイドは NaCl 喪失 → 容量低下 → RAAS 活性化 → 遠位 Na 再吸収と K⁺/H⁺ 分泌 → <strong>代謝性アルカローシス＋低K</strong>を来す。これに対しアセタゾラミドは近位での HCO₃⁻ 再吸収を抑え<span class="mark-green"><strong>逆に代謝性アシドーシス側に働く</strong></span>。利尿薬性アルカローシスが問題になる場面でアセタゾラミドが補助的に役立つ理由がここにある。</p>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-met-alkalosis2022.html#s2-3">代謝性アルカローシス（AJKD 2022）▸ 利尿薬誘発性アルカローシス</a> / <a href="../articles-gl-met-alkalosis2022.html#s4-2">▸ 高Ca血症・治療</a></div>
+
+      <!-- ═══════════════════════════════════════════ -->
+      <!-- ═══ 第6章：その他 ═══ -->
+      <!-- ═══════════════════════════════════════════ -->
+      <div id="dx-ch6" class="gl-chapter-banner dt"><div class="gl-chapter-title">第6章 その他（カルペリチド・マンニトール・SGLT2阻害薬）</div><div class="gl-chapter-subtitle">Carperitide / Mannitol / SGLT2 Inhibitor</div></div>
+
+      <h3 id="dx-s6-order" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+        <span class="section-label dt">SECTION 1</span>
+        発注・基本情報
+      </h3>
+
+      <!-- カルペリチド -->
+      <div class="nx-drug-card">
+        <div class="nx-drug-name">
+          <div class="nx-drug-name-main"><div class="nx-drug-name-text">カルペリチド</div><span class="nx-drug-alias">Carperitide / hANP（ハンプ®）</span></div>
+          <div class="nx-drug-divline"></div>
+          <div class="nx-drug-dose-box"><div class="nx-drug-dose-lbl">代表用量</div><div class="nx-drug-dose-val">0.0125〜0.2 µg/kg/min</div></div>
+        </div>
+        <div class="nx-drug-rows">
+          <div class="nx-drug-row"><span class="nx-drug-lbl">分類</span><span class="nx-drug-body"><span class="nx-drug-li">・本邦独自の hANP 製剤。血管拡張＋利尿＋RAAS 抑制作用</span></span></div>
+          <div class="nx-drug-row"><span class="nx-drug-lbl">用量</span><span class="nx-drug-body"><span class="nx-drug-li">・低用量（0.0125〜0.025 µg/kg/min 程度）から開始し漸増（持続静注）</span></span></div>
+          <div class="nx-drug-row"><span class="nx-drug-lbl">長所</span><span class="nx-drug-body"><span class="nx-drug-li">・急性心不全で前負荷・後負荷を下げつつ利尿</span></span></div>
+          <div class="nx-drug-row"><span class="nx-drug-lbl">短所</span><span class="nx-drug-body"><span class="nx-drug-li">・<strong>低血圧に注意</strong>（血圧を見ながら用量調整）</span></span></div>
+        </div>
+      </div>
+
+      <!-- マンニトール -->
+      <div class="nx-drug-card">
+        <div class="nx-drug-name">
+          <div class="nx-drug-name-main"><div class="nx-drug-name-text">マンニトール</div><span class="nx-drug-alias">Mannitol（浸透圧利尿薬）</span></div>
+          <div class="nx-drug-divline"></div>
+          <div class="nx-drug-dose-box"><div class="nx-drug-dose-lbl">代表用量</div><div class="nx-drug-dose-val">0.25〜1 g/kg</div></div>
+        </div>
+        <div class="nx-drug-rows">
+          <div class="nx-drug-row"><span class="nx-drug-lbl">分類</span><span class="nx-drug-body"><span class="nx-drug-li">・浸透圧利尿薬（近位尿細管で水の再吸収を妨げる）</span></span></div>
+          <div class="nx-drug-row"><span class="nx-drug-lbl">用量</span><span class="nx-drug-body"><span class="nx-drug-li">・0.25〜1 g/kg を静注（主に頭蓋内圧管理など）</span></span></div>
+          <div class="nx-drug-row"><span class="nx-drug-lbl">長所</span><span class="nx-drug-body"><span class="nx-drug-li">・体液量・浸透圧の調整に使える</span></span></div>
+          <div class="nx-drug-row"><span class="nx-drug-lbl">短所</span><span class="nx-drug-body"><span class="nx-drug-li">・遠位での代償により利尿効果は限定的。<strong>腎不全・心不全では容量負荷の危険</strong></span></span></div>
+        </div>
+      </div>
+
+      <!-- SGLT2阻害薬 -->
+      <div class="nx-drug-card">
+        <div class="nx-drug-name">
+          <div class="nx-drug-name-main"><div class="nx-drug-name-text">SGLT2阻害薬</div><span class="nx-drug-alias">Dapagliflozin / Empagliflozin（フォシーガ®／ジャディアンス®）</span></div>
+          <div class="nx-drug-divline"></div>
+          <div class="nx-drug-dose-box"><div class="nx-drug-dose-lbl">代表用量</div><div class="nx-drug-dose-val">10 mg/日</div></div>
+        </div>
+        <div class="nx-drug-rows">
+          <div class="nx-drug-row"><span class="nx-drug-lbl">分類</span><span class="nx-drug-body"><span class="nx-drug-li">・SGLT2 阻害薬（近位尿細管でグルコース・Na 再吸収を抑制＝浸透圧利尿の側面）</span></span></div>
+          <div class="nx-drug-row"><span class="nx-drug-lbl">用量</span><span class="nx-drug-body"><span class="nx-drug-li">・ダパグリフロジン/エンパグリフロジン 10 mg/日</span></span></div>
+          <div class="nx-drug-row"><span class="nx-drug-lbl">長所</span><span class="nx-drug-body"><span class="nx-drug-li">・<strong>HFrEF/HFmrEF/HFpEF の予後改善薬（GDMT）</strong>。糖尿病の有無を問わない</span></span></div>
+          <div class="nx-drug-row"><span class="nx-drug-lbl">短所</span><span class="nx-drug-body"><span class="nx-drug-li">・脱水・尿路/性器感染。シックデイは一時休薬</span></span></div>
+        </div>
+      </div>
+
+      <h3 id="dx-s6-feat" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+        <span class="section-label dt">SECTION 2</span>
+        サイト内から集めた特徴・エビデンス
+      </h3>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">カルペリチド（hANP）— 血圧を見ながら</h3>
+          <p class="rule-body">本邦独自の hANP 製剤で、血管拡張・利尿・RAAS 抑制を併せ持つ。急性心不全で用いるが、<span class="mark-green"><strong>低血圧が最大の注意点</strong></span>で、低用量から血圧をモニタリングしつつ調整する。</p>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../exam-circulation.html#p3-tx">試験ノート 循環 ▸ 急性心不全の治療（カルペリチド）</a></div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">マンニトール — 浸透圧利尿の限界</h3>
+          <p class="rule-body">近位尿細管で水の再吸収を妨げる浸透圧利尿薬だが、<strong>遠位ネフロンの代償により正味の利尿効果は限定的</strong>。腎不全・心不全では血管内容量を増やして増悪させる危険があり、利尿目的での安易な使用は避ける。</p>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../exam-renal.html#ch1-s4">試験ノート 腎 ▸ 利尿薬の作用機序</a></div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <h3 class="rule-title">SGLT2阻害薬 — 「利尿薬」ではなく予後改善薬</h3>
+          <p class="rule-body">近位尿細管でのグルコース・Na 再吸収抑制を介した浸透圧利尿の側面を持つが、本質は<span class="mark-green"><strong>心不全（HFrEF/HFmrEF/HFpEF）の予後改善薬</strong></span>。HFpEF では EMPEROR-Preserved・DELIVER で<strong>初めてエビデンスに基づく標準薬</strong>となり、心不全入院を約21%減少（COR I/A、糖尿病の有無を問わない）。AKI のシックデイには一時休薬する。</p>
+        </div>
+      </div>
+      <div class="dt-source"><a href="../articles-gl-jcs-hf2025.html#ch6-hfpef">JCS 心不全GL 2025 ▸ HFpEF の薬物療法</a> / <a href="../articles-gl-kdigo-aki2026.html#aki3-s3">KDIGO AKI 2026 ▸ シックデイ</a></div>
+
+      <!-- ═══════════════════════════════════════════ -->
+      <!-- ═══ SUMMARY ═══ -->
+      <!-- ═══════════════════════════════════════════ -->
+      <h3 id="dx-summary" style="font-size:1.1rem;font-weight:900;color:var(--text);margin:28px 0 16px;padding-left:14px;border-left:4px solid #B45309;line-height:1.4;">
+        <span class="section-label dt">SUMMARY</span>
+        利尿薬の使い分け — 5つのキーメッセージ
+      </h3>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-inner">
+          <div style="background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;">
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span class="summary-num dt">①</span>
+              <span class="rule-body"><strong>作用部位で系統を選ぶ：</strong>近位＝CA阻害/SGLT2/マンニトール、ヘンレ＝ループ（最強）、遠位＝サイアザイド、集合管＝MRA/トルバプタン。うっ血を取る主役はループ。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span class="summary-num dt">②</span>
+              <span class="rule-body"><strong>ループは「閾値型」で確実に効かせる：</strong>少量を小分けにせず、1回量を閾値超えまで上げる。反復は6時間以上空ける。経口は静注の約2倍量。急性心不全は来院1時間以内・高用量。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span class="summary-num dt">③</span>
+              <span class="rule-body"><strong>抵抗性には逐次ネフロン遮断：</strong>ループ抵抗性うっ血にはサイアザイドを上乗せ（CLOROTIC）。電解質・腎機能をモニタリング。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span class="summary-num dt">④</span>
+              <span class="rule-body"><strong>「うっ血を取る薬」と「予後を変える薬」を分けて考える：</strong>MRA（スピロノラクトン/フィネレノン）・SGLT2 は予後改善の GDMT、トルバプタンは電解質を乱さない自由水利尿だが長期予後は不変（EVEREST）。</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;padding:8px 0;">
+              <span class="summary-num dt">⑤</span>
+              <span class="rule-body"><strong>電解質・酸塩基を予測する：</strong>ループ/サイアザイド＝低K・代謝性アルカローシス、アセタゾラミド＝代謝性アシドーシス、MRA/フィネレノン＝高K。系統ごとに起こる電解質変化を先回りして補正する。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 出典 -->
+      <div style="margin-top:24px;padding:14px 18px;background:#F8FAFC;border:1px solid var(--border);border-radius:8px;font-size:0.74rem;color:#4B5563;line-height:1.8;">
+        <div style="font-weight:800;color:#374151;font-size:0.78rem;margin-bottom:8px;">出典（当サイト収録のまとめページ）</div>
+        本ページの数値・試験結果・推奨は、以下の当サイト収録ページに準拠して構成した。各特徴ボックス右下の「出典」リンクから該当セクションへ移動できる。
+        <div style="margin-top:8px;">
+          ・<a href="../articles-gl-loop-diuretics-bmj2019.html" style="color:#1D4ED8;">ループ利尿薬の使い方（BMJ 2019）</a>／<a href="../articles-gl-jcs-hf2025.html" style="color:#1D4ED8;">JCS 急性・慢性心不全診療ガイドライン 2025</a>／<a href="../articles-gl-fidelity-ehj2022.html" style="color:#1D4ED8;">FIDELITY 統合解析（EHJ 2022）</a>／<a href="../articles-gl-hyponatremia-ndt2024.html" style="color:#1D4ED8;">低Na血症 治療スタンダード（NDT 2024）</a>／<a href="../articles-gl-met-alkalosis2022.html" style="color:#1D4ED8;">代謝性アルカローシス（AJKD 2022）</a>／<a href="../articles-gl-kdigo-aki2026.html" style="color:#1D4ED8;">KDIGO AKI 2026</a>
+        </div>
+        <div style="padding-top:8px;margin-top:8px;border-top:1px solid #E2E8F0;font-size:0.7rem;color:#9CA3AF;">
+          本資料は教育目的で作成したサマリーです。用量・投与法は代表例であり、診断・治療方針の決定には必ず原典および各薬剤の最新の添付文書を参照してください。
+        </div>
+      </div>
+      <p style="font-size:0.75rem;color:var(--muted);text-align:right;margin-top:8px;">制作：ICU 関谷</p>
+
+    </div><!-- /.main-col -->
+
+    <!-- ── サイドバー目次 ── -->
+    <aside class="ie-sidebar">
+      <div class="ie-sidebar-card">
+        <div class="ie-sidebar-title">目次</div>
+
+        <a href="#dx-ch0" class="ie-toc-chapter">総論 作用部位と原則</a>
+        <a href="#dx-s0-map" class="ie-toc-section">S1 — 作用部位マップ</a>
+        <a href="#dx-s0-principle" class="ie-toc-section">S2 — 病態から選ぶ</a>
+
+        <a href="#dx-ch1" class="ie-toc-chapter">第1章 ループ利尿薬</a>
+        <a href="#dx-s1-order" class="ie-toc-section">S1 — 発注・基本情報</a>
+        <a href="#dx-s1-feat" class="ie-toc-section">S2 — 特徴・エビデンス</a>
+
+        <a href="#dx-ch2" class="ie-toc-chapter">第2章 サイアザイド系</a>
+        <a href="#dx-s2-order" class="ie-toc-section">S1 — 発注・基本情報</a>
+        <a href="#dx-s2-feat" class="ie-toc-section">S2 — 特徴・エビデンス</a>
+
+        <a href="#dx-ch3" class="ie-toc-chapter">第3章 MRA</a>
+        <a href="#dx-s3-order" class="ie-toc-section">S1 — 発注・基本情報</a>
+        <a href="#dx-s3-feat" class="ie-toc-section">S2 — 特徴・エビデンス</a>
+
+        <a href="#dx-ch4" class="ie-toc-chapter">第4章 バソプレシン拮抗薬</a>
+        <a href="#dx-s4-order" class="ie-toc-section">S1 — 発注・基本情報</a>
+        <a href="#dx-s4-feat" class="ie-toc-section">S2 — 特徴・エビデンス</a>
+
+        <a href="#dx-ch5" class="ie-toc-chapter">第5章 炭酸脱水酵素阻害薬</a>
+        <a href="#dx-s5-order" class="ie-toc-section">S1 — 発注・基本情報</a>
+        <a href="#dx-s5-feat" class="ie-toc-section">S2 — 特徴・エビデンス</a>
+
+        <a href="#dx-ch6" class="ie-toc-chapter">第6章 その他</a>
+        <a href="#dx-s6-order" class="ie-toc-section">S1 — 発注・基本情報</a>
+        <a href="#dx-s6-feat" class="ie-toc-section">S2 — 特徴・エビデンス</a>
+
+        <a href="#dx-summary" class="ie-toc-chapter">SUMMARY</a>
+      </div>
+    </aside>
+
+  </div><!-- /.content-wrap -->
+
+  <script src="../../script.js?v=20260622"></script>
+  <script src="../../mob-toc.js"></script>
+  <script src="../../abbr-tooltip.js"></script>
+</body>
+</html>

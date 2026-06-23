@@ -10,6 +10,13 @@
  */
 const RECENT_PAGES = [
   {
+    title: "利尿薬の使い分け — 研修医のための処方ガイド",
+    url: "pages/disease-topics/dt-diuretics.html",
+    date: "2026-06-23",
+    tag: "解説",
+    thumb: "images/icu-study.jpg"
+  },
+  {
     title: "血小板減少のまとめ — ICUでの鑑別と対応",
     url: "pages/disease-topics/dt-thrombocytopenia.html",
     date: "2026-06-21",
