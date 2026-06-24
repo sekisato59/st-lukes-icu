@@ -10,6 +10,13 @@
  */
 const RECENT_PAGES = [
   {
+    title: "PEEPと肺胞リクルートメント — ARDSの60年（Intensive Care Med 2026）",
+    url: "pages/articles-gl-peep-recruit2026.html",
+    date: "2026-06-25",
+    tag: "論文",
+    thumb: "images/朝カンファ風景.webp"
+  },
+  {
     title: "ビブリオ症（Vibriosis）JAMA Insights 2026",
     url: "pages/articles-gl-vibriosis2026.html",
     date: "2026-06-24",
@@ -17,10 +24,10 @@ const RECENT_PAGES = [
     thumb: "images/IDICUtop.png"
   },
   {
-    title: "PEEPと肺胞リクルートメント — ARDSの60年（Intensive Care Med 2026）",
-    url: "pages/articles-gl-peep-recruit2026.html",
+    title: "複視の鑑別 — 単眼性 vs 両眼性・脳神経麻痺・中脳梗塞による動眼神経麻痺（UpToDate 2024）",
+    url: "pages/articles-gl-diplopia-uptodate2024.html",
     date: "2026-06-24",
-    tag: "論文",
+    tag: "ガイドライン",
     thumb: "images/朝カンファ風景.webp"
   },
   {
