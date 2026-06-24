@@ -10,6 +10,13 @@
  */
 const RECENT_PAGES = [
   {
+    title: "ビブリオ症（Vibriosis）JAMA Insights 2026",
+    url: "pages/articles-gl-vibriosis2026.html",
+    date: "2026-06-24",
+    tag: "ガイドライン",
+    thumb: "images/IDICUtop.png"
+  },
+  {
     title: "B型肝炎 HBV — 板書ノート | 感染症各論",
     url: "pages/id-icu-notes/note-hbv.html",
     date: "2026-06-23",
