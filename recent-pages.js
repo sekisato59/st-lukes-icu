@@ -17,6 +17,13 @@ const RECENT_PAGES = [
     thumb: "images/IDICUtop.png"
   },
   {
+    title: "PEEPと肺胞リクルートメント — ARDSの60年（Intensive Care Med 2026）",
+    url: "pages/articles-gl-peep-recruit2026.html",
+    date: "2026-06-24",
+    tag: "論文",
+    thumb: "images/朝カンファ風景.webp"
+  },
+  {
     title: "B型肝炎 HBV — 板書ノート | 感染症各論",
     url: "pages/id-icu-notes/note-hbv.html",
     date: "2026-06-23",
