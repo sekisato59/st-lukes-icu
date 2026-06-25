@@ -10,6 +10,13 @@
  */
 const RECENT_PAGES = [
   {
+    title: "複視の鑑別 — 単眼性 vs 両眼性・脳神経麻痺・中脳梗塞による動眼神経麻痺（UpToDate 2024）",
+    url: "pages/articles-gl-diplopia-uptodate2024.html",
+    date: "2026-06-25",
+    tag: "ガイドライン",
+    thumb: "images/朝カンファ風景.webp"
+  },
+  {
     title: "PEEPと肺胞リクルートメント — ARDSの60年（Intensive Care Med 2026）",
     url: "pages/articles-gl-peep-recruit2026.html",
     date: "2026-06-25",
@@ -22,13 +29,6 @@ const RECENT_PAGES = [
     date: "2026-06-24",
     tag: "ガイドライン",
     thumb: "images/IDICUtop.png"
-  },
-  {
-    title: "複視の鑑別 — 単眼性 vs 両眼性・脳神経麻痺・中脳梗塞による動眼神経麻痺（UpToDate 2024）",
-    url: "pages/articles-gl-diplopia-uptodate2024.html",
-    date: "2026-06-24",
-    tag: "ガイドライン",
-    thumb: "images/朝カンファ風景.webp"
   },
   {
     title: "B型肝炎 HBV — 板書ノート | 感染症各論",
