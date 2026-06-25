@@ -61,7 +61,8 @@
     + dd('学習コンテンツ', [
         { href: 'pages/yoshida-qa.html',              label: '【9+10】吉田先生のお悩み相談コーナー' },
         { href: 'pages/schedule-weekly-id-icu.html',  label: '【感染症】ID×ICU conference' },
-        { href: 'pages/icu-passport.html',            label: 'ICU PASSPORT（レクチャーシート）' }
+        { href: 'pages/icu-passport.html',            label: 'ICU PASSPORT（レクチャーシート）' },
+        { href: 'pages/case-challenge.html',          label: '症例問題に挑戦！' }
       ])
     + dd('論文GL', [
         { href: 'pages/articles-guidelines.html', label: '論文GL（ICU）' },
