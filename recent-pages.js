@@ -10,6 +10,13 @@
  */
 const RECENT_PAGES = [
   {
+    title: "脳膿瘍 — 病態・診断・外科治療・抗菌薬・予後（NEJM 2014 レビュー）",
+    url: "pages/articles-gl-brainabscess2014.html",
+    date: "2026-06-25",
+    tag: "論文",
+    thumb: "images/IDICUtop.png"
+  },
+  {
     title: "複視の鑑別 — 単眼性 vs 両眼性・脳神経麻痺・中脳梗塞による動眼神経麻痺（UpToDate 2024）",
     url: "pages/articles-gl-diplopia-uptodate2024.html",
     date: "2026-06-25",
