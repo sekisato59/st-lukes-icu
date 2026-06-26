@@ -10,9 +10,16 @@
  */
 const RECENT_PAGES = [
   {
+    title: "4% テトラナトリウムEDTA ロック液による中心静脈カテーテル合併症の予防 — CLiCK試験（JAMA 2026）",
+    url: "pages/articles-gl-tedta-cvad2026.html",
+    date: "2026-06-26",
+    tag: "論文",
+    thumb: "images/IDICUtop.png"
+  },
+  {
     title: "脳膿瘍 — 病態・診断・外科治療・抗菌薬・予後（NEJM 2014 レビュー）",
     url: "pages/articles-gl-brainabscess2014.html",
-    date: "2026-06-25",
+    date: "2026-06-26",
     tag: "論文",
     thumb: "images/IDICUtop.png"
   },
