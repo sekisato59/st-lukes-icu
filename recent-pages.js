@@ -10,17 +10,17 @@
  */
 const RECENT_PAGES = [
   {
-    title: "非特異的腰痛 レビュー（JAMA 2026） | 聖路加ICUガイド",
-    url: "pages/articles-gl-lbp2026.html",
-    date: "2026-06-27",
-    tag: "論文",
-    thumb: "images/朝カンファ風景.webp"
-  },
-  {
     title: "CKD-MBD と二次性副甲状腺機能亢進症 — 病態・管理（透析/非透析）（UpToDate 2026）",
     url: "pages/articles-gl-ckdmbd-uptodate2026.html",
     date: "2026-06-27",
     tag: "ガイドライン",
+    thumb: "images/朝カンファ風景.webp"
+  },
+  {
+    title: "非特異的腰痛 レビュー（JAMA 2026） | 聖路加ICUガイド",
+    url: "pages/articles-gl-lbp2026.html",
+    date: "2026-06-27",
+    tag: "論文",
     thumb: "images/朝カンファ風景.webp"
   },
   {
@@ -57,6 +57,27 @@ const RECENT_PAGES = [
     date: "2026-06-24",
     tag: "ガイドライン",
     thumb: "images/IDICUtop.png"
+  },
+  {
+    title: "緊急気道確保デバイス（ファストラ／クイックトラック）— 手技・穿刺",
+    url: "pages/proc-emergency-airway.html",
+    date: "2026-06-23",
+    tag: "手技",
+    thumb: "images/手技について.jpg"
+  },
+  {
+    title: "ミッドラインカテーテル（サーフロー Midela）挿入手順 — 手技・穿刺",
+    url: "pages/proc-midline.html",
+    date: "2026-06-23",
+    tag: "手技",
+    thumb: "images/手技について.jpg"
+  },
+  {
+    title: "胸腔穿刺の安全管理 — 死亡事例から学ぶ（提言第12号）｜ 手技・穿刺",
+    url: "pages/proc-thoracentesis.html",
+    date: "2026-06-23",
+    tag: "手技",
+    thumb: "images/手技について.jpg"
   },
   {
     title: "B型肝炎 HBV — 板書ノート | 感染症各論",
@@ -234,6 +255,13 @@ const RECENT_PAGES = [
     thumb: "images/朝カンファ風景.webp"
   },
   {
+    title: "単純血漿交換（TPE）の基本 — 板書ノート | 腎電解質",
+    url: "pages/renal-notes/note-tpe.html",
+    date: "2026-06-08",
+    tag: "解説",
+    thumb: "images/ICUコアカン透析.png"
+  },
+  {
     title: "ワルデンシュトレームマクログロブリン血症 / リンパ形質細胞性リンパ腫 NCCN Guidelines v2.2026",
     url: "pages/articles-gl-nccn-wm2026.html",
     date: "2026-06-08",
@@ -276,6 +304,13 @@ const RECENT_PAGES = [
     thumb: "images/朝カンファ風景.webp"
   },
   {
+    title: "血液透析の基本 — 板書ノート | 腎電解質",
+    url: "pages/renal-notes/note-hemodialysis.html",
+    date: "2026-06-05",
+    tag: "解説",
+    thumb: "images/ICUコアカン透析.png"
+  },
+  {
     title: "PADIS 2018+2025 統合まとめ — 痛み・不安・鎮静・せん妄・不動・睡眠",
     url: "pages/articles-gl-padis2025.html",
     date: "2026-06-03",
@@ -288,6 +323,20 @@ const RECENT_PAGES = [
     date: "2026-06-02",
     tag: "ガイドライン",
     thumb: "images/IDICUtop.png"
+  },
+  {
+    title: "鎮静とは？ | 聖路加ICU レジデント基本用語",
+    url: "pages/resident-qa/qa-neuro-sedation.html",
+    date: "2026-06-02",
+    tag: "解説",
+    thumb: "images/icu-study.jpg"
+  },
+  {
+    title: "Q. 人工呼吸器の初期設定はどうする？ | 聖路加ICU レジデント臨床Q&amp;A",
+    url: "pages/resident-qa/qa-resp-vent-init.html",
+    date: "2026-06-02",
+    tag: "解説",
+    thumb: "images/icu-study.jpg"
   },
   {
     title: "患者-人工呼吸器非同調（PVA）と臨床転帰 — SR・メタ解析（Critical Care Medicine 2025）",

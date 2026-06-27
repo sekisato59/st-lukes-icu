@@ -51,6 +51,10 @@ const INCLUDE_PATTERNS = [
   'pages/id-icu-notes/note-*.html',
   'pages/karte-by-system.html',
   'pages/exam-*.html',
+  // 【ICU】レジデント資料 内のコンテンツページ（新規作成時に新着へ自動反映）
+  'pages/proc-*.html',            // 手技・穿刺
+  'pages/renal-notes/note-*.html',// 腎（透析・血漿交換ノート）
+  'pages/resident-qa/qa-*.html',  // レジデントQ&A（呼吸器初期設定・鎮静 等）
 ];
 
 const EXCLUDE_SUBSTRINGS = [
@@ -145,6 +149,9 @@ function inferTag(url, html) {
   if (url.includes('/id-icu-notes/'))   return '解説';
   if (url.includes('karte-by-system'))  return '解説';
   if (url.includes('/exam-'))           return '解説';
+  if (url.includes('/proc-'))           return '手技';
+  if (url.includes('/renal-notes/'))    return '解説';
+  if (url.includes('/resident-qa/'))    return '解説';
   if (url.includes('articles-gl-')) {
     const head = html.slice(0, 8000);
     const tm = html.match(/<title>([\s\S]+?)<\/title>/);
@@ -173,6 +180,9 @@ function inferThumb(url, html) {
   if (url.includes('karte-by-system'))  return 'images/header便利ツール.png';
   if (url.includes('/disease-topics/')) return 'images/icu-study.jpg';
   if (url.includes('/exam-'))           return 'images/icu-study.jpg';
+  if (url.includes('/proc-'))           return 'images/手技について.jpg';
+  if (url.includes('/renal-notes/'))    return 'images/ICUコアカン透析.png';
+  if (url.includes('/resident-qa/'))    return 'images/icu-study.jpg';
   if (url.includes('articles-gl-')) {
     const head = html.slice(0, 8000);
     if (/感染症|抗菌|耐性|細菌|ウイルス|fungal|antibiotic|infection/i.test(head)) return 'images/IDICUtop.png';
