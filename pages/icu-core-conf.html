@@ -51,20 +51,33 @@
     .core-btn-ico { font-size:0.65rem;line-height:1; }
 
     @media (max-width:600px) {
-      .core-card { grid-template-columns:90px 1fr;gap:8px 12px; }
-      .core-img { width:90px; }
-      .core-title { justify-self:start; }
-      .core-title { grid-column:2; }
-      .core-passport, .core-passport-empty { grid-column:2;justify-self:start; }
-      .core-meta { grid-column:2;align-items:flex-start;justify-self:start; }
+      /* 画像を左に固定高さで縦スパンさせ、右側のテキスト列（タイトル→バッヂ→担当→アクション）を
+         上詰めでタイトに積む。align-content:start で行が引き伸ばされないようにし、
+         タイトルとメタが間延びして離れる崩れを防ぐ。 */
+      .core-card {
+        grid-template-columns:84px 1fr;
+        align-content:start;
+        align-items:start;
+        gap:5px 12px;
+        padding:14px 16px;
+      }
+      .core-img {
+        grid-column:1;
+        grid-row:1 / span 4;
+        width:84px;height:84px;
+        object-fit:cover;object-position:top;
+        align-self:start;
+      }
+      .core-title { grid-column:2;justify-self:start;font-size:0.9rem;line-height:1.35; }
+      .core-passport { grid-column:2;justify-self:start;margin-top:2px; }
+      .core-passport-empty { display:none; }
+      .core-meta { grid-column:2;justify-self:start;align-items:flex-start;margin-top:2px; }
       .core-arrow { display:none; }
-      .core-card-multi {
-        min-height:0;align-content:stretch;padding-bottom:16px;
-      }
+      .core-card-multi { padding-bottom:14px; }
       .core-card-multi .core-actions {
-        position:static;grid-column:2;width:100%;margin-top:8px;justify-content:flex-start;
+        grid-column:2;justify-self:start;width:100%;margin-top:8px;justify-content:flex-start;
       }
-      .core-btn { flex:1;padding:7px 10px;font-size:0.72rem;min-width:0; }
+      .core-btn { flex:1;padding:8px 10px;font-size:0.74rem;min-width:0; }
     }
   </style>
 </head>
