@@ -764,7 +764,18 @@
         display:flex;align-items:stretch;
         gap:clamp(10px, 0.5rem + 0.4vw, 16px);
       }
-      .dum-footer-main { flex:1 1 auto;min-width:0;max-width:1294px;position:relative; }
+      /* 画像を「メイン列のコンテンツ箱（notice/新着グリッドの内寸）」に正確に揃える。
+         メイン列(.dum-main-col)に対し、本体カードは
+           左 = パネル左padding(--dum-panel-px) + グリッド左寄せ(--dum-grid-shift + --dum-card-pad)
+           右 = パネル右padding（デスクトップで圧縮された clamp(2px,0.1rem+0.2vw,8px)）
+         だけ内側にある。footer-main を border-box にして同じ内寸ぶん padding を入れ、
+         width:100% の画像をその内寸に収める（＝左の飛び出しを解消）。 */
+      .dum-footer-main {
+        flex:1 1 auto;min-width:0;max-width:1294px;position:relative;
+        box-sizing:border-box;
+        padding-left:calc(var(--dum-panel-px) + var(--dum-grid-shift) + var(--dum-card-pad));
+        padding-right:clamp(2px, 0.1rem + 0.2vw, 8px);
+      }
       .dum-footer-railspacer { flex:0 0 clamp(178px, 13.5vw, 224px); }
     }
 
