@@ -750,13 +750,22 @@
         overflow-y:auto;
         padding-bottom:8px;
       }
-      /* フッター画像をヒーロー画像・本体コンテンツと同じ幅／左シフトに揃える。
-         .dum-footer をガター枠（全幅＋左右パディング）、.dum-footer-wrap を
-         max-width:1488px の内箱にして、ヒーロー(.dum-hero-img-box)と同一寸法にする */
+      /* フッター画像を「本体コンテンツ(メイン列)」と同じ幅・左端に揃える。
+         本体は .dum-content-inner(max1488+translateX-3%) の中で
+         .dum-main-col(可変・最大1294) が左寄せ＋右レール、という flex 構成。
+         フッターも同じ構成を再現する：
+           .dum-footer        … 全幅ガター枠
+           .dum-footer-wrap   … max1488 の内箱（= content-inner と同じ左端）
+           .dum-footer-main   … 画像スロット（= main-col と同幅・左寄せ）
+           .dum-footer-railspacer … 右レール分のスペーサー（画像をレールへはみ出させない） */
       .dum-footer { max-width:none; }
       .dum-footer-wrap {
         max-width:1488px;margin:0 auto;transform:translateX(-3%);
+        display:flex;align-items:stretch;
+        gap:clamp(10px, 0.5rem + 0.4vw, 16px);
       }
+      .dum-footer-main { flex:1 1 auto;min-width:0;max-width:1294px;position:relative; }
+      .dum-footer-railspacer { flex:0 0 clamp(178px, 13.5vw, 224px); }
     }
 
     /* 統計カード（収録ページ・検索インデックス・新着コンテンツ） */
