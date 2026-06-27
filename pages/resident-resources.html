@@ -3851,5 +3851,99 @@ ICUチームへ一言：</pre>
   })();
   </script>
 
+  <!-- 医療×AI レポート内の図をクリックで拡大（iframe 内にライトボックスを注入） -->
+  <script>
+  (function () {
+    var ifr = document.querySelector('.ai-report-frame');
+    if (!ifr) return;
+
+    var OVERLAY_ID = '__figzoom_overlay';
+    var STYLE_ID   = '__figzoom_style';
+    var FLAG       = '__figzoomBound';
+
+    function ensureStyle(doc) {
+      if (doc.getElementById(STYLE_ID)) return;
+      var st = doc.createElement('style');
+      st.id = STYLE_ID;
+      st.textContent =
+        'figure img, .fig img { cursor: zoom-in; }' +
+        '#' + OVERLAY_ID + '{position:fixed;inset:0;z-index:2147483600;display:none;' +
+          'align-items:center;justify-content:center;background:rgba(8,15,30,0.88);' +
+          'padding:24px;box-sizing:border-box;cursor:zoom-out;' +
+          '-webkit-tap-highlight-color:transparent;}' +
+        '#' + OVERLAY_ID + '.open{display:flex;}' +
+        '#' + OVERLAY_ID + ' img{max-width:96vw;max-height:92vh;width:auto;height:auto;' +
+          'border-radius:8px;box-shadow:0 10px 40px rgba(0,0,0,0.5);cursor:default;' +
+          'background:#fff;}' +
+        '#' + OVERLAY_ID + ' .__figzoom_close{position:fixed;top:14px;right:18px;' +
+          'width:40px;height:40px;border:0;border-radius:50%;background:rgba(255,255,255,0.14);' +
+          'color:#fff;font-size:22px;line-height:40px;text-align:center;cursor:pointer;}' +
+        '#' + OVERLAY_ID + ' .__figzoom_close:hover{background:rgba(255,255,255,0.28);}';
+      (doc.head || doc.documentElement).appendChild(st);
+    }
+
+    function getOverlay(doc) {
+      var ov = doc.getElementById(OVERLAY_ID);
+      if (ov) return ov;
+      ov = doc.createElement('div');
+      ov.id = OVERLAY_ID;
+      ov.innerHTML = '<button type="button" class="__figzoom_close" aria-label="閉じる">×</button><img alt="">';
+      doc.documentElement.appendChild(ov);
+      function close() { ov.classList.remove('open'); ov.querySelector('img').src = ''; }
+      ov.addEventListener('click', function (e) {
+        if (e.target === ov || e.target.className === '__figzoom_close') close();
+      });
+      return ov;
+    }
+
+    function bind(doc) {
+      if (!doc || doc[FLAG]) return;
+      // クリック委譲：図の <img> を拡大表示
+      doc.addEventListener('click', function (e) {
+        var img = e.target;
+        if (!img || img.tagName !== 'IMG') return;
+        if (!img.closest('figure, .fig')) return;
+        e.preventDefault();
+        ensureStyle(doc);
+        var ov = getOverlay(doc);
+        ov.querySelector('img').src = img.currentSrc || img.src;
+        ov.classList.add('open');
+      }, true);
+      // Esc で閉じる
+      doc.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') {
+          var ov = doc.getElementById(OVERLAY_ID);
+          if (ov) { ov.classList.remove('open'); ov.querySelector('img').src = ''; }
+        }
+      });
+      doc[FLAG] = true;
+    }
+
+    function tryInject() {
+      try {
+        var doc = ifr.contentDocument || (ifr.contentWindow && ifr.contentWindow.document);
+        if (!doc || !doc.documentElement) return false;
+        ensureStyle(doc);   // bundler が body を差し替えても head の style は残す
+        bind(doc);          // listener は document に1度だけ
+        return true;
+      } catch (err) {
+        return false;       // クロスオリジン（file:// ローカル等）では無効化
+      }
+    }
+
+    function schedule() {
+      // バンドラーが本文を非同期描画するため、数回リトライ
+      var n = 0;
+      var iv = setInterval(function () {
+        if (tryInject() || ++n > 30) clearInterval(iv);
+      }, 400);
+    }
+
+    ifr.addEventListener('load', schedule);
+    // すでに読み込み済みのケース
+    if (ifr.contentDocument && ifr.contentDocument.readyState === 'complete') schedule();
+  })();
+  </script>
+
 </body>
 </html>
