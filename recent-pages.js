@@ -17,6 +17,13 @@ const RECENT_PAGES = [
     thumb: "images/朝カンファ風景.webp"
   },
   {
+    title: "CKD-MBD と二次性副甲状腺機能亢進症 — 病態・管理（透析/非透析）（UpToDate 2026）",
+    url: "pages/articles-gl-ckdmbd-uptodate2026.html",
+    date: "2026-06-27",
+    tag: "ガイドライン",
+    thumb: "images/朝カンファ風景.webp"
+  },
+  {
     title: "4% テトラナトリウムEDTA ロック液による中心静脈カテーテル合併症の予防 — CLiCK試験（JAMA 2026）",
     url: "pages/articles-gl-tedta-cvad2026.html",
     date: "2026-06-26",
