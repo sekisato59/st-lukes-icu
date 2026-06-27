@@ -10,6 +10,13 @@
  */
 const RECENT_PAGES = [
   {
+    title: "非特異的腰痛 レビュー（JAMA 2026） | 聖路加ICUガイド",
+    url: "pages/articles-gl-lbp2026.html",
+    date: "2026-06-27",
+    tag: "論文",
+    thumb: "images/朝カンファ風景.webp"
+  },
+  {
     title: "4% テトラナトリウムEDTA ロック液による中心静脈カテーテル合併症の予防 — CLiCK試験（JAMA 2026）",
     url: "pages/articles-gl-tedta-cvad2026.html",
     date: "2026-06-26",
